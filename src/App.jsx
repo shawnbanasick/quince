@@ -6,6 +6,7 @@ import PresortPage from "./pages/presort/Presort";
 import SortPage from "./pages/sort/Sort";
 import SubmitPage from "./pages/submit/Submit";
 import SurveyPage from "./pages/survey/Survey";
+import ThinningPage from "./pages/thinning/Thinning";
 import NoPageFound from "./utilities/NoPageFound";
 import axios from "axios";
 import processConfigXMLData from "./utilities/processConfigXMLData";
@@ -262,6 +263,7 @@ function App() {
     configObj.showConsentPage === true ||
     configObj.showConsentPage === "true"
   ) {
+    // routing for desktop, with consent page, no thin process
     return (
       <div className="App">
         <Router>
@@ -281,26 +283,28 @@ function App() {
         </Router>
       </div>
     );
-  } else {
-    return (
-      <div className="App">
-        <Router>
-          <Switch>
-            <Route exact path="/" component={LandingPage} />
-            <Route exact path="/presort" component={PresortPage} />
-            <Route exact path="/sort" component={SortPage} />
-            <Route exact path="/postsort" component={PostsortPage} />
-            <Route exact path="/survey" component={SurveyPage} />
-            <Route exact path="/submit" component={SubmitPage} />
-            <Route component={NoPageFound} />
-          </Switch>
-          <Suspense>
-            <StyledFooter />
-          </Suspense>
-        </Router>
-      </div>
-    );
   }
+
+  // default routing for desktop, no consent page, no thin process
+  return (
+    <div className="App">
+      <Router>
+        <Switch>
+          <Route exact path="/" component={LandingPage} />
+          <Route exact path="/presort" component={PresortPage} />
+          <Route exact path="/thin" component={ThinningPage} />
+          <Route exact path="/sort" component={SortPage} />
+          <Route exact path="/postsort" component={PostsortPage} />
+          <Route exact path="/survey" component={SurveyPage} />
+          <Route exact path="/submit" component={SubmitPage} />
+          <Route component={NoPageFound} />
+        </Switch>
+        <Suspense>
+          <StyledFooter />
+        </Suspense>
+      </Router>
+    </div>
+  );
 }
 
 export default App;

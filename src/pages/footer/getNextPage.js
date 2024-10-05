@@ -1,5 +1,15 @@
-const getNextPage = (currentPage, showPostsort, showSurvey, showConsent) => {
+const getNextPage = (
+  currentPage,
+  showPostsort,
+  showSurvey,
+  showConsent,
+  showThinning
+) => {
   // if (showPostsort === true && showSurvey === true) {
+
+  console.log("currentPage: ", currentPage);
+  console.log("showThinning: ", showThinning);
+
   if (currentPage === "consent") {
     if (showConsent === true) {
       return `/landing`;
@@ -10,6 +20,13 @@ const getNextPage = (currentPage, showPostsort, showSurvey, showConsent) => {
     return `/presort`;
   }
   if (currentPage === "presort") {
+    if (showThinning === true) {
+      return `/thin`;
+    } else {
+      return `/sort`;
+    }
+  }
+  if (currentPage === "thin") {
     return `/sort`;
   }
   if (currentPage === "sort") {

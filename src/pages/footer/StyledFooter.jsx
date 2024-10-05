@@ -81,6 +81,7 @@ const StyledFooter = () => {
   const showSurvey = configObj.showSurvey;
   const useImages = configObj.useImages;
   const showConsent = configObj.showConsentPage;
+  const showThinning = configObj.useThinProcess;
   let showProgressBar = true;
 
   const totalProgressScore = calcProgressScore(
@@ -169,7 +170,8 @@ const StyledFooter = () => {
     currentPage,
     showPostsort,
     showSurvey,
-    showConsent
+    showConsent,
+    showThinning
   );
 
   return (
