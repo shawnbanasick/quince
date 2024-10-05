@@ -40,6 +40,13 @@ const PostSort = () => {
   console.log("mapObj q sort headers: ", mapObj.qSortHeaders);
   console.log("mapObj q sort header numbers: ", mapObj.qSortHeaderNumbers);
 
+  let sortingList = [...presortColumnStatements.statementList];
+  let posSorted = sortingList.filter((item) => item.greenChecked === true);
+  let negSorted = sortingList.filter((item) => item.pinkChecked === true);
+
+  console.log(JSON.stringify(posSorted, null, 2));
+  console.log(JSON.stringify(negSorted, null, 2));
+
   setDisplayNextButton(true);
 
   const headerBarColor = configObj.headerBarColor;
@@ -58,42 +65,8 @@ const PostSort = () => {
     };
   }, [setCurrentPage, setProgressScore]);
 
-  useEffect(() => {
-    // set participant Id if set in URL
-    let urlString = parseParams(window.location.href);
-    // if nothing in URL, check local storage
-    if (urlString === undefined || urlString === null) {
-      let urlName = localStorage.getItem("urlUsercode");
-      // if nothing in local storage, set to "not_set"
-      if (
-        urlName === null ||
-        urlName === undefined ||
-        urlName === "undefined"
-      ) {
-        console.log("no url usercode in storage");
-        setUrlUsercode("not_set");
-        localStorage.setItem("urlUsercode", "not_set");
-      } else {
-        // if something in local storage, set state
-        console.log("URL usercode from storage: ", urlName);
-        if (urlName === "not_set") {
-          setUrlUsercode("not_set");
-        } else {
-          setUrlUsercode(`${urlName} (stored)`);
-        }
-      }
-    } else {
-      // if something in URL, set it in state
-      let codeName = urlString;
-      codeName = codeName.replace(/\/|#/g, "");
-      console.log("URL usercode: ", codeName);
-      setUrlUsercode(codeName);
-      localStorage.setItem("urlUsercode", codeName);
-    }
-  }, [setUrlUsercode, configObj]);
-
-  const titleText =
-    ReactHtmlParser(decodeHTML(langObj.consentTitleBarText)) || "";
+  //   const titleText =
+  //     ReactHtmlParser(decodeHTML(langObj.consentTitleBarText)) || "";
 
   return (
     <div>
@@ -101,6 +74,7 @@ const PostSort = () => {
       <SortTitleBar background={headerBarColor}>
         REFINE YOUR PREFERENCES
       </SortTitleBar>
+      <button>Confirm</button>
       <ContainerDiv>
         <div>REFINE YOUR PREFERENCES</div>
       </ContainerDiv>
