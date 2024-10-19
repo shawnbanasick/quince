@@ -9,6 +9,7 @@ import PromptUnload from "../../utilities/PromptUnload";
 // import ConsentModal from "./ConsentModal";
 import parseParams from "../landing/parseParams";
 import includes from "lodash/includes";
+import convertNumberToText from "./convertNumberToText";
 
 /* eslint react/prop-types: 0 */
 
@@ -38,24 +39,48 @@ const PostSort = () => {
     localStorage.getItem("columnStatements")
   );
 
-  // console.log("presortColumnStatements: ", presortColumnStatements);
-  // console.log("mapObj q sort pattern: ", mapObj.qSortPattern);
-  // console.log("mapObj q sort headers: ", mapObj.qSortHeaders);
-  // console.log("mapObj q sort header numbers: ", mapObj.qSortHeaderNumbers);
+  let [instructionObj, setInstructionObj] = useState({
+    leftNumText: "",
+    rightNumText: "",
+    currentSide: "rightSide",
+    qSortPattern: [...mapObj.qSortPattern],
+  });
 
-  let headerNumbers = [...mapObj.qSortHeaderNumbers].map((item) => +item);
-  // console.log("headerNumbers: ", headerNumbers);
+  let initialInstructionPart1 = `Below are the statements you agreed with in the previous step. To begin ordering them select the`;
+  let mostAgreeText = <MostAgreeText>you most agree with</MostAgreeText>;
+  let leastAgreeText = (
+    <LeastAgreeText>you agree with the least</LeastAgreeText>
+  );
+  let initialInstructionPart3 = ` They will disappear from the screen when you click "Confirm".`;
+  let instructionText2 = `Now, to continue, repeat the process with the remaining statements, but this time please select `;
 
-  let minQsortValue = Math.min(...headerNumbers);
+  // INITIALIZE INSTRUCTIONS
+  let rightNum;
+  const initialized = useRef(false);
+  useEffect(() => {
+    if (!initialized.current) {
+      console.log("initializing instructions");
+      rightNum = instructionObj.qSortPattern.pop();
+      let text1 = convertNumberToText(rightNum);
+      let instructionNumber = <InstructionNum>{text1}</InstructionNum>;
 
-  // for q sort patterns with negative values
-  if (minQsortValue < 0) {
-    let posHeaderNumbers = headerNumbers.filter((item) => item > 0);
-    let negHeaderNumbers = headerNumbers.filter((item) => item < 0);
+      setInstructionObj({
+        qSortPattern: [...instructionObj.qSortPattern],
+        rightNumText: text1,
+        leftNumText: "",
+        currentSide: "rightSide",
+        instructionsText: (
+          <Instructions>
+            {initialInstructionPart1} {instructionNumber} {mostAgreeText}.
+            {initialInstructionPart3}
+          </Instructions>
+        ),
+      });
+      initialized.current = true;
+    }
+  }, [initialized]);
 
-    // console.log("posHeaderNumbers: ", posHeaderNumbers);
-    // console.log("negHeaderNumbers: ", negHeaderNumbers);
-  }
+  // initial instruction setup
 
   let sortingList = [...presortColumnStatements.statementList];
   sortingList.forEach((item) => {
@@ -65,8 +90,7 @@ const PostSort = () => {
 
   let posSorted2 = sortingList.filter((item) => item.greenChecked === true);
   let negSorted2 = sortingList.filter((item) => item.pinkChecked === true);
-
-  const [posSorted, setPosSorted] = useState(posSorted2);
+  let [posSorted, setPosSorted] = useState(posSorted2);
   const [negSorted, setNegSorted] = useState(negSorted2);
 
   const handleClick = (e) => {
@@ -87,6 +111,67 @@ const PostSort = () => {
     });
     setPosSorted([...posSorted]);
     // console.log(JSON.stringify(posSorted));
+  };
+
+  const handleConfirm = () => {
+    console.log("currentSide: ", instructionObj.currentSide);
+    if (instructionObj.currentSide === "rightSide") {
+      // set left side instructions
+      console.log("left side instructions");
+      let leftNum = instructionObj.qSortPattern.shift();
+      let text = convertNumberToText(leftNum);
+      console.log("text: ", text);
+      let instructionNumber = <InstructionNum>{text}</InstructionNum>;
+      console.log("qSortPattern: ", instructionObj.qSortPattern);
+
+      setInstructionObj((instructions) => ({
+        ...instructions,
+        leftNumText: text,
+        qSortPattern: [...instructionObj.qSortPattern],
+        instructionsText: (
+          <Instructions>
+            {initialInstructionPart1} {instructionNumber} {mostAgreeText}.
+            {initialInstructionPart3}
+          </Instructions>
+        ),
+        currentSide:
+          instructionObj.currentSide === "rightSide" ? "leftSide" : "rightSide",
+      }));
+    }
+
+    if (instructionObj.currentSide === "leftSide") {
+      // set right side instructions
+      console.log("right side instructions");
+      let rightNum = instructionObj.qSortPattern.pop();
+      let text2 = convertNumberToText(rightNum);
+      let leastAgreeText = (
+        <LeastAgreeText>you agree with the least</LeastAgreeText>
+      );
+
+      let instructionNumber = <InstructionNum>{text2}</InstructionNum>;
+      let newInstructionText = (
+        <Instructions>
+          {initialInstructionPart1} {instructionNumber} {leastAgreeText}.
+          {initialInstructionPart3}
+        </Instructions>
+      );
+
+      console.log("qSortPattern: ", instructionObj.qSortPattern);
+      setInstructionObj((instructions) => ({
+        ...instructions,
+        rightNumText: text2,
+        qSortPattern: [...instructionObj.qSortPattern],
+        instructionsText: newInstructionText,
+        currentSide:
+          instructionObj.currentSide === "rightSide" ? "leftSide" : "rightSide",
+      }));
+    }
+
+    let selectedItems = posSorted.filter((item) => item.selected === true);
+    // console.log(JSON.stringify(selectedItems));
+    let nextSet = posSorted.filter((item) => item.selected === false);
+    setPosSorted([...nextSet]);
+    // console.log(JSON.stringify(nextSet));
   };
 
   let boxes = [...posSorted].map((item) => {
@@ -121,8 +206,7 @@ const PostSort = () => {
     };
   }, [setCurrentPage, setProgressScore]);
 
-  //   const titleText =
-  //     ReactHtmlParser(decodeHTML(langObj.consentTitleBarText)) || "";
+  console.log("instructionObj: ", instructionObj);
 
   return (
     <div>
@@ -132,10 +216,9 @@ const PostSort = () => {
       </SortTitleBar>
       <ContainerDiv>
         <InstructionsDiv>
-          <Instructions>
-            Select two statements that best reflect your perspective
-          </Instructions>
-          <button>Confirm</button>
+          {instructionObj.instructionsText}
+          {instructionObj.qSortPattern.length}
+          <button onClick={handleConfirm}>Confirm</button>
         </InstructionsDiv>
         <BoxesDiv>{boxes}</BoxesDiv>
       </ContainerDiv>
@@ -167,11 +250,10 @@ const ContainerDiv = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 3vw;
-  margin-bottom: 70px;
-  padding-top: 50px;
+  padding: 4vw;
+  margin-bottom: 200px;
+  padding-top: 30px;
   transition: 0.3s ease all;
-  margin-top: 50px;
 
   img {
     margin-top: 20px;
@@ -223,7 +305,7 @@ const InstructionsDiv = styled.div`
   align-items: center;
   padding: 1vw;
   margin-top: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
   font-size: 16px;
   font-weight: normal;
   text-align: center;
@@ -236,4 +318,20 @@ const Instructions = styled.div`
   font-weight: normal;
   text-align: center;
   color: black;
+`;
+
+const InstructionNum = styled.span`
+  font-weight: bold;
+`;
+
+const MostAgreeText = styled.span`
+  background-color: lightgreen;
+  padding: 2px;
+  font-style: italic;
+`;
+
+const LeastAgreeText = styled.span`
+  background-color: lightcoral;
+  padding: 2px;
+  font-style: italic;
 `;
