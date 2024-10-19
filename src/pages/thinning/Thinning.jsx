@@ -130,8 +130,7 @@ const PostSort = () => {
         qSortPattern: [...instructionObj.qSortPattern],
         instructionsText: (
           <Instructions>
-            {initialInstructionPart1} {instructionNumber} {mostAgreeText}.
-            {initialInstructionPart3}
+            {instructionText2} {instructionNumber} {leastAgreeText}.
           </Instructions>
         ),
         currentSide:
@@ -144,15 +143,14 @@ const PostSort = () => {
       console.log("right side instructions");
       let rightNum = instructionObj.qSortPattern.pop();
       let text2 = convertNumberToText(rightNum);
-      let leastAgreeText = (
-        <LeastAgreeText>you agree with the least</LeastAgreeText>
-      );
+      // let leastAgreeText = (
+      //   <LeastAgreeText>you agree with the least</LeastAgreeText>
+      // );
 
       let instructionNumber = <InstructionNum>{text2}</InstructionNum>;
       let newInstructionText = (
         <Instructions>
-          {initialInstructionPart1} {instructionNumber} {leastAgreeText}.
-          {initialInstructionPart3}
+          {instructionText2} {instructionNumber} {mostAgreeText}.
         </Instructions>
       );
 
