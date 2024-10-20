@@ -35,6 +35,8 @@ const PostSort = () => {
   const setDisplayNextButton = useStore(getSetDisplayNextButton);
   const setUrlUsercode = useStore(getSetUrlUsercode);
 
+  console.log(mapObj.qSortHeaders);
+
   let presortColumnStatements = JSON.parse(
     localStorage.getItem("columnStatements")
   );
@@ -53,6 +55,36 @@ const PostSort = () => {
   );
   let initialInstructionPart3 = ` They will disappear from the screen when you click "Confirm".`;
   let instructionText2 = `Now, to continue, repeat the process with the remaining statements, but this time please select `;
+
+  // initial instruction setup
+  let sortingList = [...presortColumnStatements.statementList];
+  sortingList.forEach((item) => {
+    item.selected = false;
+    return item;
+  });
+
+  let posSorted2 = sortingList.filter((item) => item.greenChecked === true);
+  let negSorted2 = sortingList.filter((item) => item.pinkChecked === true);
+  let [posSorted, setPosSorted] = useState(posSorted2);
+  const [negSorted, setNegSorted] = useState(negSorted2);
+
+  const boxes = (array) => {
+    const cards = array.map((item) => {
+      // create divs of posSorted items statements to add to dom
+      return (
+        <div key={item.id} onClick={handleClick}>
+          <Box
+            id={item.id}
+            selected={item.selected}
+            side={instructionObj.currentSide}
+          >
+            {item.statement}
+          </Box>
+        </div>
+      );
+    });
+    return cards;
+  };
 
   // INITIALIZE INSTRUCTIONS
   let rightNum;
@@ -75,23 +107,11 @@ const PostSort = () => {
             {initialInstructionPart3}
           </Instructions>
         ),
+        boxes: boxes([...posSorted]),
       });
       initialized.current = true;
     }
   }, [initialized]);
-
-  // initial instruction setup
-
-  let sortingList = [...presortColumnStatements.statementList];
-  sortingList.forEach((item) => {
-    item.selected = false;
-    return item;
-  });
-
-  let posSorted2 = sortingList.filter((item) => item.greenChecked === true);
-  let negSorted2 = sortingList.filter((item) => item.pinkChecked === true);
-  let [posSorted, setPosSorted] = useState(posSorted2);
-  const [negSorted, setNegSorted] = useState(negSorted2);
 
   const handleClick = (e) => {
     console.log("e.target.id: ", e.target.id);
@@ -172,17 +192,6 @@ const PostSort = () => {
     // console.log(JSON.stringify(nextSet));
   };
 
-  let boxes = [...posSorted].map((item) => {
-    // create divs of posSorted items statements to add to dom
-    return (
-      <div key={item.id} onClick={handleClick}>
-        <Box id={item.id} selected={item.selected}>
-          {item.statement}
-        </Box>
-      </div>
-    );
-  });
-
   // console.log(JSON.stringify(posSorted, null, 2));
   // console.log(JSON.stringify(negSorted, null, 2));
 
@@ -218,7 +227,7 @@ const PostSort = () => {
           {instructionObj.qSortPattern.length}
           <button onClick={handleConfirm}>Confirm</button>
         </InstructionsDiv>
-        <BoxesDiv>{boxes}</BoxesDiv>
+        <BoxesDiv>{instructionObj.boxes}</BoxesDiv>
       </ContainerDiv>
     </div>
   );
@@ -282,7 +291,12 @@ const Box = styled.div`
   margin: 10px;
   border: 1px solid black;
   border-radius: 10px;
-  background-color: ${(props) => (props.selected ? "lightgreen" : "white")};
+  background-color: ${(props) =>
+    props.selected && props.side === "rightSide"
+      ? "lightgreen"
+      : props.selected && props.side === "leftSide"
+      ? "lightcoral"
+      : "white"};
   color: black;
   font-size: 16px;
   font-weight: normal;
