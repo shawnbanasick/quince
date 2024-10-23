@@ -20,6 +20,8 @@ const getSetProgressScore = (state) => state.setProgressScore;
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetDisplayNextButton = (state) => state.setDisplayNextButton;
 const getSetUrlUsercode = (state) => state.setUrlUsercode;
+const getSetThinningSide = (state) => state.setThinningSide;
+const getThinningSide = (state) => state.thinningSide;
 
 let targetArray = [];
 
@@ -34,6 +36,8 @@ const PostSort = () => {
   const setCurrentPage = useStore(getSetCurrentPage);
   const setDisplayNextButton = useStore(getSetDisplayNextButton);
   const setUrlUsercode = useStore(getSetUrlUsercode);
+  const setThinningSide = useStore(getSetThinningSide);
+  const thinningSide = useStore(getThinningSide);
 
   console.log(mapObj.qSortHeaders);
 
@@ -44,7 +48,6 @@ const PostSort = () => {
   let [instructionObj, setInstructionObj] = useState({
     leftNumText: "",
     rightNumText: "",
-    currentSide: "rightSide",
     qSortPattern: [...mapObj.qSortPattern],
   });
 
@@ -71,13 +74,10 @@ const PostSort = () => {
   const boxes = (array) => {
     const cards = array.map((item) => {
       // create divs of posSorted items statements to add to dom
+      console.log("side1", thinningSide);
       return (
         <div key={item.id} onClick={handleClick}>
-          <Box
-            id={item.id}
-            selected={item.selected}
-            side={instructionObj.currentSide}
-          >
+          <Box id={item.id} selected={item.selected} side={thinningSide}>
             {item.statement}
           </Box>
         </div>
@@ -100,7 +100,6 @@ const PostSort = () => {
         qSortPattern: [...instructionObj.qSortPattern],
         rightNumText: text1,
         leftNumText: "",
-        currentSide: "rightSide",
         instructionsText: (
           <Instructions>
             {initialInstructionPart1} {instructionNumber} {mostAgreeText}.
@@ -115,6 +114,10 @@ const PostSort = () => {
 
   const handleClick = (e) => {
     console.log("e.target.id: ", e.target.id);
+    if (e.target.id === "") {
+      return;
+    }
+
     console.log(targetArray.length);
     if (targetArray.length > 1) {
       targetArray.shift();
@@ -122,21 +125,34 @@ const PostSort = () => {
     targetArray.push(e.target.id);
     console.log(JSON.stringify(targetArray));
 
-    posSorted.forEach((item) => {
-      if (targetArray.includes(item.id)) {
-        item.selected = true;
-      } else {
-        item.selected = false;
-      }
-    });
-    setPosSorted([...posSorted]);
+    if (thinningSide === "leftSide") {
+      negSorted.forEach((item) => {
+        if (targetArray.includes(item.id)) {
+          item.selected = true;
+        } else {
+          item.selected = false;
+        }
+      });
+      setNegSorted([...negSorted]);
+    }
+
+    if (thinningSide === "rightSide") {
+      posSorted.forEach((item) => {
+        if (targetArray.includes(item.id)) {
+          item.selected = true;
+        } else {
+          item.selected = false;
+        }
+      });
+      setPosSorted([...posSorted]);
+    }
     // console.log(JSON.stringify(posSorted));
   };
 
   const handleConfirm = () => {
-    console.log("currentSide: ", instructionObj.currentSide);
-    if (instructionObj.currentSide === "rightSide") {
+    if (thinningSide === "rightSide") {
       // set left side instructions
+      setThinningSide("leftSide");
       console.log("left side instructions");
       let leftNum = instructionObj.qSortPattern.shift();
       let text = convertNumberToText(leftNum);
@@ -153,19 +169,16 @@ const PostSort = () => {
             {instructionText2} {instructionNumber} {leastAgreeText}.
           </Instructions>
         ),
-        currentSide:
-          instructionObj.currentSide === "rightSide" ? "leftSide" : "rightSide",
+        boxes: boxes([...negSorted]),
       }));
     }
 
-    if (instructionObj.currentSide === "leftSide") {
+    if (thinningSide === "leftSide") {
       // set right side instructions
+      setThinningSide("rightSide");
       console.log("right side instructions");
       let rightNum = instructionObj.qSortPattern.pop();
       let text2 = convertNumberToText(rightNum);
-      // let leastAgreeText = (
-      //   <LeastAgreeText>you agree with the least</LeastAgreeText>
-      // );
 
       let instructionNumber = <InstructionNum>{text2}</InstructionNum>;
       let newInstructionText = (
@@ -180,8 +193,7 @@ const PostSort = () => {
         rightNumText: text2,
         qSortPattern: [...instructionObj.qSortPattern],
         instructionsText: newInstructionText,
-        currentSide:
-          instructionObj.currentSide === "rightSide" ? "leftSide" : "rightSide",
+        boxes: boxes([...posSorted]),
       }));
     }
 
@@ -291,12 +303,7 @@ const Box = styled.div`
   margin: 10px;
   border: 1px solid black;
   border-radius: 10px;
-  background-color: ${(props) =>
-    props.selected && props.side === "rightSide"
-      ? "lightgreen"
-      : props.selected && props.side === "leftSide"
-      ? "lightcoral"
-      : "white"};
+  background-color: ${(props) => (props.selected ? "lightgreen" : "white")};
   color: black;
   font-size: 16px;
   font-weight: normal;
@@ -305,7 +312,8 @@ const Box = styled.div`
   transition: 0.3s ease all;
 
   &:hover {
-    background-color: lightgreen;
+    background-color: ${(props) =>
+      props.side === "leftSide" ? "lightgreen" : "lightcoral"};
   }
 `;
 
