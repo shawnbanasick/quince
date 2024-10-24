@@ -71,16 +71,21 @@ const PostSort = () => {
   let [posSorted, setPosSorted] = useState(posSorted2);
   const [negSorted, setNegSorted] = useState(negSorted2);
 
-  const boxes = (array) => {
+  const boxes = (array, side) => {
     const cards = array.map((item) => {
       // create divs of posSorted items statements to add to dom
-      console.log("side1", thinningSide);
+      // console.log("item side: ", thinningSide);
       return (
-        <div key={item.id} onClick={handleClick}>
-          <Box id={item.id} selected={item.selected} side={thinningSide}>
-            {item.statement}
-          </Box>
-        </div>
+        <Box
+          key={item.id}
+          id={item.id}
+          selected={item.selected}
+          data-side={side}
+          side={side}
+          onClick={handleClick}
+        >
+          {item.statement}
+        </Box>
       );
     });
     return cards;
@@ -100,20 +105,22 @@ const PostSort = () => {
         qSortPattern: [...instructionObj.qSortPattern],
         rightNumText: text1,
         leftNumText: "",
+        side: thinningSide,
         instructionsText: (
           <Instructions>
             {initialInstructionPart1} {instructionNumber} {mostAgreeText}.
             {initialInstructionPart3}
           </Instructions>
         ),
-        boxes: boxes([...posSorted]),
+        boxes: boxes([...posSorted], "rightSide"),
       });
       initialized.current = true;
     }
   }, [initialized]);
 
   const handleClick = (e) => {
-    console.log("e.target.id: ", e.target.id);
+    console.log("e.target.side: ", e.target.dataset.side);
+    let side = e.target.dataset.side;
     if (e.target.id === "") {
       return;
     }
@@ -125,7 +132,8 @@ const PostSort = () => {
     targetArray.push(e.target.id);
     console.log(JSON.stringify(targetArray));
 
-    if (thinningSide === "leftSide") {
+    if (e.target.dataset.side === "leftSide") {
+      console.log("leftSide branch");
       negSorted.forEach((item) => {
         if (targetArray.includes(item.id)) {
           item.selected = true;
@@ -133,10 +141,16 @@ const PostSort = () => {
           item.selected = false;
         }
       });
+      // console.log("negSorted: ", negSorted);
+      setInstructionObj((instructionObj) => ({
+        ...instructionObj,
+        boxes: boxes([...negSorted], "leftSide"),
+      }));
       setNegSorted([...negSorted]);
     }
 
-    if (thinningSide === "rightSide") {
+    if (e.target.dataset.side === "rightSide") {
+      console.log("rightSide branch");
       posSorted.forEach((item) => {
         if (targetArray.includes(item.id)) {
           item.selected = true;
@@ -144,6 +158,11 @@ const PostSort = () => {
           item.selected = false;
         }
       });
+      // console.log("posSorted: ", posSorted);
+      setInstructionObj((instructionObj) => ({
+        ...instructionObj,
+        boxes: boxes([...posSorted], "rightSide"),
+      }));
       setPosSorted([...posSorted]);
     }
     // console.log(JSON.stringify(posSorted));
@@ -154,22 +173,27 @@ const PostSort = () => {
       // set left side instructions
       setThinningSide("leftSide");
       console.log("left side instructions");
+
+      // set instructions text
       let leftNum = instructionObj.qSortPattern.shift();
       let text = convertNumberToText(leftNum);
       console.log("text: ", text);
       let instructionNumber = <InstructionNum>{text}</InstructionNum>;
       console.log("qSortPattern: ", instructionObj.qSortPattern);
+      targetArray = [];
 
+      // set instruction object values
       setInstructionObj((instructions) => ({
         ...instructions,
         leftNumText: text,
         qSortPattern: [...instructionObj.qSortPattern],
+        side: "leftSide",
         instructionsText: (
           <Instructions>
             {instructionText2} {instructionNumber} {leastAgreeText}.
           </Instructions>
         ),
-        boxes: boxes([...negSorted]),
+        boxes: boxes([...negSorted], "leftSide"),
       }));
     }
 
@@ -179,6 +203,7 @@ const PostSort = () => {
       console.log("right side instructions");
       let rightNum = instructionObj.qSortPattern.pop();
       let text2 = convertNumberToText(rightNum);
+      targetArray = [];
 
       let instructionNumber = <InstructionNum>{text2}</InstructionNum>;
       let newInstructionText = (
@@ -191,9 +216,10 @@ const PostSort = () => {
       setInstructionObj((instructions) => ({
         ...instructions,
         rightNumText: text2,
+        side: "rightSide",
         qSortPattern: [...instructionObj.qSortPattern],
         instructionsText: newInstructionText,
-        boxes: boxes([...posSorted]),
+        boxes: boxes([...posSorted], "rightSide"),
       }));
     }
 
@@ -225,7 +251,7 @@ const PostSort = () => {
     };
   }, [setCurrentPage, setProgressScore]);
 
-  console.log("instructionObj: ", instructionObj);
+  // console.log("instructionObj: ", instructionObj);
 
   return (
     <div>
@@ -303,7 +329,13 @@ const Box = styled.div`
   margin: 10px;
   border: 1px solid black;
   border-radius: 10px;
-  background-color: ${(props) => (props.selected ? "lightgreen" : "white")};
+  background-color: ${(props) =>
+    props.selected && props.side === "rightSide"
+      ? "lightgreen"
+      : props.selected && props.side === "leftSide"
+      ? "lightcoral"
+      : "white"};
+
   color: black;
   font-size: 16px;
   font-weight: normal;
@@ -313,7 +345,7 @@ const Box = styled.div`
 
   &:hover {
     background-color: ${(props) =>
-      props.side === "leftSide" ? "lightgreen" : "lightcoral"};
+      props.side === "rightSide" ? "lightgreen" : "lightcoral"};
   }
 `;
 
