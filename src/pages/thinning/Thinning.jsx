@@ -9,6 +9,7 @@ import PromptUnload from "../../utilities/PromptUnload";
 // import ConsentModal from "./ConsentModal";
 import parseParams from "../landing/parseParams";
 import includes from "lodash/includes";
+import remove from "lodash/remove";
 import convertNumberToText from "./convertNumberToText";
 
 /* eslint react/prop-types: 0 */
@@ -39,7 +40,7 @@ const PostSort = () => {
   const thinningSide = useStore(getThinningSide);
 
   // HELPER - create divs of posSorted items statements to add to dom
-  const boxes = (array, side, maxSelect) => {
+  const boxes = (array, side, maxSelect, targetcol) => {
     const cards = array.map((item) => {
       return (
         <Box
@@ -48,6 +49,7 @@ const PostSort = () => {
           selected={item.selected}
           data-side={side}
           data-max={maxSelect}
+          data-targetcol={targetcol}
           side={side}
           onClick={handleClick}
         >
@@ -135,7 +137,7 @@ const PostSort = () => {
             {initialInstructionPart3}
           </Instructions>
         ),
-        boxes: boxes([...posSorted], "rightSide", colInfo[1]),
+        boxes: boxes([...posSorted], "rightSide", colInfo[1], colInfo[0]),
       });
       initialized.current = true;
     }
@@ -149,6 +151,7 @@ const PostSort = () => {
 
     // determine max number that can be selected
     let colMax = +e.target.dataset.max;
+    let targetcol = e.target.dataset.targetcol;
     console.log("colMax: ", colMax);
 
     // Add selected item to targetArray
@@ -166,13 +169,14 @@ const PostSort = () => {
       negSorted.forEach((item) => {
         if (targetArray.includes(item.id)) {
           item.selected = true;
+          item.targetcol = targetcol;
         } else {
           item.selected = false;
         }
       });
       setInstructionObj((instructionObj) => ({
         ...instructionObj,
-        boxes: boxes([...negSorted], "leftSide", colMax),
+        boxes: boxes([...negSorted], "leftSide", colMax, targetcol),
       }));
       setNegSorted([...negSorted]);
     }
@@ -183,13 +187,14 @@ const PostSort = () => {
       posSorted.forEach((item) => {
         if (targetArray.includes(item.id)) {
           item.selected = true;
+          item.targetcol = targetcol;
         } else {
           item.selected = false;
         }
       });
       setInstructionObj((instructionObj) => ({
         ...instructionObj,
-        boxes: boxes([...posSorted], "rightSide", colMax),
+        boxes: boxes([...posSorted], "rightSide", colMax, targetcol),
       }));
       setPosSorted([...posSorted]);
     }
@@ -197,17 +202,44 @@ const PostSort = () => {
 
   const handleConfirm = () => {
     if (thinningSide === "rightSide") {
-      // set left side instructions
-      setThinningSide("leftSide");
       console.log("left side instructions");
 
+      // set left side instructions
+      setThinningSide("leftSide");
+
+      let selectedItems = posSorted.filter((item) => item.selected === true);
+      console.log("pos selectedItems: ", selectedItems);
+      let nextSet = posSorted.filter((item) => item.selected === false);
+      setPosSorted([...nextSet]);
+
+      selectedItems.forEach((obj) => {
+        let objId = obj.id;
+        let targetcol = obj.targetcol;
+        presortColumnStatements.statementList.forEach((item) => {
+          console.log("targetcol: ", targetcol);
+          if (item.id === objId) {
+            presortColumnStatements.vCols[targetcol].push(item);
+            remove(
+              presortColumnStatements.statementList,
+              (n) => n.id === objId
+            );
+          }
+        });
+      });
+      // clear targetArray
+      targetArray = [];
+
+      console.log(JSON.stringify(presortColumnStatements.vCols, null, 2));
+      // console.log(
+      //   JSON.stringify(presortColumnStatements.statementList, null, 2)
+      // );
+
       // set instructions text
-      let leftNum2 = instructionObj.columnData.shift();
-      let leftNum = leftNum2[1];
+      let colInfo = instructionObj.columnData.shift();
+      let leftNum = colInfo[1];
 
       let text = convertNumberToText(leftNum);
       let instructionNumber = <InstructionNum>{text}</InstructionNum>;
-      targetArray = [];
 
       // set instruction object values
       setInstructionObj((instructions) => ({
@@ -220,7 +252,7 @@ const PostSort = () => {
             {instructionText2} {instructionNumber} {leastAgreeText}.
           </Instructions>
         ),
-        boxes: boxes([...negSorted], "leftSide", leftNum2[1]),
+        boxes: boxes([...negSorted], "leftSide", colInfo[1], colInfo[0]),
       }));
     }
 
@@ -228,12 +260,36 @@ const PostSort = () => {
       // set right side instructions
       setThinningSide("rightSide");
       console.log("right side instructions");
-      let rightNum2 = instructionObj.columnData.pop();
-      rightNum = rightNum2[1];
 
-      let text2 = convertNumberToText(rightNum);
+      let selectedItems = negSorted.filter((item) => item.selected === true);
+      console.log("neg selectedItems: ", selectedItems);
+      let nextSet = negSorted.filter((item) => item.selected === false);
+      setNegSorted([...nextSet]);
+
+      selectedItems.forEach((obj) => {
+        let objId = obj.id;
+        let targetcol = obj.targetcol;
+        presortColumnStatements.statementList.forEach((item) => {
+          console.log("targetcol: ", targetcol);
+          if (item.id === objId) {
+            presortColumnStatements.vCols[targetcol].push(item);
+            remove(
+              presortColumnStatements.statementList,
+              (n) => n.id === objId
+            );
+          }
+        });
+      });
+      // clear targetArray
       targetArray = [];
 
+      console.log(JSON.stringify(presortColumnStatements.vCols, null, 2));
+
+      let colInfo = instructionObj.columnData.pop();
+      rightNum = colInfo[1];
+
+      // set text
+      let text2 = convertNumberToText(rightNum);
       let instructionNumber = <InstructionNum>{text2}</InstructionNum>;
       let newInstructionText = (
         <Instructions>
@@ -247,14 +303,8 @@ const PostSort = () => {
         side: "rightSide",
         qSortPattern: [...instructionObj.qSortPattern],
         instructionsText: newInstructionText,
-        boxes: boxes([...posSorted], "rightSide", rightNum2[1]),
+        boxes: boxes([...posSorted], "rightSide", colInfo[1], colInfo[0]),
       }));
-
-      let selectedItems = posSorted.filter((item) => item.selected === true);
-      let nextSet = posSorted.filter((item) => item.selected === false);
-      setPosSorted([...nextSet]);
-
-      console.log(JSON.stringify(presortColumnStatements));
     } // end leftside branch
   };
 
