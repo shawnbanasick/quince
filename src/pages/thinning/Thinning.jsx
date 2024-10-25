@@ -35,52 +35,19 @@ const PostSort = () => {
   const setProgressScore = useStore(getSetProgressScore);
   const setCurrentPage = useStore(getSetCurrentPage);
   const setDisplayNextButton = useStore(getSetDisplayNextButton);
-  const setUrlUsercode = useStore(getSetUrlUsercode);
   const setThinningSide = useStore(getSetThinningSide);
   const thinningSide = useStore(getThinningSide);
 
-  console.log(mapObj.qSortHeaders);
-
-  let presortColumnStatements = JSON.parse(
-    localStorage.getItem("columnStatements")
-  );
-
-  let [instructionObj, setInstructionObj] = useState({
-    leftNumText: "",
-    rightNumText: "",
-    qSortPattern: [...mapObj.qSortPattern],
-  });
-
-  let initialInstructionPart1 = `Below are the statements you agreed with in the previous step. To begin ordering them select the`;
-  let mostAgreeText = <MostAgreeText>you most agree with</MostAgreeText>;
-  let leastAgreeText = (
-    <LeastAgreeText>you agree with the least</LeastAgreeText>
-  );
-  let initialInstructionPart3 = ` They will disappear from the screen when you click "Confirm".`;
-  let instructionText2 = `Now, to continue, repeat the process with the remaining statements, but this time please select `;
-
-  // initial instruction setup
-  let sortingList = [...presortColumnStatements.statementList];
-  sortingList.forEach((item) => {
-    item.selected = false;
-    return item;
-  });
-
-  let posSorted2 = sortingList.filter((item) => item.greenChecked === true);
-  let negSorted2 = sortingList.filter((item) => item.pinkChecked === true);
-  let [posSorted, setPosSorted] = useState(posSorted2);
-  const [negSorted, setNegSorted] = useState(negSorted2);
-
-  const boxes = (array, side) => {
+  // HELPER - create divs of posSorted items statements to add to dom
+  const boxes = (array, side, maxSelect) => {
     const cards = array.map((item) => {
-      // create divs of posSorted items statements to add to dom
-      // console.log("item side: ", thinningSide);
       return (
         <Box
           key={item.id}
           id={item.id}
           selected={item.selected}
           data-side={side}
+          data-max={maxSelect}
           side={side}
           onClick={handleClick}
         >
@@ -91,47 +58,109 @@ const PostSort = () => {
     return cards;
   };
 
+  const headers = [...mapObj.qSortHeaders];
+  const qSortPattern = [...mapObj.qSortPattern];
+
+  // HELPER - create column data and max column cards value
+  const createColumnData = (headers, qSortPattern) => {
+    let columnData = [];
+    headers.forEach((item, index) => {
+      let tempArray = [];
+      tempArray.push(`column${item}`);
+      tempArray.push(qSortPattern[index]);
+      columnData.push(tempArray);
+    });
+    return columnData;
+  };
+
+  // console.log(mapObj.qSortHeaders);
+
+  // setup positive and negative sorted arrays from presort
+  let presortColumnStatements = JSON.parse(
+    localStorage.getItem("columnStatements")
+  );
+
+  let [instructionObj, setInstructionObj] = useState({
+    leftNumText: "",
+    rightNumText: "",
+    qSortPattern: [...mapObj.qSortPattern],
+  });
+
+  // clear any previous selections
+  let sortingList = [...presortColumnStatements.statementList];
+  sortingList.forEach((item) => {
+    item.selected = false;
+    return item;
+  });
+
+  // filter out green and pink checked items
+  let posSorted2 = sortingList.filter((item) => item.greenChecked === true);
+  let negSorted2 = sortingList.filter((item) => item.pinkChecked === true);
+  let [posSorted, setPosSorted] = useState(posSorted2);
+  const [negSorted, setNegSorted] = useState(negSorted2);
+
+  let initialInstructionPart1 = `Below are the statements you agreed with in the previous step. To begin ordering them select the`;
+  let mostAgreeText = <MostAgreeText>you most agree with</MostAgreeText>;
+  let leastAgreeText = (
+    <LeastAgreeText>you agree with the least</LeastAgreeText>
+  );
+  let initialInstructionPart3 = ` They will disappear from the screen when you click "Confirm".`;
+  let instructionText2 = `Now, to continue, repeat the process with the remaining statements, but this time please select `;
+
   // INITIALIZE INSTRUCTIONS
   let rightNum;
+  let columnData;
   const initialized = useRef(false);
   useEffect(() => {
     if (!initialized.current) {
+      columnData = createColumnData(headers, qSortPattern);
       console.log("initializing instructions");
-      rightNum = instructionObj.qSortPattern.pop();
+      let colInfo = columnData.pop();
+      // setColumnInfoArray([...columnData]);
+      rightNum = colInfo[1];
       let text1 = convertNumberToText(rightNum);
       let instructionNumber = <InstructionNum>{text1}</InstructionNum>;
+
+      console.log("columnData: ", columnData);
 
       setInstructionObj({
         qSortPattern: [...instructionObj.qSortPattern],
         rightNumText: text1,
         leftNumText: "",
         side: thinningSide,
+        columnData: [...columnData],
         instructionsText: (
           <Instructions>
             {initialInstructionPart1} {instructionNumber} {mostAgreeText}.
             {initialInstructionPart3}
           </Instructions>
         ),
-        boxes: boxes([...posSorted], "rightSide"),
+        boxes: boxes([...posSorted], "rightSide", colInfo[1]),
       });
       initialized.current = true;
     }
-  }, [initialized]);
+  }, [initialized, createColumnData, headers, qSortPattern, thinningSide]);
 
   const handleClick = (e) => {
     console.log("e.target.side: ", e.target.dataset.side);
-    let side = e.target.dataset.side;
     if (e.target.id === "") {
       return;
     }
 
-    console.log(targetArray.length);
-    if (targetArray.length > 1) {
+    // determine max number that can be selected
+    let colMax = +e.target.dataset.max;
+    console.log("colMax: ", colMax);
+
+    // Add selected item to targetArray
+    targetArray.push(e.target.id);
+
+    // drop first item if array length exceeds max
+    if (targetArray.length > colMax) {
       targetArray.shift();
     }
-    targetArray.push(e.target.id);
     console.log(JSON.stringify(targetArray));
 
+    // Redraw page with selected items highlighted
     if (e.target.dataset.side === "leftSide") {
       console.log("leftSide branch");
       negSorted.forEach((item) => {
@@ -141,14 +170,14 @@ const PostSort = () => {
           item.selected = false;
         }
       });
-      // console.log("negSorted: ", negSorted);
       setInstructionObj((instructionObj) => ({
         ...instructionObj,
-        boxes: boxes([...negSorted], "leftSide"),
+        boxes: boxes([...negSorted], "leftSide", colMax),
       }));
       setNegSorted([...negSorted]);
     }
 
+    // Redraw page with selected items highlighted
     if (e.target.dataset.side === "rightSide") {
       console.log("rightSide branch");
       posSorted.forEach((item) => {
@@ -158,14 +187,12 @@ const PostSort = () => {
           item.selected = false;
         }
       });
-      // console.log("posSorted: ", posSorted);
       setInstructionObj((instructionObj) => ({
         ...instructionObj,
-        boxes: boxes([...posSorted], "rightSide"),
+        boxes: boxes([...posSorted], "rightSide", colMax),
       }));
       setPosSorted([...posSorted]);
     }
-    // console.log(JSON.stringify(posSorted));
   };
 
   const handleConfirm = () => {
@@ -175,25 +202,25 @@ const PostSort = () => {
       console.log("left side instructions");
 
       // set instructions text
-      let leftNum = instructionObj.qSortPattern.shift();
+      let leftNum2 = instructionObj.columnData.shift();
+      let leftNum = leftNum2[1];
+
       let text = convertNumberToText(leftNum);
-      console.log("text: ", text);
       let instructionNumber = <InstructionNum>{text}</InstructionNum>;
-      console.log("qSortPattern: ", instructionObj.qSortPattern);
       targetArray = [];
 
       // set instruction object values
       setInstructionObj((instructions) => ({
         ...instructions,
         leftNumText: text,
-        qSortPattern: [...instructionObj.qSortPattern],
         side: "leftSide",
+        columnData: [...instructionObj.columnData],
         instructionsText: (
           <Instructions>
             {instructionText2} {instructionNumber} {leastAgreeText}.
           </Instructions>
         ),
-        boxes: boxes([...negSorted], "leftSide"),
+        boxes: boxes([...negSorted], "leftSide", leftNum2[1]),
       }));
     }
 
@@ -201,7 +228,9 @@ const PostSort = () => {
       // set right side instructions
       setThinningSide("rightSide");
       console.log("right side instructions");
-      let rightNum = instructionObj.qSortPattern.pop();
+      let rightNum2 = instructionObj.columnData.pop();
+      rightNum = rightNum2[1];
+
       let text2 = convertNumberToText(rightNum);
       targetArray = [];
 
@@ -212,31 +241,26 @@ const PostSort = () => {
         </Instructions>
       );
 
-      console.log("qSortPattern: ", instructionObj.qSortPattern);
       setInstructionObj((instructions) => ({
         ...instructions,
         rightNumText: text2,
         side: "rightSide",
         qSortPattern: [...instructionObj.qSortPattern],
         instructionsText: newInstructionText,
-        boxes: boxes([...posSorted], "rightSide"),
+        boxes: boxes([...posSorted], "rightSide", rightNum2[1]),
       }));
-    }
 
-    let selectedItems = posSorted.filter((item) => item.selected === true);
-    // console.log(JSON.stringify(selectedItems));
-    let nextSet = posSorted.filter((item) => item.selected === false);
-    setPosSorted([...nextSet]);
-    // console.log(JSON.stringify(nextSet));
+      let selectedItems = posSorted.filter((item) => item.selected === true);
+      let nextSet = posSorted.filter((item) => item.selected === false);
+      setPosSorted([...nextSet]);
+
+      console.log(JSON.stringify(presortColumnStatements));
+    } // end leftside branch
   };
-
-  // console.log(JSON.stringify(posSorted, null, 2));
-  // console.log(JSON.stringify(negSorted, null, 2));
 
   setDisplayNextButton(true);
 
   const headerBarColor = configObj.headerBarColor;
-  //   const consentText = ReactHtmlParser(decodeHTML(langObj.consentText)) || "";
 
   useEffect(() => {
     let startTime = Date.now();
@@ -250,8 +274,6 @@ const PostSort = () => {
       calculateTimeOnPage(startTime, "thinningPage", "thinningPage");
     };
   }, [setCurrentPage, setProgressScore]);
-
-  // console.log("instructionObj: ", instructionObj);
 
   return (
     <div>
