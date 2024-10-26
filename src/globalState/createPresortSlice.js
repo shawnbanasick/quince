@@ -12,11 +12,7 @@ const createPresortSlice = (set, get) => ({
   results: {},
   mobilePresortResults: [],
   triggerMobilePresortFinishedModal: false,
-  thinningSide: "rightSide",
 
-  setThinningSide: (inputValue) => {
-    set(() => ({ thinningSide: inputValue }));
-  },
   setTriggerMobilePresortFinishedModal: (bool) => {
     set(() => ({ triggerMobilePresortFinishedModal: bool }));
   },

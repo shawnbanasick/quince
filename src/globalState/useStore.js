@@ -7,8 +7,10 @@ import createSortSlice from "./createSortSlice";
 import createPostsortSlice from "./createPostsortSlice";
 import createSubmitSlice from "./createSubmitSlice";
 import createSurveySlice from "./createSurveySlice";
+import createThinningSlice from "./createThinningSlice";
 
 const useStore = create((set, get) => ({
+  ...createThinningSlice(set, get),
   ...createFooterSlice(set, get),
   ...createLocalPanelSlice(set, get),
   ...createLandingSlice(set, get),

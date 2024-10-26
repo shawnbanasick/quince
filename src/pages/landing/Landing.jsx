@@ -117,6 +117,7 @@ const LandingPage = () => {
     localStorage.removeItem("resultsSurvey");
     localStorage.removeItem("postsortCommentCardCount");
     localStorage.removeItem("allCommentsObj");
+    localStorage.removeItem("newCols");
 
     if (configObj.requiredAnswersObj !== undefined) {
       localStorage.setItem(

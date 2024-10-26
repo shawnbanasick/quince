@@ -139,10 +139,10 @@ function PresortDND(props) {
       columnStatements.statementList = [...statementsArray];
       //setColumnStatements(columnStatements);
 
-      console.log(
-        "columnStatements: ",
-        JSON.stringify(columnStatements, null, 2)
-      );
+      // console.log(
+      //   "columnStatements: ",
+      //   JSON.stringify(columnStatements, null, 2)
+      // );
 
       localStorage.setItem(
         "columnStatements",
