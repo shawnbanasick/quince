@@ -11,7 +11,7 @@ const getLangObj = (state) => state.langObj;
 const getTriggerConsentModal = (state) => state.triggerConsentModal;
 const getSetTriggerConsentModal = (state) => state.setTriggerConsentModal;
 
-const LandingModal = () => {
+const ConsentModal = () => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
   const triggerConsentModal = useStore(getTriggerConsentModal);
@@ -40,7 +40,7 @@ const LandingModal = () => {
   );
 };
 
-export default LandingModal;
+export default ConsentModal;
 
 const ModalHeader = styled.div`
   font-size: 24px;

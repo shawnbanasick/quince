@@ -27,6 +27,9 @@ const getSetShowPostsortCommentHighlighting = (state) =>
   state.setShowPostsortCommentHighlighting;
 const getSetTriggerPostsortPreventNavModal = (state) =>
   state.setTriggerPostsortPreventNavModal;
+const getIsThinningFinished = (state) => state.isThinningFinished;
+const getSetTriggerThinningPreventNavModal = (state) =>
+  state.setTriggerThinningPreventNavModal;
 
 const LinkButton = (props) => {
   let goToNextPage;
@@ -49,6 +52,10 @@ const LinkButton = (props) => {
   );
   const setTriggerPostsortPreventNavModal = useStore(
     getSetTriggerPostsortPreventNavModal
+  );
+  const isThinningFinished = useStore(getIsThinningFinished);
+  const setTriggerThinningPreventNavModal = useStore(
+    getSetTriggerThinningPreventNavModal
   );
 
   const allowUnforcedSorts = configObj.allowUnforcedSorts;
@@ -83,6 +90,17 @@ const LinkButton = (props) => {
         return true;
       }
     }
+
+    if (currentPage === "thin") {
+      if (isThinningFinished === false) {
+        console.log("thin");
+        setTriggerThinningPreventNavModal(true);
+        return false;
+      } else {
+        return true;
+      }
+    }
+
     if (currentPage === "sort") {
       if (isSortingFinished === false) {
         // check to see if finished, but had sorting registration error

@@ -75,6 +75,12 @@
         <item id="presortOnPageInstructions">{{{div style=&quot;font-size: 24px&quot;}}}Click and drag on the cards or press the &quot;1&quot;, &quot;2&quot;, or &quot;3&quot; keys to sort the statements.{{{/div}}}</item>
         <item id="presortImageSortInstructions">To enlarge an image, hover your mouse pointer over it and double-click. {{{br/}}}{{{br/}}} To compare images, {{{u}}}press and hold{{{/u}}} the {{{b}}}{{{i}}}Shift{{{/i}}}{{{/b}}} key on your keyboard and then double-click on TWO images with your mouse.</item>
 
+        <!-- THINNING:  -->
+        <item id="thinningPreventNavModalHead">Navigation Disabled</item>
+        <item id="thinningPreventNavModalText">Please finish the refining process before going to the next step.</item>
+        <item id="thinningConfirmModalHead">Incomplete Selection</item>
+        <item id="thinningConfirmModalText">Please select the required number of statements.</item>
+
         <!-- SORT: sorting (leave blank to skip popup) -->
         <item id="sortHelpModalHead">Step 2 of 4</item>
         <item id="sortHelpModalText">In this step, please click and drag the statement cards to the appropriate column based on your perspective and the researcher&apos;s instructions at the top of the page. {{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/iRxC9Vv3dLo?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>

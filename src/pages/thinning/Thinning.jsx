@@ -11,6 +11,8 @@ import includes from "lodash/includes";
 import remove from "lodash/remove";
 import convertNumberToText from "./convertNumberToText";
 import finishThinningSorts from "./finishThinningSorts";
+import ConfirmationModal from "./ConfirmationModal";
+import ThinningPreventNavModal from "./ThinningPreventNavModal";
 
 /* eslint react/prop-types: 0 */
 
@@ -24,6 +26,9 @@ const getSetThinningSide = (state) => state.setThinningSide;
 const getThinningSide = (state) => state.thinningSide;
 const getShowConfirmButton = (state) => state.showConfirmButton;
 const getSetShowConfirmButton = (state) => state.setShowConfirmButton;
+const getSetPreviousColInfo = (state) => state.setPreviousColInfo;
+const getSetIsThinningFinished = (state) => state.setIsThinningFinished;
+// const getPreviousColInfo = (state) => state.previousColInfo;
 
 let targetArray = [];
 
@@ -41,6 +46,9 @@ const Thinning = () => {
   const thinningSide = useStore(getThinningSide);
   const showConfirmButton = useStore(getShowConfirmButton);
   const setShowConfirmButton = useStore(getSetShowConfirmButton);
+  const setPreviousColInfo = useStore(getSetPreviousColInfo);
+  const setIsThinningFinished = useStore(getSetIsThinningFinished);
+  // const previousColInfo = useStore(getPreviousColInfo);
 
   // HELPER - create divs of posSorted items statements to add to dom
   const boxes = (array, side, maxSelect, targetcol) => {
@@ -65,6 +73,8 @@ const Thinning = () => {
 
   const headers = [...mapObj.qSortHeaders];
   const qSortPattern = [...mapObj.qSortPattern];
+
+  const confirmButtonRef = useRef(null);
 
   // HELPER - create column data and max column cards value
   const createColumnData = (headers, qSortPattern) => {
@@ -124,6 +134,9 @@ const Thinning = () => {
     if (!initialized.current) {
       columnData = createColumnData(headers, qSortPattern);
       let colInfo = columnData.pop();
+      console.log("colInfo: ", colInfo);
+      setPreviousColInfo(colInfo);
+
       rightNum = colInfo[1];
       let text1 = convertNumberToText(rightNum);
       localStorage.setItem("newCols", JSON.stringify(presortColumnStatements));
@@ -229,14 +242,19 @@ const Thinning = () => {
 
       // set instruction object values for text and boxes
       let colInfo = instructionObj.columnData.shift();
+      setPreviousColInfo(colInfo);
+      console.log(
+        "focus - instructionObj.columnData: ",
+        instructionObj.columnData
+      );
+      console.log("focus - colInfo: ", colInfo);
       let leftNum = colInfo[1];
       let selectionNumber = convertNumberToText(leftNum);
 
       if (nextSet.length <= leftNum) {
-        console.log("nextSet.length <= leftNum");
+        console.log("shortcue");
       }
 
-      // set complete trigger
       if (nextSet.length === 0) {
         positiveComplete = true;
       }
@@ -264,14 +282,15 @@ const Thinning = () => {
       console.log(JSON.stringify(colInfo));
       if (colInfo === undefined) {
         console.log("both sides complete");
+        setIsThinningFinished(true);
         setShowConfirmButton(false);
         setInstructionObj((instructions) => ({
           ...instructions,
           instructionsText: (
-            <Instructions>
+            <FinalInstructions>
               Refinement process complete. Click the button at the bottom to
               continue.
-            </Instructions>
+            </FinalInstructions>
           ),
           columnData: [...instructionObj.columnData],
           boxes: null,
@@ -303,14 +322,15 @@ const Thinning = () => {
       // check if both sides are complete and early return
       if (negSorted.length === 0 && positiveComplete === true) {
         console.log("both sides complete");
+        setIsThinningFinished(true);
         setShowConfirmButton(false);
         setInstructionObj((instructions) => ({
           ...instructions,
           instructionsText: (
-            <Instructions>
+            <FinalInstructions>
               Refinement process complete. Click the button at the bottom to
               continue.
-            </Instructions>
+            </FinalInstructions>
           ),
           columnData: [...instructionObj.columnData],
           boxes: null,
@@ -339,8 +359,13 @@ const Thinning = () => {
       let selectedItems = negSorted.filter((item) => item.selected === true);
       let nextSet = negSorted.filter((item) => item.selected === false);
 
+      // set instruction object values for text and boxes
+      let colInfo = instructionObj.columnData.pop();
+      setPreviousColInfo(colInfo);
+      console.log("colInfo: ", colInfo);
+
       // set complete trigger
-      if (nextSet.length === 0) {
+      if (nextSet.length === 0 || nextSet.length <= colInfo[1]) {
         negativeComplete = true;
       }
 
@@ -362,21 +387,19 @@ const Thinning = () => {
       targetArray = [];
       localStorage.setItem("newCols", JSON.stringify(newCols));
 
-      // set instruction object values for text and boxes
-      let colInfo = instructionObj.columnData.pop();
-
       // check if column info is undefined and early return
       console.log(JSON.stringify(colInfo));
       if (colInfo === undefined) {
         console.log("both sides complete");
+        setIsThinningFinished(true);
         setShowConfirmButton(false);
         setInstructionObj((instructions) => ({
           ...instructions,
           instructionsText: (
-            <Instructions>
+            <FinalInstructions>
               Refinement process complete. Click the button at the bottom to
               continue.
-            </Instructions>
+            </FinalInstructions>
           ),
           columnData: [...instructionObj.columnData],
           boxes: null,
@@ -410,6 +433,7 @@ const Thinning = () => {
       // check if both sides are complete
       if (posSorted.length === 0 && negativeComplete === true) {
         console.log("both sides complete");
+        setIsThinningFinished(true);
         setShowConfirmButton(false);
         setInstructionObj((instructions) => ({
           ...instructions,
@@ -466,6 +490,8 @@ const Thinning = () => {
   return (
     <div>
       <PromptUnload />
+      <ConfirmationModal />
+      <ThinningPreventNavModal />
       <SortTitleBar background={headerBarColor}>
         Refine Your Preferences
       </SortTitleBar>
@@ -473,7 +499,9 @@ const Thinning = () => {
         <InstructionsDiv>
           {instructionObj.instructionsText}
           {showConfirmButton && (
-            <ConfirmButton onClick={handleConfirm}>Confirm</ConfirmButton>
+            <ConfirmButton ref={confirmButtonRef} onClick={handleConfirm}>
+              Confirm
+            </ConfirmButton>
           )}
         </InstructionsDiv>
         <BoxesDiv>{instructionObj.boxes}</BoxesDiv>
