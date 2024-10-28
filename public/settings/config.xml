@@ -63,7 +63,7 @@
    <item id="setMinCardHeightSort">true</item>
    <item id="minCardHeightSort">120</item>
    <item id="setDefaultFontSizeSort">true</item>
-   <item id="defaultFontSizeSort">16</item>
+   <item id="defaultFontSizeSort">12</item>
    
    <item id="sortDirection">positive</item> 
 

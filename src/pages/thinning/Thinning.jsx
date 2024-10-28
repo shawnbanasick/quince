@@ -6,8 +6,6 @@ import ReactHtmlParser from "html-react-parser";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 import PromptUnload from "../../utilities/PromptUnload";
-// import ConsentModal from "./ConsentModal";
-import includes from "lodash/includes";
 import remove from "lodash/remove";
 import convertNumberToText from "./convertNumberToText";
 import finishThinningSorts from "./finishThinningSorts";
@@ -28,13 +26,9 @@ const getShowConfirmButton = (state) => state.showConfirmButton;
 const getSetShowConfirmButton = (state) => state.setShowConfirmButton;
 const getSetPreviousColInfo = (state) => state.setPreviousColInfo;
 const getSetIsThinningFinished = (state) => state.setIsThinningFinished;
-// const getPreviousColInfo = (state) => state.previousColInfo;
-
 let targetArray = [];
 
 const Thinning = () => {
-  //   const ElementRef = useRef(null);
-
   // GLOBAL STATE
   const langObj = useSettingsStore(getLangObj);
   const configObj = useSettingsStore(getConfigObj);
@@ -48,7 +42,6 @@ const Thinning = () => {
   const setShowConfirmButton = useStore(getSetShowConfirmButton);
   const setPreviousColInfo = useStore(getSetPreviousColInfo);
   const setIsThinningFinished = useStore(getSetIsThinningFinished);
-  // const previousColInfo = useStore(getPreviousColInfo);
 
   // HELPER - create divs of posSorted items statements to add to dom
   const boxes = (array, side, maxSelect, targetcol) => {
@@ -118,15 +111,19 @@ const Thinning = () => {
     negSorted2 = sortingList.filter((item) => item.pinkChecked === true);
   }
 
+  // Local State Variables
   let [posSorted, setPosSorted] = useState(posSorted2);
   const [negSorted, setNegSorted] = useState(negSorted2);
+  // Get language object values
+  let initialInstructionPart1 =
+    ReactHtmlParser(decodeHTML(langObj.initialInstructionPart1)) || "";
+  let initialInstructionPart3 =
+    ReactHtmlParser(decodeHTML(langObj.initialInstructionPart3)) || "";
+  let agreeLeastText =
+    ReactHtmlParser(decodeHTML(langObj.agreeLeastText)) || "";
+  let agreeMostText = ReactHtmlParser(decodeHTML(langObj.agreeMostText)) || "";
 
-  let initialInstructionPart1 = `Below are the statements you agreed with in the previous step. To begin ordering them select the statements that you most agree with.`;
-  let initialInstructionPart3 = ` The next set of statements will appear on the screen when you click the orange "Confirm" button.`;
-  let agreeLeastText = `Next, repeat the process with the remaining statements, but this time please select the cards that you agree with the least.`;
-  let agreeMostText = `Next, repeat the process with the remaining statements, but this time please select the cards that you agree with the most.`;
-
-  // INITIALIZE INSTRUCTIONS
+  // ** INITIALIZE INSTRUCTIONS AND BOXES **
   let rightNum;
   let columnData;
   const initialized = useRef(false);
@@ -252,7 +249,7 @@ const Thinning = () => {
       let selectionNumber = convertNumberToText(leftNum);
 
       if (nextSet.length <= leftNum) {
-        console.log("shortcue");
+        console.log("shortcut");
       }
 
       if (nextSet.length === 0) {
@@ -572,9 +569,9 @@ const Box = styled.div`
   border-radius: 10px;
   background-color: ${(props) =>
     props.selected && props.side === "rightSide"
-      ? "lightgreen"
+      ? "#ccffcc"
       : props.selected && props.side === "leftSide"
-      ? "lightcoral"
+      ? "#ffe0e0"
       : "white"};
 
   color: black;
@@ -586,7 +583,7 @@ const Box = styled.div`
 
   &:hover {
     background-color: ${(props) =>
-      props.side === "rightSide" ? "lightgreen" : "lightcoral"};
+      props.side === "rightSide" ? "#ccffcc" : "#ffe0e0"};
   }
 `;
 
@@ -630,19 +627,19 @@ const InstructionNum = styled.span`
 `;
 
 const MostAgreeText = styled.span`
-  background-color: lightgreen;
+  background-color: #ccffcc;
   padding: 2px;
   font-style: italic;
 `;
 
 const LeastAgreeText = styled.span`
-  background-color: lightcoral;
+  background-color: #ffe0e0;
   padding: 2px;
   font-style: italic;
 `;
 
 const ConfirmButton = styled.button`
-  background: orange;
+  background: #e6b44e;
   border-color: #2e6da4;
   color: black;
   font-size: 1.4em;
@@ -660,6 +657,6 @@ const ConfirmButton = styled.button`
   justify-content: center;
 
   &:hover {
-    font-weight: bold;
+    background: orange;
   }
 `;
