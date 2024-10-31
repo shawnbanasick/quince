@@ -6,7 +6,19 @@ const createThinningSlice = (set, get) => ({
   triggerThinningPreventNavModal: false,
   isConfirmationFinished: false,
   triggerConfirmationFinishedModal: false,
+  isLeftSideFinished: false,
+  isRightSideFinished: false,
+  currentSelectMaxValue: 0,
 
+  setCurrentSelectMaxValue: (value) => {
+    set(() => ({ currentSelectMaxValue: value }));
+  },
+  setIsLeftSideFinished: (bool) => {
+    set(() => ({ isLeftSideFinished: bool }));
+  },
+  setIsRightSideFinished: (bool) => {
+    set(() => ({ isRightSideFinished: bool }));
+  },
   setTriggerConfirmationFinishedModal: (bool) => {
     set(() => ({ triggerConfirmationModal: bool }));
   },
