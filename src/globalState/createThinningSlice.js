@@ -9,7 +9,19 @@ const createThinningSlice = (set, get) => ({
   isLeftSideFinished: false,
   isRightSideFinished: false,
   currentSelectMaxValue: 0,
+  posSorted: [],
+  negSorted: [],
+  instructionObj: {},
 
+  setInstructionObj: (instructionObj) => {
+    set(() => ({ instructionObj: instructionObj }));
+  },
+  setPosSorted: (posSorted) => {
+    set(() => ({ posSorted: posSorted }));
+  },
+  setNegSorted: (negSorted) => {
+    set(() => ({ negSorted: negSorted }));
+  },
   setCurrentSelectMaxValue: (value) => {
     set(() => ({ currentSelectMaxValue: value }));
   },

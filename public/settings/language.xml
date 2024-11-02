@@ -84,8 +84,8 @@
         <item id="agreeLeastText">Next, repeat the process with the remaining statements, but this time please select the cards that you agree with the least.</item>
         <item id="initialInstructionPart1">Below are the statements you agreed with in the previous step. To begin ordering them select the statements that you most agree with.</item>
         <item id="initialInstructionPart3"> The next set of statements will appear on the screen when you click the orange "Confirm" button.</item>
-
-
+        <item id="finalInstructions">Refinement process complete. Click the button at the bottom to
+              continue.</item>
 
         <!-- SORT: sorting (leave blank to skip popup) -->
         <item id="sortHelpModalHead">Step 2 of 4</item>
