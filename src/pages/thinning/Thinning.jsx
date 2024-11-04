@@ -12,7 +12,10 @@ import finishThinningSorts from "./finishThinningSorts";
 import ConfirmationModal from "./ConfirmationModal";
 import ThinningPreventNavModal from "./ThinningPreventNavModal";
 import CreateLeftSide from "./CreateLeftSide";
+import CreateRightSide from "./CreateRightSide";
 import createColumnData from "./createColumnData";
+import setMaxIterations from "./setMaxIterations";
+import displayDebugStateNums from "./displayDebugStateNums";
 
 /* eslint react/prop-types: 0 */
 
@@ -34,13 +37,19 @@ const getSetIsLeftSideFinished = (state) => state.setIsLeftSideFinished;
 const getSetIsRightSideFinished = (state) => state.setIsRightSideFinished;
 const getCurrentSelectMaxValue = (state) => state.currentSelectMaxValue;
 const getSetCurrentSelectMaxValue = (state) => state.setCurrentSelectMaxValue;
-const getPosSorted = (state) => state.posSorted;
-const getNegSorted = (state) => state.negSorted;
-const getSetPosSorted = (state) => state.setPosSorted;
-const getSetNegSorted = (state) => state.setNegSorted;
-const getInstructionObj = (state) => state.instructionObj;
-const getSetInstructionObj = (state) => state.setInstructionObj;
-let targetArray = [];
+// const getPosSorted = (state) => state.posSorted;
+// const getNegSorted = (state) => state.negSorted;
+// const getSetPosSorted = (state) => state.setPosSorted;
+// const getSetNegSorted = (state) => state.setNegSorted;
+// const getInstructionObj = (state) => state.instructionObj;
+// const getSetInstructionObj = (state) => state.setInstructionObj;
+const getTargetArray = (state) => state.targetArray;
+const getSetTargetArray = (state) => state.setTargetArray;
+const getIsThinningFinished = (state) => state.isThinningFinished;
+const getSetIsRightBelowThreshold = (state) => state.setIsRightBelowThreshold;
+const getSetIsLeftBelowThreshold = (state) => state.setIsLeftBelowThreshold;
+const getIsRightBelowThreshold = (state) => state.isRightBelowThreshold;
+const getIsLeftBelowThreshold = (state) => state.isLeftBelowThreshold;
 
 const Thinning = () => {
   // GLOBAL STATE
@@ -56,12 +65,19 @@ const Thinning = () => {
   const setShowConfirmButton = useStore(getSetShowConfirmButton);
   const setPreviousColInfo = useStore(getSetPreviousColInfo);
   const setIsThinningFinished = useStore(getSetIsThinningFinished);
+  const isThinningFinished = useStore(getIsThinningFinished);
   const isLeftSideFinished = useStore(getIsLeftSideFinished);
   const isRightSideFinished = useStore(getIsRightSideFinished);
   const setIsLeftSideFinished = useStore(getSetIsLeftSideFinished);
   const setIsRightSideFinished = useStore(getSetIsRightSideFinished);
   const currentSelectMaxValue = useStore(getCurrentSelectMaxValue);
   const setCurrentSelectMaxValue = useStore(getSetCurrentSelectMaxValue);
+  const setTargetArray = useStore(getSetTargetArray);
+  let targetArray = useStore(getTargetArray);
+  const isRightBelowThreshold = useStore(getIsRightBelowThreshold);
+  const isLeftBelowThreshold = useStore(getIsLeftBelowThreshold);
+  const setIsRightBelowThreshold = useStore(getSetIsRightBelowThreshold);
+  const setIsLeftBelowThreshold = useStore(getSetIsLeftBelowThreshold);
   // const posSorted = useStore(getPosSorted);
   // const negSorted = useStore(getNegSorted);
   // const setPosSorted = useStore(getSetPosSorted);
@@ -75,9 +91,9 @@ const Thinning = () => {
     ReactHtmlParser(decodeHTML(langObj.initialInstructionPart3)) || "";
   let agreeLeastText =
     ReactHtmlParser(decodeHTML(langObj.agreeLeastText)) || "";
-  let agreeMostText = ReactHtmlParser(decodeHTML(langObj.agreeMostText)) || "";
   let finalInstructionText =
     ReactHtmlParser(decodeHTML(langObj.finalInstructions)) || "";
+  let agreeMostText = ReactHtmlParser(decodeHTML(langObj.agreeMostText)) || "";
 
   // HELPER - create divs of posSorted items statements to add to dom
   const boxes = (array, side, maxSelect, targetcol) => {
@@ -87,6 +103,8 @@ const Thinning = () => {
           key={item.id}
           id={item.id}
           selected={item.selected}
+          selectedPos={item.selectedPos}
+          selectedNeg={item.selectedNeg}
           data-side={side}
           data-max={maxSelect}
           data-targetcol={targetcol}
@@ -102,6 +120,9 @@ const Thinning = () => {
 
   const headers = [...mapObj.qSortHeaders];
   const qSortPattern = [...mapObj.qSortPattern];
+  const maxIterations = setMaxIterations(qSortPattern);
+  const maxLeftIterations = maxIterations;
+  const maxRightIterations = maxIterations;
 
   // **** USE REFS ***** //
   const confirmButtonRef = useRef(null);
@@ -196,12 +217,15 @@ const Thinning = () => {
 
     // Redraw page with selected items highlighted
     if (e.target.dataset.side === "leftSide") {
-      console.log("leftSide branch");
+      console.log("leftSide branch selected item");
       negSorted.forEach((item) => {
         if (targetArray.includes(item.id)) {
+          // item.selectedLeft = true;
+          item.selectedNeg = true;
           item.selected = true;
           item.targetcol = targetcol;
         } else {
+          item.selectedNeg = false;
           item.selected = false;
         }
       });
@@ -214,12 +238,15 @@ const Thinning = () => {
 
     // Redraw page with selected items highlighted
     if (e.target.dataset.side === "rightSide") {
-      console.log("rightSide branch");
+      console.log("rightSide branch selected item");
       posSorted.forEach((item) => {
         if (targetArray.includes(item.id)) {
-          item.selected = true;
+          // item.selectedRight = true;
+          item.selectedPos = true;
           item.targetcol = targetcol;
+          item.selected = true;
         } else {
+          item.selectedPos = false;
           item.selected = false;
         }
       });
@@ -231,38 +258,187 @@ const Thinning = () => {
     }
   };
 
-  // *** ON CONFIRM BUTTON CLICK ***
+  // **********************************************************************
+  // *** ON CONFIRM BUTTON CLICK ******************************************
+  // **********************************************************************
   const handleConfirm = () => {
+    console.log("confirm button clicked");
     // ******* DISPATCHER ********
     // pull COLUMN data from local storage
     let newCols = JSON.parse(localStorage.getItem("newCols"));
+
+    // filter out selected items
+    let selectedPosItems = posSorted.filter(
+      (item) => item.selectedPos === true
+    );
+    let nextPosSet = posSorted.filter((item) => item.selectedPos === false);
+    // filter out selected items
+    let selectedNegItems = negSorted.filter(
+      (item) => item.selectedNeg === true
+    );
+    let nextNegSet = negSorted.filter((item) => item.selectedNeg === false);
+
+    console.log("nextPosSet", nextPosSet.length);
+    console.log("nextNegSet", nextNegSet.length);
+
+    let colInfo;
+    let leftNum;
+    let currentCol;
+    if (thinningSide === "rightSide") {
+      console.log("dispatch rightSide branch");
+      colInfo = instructionObj.columnData.shift();
+      setPreviousColInfo(colInfo);
+      leftNum = colInfo[1];
+      setCurrentSelectMaxValue(leftNum);
+      console.log("colInfo: ", colInfo);
+      if (nextPosSet.length <= +colInfo[1] && isRightSideFinished === false) {
+        console.log("rightSide finished");
+        setIsRightSideFinished(true);
+        setThinningSide("leftSide");
+        // setIsRightBelowThreshold(true);
+        // next set, selectedItems, newCols, instructions
+        setPosSorted([...nextPosSet]);
+
+        selectedPosItems.forEach((obj) => {
+          let objId = obj.id;
+          let targetcol = obj.targetcol;
+          newCols.statementList.forEach((item) => {
+            console.log("targetcol: ", targetcol);
+            if (item.id === objId) {
+              newCols.vCols[targetcol].push(item);
+              remove(newCols.statementList, (n) => n.id === objId);
+            }
+          });
+        });
+        let displayObject = displayDebugStateNums(newCols);
+        console.log("debug newCols", JSON.stringify(displayObject));
+        // clear targetArray and set state
+        let copyInstructions = { ...instructionObj };
+        setInstructionObj(() => ({
+          ...copyInstructions,
+          instructionsText: CreateLeftSide(leftNum, agreeLeastText),
+          boxes: boxes([...negSorted], "leftSide", colInfo[1], colInfo[0]),
+        }));
+        return;
+      }
+    }
+
+    if (thinningSide === "leftSide") {
+      console.log("dispatch leftSide branch");
+      colInfo = instructionObj.columnData.pop();
+      setPreviousColInfo(colInfo);
+      console.log("colInfo: ", colInfo);
+      if (nextNegSet.length <= +colInfo[1] && isLeftSideFinished === false) {
+        console.log("leftSide finished");
+        setIsLeftSideFinished(true);
+        // setIsLeftBelowThreshold(true);
+        // setThinningSide("rightSide");
+        // set state
+        setNegSorted([...nextNegSet]);
+        // move selected items to target column
+        selectedNegItems.forEach((obj) => {
+          let objId = obj.id;
+          let targetcol = obj.targetcol;
+          newCols.statementList.forEach((item) => {
+            if (item.id === objId) {
+              newCols.vCols[targetcol].push(item);
+              remove(newCols.statementList, (n) => n.id === objId);
+            }
+          });
+        });
+        let displayObject = displayDebugStateNums(newCols);
+        console.log("debug newCols", JSON.stringify(displayObject));
+        // clear targetArray and set state
+        setTargetArray([]);
+        localStorage.setItem("newCols", JSON.stringify(newCols));
+        setTargetArray([]);
+        localStorage.setItem("newCols", JSON.stringify(newCols));
+        let copyInstructions = { ...instructionObj };
+        setInstructionObj(() => ({
+          ...copyInstructions,
+          instructionsText: CreateRightSide(colInfo[1], agreeMostText),
+
+          boxes: boxes([...posSorted], "rightSide", colInfo[1], colInfo[0]),
+        }));
+        return;
+      }
+    }
 
     //********* RIGHT SIDE *************** */
     if (thinningSide === "rightSide") {
       // set left side flag
       setThinningSide("leftSide");
 
-      // filter out selected items
-      let selectedItems = posSorted.filter((item) => item.selected === true);
-      let nextSet = posSorted.filter((item) => item.selected === false);
-
       // Get Col info
-      let colInfo = instructionObj.columnData.shift();
-      setPreviousColInfo(colInfo);
-      let leftNum = colInfo[1];
-      setCurrentSelectMaxValue(leftNum);
 
-      // Early return if both sides are complete
-      if (nextSet.length <= currentSelectMaxValue || nextSet.length === 0) {
-        setIsRightSideFinished(true);
-        console.log("early return - right side line 264");
+      // todo *** ALL DISPLAY FINISHED ***
+      if (
+        colInfo === undefined ||
+        (isRightSideFinished === true && isLeftSideFinished === true)
+      ) {
+        console.log("rightSide branch all display finished sub-branch");
+        if (isThinningFinished === false) {
+          console.log("both sides complete [colInfo undefined - neg branch]");
+          setIsThinningFinished(true);
+          setShowConfirmButton(false);
+          setInstructionObj((instructions) => ({
+            ...instructions,
+            instructionsText: (
+              <FinalInstructions>{finalInstructionText}</FinalInstructions>
+            ),
+            columnData: [...instructionObj.columnData],
+            boxes: null,
+          }));
+          let completedCols = finishThinningSorts(newCols, finalSortColData);
+          localStorage.setItem(
+            "columnStatements",
+            JSON.stringify(completedCols)
+          );
+        }
+        return;
       }
 
-      // *** ALL DISPLAY FINISHED ***
+      // todo *** EARLY RETURN - BACK TO NEG ***
+      if (
+        nextPosSet.length <= currentSelectMaxValue ||
+        nextPosSet.length === 0
+      ) {
+        console.log("rightSide branch early return back to neg sub-branch");
+        // setIsRightSideFinished(true);
+        // setIsRightBelowThreshold(true);
+        selectedPosItems.forEach((obj) => {
+          let objId = obj.id;
+          let targetcol = obj.targetcol;
+          newCols.statementList.forEach((item) => {
+            console.log("targetcol: ", targetcol);
+            if (item.id === objId) {
+              newCols.vCols[targetcol].push(item);
+              remove(newCols.statementList, (n) => n.id === objId);
+            }
+          });
+        });
+        let displayObject = displayDebugStateNums(newCols);
+        console.log("debug newCols", JSON.stringify(displayObject));
+        // clear targetArray and set state
+        setTargetArray([]);
+        localStorage.setItem("newCols", JSON.stringify(newCols));
+        // set instruction object values for text and boxes
+        setInstructionObj((instructions) => ({
+          ...instructions,
+          side: "leftSide",
+          columnData: [...instructionObj.columnData],
+          instructionsText: CreateLeftSide(leftNum, agreeLeastText),
+          boxes: boxes([...negSorted], "leftSide", colInfo[1], colInfo[0]),
+        }));
+        return;
+      }
+
+      // todo << *** ALL DISPLAY FINISHED *** >>
       if (
         colInfo === undefined ||
         (isLeftSideFinished === true && isRightSideFinished === true)
       ) {
+        console.log("rightSide branch all display finished sub-branch");
         console.log("both sides complete [colInfo undefined]");
         setIsThinningFinished(true);
         setShowConfirmButton(false);
@@ -281,9 +457,9 @@ const Thinning = () => {
 
       // todo <<<<***** NORMAL RETURN - Setup left side ******>>>>>
       // next set, selectedItems, newCols, instructions
-      setPosSorted([...nextSet]);
+      setPosSorted([...nextPosSet]);
       // move selected items to target column
-      selectedItems.forEach((obj) => {
+      selectedPosItems.forEach((obj) => {
         let objId = obj.id;
         let targetcol = obj.targetcol;
         newCols.statementList.forEach((item) => {
@@ -294,8 +470,10 @@ const Thinning = () => {
           }
         });
       });
+      let displayObject = displayDebugStateNums(newCols);
+      console.log("debug newCols", JSON.stringify(displayObject));
       // clear targetArray and set state
-      targetArray = [];
+      setTargetArray([]);
       localStorage.setItem("newCols", JSON.stringify(newCols));
       // set instruction object values for text and boxes
       setInstructionObj((instructions) => ({
@@ -305,6 +483,7 @@ const Thinning = () => {
         instructionsText: CreateLeftSide(leftNum, agreeLeastText),
         boxes: boxes([...negSorted], "leftSide", colInfo[1], colInfo[0]),
       }));
+      return;
     } // end rightside branch
 
     // **********************************************************************
@@ -314,72 +493,42 @@ const Thinning = () => {
       // set right side flag
       setThinningSide("rightSide");
 
-      // filter out selected items
-      let selectedItems = negSorted.filter((item) => item.selected === true);
-      let nextSet = negSorted.filter((item) => item.selected === false);
-
-      // set instruction object values for text and boxes
-      let colInfo = instructionObj.columnData.pop();
-      setPreviousColInfo(colInfo);
-      console.log("colInfo: ", colInfo);
-
-      // set text
-      rightNum = colInfo[1];
-      let currentCol = colInfo[0];
-      setCurrentSelectMaxValue(rightNum);
-      let selectionNumber2 = convertNumberToText(rightNum);
-      let instructionNumber = (
-        <InstructionNum>
-          <MostAgreeText>
-            Number of Statements to Select: {rightNum}
-          </MostAgreeText>
-        </InstructionNum>
-      );
-
-      // set text element
-      let newInstructionText = (
-        <Instructions>
-          {agreeMostText}
-          <br />
-          <br />
-          {instructionNumber}
-        </Instructions>
-      );
-
-      console.log(JSON.stringify(colInfo));
-
-      // *** ALL DISPLAY FINISHED ***
+      // todo *** ALL DISPLAY FINISHED ***
       if (
         colInfo === undefined ||
         (isRightSideFinished === true && isLeftSideFinished === true)
       ) {
-        console.log("both sides complete [colInfo undefined - neg branch]");
-        setIsThinningFinished(true);
-        setShowConfirmButton(false);
-        setInstructionObj((instructions) => ({
-          ...instructions,
-          instructionsText: (
-            <FinalInstructions>{finalInstructionText}</FinalInstructions>
-          ),
-          columnData: [...instructionObj.columnData],
-          boxes: null,
-        }));
-        let completedCols = finishThinningSorts(newCols, finalSortColData);
-        localStorage.setItem("columnStatements", JSON.stringify(completedCols));
+        console.log("leftSide branch all display finished sub-branch");
+        if (setIsThinningFinished === false) {
+          console.log("both sides complete [colInfo undefined - neg branch]");
+          setIsThinningFinished(true);
+          setShowConfirmButton(false);
+          setInstructionObj((instructions) => ({
+            ...instructions,
+            instructionsText: (
+              <FinalInstructions>{finalInstructionText}</FinalInstructions>
+            ),
+            columnData: [...instructionObj.columnData],
+            boxes: null,
+          }));
+          let completedCols = finishThinningSorts(newCols, finalSortColData);
+          localStorage.setItem(
+            "columnStatements",
+            JSON.stringify(completedCols)
+          );
+        }
         return;
       }
 
-      if (nextSet.length <= currentSelectMaxValue) {
-        setIsLeftSideFinished(true);
-      }
-
-      // *** EARLY RETURN - BACK TO POS ***
+      // todo << *** EARLY RETURN - BACK TO POS *** >>
       // if (nextSet.length === 0 || nextSet.length <= currentSelectMaxValue) {
-      if (isRightSideFinished === true) {
-        console.log("focus", JSON.stringify(newCols));
-        console.log("early return [isRightSideFinished === true] - neg branch");
+      if (isRightSideFinished === true && isLeftSideFinished === false) {
+        console.log(
+          "early return [isRightSideFinished === true] - neg sub-branch"
+        );
         setIsLeftSideFinished(true);
-        // remove pos statments from statements list
+        // setIsLeftBelowThreshold(true);
+        // remove pos statements from statements list
         posSorted.forEach((obj) => {
           let objId = obj.id;
           console.log("posSorted: ", posSorted);
@@ -391,58 +540,41 @@ const Thinning = () => {
             }
           });
         });
+        let displayObject = displayDebugStateNums(newCols);
+        console.log("debug newCols", JSON.stringify(displayObject));
 
-        // add the pos statements to the current column
-
-        console.log("newCols", JSON.stringify(newCols.vCols[currentCol]));
-        console.log("posSorted", JSON.stringify(posSorted));
-
-        newCols.vCols[currentCol] = [
-          ...newCols.vCols[currentCol],
-          ...posSorted,
-        ];
-
-        // console.log("new array", JSON.stringify(newArray));
+        if (newCols.vCols[currentCol]) {
+          newCols.vCols[currentCol] = [
+            ...newCols.vCols[currentCol],
+            ...posSorted,
+          ];
+        } else {
+          newCols.vCols[currentCol] = [...posSorted];
+        }
 
         setPosSorted([]);
 
-        // set instructions text
-        let instructionNumber = (
-          <InstructionNum>
-            <LeastAgreeText>
-              Number of Statements to Select: {leftNum}
-            </LeastAgreeText>
-          </InstructionNum>
-        );
-
-        // set text element
-        let newInstructionText = (
-          <Instructions>
-            {agreeLeastText}
-            <br />
-            <br />
-            {instructionNumber}
-          </Instructions>
-        );
-
-        console.log("newCols", JSON.stringify(newCols.vCols[currentCol]));
         localStorage.setItem("newCols", JSON.stringify(newCols));
         // set instruction object values for text and boxes
         setInstructionObj((instructions) => ({
           ...instructions,
           side: "rightSide",
           columnData: [...instructionObj.columnData],
-          instructionsText: newInstructionText,
+          instructionsText: CreateLeftSide(colInfo[1], agreeLeastText),
 
           boxes: boxes([...negSorted], "leftSide", colInfo[1], colInfo[0]),
         }));
+        setTargetArray([]);
+        return;
       }
 
-      // ** NORMAL RETURN **
+      // todo << ** NORMAL RETURN ** >>
+      console.log("rightSide branch normal sub-branch");
+
       // set state
-      setNegSorted([...nextSet]);
+      setNegSorted([...nextNegSet]);
       // move selected items to target column
-      selectedItems.forEach((obj) => {
+      selectedNegItems.forEach((obj) => {
         let objId = obj.id;
         let targetcol = obj.targetcol;
         newCols.statementList.forEach((item) => {
@@ -452,29 +584,25 @@ const Thinning = () => {
           }
         });
       });
+      let displayObject = displayDebugStateNums(newCols);
+      console.log("debug newCols", JSON.stringify(displayObject));
       // clear targetArray and set state
-      targetArray = [];
+      setTargetArray([]);
       localStorage.setItem("newCols", JSON.stringify(newCols));
       // set instruction object values for text and boxes
       setInstructionObj((instructions) => ({
         ...instructions,
         side: "rightSide",
         columnData: [...instructionObj.columnData],
-        instructionsText: newInstructionText,
+        instructionsText: CreateRightSide(colInfo[1], agreeMostText),
 
         boxes: boxes([...posSorted], "rightSide", colInfo[1], colInfo[0]),
       }));
-
-      // another check for both sides complete - early return
-      if (isLeftSideFinished === true && isRightSideFinished === true) {
-        console.log("both sides complete - end of right side branch");
-      }
+      return;
     } // end leftside branch
   };
 
   setDisplayNextButton(true);
-
-  const headerBarColor = configObj.headerBarColor;
 
   useEffect(() => {
     let startTime = Date.now();
@@ -494,7 +622,7 @@ const Thinning = () => {
       <PromptUnload />
       <ConfirmationModal />
       <ThinningPreventNavModal />
-      <SortTitleBar background={headerBarColor}>
+      <SortTitleBar background={configObj.headerBarColor}>
         Refine Your Preferences
       </SortTitleBar>
       <ContainerDiv>
@@ -502,7 +630,7 @@ const Thinning = () => {
           {instructionObj.instructionsText}
           {showConfirmButton && (
             <ConfirmButton ref={confirmButtonRef} onClick={handleConfirm}>
-              Confirm
+              Submit
             </ConfirmButton>
           )}
         </InstructionsDiv>
@@ -573,9 +701,9 @@ const Box = styled.div`
   border: 1px solid black;
   border-radius: 10px;
   background-color: ${(props) =>
-    props.selected && props.side === "rightSide"
+    props.selectedPos && props.side === "rightSide"
       ? "#ccffcc"
-      : props.selected && props.side === "leftSide"
+      : props.selectedNeg && props.side === "leftSide"
       ? "#ffe0e0"
       : "white"};
 
@@ -627,18 +755,8 @@ const FinalInstructions = styled.div`
   color: black;
 `;
 
-const InstructionNum = styled.span`
-  font-weight: bold;
-`;
-
 const MostAgreeText = styled.span`
   background-color: #ccffcc;
-  padding: 2px;
-  font-style: italic;
-`;
-
-const LeastAgreeText = styled.span`
-  background-color: #ffe0e0;
   padding: 2px;
   font-style: italic;
 `;

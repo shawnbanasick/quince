@@ -10,7 +10,8 @@ const finishThinningSorts = (newCols, finalSortColData) => {
 
   let counter = 0;
 
-  while (newCols.statementList.length > 0 || counter < 200) {
+  while (newCols.statementList.length > 0 || counter < 50) {
+    console.log(JSON.stringify(newCols.statementList, null, 2));
     // iterate through the shuffled statementList array and place pink cards
     finalSortColData.forEach((colInfoArray, colIndex) => {
       const colName = colInfoArray[0];
@@ -69,7 +70,7 @@ const finishThinningSorts = (newCols, finalSortColData) => {
     });
     counter = counter + 1;
   }
-  console.log(JSON.stringify(newCols, null, 2));
+  console.log(JSON.stringify(newCols.statementList, null, 2));
   return newCols;
 };
 

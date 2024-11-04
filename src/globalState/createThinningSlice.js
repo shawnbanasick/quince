@@ -12,7 +12,19 @@ const createThinningSlice = (set, get) => ({
   posSorted: [],
   negSorted: [],
   instructionObj: {},
+  targetArray: [],
+  isRightBelowThreshold: false,
+  isLeftBelowThreshold: false,
 
+  setIsLeftBelowThreshold: (bool) => {
+    set(() => ({ isLeftBelowThreshold: bool }));
+  },
+  setIsRightBelowThreshold: (bool) => {
+    set(() => ({ isRightBelowThreshold: bool }));
+  },
+  setTargetArray: (targetArray) => {
+    set(() => ({ targetArray: targetArray }));
+  },
   setInstructionObj: (instructionObj) => {
     set(() => ({ instructionObj: instructionObj }));
   },
