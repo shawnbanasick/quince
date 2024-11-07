@@ -82,7 +82,8 @@
         <item id="thinningConfirmModalText">Please select the required number of statements.</item>
         <item id="agreeMostText">Next, repeat the process with the remaining statements, but this time please select the cards that you agree with the most.</item>
         <item id="agreeLeastText">Next, repeat the process with the remaining statements, but this time please select the cards that you agree with the least.</item>
-        <item id="initialInstructionPart1">Below are the statements you agreed with in the previous step. To begin ordering them select the statements that you most agree with.</item>
+        <item id="initialInstructionPart1">Below are the statements you agreed with in the previous step. To begin ordering them, select the statements that you most agree with.</item>
+        <item id="initialInstructionPart2">Next, continue to select the statements that are closest to your perspectie</item>
         <item id="initialInstructionPart3"> The next set of statements will appear on the screen when you click the orange "Submit" button.</item>
         <item id="finalInstructions">Refinement process complete. Click the button at the bottom to
               continue.</item>

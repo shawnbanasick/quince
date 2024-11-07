@@ -285,6 +285,7 @@ const Thinning = () => {
     let leftNum;
     let currentCol;
     if (thinningSide === "rightSide") {
+      console.log("option 1");
       console.log("dispatch rightSide branch");
       colInfo = instructionObj.columnData.shift();
       setPreviousColInfo(colInfo);
@@ -292,6 +293,7 @@ const Thinning = () => {
       setCurrentSelectMaxValue(leftNum);
       console.log("colInfo: ", colInfo);
       if (nextPosSet.length <= +colInfo[1] && isRightSideFinished === false) {
+        console.log("option 10");
         console.log("rightSide finished");
         setIsRightSideFinished(true);
         setThinningSide("leftSide");
@@ -328,7 +330,10 @@ const Thinning = () => {
       colInfo = instructionObj.columnData.pop();
       setPreviousColInfo(colInfo);
       console.log("colInfo: ", colInfo);
+      // SET ONLY DO LEFT SIDE CONDITIONS
       if (nextNegSet.length <= +colInfo[1] && isLeftSideFinished === false) {
+        console.log("option 2");
+
         console.log("leftSide finished");
         setIsLeftSideFinished(true);
         // setIsLeftBelowThreshold(true);
@@ -377,6 +382,8 @@ const Thinning = () => {
         (isRightSideFinished === true && isLeftSideFinished === true)
       ) {
         console.log("rightSide branch all display finished sub-branch");
+        console.log("option 3");
+
         if (isThinningFinished === false) {
           console.log("both sides complete [colInfo undefined - neg branch]");
           setIsThinningFinished(true);
@@ -399,11 +406,10 @@ const Thinning = () => {
       }
 
       // todo *** EARLY RETURN - BACK TO NEG ***
-      if (
-        nextPosSet.length <= currentSelectMaxValue ||
-        nextPosSet.length === 0
-      ) {
+      if (isRightSideFinished === true) {
         console.log("rightSide branch early return back to neg sub-branch");
+        console.log("option 4");
+
         // setIsRightSideFinished(true);
         // setIsRightBelowThreshold(true);
         selectedPosItems.forEach((obj) => {
@@ -438,6 +444,7 @@ const Thinning = () => {
         colInfo === undefined ||
         (isLeftSideFinished === true && isRightSideFinished === true)
       ) {
+        console.log("option 5");
         console.log("rightSide branch all display finished sub-branch");
         console.log("both sides complete [colInfo undefined]");
         setIsThinningFinished(true);
@@ -457,6 +464,7 @@ const Thinning = () => {
 
       // todo <<<<***** NORMAL RETURN - Setup left side ******>>>>>
       // next set, selectedItems, newCols, instructions
+      console.log("option 6");
       setPosSorted([...nextPosSet]);
       // move selected items to target column
       selectedPosItems.forEach((obj) => {
@@ -492,6 +500,7 @@ const Thinning = () => {
     if (thinningSide === "leftSide") {
       // set right side flag
       setThinningSide("rightSide");
+      console.log("option 7");
 
       // todo *** ALL DISPLAY FINISHED ***
       if (
@@ -526,6 +535,8 @@ const Thinning = () => {
         console.log(
           "early return [isRightSideFinished === true] - neg sub-branch"
         );
+        console.log("option 8");
+
         setIsLeftSideFinished(true);
         // setIsLeftBelowThreshold(true);
         // remove pos statements from statements list
@@ -570,6 +581,7 @@ const Thinning = () => {
 
       // todo << ** NORMAL RETURN ** >>
       console.log("rightSide branch normal sub-branch");
+      console.log("option 9");
 
       // set state
       setNegSorted([...nextNegSet]);
