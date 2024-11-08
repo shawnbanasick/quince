@@ -15,7 +15,15 @@ const createThinningSlice = (set, get) => ({
   targetArray: [],
   isRightBelowThreshold: false,
   isLeftBelowThreshold: false,
+  currentRightIteration: 0,
+  currentLeftIteration: 0,
 
+  setCurrentLeftIteration: (value) => {
+    set(() => ({ currentLeftIteration: value }));
+  },
+  setCurrentRightIteration: (value) => {
+    set(() => ({ currentRightIteration: value }));
+  },
   setIsLeftBelowThreshold: (bool) => {
     set(() => ({ isLeftBelowThreshold: bool }));
   },
