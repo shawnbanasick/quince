@@ -469,55 +469,46 @@ const Thinning = () => {
     console.log(nextNegSet.length, nextColInfoRight?.[1]);
     // Display 1
     if (nextPosSet.length <= nextColInfoRight?.[1]) {
-      console.log("display 1 - right finished, show left");
-      localStorage.setItem("thinningSideDisplay", "left");
-      setIsRightSideFinished(true);
-      setInstructionObjLeft((instructions) => ({
-        ...instructions,
-        side: "leftSide",
-        setDisplay: "left",
-        instructionsText: CreateLeftSide(leftNum, agreeLeastText),
-        boxes: boxes(
-          [...negSorted],
-          "leftSide",
-          colInfoLeft[1],
-          colInfoLeft[0]
-        ),
-      }));
-      console.log(thinningSide);
-      localStorage.setItem("thinningSideDisplay", "left");
-      // setThinningSide("rightSide");
-      // colInfoRight = undefined;
+      // console.log("display 1 - right finished, show left");
+      // setIsRightSideFinished(true);
+      // setInstructionObjLeft((instructions) => ({
+      //   ...instructions,
+      //   side: "leftSide",
+      //   setDisplay: "left",
+      //   instructionsText: CreateLeftSide(leftNum, agreeLeastText),
+      //   boxes: boxes(
+      //     [...negSorted],
+      //     "leftSide",
+      //     colInfoLeft[1],
+      //     colInfoLeft[0]
+      //   ),
+      // }));
     }
 
     // Display 2
     if (nextNegSet.length <= nextColInfoLeft?.[1]) {
-      console.log("display 2 - left finished, show right");
-      localStorage.setItem("thinningSideDisplay", "right");
-      setIsLeftSideFinished(true);
-      setInstructionObjRight((instructions) => ({
-        ...instructions,
-        side: "rightSide",
-        setDisplay: "right",
-        instructionsText: CreateRightSide(rightNum, agreeMostText),
-        boxes: boxes(
-          [...posSorted],
-          "rightSide",
-          colInfoRight[1],
-          colInfoRight[0]
-        ),
-      }));
-      console.log(thinningSide);
-      localStorage.setItem("thinningSideDisplay", "right");
+      // console.log("display 2 - left finished, show right");
+      // setIsLeftSideFinished(true);
+      // setInstructionObjRight((instructions) => ({
+      //   ...instructions,
+      //   side: "rightSide",
+      //   setDisplay: "right",
+      //   instructionsText: CreateRightSide(rightNum, agreeMostText),
+      //   boxes: boxes(
+      //     [...posSorted],
+      //     "rightSide",
+      //     colInfoRight[1],
+      //     colInfoRight[0]
+      //   ),
+      // }));
     }
 
     // *************************
     //*** NORMAL DISPLAY **************************************************
     // *************************
     // Display 3
-    if (colInfoLeft !== undefined && nextNegSet.length > nextColInfoLeft?.[1]) {
+    if (colInfoLeft !== undefined) {
       console.log("display 3 - normal left");
-      localStorage.setItem("thinningSideDisplay", "left");
       setInstructionObjLeft((instructions) => ({
         ...instructions,
         side: "leftSide",
@@ -530,16 +521,11 @@ const Thinning = () => {
           colInfoLeft[0]
         ),
       }));
-      console.log("thinning side: ", thinningSide);
     }
 
     // Display 4
-    if (
-      colInfoRight !== undefined &&
-      nextPosSet.length > nextColInfoRight?.[1]
-    ) {
+    if (colInfoRight !== undefined) {
       console.log("display 4 - normal right");
-      localStorage.setItem("thinningSideDisplay", "right");
       setInstructionObjRight((instructions) => ({
         ...instructions,
         setDisplay: "right",
@@ -553,7 +539,6 @@ const Thinning = () => {
           colInfoRight[0]
         ),
       }));
-      console.log("thinning side: ", thinningSide);
     }
   };
 
