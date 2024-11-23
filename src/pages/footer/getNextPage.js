@@ -7,8 +7,8 @@ const getNextPage = (
 ) => {
   // if (showPostsort === true && showSurvey === true) {
 
-  console.log("currentPage: ", currentPage);
-  console.log("showThinning: ", showThinning);
+  // console.log("currentPage: ", currentPage);
+  // console.log("showThinning: ", showThinning);
 
   if (currentPage === "consent") {
     if (showConsent === true) {
