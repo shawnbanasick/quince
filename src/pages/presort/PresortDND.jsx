@@ -21,6 +21,8 @@ const getResults = (state) => state.results;
 const getSetResults = (state) => state.setResults;
 const getSetProgressScoreAdditional = (state) =>
   state.setProgressScoreAdditional;
+const getSetPosSorted = (state) => state.setPosSorted;
+const getSetNegSorted = (state) => state.setNegSorted;
 
 function PresortDND(props) {
   // STATE
@@ -35,6 +37,8 @@ function PresortDND(props) {
   const results = useStore(getResults);
   const setResults = useStore(getSetResults);
   const setProgressScoreAdditional = useStore(getSetProgressScoreAdditional);
+  const setPosSorted = useStore(getSetPosSorted);
+  const setNegSorted = useStore(getSetNegSorted);
 
   const statementsName =
     ReactHtmlParser(decodeHTML(langObj.presortStatements)) || "";
@@ -306,11 +310,47 @@ function PresortDND(props) {
     if (columns.cards.items.length === 0) {
       setPresortFinished(true);
       setTriggerPresortFinishedModal(true);
+
+      console.log(
+        "setting posSorted and negSorted triggered by presortNoReturn"
+      );
+
+      // get presort column statements from local storage
+      let presortColumnStatements = JSON.parse(
+        localStorage.getItem("columnStatements")
+      );
+      localStorage.setItem("newCols", JSON.stringify(presortColumnStatements));
+
+      // clear any previous selections
+      let posSorted2 = [];
+      let negSorted2 = [];
+      let sortingList = [];
+      if (presortColumnStatements !== null) {
+        console.log("setting posSorted and negSorted");
+        sortingList = [...presortColumnStatements.statementList];
+        sortingList.forEach((item) => {
+          item.selected = false;
+          item.selectedPos = false;
+          item.selectedNeg = false;
+          return item;
+        });
+        // filter out green and pink checked items
+        posSorted2 = sortingList.filter((item) => item.sortValue === 111);
+        setPosSorted(posSorted2);
+        localStorage.setItem("posSortedLocal", JSON.stringify([...posSorted2]));
+        negSorted2 = sortingList.filter((item) => item.sortValue === 333);
+        setNegSorted(negSorted2);
+        localStorage.setItem("negSortedLocal", JSON.stringify([...negSorted2]));
+      }
+
+      // setup THINNING PROCESS DATA
     }
   }, [
     columns.cards.items.length,
     setPresortFinished,
     setTriggerPresortFinishedModal,
+    setPosSorted,
+    setNegSorted,
   ]);
 
   // RENDER COMPONENT

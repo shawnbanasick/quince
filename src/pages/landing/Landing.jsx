@@ -118,6 +118,8 @@ const LandingPage = () => {
     localStorage.removeItem("postsortCommentCardCount");
     localStorage.removeItem("allCommentsObj");
     localStorage.removeItem("newCols");
+    localStorage.removeItem("posSortedLocal");
+    localStorage.removeItem("negSortedLocal");
 
     if (configObj.requiredAnswersObj !== undefined) {
       localStorage.setItem(

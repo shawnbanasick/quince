@@ -133,10 +133,8 @@ const Thinning = () => {
   let sortRightArrays = [...rightLeftArrays[1]];
   let sortLeftArrays = [...rightLeftArrays[0]];
 
-  // get presort column statements from local storage
-  let presortColumnStatements = JSON.parse(
-    localStorage.getItem("columnStatements")
-  );
+  console.log("posSorted", posSorted.length);
+  console.log("negSorted", negSorted.length);
 
   // *******************************
   // **** Local State Variables *******************************************
@@ -161,6 +159,7 @@ const Thinning = () => {
   let [showRight, setShowRight] = useState(true);
   let [showLeft, setShowLeft] = useState(false);
   let [showEnd, setShowEnd] = useState(false);
+  let [tiles, setTiles] = useState([]);
 
   // ** INITIALIZE INSTRUCTIONS AND BOXES **
   let rightNum;
@@ -174,30 +173,11 @@ const Thinning = () => {
   const initialized = useRef(false);
   useEffect(() => {
     if (!initialized.current) {
-      // clear any previous selections
-      let posSorted2 = [];
-      let negSorted2 = [];
-      let sortingList = [];
-      if (presortColumnStatements !== null) {
-        sortingList = [...presortColumnStatements.statementList];
-        sortingList.forEach((item) => {
-          item.selected = false;
-          item.selectedPos = false;
-          item.selectedNeg = false;
-          return item;
-        });
-        // filter out green and pink checked items
-        posSorted2 = sortingList.filter((item) => item.sortValue === 111);
-        setPosSorted(posSorted2);
-        negSorted2 = sortingList.filter((item) => item.sortValue === 333);
-        setNegSorted(negSorted2);
-        // console.log(JSON.stringify(negSorted2, null, 2));
-      }
-
       let colInfo = columnData[columnData.length - (currentRightIteration + 1)];
       setPreviousColInfo(colInfo);
       setCurrentSelectMaxValue(rightNum);
-      localStorage.setItem("newCols", JSON.stringify(presortColumnStatements));
+      let posSortedLocal = JSON.parse(localStorage.getItem("posSortedLocal"));
+      setTiles(boxes([...posSortedLocal], "rightSide", colInfo[1], colInfo[0]));
       setInstructionObjRight({
         qSortPattern: [...instructionObjRight.qSortPattern],
         side: thinningSide,
@@ -213,7 +193,7 @@ const Thinning = () => {
             </MostAgreeText>
           </Instructions>
         ),
-        boxes: boxes([...posSorted], "rightSide", colInfo[1], colInfo[0]),
+        // boxes: boxes([...posSorted], "rightSide", colInfo[1], colInfo[0]),
       });
       initialized.current = true;
     }
@@ -228,7 +208,7 @@ const Thinning = () => {
     initialInstructionPart1,
     initialInstructionPart3,
     rightNum,
-    presortColumnStatements,
+    // presortColumnStatements,
     columnData,
     currentRightIteration,
     setPreviousColInfo,
@@ -238,74 +218,75 @@ const Thinning = () => {
   console.log("pos out", posSorted.length);
 
   // todo *** HANDLE BOX CLICK ***
-  const handleClick = useCallback(
-    (e) => {
-      console.log("pos in", posSorted.length);
-      // console.log("e.target.side: ", e.target.dataset.side);
-      if (e.target.id === "") {
-        return;
-      }
+  const handleClick = (e) => {
+    console.log("pos in", posSorted.length);
+    // console.log("e.target.side: ", e.target.dataset.side);
+    if (e.target.id === "") {
+      return;
+    }
 
-      // determine max number that can be selected
-      let colMax = +e.target.dataset.max || 0;
-      let targetcol = e.target.dataset.targetcol;
-      // console.log("colMax: ", colMax);
+    // determine max number that can be selected
+    let colMax = +e.target.dataset.max || 0;
+    let targetcol = e.target.dataset.targetcol;
+    // console.log("colMax: ", colMax);
 
-      // Add selected item to targetArray
-      targetArray.push(e.target.id);
+    // Add selected item to targetArray
+    targetArray.push(e.target.id);
 
-      // drop first item if array length exceeds max
-      if (targetArray.length > colMax) {
-        targetArray.shift();
-      }
-      // console.log(JSON.stringify(targetArray));
+    // drop first item if array length exceeds max
+    if (targetArray.length > colMax) {
+      targetArray.shift();
+    }
+    // console.log(JSON.stringify(targetArray));
 
-      // Redraw page with selected items highlighted
-      if (e.target.dataset.side === "leftSide") {
-        console.log("leftSide branch selected item");
-        negSorted.forEach((item) => {
-          if (targetArray.includes(item.id)) {
-            // item.selectedLeft = true;
-            item.selectedNeg = true;
-            item.selected = true;
-            item.targetcol = targetcol;
-          } else {
-            item.selectedNeg = false;
-            item.selected = false;
-          }
-        });
-        setInstructionObjLeft((instructionObj) => ({
-          ...instructionObj,
-          setDisplay: "left",
-          boxes: boxes([...negSorted], "leftSide", colMax, targetcol),
-        }));
-        setNegSorted([...negSorted]);
-      }
+    // Redraw page with selected items highlighted
+    if (e.target.dataset.side === "leftSide") {
+      console.log("onclick leftSide branch selected item");
+      negSorted.forEach((item) => {
+        if (targetArray.includes(item.id)) {
+          // item.selectedLeft = true;
+          item.selectedNeg = true;
+          item.selected = true;
+          item.targetcol = targetcol;
+        } else {
+          item.selectedNeg = false;
+          item.selected = false;
+        }
+      });
+      setNegSorted([...negSorted]);
+      setTiles(boxes([...negSorted], "leftSide", colMax, targetcol));
+      setInstructionObjLeft((instructionObj) => ({
+        ...instructionObj,
+        setDisplay: "left",
+        // boxes: boxes([...negSorted], "leftSide", colMax, targetcol),
+      }));
+    }
 
-      // Redraw page with selected items highlighted
-      if (e.target.dataset.side === "rightSide") {
-        // console.log("rightSide branch selected item");
-        posSorted.forEach((item) => {
-          if (targetArray.includes(item.id)) {
-            // item.selectedRight = true;
-            item.selectedPos = true;
-            item.targetcol = targetcol;
-            item.selected = true;
-          } else {
-            item.selectedPos = false;
-            item.selected = false;
-          }
-        });
-        setInstructionObjRight((instructionObj) => ({
-          ...instructionObj,
-          setDisplay: "right",
-          boxes: boxes([...posSorted], "rightSide", colMax, targetcol),
-        }));
-        setPosSorted([...posSorted]);
-      }
-    },
-    [boxes, posSorted, negSorted, targetArray]
-  );
+    // Redraw page with selected items highlighted
+    if (e.target.dataset.side === "rightSide") {
+      console.log("onclick rightSide branch selected item");
+      // console.log("focus right Target side");
+      posSorted.forEach((item) => {
+        if (targetArray.includes(item.id)) {
+          // item.selectedRight = true;
+          item.selectedPos = true;
+          item.targetcol = targetcol;
+          item.selected = true;
+        } else {
+          item.selectedPos = false;
+          item.selected = false;
+        }
+      });
+      setPosSorted([...posSorted]);
+      console.log("onclick posSorted", JSON.stringify(posSorted, null, 2));
+      setInstructionObjRight((instructionObj) => ({
+        ...instructionObj,
+        setDisplay: "right",
+        // boxes: boxes([...posSorted], "rightSide", colMax, targetcol),
+      }));
+      setTiles(boxes([...posSorted], "rightSide", colMax, targetcol));
+    }
+  };
 
   // HELPER - create divs of posSorted items statements to add to dom
   boxes = (array, side, colMax, targetcol) => {
@@ -340,6 +321,8 @@ const Thinning = () => {
     let leftNum = 0;
     let rightNum = 0;
     let showFinish = false;
+    let showOnlyRight = false;
+    let showOnlyLeft = false;
 
     console.log("Thinning side before flip: ", thinningSide);
     // *** FLIP THINNING SIDE ***********************************************
@@ -367,6 +350,52 @@ const Thinning = () => {
     let nextNegSet = negSorted.filter((item) => item.selectedNeg === false);
 
     // *************************
+    //  *** MOVE POS CARDS  ******************************************************
+    // *************************
+    setPosSorted([...nextPosSet]);
+
+    // let sortsToDisplayPos = [...nextPosSet];
+    // move selected items to target column
+    selectedPosItems.forEach((obj) => {
+      let objId = obj.id;
+      let targetcol = obj.targetcol;
+      newCols.statementList.forEach((item) => {
+        // console.log("targetcol: ", targetcol);
+        if (item.id === objId) {
+          newCols.vCols[targetcol].push(item);
+          remove(newCols.statementList, (n) => n.id === objId);
+        }
+      });
+    });
+    setTargetArray([]);
+    localStorage.setItem("newCols", JSON.stringify(newCols));
+    let displayObject2 = displayDebugStateNums(newCols);
+    console.log("debug newCols", JSON.stringify(displayObject2));
+
+    // *************************
+    //  *** MOVE NEG CARDS  ******************************************************
+    // *************************
+    setNegSorted([...nextNegSet]);
+    // let sortsToDisplayNeg = [...nextNegSet];
+    // move selected items to target column
+    // console.log("selectedNegItems: ", selectedNegItems);
+    selectedNegItems.forEach((obj) => {
+      let objId = obj.id;
+      let targetcol = obj.targetcol;
+      newCols.statementList.forEach((item) => {
+        if (item.id === objId) {
+          newCols.vCols[targetcol].push(item);
+          remove(newCols.statementList, (n) => n.id === objId);
+        }
+      });
+    });
+    // clear targetArray and set state
+    setTargetArray([]);
+    localStorage.setItem("newCols", JSON.stringify(newCols));
+    let displayObject3 = displayDebugStateNums(newCols);
+    console.log("debug newCols", JSON.stringify(displayObject3));
+
+    // *************************
     // *** GET COLUMN DATA LEFT **************************************************
     //**************************
     colInfoLeft = sortLeftArrays?.[currentLeftIteration];
@@ -391,6 +420,39 @@ const Thinning = () => {
     rightNum = colInfoRight?.[1];
 
     // *************************
+    // *** branch testing **************************************************
+    // *************************
+    console.log("branch next posSet", nextPosSet);
+    console.log("branch next colInfoRight", nextColInfoRight?.[1]);
+    console.log("branch next negSet", nextNegSet);
+    console.log("branch next colInfoLeft", nextColInfoLeft?.[1]);
+    console.log("branch colInfoRight", colInfoRight);
+    console.log("branch colInfoLeft", colInfoLeft);
+    console.log("branch right", nextPosSet.length, colInfoRight?.[1]);
+    console.log("branch left", nextNegSet.length, colInfoLeft?.[1]);
+    console.log("branch show left", showLeft);
+    console.log("branch show right", showRight);
+
+    if (nextPosSet.length <= colInfoRight?.[1] && showRight === true) {
+      console.log("should branch display 1 - right finished, show left");
+    }
+    if (nextNegSet.length <= colInfoLeft?.[1] && showLeft === true) {
+      console.log("should branch display 2 - left finished, show right");
+    }
+    if (
+      (nextNegSet.length >= nextColInfoLeft?.[1] && showLeft === true) ||
+      (nextColInfoLeft === undefined && showLeft === true)
+    ) {
+      console.log("should branch display 3 - normal left");
+    }
+    if (
+      (nextPosSet.length >= nextColInfoRight?.[1] && showRight === true) ||
+      (nextColInfoRight === undefined && showRight === true)
+    ) {
+      console.log("should branch display 4 - normal right");
+    }
+
+    // *************************
     // *** INCREMENT ITERATION COUNTERS **************************************
     // *************************
     if (thinningSide === "rightSide") {
@@ -407,13 +469,14 @@ const Thinning = () => {
     if (colInfoRight === undefined && nextColInfoLeft === undefined) {
       console.log("both sides finished");
       setShowConfirmButton(false);
+      setTiles(null);
       setInstructionObjEnd((instructions) => ({
         ...instructions,
         setDisplay: "right",
         instructionsText: (
           <FinalInstructions>{finalInstructionText}</FinalInstructions>
         ),
-        boxes: null,
+        // boxes: null,
       }));
       let completedCols = finishThinningSorts(newCols, finalSortColData);
       localStorage.setItem("columnStatements", JSON.stringify(completedCols));
@@ -426,13 +489,14 @@ const Thinning = () => {
     if (colInfoLeft === undefined && nextColInfoRight === undefined) {
       console.log("both sides finished");
       setShowConfirmButton(false);
+      setTiles(null);
       setInstructionObjEnd((instructions) => ({
         ...instructions,
         setDisplay: "left",
         instructionsText: (
           <FinalInstructions>{finalInstructionText}</FinalInstructions>
         ),
-        boxes: null,
+        // boxes: null,
       }));
       let completedCols = finishThinningSorts(newCols, finalSortColData);
       localStorage.setItem("columnStatements", JSON.stringify(completedCols));
@@ -443,48 +507,50 @@ const Thinning = () => {
       showFinish = true;
     }
 
-    // *************************
-    //  *** MOVE POS CARDS  ******************************************************
-    // *************************
-    setPosSorted([...nextPosSet]);
-    let sortsToDisplayPos = [...nextPosSet];
-    // move selected items to target column
-    selectedPosItems.forEach((obj) => {
-      let objId = obj.id;
-      let targetcol = obj.targetcol;
-      newCols.statementList.forEach((item) => {
-        console.log("targetcol: ", targetcol);
-        if (item.id === objId) {
-          newCols.vCols[targetcol].push(item);
-          remove(newCols.statementList, (n) => n.id === objId);
-        }
-      });
-    });
-    setTargetArray([]);
-    localStorage.setItem("newCols", JSON.stringify(newCols));
+    // // *************************
+    // //  *** MOVE POS CARDS  ******************************************************
+    // // *************************
+    // setPosSorted([...nextPosSet]);
+    // // let sortsToDisplayPos = [...nextPosSet];
+    // // move selected items to target column
+    // selectedPosItems.forEach((obj) => {
+    //   let objId = obj.id;
+    //   let targetcol = obj.targetcol;
+    //   newCols.statementList.forEach((item) => {
+    //     console.log("targetcol: ", targetcol);
+    //     if (item.id === objId) {
+    //       newCols.vCols[targetcol].push(item);
+    //       remove(newCols.statementList, (n) => n.id === objId);
+    //     }
+    //   });
+    // });
+    // setTargetArray([]);
+    // localStorage.setItem("newCols", JSON.stringify(newCols));
+    // let displayObject2 = displayDebugStateNums(newCols);
+    // console.log("debug newCols", JSON.stringify(displayObject2));
 
-    // *************************
-    //  *** MOVE NEG CARDS  ******************************************************
-    // *************************
-    setNegSorted([...nextNegSet]);
-    let sortsToDisplayNeg = [...nextNegSet];
-    // move selected items to target column
-    console.log("selectedNegItems: ", selectedNegItems);
-    selectedNegItems.forEach((obj) => {
-      let objId = obj.id;
-      let targetcol = obj.targetcol;
-      newCols.statementList.forEach((item) => {
-        if (item.id === objId) {
-          newCols.vCols[targetcol].push(item);
-          remove(newCols.statementList, (n) => n.id === objId);
-        }
-      });
-    });
-    let displayObject = displayDebugStateNums(newCols);
-    console.log("debug newCols", JSON.stringify(displayObject));
-    // clear targetArray and set state
-    setTargetArray([]);
-    localStorage.setItem("newCols", JSON.stringify(newCols));
+    // // *************************
+    // //  *** MOVE NEG CARDS  ******************************************************
+    // // *************************
+    // setNegSorted([...nextNegSet]);
+    // // let sortsToDisplayNeg = [...nextNegSet];
+    // // move selected items to target column
+    // console.log("selectedNegItems: ", selectedNegItems);
+    // selectedNegItems.forEach((obj) => {
+    //   let objId = obj.id;
+    //   let targetcol = obj.targetcol;
+    //   newCols.statementList.forEach((item) => {
+    //     if (item.id === objId) {
+    //       newCols.vCols[targetcol].push(item);
+    //       remove(newCols.statementList, (n) => n.id === objId);
+    //     }
+    //   });
+    // });
+    // // clear targetArray and set state
+    // setTargetArray([]);
+    // localStorage.setItem("newCols", JSON.stringify(newCols));
+    // let displayObject3 = displayDebugStateNums(newCols);
+    // console.log("debug newCols", JSON.stringify(displayObject3));
 
     // *************************
     // *** INSUFFICIENT ITEMS DISPLAY *****************************************
@@ -506,104 +572,157 @@ const Thinning = () => {
     }
 
     // Display 1
-    if (nextPosSet.length <= colInfoRight?.[1]) {
+    if (nextPosSet.length <= colInfoRight?.[1] && showRight === true) {
+      showOnlyLeft = true;
       console.log("display 1 - right finished, show left");
       setIsRightSideFinished(true);
       setShowLeft(true);
       setShowRight(false);
+      let targetcol = colInfoLeft[0];
+      negSorted.forEach((item) => {
+        if (targetArray.includes(item.id)) {
+          // item.selectedLeft = true;
+          item.selectedNeg = true;
+          item.selected = true;
+          item.targetcol = targetcol;
+        } else {
+          item.selectedNeg = false;
+          item.selected = false;
+        }
+      });
+      setNegSorted([...negSorted]);
+      setTiles(
+        boxes([...negSorted], "leftSide", colInfoLeft[1], colInfoLeft[0])
+      );
       setInstructionObjLeft((instructions) => ({
         ...instructions,
         side: "leftSide",
         setDisplay: "new",
         instructionsText: CreateLeftSide(leftNum, agreeLeastText),
-        boxes: boxes(
-          [...sortsToDisplayNeg],
-          "leftSide",
-          colInfoLeft[1],
-          colInfoLeft[0]
-        ),
+        // boxes: boxes(
+        //   [...negSorted],
+        //   "leftSide",
+        //   colInfoLeft[1],
+        //   colInfoLeft[0]
+        // ),
       }));
       // setThinningSide("leftSide");
       setTargetArray([]);
+      setCurrentLeftIteration(currentLeftIteration + 1);
       return;
     }
 
     // Display 2
-    if (nextNegSet.length <= colInfoLeft?.[1]) {
-      console.log(posSorted);
+    if (nextNegSet.length <= colInfoLeft?.[1] && showLeft === true) {
+      showOnlyRight = true;
+      // console.log("debug posSorted", JSON.stringify(posSorted, null, 2));
       console.log("display 2 - left finished, show right");
       setIsLeftSideFinished(true);
       setShowRight(true);
       setShowLeft(false);
+      // let targetcol = colInfoRight[0];
+      // posSorted.forEach((item) => {
+      //   if (targetArray.includes(item.id)) {
+      //     // item.selectedRight = true;
+      //     item.selectedPos = true;
+      //     item.targetcol = targetcol;
+      //     item.selected = true;
+      //   } else {
+      //     item.selectedPos = false;
+      //     item.selected = false;
+      //   }
+      // });
+      // setPosSorted([...posSorted]);
       // setThinningSide("rightSide");
+      setTiles(
+        boxes([...posSorted], "rightSide", colInfoRight[1], colInfoRight[0])
+      );
       setInstructionObjRight((instructions) => ({
         ...instructions,
         side: "rightSide",
         setDisplay: "new",
         instructionsText: CreateRightSide(rightNum, agreeMostText),
-        boxes: boxes(
-          [...sortsToDisplayPos],
-          "rightSide",
-          colInfoRight[1],
-          colInfoRight[0]
-        ),
+        // boxes: boxes(
+        //   [...posSorted],
+        //   "rightSide",
+        //   colInfoRight[1],
+        //   colInfoRight[0]
+        // ),
       }));
       setTargetArray([]);
+      setCurrentRightIteration(currentRightIteration + 1);
       return;
     }
 
     // *************************
     //*** NORMAL DISPLAY **************************************************
     // *************************
+
+    if (showOnlyLeft === true || showOnlyRight === true) {
+      return;
+    }
+
     // Display 3
     if (
-      nextNegSet.length >= nextColInfoLeft?.[1] ||
-      nextColInfoLeft === undefined
+      (nextNegSet.length >= nextColInfoLeft?.[1] && showLeft === true) ||
+      (nextColInfoLeft === undefined && showLeft === true)
     ) {
-      if (colInfoLeft !== undefined && showRight === true) {
-        console.log("display 3 - normal left");
-        setInstructionObjLeft((instructions) => ({
-          ...instructions,
-          side: "leftSide",
-          setDisplay: "left",
-          instructionsText: CreateLeftSide(leftNum, agreeLeastText),
-          boxes: boxes(
-            [...sortsToDisplayNeg],
-            "leftSide",
-            colInfoLeft[1],
-            colInfoLeft[0]
-          ),
-        }));
-        setShowRight(false);
-        setShowLeft(true);
+      if (isLeftSideFinished === true) {
         return;
       }
+      // if (colInfoLeft !== undefined && showRight === true) {
+      console.log("display 3 - normal left");
+      setTiles(
+        boxes([...negSorted], "leftSide", colInfoLeft[1], colInfoLeft[0])
+      );
+      setInstructionObjLeft((instructions) => ({
+        ...instructions,
+        side: "leftSide",
+        setDisplay: "left",
+        instructionsText: CreateLeftSide(leftNum, agreeLeastText),
+        // boxes: boxes(
+        //   [...negSorted],
+        //   "leftSide",
+        //   colInfoLeft[1],
+        //   colInfoLeft[0]
+        // ),
+      }));
+      setShowRight(false);
+      setShowLeft(true);
+      return;
+      // }
     }
 
     // Display 4
     if (
-      nextPosSet.length >= nextColInfoRight?.[1] ||
-      nextColInfoRight === undefined
+      (nextPosSet.length >= nextColInfoRight?.[1] && showRight === true) ||
+      (nextColInfoRight === undefined && showRight === true)
     ) {
-      if (colInfoRight !== undefined && showLeft === true) {
-        console.log("display 4 - normal right");
-        setInstructionObjRight((instructions) => ({
-          ...instructions,
-          setDisplay: "right",
-          side: "rightSide",
-          columnData: [...instructionObjRight.columnData],
-          instructionsText: CreateRightSide(rightNum, agreeMostText),
-          boxes: boxes(
-            [...sortsToDisplayPos],
-            "rightSide",
-            colInfoRight[1],
-            colInfoRight[0]
-          ),
-        }));
-        setShowRight(true);
-        setShowLeft(false);
+      // if (colInfoRight !== undefined && showLeft === true) {
+      if (isLeftSideFinished === true) {
         return;
       }
+      console.log("display 4 - normal right");
+      setTiles(
+        boxes([...posSorted], "rightSide", colInfoRight[1], colInfoRight[0])
+      );
+      setInstructionObjRight((instructions) => ({
+        ...instructions,
+        setDisplay: "right",
+        side: "rightSide",
+        columnData: [...instructionObjRight.columnData],
+        instructionsText: CreateRightSide(rightNum, agreeMostText),
+        // boxes: boxes(
+        //   [...posSorted],
+        //   "rightSide",
+        //   colInfoRight[1],
+        //   colInfoRight[0]
+        // ),
+      }));
+      setShowRight(true);
+      setShowLeft(false);
+      return;
+      // }
     }
   };
 
@@ -645,7 +764,7 @@ const Thinning = () => {
                 <ConfirmButton onClick={handleConfirm}>Submit</ConfirmButton>
               )}
             </InstructionsDiv>
-            <BoxesDiv>{instructionObjRight.boxes}</BoxesDiv>
+            <BoxesDiv>{tiles}</BoxesDiv>
           </ContainerDiv>
         </div>
       )}
@@ -665,7 +784,7 @@ const Thinning = () => {
                 <ConfirmButton onClick={handleConfirm}>Submit</ConfirmButton>
               )}
             </InstructionsDiv>
-            <BoxesDiv>{instructionObjLeft.boxes}</BoxesDiv>
+            <BoxesDiv>{tiles}</BoxesDiv>
           </ContainerDiv>
         </div>
       )}
