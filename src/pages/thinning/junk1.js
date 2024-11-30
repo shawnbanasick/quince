@@ -348,7 +348,7 @@ const Thinning = () => {
       console.log("leftSide nextColInfo: ", nextColInfoRight);
       leftNum = colInfo[1];
       targetcol = colInfo[0];
-      console.log("leftNum colInfo targetCol: ", leftNum, targetcol);
+      console.log("leftNum colInfo targetcol: ", leftNum, targetcol);
     }
    
     if (
@@ -481,7 +481,7 @@ const Thinning = () => {
       console.log("RightSide nextColInfo: ", nextColInfoLeft);
       rightNum = colInfo[1];
       targetcol = colInfo[0];
-      console.log("rightNum colInfo targetCol: ", rightNum, targetcol);
+      console.log("rightNum colInfo targetcol: ", rightNum, targetcol);
     }
 
     console.log("nextIterationMaxNumColVals: ", thinningSide, maxNumColVals);
@@ -768,7 +768,7 @@ if (leftSideFinished === true) {
     console.log("RightSide colInfo: ", colInfo);
     rightNum = colInfo[1];
     targetcol = colInfo[0];
-    console.log("rightNum colInfo targetCol: ", rightNum, targetcol);
+    console.log("rightNum colInfo targetcol: ", rightNum, targetcol);
   }
   
   if (rightSideFinished === true) {
@@ -779,7 +779,7 @@ if (leftSideFinished === true) {
     console.log("leftSide colInfo: ", colInfo);
     leftNum = colInfo[1];
     targetcol = colInfo[0];
-    console.log("leftNum colInfo targetCol: ", leftNum, targetcol);
+    console.log("leftNum colInfo targetcol: ", leftNum, targetcol);
   }
   
   //  *** PAINT FINAL  ******************************************************
@@ -809,7 +809,7 @@ if (leftSideFinished === true) {
     console.log("RightSide colInfo: ", colInfo);
     rightNum = colInfo[1];
     targetcol = colInfo[0];
-    console.log("rightNum colInfo targetCol: ", rightNum, targetcol);
+    console.log("rightNum colInfo targetcol: ", rightNum, targetcol);
   }
   
   if (rightSideFinished === true) {
@@ -820,7 +820,7 @@ if (leftSideFinished === true) {
     console.log("leftSide colInfo: ", colInfo);
     leftNum = colInfo[1];
     targetcol = colInfo[0];
-    console.log("leftNum colInfo targetCol: ", leftNum, targetcol);
+    console.log("leftNum colInfo targetcol: ", leftNum, targetcol);
   }
   
 
