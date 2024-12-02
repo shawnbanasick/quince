@@ -158,8 +158,7 @@ const Thinning = () => {
       setNegSorted([...negSortedLocal]);
 
       if (posSortedLocal.length === 0 && negSortedLocal.length === 0) {
-        // setIsLeftSideFinished(true);
-        // setIsRightSideFinished(true);
+        // go directly to finish screen
         setShowConfirmButton(false);
         setInstructionObjEnd((instructions) => ({
           ...instructions,
@@ -176,6 +175,7 @@ const Thinning = () => {
         setShowEnd(true);
         showFinish = true;
       } else if (posSortedLocal.length > 0) {
+        // initialize with right side
         setBoxProps({
           side: "rightSide",
           array: posSortedLocal,
@@ -266,15 +266,6 @@ const Thinning = () => {
         }
       });
       setNegSorted([...negSorted]);
-      setInstructionText({
-        part1: "",
-        part2: "",
-        part3: "",
-        agreeLeastText: agreeLeastText,
-        agree: false,
-        maxNum: colMax,
-      });
-
       setBoxProps({
         side: "leftSide",
         array: negSorted,
@@ -297,15 +288,6 @@ const Thinning = () => {
         }
       });
       setPosSorted([...posSorted]);
-      setInstructionText({
-        part1: agreeMostText,
-        part2: "",
-        part3: "",
-        agreeLeastText: "",
-        agree: true,
-        maxNum: colMax,
-      });
-
       setBoxProps({
         side: "rightSide",
         array: posSorted,
@@ -327,6 +309,9 @@ const Thinning = () => {
     let isLeftDone = false;
     let isRightUnderMax = false;
     let isLeftUnderMax = false;
+
+    console.log("posSorted", posSorted.length);
+    console.log("negSorted", negSorted.length);
 
     // *** filter out selected POSITIVEitems
     let selectedPosItems = posSorted.filter(
@@ -377,6 +362,11 @@ const Thinning = () => {
       isLeftDone = true;
     }
 
+    if (negSorted.length === 0) {
+      setIsLeftSideFinished(true);
+      isLeftDone = true;
+    }
+
     if (isLeftSideFinished === true) {
       isLeftDone = true;
     }
@@ -394,7 +384,7 @@ const Thinning = () => {
       colInfoRight = nextColInfoRight;
     }
 
-    if (colInfoRight === undefined) {
+    if (colInfoRight === undefined || posSorted.length === 0) {
       setIsRightSideFinished(true);
       isRightDone = true;
     }
@@ -406,13 +396,27 @@ const Thinning = () => {
       isLeftDone = true;
     }
 
+    if (negSorted.length === 0) {
+      setIsLeftSideFinished(true);
+      isLeftDone = true;
+      console.log("current negSorted is 0");
+    }
+
     if (isRightSideFinished === true) {
       isRightDone = true;
     }
 
     console.log("current left: ", colInfoLeft);
     console.log("current right: ", colInfoRight);
-    console.log("current", isRightSideFinished, isLeftSideFinished);
+    console.log(
+      "current",
+      isRightSideFinished,
+      posSorted.length,
+      isRightDone,
+      isLeftSideFinished,
+      negSorted.length,
+      isLeftDone
+    );
 
     // console.log(("posSorted debug", JSON.stringify(posSorted, null, 2)));
 
@@ -511,7 +515,7 @@ const Thinning = () => {
     console.log("finished", isRightSideFinished, isLeftSideFinished);
 
     // Display 1
-    if (isRightSideFinished === true) {
+    if (isRightSideFinished === true || isRightDone === true) {
       showOnlyLeft = true;
       console.log("display 1 - right finished, show left");
       setIsRightSideFinished(true);
@@ -535,7 +539,7 @@ const Thinning = () => {
     }
 
     // Display 2
-    if (isLeftSideFinished === true) {
+    if (isLeftSideFinished === true || isLeftDone === true) {
       console.log("display", colInfoRight, nextPosSet.length);
       showOnlyRight = true;
       // console.log("debug posSorted", JSON.stringify(posSorted, null, 2));
@@ -784,6 +788,7 @@ const InstructionsDiv = styled.div`
   font-weight: normal;
   text-align: center;
   color: black;
+  min-height: 200px;
   /* border: 2px solid red; */
 `;
 

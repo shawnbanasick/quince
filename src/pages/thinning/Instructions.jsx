@@ -35,6 +35,7 @@ const InstructionsText = styled.div`
   font-weight: normal;
   text-align: center;
   color: black;
+  min-height: 200px;
 `;
 
 const MostAgreeText = styled.span`
