@@ -11,12 +11,13 @@ import ConfirmationModal from "./ConfirmationModal";
 import ThinningPreventNavModal from "./ThinningPreventNavModal";
 import createColumnData from "./createColumnData";
 import setMaxIterations from "./setMaxIterations";
-import displayDebugStateNums from "./displayDebugStateNums";
+// import displayDebugStateNums from "./displayDebugStateNums";
 import createRightLeftArrays from "./createRightLeftArrays";
 import Boxes from "./Boxes";
 import Instructions from "./Instructions";
 import moveSelectedNegCards from "./moveSelectedNegCards";
 import moveSelectedPosCards from "./moveSelectedPosCards";
+import uniq from "lodash/uniq";
 
 /* eslint react/prop-types: 0 */
 
@@ -47,6 +48,8 @@ const getCurrentRightIteration = (state) => state.currentRightIteration;
 const getCurrentLeftIteration = (state) => state.currentLeftIteration;
 const getSetCurrentRightIteration = (state) => state.setCurrentRightIteration;
 const getSetCurrentLeftIteration = (state) => state.setCurrentLeftIteration;
+const getIsTargetArrayFilled = (state) => state.isTargetArrayFilled;
+const getSetIsTargetArrayFilled = (state) => state.setIsTargetArrayFilled;
 
 const Thinning = () => {
   // GLOBAL STATE
@@ -77,6 +80,8 @@ const Thinning = () => {
   const negSorted = useStore(getNegSorted);
   const setPosSorted = useStore(getSetPosSorted);
   const setNegSorted = useStore(getSetNegSorted);
+  const isTargetArrayFilled = useStore(getIsTargetArrayFilled);
+  const setIsTargetArrayFilled = useStore(getSetIsTargetArrayFilled);
 
   // Get language object values
   let initialInstructionPart1 =
@@ -252,6 +257,15 @@ const Thinning = () => {
       targetArray.shift();
     }
 
+    targetArray = uniq(targetArray);
+
+    // alert if targetArray not filled
+    if (targetArray.length === colMax) {
+      setIsTargetArrayFilled(true);
+    } else {
+      setIsTargetArrayFilled(false);
+    }
+
     // Redraw page with selected items highlighted
     if (e.target.dataset.side === "leftSide") {
       console.log("onclick leftSide branch selected item");
@@ -309,6 +323,11 @@ const Thinning = () => {
     let isLeftDone = false;
     let isRightUnderMax = false;
     let isLeftUnderMax = false;
+
+    if (isTargetArrayFilled === false) {
+      alert("Please select the correct number of items");
+      return;
+    }
 
     console.log("posSorted", posSorted.length);
     console.log("negSorted", negSorted.length);
