@@ -530,8 +530,8 @@ const PresortGrid = styled.div`
   margin-top: 25px;
   margin-bottom: 55px;
   display: grid;
-  height: calc(100vh-100px);
-  grid-template-rows: 34h 25px 40vh;
+  min-height: calc(100vh-100px);
+  grid-template-rows: 25vh 35px 60vh;
   grid-template-columns: 0.25fr 1.5fr 1.5fr 1.5fr 0.25fr;
   row-gap: 3px;
   column-gap: 15px;
@@ -547,7 +547,6 @@ const DroppableContainer = styled.div`
   text-align: center;
   border-radius: 2px;
   width: 27.8vw;
-  border: 1px solid #a8a8a8;
 `;
 
 const ThreeColCardWrapper = styled.div`
