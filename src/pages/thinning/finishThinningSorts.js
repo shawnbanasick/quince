@@ -96,16 +96,16 @@ const finishThinningSorts = (newCols, finalSortColData) => {
     });
   }
 
-  // let displayObject3 = displayDebugStateNums(newCols);
-  // console.log("debug newCols3", JSON.stringify(displayObject3));
-
   while (remainingGreen.length > 0 && counter3 < 50) {
+    let displayObject3 = displayDebugStateNums(newCols);
+    console.log("debug newCols3", JSON.stringify(displayObject3));
+
     // console.log("running green");
     // iterate through each column
     finalSortColData.forEach((colInfoArray) => {
       const colName = colInfoArray[0];
       const colMax = colInfoArray[1];
-      // console.log("colName", colName, colMax);
+      console.log("colName", colName, colMax);
 
       // if there is room in the column, place a green card
       if (newCols.vCols[colName].length < colMax) {

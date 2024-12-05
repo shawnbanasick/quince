@@ -8,8 +8,9 @@ const moveSelectedPosCards = (selectedPosItems) => {
     let objId = obj.id;
     let targetcol = obj.targetcol;
     newCols2.statementList.forEach((item) => {
-      // console.log("targetcol: ", targetcol);
+      console.log("targetcol: ", targetcol);
       if (item.id === objId) {
+        console.log("item: ", item);
         newCols2.vCols[targetcol].push(item);
         remove(newCols2.statementList, (n) => n.id === objId);
       }

@@ -153,7 +153,7 @@ const Thinning = () => {
     if (!initialized.current) {
       let colInfo =
         columnData?.[columnData.length - (currentRightIteration + 1)];
-      console.log("test11", colInfo[0]);
+      console.log("test11", colInfo);
       setPreviousColInfo(colInfo);
       // setCurrentSelectMaxValue(rightNum);
       let posSortedLocal = JSON.parse(localStorage.getItem("posSortedLocal"));
@@ -179,7 +179,10 @@ const Thinning = () => {
         setShowMain(false);
         setShowEnd(true);
         showFinish = true;
-      } else if (posSortedLocal.length > 0) {
+      } else if (
+        // posSortedLocal.length > 0 &&
+        posSortedLocal.length > colInfo?.[1]
+      ) {
         // initialize with right side
         setBoxProps({
           side: "rightSide",
@@ -325,7 +328,7 @@ const Thinning = () => {
     let isLeftUnderMax = false;
 
     if (isTargetArrayFilled === false) {
-      alert("Please select the correct number of items");
+      // alert("Please select the correct number of items");
       return;
     }
 
