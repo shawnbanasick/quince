@@ -1,4 +1,5 @@
 import remove from "lodash/remove";
+import displayDebugStateNums from "./displayDebugStateNums";
 
 const moveSelectedPosCards = (selectedPosItems) => {
   console.log("move", selectedPosItems);
@@ -17,6 +18,10 @@ const moveSelectedPosCards = (selectedPosItems) => {
     });
   });
   localStorage.setItem("newCols", JSON.stringify(newCols2));
+
+  let displayObject2 = displayDebugStateNums(newCols2);
+  console.log("debug newCols", JSON.stringify(displayObject2));
+
   return;
 };
 
