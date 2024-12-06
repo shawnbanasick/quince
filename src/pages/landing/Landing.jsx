@@ -66,12 +66,12 @@ const LandingPage = () => {
   }, [setCurrentPage, setProgressScore]);
 
   let archive;
-  if (localStorage.getItem("resultsSurveyArchive" !== undefined)) {
+  if (localStorage.getItem("resultsSurveyArchive") !== undefined) {
     archive = JSON.parse(localStorage.getItem("resultsSurveyArchive"));
   }
 
   let surveyResults;
-  if (localStorage.getItem("resultsSurvey" !== undefined)) {
+  if (localStorage.getItem("resultsSurvey") !== undefined) {
     surveyResults = JSON.parse(localStorage.getItem("resultsSurvey"));
   }
 
@@ -120,6 +120,8 @@ const LandingPage = () => {
     localStorage.removeItem("newCols");
     localStorage.removeItem("posSortedLocal");
     localStorage.removeItem("negSortedLocal");
+    localStorage.removeItem("currentLeftIteration");
+    localStorage.removeItem("currentRightIteration");
 
     if (configObj.requiredAnswersObj !== undefined) {
       localStorage.setItem(
@@ -137,6 +139,10 @@ const LandingPage = () => {
   }
 
   useEffect(() => {
+    // set thinning iteration counts
+    localStorage.setItem("currentLeftIteration", 0);
+    localStorage.setItem("currentRightIteration", 0);
+
     // display "Next" button if anonymous log in
     if (configObj.initialScreen === "anonymous") {
       setDisplayNextButton(true);
