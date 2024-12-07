@@ -47,8 +47,6 @@ const PresortPage = (props) => {
   // set next button display
   setDisplayNextButton(true);
 
-  localStorage.setItem("thinningSide", "rightSide");
-
   useEffect(() => {
     let startTime = Date.now();
     const setStateAsync = async () => {

@@ -142,6 +142,8 @@ const LandingPage = () => {
     // set thinning iteration counts
     localStorage.setItem("currentLeftIteration", 0);
     localStorage.setItem("currentRightIteration", 0);
+    localStorage.setItem("isThinningReload", "false");
+    localStorage.setItem("thinningSide", "rightSide");
 
     // display "Next" button if anonymous log in
     if (configObj.initialScreen === "anonymous") {
