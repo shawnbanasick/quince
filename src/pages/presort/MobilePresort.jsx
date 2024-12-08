@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
 import cloneDeep from "lodash/cloneDeep";
-import shuffle from "lodash/shuffle";
-// import PresortModal from "./PresortModal";
-// import PresortDND from "./PresortDND";
 import calculateTimeOnPage from "../../utilities/calculateTimeOnPage";
 import styled from "styled-components";
 // import PresortPreventNavModal from "./PresortPreventNavModal";
