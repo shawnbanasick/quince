@@ -79,21 +79,6 @@ const Thinning = () => {
 
   let showFinish = false;
 
-  useEffect(() => {
-    const handleBeforeUnload = (event) => {
-      if (isRightSideFinished === false || isLeftSideFinished === false) {
-        event.preventDefault();
-        event.returnValue = ""; // For legacy browsers
-      }
-    };
-
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [isLeftSideFinished, isRightSideFinished]);
-
   // *******************************
   // **** Local State Variables *******************************************
   // *******************************

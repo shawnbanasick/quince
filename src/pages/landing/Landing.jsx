@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import styled, { keyframes } from "styled-components";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
@@ -13,7 +13,10 @@ import parseParams from "./parseParams";
 import LocalStart from "./LocalStart";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
-// import detectMobileBrowser from "../../utilities/detectMobileBrowser";
+import setMaxIterations from "../thinning/setMaxIterations";
+import createRightLeftArrays from "../thinning/createRightLeftArrays";
+import createColumnData from "../thinning/createColumnData";
+import detectMobileBrowser from "../../utilities/detectMobileBrowser";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
@@ -51,8 +54,6 @@ const LandingPage = () => {
   const setCardFontSizePostsort = useStore(getSetCardFontSizePostsort);
   const setMinCardHeightSort = useStore(getSetMinCardHeightSort);
   const setMinCardHeightPostsort = useStore(getSetMinCardHeightPostsort);
-  // const mobileWelcomeTextHtml =
-  //   ReactHtmlParser(decodeHTML(langObj?.mobileWelcomeText)) || "";
   // calc time on page
   useEffect(() => {
     const startTime = Date.now();
@@ -122,6 +123,12 @@ const LandingPage = () => {
     localStorage.removeItem("negSortedLocal");
     localStorage.removeItem("currentLeftIteration");
     localStorage.removeItem("currentRightIteration");
+    localStorage.removeItem("isNotReload");
+    localStorage.removeItem("sortRightArrays");
+    localStorage.removeItem("sortLeftArrays");
+    localStorage.removeItem("finalSortColData");
+    localStorage.removeItem("posSorted");
+    localStorage.removeItem("negSorted");
 
     if (configObj.requiredAnswersObj !== undefined) {
       localStorage.setItem(
@@ -138,12 +145,37 @@ const LandingPage = () => {
     }
   }
 
+  const headers = useMemo(
+    () => [...mapObj.qSortHeaders],
+    [mapObj.qSortHeaders]
+  );
+  const qSortPattern = useMemo(
+    () => [...mapObj.qSortPattern],
+    [mapObj.qSortPattern]
+  );
+
   useEffect(() => {
     // set thinning iteration counts
     localStorage.setItem("currentLeftIteration", 0);
     localStorage.setItem("currentRightIteration", 0);
-    localStorage.setItem("isThinningReload", "false");
+    localStorage.setItem("isNotReload", "true");
     localStorage.setItem("thinningSide", "rightSide");
+
+    const maxIterations = setMaxIterations(qSortPattern);
+
+    // **** USE REFS ***** //
+
+    let finalSortColData = createColumnData(headers, qSortPattern);
+    localStorage.setItem("finalSortColData", JSON.stringify(finalSortColData));
+
+    let rightLeftArrays = createRightLeftArrays(
+      [...finalSortColData],
+      maxIterations
+    );
+    let sortRightArrays = [...rightLeftArrays[1]];
+    let sortLeftArrays = [...rightLeftArrays[0]];
+    localStorage.setItem("sortRightArrays", JSON.stringify(sortRightArrays));
+    localStorage.setItem("sortLeftArrays", JSON.stringify(sortLeftArrays));
 
     // display "Next" button if anonymous log in
     if (configObj.initialScreen === "anonymous") {
@@ -241,6 +273,8 @@ const LandingPage = () => {
     setMinCardHeightSort,
     setMinCardHeightPostsort,
     configObj,
+    headers,
+    qSortPattern,
   ]);
 
   // setup postsort comments object
@@ -323,31 +357,31 @@ const LandingPage = () => {
       displayPartIdScreen = false;
     }
 
-    // if (
-    //   configObj.useMobileMode === true ||
-    //   configObj.useMobileMode === "true"
-    // ) {
-    //   let isMobile = detectMobileBrowser();
+    if (
+      configObj.useMobileMode === true ||
+      configObj.useMobileMode === "true"
+    ) {
+      let isMobile = detectMobileBrowser();
 
-    //   if (isMobile) {
-    //     return (
-    //       <React.Fragment>
-    //         {dataLoaded && (
-    //           <React.Fragment>
-    //             <MobileSortTitleBar background={headerBarColor}>
-    //               {landingHead}
-    //             </MobileSortTitleBar>
-    //             <MobileContainerDiv>
-    //               <MobileContentDiv>
-    //                 <div>{mobileWelcomeTextHtml}</div>
-    //               </MobileContentDiv>
-    //             </MobileContainerDiv>
-    //           </React.Fragment>
-    //         )}
-    //       </React.Fragment>
-    //     );
-    //   }
-    // }
+      if (isMobile) {
+        return (
+          <React.Fragment>
+            {dataLoaded && (
+              <React.Fragment>
+                <MobileSortTitleBar background={headerBarColor}>
+                  {landingHead}
+                </MobileSortTitleBar>
+                <MobileContainerDiv>
+                  <MobileContentDiv>
+                    <div>{mobileWelcomeTextHtml}</div>
+                  </MobileContentDiv>
+                </MobileContainerDiv>
+              </React.Fragment>
+            )}
+          </React.Fragment>
+        );
+      }
+    }
 
     return (
       <React.Fragment>

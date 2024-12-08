@@ -337,10 +337,10 @@ function PresortDND(props) {
         // filter out green and pink checked items
         posSorted2 = sortingList.filter((item) => item.sortValue === 111);
         setPosSorted(posSorted2);
-        localStorage.setItem("posSortedLocal", JSON.stringify([...posSorted2]));
+        localStorage.setItem("posSorted", JSON.stringify([...posSorted2]));
         negSorted2 = sortingList.filter((item) => item.sortValue === 333);
         setNegSorted(negSorted2);
-        localStorage.setItem("negSortedLocal", JSON.stringify([...negSorted2]));
+        localStorage.setItem("negSorted", JSON.stringify([...negSorted2]));
       }
 
       // setup THINNING PROCESS DATA
