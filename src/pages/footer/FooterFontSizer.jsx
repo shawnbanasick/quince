@@ -44,6 +44,7 @@ const FooterFontSizer = () => {
   }
 
   const increaseFontSize = () => {
+    console.log("increaseFontSize");
     if (currentPage === "presort") {
       const currentSize = cardFontSizePresort;
       const newSize = currentSize + 1;
@@ -64,6 +65,7 @@ const FooterFontSizer = () => {
     }
   };
   const decreaseFontSize = () => {
+    console.log("decreaseFontSize");
     if (currentPage === "presort") {
       const currentSize = cardFontSizePresort;
       const newSize = currentSize - 1;

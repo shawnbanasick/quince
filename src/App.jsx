@@ -21,9 +21,10 @@ import cloneDeep from "lodash/cloneDeep";
 import shuffle from "lodash/shuffle";
 import convert from "xml-js";
 import ConsentPage from "./pages/consent/Consent";
-// import detectMobileBrowser from "./utilities/detectMobileBrowser";
+import detectMobileBrowser from "./utilities/detectMobileBrowser";
 import MobileFooter from "./pages/footer/MobileFooter";
-// import MobilePresortPage from "./pages/presort/MobilePresort";
+import MobilePresortPage from "./pages/presort/MobilePresort";
+import MobileThinningPage from "./pages/thinning/MobileThinning";
 
 const getConfigObj = (state) => state.configObj;
 const getSetConfigObj = (state) => state.setConfigObj;
@@ -233,20 +234,20 @@ function App() {
   }
 
   if (configObj.useMobileMode === true || configObj.useMobileMode === "true") {
-    let isMobile = false; // let isMobile = detectMobileBrowser();
+    let isMobile = detectMobileBrowser();
     if (isMobile) {
       console.log("Mobile Mode");
       return (
         <div className="App">
           <Router>
             <Switch>
-              {/*<Route exact path="/presort" component={MobilePresortPage} />
-
-               <Route exact path="/presort" component={PresortPage} />
+              <Route exact path="/presort" component={MobilePresortPage} />
+              <Route exact path="/thin" component={MobileThinningPage} />
+              {/* <Route exact path="/presort" component={PresortPage} /> */}
               <Route exact path="/sort" component={SortPage} />
-          <Route exact path="/postsort" component={PostsortPage} />
-          <Route exact path="/survey" component={SurveyPage} />
-          <Route exact path="/submit" component={SubmitPage} /> */}
+              <Route exact path="/postsort" component={PostsortPage} />
+              <Route exact path="/survey" component={SurveyPage} />
+              <Route exact path="/submit" component={SubmitPage} />
               <Route exact path="/" component={LandingPage} />
               <Route component={NoPageFound} />
             </Switch>

@@ -28,6 +28,8 @@
    <item id="showConsentPage">false</item> 
    <item id="showConsentPageHelpModal">true</item> 
    <item id="useThinProcess">true</item> 
+   <item id="useMobileMode">true</item> 
+
 
 
 

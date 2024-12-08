@@ -58,7 +58,7 @@ const StyledFooter = () => {
   let nextButtonText = "";
   if (currentPage === "landing") {
     nextButtonWidth = 150;
-    nextButtonText = ReactHtmlParser(decodeHTML(langObj.landingNext)) || "";
+    nextButtonText = ReactHtmlParser(decodeHTML(langObj.btnNextLanding)) || "";
   } else {
     nextButtonText = ReactHtmlParser(decodeHTML(langObj.btnNext)) || "";
   }
@@ -84,6 +84,7 @@ const StyledFooter = () => {
   const showSurvey = configObj.showSurvey;
   const useImages = configObj.useImages;
   const showConsent = configObj.showConsentPage;
+  const showThinning = configObj.useThinProcess;
 
   const totalProgressScore = calcProgressScore(
     currentPage,
@@ -170,12 +171,13 @@ const StyledFooter = () => {
     currentPage,
     showPostsort,
     showSurvey,
-    showConsent
+    showConsent,
+    showThinning
   );
 
   let showFooter = true;
   if (currentPage === "presort") {
-    showFooter = false;
+    showFooter = true;
   }
 
   if (showFooter === false) {

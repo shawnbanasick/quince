@@ -17,6 +17,7 @@ import setMaxIterations from "../thinning/setMaxIterations";
 import createRightLeftArrays from "../thinning/createRightLeftArrays";
 import createColumnData from "../thinning/createColumnData";
 import detectMobileBrowser from "../../utilities/detectMobileBrowser";
+import shuffle from "lodash/shuffle";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
@@ -33,6 +34,7 @@ const getSetCardFontSizeSort = (state) => state.setCardFontSizeSort;
 const getSetCardFontSizePostsort = (state) => state.setCardFontSizePostsort;
 const getSetMinCardHeightSort = (state) => state.setMinCardHeightSort;
 const getSetMinCardHeightPostsort = (state) => state.setMinCardHeightPostsort;
+const getStatementsObj = (state) => state.statementsObj;
 
 const LandingPage = () => {
   // STATE
@@ -54,7 +56,12 @@ const LandingPage = () => {
   const setCardFontSizePostsort = useStore(getSetCardFontSizePostsort);
   const setMinCardHeightSort = useStore(getSetMinCardHeightSort);
   const setMinCardHeightPostsort = useStore(getSetMinCardHeightPostsort);
-  // calc time on page
+  // mobile
+  const statementsObj = useSettingsStore(getStatementsObj);
+  const mobileWelcomeTextHtml =
+    ReactHtmlParser(decodeHTML(langObj?.mobileWelcomeText)) || "";
+
+  //   calc time on page
   useEffect(() => {
     const startTime = Date.now();
     setProgressScore(10);
@@ -129,6 +136,7 @@ const LandingPage = () => {
     localStorage.removeItem("finalSortColData");
     localStorage.removeItem("posSorted");
     localStorage.removeItem("negSorted");
+    localStorage.removeItem("mobilePresortResults");
 
     if (configObj.requiredAnswersObj !== undefined) {
       localStorage.setItem(
@@ -160,6 +168,7 @@ const LandingPage = () => {
     localStorage.setItem("currentRightIteration", 0);
     localStorage.setItem("isNotReload", "true");
     localStorage.setItem("thinningSide", "rightSide");
+    localStorage.setItem("mobilePresortResults", "");
 
     const maxIterations = setMaxIterations(qSortPattern);
 
@@ -363,7 +372,15 @@ const LandingPage = () => {
     ) {
       let isMobile = detectMobileBrowser();
 
+      // let array2 = shuffle(statementsObj?.columnStatements?.statementList);
+
+      localStorage.setItem(
+        "presortArray",
+        JSON.stringify(shuffle(statementsObj?.columnStatements?.statementList))
+      );
+
       if (isMobile) {
+        console.log("Mobile detected");
         return (
           <React.Fragment>
             {dataLoaded && (
@@ -484,13 +501,21 @@ const ContentDiv = styled.div`
 
 const MobileContentDiv = styled.div`
   display: flex;
-  width: 75vw;
-  font-size: 3.1vh;
+  flex-wrap: wrap;
+  width: 90vw;
+  height: 100%;
+  font-size: 4.1vw;
   visibility: ${(props) => (props.view ? "hidden" : "visible")};
   animation: ${(props) => (props.view ? fadeOut : fadeIn)} 0.5s linear;
   transition: visibility 0.5s linear;
   justify-content: center;
   align-items: center;
+  /* outline: 2px solid red; */
+
+  iframe {
+    width: 84vw;
+    height: 47.2vw;
+  }
 `;
 
 const SortTitleBar = styled.div`

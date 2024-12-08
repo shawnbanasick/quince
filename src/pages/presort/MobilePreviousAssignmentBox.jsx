@@ -4,9 +4,13 @@ import { v4 as uuid } from "uuid";
 
 const getMobilePresortResults = (state) => state.mobilePresortResults;
 
-const MobilePreviousAssignmentBox = (props) => {
-  let mobilePresortResults = useStore(getMobilePresortResults);
-  let assessedStatements = mobilePresortResults.map((item, index) => {
+const MobilePreviousAssignmentBox = () => {
+  // let mobilePresortResults =
+  //   JSON.stringify(localStorage.getItem("getMobilePresortResults"));
+
+  const mobilePresortResults = useStore(getMobilePresortResults);
+
+  let assessedStatements = mobilePresortResults.map((item) => {
     return (
       <InternalDiv key={uuid()} color={item.color}>
         {item.statement}
@@ -50,9 +54,9 @@ const InternalDiv = styled.div`
   align-items: center;
   justify-content: center;
   background-color: ${(props) => props.color};
-  width: 40vw;
-  height: 10vh;
-  font-size: 1.4vh;
+  width: 80vw;
+  height: 12vh;
+  font-size: 2vh;
   border-radius: 3px;
   text-align: center;
   outline: 1px solid black;

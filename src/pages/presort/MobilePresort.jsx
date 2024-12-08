@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import cloneDeep from "lodash/cloneDeep";
+import shuffle from "lodash/shuffle";
 // import PresortModal from "./PresortModal";
 // import PresortDND from "./PresortDND";
 import calculateTimeOnPage from "../../utilities/calculateTimeOnPage";
@@ -34,8 +35,11 @@ const getSetMobilePresortResults = (state) => state.setMobilePresortResults;
 const getMobilePresortResults = (state) => state.mobilePresortResults;
 const getSetTriggerMobilePresortFinishedModal = (state) =>
   state.setTriggerMobilePresortFinishedModal;
+const getSetPresortFinished = (state) => state.setPresortFinished;
 
-const PresortPage = (props) => {
+const PresortPage = () => {
+  // console.log("Mobile PresortPage");
+
   // GLOBAL STATE
   const langObj = useSettingsStore(getLangObj);
   const configObj = useSettingsStore(getConfigObj);
@@ -50,9 +54,11 @@ const PresortPage = (props) => {
   const cardFontSizePersist = +localStorage.getItem("fontSizePresort");
   const setMobilePresortResults = useStore(getSetMobilePresortResults);
   const mobilePresortResults = useStore(getMobilePresortResults);
-  const setTriggerPresortFinishedModal = useStore(
-    getSetTriggerMobilePresortFinishedModal
-  );
+  const setPresortFinished = useStore(getSetPresortFinished);
+
+  // const setTriggerPresortFinishedModal = useStore(
+  //   getSetTriggerMobilePresortFinishedModal
+  // );
 
   let screenOrientation = useScreenOrientation();
 
@@ -60,20 +66,25 @@ const PresortPage = (props) => {
     // cardFontSize = cardFontSizePersist;
   }
 
-  const [stateNum, setStateNum] = useState(0);
-  let statementText =
-    statementsObj.columnStatements.statementList[stateNum].statement;
+  let initialText;
+  let presortArray = JSON.parse(localStorage.getItem("presortArray"));
+  if (
+    presortArray === null ||
+    presortArray === undefined ||
+    presortArray.length === 0
+  ) {
+    initialText = "Assignment Complete";
+  } else {
+    initialText = presortArray[0].statement;
+  }
 
-  useEffect(() => {
-    if (stateNum === statementsObj.totalStatements - 1) {
-      setTriggerPresortFinishedModal(true);
-      console.log("Presort Finished");
-    }
-  }, [stateNum, statementsObj.totalStatements, setTriggerPresortFinishedModal]);
+  // *** LOCAL STATE
+  let [statementText, setStatementText] = useState(initialText);
 
-  //   console.log(JSON.stringify(statementsObj));
+  if (statementText === undefined) {
+    statementText = "Assignment Complete";
+  }
 
-  // set next button display
   setDisplayNextButton(true);
 
   useEffect(() => {
@@ -89,8 +100,8 @@ const PresortPage = (props) => {
     };
   }, [setCurrentPage, setProgressScore]);
 
+  // TODO *** move to landing page - reset statements when reloading for new participant ***
   let columnStatements = statementsObj.columnStatements;
-
   if (configObj.setupTarget === "local") {
     columnStatements = JSON.parse(JSON.stringify(resetColumnStatements));
   }
@@ -116,36 +127,41 @@ const PresortPage = (props) => {
   }
 
   const handleClick = (event) => {
-    // console.log(parseInt(event.target.innerText, 10));
-    let tempObj = {};
-    tempObj.statement = statementText;
-    tempObj.value = parseInt(event.target.innerText, 10);
-    tempObj.id = statementsObj.columnStatements.statementList[stateNum].id;
-    tempObj.color = mobileCardColor(tempObj.value);
-    if (localStorage.getItem("mobilePresortResults")) {
-      //   let tempArray = JSON.parse(localStorage.getItem("mobilePresortResults"));
-      mobilePresortResults.push(tempObj);
-      setMobilePresortResults(mobilePresortResults);
-      localStorage.setItem(
-        "mobilePresortResults",
-        JSON.stringify(mobilePresortResults)
-      );
-    } else {
-      mobilePresortResults.push(tempObj);
-      setMobilePresortResults(mobilePresortResults);
-      localStorage.setItem(
-        "mobilePresortResults",
-        JSON.stringify(mobilePresortResults)
-      );
+    let presortArray2 = JSON.parse(localStorage.getItem("presortArray"));
+
+    try {
+      if (presortArray2.length > 0) {
+        let currentObj = presortArray2.shift();
+        localStorage.setItem("presortArray", JSON.stringify(presortArray2));
+        let value = parseInt(event.target.innerText, 10);
+        currentObj.psValue = value;
+        currentObj.color = mobileCardColor(value);
+        mobilePresortResults.push({ ...currentObj });
+
+        mobilePresortResults.sort((a, b) => b.psValue - a.psValue);
+
+        setMobilePresortResults(mobilePresortResults);
+        localStorage.setItem(
+          "mobilePresortResults",
+          JSON.stringify(mobilePresortResults)
+        );
+
+        if (presortArray2.length === 0) {
+          console.log("presortArray2.length === 0");
+          setStatementText("Assignment Complete");
+        } else {
+          setStatementText(presortArray2?.[0]?.statement);
+        }
+      }
+    } catch (error) {
+      console.error(error);
     }
-    if (stateNum === statementsObj.totalStatements - 1) {
-      // setTriggerPresortFinishedModal(true);
-    } else {
-      setStateNum(stateNum + 1);
+    if (presortArray2.length === 0) {
+      setPresortFinished(true);
     }
   };
 
-  console.log(screenOrientation);
+  // console.log(screenOrientation);
   if (screenOrientation === "landscape-primary") {
     return (
       <OrientationDiv>

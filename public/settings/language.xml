@@ -23,6 +23,9 @@
         <item id="landingHead">University Research Project</item>
         <item id="welcomeText">{{{h2}}}EQ Web Sort Demo Project - iPad Use in the Classroom.{{{/h2}}}{{{br/}}}{{{br/}}}{{{p}}}Thank you for helping with this research project{{{/p}}}{{{br/}}}{{{br/}}}{{{br/}}} {{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/lMy4ARVEcCI?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
 
+        <item id="mobileWelcomeText">{{{h2}}}EQ Web Sort Demo Project - iPad Use in the Classroom.{{{/h2}}}{{{br/}}}{{{br/}}}{{{p}}}Thank you for helping with this research project!{{{/p}}}{{{br/}}}{{{br/}}}{{{br/}}} {{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/lMy4ARVEcCI?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
+
+
         <!-- LANDING -> ACCESS CONTROL - only displayed if access is restricted -->
         <item id="accessCodeText">Access Code</item>
         <item id="accessInputText">Please enter the access code for this survey.</item>
@@ -74,6 +77,10 @@
         <item id="presortFinishedModalText">You have completed this step. Please click the &quot;Continue&quot; button in the bottom right side of the page to go to the next step.</item>
         <item id="presortOnPageInstructions">{{{div style=&quot;font-size: 24px&quot;}}}Click and drag on the cards or press the &quot;1&quot;, &quot;2&quot;, or &quot;3&quot; keys to sort the statements.{{{/div}}}</item>
         <item id="presortImageSortInstructions">To enlarge an image, hover your mouse pointer over it and double-click. {{{br/}}}{{{br/}}} To compare images, {{{u}}}press and hold{{{/u}}} the {{{b}}}{{{i}}}Shift{{{/i}}}{{{/b}}} key on your keyboard and then double-click on TWO images with your mouse.</item>
+      
+        <!-- MOBILE PRESORT:  -->
+        <item id="mobilePresortConditionsOfInstruction">Choose the items</item>
+
 
         <!-- THINNING:  -->
         <item id="thinningPreventNavModalHead">Navigation Disabled</item>
