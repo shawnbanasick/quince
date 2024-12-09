@@ -137,6 +137,8 @@ const LandingPage = () => {
     localStorage.removeItem("posSorted");
     localStorage.removeItem("negSorted");
     localStorage.removeItem("mobilePresortResults");
+    localStorage.removeItem("selectedPosItems");
+    localStorage.removeItem("selectedNegItems");
 
     if (configObj.requiredAnswersObj !== undefined) {
       localStorage.setItem(

@@ -143,6 +143,28 @@ const PresortPage = () => {
           JSON.stringify(mobilePresortResults)
         );
 
+        console.log(
+          "mobilePresortResults",
+          JSON.stringify(mobilePresortResults[0].psValue)
+        );
+
+        let selectedPosItems = mobilePresortResults.filter((item) => {
+          return +item.psValue > 0;
+        });
+        console.log(selectedPosItems);
+        let selectedNegItems = mobilePresortResults.filter((item) => {
+          return +item.psValue < 0;
+        });
+
+        localStorage.setItem(
+          "selectedPosItems",
+          JSON.stringify(selectedPosItems)
+        );
+        localStorage.setItem(
+          "selectedNegItems",
+          JSON.stringify(selectedNegItems)
+        );
+
         if (presortArray2.length === 0) {
           console.log("presortArray2.length === 0");
           setStatementText("Assignment Complete");

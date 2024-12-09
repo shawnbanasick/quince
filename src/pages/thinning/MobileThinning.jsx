@@ -12,13 +12,26 @@ import moveSelectedPosCards from "./moveSelectedPosCards";
 import uniq from "lodash/uniq";
 import { v4 as uuid } from "uuid";
 import useStore from "../../globalState/useStore";
+import mobileCardColor from "../presort/mobileCardColor";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
+const getTargetArray = (state) => state.targetArray;
+const getSetTargetArray = (state) => state.setTargetArray;
+const getIsTargetArrayFilled = (state) => state.isTargetArrayFilled;
+const getSetIsTargetArrayFilled = (state) => state.setIsTargetArrayFilled;
+const getShowConfirmButton = (state) => state.showConfirmButton;
+const getSetShowConfirmButton = (state) => state.setShowConfirmButton;
 
 const MobileThinning = () => {
   const langObj = useSettingsStore(getLangObj);
   const configObj = useSettingsStore(getConfigObj);
+  const setTargetArray = useStore(getSetTargetArray);
+  let targetArray = useStore(getTargetArray);
+  const isTargetArrayFilled = useStore(getIsTargetArrayFilled);
+  const setIsTargetArrayFilled = useStore(getSetIsTargetArrayFilled);
+  const showConfirmButton = useStore(getShowConfirmButton);
+  const setShowConfirmButton = useStore(getSetShowConfirmButton);
 
   // Get language object values
   let initialInstructionPart1 =
@@ -36,6 +49,8 @@ const MobileThinning = () => {
   );
 
   let sortRightArrays = JSON.parse(localStorage.getItem("sortRightArrays"));
+  console.log(sortRightArrays);
+
   let colInfo = sortRightArrays?.[0];
 
   let [instructionText, setInstructionText] = useState({
@@ -46,6 +61,57 @@ const MobileThinning = () => {
     agree: true,
     maxNum: 0,
   });
+
+  let [cards, setCards] = useState(mobilePresortResults);
+  console.log("cards", cards[0]);
+
+  const handleOnClick = (e) => {
+    let colMax = +e.target.getAttribute("data-max");
+    let targetcol = e.target.getAttribute("data-targetcol");
+    console.log(e.target.getAttribute("data-selected"));
+
+    if (e.target.getAttribute("data-selected") === "true") {
+      console.log("selected");
+      let index = targetArray.indexOf(e.target.id);
+      if (index > -1) {
+        targetArray.splice(index, 1);
+      }
+      if (targetArray.length === colMax) {
+        setIsTargetArrayFilled(true);
+      } else {
+        setIsTargetArrayFilled(false);
+      }
+    } else {
+      targetArray.push(e.target.id);
+      if (targetArray.length > colMax) {
+        targetArray.shift();
+      }
+      targetArray = uniq(targetArray);
+      if (targetArray.length === colMax) {
+        setIsTargetArrayFilled(true);
+      } else {
+        setIsTargetArrayFilled(false);
+      }
+      console.log("targetArray", targetArray);
+
+      console.log(e.target.id);
+    }
+    cards.forEach((item) => {
+      if (targetArray.includes(item.id)) {
+        item.targetcol = targetcol;
+        item.selected = true;
+        item.color = "orange";
+      } else {
+        item.selected = false;
+        item.color = mobileCardColor(+item.psValue);
+      }
+    });
+    setCards([...cards]);
+  };
+
+  const handleConfirm = () => {
+    console.log("handleConfirm");
+  };
 
   useEffect(() => {
     setInstructionText({
@@ -58,11 +124,20 @@ const MobileThinning = () => {
     });
 
     return () => {};
-  }, [colInfo, initialInstructionPart1, initialInstructionPart3]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  let assessedStatements = mobilePresortResults.map((item) => {
+  let assessedStatements = cards.map((item) => {
     return (
-      <InternalDiv key={uuid()} color={item.color}>
+      <InternalDiv
+        onClick={handleOnClick}
+        id={item.id}
+        key={uuid()}
+        color={item.color}
+        data-targetcol={colInfo?.[0]}
+        data-max={colInfo?.[1]}
+        data-selected={item.selected}
+      >
         {item.statement}
       </InternalDiv>
     );
@@ -83,6 +158,11 @@ const MobileThinning = () => {
           maxNum={instructionText.maxNum}
         />
       </InstructionsDiv>
+      {showConfirmButton && (
+        <ConfirmButton onClick={handleConfirm} color={isTargetArrayFilled}>
+          Submit
+        </ConfirmButton>
+      )}
       <StatementsContainer>{assessedStatements}</StatementsContainer>
     </MainContainer>
   );
@@ -94,13 +174,13 @@ const StatementsContainer = styled.div`
   display: flex;
   align-self: top;
   justify-self: center;
-  margin-top: 100px;
+  margin-top: 10px;
   flex-direction: row;
   flex-wrap: wrap;
 
   background-color: #e5e5e5;
-  width: 90vw;
-  height: 62vh;
+  width: 96vw;
+  height: 52vh;
   /* font-size: 1.1vh; */
   align-items: center;
   gap: 15px;
@@ -113,7 +193,7 @@ const StatementsContainer = styled.div`
   padding-bottom: 10px;
   padding-top: 10px;
   border-radius: 5px;
-  border: 1px solid black;
+  border: 2px solid black;
 `;
 
 const InternalDiv = styled.div`
@@ -128,6 +208,11 @@ const InternalDiv = styled.div`
   text-align: center;
   outline: 1px solid black;
   padding: 5px;
+  -webkit-transition: background-color 1000ms linear;
+  -moz-transition: background-color 1000ms linear;
+  -o-transition: background-color 1000ms linear;
+  -ms-transition: background-color 1000ms linear;
+  transition: all 1000ms linear;
 `;
 
 const SortTitleBar = styled.div`
@@ -135,39 +220,54 @@ const SortTitleBar = styled.div`
   padding-left: 1.5vw;
   padding-right: 1.5vw;
   padding-top: 5px;
-  min-height: 50px;
+  min-height: 30px;
   background-color: ${(props) => props.background};
   display: flex;
   justify-content: center;
   align-items: center;
   color: white;
   font-weight: bold;
-  font-size: 28px;
-  position: fixed;
-  top: 0;
+  font-size: 4.5vw;
 `;
 
 const InstructionsDiv = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
   justify-content: center;
   align-items: center;
   padding: 2vw;
-  margin-top: 100px;
-  margin-bottom: 10px;
   font-size: 3.2vw;
   font-weight: normal;
   text-align: center;
   color: black;
-  min-height: 200px;
   /* border: 2px solid red; */
 `;
 
 const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
-  width: 98vw;
+  align-content: flex-start;
+  gap: 5px;
+  align-items: center;
+  width: 100vw;
   height: 90vh;
   outline: 2px solid red;
+`;
+
+const ConfirmButton = styled.button`
+  background-color: ${(props) => (props.color ? "orange" : "#d3d3d3")};
+  border-color: #2e6da4;
+  color: black;
+  font-size: 1.2em;
+  font-weight: normal;
+  padding: 0.25em 0.5em;
+  /* padding-bottom: ${(props) => props.padBottom}; */
+  height: 30px;
+  min-width: 115px;
+  border-radius: 3px;
+  text-decoration: none;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
