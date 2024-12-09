@@ -48,6 +48,8 @@ const MobileThinning = () => {
     localStorage.getItem("mobilePresortResults")
   );
 
+  let selectedPosItems = JSON.parse(localStorage.getItem("selectedPosItems"));
+
   let sortRightArrays = JSON.parse(localStorage.getItem("sortRightArrays"));
   console.log(sortRightArrays);
 
@@ -62,7 +64,10 @@ const MobileThinning = () => {
     maxNum: 0,
   });
 
-  let [cards, setCards] = useState(mobilePresortResults);
+  // *******************************************************
+  // *** LOCAL STATE ***********************************
+  // *******************************************************
+  let [cards, setCards] = useState(selectedPosItems);
   console.log("cards", cards[0]);
 
   const handleOnClick = (e) => {
@@ -109,9 +114,16 @@ const MobileThinning = () => {
     setCards([...cards]);
   };
 
+  // *******************************************************
+  // *** HANDLE CONFIRM BUTTON CLICK ***********************
+  // *******************************************************
   const handleConfirm = () => {
     console.log("handleConfirm");
   };
+
+  // *******************************************************
+  // *** USE EFFECT ****************************************
+  // *******************************************************
 
   useEffect(() => {
     setInstructionText({
