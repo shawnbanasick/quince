@@ -25,6 +25,7 @@ import detectMobileBrowser from "./utilities/detectMobileBrowser";
 import MobileFooter from "./pages/footer/MobileFooter";
 import MobilePresortPage from "./pages/presort/MobilePresort";
 import MobileThinningPage from "./pages/thinning/MobileThinning";
+import MobileSortPage from "./pages/sort/MobileSort";
 
 const getConfigObj = (state) => state.configObj;
 const getSetConfigObj = (state) => state.setConfigObj;
@@ -244,7 +245,7 @@ function App() {
               <Route exact path="/presort" component={MobilePresortPage} />
               <Route exact path="/thin" component={MobileThinningPage} />
               {/* <Route exact path="/presort" component={PresortPage} /> */}
-              <Route exact path="/sort" component={SortPage} />
+              <Route exact path="/sort" component={MobileSortPage} />
               <Route exact path="/postsort" component={PostsortPage} />
               <Route exact path="/survey" component={SurveyPage} />
               <Route exact path="/submit" component={SubmitPage} />

@@ -48,9 +48,13 @@ const MobileThinning = () => {
     localStorage.getItem("mobilePresortResults")
   );
 
-  let selectedPosItems = JSON.parse(localStorage.getItem("selectedPosItems"));
+  let selectedPosItems = [
+    ...JSON.parse(localStorage.getItem("selectedPosItems")),
+  ];
 
-  let sortRightArrays = JSON.parse(localStorage.getItem("sortRightArrays"));
+  let sortRightArrays = [
+    ...JSON.parse(localStorage.getItem("sortRightArrays")),
+  ];
   console.log(sortRightArrays);
 
   let colInfo = sortRightArrays?.[0];
