@@ -96,7 +96,6 @@
         <note>If yes, please {{{i}}}list them here{{{/i}}}. (limit = 100 characters)</note>
         <placeholder>input comment here</placeholder>
    </item>
-<!-- 
    <item id="survey">
         <input type="textarea" required="false"></input>
         <label>2. Describe your experience using the iPads in this class</label>
@@ -110,6 +109,7 @@
         <note>Based on your current course load</note>
    </item>
 
+<!-- 
    <item id="survey">
         <input type="select" required="false">Global Studies;;;Linguistics;;;English Literature</input>
         <label>4. What is your program focus?</label>

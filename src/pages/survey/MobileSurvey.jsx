@@ -8,9 +8,9 @@ import useSettingsStore from "../../globalState/useSettingsStore";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
 import { v4 as uuid } from "uuid";
-// import SurveyTextElement from "./MobileSurveyTextElement";
-// import SurveyTextAreaElement from "./MobileSurveyTextAreaElement";
-// import SurveyRadioElement from "./MobileSurveyRadioElement";
+import SurveyTextElement from "./MobileSurveyTextElement";
+import SurveyTextAreaElement from "./MobileSurveyTextAreaElement";
+import SurveyRadioElement from "./MobileSurveyRadioElement";
 // import SurveyDropdownElement from "./MobileSurveyDropdownElement";
 // import SurveyCheckboxElement from "./MobileSurveyCheckboxElement";
 // import SurveyRating2Element from "./MobileSurveyRating2Element";
@@ -77,7 +77,6 @@ const MobileSort = () => {
       return <NoQuestionsDiv>No questions added.</NoQuestionsDiv>;
     } else {
       const QuestionList = surveyQuestionObjects.map((object, index) => {
-        /*
         if (object.type === "text") {
           return (
             <SurveyTextElement
@@ -105,6 +104,7 @@ const MobileSort = () => {
             />
           );
         }
+        /*
         if (object.type === "select") {
           return (
             <SurveyDropdownElement
