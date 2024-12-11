@@ -1,7 +1,7 @@
-import React, { Suspense, useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import LandingPage from "./pages/landing/Landing";
-import PostsortPage from "./pages/postsort/Postsort";
+const PostsortPage = lazy(() => import("./pages/postsort/Postsort"));
 import PresortPage from "./pages/presort/Presort";
 import SortPage from "./pages/sort/Sort";
 import SubmitPage from "./pages/submit/Submit";
@@ -23,9 +23,16 @@ import convert from "xml-js";
 import ConsentPage from "./pages/consent/Consent";
 import detectMobileBrowser from "./utilities/detectMobileBrowser";
 import MobileFooter from "./pages/footer/MobileFooter";
-import MobilePresortPage from "./pages/presort/MobilePresort";
-import MobileThinningPage from "./pages/thinning/MobileThinning";
-import MobileSortPage from "./pages/sort/MobileSort";
+const MobilePresortPage = lazy(() => import("./pages/presort/MobilePresort"));
+const MobileThinningPage = lazy(() =>
+  import("./pages/thinning/MobileThinning")
+);
+const MobileSortPage = lazy(() => import("./pages/sort/MobileSort"));
+const MobileSurveyPage = lazy(() => import("./pages/survey/MobileSurvey"));
+const MobilePostsortPage = lazy(() =>
+  import("./pages/postsort/MobilePostsort")
+);
+const MobileSubmitPage = lazy(() => import("./pages/submit/MobileSubmit"));
 
 const getConfigObj = (state) => state.configObj;
 const getSetConfigObj = (state) => state.setConfigObj;
@@ -246,9 +253,9 @@ function App() {
               <Route exact path="/thin" component={MobileThinningPage} />
               {/* <Route exact path="/presort" component={PresortPage} /> */}
               <Route exact path="/sort" component={MobileSortPage} />
-              <Route exact path="/postsort" component={PostsortPage} />
-              <Route exact path="/survey" component={SurveyPage} />
-              <Route exact path="/submit" component={SubmitPage} />
+              <Route exact path="/postsort" component={MobilePostsortPage} />
+              <Route exact path="/survey" component={MobileSurveyPage} />
+              <Route exact path="/submit" component={MobileSubmitPage} />
               <Route exact path="/" component={LandingPage} />
               <Route component={NoPageFound} />
             </Switch>

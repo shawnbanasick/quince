@@ -22,6 +22,8 @@ const getIsTargetArrayFilled = (state) => state.isTargetArrayFilled;
 const getSetIsTargetArrayFilled = (state) => state.setIsTargetArrayFilled;
 const getShowConfirmButton = (state) => state.showConfirmButton;
 const getSetShowConfirmButton = (state) => state.setShowConfirmButton;
+const getSetCurrentPage = (state) => state.setCurrentPage;
+const getSetProgressScore = (state) => state.setProgressScore;
 
 const MobileThinning = () => {
   const langObj = useSettingsStore(getLangObj);
@@ -32,6 +34,21 @@ const MobileThinning = () => {
   const setIsTargetArrayFilled = useStore(getSetIsTargetArrayFilled);
   const showConfirmButton = useStore(getShowConfirmButton);
   const setShowConfirmButton = useStore(getSetShowConfirmButton);
+  const setCurrentPage = useStore(getSetCurrentPage);
+  const setProgressScore = useStore(getSetProgressScore);
+
+  useEffect(() => {
+    let startTime = Date.now();
+    const setStateAsync = async () => {
+      await setCurrentPage("thin");
+      localStorage.setItem("currentPage", "thin");
+      await setProgressScore(20);
+    };
+    setStateAsync();
+    return () => {
+      calculateTimeOnPage(startTime, "thinPage", "thinPage");
+    };
+  }, [setCurrentPage, setProgressScore]);
 
   // Get language object values
   let initialInstructionPart1 =

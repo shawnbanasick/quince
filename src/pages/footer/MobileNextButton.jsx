@@ -84,6 +84,7 @@ const LinkButton = (props) => {
       }
     }
     if (currentPage === "sort") {
+      /*
       if (isSortingFinished === false) {
         // check to see if finished, but had sorting registration error
         if (sortColumns?.imagesList?.length === 0) {
@@ -130,6 +131,7 @@ const LinkButton = (props) => {
           }
         }
       }
+        */
     }
 
     if (currentPage === "postsort") {
@@ -178,6 +180,7 @@ const LinkButton = (props) => {
     }
 
     if (currentPage === "survey") {
+      /*
       let resultsSurvey = JSON.parse(localStorage.getItem("resultsSurvey"));
       let values = getObjectValues(resultsSurvey);
       let includesNoResponse = values.includes("no-*?*-response");
@@ -189,6 +192,7 @@ const LinkButton = (props) => {
       } else {
         return true;
       }
+        */
     }
 
     // for pages without checks

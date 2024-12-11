@@ -14,19 +14,19 @@ const MobileSort = () => {
   useEffect(() => {
     let startTime = Date.now();
     const setStateAsync = async () => {
-      await setCurrentPage("sort");
-      localStorage.setItem("currentPage", "sort");
+      await setCurrentPage("postsort");
+      localStorage.setItem("currentPage", "postsort");
       await setProgressScore(20);
     };
     setStateAsync();
     return () => {
-      calculateTimeOnPage(startTime, "sortPage", "sortPage");
+      calculateTimeOnPage(startTime, "postsortPage", "postsortPage");
     };
   }, [setCurrentPage, setProgressScore]);
 
   return (
     <div>
-      <h1>Mobile Sort</h1>
+      <h1>Mobile Postsort</h1>
     </div>
   );
 };

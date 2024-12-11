@@ -100,6 +100,16 @@ const StyledFooter = () => {
     displayNextButton = false;
   }
 
+  if (
+    currentPage === "thin" ||
+    currentPage === "postsort" ||
+    currentPage === "survey" ||
+    currentPage === "sort"
+  ) {
+    displayNextButton = true;
+    displayHelpButton = false;
+  }
+
   if (configObj.setupTarget === "local" && currentPage === "landing") {
     displayNextButton = false;
     displayHelpButton = false;
@@ -124,7 +134,7 @@ const StyledFooter = () => {
       showCardHeightSizer = true;
       showFooterFontSizer = false;
     } else {
-      showAdjustmentContainer = true;
+      showAdjustmentContainer = false;
       showCardHeightSizer = true;
       showFooterFontSizer = true;
     }
@@ -133,11 +143,17 @@ const StyledFooter = () => {
   if (
     currentPage === "landing" ||
     currentPage === "survey" ||
-    currentPage === "submit"
+    currentPage === "submit" ||
+    currentPage === "thin" ||
+    currentPage === "postsort"
   ) {
     showAdjustmentContainer = false;
   }
   displayHelpButton = false;
+
+  if (currentPage === "postsort") {
+    showLogo = true;
+  }
 
   if (currentPage === "landing") {
     showProgressBar = false;
