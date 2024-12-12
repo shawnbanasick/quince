@@ -3,6 +3,7 @@ import { DragDropContext } from "@hello-pangea/dnd";
 // import type { DropResult } from "@hello-pangea/dnd";
 import useStore from "../../globalState/useStore";
 import calculateTimeOnPage from "../../utilities/calculateTimeOnPage";
+import demoSortData from "./demoSortData";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;

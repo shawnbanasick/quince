@@ -109,7 +109,6 @@
         <note>Based on your current course load</note>
    </item>
 
-<!-- 
    <item id="survey">
         <input type="select" required="false">Global Studies;;;Linguistics;;;English Literature</input>
         <label>4. What is your program focus?</label>
@@ -121,6 +120,7 @@
         <label>5. What kind of class do you prefer?</label>
         <note>You can select more than one option</note>
    </item>
+
 
    <item id="survey">
         <input type="likert" required="true" scale="Strongly Disagree;;;Disagree;;;Neutral;;;Agree;;;Strongly Agree">.</input>
@@ -158,8 +158,6 @@
         <input type="rating10" required="false" scale="1;;;2;;;3;;;4;;;5;;;6;;;7;;;8;;;9;;;10">How would you rate the use of the Socrative website in this class?;;;How would you rate the use of the {{{b}}}Quizlet{{{/b}}} website in this class?;;;How would you rate the use of Moodle in this class?;;;How would you rate the use of Edmodo in this class?;;;</input>
         <label>12. {{{u}}}Please{{{/u}}} rate the following statements</label>
         <note>Please answer all of the ratings</note>
-   </item> -->
+   </item>
 
-
-       
   </config>

@@ -67,6 +67,8 @@ const SortGrid = (props) => {
   }
   // LOCAL STATE
 
+  console.log(JSON.stringify(presortColumnStatements));
+
   // PERSISTENT STATE
   const [columnStatements, setColumnStatements] = useLocalStorage(
     "sortColumns",

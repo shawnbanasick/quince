@@ -11,12 +11,12 @@ import { v4 as uuid } from "uuid";
 import SurveyTextElement from "./MobileSurveyTextElement";
 import SurveyTextAreaElement from "./MobileSurveyTextAreaElement";
 import SurveyRadioElement from "./MobileSurveyRadioElement";
-// import SurveyDropdownElement from "./MobileSurveyDropdownElement";
-// import SurveyCheckboxElement from "./MobileSurveyCheckboxElement";
-// import SurveyRating2Element from "./MobileSurveyRating2Element";
-// import SurveyRating5Element from "./MobileSurveyRating5Element";
-// import SurveyRating10Element from "./MobileSurveyRating10Element";
-// import SurveyLikertElement from "./MobileSurveyLikertElement";
+import SurveyDropdownElement from "./MobileSurveyDropdownElement";
+import SurveyCheckboxElement from "./MobileSurveyCheckboxElement";
+import SurveyRating2Element from "./MobileSurveyRating2Element";
+import SurveyRating5Element from "./MobileSurveyRating5Element";
+import SurveyRating10Element from "./MobileSurveyRating10Element";
+import SurveyLikertElement from "./MobileSurveyLikertElement";
 import SurveyInformationElement from "./MobileSurveyInformationElement";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
@@ -104,16 +104,6 @@ const MobileSort = () => {
             />
           );
         }
-        /*
-        if (object.type === "select") {
-          return (
-            <SurveyDropdownElement
-              key={uuid()}
-              check={checkRequiredQuestionsComplete}
-              opts={object}
-            />
-          );
-        }
         if (object.type === "checkbox") {
           return (
             <SurveyCheckboxElement
@@ -123,9 +113,9 @@ const MobileSort = () => {
             />
           );
         }
-        if (object.type === "rating2") {
+        if (object.type === "select") {
           return (
-            <SurveyRating2Element
+            <SurveyDropdownElement
               key={uuid()}
               check={checkRequiredQuestionsComplete}
               opts={object}
@@ -135,6 +125,16 @@ const MobileSort = () => {
         if (object.type === "likert") {
           return (
             <SurveyLikertElement
+              key={uuid()}
+              check={checkRequiredQuestionsComplete}
+              opts={object}
+            />
+          );
+        }
+
+        if (object.type === "rating2") {
+          return (
+            <SurveyRating2Element
               key={uuid()}
               check={checkRequiredQuestionsComplete}
               opts={object}
@@ -159,7 +159,7 @@ const MobileSort = () => {
             />
           );
         }
-        */
+
         if (object.type === "information") {
           return <SurveyInformationElement key={uuid()} opts={object} />;
         }
