@@ -10,11 +10,17 @@ import useSettingsStore from "../../globalState/useSettingsStore";
 import { v4 as uuid } from "uuid";
 import DownArrows from "../../assets/downArrows.svg?react";
 import UpArrows from "../../assets/upArrows.svg?react";
+import useLocalStorage from "../../utilities/useLocalStorage";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
 const getMapObj = (state) => state.mapObj;
 const getConfigObj = (state) => state.configObj;
+let sortValuesArray1 = [
+  ...JSON.parse(localStorage.getItem("sortValuesArray1")),
+];
+
+let tempData = JSON.parse(localStorage.getItem("sortArray1"));
 
 const MobileSort = () => {
   const setCurrentPage = useStore(getSetCurrentPage);
@@ -22,11 +28,13 @@ const MobileSort = () => {
   const mapObj = useSettingsStore(getMapObj);
   const configObj = useSettingsStore(getConfigObj);
 
-  let tempData = demoSortData();
-  let sortArray = tempData.sortArray;
-  console.log("sortArray", sortArray);
-  let sortArrayColors = tempData.sortValuesArray;
-  console.log("sortArrayColors", sortArrayColors);
+  demoSortData();
+
+  const [sortArray1, setSortArray1] = useLocalStorage("sortArray1", tempData);
+
+  console.log("sortArray", sortArray1);
+  // let sortArrayColors = local;
+  // console.log("sortArrayColors", sortArrayColors);
 
   const colorArraySource = [...mapObj.columnHeadersColorsArray].reverse();
   const qSortPattern = [...mapObj.qSortPattern];
@@ -57,6 +65,8 @@ const MobileSort = () => {
 
   const handleOnClickUp = (e) => {
     console.log("clicked Up", e.target.id);
+
+    console.log(sortArray1.indexOf(e.target.id));
     /*
     // move item right
     if (index >= arr.length - 1) {
@@ -76,7 +86,7 @@ const MobileSort = () => {
     console.log("clicked Down", e.target.id);
   };
 
-  let currentRankings = sortArray.map((item, index) => {
+  let currentRankings = sortArray1.map((item, index) => {
     return (
       <ItemContainer key={uuid()}>
         <DownArrowContainer id={item.id} onClick={handleOnClickDown}>

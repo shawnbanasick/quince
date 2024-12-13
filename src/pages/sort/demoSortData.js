@@ -501,9 +501,10 @@ const demoSortData = () => {
     });
   }
   // console.log(JSON.stringify(sortValuesArray));
-  returnObj.sortArray = sortArray;
-  returnObj.sortValuesArray = sortValuesArray;
-  return returnObj;
+  localStorage.setItem("sortArray1", JSON.stringify(sortArray));
+  localStorage.setItem("sortValuesArray1", JSON.stringify(sortValuesArray));
+
+  return;
 };
 
 export default demoSortData;
