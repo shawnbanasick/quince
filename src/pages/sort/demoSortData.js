@@ -483,7 +483,27 @@ const demoSortData = () => {
     imagesList: [],
   };
 
-  return data;
+  const returnObj = {};
+  const sortArray = [];
+  const sortValuesArray = [];
+  const objKeys = Object.keys(data.vCols);
+  for (let i = 0; i < objKeys.length; i++) {
+    data.vCols[objKeys[i]].forEach((item) => {
+      let sortValue1 = objKeys[i];
+      const replaceColumn = /column/gi;
+      const replaceN = /N/gi;
+      sortValue1 = sortValue1.replace(replaceColumn, "");
+      sortValue1 = sortValue1.replace(replaceN, "-");
+      const sortValue = parseInt(sortValue1, 10);
+      sortValuesArray.push(sortValue);
+      item.sortValue = sortValue;
+      sortArray.push(item);
+    });
+  }
+  // console.log(JSON.stringify(sortValuesArray));
+  returnObj.sortArray = sortArray;
+  returnObj.sortValuesArray = sortValuesArray;
+  return returnObj;
 };
 
 export default demoSortData;
