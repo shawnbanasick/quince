@@ -13,6 +13,8 @@ import uniq from "lodash/uniq";
 import { v4 as uuid } from "uuid";
 import useStore from "../../globalState/useStore";
 import mobileCardColor from "../presort/mobileCardColor";
+import DownArrows from "../../assets/downArrows.svg?react";
+import UpArrows from "../../assets/upArrows.svg?react";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
@@ -160,26 +162,66 @@ const MobileThinning = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleOnClickUp = (e) => {
+    console.log("clicked Up", e.target.id);
+
+    let clickedItemIndex = cards.findIndex((item) => item.id === e.target.id);
+    // check if at start of array
+    if (clickedItemIndex === 0) {
+      return; // Element is already at the start
+    }
+    // if not at end, move down
+    const temp = cards[clickedItemIndex];
+    cards[clickedItemIndex] = cards[clickedItemIndex - 1];
+    cards[clickedItemIndex - 1] = temp;
+    setCards([...cards]);
+    return;
+  };
+
+  const handleOnClickDown = (e) => {
+    console.log("clicked Down", e.target.id);
+
+    let clickedItemIndex = cards.findIndex((item) => item.id === e.target.id);
+    // check if at end of array
+    if (clickedItemIndex >= cards.length - 1) {
+      return; // Element is already at the end
+    }
+    // if not at the beginning, move up
+    const temp = cards[clickedItemIndex];
+    cards[clickedItemIndex] = cards[clickedItemIndex + 1];
+    cards[clickedItemIndex + 1] = temp;
+    setCards([...cards]);
+    return;
+  };
+
   let assessedStatements = cards.map((item) => {
     return (
-      <InternalDiv
-        onClick={handleOnClick}
-        id={item.id}
-        key={uuid()}
-        color={item.color}
-        data-targetcol={colInfo?.[0]}
-        data-max={colInfo?.[1]}
-        data-selected={item.selected}
-      >
-        {item.statement}
-      </InternalDiv>
+      <ItemContainer key={uuid()}>
+        <DownArrowContainer id={item.id} onClick={handleOnClickDown}>
+          <DownArrows style={{ pointerEvents: "none" }} />
+        </DownArrowContainer>
+        <InternalDiv
+          onClick={handleOnClick}
+          id={item.id}
+          key={uuid()}
+          color={item.color}
+          data-targetcol={colInfo?.[0]}
+          data-max={colInfo?.[1]}
+          data-selected={item.selected}
+        >
+          {item.statement}
+        </InternalDiv>
+        <UpArrowContainer id={item.id} onClick={handleOnClickUp}>
+          <UpArrows style={{ pointerEvents: "none" }} />
+        </UpArrowContainer>
+      </ItemContainer>
     );
   });
 
   return (
     <MainContainer>
       <SortTitleBar background={configObj.headerBarColor}>
-        Refine Your Preferences
+        Refine Your Rankings
       </SortTitleBar>
       <InstructionsDiv>
         <MobileInstructions
@@ -234,18 +276,12 @@ const InternalDiv = styled.div`
   align-items: center;
   justify-content: center;
   background-color: ${(props) => props.color};
-  width: 80vw;
+  width: 66vw;
   height: 12vh;
   font-size: 2vh;
-  border-radius: 3px;
   text-align: center;
   outline: 1px solid black;
   padding: 5px;
-  -webkit-transition: background-color 1000ms linear;
-  -moz-transition: background-color 1000ms linear;
-  -o-transition: background-color 1000ms linear;
-  -ms-transition: background-color 1000ms linear;
-  transition: all 1000ms linear;
 `;
 
 const SortTitleBar = styled.div`
@@ -303,4 +339,40 @@ const ConfirmButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+const UpArrowContainer = styled.button`
+  display: flex;
+  width: 10vw;
+  background-color: #d3d3d3;
+  outline: 1px solid black;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2vh;
+  border: 0px;
+  cursor: pointer;
+`;
+
+const DownArrowContainer = styled.button`
+  width: 10vw;
+  background-color: #d3d3d3;
+  outline: 1px solid black;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2vh;
+  border: 0px;
+  cursor: pointer;
+`;
+
+const ItemContainer = styled.div`
+  display: flex;
+  align-items: stretch;
+  min-height: 10vh;
+  flex-direction: row;
 `;

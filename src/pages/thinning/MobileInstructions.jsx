@@ -7,22 +7,22 @@ const Instructions = (props) => {
       <InstructionsText>
         {props.part1}
         {props.part3}
-        <br />
+        {/* <br />
         <br />
         <MostAgreeText>
           {`Number of Statements to Select: ${props.maxNum}`}{" "}
-        </MostAgreeText>
+        </MostAgreeText> */}
       </InstructionsText>
     );
   } else {
     return (
       <InstructionsText>
         {props.agreeLeastText}
-        <br />
+        {/* <br />
         <br />
         <LeastAgreeText>
           {`Number of Statements to Select: ${props.maxNum}`}{" "}
-        </LeastAgreeText>
+        </LeastAgreeText> */}
       </InstructionsText>
     );
   }
@@ -38,14 +38,14 @@ const InstructionsText = styled.div`
   outline: 2px solid blue;
 `;
 
-const MostAgreeText = styled.span`
-  background-color: #ccffcc;
-  padding: 2px;
-  font-style: italic;
-`;
+// const MostAgreeText = styled.span`
+//   background-color: #ccffcc;
+//   padding: 2px;
+//   font-style: italic;
+// `;
 
-const LeastAgreeText = styled.span`
-  background-color: #ffe0e0;
-  padding: 2px;
-  font-style: italic;
-`;
+// const LeastAgreeText = styled.span`
+//   background-color: #ffe0e0;
+//   padding: 2px;
+//   font-style: italic;
+// `;

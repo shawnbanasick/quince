@@ -77,7 +77,6 @@ const PresortPage = () => {
 
   // *** LOCAL STATE
   let [statementText, setStatementText] = useState(initialText);
-
   if (statementText === undefined) {
     statementText = "Assignment Complete";
   }
@@ -111,6 +110,12 @@ const PresortPage = () => {
   const titleText =
     ReactHtmlParser(decodeHTML(langObj.mobilePresortConditionsOfInstruction)) ||
     "";
+  const completedLabel =
+    ReactHtmlParser(decodeHTML(langObj.mobilePresortCompletedLabel)) || "";
+  const assignLeft =
+    ReactHtmlParser(decodeHTML(langObj.mobilePresortAssignLeft)) || "";
+  const assignRight =
+    ReactHtmlParser(decodeHTML(langObj.mobilePresortAssignRight)) || "";
 
   // early return if log-in required and not logged in
   if (initialScreen !== "anonymous") {
@@ -123,35 +128,38 @@ const PresortPage = () => {
     return <PresortIsComplete />;
   }
 
-  const handleClick = (event) => {
-    let presortArray2 = JSON.parse(localStorage.getItem("presortArray"));
+  const handleClickNegative = () => {
+    processClick(-2);
+  };
+  const handleClickNeutral = () => {
+    processClick(0);
+  };
+  const handleClickPositive = () => {
+    processClick(2);
+  };
 
+  const processClick = (value) => {
+    let presortArray2 = JSON.parse(localStorage.getItem("presortArray"));
     try {
       if (presortArray2.length > 0) {
+        // remove first object from array
         let currentObj = presortArray2.shift();
         localStorage.setItem("presortArray", JSON.stringify(presortArray2));
-        let value = parseInt(event.target.innerText, 10);
+        // create object
         currentObj.psValue = value;
         currentObj.color = mobileCardColor(value);
         mobilePresortResults.push({ ...currentObj });
-
         mobilePresortResults.sort((a, b) => b.psValue - a.psValue);
 
+        // send to local storage
         setMobilePresortResults(mobilePresortResults);
         localStorage.setItem(
           "mobilePresortResults",
           JSON.stringify(mobilePresortResults)
         );
-
-        console.log(
-          "mobilePresortResults",
-          JSON.stringify(mobilePresortResults[0].psValue)
-        );
-
         let selectedPosItems = mobilePresortResults.filter((item) => {
           return +item.psValue > 0;
         });
-        console.log(selectedPosItems);
         let selectedNegItems = mobilePresortResults.filter((item) => {
           return +item.psValue < 0;
         });
@@ -191,77 +199,43 @@ const PresortPage = () => {
 
   return (
     <Container>
-      <SortTitleBar>{titleText}</SortTitleBar>
+      <SortTitleBar background={configObj.headerBarColor}>
+        {titleText}
+      </SortTitleBar>
       <MobileStatementBox statement={statementText} />
-      <RowText>Similar to my thinking</RowText>
+      <ButtonRowLabel>
+        <AssignDiv>{assignLeft}</AssignDiv>
+        <AssignDiv>{assignRight}</AssignDiv>
+      </ButtonRowLabel>
       <ButtonRow>
         <MobileValueButton
-          value={4}
-          text={`+4`}
-          color={`#31C48D`}
-          onClick={handleClick}
-        />
-        <MobileValueButton
-          value={3}
-          text={`+3`}
-          color={`#84E1BC`}
-          onClick={handleClick}
-        />
-        <MobileValueButton
-          value={2}
-          text={`+2`}
-          color={`#BCF0DA`}
-          onClick={handleClick}
-        />
-      </ButtonRow>
-      <RowText>No strong feelings</RowText>
-      <ButtonRow>
-        <MobileValueButton
-          value={1}
-          text={`+1`}
-          color={`#DEF7EC`}
-          onClick={handleClick}
-        />
-        <MobileValueButton
-          value={0}
-          text={`0`}
-          color={`#F3F4F6`}
-          onClick={handleClick}
-        />
-        <MobileValueButton
-          value={-1}
-          text={`-1`}
-          color={`#FDE8E8`}
-          onClick={handleClick}
-        />
-      </ButtonRow>
-      <RowText>Different from my thinking</RowText>
-      <ButtonRow>
-        <MobileValueButton
+          id={`-2`}
           value={-2}
-          text={`-2`}
+          text={`-`}
           color={`#FBD5D5`}
-          onClick={handleClick}
+          onClick={handleClickNegative}
         />
         <MobileValueButton
-          value={-3}
-          text={`-3`}
-          color={`#F8B4B4`}
-          onClick={handleClick}
+          id={`0`}
+          value={0}
+          text={`?`}
+          color={`#F3F4F6`}
+          onClick={handleClickNeutral}
         />
+
         <MobileValueButton
-          value={-4}
-          text={`-4`}
-          color={`#F98080`}
-          onClick={handleClick}
+          id={`2`}
+          value={2}
+          text={`+`}
+          color={`#BCF0DA`}
+          onClick={handleClickPositive}
         />
       </ButtonRow>
-      <RowText>Completed Assignments</RowText>
+      <RowText>{completedLabel}</RowText>
 
       <MobilePreviousAssignmentBox statement={statementText} />
-      <ModalContainer>
-        <MobilePresortFinishedModal />
-      </ModalContainer>
+      {/* <ModalContainer></ModalContainer>
+      <MobilePresortFinishedModal /> */}
 
       {/* <PromptUnload />
       <PresortModal />
@@ -278,23 +252,24 @@ const PresortPage = () => {
 export default PresortPage;
 
 const SortTitleBar = styled.div`
+  width: 100vw;
+  text-align: center;
+  padding-left: 1.5vw;
+  padding-right: 1.5vw;
+  padding-top: 2px;
+  min-height: 30px;
+  background-color: ${(props) => props.background};
   display: flex;
   justify-content: center;
   align-items: center;
-  text-align: center;
-  width: 100vw;
-  padding-left: 1.5vw;
-  padding-right: 1.5vw;
-  min-height: 30px;
-  height: 10vh;
-  color: black;
+  color: white;
   font-weight: bold;
-  font-size: 2vh;
+  font-size: 14px;
 `;
 
 const Container = styled.div`
   display: grid;
-  grid-template-rows: 9vh 20vh 3vh 5vh 3vh 5vh 3vh 5vh 6vh 1fr;
+  grid-template-rows: 40px 22vh 50px 40px 30px 1fr;
   justify-content: center;
   width: 100vw;
   height: 100vh;
@@ -307,7 +282,8 @@ const ButtonRow = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 85vw;
-  padding-left: 1.5vw;
+  height: 30px;
+  /* padding-left: 1.5vw; */
   justify-self: center;
 `;
 
@@ -334,4 +310,25 @@ const ModalContainer = styled.div`
   width: 90vw;
   height: 100vh;
   padding-right: 10vh;
+`;
+
+const ButtonRowLabel = styled.div`
+  display: flex;
+  justify-self: center;
+  justify-content: space-between;
+  width: 85vw;
+  height: 6vh;
+  align-items: flex-end;
+  font-size: 2.5vh;
+  /* outline: 1px solid darkgray; */
+`;
+
+const AssignDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1.5vh;
+  width: 25vw;
+  /* outline: 1px solid darkgray; */
 `;

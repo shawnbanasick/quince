@@ -33,7 +33,7 @@ const Container = styled.div`
 
   background-color: #e5e5e5;
   width: 90vw;
-  height: 32vh;
+  height: 42vh;
   font-size: 1.1vh;
   align-items: center;
   gap: 15px;
@@ -54,9 +54,9 @@ const InternalDiv = styled.div`
   align-items: center;
   justify-content: center;
   background-color: ${(props) => props.color};
-  width: 80vw;
-  height: 12vh;
-  font-size: 2vh;
+  width: 40vw;
+  min-height: 12vh;
+  font-size: 1.6vh;
   border-radius: 3px;
   text-align: center;
   outline: 1px solid black;

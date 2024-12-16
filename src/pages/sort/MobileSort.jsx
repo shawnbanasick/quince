@@ -16,9 +16,7 @@ const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
 const getMapObj = (state) => state.mapObj;
 const getConfigObj = (state) => state.configObj;
-let sortValuesArray1 = [
-  ...JSON.parse(localStorage.getItem("sortValuesArray1")),
-];
+let sortValuesArray1 = [JSON.parse(localStorage.getItem("sortValuesArray1"))];
 
 let tempData = JSON.parse(localStorage.getItem("sortArray1"));
 
@@ -63,27 +61,48 @@ const MobileSort = () => {
   });
   console.log("colorArray", colorArray);
 
+  const handleScroll = (e) => {
+    const bottom =
+      e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+    if (bottom) {
+      console.log("at bottom");
+    }
+  };
+
   const handleOnClickUp = (e) => {
     console.log("clicked Up", e.target.id);
 
-    console.log(sortArray1.indexOf(e.target.id));
-    /*
-    // move item right
-    if (index >= arr.length - 1) {
-      return arr; // Element is already at the end
+    let clickedItemIndex = sortArray1.findIndex(
+      (item) => item.id === e.target.id
+    );
+    // check if at start of array
+    if (clickedItemIndex === 0) {
+      return; // Element is already at the start
     }
-  
-    // Swap the element with the one at the next index
-    const temp = arr[index];
-    arr[index] = arr[index + 1];
-    arr[index + 1] = temp;
-  
-    return arr;
-    */
+    // if not at end, move down
+    const temp = sortArray1[clickedItemIndex];
+    sortArray1[clickedItemIndex] = sortArray1[clickedItemIndex - 1];
+    sortArray1[clickedItemIndex - 1] = temp;
+    setSortArray1([...sortArray1]);
+    return;
   };
 
   const handleOnClickDown = (e) => {
     console.log("clicked Down", e.target.id);
+
+    let clickedItemIndex = sortArray1.findIndex(
+      (item) => item.id === e.target.id
+    );
+    // check if at end of array
+    if (clickedItemIndex >= sortArray1.length - 1) {
+      return; // Element is already at the end
+    }
+    // if not at the beginning, move up
+    const temp = sortArray1[clickedItemIndex];
+    sortArray1[clickedItemIndex] = sortArray1[clickedItemIndex + 1];
+    sortArray1[clickedItemIndex + 1] = temp;
+    setSortArray1([...sortArray1]);
+    return;
   };
 
   let currentRankings = sortArray1.map((item, index) => {
@@ -108,7 +127,9 @@ const MobileSort = () => {
         Sort Statements
       </SortTitleBar>
 
-      <StatementsContainer>{currentRankings}</StatementsContainer>
+      <StatementsContainer onScroll={handleScroll}>
+        {currentRankings}
+      </StatementsContainer>
     </div>
   );
 };
@@ -135,12 +156,13 @@ const StatementsContainer = styled.div`
   align-self: top;
   justify-self: center;
   margin-top: 20px;
+  margin-bottom: 20px;
   flex-direction: row;
   flex-wrap: wrap;
 
   background-color: #e5e5e5;
   width: 96vw;
-  height: 82vh;
+  height: calc(100vh - 170px);
   /* font-size: 1.1vh; */
   align-items: center;
   gap: 15px;
@@ -153,7 +175,7 @@ const StatementsContainer = styled.div`
   padding-bottom: 10px;
   padding-top: 10px;
   border-radius: 5px;
-  border: 2px solid black;
+  border: 0.5px solid black;
 `;
 
 const InternalDiv = styled.div`

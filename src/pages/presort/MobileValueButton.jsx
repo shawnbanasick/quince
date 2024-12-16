@@ -18,17 +18,18 @@ export default MobileValueButton;
 const Container = styled.div`
   display: flex;
   background-color: ${(props) => props.color};
-  width: 20vw;
+  width: 80vw;
   height: 8vw;
-  font-size: 1.7vh;
+  font-size: 1.6vh;
   font-weight: normal;
-  padding-bottom: 2px;
+  padding-top: 2px;
+  padding-bottom: 1px;
   padding-right: 0px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   outline: 1px solid darkgray;
-  border-radius: 5px;
+  border-radius: 1.5px;
   user-select: none;
   &:active {
     background-color: orange;
