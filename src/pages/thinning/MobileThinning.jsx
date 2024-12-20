@@ -15,6 +15,8 @@ import useStore from "../../globalState/useStore";
 import mobileCardColor from "../presort/mobileCardColor";
 import DownArrows from "../../assets/downArrows.svg?react";
 import UpArrows from "../../assets/upArrows.svg?react";
+import SelectionNumberDisplay from "./SelectedNumberDisplay";
+import useLocalStorage from "../../utilities/useLocalStorage";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
@@ -93,6 +95,11 @@ const MobileThinning = () => {
   let [cards, setCards] = useState(selectedPosItems);
   console.log("cards", cards[0]);
 
+  let [selectedStatementsNum, setSelectedStatementsNum] = useLocalStorage(
+    "selectedMobileStatementsNum",
+    0
+  );
+
   const handleOnClick = (e) => {
     let colMax = +e.target.getAttribute("data-max");
     let targetcol = e.target.getAttribute("data-targetcol");
@@ -112,7 +119,7 @@ const MobileThinning = () => {
     } else {
       targetArray.push(e.target.id);
       if (targetArray.length > colMax) {
-        targetArray.shift();
+        // targetArray.shift();
       }
       targetArray = uniq(targetArray);
       if (targetArray.length === colMax) {
@@ -124,16 +131,19 @@ const MobileThinning = () => {
 
       console.log(e.target.id);
     }
+    let selectedStatements = 0;
     cards.forEach((item) => {
       if (targetArray.includes(item.id)) {
         item.targetcol = targetcol;
         item.selected = true;
-        item.color = "orange";
+        item.color = "lightyellow";
+        selectedStatements++;
       } else {
         item.selected = false;
         item.color = mobileCardColor(+item.psValue);
       }
     });
+    setSelectedStatementsNum(selectedStatements);
     setCards([...cards]);
   };
 
@@ -233,11 +243,17 @@ const MobileThinning = () => {
           maxNum={instructionText.maxNum}
         />
       </InstructionsDiv>
-      {showConfirmButton && (
-        <ConfirmButton onClick={handleConfirm} color={isTargetArrayFilled}>
-          Submit
-        </ConfirmButton>
-      )}
+      <HeadersContainer>
+        <SelectionNumberDisplay
+          selected={selectedStatementsNum}
+          required={colInfo?.[1]}
+        />
+        {showConfirmButton && (
+          <ConfirmButton onClick={handleConfirm} color={isTargetArrayFilled}>
+            Submit
+          </ConfirmButton>
+        )}
+      </HeadersContainer>
       <StatementsContainer>{assessedStatements}</StatementsContainer>
     </MainContainer>
   );
@@ -320,10 +336,13 @@ const MainContainer = styled.div`
   align-items: center;
   width: 100vw;
   height: 90vh;
-  outline: 2px solid red;
+  /* outline: 2px solid red; */
 `;
 
 const ConfirmButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background-color: ${(props) => (props.color ? "orange" : "#d3d3d3")};
   border-color: #2e6da4;
   color: black;
@@ -336,9 +355,6 @@ const ConfirmButton = styled.button`
   border-radius: 3px;
   text-decoration: none;
   user-select: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 const UpArrowContainer = styled.button`
@@ -375,4 +391,15 @@ const ItemContainer = styled.div`
   align-items: stretch;
   min-height: 10vh;
   flex-direction: row;
+`;
+
+const HeadersContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  min-width: 300px;
+  height: 50px;
+  gap: 55px;
+  /* outline: 1px solid black; */
 `;

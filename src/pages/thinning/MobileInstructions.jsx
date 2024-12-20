@@ -34,8 +34,10 @@ const InstructionsText = styled.div`
   font-size: 4vw;
   font-weight: normal;
   text-align: center;
+  padding: 10px;
   color: black;
-  outline: 2px solid blue;
+  border-radius: 5px;
+  outline: 0.5px solid #d3d3d3;
 `;
 
 // const MostAgreeText = styled.span`
