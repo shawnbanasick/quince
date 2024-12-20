@@ -17,6 +17,7 @@ import DownArrows from "../../assets/downArrows.svg?react";
 import UpArrows from "../../assets/upArrows.svg?react";
 import SelectionNumberDisplay from "./SelectedNumberDisplay";
 import useLocalStorage from "../../utilities/useLocalStorage";
+import { useLongPress } from "@uidotdev/usehooks";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
@@ -53,6 +54,20 @@ const MobileThinning = () => {
       calculateTimeOnPage(startTime, "thinPage", "thinPage");
     };
   }, [setCurrentPage, setProgressScore]);
+
+  const attrs = useLongPress(
+    () => {
+      // setIsOpen(true);
+      console.log("long press is triggered");
+      alert("long press is triggered");
+    },
+    {
+      // onStart: (event) => console.log("Press started"),
+      // onFinish: (event) => alert("Press Finished"),
+      // onCancel: (event) => console.log("Press cancelled"),
+      threshold: 1000,
+    }
+  );
 
   // Get language object values
   let initialInstructionPart1 =
@@ -221,7 +236,7 @@ const MobileThinning = () => {
         >
           {item.statement}
         </InternalDiv>
-        <UpArrowContainer id={item.id} onClick={handleOnClickUp}>
+        <UpArrowContainer id={item.id} onClick={handleOnClickUp} {...attrs}>
           <UpArrows style={{ pointerEvents: "none" }} />
         </UpArrowContainer>
       </ItemContainer>
@@ -343,8 +358,7 @@ const ConfirmButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${(props) => (props.color ? "orange" : "#d3d3d3")};
-  border-color: #2e6da4;
+  background-color: ${(props) => (props.color ? "#BCF0DA" : "#d3d3d3")};
   color: black;
   font-size: 1.2em;
   font-weight: normal;
@@ -352,8 +366,9 @@ const ConfirmButton = styled.button`
   /* padding-bottom: ${(props) => props.padBottom}; */
   height: 30px;
   min-width: 115px;
-  border-radius: 3px;
   text-decoration: none;
+  border: 1px solid "gray" !important;
+  border-radius: 3px;
   user-select: none;
 `;
 
