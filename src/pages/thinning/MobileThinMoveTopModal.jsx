@@ -7,39 +7,71 @@ import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 
 const getLangObj = (state) => state.langObj;
-const getTriggerConsentModal = (state) => state.triggerConsentModal;
-const getSetTriggerConsentModal = (state) => state.setTriggerConsentModal;
+const getTriggerMobileThinMoveTopModal = (state) =>
+  state.triggerMobileThinMoveTopModal;
+const getSetTriggerMobileThinMoveTopModal = (state) =>
+  state.setTriggerMobileThinMoveTopModal;
 
-const ConsentModal = () => {
-  // STATE
+const MobileThinTopModal = (props) => {
+  // *** STATE
   const langObj = useSettingsStore(getLangObj);
-  const triggerConsentModal = useStore(getTriggerConsentModal);
-  const setTriggerConsentModal = useStore(getSetTriggerConsentModal);
+  const triggerMobileThinMoveTopModal = useStore(
+    getTriggerMobileThinMoveTopModal
+  );
+  const setTriggerMobileThinMoveTopModal = useStore(
+    getSetTriggerMobileThinMoveTopModal
+  );
+  const moveTopMobileHead =
+    ReactHtmlParser(decodeHTML(langObj.moveTopMobileHead)) || "";
 
-  const consentHelpModalHead =
-    ReactHtmlParser(decodeHTML(langObj.consentHelpModalHead)) || "";
-  const consentHelpModalText =
-    ReactHtmlParser(decodeHTML(langObj.consentHelpModalText)) || "";
+  // *** LANGUAGE TRANSLATION *** //
+  let moveTopMobileText = "";
+  let showStatement = true;
+  if (props.cardId.current.direction === "up") {
+    moveTopMobileText =
+      ReactHtmlParser(decodeHTML(langObj.moveTopMobileText)) || "";
+  } else if (props.cardId.current.direction === "down") {
+    moveTopMobileText =
+      ReactHtmlParser(decodeHTML(langObj.moveBottomMobileText)) || "";
+  } else if (props.cardId.current.direction === "allTop") {
+    moveTopMobileText =
+      ReactHtmlParser(decodeHTML(langObj.moveAllTopMobileText)) || "";
+    showStatement = false;
+  }
+
+  const okButtonText =
+    ReactHtmlParser(decodeHTML(langObj.moveTopMobileButtonOK)) || "";
+  const cancelButtonText =
+    ReactHtmlParser(decodeHTML(langObj.moveTopMobileButtonCancel)) || "";
 
   const onCloseModal = () => {
-    setTriggerConsentModal(false);
+    setTriggerMobileThinMoveTopModal(false);
   };
 
   return (
     <Modal
-      className="customModal"
-      open={triggerConsentModal}
+      classNames={{ modal: "customMobileModal" }}
+      open={triggerMobileThinMoveTopModal}
       onClose={onCloseModal}
       center
     >
-      <ModalHeader>{consentHelpModalHead}</ModalHeader>
+      <ModalHeader>{moveTopMobileHead}</ModalHeader>
       <hr />
-      <ModalContent>{consentHelpModalText}</ModalContent>
+      <ModalContent>{moveTopMobileText}</ModalContent>
+      {showStatement && (
+        <Statement color={props.cardId.current.color}>
+          {props.cardId.current.statement}
+        </Statement>
+      )}
+      <ButtonContainer>
+        <ModalButton onClick={onCloseModal}>{cancelButtonText}</ModalButton>
+        <ModalButton onClick={props.onClick}>{okButtonText}</ModalButton>
+      </ButtonContainer>
     </Modal>
   );
 };
 
-export default ConsentModal;
+export default MobileThinTopModal;
 
 const ModalHeader = styled.div`
   font-size: 24px;
@@ -55,4 +87,58 @@ const ModalContent = styled.div`
   margin-top: 15px;
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 50px;
+  justify-content: space-around;
+  margin-top: 20px;
+  button {
+    width: 100px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #d3d3d3;
+    background-color: white;
+    color: black;
+    font-weight: bold;
+    font-size: 1.2rem;
+  }
+`;
+
+const Statement = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 10px;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  min-height: 140px;
+  font-size: 14px;
+  color: black;
+  border-radius: 5px;
+  border: 0.5px solid #d3d3d3;
+  background-color: ${(props) => {
+    return props.color;
+  }};
+`;
+
+const ModalButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100px;
+  height: 40px;
+  border-radius: 5px;
+  border: 1px solid #d3d3d3;
+  background-color: #dedede;
+  color: black;
+  font-weight: bold;
+  font-size: 1.2rem;
+`;
+
+// change css in globalCSS.js in src/styles
 // react-responsive-modal-overlay

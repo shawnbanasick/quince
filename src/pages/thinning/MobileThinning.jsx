@@ -18,6 +18,7 @@ import UpArrows from "../../assets/upArrows.svg?react";
 import SelectionNumberDisplay from "./SelectedNumberDisplay";
 import useLocalStorage from "../../utilities/useLocalStorage";
 import { useLongPress } from "@uidotdev/usehooks";
+import MobileThinMoveTopModal from "./MobileThinMoveTopModal";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
@@ -29,6 +30,8 @@ const getShowConfirmButton = (state) => state.showConfirmButton;
 const getSetShowConfirmButton = (state) => state.setShowConfirmButton;
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
+const getSetTriggerMobileThinMoveTopModal = (state) =>
+  state.setTriggerMobileThinMoveTopModal;
 
 const MobileThinning = () => {
   const langObj = useSettingsStore(getLangObj);
@@ -41,6 +44,10 @@ const MobileThinning = () => {
   const setShowConfirmButton = useStore(getSetShowConfirmButton);
   const setCurrentPage = useStore(getSetCurrentPage);
   const setProgressScore = useStore(getSetProgressScore);
+  const setTriggerMobileThinMoveTopModal = useStore(
+    getSetTriggerMobileThinMoveTopModal
+  );
+  let cardId = useRef({ id: "", statement: "", color: "", direction: "" });
 
   useEffect(() => {
     let startTime = Date.now();
@@ -58,14 +65,26 @@ const MobileThinning = () => {
   const attrs = useLongPress(
     () => {
       // setIsOpen(true);
-      console.log("long press is triggered");
-      alert("long press is triggered");
+      setTriggerMobileThinMoveTopModal(true);
     },
     {
-      // onStart: (event) => console.log("Press started"),
-      // onFinish: (event) => alert("Press Finished"),
+      onStart: (event) => {
+        let index = cards.findIndex(
+          (item) => item.id === event.target.dataset.id
+        );
+        console.log("index", index);
+
+        cardId.current = {
+          id: event.target.dataset.id,
+          statement: event.target.dataset.statement,
+          color: event.target.dataset.color,
+          direction: event.target.dataset.direction,
+        };
+      },
+      // console.log("Press started"),
+      // onFinish: (event) => {},
       // onCancel: (event) => console.log("Press cancelled"),
-      threshold: 1000,
+      threshold: 800,
     }
   );
 
@@ -91,7 +110,6 @@ const MobileThinning = () => {
   let sortRightArrays = [
     ...JSON.parse(localStorage.getItem("sortRightArrays")),
   ];
-  console.log(sortRightArrays);
 
   let colInfo = sortRightArrays?.[0];
 
@@ -108,7 +126,6 @@ const MobileThinning = () => {
   // *** LOCAL STATE ***********************************
   // *******************************************************
   let [cards, setCards] = useState(selectedPosItems);
-  console.log("cards", cards[0]);
 
   let [selectedStatementsNum, setSelectedStatementsNum] = useLocalStorage(
     "selectedMobileStatementsNum",
@@ -118,10 +135,8 @@ const MobileThinning = () => {
   const handleOnClick = (e) => {
     let colMax = +e.target.getAttribute("data-max");
     let targetcol = e.target.getAttribute("data-targetcol");
-    console.log(e.target.getAttribute("data-selected"));
 
     if (e.target.getAttribute("data-selected") === "true") {
-      console.log("selected");
       let index = targetArray.indexOf(e.target.id);
       if (index > -1) {
         targetArray.splice(index, 1);
@@ -142,9 +157,6 @@ const MobileThinning = () => {
       } else {
         setIsTargetArrayFilled(false);
       }
-      console.log("targetArray", targetArray);
-
-      console.log(e.target.id);
     }
     let selectedStatements = 0;
     cards.forEach((item) => {
@@ -169,6 +181,33 @@ const MobileThinning = () => {
     console.log("handleConfirm");
   };
 
+  const handleMove = () => {
+    let selectedCard;
+    let index = cards.findIndex((item) => item.id === cardId.current.id);
+    if (index > 0 && cardId.current.direction === "up") {
+      selectedCard = cards.splice(index, 1);
+      cards.unshift(selectedCard[0]);
+      setCards([...cards]);
+    } else if (
+      index < cards.length - 1 &&
+      cardId.current.direction === "down"
+    ) {
+      selectedCard = cards.splice(index, 1);
+      cards.push(selectedCard[0]);
+      setCards([...cards]);
+    } else if (cardId.current.direction === "allTop") {
+      // iterate through the cards array and move the selected card to the top
+      cards.forEach((item, i) => {
+        if (item.selected === true) {
+          let selectedCards = cards.splice(i, 1);
+          cards.unshift(selectedCards[0]);
+        }
+        setCards([...cards]);
+      });
+    }
+    setTriggerMobileThinMoveTopModal(false);
+  };
+
   // *******************************************************
   // *** USE EFFECT ****************************************
   // *******************************************************
@@ -190,7 +229,9 @@ const MobileThinning = () => {
   const handleOnClickUp = (e) => {
     console.log("clicked Up", e.target.id);
 
-    let clickedItemIndex = cards.findIndex((item) => item.id === e.target.id);
+    let clickedItemIndex = cards.findIndex(
+      (item) => item.id === e.target.dataset.id
+    );
     // check if at start of array
     if (clickedItemIndex === 0) {
       return; // Element is already at the start
@@ -206,7 +247,9 @@ const MobileThinning = () => {
   const handleOnClickDown = (e) => {
     console.log("clicked Down", e.target.id);
 
-    let clickedItemIndex = cards.findIndex((item) => item.id === e.target.id);
+    let clickedItemIndex = cards.findIndex(
+      (item) => item.id === e.target.dataset.id
+    );
     // check if at end of array
     if (clickedItemIndex >= cards.length - 1) {
       return; // Element is already at the end
@@ -222,7 +265,14 @@ const MobileThinning = () => {
   let assessedStatements = cards.map((item) => {
     return (
       <ItemContainer key={uuid()}>
-        <DownArrowContainer id={item.id} onClick={handleOnClickDown}>
+        <DownArrowContainer
+          data-id={item.id}
+          data-statement={item.statement}
+          data-color={item.color}
+          data-direction="down"
+          onClick={handleOnClickDown}
+          {...attrs}
+        >
           <DownArrows style={{ pointerEvents: "none" }} />
         </DownArrowContainer>
         <InternalDiv
@@ -233,10 +283,19 @@ const MobileThinning = () => {
           data-targetcol={colInfo?.[0]}
           data-max={colInfo?.[1]}
           data-selected={item.selected}
+          data-direction="allTop"
+          {...attrs}
         >
           {item.statement}
         </InternalDiv>
-        <UpArrowContainer id={item.id} onClick={handleOnClickUp} {...attrs}>
+        <UpArrowContainer
+          data-id={item.id}
+          data-statement={item.statement}
+          data-color={item.color}
+          data-direction="up"
+          onClick={handleOnClickUp}
+          {...attrs}
+        >
           <UpArrows style={{ pointerEvents: "none" }} />
         </UpArrowContainer>
       </ItemContainer>
@@ -245,6 +304,7 @@ const MobileThinning = () => {
 
   return (
     <MainContainer>
+      <MobileThinMoveTopModal cardId={cardId} onClick={handleMove} />
       <SortTitleBar background={configObj.headerBarColor}>
         Refine Your Rankings
       </SortTitleBar>
@@ -290,6 +350,7 @@ const StatementsContainer = styled.div`
   /* font-size: 1.1vh; */
   align-items: center;
   gap: 15px;
+  user-select: none;
 
   justify-content: center;
   border-radius: 3px;

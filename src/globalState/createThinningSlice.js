@@ -18,7 +18,11 @@ const createThinningSlice = (set, get) => ({
   currentRightIteration: 0,
   currentLeftIteration: 0,
   isTargetArrayFilled: false,
+  triggerMobileThinMoveTopModal: false,
 
+  setTriggerMobileThinMoveTopModal: (bool) => {
+    set(() => ({ triggerMobileThinMoveTopModal: bool }));
+  },
   setIsTargetArrayFilled: (bool) => {
     set(() => ({ isTargetArrayFilled: bool }));
   },

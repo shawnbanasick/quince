@@ -404,9 +404,9 @@ footer {
   .react-responsive-modal-modal {
   background: white;
   max-width: 700px;
-  width: 100%;
+  width: 90vw;
   padding: 15px;
-
+  border-radius: 10px;
 }
 
   #cardsDiv{
