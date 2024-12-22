@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import MobileNextButton from "./MobileNextButton";
-import FooterFontSizer from "./FooterFontSizer";
+import MobileFooterFontSizer from "./MobileFooterFontSizer";
 import CardHeightSizer from "./CardHeightSizer";
 import ProgressBar from "@ramonak/react-progress-bar";
 import ReactHtmlParser from "html-react-parser";
@@ -12,6 +12,7 @@ import getNextPage from "./getNextPage";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 import PostsortBackButton from "./PostsortBackButton";
+import MobileFooterViewSizer from "./MobileFooterViewSizer";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
@@ -38,6 +39,7 @@ const StyledFooter = () => {
   let showFooterFontSizer = true;
   let showProgressBar = false;
   let showLogo = false;
+  let showFooterViewSizer = true;
 
   let showBackButton;
   let backButtonText = langObj.postsortBackButtonText;
@@ -54,7 +56,7 @@ const StyledFooter = () => {
     )
   );
 
-  let nextButtonWidth = 100;
+  let nextButtonWidth = 60;
   let nextButtonText = "";
   if (currentPage === "landing") {
     nextButtonWidth = 150;
@@ -121,21 +123,21 @@ const StyledFooter = () => {
   if (currentPage === "presort") {
     if (configObj.useImages === true) {
       showAdjustmentContainer = false;
-      showCardHeightSizer = false;
+      // showCardHeightSizer = false;
     } else {
       showAdjustmentContainer = true;
-      showCardHeightSizer = false;
+      // showCardHeightSizer = false;
     }
   }
 
   if (currentPage === "sort") {
     if (useImages === true) {
       showAdjustmentContainer = true;
-      showCardHeightSizer = true;
+      // showCardHeightSizer = true;
       showFooterFontSizer = false;
     } else {
       showAdjustmentContainer = false;
-      showCardHeightSizer = true;
+      // showCardHeightSizer = true;
       showFooterFontSizer = true;
     }
   }
@@ -144,7 +146,6 @@ const StyledFooter = () => {
     currentPage === "landing" ||
     currentPage === "survey" ||
     currentPage === "submit" ||
-    currentPage === "thin" ||
     currentPage === "postsort"
   ) {
     showAdjustmentContainer = false;
@@ -165,8 +166,8 @@ const StyledFooter = () => {
       {displayHelpButton && <HelpButton />}
       {showAdjustmentContainer && (
         <AdjustmentsContainer>
-          {showFooterFontSizer && <FooterFontSizer />}
-          {showCardHeightSizer && <CardHeightSizer />}
+          {showFooterFontSizer && <MobileFooterFontSizer />}
+          {showFooterViewSizer && <MobileFooterViewSizer />}
         </AdjustmentsContainer>
       )}
       {showProgressBar && (
@@ -236,7 +237,8 @@ const StyledFooterDiv = styled.footer`
 const AdjustmentsContainer = styled.div`
   display: flex;
   flex-direction: row;
-  padding-left: 15px;
+  gap: 20px;
+  margin-left: 2vw;
 `;
 
 const ProgressBarDiv = styled.div`
@@ -263,5 +265,5 @@ const CenterDiv = styled.div`
 const ButtonDiv = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: center;
 `;

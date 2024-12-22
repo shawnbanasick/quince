@@ -32,6 +32,8 @@ const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
 const getSetTriggerMobileThinMoveTopModal = (state) =>
   state.setTriggerMobileThinMoveTopModal;
+const getMobileThinFontSize = (state) => state.mobileThinFontSize;
+const getMobileThinViewSize = (state) => state.mobileThinViewSize;
 
 const MobileThinning = () => {
   const langObj = useSettingsStore(getLangObj);
@@ -47,8 +49,13 @@ const MobileThinning = () => {
   const setTriggerMobileThinMoveTopModal = useStore(
     getSetTriggerMobileThinMoveTopModal
   );
+  const mobileThinFontSize = useStore(getMobileThinFontSize);
+  const mobileThinViewSize = useStore(getMobileThinViewSize);
+
+  // *** REFS *** //
   let cardId = useRef({ id: "", statement: "", color: "", direction: "" });
 
+  // *** SET TIME ON PAGE *** //
   useEffect(() => {
     let startTime = Date.now();
     const setStateAsync = async () => {
@@ -62,6 +69,7 @@ const MobileThinning = () => {
     };
   }, [setCurrentPage, setProgressScore]);
 
+  // *** USE LONG PRESS HOOK *** //
   const attrs = useLongPress(
     () => {
       // setIsOpen(true);
@@ -69,11 +77,9 @@ const MobileThinning = () => {
     },
     {
       onStart: (event) => {
-        let index = cards.findIndex(
-          (item) => item.id === event.target.dataset.id
-        );
-        console.log("index", index);
-
+        // let index = cards.findIndex(
+        //   (item) => item.id === event.target.dataset.id
+        // );
         cardId.current = {
           id: event.target.dataset.id,
           statement: event.target.dataset.statement,
@@ -81,7 +87,6 @@ const MobileThinning = () => {
           direction: event.target.dataset.direction,
         };
       },
-      // console.log("Press started"),
       // onFinish: (event) => {},
       // onCancel: (event) => console.log("Press cancelled"),
       threshold: 800,
@@ -93,15 +98,15 @@ const MobileThinning = () => {
     ReactHtmlParser(decodeHTML(langObj.initialInstructionPart1)) || "";
   let initialInstructionPart3 =
     ReactHtmlParser(decodeHTML(langObj.initialInstructionPart3)) || "";
-  let agreeLeastText =
-    ReactHtmlParser(decodeHTML(langObj.agreeLeastText)) || "";
-  let finalInstructionText =
-    ReactHtmlParser(decodeHTML(langObj.finalInstructions)) || "";
-  let agreeMostText = ReactHtmlParser(decodeHTML(langObj.agreeMostText)) || "";
+  // let agreeLeastText =
+  //   ReactHtmlParser(decodeHTML(langObj.agreeLeastText)) || "";
+  // let finalInstructionText =
+  //   ReactHtmlParser(decodeHTML(langObj.finalInstructions)) || "";
+  // let agreeMostText = ReactHtmlParser(decodeHTML(langObj.agreeMostText)) || "";
 
-  let mobilePresortResults = JSON.parse(
-    localStorage.getItem("mobilePresortResults")
-  );
+  // let mobilePresortResults = JSON.parse(
+  //   localStorage.getItem("mobilePresortResults")
+  // );
 
   let selectedPosItems = [
     ...JSON.parse(localStorage.getItem("selectedPosItems")),
@@ -262,6 +267,8 @@ const MobileThinning = () => {
     return;
   };
 
+  console.log(mobileThinFontSize);
+
   let assessedStatements = cards.map((item) => {
     return (
       <ItemContainer key={uuid()}>
@@ -280,6 +287,7 @@ const MobileThinning = () => {
           id={item.id}
           key={uuid()}
           color={item.color}
+          fontSize={mobileThinFontSize}
           data-targetcol={colInfo?.[0]}
           data-max={colInfo?.[1]}
           data-selected={item.selected}
@@ -329,7 +337,9 @@ const MobileThinning = () => {
           </ConfirmButton>
         )}
       </HeadersContainer>
-      <StatementsContainer>{assessedStatements}</StatementsContainer>
+      <StatementsContainer viewSize={mobileThinViewSize}>
+        {assessedStatements}
+      </StatementsContainer>
     </MainContainer>
   );
 };
@@ -346,7 +356,7 @@ const StatementsContainer = styled.div`
 
   background-color: #e5e5e5;
   width: 96vw;
-  height: 52vh;
+  height: ${(props) => `${props.viewSize}vh`};
   /* font-size: 1.1vh; */
   align-items: center;
   gap: 15px;
@@ -360,20 +370,7 @@ const StatementsContainer = styled.div`
   padding-bottom: 10px;
   padding-top: 10px;
   border-radius: 5px;
-  border: 2px solid black;
-`;
-
-const InternalDiv = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: ${(props) => props.color};
-  width: 66vw;
-  height: 12vh;
-  font-size: 2vh;
-  text-align: center;
-  outline: 1px solid black;
-  padding: 5px;
+  border: 1px solid darkgray;
 `;
 
 const SortTitleBar = styled.div`
@@ -431,6 +428,21 @@ const ConfirmButton = styled.button`
   border: 1px solid "gray" !important;
   border-radius: 3px;
   user-select: none;
+`;
+
+const InternalDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: ${(props) => props.color};
+  width: 66vw;
+  min-height: 8vh;
+  font-size: ${(props) => {
+    return `${props.fontSize}vh`;
+  }};
+  text-align: center;
+  outline: 1px solid black;
+  padding: 5px;
 `;
 
 const UpArrowContainer = styled.button`

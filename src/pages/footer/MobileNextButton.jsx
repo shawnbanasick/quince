@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import React from "react";
 import { withRouter } from "react-router";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
@@ -232,7 +231,7 @@ const NextButton = styled.button`
   text-decoration: none;
   width: ${(props) => `${props.width}px;`};
   justify-self: right;
-  margin-right: 35px;
+  margin-right: 2vw;
   display: flex;
   align-items: center;
   user-select: none;
