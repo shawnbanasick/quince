@@ -20,7 +20,7 @@ const createThinningSlice = (set, get) => ({
   isTargetArrayFilled: false,
   triggerMobileThinMoveTopModal: false,
   mobileThinFontSize: 2,
-  mobileThinViewSize: 52,
+  mobileThinViewSize: 68,
 
   setMobileThinViewSize: (value) => {
     set(() => ({ mobileThinViewSize: value }));

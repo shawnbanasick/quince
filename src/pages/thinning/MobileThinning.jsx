@@ -316,7 +316,7 @@ const MobileThinning = () => {
       <SortTitleBar background={configObj.headerBarColor}>
         Refine Your Rankings
       </SortTitleBar>
-      <InstructionsDiv>
+      {/* <InstructionsDiv>
         <MobileInstructions
           part1={instructionText.part1}
           part2={instructionText.part2}
@@ -325,7 +325,7 @@ const MobileThinning = () => {
           agree={instructionText.agree}
           maxNum={instructionText.maxNum}
         />
-      </InstructionsDiv>
+      </InstructionsDiv> */}
       <HeadersContainer>
         <SelectionNumberDisplay
           selected={selectedStatementsNum}
