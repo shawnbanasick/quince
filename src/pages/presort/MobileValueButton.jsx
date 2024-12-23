@@ -33,6 +33,6 @@ const Container = styled.div`
   user-select: none;
   &:active {
     background-color: orange;
-    outline: 3px solid darkgray;
+    outline: 1px solid darkgray;
   }
 `;

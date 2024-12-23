@@ -13,7 +13,9 @@ const getCardFontSizePostsort = (state) => state.cardFontSizePostsort;
 const getSetCardFontSizePostsort = (state) => state.setCardFontSizePostsort;
 const getCurrentPage = (state) => state.currentPage;
 const getMobileThinViewSize = (state) => state.mobileThinViewSize;
+const getMobilePresortViewSize = (state) => state.mobilePresortViewSize;
 const getSetMobileThinViewSize = (state) => state.setMobileThinViewSize;
+const getSetMobilePresortViewSize = (state) => state.setMobilePresortViewSize;
 
 const FooterViewSizer = () => {
   // GLOBAL STATE
@@ -29,9 +31,11 @@ const FooterViewSizer = () => {
   const cardFontSizePostsortPersist = +localStorage.getItem("fontSizePostsort");
   const cardFontSizePresortPersist = +localStorage.getItem("fontSizePresort");
   const setCardFontSizePostsort = useStore(getSetCardFontSizePostsort);
-  const setCardFontSizePresort = useStore(getSetCardFontSizePresort);
+  // const setCardFontSizePresort = useStore(getSetCardFontSizePresort);
   const mobileThinViewSize = useStore(getMobileThinViewSize);
+  const mobilePresortViewSize = useStore(getMobilePresortViewSize);
   const setMobileThinViewSize = useStore(getSetMobileThinViewSize);
+  const setMobilePresortViewSize = useStore(getSetMobilePresortViewSize);
 
   if (cardFontSizePresortPersist && currentPage === "presort") {
     cardFontSizePresort = cardFontSizePresortPersist;
@@ -48,10 +52,10 @@ const FooterViewSizer = () => {
   const increaseViewSize = () => {
     console.log("increaseFontSize");
     if (currentPage === "presort") {
-      const currentSize = cardFontSizePresort;
-      const newSize = currentSize + 1;
-      localStorage.setItem("fontSizePresort", JSON.stringify(newSize));
-      setCardFontSizePresort(newSize);
+      const currentSize = mobilePresortViewSize;
+      const newSize = currentSize + 2;
+      localStorage.setItem("mobilePresortViewSize", JSON.stringify(newSize));
+      setMobilePresortViewSize(newSize);
     }
     if (currentPage === "sort") {
       const currentSize = cardFontSizeSort;
@@ -75,10 +79,10 @@ const FooterViewSizer = () => {
   const decreaseViewSize = () => {
     console.log("decreaseFontSize");
     if (currentPage === "presort") {
-      const currentSize = cardFontSizePresort;
-      const newSize = currentSize - 1;
-      localStorage.setItem("fontSizePresort", JSON.stringify(newSize));
-      setCardFontSizePresort(newSize);
+      const currentSize = mobilePresortViewSize;
+      const newSize = currentSize - 2;
+      localStorage.setItem("mobilePresortViewSize", JSON.stringify(newSize));
+      setMobilePresortViewSize(newSize);
     }
     if (currentPage === "sort") {
       const currentSize = cardFontSizeSort;
@@ -95,7 +99,7 @@ const FooterViewSizer = () => {
     if (currentPage === "thin") {
       const currentSize = mobileThinViewSize;
       const newSize = currentSize - 2;
-      localStorage.setItem("mobileThinFontSize", JSON.stringify(newSize));
+      localStorage.setItem("mobileThinViewSize", JSON.stringify(newSize));
       setMobileThinViewSize(newSize);
     }
   };

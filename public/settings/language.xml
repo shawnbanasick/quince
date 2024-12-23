@@ -79,10 +79,10 @@
         <item id="presortImageSortInstructions">To enlarge an image, hover your mouse pointer over it and double-click. {{{br/}}}{{{br/}}} To compare images, {{{u}}}press and hold{{{/u}}} the {{{b}}}{{{i}}}Shift{{{/i}}}{{{/b}}} key on your keyboard and then double-click on TWO images with your mouse.</item>
       
         <!-- MOBILE PRESORT:  -->
-        <item id="mobilePresortConditionsOfInstruction">Rate Statements According to Your Experience in the Class</item>
+        <item id="mobilePresortConditionsOfInstruction">Rate Statements According to Your Experience of using the iPads in the Class</item>
         <item id="mobilePresortCompletedLabel">Completed Ratings</item>
-        <item id="mobilePresortAssignLeft">Less Like My Perspective</item>
-        <item id="mobilePresortAssignRight">More Like My Perspective</item>
+        <item id="mobilePresortAssignLeft">Different from My Perspective</item>
+        <item id="mobilePresortAssignRight">Similar to My Perspective</item>
 
 
 

@@ -2,23 +2,33 @@ import styled from "styled-components";
 import useStore from "../../globalState/useStore";
 import { v4 as uuid } from "uuid";
 
-const getMobilePresortResults = (state) => state.mobilePresortResults;
+// const getMobilePresortResults = (state) => state.mobilePresortResults;
+const getMobilePresortFontSize = (state) => state.mobilePresortFontSize;
+const getMobilePresortViewSize = (state) => state.mobilePresortViewSize;
 
-const MobilePreviousAssignmentBox = () => {
+const MobilePreviousAssignmentBox = (props) => {
   // let mobilePresortResults =
   //   JSON.stringify(localStorage.getItem("getMobilePresortResults"));
 
-  const mobilePresortResults = useStore(getMobilePresortResults);
+  // const mobilePresortResults = useStore(getMobilePresortResults);
+  const mobilePresortFontSize = useStore(getMobilePresortFontSize);
+  const mobilePresortViewSize = useStore(getMobilePresortViewSize);
 
-  let assessedStatements = mobilePresortResults.map((item) => {
+  let assessedStatements = props.statements.map((item) => {
     return (
-      <InternalDiv key={uuid()} color={item.color}>
+      <InternalDiv
+        key={uuid()}
+        fontSize={mobilePresortFontSize}
+        color={item.color}
+      >
         {item.statement}
       </InternalDiv>
     );
   });
 
-  return <Container>{assessedStatements}</Container>;
+  return (
+    <Container viewSize={mobilePresortViewSize}>{assessedStatements}</Container>
+  );
 };
 
 export default MobilePreviousAssignmentBox;
@@ -33,7 +43,7 @@ const Container = styled.div`
 
   background-color: #e5e5e5;
   width: 90vw;
-  height: 42vh;
+  height: ${(props) => `${props.viewSize}vh`};
   font-size: 1.1vh;
   align-items: center;
   gap: 15px;
@@ -54,9 +64,11 @@ const InternalDiv = styled.div`
   align-items: center;
   justify-content: center;
   background-color: ${(props) => props.color};
-  width: 40vw;
+  width: 80vw;
   min-height: 12vh;
-  font-size: 1.6vh;
+  font-size: ${(props) => {
+    return `${props.fontSize}vh`;
+  }};
   border-radius: 3px;
   text-align: center;
   outline: 1px solid black;

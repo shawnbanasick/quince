@@ -15,7 +15,9 @@ const getCardFontSizePostsort = (state) => state.cardFontSizePostsort;
 const getSetCardFontSizePostsort = (state) => state.setCardFontSizePostsort;
 const getCurrentPage = (state) => state.currentPage;
 const getMobileThinFontSize = (state) => state.mobileThinFontSize;
+const getMobilePresortFontSize = (state) => state.mobilePresortFontSize;
 const getSetMobileThinFontSize = (state) => state.setMobileThinFontSize;
+const getSetMobilePresortFontSize = (state) => state.setMobilePresortFontSize;
 
 const MobileFooterFontSizer = () => {
   // GLOBAL STATE
@@ -34,7 +36,9 @@ const MobileFooterFontSizer = () => {
   const setCardFontSizePostsort = useStore(getSetCardFontSizePostsort);
   const setCardFontSizePresort = useStore(getSetCardFontSizePresort);
   const mobileThinFontSize = useStore(getMobileThinFontSize);
+  const mobilePresortFontSize = useStore(getMobilePresortFontSize);
   const setMobileThinFontSize = useStore(getSetMobileThinFontSize);
+  const setMobilePresortFontSize = useStore(getSetMobilePresortFontSize);
 
   if (cardFontSizePresortPersist && currentPage === "presort") {
     cardFontSizePresort = cardFontSizePresortPersist;
@@ -49,12 +53,11 @@ const MobileFooterFontSizer = () => {
   }
 
   const increaseFontSize = () => {
-    console.log("increaseFontSize");
     if (currentPage === "presort") {
-      const currentSize = cardFontSizePresort;
-      const newSize = currentSize + 1;
-      localStorage.setItem("fontSizePresort", JSON.stringify(newSize));
-      setCardFontSizePresort(newSize);
+      const currentSize = mobilePresortFontSize;
+      const newSize = currentSize + 0.1;
+      localStorage.setItem("mobilePresortFontSize", JSON.stringify(newSize));
+      setMobilePresortFontSize(newSize);
     }
     if (currentPage === "sort") {
       const currentSize = cardFontSizeSort;
@@ -76,12 +79,11 @@ const MobileFooterFontSizer = () => {
     }
   };
   const decreaseFontSize = () => {
-    console.log("decreaseFontSize");
     if (currentPage === "presort") {
-      const currentSize = cardFontSizePresort;
-      const newSize = currentSize - 1;
-      localStorage.setItem("fontSizePresort", JSON.stringify(newSize));
-      setCardFontSizePresort(newSize);
+      const currentSize = mobilePresortFontSize;
+      const newSize = currentSize - 0.1;
+      localStorage.setItem("mobilePresortFontSize", JSON.stringify(newSize));
+      setMobilePresortFontSize(newSize);
     }
     if (currentPage === "sort") {
       const currentSize = cardFontSizeSort;

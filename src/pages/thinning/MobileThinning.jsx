@@ -267,8 +267,6 @@ const MobileThinning = () => {
     return;
   };
 
-  console.log(mobileThinFontSize);
-
   let assessedStatements = cards.map((item) => {
     return (
       <ItemContainer key={uuid()}>

@@ -1,11 +1,19 @@
 import styled from "styled-components";
+import useStore from "../../globalState/useStore";
+
+const getMobilePresortFontSize = (state) => state.mobilePresortFontSize;
 
 const MobileStatementBox = (props) => {
-  return (
-    <Container>
-      <h1>{props.statement}</h1>
-    </Container>
-  );
+  const mobilePresortFontSize = useStore(getMobilePresortFontSize);
+
+  let statement = props.statement || "Assignment Complete";
+  console.log("statement", statement);
+
+  if (statement === null || statement === undefined) {
+    statement = "Assignment Complete";
+  }
+
+  return <Container fontSize={mobilePresortFontSize}>{statement}</Container>;
 };
 
 export default MobileStatementBox;
@@ -16,12 +24,15 @@ const Container = styled.div`
   justify-self: center;
   background-color: #e5e5e5;
   width: 80vw;
-  height: 15vh;
-  font-size: 1.1vh;
+  height: fit-content;
+  min-height: 14vh;
+  font-size: ${(props) => {
+    return `${props.fontSize}vh`;
+  }};
   align-items: center;
   justify-content: center;
   border-radius: 3px;
   text-align: center;
-  padding: 5px;
+  padding: 15px 10px 15px 10px;
   border: 1px solid black;
 `;
