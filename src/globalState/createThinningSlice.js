@@ -23,7 +23,11 @@ const createThinningSlice = (set, get) => ({
   mobileThinViewSize: 68,
   mobilePresortFontSize: 2,
   mobilePresortViewSize: 42,
+  triggerMobilePresortRedoModal: false,
 
+  setTriggerMobilePresortRedoModal: (bool) => {
+    set(() => ({ triggerMobilePresortRedoModal: bool }));
+  },
   setMobilePresortStatementCount: (value) => {
     set(() => ({ mobilePresortStatementCount: value }));
   },

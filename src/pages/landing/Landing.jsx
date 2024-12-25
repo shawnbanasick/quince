@@ -142,6 +142,8 @@ const LandingPage = () => {
     localStorage.removeItem("mobilePresortStatementCount");
     localStorage.removeItem("mobilePresortResults");
     localStorage.removeItem("presortArray2");
+    localStorage.removeItem("thinDisplayControllerArray");
+    localStorage.removeItem("mobilePresortFontSize");
 
     if (configObj.requiredAnswersObj !== undefined) {
       localStorage.setItem(

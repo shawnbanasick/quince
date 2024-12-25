@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import useStore from "../../globalState/useStore";
 import { v4 as uuid } from "uuid";
+import RedoArrow from "../../assets/redoArrow.svg?react";
 
 // const getMobilePresortResults = (state) => state.mobilePresortResults;
 const getMobilePresortFontSize = (state) => state.mobilePresortFontSize;
@@ -21,7 +22,23 @@ const MobilePreviousAssignmentBox = (props) => {
         fontSize={mobilePresortFontSize}
         color={item.color}
       >
-        {item.statement}
+        <div>
+          <ArrowContainer
+            data-id={item.id}
+            data-statement={item.statement}
+            onClick={props.onClick}
+          >
+            <RedoArrow
+              style={{
+                float: "left",
+                height: "14px",
+                width: "14px",
+                pointerEvents: "none",
+              }}
+            />
+          </ArrowContainer>
+          {item.statement}
+        </div>
       </InternalDiv>
     );
   });
@@ -61,11 +78,12 @@ const Container = styled.div`
 
 const InternalDiv = styled.div`
   display: flex;
+  /* flex-direction: column; */
   align-items: center;
   justify-content: center;
   background-color: ${(props) => props.color};
   width: 80vw;
-  min-height: 12vh;
+  min-height: 8vh;
   font-size: ${(props) => {
     return `${props.fontSize}vh`;
   }};
@@ -73,4 +91,11 @@ const InternalDiv = styled.div`
   text-align: center;
   outline: 1px solid black;
   padding: 5px;
+`;
+
+const ArrowContainer = styled.div`
+  float: left;
+  width: 14px;
+  height: 14px;
+  margin-right: 5px;
 `;

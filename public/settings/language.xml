@@ -80,9 +80,13 @@
       
         <!-- MOBILE PRESORT:  -->
         <item id="mobilePresortConditionsOfInstruction">Rate Statements According to Your Experience of using the iPads in the Class</item>
-        <item id="mobilePresortCompletedLabel">Completed Ratings</item>
+        <item id="mobilePresortCompletedLabel">Completed Evaluations</item>
         <item id="mobilePresortAssignLeft">Different from My Perspective</item>
         <item id="mobilePresortAssignRight">Similar to My Perspective</item>
+        <item id="mobilePresortRedoModalHead">Re-Evaluate Statement</item>
+        <item id="mobilePresortRedoModalText">Click on the appropriate icon</item>
+        <item id="mobilePresortRedoModalConfirmButton">Confirm</item>
+        <item id="mobilePresortEvaluationsComplete">{{{div}}}{{{b}}}All Statements Evaluated.{{{/b}}} {{{br /}}}{{{br /}}}Click on the orange button on the bottom left side to go to the next stage.{{{div}}}</item>
 
 
 
