@@ -21,22 +21,7 @@ const createThinningSlice = (set, get) => ({
   triggerMobileThinMoveTopModal: false,
   mobileThinFontSize: 2,
   mobileThinViewSize: 68,
-  mobilePresortFontSize: 2,
-  mobilePresortViewSize: 42,
-  triggerMobilePresortRedoModal: false,
 
-  setTriggerMobilePresortRedoModal: (bool) => {
-    set(() => ({ triggerMobilePresortRedoModal: bool }));
-  },
-  setMobilePresortStatementCount: (value) => {
-    set(() => ({ mobilePresortStatementCount: value }));
-  },
-  setMobilePresortViewSize: (value) => {
-    set(() => ({ mobilePresortViewSize: value }));
-  },
-  setMobilePresortFontSize: (value) => {
-    set(() => ({ mobilePresortFontSize: value }));
-  },
   setMobileThinViewSize: (value) => {
     set(() => ({ mobileThinViewSize: value }));
   },

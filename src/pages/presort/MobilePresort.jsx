@@ -20,6 +20,7 @@ import mobileCardColor from "./mobileCardColor";
 import useLocalStorage from "../../utilities/useLocalStorage";
 import MobilePresortRedoModal from "./MobilePresortRedoModal";
 import calcThinDisplayControllerArray from "./calcThinDisplayControllerArray";
+import MobilePresortHelpModal from "./MobilePresortHelpModal";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
@@ -39,15 +40,14 @@ const getSetPresortFinished = (state) => state.setPresortFinished;
 const getMobilePresortFontSize = (state) => state.mobilePresortFontSize;
 const getSetTriggerMobilePresortRedoModal = (state) =>
   state.setTriggerMobilePresortRedoModal;
+const getSetDisplayMobileHelpButton = (state) =>
+  state.setDisplayMobileHelpButton;
 
-const PresortPage = () => {
-  // console.log("Mobile PresortPage");
-
+const MobilePresortPage = () => {
   // GLOBAL STATE
   const langObj = useSettingsStore(getLangObj);
   const configObj = useSettingsStore(getConfigObj);
   const statementsObj = useSettingsStore(getStatementsObj);
-  // let cardFontSize = useStore(getCardFontSizePresort);
   const isLoggedIn = useSettingsStore(getIsLoggedIn);
   const setCurrentPage = useStore(getSetCurrentPage);
   const setProgressScore = useStore(getSetProgressScore);
@@ -55,15 +55,16 @@ const PresortPage = () => {
   const resetColumnStatements = useSettingsStore(getResetColumnStatements);
   const setDisplayNextButton = useStore(getSetDisplayNextButton);
   const cardFontSizePersist = +localStorage.getItem("fontSizePresort");
-  // const setMobilePresortResults = useStore(getSetMobilePresortResults);
-  // const mobilePresortResults = useStore(getMobilePresortResults);
   const setPresortFinished = useStore(getSetPresortFinished);
   const mobilePresortFontSize = useStore(getMobilePresortFontSize);
   const setTriggerMobilePresortRedoModal = useStore(
     getSetTriggerMobilePresortRedoModal
   );
+  const setDisplayMobileHelpButton = useStore(getSetDisplayMobileHelpButton);
 
-  let redoCardId = useRef({ id: "", statement: "" });
+  // let cardFontSize = useStore(getCardFontSizePresort);
+  // const setMobilePresortResults = useStore(getSetMobilePresortResults);
+  // const mobilePresortResults = useStore(getMobilePresortResults);
 
   const setTriggerPresortFinishedModal = useStore(
     getSetTriggerMobilePresortFinishedModal
@@ -84,18 +85,17 @@ const PresortPage = () => {
     "presortArray2",
     initialArray
   );
-
   let [statementCount, setStatementCount] = useLocalStorage(
     "mobilePresortStatementCount",
     0
   );
-
   let [mobilePresortResults, setMobilePresortResults] = useLocalStorage(
     "mobilePresortResults",
     []
   );
+  let redoCardId = useRef({ id: "", statement: "" });
 
-  setDisplayNextButton(true);
+  // setDisplayNextButton(true);
 
   useEffect(() => {
     let startTime = Date.now();
@@ -164,6 +164,7 @@ const PresortPage = () => {
     );
     selectedStatementObject.psValue = value;
     selectedStatementObject.color = mobileCardColor(value);
+
     mobilePresortResults.sort((a, b) => {
       let aVal = +a.id.slice(1);
       let bVal = +b.id.slice(1);
@@ -173,6 +174,7 @@ const PresortPage = () => {
       return b.psValue - a.psValue;
     });
     setMobilePresortResults([...mobilePresortResults]);
+
     let selectedPosItems = mobilePresortResults.filter((item) => {
       return +item.psValue > 0;
     });
@@ -182,9 +184,9 @@ const PresortPage = () => {
 
     localStorage.setItem("selectedPosItems", JSON.stringify(selectedPosItems));
     localStorage.setItem("selectedNegItems", JSON.stringify(selectedNegItems));
+
     let sortRightArrays = JSON.parse(localStorage.getItem("sortRightArrays"));
     let sortLeftArrays = JSON.parse(localStorage.getItem("sortLeftArrays"));
-
     let remainingPosCount = selectedPosItems.length;
     let remainingNegCount = selectedNegItems.length;
 
@@ -243,9 +245,9 @@ const PresortPage = () => {
           let sortLeftArrays = JSON.parse(
             localStorage.getItem("sortLeftArrays")
           );
-
           let remainingPosCount = selectedPosItems.length;
           let remainingNegCount = selectedNegItems.length;
+
           let thinDisplayControllerArray = calcThinDisplayControllerArray(
             remainingPosCount,
             remainingNegCount,
@@ -253,14 +255,13 @@ const PresortPage = () => {
             sortLeftArrays
           );
 
-          console.log(JSON.stringify(thinDisplayControllerArray));
-
           localStorage.setItem(
             "thinDisplayControllerArray",
             JSON.stringify(thinDisplayControllerArray)
           );
 
           setTriggerPresortFinishedModal(true);
+          setDisplayMobileHelpButton(false);
         }
       }
     } catch (error) {
@@ -269,10 +270,10 @@ const PresortPage = () => {
     if (presortArray2.length === 0) {
       console.log("presortArray2.length === 0");
       setPresortFinished(true);
+      setDisplayMobileHelpButton(false);
     }
   };
 
-  // console.log(screenOrientation);
   if (screenOrientation === "landscape-primary") {
     return (
       <OrientationDiv>
@@ -280,17 +281,15 @@ const PresortPage = () => {
       </OrientationDiv>
     );
   }
-  // console.log(JSON.stringify(columnStatements.statementList.length));
   let totalStatements = columnStatements.statementList.length;
-  // console.log("presortArray2: ", JSON.stringify(presortArray2));
 
-  // <MobilePresortRedoModal clickFunction={handleRedo} />
   return (
     <Container>
       <MobilePresortRedoModal
         clickFunction={handleRedoClick}
         statement={redoCardId}
       />
+      <MobilePresortHelpModal />
       <SortTitleBar background={configObj.headerBarColor}>
         {titleText}
       </SortTitleBar>
@@ -349,7 +348,7 @@ const PresortPage = () => {
   );
 };
 
-export default PresortPage;
+export default MobilePresortPage;
 
 const SortTitleBar = styled.div`
   display: flex;

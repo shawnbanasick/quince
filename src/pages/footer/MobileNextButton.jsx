@@ -230,6 +230,7 @@ const NextButton = styled.button`
   border-radius: 3px;
   text-decoration: none;
   width: ${(props) => `${props.width}px;`};
+  height: 28px;
   justify-self: right;
   margin-right: 2vw;
   display: flex;

@@ -13,7 +13,11 @@ const createLandingSlice = (set, get) => ({
   triggerSaveBeforeDeleteModal: false,
   userInputPartId: "",
   displayPartIdWarning: false,
+  displayMobileHelpButton: true,
 
+  setDisplayMobileHelpButton: (inputValue) => {
+    set(() => ({ displayMobileHelpButton: inputValue }));
+  },
   setTriggerConsentModal: (inputValue) => {
     set(() => ({ triggerConsentModal: inputValue }));
   },

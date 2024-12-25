@@ -79,7 +79,7 @@
         <item id="presortImageSortInstructions">To enlarge an image, hover your mouse pointer over it and double-click. {{{br/}}}{{{br/}}} To compare images, {{{u}}}press and hold{{{/u}}} the {{{b}}}{{{i}}}Shift{{{/i}}}{{{/b}}} key on your keyboard and then double-click on TWO images with your mouse.</item>
       
         <!-- MOBILE PRESORT:  -->
-        <item id="mobilePresortConditionsOfInstruction">Rate Statements According to Your Experience of using the iPads in the Class</item>
+        <item id="mobilePresortConditionsOfInstruction">Evaluate the Statements According to Your Experience of using the iPads in the Class</item>
         <item id="mobilePresortCompletedLabel">Completed Evaluations</item>
         <item id="mobilePresortAssignLeft">Different from My Perspective</item>
         <item id="mobilePresortAssignRight">Similar to My Perspective</item>
@@ -87,6 +87,9 @@
         <item id="mobilePresortRedoModalText">Click on the appropriate icon</item>
         <item id="mobilePresortRedoModalConfirmButton">Confirm</item>
         <item id="mobilePresortEvaluationsComplete">{{{div}}}{{{b}}}All Statements Evaluated.{{{/b}}} {{{br /}}}{{{br /}}}Click on the orange button on the bottom left side to go to the next stage.{{{div}}}</item>
+        <item id="mobilePresortHelpModalHead">Stage 1. {{{br /}}}Statement Evaluation</item>
+        <item id="mobilePresortHelpModalText">Click on the appropriate button to assign a value to each statement</item>
+        
 
 
 

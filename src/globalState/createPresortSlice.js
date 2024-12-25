@@ -12,7 +12,26 @@ const createPresortSlice = (set, get) => ({
   results: {},
   mobilePresortResults: [],
   triggerMobilePresortFinishedModal: false,
+  mobilePresortFontSize: 2,
+  mobilePresortViewSize: 42,
+  triggerMobilePresortRedoModal: false,
+  triggerMobilePresortHelpModal: false,
 
+  setTriggerMobilePresortHelpModal: (bool) => {
+    set(() => ({ triggerMobilePresortHelpModal: bool }));
+  },
+  setTriggerMobilePresortRedoModal: (bool) => {
+    set(() => ({ triggerMobilePresortRedoModal: bool }));
+  },
+  setMobilePresortStatementCount: (value) => {
+    set(() => ({ mobilePresortStatementCount: value }));
+  },
+  setMobilePresortViewSize: (value) => {
+    set(() => ({ mobilePresortViewSize: value }));
+  },
+  setMobilePresortFontSize: (value) => {
+    set(() => ({ mobilePresortFontSize: value }));
+  },
   setTriggerMobilePresortFinishedModal: (bool) => {
     set(() => ({ triggerMobilePresortFinishedModal: bool }));
   },

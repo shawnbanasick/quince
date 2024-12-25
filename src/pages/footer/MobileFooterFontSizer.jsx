@@ -55,7 +55,7 @@ const MobileFooterFontSizer = () => {
   const increaseFontSize = () => {
     if (currentPage === "presort") {
       const currentSize = mobilePresortFontSize;
-      let newSize = currentSize + 0.1;
+      let newSize = +currentSize + 0.1;
       newSize = newSize.toPrecision(2);
       localStorage.setItem("mobilePresortFontSize", JSON.stringify(newSize));
       setMobilePresortFontSize(newSize);
@@ -95,7 +95,7 @@ const MobileFooterFontSizer = () => {
     }
     if (currentPage === "postsort") {
       const currentSize = cardFontSizePostsort;
-      const newSize = currentSize - 1;
+      const newSize = +currentSize - 1;
       localStorage.setItem("fontSizePostsort", JSON.stringify(newSize));
       setCardFontSizePostsort(newSize);
     }

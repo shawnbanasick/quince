@@ -2,12 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import MobileNextButton from "./MobileNextButton";
 import MobileFooterFontSizer from "./MobileFooterFontSizer";
-import CardHeightSizer from "./CardHeightSizer";
-import ProgressBar from "@ramonak/react-progress-bar";
+// import CardHeightSizer from "./CardHeightSizer";
+// import ProgressBar from "@ramonak/react-progress-bar";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
-import calcProgressScore from "./calcProgressScore";
-import HelpButton from "./HelpButton";
+// import calcProgressScore from "./calcProgressScore";
+import MobileHelpButton from "./MobileHelpButton";
 import getNextPage from "./getNextPage";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
@@ -18,26 +18,29 @@ const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
 const getDisplayNextButton = (state) => state.displayNextButton;
 const getCurrentPage = (state) => state.currentPage;
-const getAdditionalProgress = (state) => state.progressScoreAdditional;
-const getAdditionalProgressSort = (state) => state.progressScoreAdditionalSort;
+// const getAdditionalProgress = (state) => state.progressScoreAdditional;
+// const getAdditionalProgressSort = (state) => state.progressScoreAdditionalSort;
 const getLocalUsercode = (state) => state.localUsercode;
+const getDisplayMobileHelpButton = (state) => state.displayMobileHelpButton;
+const getSetDisplayMobileHelpButton = (state) =>
+  state.setDisplayMobileHelpButton;
 
 const StyledFooter = () => {
-  console.log("MobileFooter.jsx");
   // STATE
   const langObj = useSettingsStore(getLangObj);
   const configObj = useSettingsStore(getConfigObj);
   let displayNextButton = useStore(getDisplayNextButton);
   const currentPage = useStore(getCurrentPage);
-  const additionalProgress = useStore(getAdditionalProgress);
-  const additionalProgressSort = useStore(getAdditionalProgressSort);
+  // const additionalProgress = useStore(getAdditionalProgress);
+  // const additionalProgressSort = useStore(getAdditionalProgressSort);
   const localUsercode = useStore(getLocalUsercode);
+  let displayMobileHelpButton = useStore(getDisplayMobileHelpButton);
+  const setDisplayMobileHelpButton = useStore(getSetDisplayMobileHelpButton);
 
+  // let showProgressBar = false;
+  // let showCardHeightSizer = true;
   let showAdjustmentContainer = true;
-  let showCardHeightSizer = true;
-  let displayHelpButton = true;
   let showFooterFontSizer = true;
-  let showProgressBar = false;
   let showLogo = false;
   let showFooterViewSizer = true;
 
@@ -59,7 +62,7 @@ const StyledFooter = () => {
   let nextButtonWidth = 60;
   let nextButtonText = "";
   if (currentPage === "landing") {
-    nextButtonWidth = 150;
+    nextButtonWidth = 60;
     nextButtonText = ReactHtmlParser(decodeHTML(langObj.btnNextLanding)) || "";
   } else {
     nextButtonText = ReactHtmlParser(decodeHTML(langObj.btnNext)) || "";
@@ -88,36 +91,36 @@ const StyledFooter = () => {
   const showConsent = configObj.showConsentPage;
   const showThinning = configObj.useThinProcess;
 
-  const totalProgressScore = calcProgressScore(
-    currentPage,
-    additionalProgress,
-    additionalProgressSort,
-    showPostsort,
-    showSurvey,
-    additionalProgress,
-    additionalProgressSort
-  );
+  // const totalProgressScore = calcProgressScore(
+  //   currentPage,
+  //   additionalProgress,
+  //   additionalProgressSort,
+  //   showPostsort,
+  //   showSurvey,
+  //   additionalProgress,
+  //   additionalProgressSort
+  // );
 
   if (currentPage === "submit") {
     displayNextButton = false;
   }
 
-  if (
-    currentPage === "thin" ||
-    currentPage === "postsort" ||
-    currentPage === "survey" ||
-    currentPage === "sort"
-  ) {
-    displayNextButton = true;
-    displayHelpButton = false;
-  }
+  // if (
+  //   currentPage === "thin" ||
+  //   currentPage === "postsort" ||
+  //   currentPage === "survey" ||
+  //   currentPage === "sort"
+  // ) {
+  //   displayNextButton = true;
+  //   displayMobileHelpButton = false;
+  // }
 
   if (configObj.setupTarget === "local" && currentPage === "landing") {
     displayNextButton = false;
-    displayHelpButton = false;
+    // displayHelpButton = false;
   }
   if (currentPage === "submit") {
-    displayHelpButton = false;
+    // displayHelpButton = false;
   }
 
   if (currentPage === "presort") {
@@ -142,35 +145,36 @@ const StyledFooter = () => {
     }
   }
 
-  if (
-    currentPage === "landing" ||
-    currentPage === "survey" ||
-    currentPage === "submit" ||
-    currentPage === "postsort"
-  ) {
-    showAdjustmentContainer = false;
-  }
-  displayHelpButton = false;
+  // if (
+  //   currentPage === "landing" ||
+  //   currentPage === "survey" ||
+  //   currentPage === "submit" ||
+  //   currentPage === "postsort"
+  // ) {
+  //   showAdjustmentContainer = false;
+  // }
+  // displayMobileHelpButton = false;
 
   if (currentPage === "postsort") {
     showLogo = true;
   }
 
   if (currentPage === "landing") {
-    showProgressBar = false;
-    showLogo = true;
+    // showProgressBar = false;
+    showLogo = false;
+    displayMobileHelpButton = false;
   }
 
   let CenterContent = (
     <React.Fragment>
-      {displayHelpButton && <HelpButton />}
       {showAdjustmentContainer && (
         <AdjustmentsContainer>
           {showFooterFontSizer && <MobileFooterFontSizer />}
           {showFooterViewSizer && <MobileFooterViewSizer />}
         </AdjustmentsContainer>
       )}
-      {showProgressBar && (
+      {/* {displayMobileHelpButton && <MobileHelpButton />} */}
+      {/* {showProgressBar && (
         <ProgressBarDiv>
           <ProgressBar
             completed={totalProgressScore}
@@ -180,7 +184,7 @@ const StyledFooter = () => {
             baseBgColor="lightgray"
           />
         </ProgressBarDiv>
-      )}
+      )} */}
     </React.Fragment>
   );
 
@@ -200,7 +204,7 @@ const StyledFooter = () => {
   if (showFooter === false) {
     return null;
   }
-  console.log(currentPage, showPostsort, showSurvey, nextPage, showFooter);
+  // console.log(currentPage, showPostsort, showSurvey, nextPage, showFooter);
 
   return (
     <StyledFooterDiv>
@@ -210,7 +214,9 @@ const StyledFooter = () => {
         {showBackButton && (
           <PostsortBackButton to={"/sort"}>{backButtonText}</PostsortBackButton>
         )}
-        {displayNextButton && (
+        {displayMobileHelpButton ? (
+          <MobileHelpButton />
+        ) : (
           <MobileNextButton width={nextButtonWidth} to={nextPage}>
             {nextButtonText}
           </MobileNextButton>
@@ -237,15 +243,15 @@ const StyledFooterDiv = styled.footer`
 const AdjustmentsContainer = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 20px;
+  gap: 36px;
   margin-left: 2vw;
 `;
 
-const ProgressBarDiv = styled.div`
-  align-self: center;
-  justify-self: center;
-  margin-left: 25px;
-`;
+// const ProgressBarDiv = styled.div`
+//   align-self: center;
+//   justify-self: center;
+//   margin-left: 25px;
+// `;
 
 const LogoContainer = styled.div`
   padding-top: 5px;
