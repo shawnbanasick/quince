@@ -96,7 +96,10 @@ const MobileSort = () => {
           <DownArrows style={{ pointerEvents: "none" }} />
         </DownArrowContainer>
         <InternalDiv id={item.id} key={uuid()} color={colorArray[index]}>
-          {item.statement}
+          <div>
+            <NumberContainer>{index + 1}</NumberContainer>
+            {item.statement}
+          </div>
         </InternalDiv>
         <UpArrowContainer id={item.id} onClick={handleOnClickUp}>
           <UpArrows style={{ pointerEvents: "none" }} />
@@ -167,6 +170,7 @@ const InternalDiv = styled.div`
   align-items: center;
   justify-content: center;
   background-color: ${(props) => props.color};
+  position: relative;
   width: 66vw;
   min-height: 10vh;
   font-size: 2vh;
@@ -174,11 +178,13 @@ const InternalDiv = styled.div`
   text-align: center;
   outline: 1px solid black;
   padding: 5px;
+  padding-top: 18px;
   -webkit-transition: background-color 1000ms linear;
   -moz-transition: background-color 1000ms linear;
   -o-transition: background-color 1000ms linear;
   -ms-transition: background-color 1000ms linear;
   transition: all 1000ms linear;
+  user-select: none;
 `;
 
 const UpArrowContainer = styled.button`
@@ -215,4 +221,18 @@ const ItemContainer = styled.div`
   align-items: stretch;
   min-height: 10vh;
   flex-direction: row;
+`;
+
+const NumberContainer = styled.div`
+  /* float: left; */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 22px;
+  height: 16px;
+  padding-bottom: 3px;
+  background-color: lightgoldenrodyellow;
+  outline: 1px solid black;
+  border-bottom-right-radius: 3px;
+  /* margin-right: 5px; */
 `;

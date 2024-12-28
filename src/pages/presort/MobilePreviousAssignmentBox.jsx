@@ -78,7 +78,6 @@ const Container = styled.div`
 
 const InternalDiv = styled.div`
   display: flex;
-  /* flex-direction: column; */
   align-items: center;
   justify-content: center;
   background-color: ${(props) => props.color};
