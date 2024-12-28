@@ -155,7 +155,6 @@ const MobilePresortPage = () => {
 
   const handleRedoClick = (value) => {
     setTriggerMobilePresortRedoModal(false);
-    console.log(presortArray2);
     let selectedStatementObject = mobilePresortResults.find(
       (item) => item.id === redoCardId.current.id
     );
@@ -163,17 +162,14 @@ const MobilePresortPage = () => {
     selectedStatementObject.color = mobileCardColor(value);
 
     if (value > 0) {
-      console.log("value > 0");
       selectedStatementObject.pinkChecked = false;
       selectedStatementObject.yellowChecked = false;
       selectedStatementObject.greenChecked = true;
     } else if (value < 0) {
-      console.log("value < 0");
       selectedStatementObject.pinkChecked = true;
       selectedStatementObject.yellowChecked = false;
       selectedStatementObject.greenChecked = false;
     } else {
-      console.log("value === 0");
       selectedStatementObject.pinkChecked = false;
       selectedStatementObject.yellowChecked = true;
       selectedStatementObject.greenChecked = false;
@@ -223,17 +219,14 @@ const MobilePresortPage = () => {
 
         // create object
         if (value > 0) {
-          console.log("value > 0");
           currentObj.pinkChecked = false;
           currentObj.yellowChecked = false;
           currentObj.greenChecked = true;
         } else if (value < 0) {
-          console.log("value < 0");
           currentObj.pinkChecked = true;
           currentObj.yellowChecked = false;
           currentObj.greenChecked = false;
         } else {
-          console.log("value === 0");
           currentObj.pinkChecked = false;
           currentObj.yellowChecked = true;
           currentObj.greenChecked = false;
@@ -270,8 +263,6 @@ const MobilePresortPage = () => {
         );
 
         if (presortArray2.length === 0) {
-          console.log("presortArray2.length === 0 - end of presort");
-
           let sortRightArrays = JSON.parse(
             localStorage.getItem("sortRightArrays")
           );
@@ -294,8 +285,6 @@ const MobilePresortPage = () => {
             JSON.stringify(thinDisplayControllerArray)
           );
 
-          console.log("target", JSON.stringify(mobilePresortResults));
-
           // *** update newCols ***
           newCols.statementList = mobilePresortResults;
           localStorage.setItem("newCols", JSON.stringify(newCols));
@@ -308,7 +297,6 @@ const MobilePresortPage = () => {
       console.error(error);
     }
     if (presortArray2.length === 0) {
-      console.log("presortArray2.length === 0");
       setPresortFinished(true);
       setDisplayMobileHelpButton(false);
     }

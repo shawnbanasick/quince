@@ -23,16 +23,12 @@ import convert from "xml-js";
 import ConsentPage from "./pages/consent/Consent";
 import detectMobileBrowser from "./utilities/detectMobileBrowser";
 import MobileFooter from "./pages/footer/MobileFooter";
-const MobilePresortPage = lazy(() => import("./pages/presort/MobilePresort"));
-const MobileThinningPage = lazy(() =>
-  import("./pages/thinning/MobileThinning")
-);
-const MobileSortPage = lazy(() => import("./pages/sort/MobileSort"));
-const MobileSurveyPage = lazy(() => import("./pages/survey/MobileSurvey"));
-const MobilePostsortPage = lazy(() =>
-  import("./pages/postsort/MobilePostsort")
-);
-const MobileSubmitPage = lazy(() => import("./pages/submit/MobileSubmit"));
+import MobilePresortPage from "./pages/presort/MobilePresort";
+import MobileThinningPage from "./pages/thinning/MobileThinning";
+import MobileSortPage from "./pages/sort/MobileSort";
+import MobileSurveyPage from "./pages/survey/MobileSurvey";
+import MobilePostsortPage from "./pages/postsort/MobilePostsort";
+import MobileSubmitPage from "./pages/submit/MobileSubmit";
 
 const getConfigObj = (state) => state.configObj;
 const getSetConfigObj = (state) => state.setConfigObj;

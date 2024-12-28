@@ -115,7 +115,6 @@ const MobileThinning = () => {
   // *** Display ****************************************
   // *******************************************************
   let cards;
-  console.log("displayControllerArray", JSON.stringify(displayControllerArray));
   let selectedStatementsNum = 0;
   if (displayControllerArray[0]?.side === "right") {
     cards = [...selectedPosItems];
@@ -131,13 +130,11 @@ const MobileThinning = () => {
 
     let colData = JSON.parse(localStorage.getItem("finalSortColData"));
     let reversedColData = colData.reverse();
-    console.log(JSON.stringify(reversedColData, null, 2));
     let mobileFinalThinCols = [];
     reversedColData.forEach((item) => {
       let array = completedCols.vCols[item[0]];
       mobileFinalThinCols.push(...array);
     });
-    console.log("finalThinCols", JSON.stringify(mobileFinalThinCols, null, 2));
     localStorage.setItem(
       "mobileFinalThinCols",
       JSON.stringify(mobileFinalThinCols)
@@ -149,10 +146,8 @@ const MobileThinning = () => {
   // *** EVENT HANDLING *************************************
   // ********************************************************
   const handleCardSelected = (e) => {
-    // let colMax = +e.target.getAttribute("data-max");
     let targetcol = e.target.getAttribute("data-targetcol");
 
-    // let selectedStatementsNum = 0;
     cards.forEach((item) => {
       if (item.id === e.target.dataset.id) {
         item.targetcol = targetcol;
@@ -164,7 +159,6 @@ const MobileThinning = () => {
         item.color = mobileCardColor(+item.psValue);
       }
     });
-    // setSelectedStatementsNum(selectedStatements);
     if (displayControllerArray[0]?.side === "right") {
       setSelectedPosItems([...cards]);
     }
@@ -426,18 +420,18 @@ const SortTitleBar = styled.div`
   font-size: 4.5vw;
 `;
 
-const InstructionsDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 2vw;
-  font-size: 3.2vw;
-  font-weight: normal;
-  text-align: center;
-  color: black;
-  /* border: 2px solid red; */
-`;
+// const InstructionsDiv = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   padding: 2vw;
+//   font-size: 3.2vw;
+//   font-weight: normal;
+//   text-align: center;
+//   color: black;
+//   /* border: 2px solid red; */
+// `;
 
 const MainContainer = styled.div`
   display: flex;

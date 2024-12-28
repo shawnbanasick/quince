@@ -24,14 +24,9 @@ const MobileSort = () => {
     JSON.parse(localStorage.getItem("mobileFinalThinCols"))
   );
 
-  console.log("sortArray", sortArray1);
-  // let sortArrayColors = local;
-  // console.log("sortArrayColors", sortArrayColors);
-
   const colorArraySource = [...mapObj.columnHeadersColorsArray].reverse();
   const qSortPattern = [...mapObj.qSortPattern];
   let colorArray = [];
-  let titleText = "Sort Statements"; // mapObj.sortTitleText;
 
   // *** record time on page
   useEffect(() => {
@@ -53,7 +48,6 @@ const MobileSort = () => {
       colorArray.push(colorArraySource[index]);
     }
   });
-  console.log("colorArray", colorArray);
 
   const handleScroll = (e) => {
     const bottom =
@@ -64,8 +58,6 @@ const MobileSort = () => {
   };
 
   const handleOnClickUp = (e) => {
-    console.log("clicked Up", e.target.id);
-
     let clickedItemIndex = sortArray1.findIndex(
       (item) => item.id === e.target.id
     );
@@ -82,8 +74,6 @@ const MobileSort = () => {
   };
 
   const handleOnClickDown = (e) => {
-    console.log("clicked Down", e.target.id);
-
     let clickedItemIndex = sortArray1.findIndex(
       (item) => item.id === e.target.id
     );

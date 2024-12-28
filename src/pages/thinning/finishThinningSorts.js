@@ -3,8 +3,8 @@ import remove from "lodash/remove";
 import displayDebugStateNums from "./displayDebugStateNums";
 
 const finishThinningSorts = (newCols, finalSortColData) => {
-  let displayObject = displayDebugStateNums(newCols);
-  console.log("debug newCols", JSON.stringify(displayObject));
+  // let displayObject = displayDebugStateNums(newCols);
+  // console.log("debug newCols", JSON.stringify(displayObject));
 
   // shuffle the statementList array so the randoms don't always end up in the same place across parts.
   newCols.statementList = shuffle(newCols.statementList);
@@ -19,10 +19,10 @@ const finishThinningSorts = (newCols, finalSortColData) => {
     (item) => item.greenChecked === true
   );
 
-  console.log("remainingPink", remainingPink.length);
-  console.log("remainingYellow", remainingYellow.length);
-  console.log("remainingGreen", remainingGreen.length);
-  console.log("statementList", newCols.statementList.length);
+  // console.log("remainingPink", remainingPink.length);
+  // console.log("remainingYellow", remainingYellow.length);
+  // console.log("remainingGreen", remainingGreen.length);
+  // console.log("statementList", newCols.statementList.length);
 
   let counter1 = 0;
   let counter1b = 0;
@@ -38,7 +38,6 @@ const finishThinningSorts = (newCols, finalSortColData) => {
     finalSortColData.forEach((colInfoArray) => {
       const colName = colInfoArray[0];
       const colMax = colInfoArray[1];
-      // console.log("colName", colName);
 
       // if there is room in the column, place a pink card
       if (newCols.vCols[colName].length < colMax) {
@@ -71,7 +70,6 @@ const finishThinningSorts = (newCols, finalSortColData) => {
     finalSortColData.forEach((colInfoArray) => {
       const colName = colInfoArray[0];
       const colMax = colInfoArray[1];
-      // console.log("colName", colName);
 
       // if there is room in the column, place a yellow card
       if (newCols.vCols[colName].length < colMax) {
@@ -100,7 +98,6 @@ const finishThinningSorts = (newCols, finalSortColData) => {
     let displayObject3 = displayDebugStateNums(newCols);
     console.log("debug newCols3", JSON.stringify(displayObject3));
 
-    // console.log("running green");
     // iterate through each column
     finalSortColData.forEach((colInfoArray) => {
       const colName = colInfoArray[0];
@@ -132,7 +129,6 @@ const finishThinningSorts = (newCols, finalSortColData) => {
   // let displayObject4 = displayDebugStateNums(newCols);
   // console.log("debug newCols4", JSON.stringify(displayObject4));
 
-  // console.log(JSON.stringify(newCols.statementList, null, 2));
   return newCols;
 };
 
