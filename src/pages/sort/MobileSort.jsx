@@ -7,7 +7,6 @@ import { v4 as uuid } from "uuid";
 import DownArrows from "../../assets/downArrows.svg?react";
 import UpArrows from "../../assets/upArrows.svg?react";
 import useLocalStorage from "../../utilities/useLocalStorage";
-import { values } from "lodash";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
