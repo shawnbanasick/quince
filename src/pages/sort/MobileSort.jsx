@@ -1,4 +1,4 @@
-import { Component, ReactElement, useEffect } from "react";
+import { Component, ReactElement, useEffect, useMemo } from "react";
 import styled from "styled-components";
 import useStore from "../../globalState/useStore";
 import calculateTimeOnPage from "../../utilities/calculateTimeOnPage";
@@ -7,6 +7,7 @@ import { v4 as uuid } from "uuid";
 import DownArrows from "../../assets/downArrows.svg?react";
 import UpArrows from "../../assets/upArrows.svg?react";
 import useLocalStorage from "../../utilities/useLocalStorage";
+import { values } from "lodash";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
@@ -19,14 +20,13 @@ const MobileSort = () => {
   const mapObj = useSettingsStore(getMapObj);
   const configObj = useSettingsStore(getConfigObj);
 
+  // *********************************
+  // *** Local State ****************************************************
+  // *********************************
   const [sortArray1, setSortArray1] = useLocalStorage(
     "sortArray1",
     JSON.parse(localStorage.getItem("mobileFinalThinCols"))
   );
-
-  const colorArraySource = [...mapObj.columnHeadersColorsArray].reverse();
-  const qSortPattern = [...mapObj.qSortPattern];
-  let colorArray = [];
 
   // *** record time on page
   useEffect(() => {
@@ -42,13 +42,29 @@ const MobileSort = () => {
     };
   }, [setCurrentPage, setProgressScore]);
 
-  // *** generate colorArray based on qSortPattern
-  qSortPattern.forEach((item, index) => {
-    for (let i = 0; i < item; i++) {
-      colorArray.push(colorArraySource[index]);
-    }
-  });
+  // *********************************
+  // *** generate colorArray and card number based on qSortPattern
+  // *********************************
+  const colorArraySource = [...mapObj.columnHeadersColorsArray].reverse();
+  const valuesArraySource = [...mapObj.qSortHeaderNumbers].reverse();
 
+  const colorArray = useMemo(() => {
+    const qSortPattern = [...mapObj.qSortPattern];
+    const tempArray = [];
+    qSortPattern.forEach((item, index) => {
+      const tempObj = {};
+      for (let i = 0; i < item; i++) {
+        tempObj.color = colorArraySource[index];
+        tempObj.value = valuesArraySource[index];
+        tempArray.push({ ...tempObj });
+      }
+    });
+    return tempArray;
+  }, [colorArraySource, valuesArraySource, mapObj.qSortPattern]);
+
+  // *********************************
+  // *** Event Handlers ****************************************************
+  // *********************************
   const handleScroll = (e) => {
     const bottom =
       e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
@@ -89,15 +105,19 @@ const MobileSort = () => {
     return;
   };
 
+  // *********************************
+  // *** Elements ****************************************************
+  // *********************************
+
   let currentRankings = sortArray1.map((item, index) => {
     return (
       <ItemContainer key={uuid()}>
         <DownArrowContainer id={item.id} onClick={handleOnClickDown}>
           <DownArrows style={{ pointerEvents: "none" }} />
         </DownArrowContainer>
-        <InternalDiv id={item.id} key={uuid()} color={colorArray[index]}>
+        <InternalDiv id={item.id} key={uuid()} color={colorArray[index].color}>
           <div>
-            <NumberContainer>{index + 1}</NumberContainer>
+            <NumberContainer>{colorArray[index].value}</NumberContainer>
             {item.statement}
           </div>
         </InternalDiv>
