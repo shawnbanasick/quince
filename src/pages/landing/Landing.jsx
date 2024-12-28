@@ -144,6 +144,10 @@ const LandingPage = () => {
     localStorage.removeItem("presortArray2");
     localStorage.removeItem("thinDisplayControllerArray");
     localStorage.removeItem("mobilePresortFontSize");
+    localStorage.removeItem("sortArray1");
+    localStorage.removeItem("selectedPosItems");
+    localStorage.removeItem("selectedNegItems");
+    localStorage.removeItem("columnStatements");
 
     if (configObj.requiredAnswersObj !== undefined) {
       localStorage.setItem(
@@ -179,8 +183,7 @@ const LandingPage = () => {
 
     const maxIterations = setMaxIterations(qSortPattern);
 
-    // **** USE REFS ***** //
-
+    // **** LOCAL STATE ***** //
     let finalSortColData = createColumnData(headers, qSortPattern);
     localStorage.setItem("finalSortColData", JSON.stringify(finalSortColData));
 
@@ -192,6 +195,10 @@ const LandingPage = () => {
     let sortLeftArrays = [...rightLeftArrays[0]];
     localStorage.setItem("sortRightArrays", JSON.stringify(sortRightArrays));
     localStorage.setItem("sortLeftArrays", JSON.stringify(sortLeftArrays));
+
+    // set newCols to local storage
+    let columnStatements = statementsObj.columnStatements;
+    localStorage.setItem("newCols", JSON.stringify(columnStatements));
 
     // display "Next" button if anonymous log in
     if (configObj.initialScreen === "anonymous") {

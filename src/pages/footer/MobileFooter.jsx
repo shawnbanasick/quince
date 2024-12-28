@@ -145,14 +145,14 @@ const StyledFooter = () => {
     }
   }
 
-  // if (
-  //   currentPage === "landing" ||
-  //   currentPage === "survey" ||
-  //   currentPage === "submit" ||
-  //   currentPage === "postsort"
-  // ) {
-  //   showAdjustmentContainer = false;
-  // }
+  if (
+    currentPage === "landing" ||
+    currentPage === "survey" ||
+    currentPage === "submit" ||
+    currentPage === "postsort"
+  ) {
+    showAdjustmentContainer = false;
+  }
   // displayMobileHelpButton = false;
 
   if (currentPage === "postsort") {
@@ -161,7 +161,7 @@ const StyledFooter = () => {
 
   if (currentPage === "landing") {
     // showProgressBar = false;
-    showLogo = false;
+    showLogo = true;
     displayMobileHelpButton = false;
   }
 

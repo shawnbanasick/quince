@@ -8,7 +8,7 @@ import finishThinningSorts from "./finishThinningSorts";
 import Boxes from "./Boxes";
 import MobileInstructions from "./MobileInstructions";
 import moveSelectedNegCards from "./moveSelectedNegCards";
-import moveSelectedPosCards from "./moveSelectedPosCards";
+// import moveSelectedPosCards from "./moveSelectedPosCards";
 import uniq from "lodash/uniq";
 import { v4 as uuid } from "uuid";
 import useStore from "../../globalState/useStore";
@@ -19,13 +19,11 @@ import SelectionNumberDisplay from "./SelectedNumberDisplay";
 import useLocalStorage from "../../utilities/useLocalStorage";
 import { useLongPress } from "@uidotdev/usehooks";
 import MobileThinMoveTopModal from "./MobileThinMoveTopModal";
+import mobileMoveSelectedPosCards from "./mobileMoveSelectedPosCards";
+import mobileMoveSelectedNegCards from "./mobileMoveSelectedNegCards";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
-const getTargetArray = (state) => state.targetArray;
-const getSetTargetArray = (state) => state.setTargetArray;
-const getIsTargetArrayFilled = (state) => state.isTargetArrayFilled;
-const getSetIsTargetArrayFilled = (state) => state.setIsTargetArrayFilled;
 const getShowConfirmButton = (state) => state.showConfirmButton;
 const getSetShowConfirmButton = (state) => state.setShowConfirmButton;
 const getSetCurrentPage = (state) => state.setCurrentPage;
@@ -34,14 +32,11 @@ const getSetTriggerMobileThinMoveTopModal = (state) =>
   state.setTriggerMobileThinMoveTopModal;
 const getMobileThinFontSize = (state) => state.mobileThinFontSize;
 const getMobileThinViewSize = (state) => state.mobileThinViewSize;
+const getColumnStatements = (state) => state.columnStatements;
 
 const MobileThinning = () => {
   const langObj = useSettingsStore(getLangObj);
   const configObj = useSettingsStore(getConfigObj);
-  const setTargetArray = useStore(getSetTargetArray);
-  let targetArray = useStore(getTargetArray);
-  const isTargetArrayFilled = useStore(getIsTargetArrayFilled);
-  const setIsTargetArrayFilled = useStore(getSetIsTargetArrayFilled);
   const showConfirmButton = useStore(getShowConfirmButton);
   const setShowConfirmButton = useStore(getSetShowConfirmButton);
   const setCurrentPage = useStore(getSetCurrentPage);
@@ -51,6 +46,7 @@ const MobileThinning = () => {
   );
   const mobileThinFontSize = useStore(getMobileThinFontSize);
   const mobileThinViewSize = useStore(getMobileThinViewSize);
+  const columnStatements = useStore(getColumnStatements);
 
   // *** REFS *** //
   let cardId = useRef({ id: "", statement: "", color: "", direction: "" });
@@ -69,7 +65,9 @@ const MobileThinning = () => {
     };
   }, [setCurrentPage, setProgressScore]);
 
+  // *************************** //
   // *** USE LONG PRESS HOOK *** //
+  // *************************** //
   const attrs = useLongPress(
     () => {
       // setIsOpen(true);
@@ -77,9 +75,6 @@ const MobileThinning = () => {
     },
     {
       onStart: (event) => {
-        // let index = cards.findIndex(
-        //   (item) => item.id === event.target.dataset.id
-        // );
         cardId.current = {
           id: event.target.dataset.id,
           statement: event.target.dataset.statement,
@@ -98,138 +93,85 @@ const MobileThinning = () => {
     ReactHtmlParser(decodeHTML(langObj.initialInstructionPart1)) || "";
   let initialInstructionPart3 =
     ReactHtmlParser(decodeHTML(langObj.initialInstructionPart3)) || "";
-  // let agreeLeastText =
-  //   ReactHtmlParser(decodeHTML(langObj.agreeLeastText)) || "";
-  // let finalInstructionText =
-  //   ReactHtmlParser(decodeHTML(langObj.finalInstructions)) || "";
-  // let agreeMostText = ReactHtmlParser(decodeHTML(langObj.agreeMostText)) || "";
-
-  // let mobilePresortResults = JSON.parse(
-  //   localStorage.getItem("mobilePresortResults")
-  // );
-
-  let selectedPosItems = [
-    ...JSON.parse(localStorage.getItem("selectedPosItems")),
-  ];
-
-  let sortRightArrays = [
-    ...JSON.parse(localStorage.getItem("sortRightArrays")),
-  ];
-
-  let colInfo = sortRightArrays?.[0];
-
-  let [instructionText, setInstructionText] = useState({
-    part1: "",
-    part2: "",
-    part3: "",
-    agreeLeastText: "",
-    agree: true,
-    maxNum: 0,
-  });
 
   // *******************************************************
   // *** LOCAL STATE ***********************************
   // *******************************************************
-  let [cards, setCards] = useState(selectedPosItems);
 
-  let [selectedStatementsNum, setSelectedStatementsNum] = useLocalStorage(
-    "selectedMobileStatementsNum",
-    0
+  let [selectedNegItems, setSelectedNegItems] = useLocalStorage(
+    "selectedNegItems",
+    JSON.parse(localStorage.getItem("selectedNegItems"))
+  );
+  let [selectedPosItems, setSelectedPosItems] = useLocalStorage(
+    "selectedPosItems",
+    JSON.parse(localStorage.getItem("selectedPosItems"))
+  );
+  let [displayControllerArray, setDisplayControllerArray] = useLocalStorage(
+    "thinDisplayControllerArray",
+    JSON.parse(localStorage.getItem("thinDisplayControllerArray"))
   );
 
-  const handleOnClick = (e) => {
-    let colMax = +e.target.getAttribute("data-max");
+  // *******************************************************
+  // *** Display ****************************************
+  // *******************************************************
+  let cards;
+  console.log("displayControllerArray", JSON.stringify(displayControllerArray));
+  let selectedStatementsNum = 0;
+  if (displayControllerArray[0]?.side === "right") {
+    cards = [...selectedPosItems];
+  }
+  if (displayControllerArray[0]?.side === "left") {
+    cards = [...selectedNegItems];
+  }
+  if (displayControllerArray.length === 0) {
+    cards = [];
+    let newCols = JSON.parse(localStorage.getItem("newCols"));
+    let finalSortColData = JSON.parse(localStorage.getItem("finalSortColData"));
+    let completedCols = finishThinningSorts(newCols, finalSortColData);
+
+    let colData = JSON.parse(localStorage.getItem("finalSortColData"));
+    let reversedColData = colData.reverse();
+    console.log(JSON.stringify(reversedColData, null, 2));
+    let mobileFinalThinCols = [];
+    reversedColData.forEach((item) => {
+      let array = completedCols.vCols[item[0]];
+      mobileFinalThinCols.push(...array);
+    });
+    console.log("finalThinCols", JSON.stringify(mobileFinalThinCols, null, 2));
+    localStorage.setItem(
+      "mobileFinalThinCols",
+      JSON.stringify(mobileFinalThinCols)
+    );
+    localStorage.setItem("columnStatements", JSON.stringify(completedCols));
+  }
+
+  // ********************************************************
+  // *** EVENT HANDLING *************************************
+  // ********************************************************
+  const handleCardSelected = (e) => {
+    // let colMax = +e.target.getAttribute("data-max");
     let targetcol = e.target.getAttribute("data-targetcol");
 
-    if (e.target.getAttribute("data-selected") === "true") {
-      let index = targetArray.indexOf(e.target.id);
-      if (index > -1) {
-        targetArray.splice(index, 1);
-      }
-      if (targetArray.length === colMax) {
-        setIsTargetArrayFilled(true);
-      } else {
-        setIsTargetArrayFilled(false);
-      }
-    } else {
-      targetArray.push(e.target.id);
-      if (targetArray.length > colMax) {
-        // targetArray.shift();
-      }
-      targetArray = uniq(targetArray);
-      if (targetArray.length === colMax) {
-        setIsTargetArrayFilled(true);
-      } else {
-        setIsTargetArrayFilled(false);
-      }
-    }
-    let selectedStatements = 0;
+    // let selectedStatementsNum = 0;
     cards.forEach((item) => {
-      if (targetArray.includes(item.id)) {
+      if (item.id === e.target.dataset.id) {
         item.targetcol = targetcol;
-        item.selected = true;
+        item.selected = !item.selected;
+      }
+      if (item.selected === true) {
         item.color = "lightyellow";
-        selectedStatements++;
       } else {
-        item.selected = false;
         item.color = mobileCardColor(+item.psValue);
       }
     });
-    setSelectedStatementsNum(selectedStatements);
-    setCards([...cards]);
-  };
-
-  // *******************************************************
-  // *** HANDLE CONFIRM BUTTON CLICK ***********************
-  // *******************************************************
-  const handleConfirm = () => {
-    console.log("handleConfirm");
-  };
-
-  const handleMove = () => {
-    let selectedCard;
-    let index = cards.findIndex((item) => item.id === cardId.current.id);
-    if (index > 0 && cardId.current.direction === "up") {
-      selectedCard = cards.splice(index, 1);
-      cards.unshift(selectedCard[0]);
-      setCards([...cards]);
-    } else if (
-      index < cards.length - 1 &&
-      cardId.current.direction === "down"
-    ) {
-      selectedCard = cards.splice(index, 1);
-      cards.push(selectedCard[0]);
-      setCards([...cards]);
-    } else if (cardId.current.direction === "allTop") {
-      // iterate through the cards array and move the selected card to the top
-      cards.forEach((item, i) => {
-        if (item.selected === true) {
-          let selectedCards = cards.splice(i, 1);
-          cards.unshift(selectedCards[0]);
-        }
-        setCards([...cards]);
-      });
+    // setSelectedStatementsNum(selectedStatements);
+    if (displayControllerArray[0]?.side === "right") {
+      setSelectedPosItems([...cards]);
     }
-    setTriggerMobileThinMoveTopModal(false);
+    if (displayControllerArray[0]?.side === "left") {
+      setSelectedNegItems([...cards]);
+    }
   };
-
-  // *******************************************************
-  // *** USE EFFECT ****************************************
-  // *******************************************************
-
-  useEffect(() => {
-    setInstructionText({
-      part1: initialInstructionPart1,
-      part2: "",
-      part3: initialInstructionPart3,
-      agreeLeastText: "",
-      agree: true,
-      maxNum: colInfo?.[1],
-    });
-
-    return () => {};
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleOnClickUp = (e) => {
     console.log("clicked Up", e.target.id);
@@ -245,7 +187,12 @@ const MobileThinning = () => {
     const temp = cards[clickedItemIndex];
     cards[clickedItemIndex] = cards[clickedItemIndex - 1];
     cards[clickedItemIndex - 1] = temp;
-    setCards([...cards]);
+    if (displayControllerArray[0]?.side === "right") {
+      setSelectedPosItems([...cards]);
+    }
+    if (displayControllerArray[0]?.side === "left") {
+      setSelectedNegItems([...cards]);
+    }
     return;
   };
 
@@ -263,11 +210,106 @@ const MobileThinning = () => {
     const temp = cards[clickedItemIndex];
     cards[clickedItemIndex] = cards[clickedItemIndex + 1];
     cards[clickedItemIndex + 1] = temp;
-    setCards([...cards]);
+    if (displayControllerArray[0]?.side === "right") {
+      setSelectedPosItems([...cards]);
+    }
+    if (displayControllerArray[0]?.side === "left") {
+      setSelectedNegItems([...cards]);
+    }
     return;
   };
 
+  const handleConfirm = () => {
+    if (displayControllerArray[0]?.side === "right") {
+      let currentSelectedPosItems = selectedPosItems.filter(
+        (item) => item.selected === true
+      );
+      let nextSelectedPosItemsSet = selectedPosItems.filter(
+        (item) => item.selected !== true
+      );
+      let newCols = JSON.parse(localStorage.getItem("newCols"));
+      const newCols2 = mobileMoveSelectedPosCards(
+        currentSelectedPosItems,
+        newCols
+      );
+
+      localStorage.setItem("newCols", JSON.stringify(newCols2));
+      displayControllerArray.shift();
+      setDisplayControllerArray([...displayControllerArray]);
+      setSelectedPosItems([...nextSelectedPosItemsSet]);
+      return;
+    }
+    if (displayControllerArray[0]?.side === "left") {
+      let currentSelectedNegItems = selectedNegItems.filter(
+        (item) => item.selected === true
+      );
+      let nextSelectedNegItemsSet = selectedNegItems.filter(
+        (item) => item.selected !== true
+      );
+      let newCols = JSON.parse(localStorage.getItem("newCols"));
+      const newCols2 = mobileMoveSelectedNegCards(
+        currentSelectedNegItems,
+        newCols
+      );
+
+      localStorage.setItem("newCols", JSON.stringify(newCols2));
+      displayControllerArray.shift();
+      setDisplayControllerArray([...displayControllerArray]);
+      setSelectedNegItems([...nextSelectedNegItemsSet]);
+      return;
+    }
+  };
+
+  const handleMove = () => {
+    let selectedCard;
+    let index = cards.findIndex((item) => item.id === cardId.current.id);
+    if (index > 0 && cardId.current.direction === "up") {
+      selectedCard = cards.splice(index, 1);
+      cards.unshift(selectedCard[0]);
+      if (displayControllerArray[0]?.side === "right") {
+        setSelectedPosItems([...cards]);
+      }
+      if (displayControllerArray[0]?.side === "left") {
+        setSelectedNegItems([...cards]);
+      }
+    } else if (
+      index < cards.length - 1 &&
+      cardId.current.direction === "down"
+    ) {
+      selectedCard = cards.splice(index, 1);
+      cards.push(selectedCard[0]);
+      if (displayControllerArray[0]?.side === "right") {
+        setSelectedPosItems([...cards]);
+      }
+      if (displayControllerArray[0]?.side === "left") {
+        setSelectedNegItems([...cards]);
+      }
+    } else if (cardId.current.direction === "allTop") {
+      // iterate through the cards array and move the selected card to the top
+      cards.forEach((item, i) => {
+        if (item.selected === true) {
+          let selectedCards = cards.splice(i, 1);
+          cards.unshift(selectedCards[0]);
+        }
+        if (displayControllerArray[0]?.side === "right") {
+          setSelectedPosItems([...cards]);
+        }
+        if (displayControllerArray[0]?.side === "left") {
+          setSelectedNegItems([...cards]);
+        }
+      });
+    }
+    setTriggerMobileThinMoveTopModal(false);
+  };
+
+  // *******************************************************
+  // *** Elements ****************************************
+  // *******************************************************
+
   let assessedStatements = cards.map((item) => {
+    if (item.selected === true) {
+      selectedStatementsNum++;
+    }
     return (
       <ItemContainer key={uuid()}>
         <DownArrowContainer
@@ -281,14 +323,15 @@ const MobileThinning = () => {
           <DownArrows style={{ pointerEvents: "none" }} />
         </DownArrowContainer>
         <InternalDiv
-          onClick={handleOnClick}
+          onClick={handleCardSelected}
           id={item.id}
           key={uuid()}
           color={item.color}
           fontSize={mobileThinFontSize}
-          data-targetcol={colInfo?.[0]}
-          data-max={colInfo?.[1]}
+          data-targetcol={displayControllerArray[0]?.targetCol}
+          data-max={displayControllerArray[0]?.maxNum}
           data-selected={item.selected}
+          data-id={item.id}
           data-direction="allTop"
           {...attrs}
         >
@@ -314,23 +357,20 @@ const MobileThinning = () => {
       <SortTitleBar background={configObj.headerBarColor}>
         Refine Your Rankings
       </SortTitleBar>
-      {/* <InstructionsDiv>
-        <MobileInstructions
-          part1={instructionText.part1}
-          part2={instructionText.part2}
-          part3={instructionText.part3}
-          agreeLeastText={instructionText.agreeLeastText}
-          agree={instructionText.agree}
-          maxNum={instructionText.maxNum}
-        />
-      </InstructionsDiv> */}
       <HeadersContainer>
         <SelectionNumberDisplay
           selected={selectedStatementsNum}
-          required={colInfo?.[1]}
+          required={displayControllerArray[0]?.maxNum}
         />
         {showConfirmButton && (
-          <ConfirmButton onClick={handleConfirm} color={isTargetArrayFilled}>
+          <ConfirmButton
+            onClick={handleConfirm}
+            color={
+              selectedStatementsNum === displayControllerArray[0]?.maxNum
+                ? "#BCF0DA"
+                : "#d3d3d3"
+            }
+          >
             Submit
           </ConfirmButton>
         )}
@@ -414,7 +454,9 @@ const ConfirmButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${(props) => (props.color ? "#BCF0DA" : "#d3d3d3")};
+  background-color: ${(props) => {
+    return props.color;
+  }};
   color: black;
   font-size: 1.2em;
   font-weight: normal;

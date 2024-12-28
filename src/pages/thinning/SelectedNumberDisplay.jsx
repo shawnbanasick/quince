@@ -3,7 +3,6 @@ import styled from "styled-components";
 const SelectionNumberDisplay = (props) => {
   let selected = props.selected || 0;
   let required = props.required || 0;
-  console.log(selected, required);
   return (
     <StyledSelectionNumberDisplay selected={selected} required={required}>
       <p>Selected: {`${selected} / ${required}`}</p>

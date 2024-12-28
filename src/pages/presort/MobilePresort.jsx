@@ -32,8 +32,6 @@ const getSetProgressScore = (state) => state.setProgressScore;
 const getPresortNoReturn = (state) => state.presortNoReturn;
 const getResetColumnStatements = (state) => state.resetColumnStatements;
 const getSetDisplayNextButton = (state) => state.setDisplayNextButton;
-// const getSetMobilePresortResults = (state) => state.setMobilePresortResults;
-// const getMobilePresortResults = (state) => state.mobilePresortResults;
 const getSetTriggerMobilePresortFinishedModal = (state) =>
   state.setTriggerMobilePresortFinishedModal;
 const getSetPresortFinished = (state) => state.setPresortFinished;
@@ -53,7 +51,7 @@ const MobilePresortPage = () => {
   const setProgressScore = useStore(getSetProgressScore);
   const presortNoReturn = useStore(getPresortNoReturn);
   const resetColumnStatements = useSettingsStore(getResetColumnStatements);
-  const setDisplayNextButton = useStore(getSetDisplayNextButton);
+  // const setDisplayNextButton = useStore(getSetDisplayNextButton);
   const cardFontSizePersist = +localStorage.getItem("fontSizePresort");
   const setPresortFinished = useStore(getSetPresortFinished);
   const mobilePresortFontSize = useStore(getMobilePresortFontSize);
@@ -63,8 +61,6 @@ const MobilePresortPage = () => {
   const setDisplayMobileHelpButton = useStore(getSetDisplayMobileHelpButton);
 
   // let cardFontSize = useStore(getCardFontSizePresort);
-  // const setMobilePresortResults = useStore(getSetMobilePresortResults);
-  // const mobilePresortResults = useStore(getMobilePresortResults);
 
   const setTriggerPresortFinishedModal = useStore(
     getSetTriggerMobilePresortFinishedModal
@@ -112,6 +108,7 @@ const MobilePresortPage = () => {
 
   // TODO *** move to landing page - reset statements when reloading for new participant ***
   let columnStatements = statementsObj.columnStatements;
+
   if (configObj.setupTarget === "local") {
     columnStatements = JSON.parse(JSON.stringify(resetColumnStatements));
   }
@@ -165,6 +162,23 @@ const MobilePresortPage = () => {
     selectedStatementObject.psValue = value;
     selectedStatementObject.color = mobileCardColor(value);
 
+    if (value > 0) {
+      console.log("value > 0");
+      selectedStatementObject.pinkChecked = false;
+      selectedStatementObject.yellowChecked = false;
+      selectedStatementObject.greenChecked = true;
+    } else if (value < 0) {
+      console.log("value < 0");
+      selectedStatementObject.pinkChecked = true;
+      selectedStatementObject.yellowChecked = false;
+      selectedStatementObject.greenChecked = false;
+    } else {
+      console.log("value === 0");
+      selectedStatementObject.pinkChecked = false;
+      selectedStatementObject.yellowChecked = true;
+      selectedStatementObject.greenChecked = false;
+    }
+
     mobilePresortResults.sort((a, b) => {
       let aVal = +a.id.slice(1);
       let bVal = +b.id.slice(1);
@@ -208,6 +222,23 @@ const MobilePresortPage = () => {
         setStatementCount(newCount);
 
         // create object
+        if (value > 0) {
+          console.log("value > 0");
+          currentObj.pinkChecked = false;
+          currentObj.yellowChecked = false;
+          currentObj.greenChecked = true;
+        } else if (value < 0) {
+          console.log("value < 0");
+          currentObj.pinkChecked = true;
+          currentObj.yellowChecked = false;
+          currentObj.greenChecked = false;
+        } else {
+          console.log("value === 0");
+          currentObj.pinkChecked = false;
+          currentObj.yellowChecked = true;
+          currentObj.greenChecked = false;
+        }
+
         currentObj.psValue = value;
         currentObj.color = mobileCardColor(value);
         mobilePresortResults.push({ ...currentObj });
@@ -239,12 +270,15 @@ const MobilePresortPage = () => {
         );
 
         if (presortArray2.length === 0) {
+          console.log("presortArray2.length === 0 - end of presort");
+
           let sortRightArrays = JSON.parse(
             localStorage.getItem("sortRightArrays")
           );
           let sortLeftArrays = JSON.parse(
             localStorage.getItem("sortLeftArrays")
           );
+          let newCols = JSON.parse(localStorage.getItem("newCols"));
           let remainingPosCount = selectedPosItems.length;
           let remainingNegCount = selectedNegItems.length;
 
@@ -259,6 +293,12 @@ const MobilePresortPage = () => {
             "thinDisplayControllerArray",
             JSON.stringify(thinDisplayControllerArray)
           );
+
+          console.log("target", JSON.stringify(mobilePresortResults));
+
+          // *** update newCols ***
+          newCols.statementList = mobilePresortResults;
+          localStorage.setItem("newCols", JSON.stringify(newCols));
 
           setTriggerPresortFinishedModal(true);
           setDisplayMobileHelpButton(false);

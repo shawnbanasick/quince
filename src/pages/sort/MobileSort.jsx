@@ -1,11 +1,7 @@
-// import { DragDropContext } from "@hello-pangea/dnd";
-// import type { DropResult } from "@hello-pangea/dnd";
-
-import React, { Component, ReactElement, useEffect } from "react";
+import { Component, ReactElement, useEffect } from "react";
 import styled from "styled-components";
 import useStore from "../../globalState/useStore";
 import calculateTimeOnPage from "../../utilities/calculateTimeOnPage";
-import demoSortData from "./demoSortData";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import { v4 as uuid } from "uuid";
 import DownArrows from "../../assets/downArrows.svg?react";
@@ -16,9 +12,6 @@ const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
 const getMapObj = (state) => state.mapObj;
 const getConfigObj = (state) => state.configObj;
-let sortValuesArray1 = [JSON.parse(localStorage.getItem("sortValuesArray1"))];
-
-let tempData = JSON.parse(localStorage.getItem("sortArray1"));
 
 const MobileSort = () => {
   const setCurrentPage = useStore(getSetCurrentPage);
@@ -26,9 +19,10 @@ const MobileSort = () => {
   const mapObj = useSettingsStore(getMapObj);
   const configObj = useSettingsStore(getConfigObj);
 
-  demoSortData();
-
-  const [sortArray1, setSortArray1] = useLocalStorage("sortArray1", tempData);
+  const [sortArray1, setSortArray1] = useLocalStorage(
+    "sortArray1",
+    JSON.parse(localStorage.getItem("mobileFinalThinCols"))
+  );
 
   console.log("sortArray", sortArray1);
   // let sortArrayColors = local;
