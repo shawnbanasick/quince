@@ -12,12 +12,17 @@ const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
 const getMapObj = (state) => state.mapObj;
 const getConfigObj = (state) => state.configObj;
+const getMobileSortFontSize = (state) => state.mobileSortFontSize;
 
 const MobileSort = () => {
   const setCurrentPage = useStore(getSetCurrentPage);
   const setProgressScore = useStore(getSetProgressScore);
   const mapObj = useSettingsStore(getMapObj);
   const configObj = useSettingsStore(getConfigObj);
+  const mobileSortFontSize = useStore(getMobileSortFontSize);
+  const persistedMobileSortFontSize = JSON.parse(
+    localStorage.getItem("mobileFontSizeObject")
+  ).sort;
 
   // *********************************
   // *** Local State ****************************************************
@@ -62,7 +67,7 @@ const MobileSort = () => {
   }, [colorArraySource, valuesArraySource, mapObj.qSortPattern]);
 
   // *********************************
-  // *** Event Handlers ****************************************************
+  // *** Event Handlers *************************
   // *********************************
   const handleScroll = (e) => {
     const bottom =
@@ -114,7 +119,16 @@ const MobileSort = () => {
         <DownArrowContainer id={item.id} onClick={handleOnClickDown}>
           <DownArrows style={{ pointerEvents: "none" }} />
         </DownArrowContainer>
-        <InternalDiv id={item.id} key={uuid()} color={colorArray[index].color}>
+        <InternalDiv
+          id={item.id}
+          key={uuid()}
+          fontSize={
+            mobileSortFontSize === +persistedMobileSortFontSize
+              ? mobileSortFontSize
+              : persistedMobileSortFontSize
+          }
+          color={colorArray[index].color}
+        >
           <div>
             <NumberContainer>{colorArray[index].value}</NumberContainer>
             {item.statement}
@@ -193,8 +207,9 @@ const InternalDiv = styled.div`
   position: relative;
   width: 66vw;
   min-height: 10vh;
-  font-size: 2vh;
-  /* border-radius: 3px; */
+  font-size: ${(props) => {
+    return `${props.fontSize}vh`;
+  }};
   text-align: center;
   outline: 1px solid black;
   padding: 5px;
@@ -251,6 +266,7 @@ const NumberContainer = styled.div`
   left: 0;
   width: 22px;
   height: 16px;
+  font-size: 14px;
   padding-bottom: 3px;
   background-color: lightgoldenrodyellow;
   outline: 1px solid black;

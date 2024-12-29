@@ -11,7 +11,16 @@ const MobilePreviousAssignmentBox = (props) => {
   const persistedMobilePresortFontSize = JSON.parse(
     localStorage.getItem("mobileFontSizeObject")
   ).presort;
+  const persistedMobilePresortViewSize = JSON.parse(
+    localStorage.getItem("mobileViewSizeObject")
+  ).presort;
   const mobilePresortViewSize = useStore(getMobilePresortViewSize);
+
+  console.log(
+    "viewSize",
+    mobilePresortViewSize,
+    +persistedMobilePresortViewSize
+  );
 
   let assessedStatements = props.statements.map((item) => {
     return (
@@ -46,7 +55,15 @@ const MobilePreviousAssignmentBox = (props) => {
   });
 
   return (
-    <Container viewSize={mobilePresortViewSize}>{assessedStatements}</Container>
+    <Container
+      viewSize={
+        mobilePresortViewSize === +persistedMobilePresortViewSize
+          ? mobilePresortViewSize
+          : persistedMobilePresortViewSize
+      }
+    >
+      {assessedStatements}
+    </Container>
   );
 };
 

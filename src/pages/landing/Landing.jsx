@@ -148,6 +148,8 @@ const LandingPage = () => {
     localStorage.removeItem("selectedPosItems");
     localStorage.removeItem("selectedNegItems");
     localStorage.removeItem("columnStatements");
+    localStorage.removeItem("mobileFontSizeObject");
+    localStorage.removeItem("mobileViewSizeObject");
 
     if (configObj.requiredAnswersObj !== undefined) {
       localStorage.setItem(
@@ -171,6 +173,26 @@ const LandingPage = () => {
   const qSortPattern = useMemo(
     () => [...mapObj.qSortPattern],
     [mapObj.qSortPattern]
+  );
+
+  // set defaults
+  localStorage.setItem(
+    "mobileFontSizeObject",
+    JSON.stringify({
+      presort: 2,
+      thin: 2,
+      sort: 2,
+      postsort: 2,
+    })
+  );
+  localStorage.setItem(
+    "mobileViewSizeObject",
+    JSON.stringify({
+      presort: 42,
+      thin: 68,
+      sort: 52,
+      postsort: 42,
+    })
   );
 
   useEffect(() => {

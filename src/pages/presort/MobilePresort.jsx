@@ -25,7 +25,6 @@ import MobilePresortHelpModal from "./MobilePresortHelpModal";
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
 const getStatementsObj = (state) => state.statementsObj;
-// const getCardFontSizePresort = (state) => state.cardFontSizePresort;
 const getIsLoggedIn = (state) => state.isLoggedIn;
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
@@ -296,11 +295,12 @@ const MobilePresortPage = () => {
     } catch (error) {
       console.error(error);
     }
-    if (presortArray2.length === 0) {
-      setPresortFinished(true);
-      setDisplayMobileHelpButton(false);
-    }
   };
+
+  if (presortArray2.length === 0) {
+    setPresortFinished(true);
+    setDisplayMobileHelpButton(false);
+  }
 
   if (screenOrientation === "landscape-primary") {
     return (

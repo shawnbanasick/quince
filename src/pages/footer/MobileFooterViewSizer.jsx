@@ -3,113 +3,121 @@ import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
+import useLocalStorage from "../../utilities/useLocalStorage";
 
 const getLangObj = (state) => state.langObj;
-const getCardFontSizeSort = (state) => state.cardFontSizeSort;
-const getSetCardFontSizeSort = (state) => state.setCardFontSizeSort;
-const getCardFontSizePresort = (state) => state.cardFontSizePresort;
-const getSetCardFontSizePresort = (state) => state.setCardFontSizePresort;
-const getCardFontSizePostsort = (state) => state.cardFontSizePostsort;
-const getSetCardFontSizePostsort = (state) => state.setCardFontSizePostsort;
 const getCurrentPage = (state) => state.currentPage;
-const getMobileThinViewSize = (state) => state.mobileThinViewSize;
-const getMobilePresortViewSize = (state) => state.mobilePresortViewSize;
-const getSetMobileThinViewSize = (state) => state.setMobileThinViewSize;
 const getSetMobilePresortViewSize = (state) => state.setMobilePresortViewSize;
+const getSetMobileThinViewSize = (state) => state.setMobileThinViewSize;
+const getSetMobileSortViewSize = (state) => state.setMobileSortViewSize;
+const getSetMobilePostsortViewSize = (state) => state.setMobilePostsortViewSize;
 
-const FooterViewSizer = () => {
-  // GLOBAL STATE
+const MobileFooterViewSizer = () => {
+  // *** GLOBAL STATE *** //
   const langObj = useSettingsStore(getLangObj);
-  let cardFontSizeSort = useStore(getCardFontSizeSort);
-  let cardFontSizePostsort = useStore(getCardFontSizePostsort);
-  let cardFontSizePresort = useStore(getCardFontSizePresort);
-  const mobileViewSize =
-    ReactHtmlParser(decodeHTML(langObj.mobileViewSize)) || "";
-  const setCardFontSizeSort = useStore(getSetCardFontSizeSort);
   const currentPage = useStore(getCurrentPage);
-  const cardFontSizeSortPersist = +localStorage.getItem("fontSizeSort");
-  const cardFontSizePostsortPersist = +localStorage.getItem("fontSizePostsort");
-  const cardFontSizePresortPersist = +localStorage.getItem("fontSizePresort");
-  const setCardFontSizePostsort = useStore(getSetCardFontSizePostsort);
-  // const setCardFontSizePresort = useStore(getSetCardFontSizePresort);
-  const mobileThinViewSize = useStore(getMobileThinViewSize);
-  const mobilePresortViewSize = useStore(getMobilePresortViewSize);
-  const setMobileThinViewSize = useStore(getSetMobileThinViewSize);
+  // set
   const setMobilePresortViewSize = useStore(getSetMobilePresortViewSize);
+  const setMobileThinViewSize = useStore(getSetMobileThinViewSize);
+  const setMobileSortViewSize = useStore(getSetMobileSortViewSize);
+  const setMobilePostsortViewSize = useStore(getSetMobilePostsortViewSize);
 
-  if (cardFontSizePresortPersist && currentPage === "presort") {
-    cardFontSizePresort = cardFontSizePresortPersist;
-  }
+  // *** LOCAL STATE *** //
+  let [mobileViewSizeObject, setMobileViewSizeObject] = useLocalStorage(
+    "mobileViewSizeObject",
+    {
+      presort: 42,
+      thin: 68,
+      sort: 52,
+      postsort: 42,
+    }
+  );
 
-  if (cardFontSizeSortPersist && currentPage === "sort") {
-    cardFontSizeSort = cardFontSizeSortPersist;
-  }
+  // *** TEXT LOCALIZATION *** //
+  const mobileTextSize =
+    ReactHtmlParser(decodeHTML(langObj.mobileViewSize)) || "";
 
-  if (cardFontSizePostsortPersist && currentPage === "postsort") {
-    cardFontSizePostsort = cardFontSizePostsortPersist;
-  }
-
+  //*********************** */
+  // *** EVENT HANDLERS ********* //
+  //*********************** */
   const increaseViewSize = () => {
-    console.log("increaseFontSize");
     if (currentPage === "presort") {
-      const currentSize = mobilePresortViewSize;
-      const newSize = currentSize + 2;
-      localStorage.setItem("mobilePresortViewSize", JSON.stringify(newSize));
+      const currentSize = +mobileViewSizeObject.presort;
+      let newSize = currentSize + 2;
+      newSize = newSize.toPrecision(4);
+      let newSizeObject = { ...mobileViewSizeObject, presort: newSize };
+      setMobileViewSizeObject(newSizeObject);
       setMobilePresortViewSize(newSize);
     }
+    if (currentPage === "thin") {
+      const currentSize = +mobileViewSizeObject.thin;
+      let newSize = currentSize + 2;
+      newSize = newSize.toPrecision(4);
+      let newSizeObject = { ...mobileViewSizeObject, thin: newSize };
+      setMobileViewSizeObject(newSizeObject);
+      setMobileThinViewSize(newSize);
+    }
     if (currentPage === "sort") {
-      const currentSize = cardFontSizeSort;
-      const newSize = currentSize + 1;
-      localStorage.setItem("fontSizeSort", JSON.stringify(newSize));
-      setCardFontSizeSort(newSize);
+      const currentSize = +mobileViewSizeObject.sort;
+      let newSize = currentSize + 2;
+      newSize = newSize.toPrecision(4);
+      let newSizeObject = { ...mobileViewSizeObject, sort: newSize };
+      setMobileViewSizeObject(newSizeObject);
+      setMobileSortViewSize(newSize);
     }
     if (currentPage === "postsort") {
-      const currentSize = cardFontSizePostsort;
-      const newSize = currentSize + 1;
-      localStorage.setItem("fontSizePostsort", JSON.stringify(newSize));
-      setCardFontSizePostsort(newSize);
-    }
-    if (currentPage === "thin") {
-      const currentSize = mobileThinViewSize;
-      const newSize = currentSize + 2;
-      localStorage.setItem("mobileThinViewSize", JSON.stringify(newSize));
-      setMobileThinViewSize(newSize);
+      const currentSize = +mobileViewSizeObject.postsort;
+      let newSize = currentSize + 2;
+      newSize = newSize.toPrecision(4);
+      let newSizeObject = { ...mobileViewSizeObject, postsort: newSize };
+      setMobileViewSizeObject(newSizeObject);
+      setMobilePostsortViewSize(newSize);
     }
   };
   const decreaseViewSize = () => {
-    console.log("decreaseFontSize");
     if (currentPage === "presort") {
-      const currentSize = mobilePresortViewSize;
-      const newSize = currentSize - 2;
-      localStorage.setItem("mobilePresortViewSize", JSON.stringify(newSize));
+      const currentSize = +mobileViewSizeObject.presort;
+      let newSize = currentSize - 2;
+      newSize = newSize.toPrecision(4);
+      let newSizeObject = { ...mobileViewSizeObject, presort: newSize };
+      setMobileViewSizeObject(newSizeObject);
       setMobilePresortViewSize(newSize);
     }
+    if (currentPage === "thin") {
+      const currentSize = +mobileViewSizeObject.thin;
+      let newSize = currentSize - 2;
+      newSize = newSize.toPrecision(4);
+      let newSizeObject = { ...mobileViewSizeObject, thin: newSize };
+      setMobileViewSizeObject(newSizeObject);
+      setMobileThinViewSize(newSize);
+    }
     if (currentPage === "sort") {
-      const currentSize = cardFontSizeSort;
-      const newSize = currentSize - 1;
-      localStorage.setItem("fontSizeSort", JSON.stringify(newSize));
-      setCardFontSizeSort(newSize);
+      const currentSize = +mobileViewSizeObject.sort;
+      let newSize = currentSize - 2;
+      newSize = newSize.toPrecision(4);
+      let newSizeObject = { ...mobileViewSizeObject, sort: newSize };
+      setMobileViewSizeObject(newSizeObject);
+      setMobileSortViewSize(newSize);
     }
     if (currentPage === "postsort") {
-      const currentSize = cardFontSizePostsort;
-      const newSize = currentSize - 1;
-      localStorage.setItem("fontSizePostsort", JSON.stringify(newSize));
-      setCardFontSizePostsort(newSize);
-    }
-    if (currentPage === "thin") {
-      const currentSize = mobileThinViewSize;
-      const newSize = currentSize - 2;
-      localStorage.setItem("mobileThinViewSize", JSON.stringify(newSize));
-      setMobileThinViewSize(newSize);
+      const currentSize = +mobileViewSizeObject.postsort;
+      let newSize = currentSize - 2;
+      newSize = newSize.toPrecision(4);
+      let newSizeObject = { ...mobileViewSizeObject, postsort: newSize };
+      setMobileViewSizeObject(newSizeObject);
+      setMobilePostsortViewSize(newSize);
     }
   };
 
+  //*********************** */
+  // *** ELEMENT ********* //
+  //*********************** */
   return (
     <Container>
       <SizeLeftButton padBottom={"0.3em"} onClick={decreaseViewSize}>
         -
       </SizeLeftButton>
-      <SpanDiv>{mobileViewSize}</SpanDiv>
+      <SpanDiv>{mobileTextSize}</SpanDiv>
       <SizeRightButton padBottom={"0.25em"} onClick={increaseViewSize}>
         +
       </SizeRightButton>
@@ -117,7 +125,7 @@ const FooterViewSizer = () => {
   );
 };
 
-export default FooterViewSizer;
+export default MobileFooterViewSizer;
 
 const SizeRightButton = styled.div`
   display: flex;
@@ -172,6 +180,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  user-select: non e;
 `;
 
 const SpanDiv = styled.div`
