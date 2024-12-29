@@ -3,23 +3,25 @@ import useStore from "../../globalState/useStore";
 import { v4 as uuid } from "uuid";
 import RedoArrow from "../../assets/redoArrow.svg?react";
 
-// const getMobilePresortResults = (state) => state.mobilePresortResults;
 const getMobilePresortFontSize = (state) => state.mobilePresortFontSize;
 const getMobilePresortViewSize = (state) => state.mobilePresortViewSize;
 
 const MobilePreviousAssignmentBox = (props) => {
-  // let mobilePresortResults =
-  //   JSON.stringify(localStorage.getItem("getMobilePresortResults"));
-
-  // const mobilePresortResults = useStore(getMobilePresortResults);
-  const mobilePresortFontSize = useStore(getMobilePresortFontSize);
+  let mobilePresortFontSize = useStore(getMobilePresortFontSize);
+  const persistedMobilePresortFontSize = JSON.parse(
+    localStorage.getItem("mobileFontSizeObject")
+  ).presort;
   const mobilePresortViewSize = useStore(getMobilePresortViewSize);
 
   let assessedStatements = props.statements.map((item) => {
     return (
       <InternalDiv
         key={uuid()}
-        fontSize={mobilePresortFontSize}
+        fontSize={
+          mobilePresortFontSize === +persistedMobilePresortFontSize
+            ? mobilePresortFontSize
+            : persistedMobilePresortFontSize
+        }
         color={item.color}
       >
         <div>

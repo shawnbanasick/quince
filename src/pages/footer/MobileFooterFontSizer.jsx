@@ -1,112 +1,117 @@
-import React from "react";
 import styled from "styled-components";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
+import useLocalStorage from "../../utilities/useLocalStorage";
 
 const getLangObj = (state) => state.langObj;
-// const getSetCardFontSize = (state) => state.setCardFontSize;
-const getCardFontSizeSort = (state) => state.cardFontSizeSort;
-const getSetCardFontSizeSort = (state) => state.setCardFontSizeSort;
-const getCardFontSizePresort = (state) => state.cardFontSizePresort;
-const getSetCardFontSizePresort = (state) => state.setCardFontSizePresort;
-const getCardFontSizePostsort = (state) => state.cardFontSizePostsort;
-const getSetCardFontSizePostsort = (state) => state.setCardFontSizePostsort;
 const getCurrentPage = (state) => state.currentPage;
-const getMobileThinFontSize = (state) => state.mobileThinFontSize;
-const getMobilePresortFontSize = (state) => state.mobilePresortFontSize;
-const getSetMobileThinFontSize = (state) => state.setMobileThinFontSize;
 const getSetMobilePresortFontSize = (state) => state.setMobilePresortFontSize;
+const getSetMobileThinFontSize = (state) => state.setMobileThinFontSize;
+const getSetMobileSortFontSize = (state) => state.setMobileSortFontSize;
+const getSetMobilePostsortFontSize = (state) => state.setMobilePostsortFontSize;
 
 const MobileFooterFontSizer = () => {
-  // GLOBAL STATE
+  // *** GLOBAL STATE *** //
   const langObj = useSettingsStore(getLangObj);
-  let cardFontSizeSort = useStore(getCardFontSizeSort);
-  let cardFontSizePostsort = useStore(getCardFontSizePostsort);
-  let cardFontSizePresort = useStore(getCardFontSizePresort);
+  const currentPage = useStore(getCurrentPage);
+  // set
+  const setMobilePresortFontSize = useStore(getSetMobilePresortFontSize);
+  const setMobileThinFontSize = useStore(getSetMobileThinFontSize);
+  const setMobileSortFontSize = useStore(getSetMobileSortFontSize);
+  const setMobilePostsortFontSize = useStore(getSetMobilePostsortFontSize);
+
+  // *** LOCAL STATE *** //
+  let [mobileFontSizeObject, setMobileFontSizeObject] = useLocalStorage(
+    "mobileFontSizeObject",
+    {
+      presort: 2,
+      thin: 2,
+      sort: 2,
+      postsort: 2,
+    }
+  );
+
+  // *** TEXT LOCALIZATION *** //
   const mobileTextSize =
     ReactHtmlParser(decodeHTML(langObj.mobileTextSize)) || "";
-  // const setCardFontSize = useStore(getSetCardFontSize);
-  const setCardFontSizeSort = useStore(getSetCardFontSizeSort);
-  const currentPage = useStore(getCurrentPage);
-  const cardFontSizeSortPersist = +localStorage.getItem("fontSizeSort");
-  const cardFontSizePostsortPersist = +localStorage.getItem("fontSizePostsort");
-  const cardFontSizePresortPersist = +localStorage.getItem("fontSizePresort");
-  const setCardFontSizePostsort = useStore(getSetCardFontSizePostsort);
-  const setCardFontSizePresort = useStore(getSetCardFontSizePresort);
-  const mobileThinFontSize = useStore(getMobileThinFontSize);
-  const mobilePresortFontSize = useStore(getMobilePresortFontSize);
-  const setMobileThinFontSize = useStore(getSetMobileThinFontSize);
-  const setMobilePresortFontSize = useStore(getSetMobilePresortFontSize);
 
-  if (cardFontSizePresortPersist && currentPage === "presort") {
-    cardFontSizePresort = cardFontSizePresortPersist;
-  }
-
-  if (cardFontSizeSortPersist && currentPage === "sort") {
-    cardFontSizeSort = cardFontSizeSortPersist;
-  }
-
-  if (cardFontSizePostsortPersist && currentPage === "postsort") {
-    cardFontSizePostsort = cardFontSizePostsortPersist;
-  }
-
+  //*********************** */
+  // *** EVENT HANDLERS ********* //
+  //*********************** */
   const increaseFontSize = () => {
     if (currentPage === "presort") {
-      const currentSize = mobilePresortFontSize;
-      let newSize = +currentSize + 0.1;
+      const currentSize = +mobileFontSizeObject.presort;
+      let newSize = currentSize + 0.1;
       newSize = newSize.toPrecision(2);
-      localStorage.setItem("mobilePresortFontSize", JSON.stringify(newSize));
+      let newSizeObject = { ...mobileFontSizeObject, presort: newSize };
+      setMobileFontSizeObject(newSizeObject);
       setMobilePresortFontSize(newSize);
     }
+    if (currentPage === "thin") {
+      const currentSize = +mobileFontSizeObject.thin;
+      let newSize = currentSize + 0.1;
+      newSize = newSize.toPrecision(2);
+      let newSizeObject = { ...mobileFontSizeObject, thin: newSize };
+      setMobileFontSizeObject(newSizeObject);
+      setMobileThinFontSize(newSize);
+    }
     if (currentPage === "sort") {
-      const currentSize = cardFontSizeSort;
-      const newSize = currentSize + 1;
-      localStorage.setItem("fontSizeSort", JSON.stringify(newSize));
-      setCardFontSizeSort(newSize);
+      const currentSize = +mobileFontSizeObject.sort;
+      let newSize = currentSize + 0.1;
+      newSize = newSize.toPrecision(2);
+      let newSizeObject = { ...mobileFontSizeObject, sort: newSize };
+      setMobileFontSizeObject(newSizeObject);
+      setMobileSortFontSize(newSize);
     }
     if (currentPage === "postsort") {
-      const currentSize = cardFontSizePostsort;
-      const newSize = currentSize + 1;
-      localStorage.setItem("fontSizePostsort", JSON.stringify(newSize));
-      setCardFontSizePostsort(newSize);
-    }
-    if (currentPage === "thin") {
-      const currentSize = mobileThinFontSize;
-      const newSize = currentSize + 0.1;
-      localStorage.setItem("mobileThinFontSize", JSON.stringify(newSize));
-      setMobileThinFontSize(newSize);
+      const currentSize = +mobileFontSizeObject.postsort;
+      let newSize = currentSize + 0.1;
+      newSize = newSize.toPrecision(2);
+      let newSizeObject = { ...mobileFontSizeObject, postsort: newSize };
+      setMobileFontSizeObject(newSizeObject);
+      setMobilePostsortFontSize(newSize);
     }
   };
   const decreaseFontSize = () => {
     if (currentPage === "presort") {
-      const currentSize = mobilePresortFontSize;
+      const currentSize = +mobileFontSizeObject.presort;
       let newSize = currentSize - 0.1;
       newSize = newSize.toPrecision(2);
-      localStorage.setItem("mobilePresortFontSize", JSON.stringify(newSize));
+      let newSizeObject = { ...mobileFontSizeObject, presort: newSize };
+      setMobileFontSizeObject(newSizeObject);
       setMobilePresortFontSize(newSize);
     }
+    if (currentPage === "thin") {
+      const currentSize = +mobileFontSizeObject.thin;
+      let newSize = currentSize - 0.1;
+      newSize = newSize.toPrecision(2);
+      let newSizeObject = { ...mobileFontSizeObject, thin: newSize };
+      setMobileFontSizeObject(newSizeObject);
+      setMobileThinFontSize(newSize);
+    }
     if (currentPage === "sort") {
-      const currentSize = cardFontSizeSort;
-      const newSize = currentSize - 1;
-      localStorage.setItem("fontSizeSort", JSON.stringify(newSize));
-      setCardFontSizeSort(newSize);
+      const currentSize = +mobileFontSizeObject.sort;
+      let newSize = currentSize - 0.1;
+      newSize = newSize.toPrecision(2);
+      let newSizeObject = { ...mobileFontSizeObject, sort: newSize };
+      setMobileFontSizeObject(newSizeObject);
+      setMobileSortFontSize(newSize);
     }
     if (currentPage === "postsort") {
-      const currentSize = cardFontSizePostsort;
-      const newSize = +currentSize - 1;
-      localStorage.setItem("fontSizePostsort", JSON.stringify(newSize));
-      setCardFontSizePostsort(newSize);
-    }
-    if (currentPage === "thin") {
-      const currentSize = mobileThinFontSize;
-      const newSize = currentSize - 0.1;
-      localStorage.setItem("mobileThinFontSize", JSON.stringify(newSize));
-      setMobileThinFontSize(newSize);
+      const currentSize = +mobileFontSizeObject.postsort;
+      let newSize = currentSize - 0.1;
+      newSize = newSize.toPrecision(2);
+      let newSizeObject = { ...mobileFontSizeObject, postsort: newSize };
+      setMobileFontSizeObject(newSizeObject);
+      setMobilePostsortFontSize(newSize);
     }
   };
 
+  //*********************** */
+  // *** ELEMENT ********* //
+  //*********************** */
   return (
     <Container>
       <SizeLeftButton padBottom={"0.3em"} onClick={decreaseFontSize}>
@@ -175,6 +180,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  user-select: non e;
 `;
 
 const SpanDiv = styled.div`

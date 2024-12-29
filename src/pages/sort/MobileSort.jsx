@@ -155,6 +155,7 @@ const SortTitleBar = styled.div`
   color: white;
   font-weight: bold;
   font-size: 4.5vw;
+  user-select: none;
 `;
 
 const StatementsContainer = styled.div`
@@ -240,6 +241,7 @@ const ItemContainer = styled.div`
   align-items: stretch;
   min-height: 10vh;
   flex-direction: row;
+  user-select: none;
 `;
 
 const NumberContainer = styled.div`

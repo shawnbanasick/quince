@@ -134,15 +134,16 @@ const StyledFooter = () => {
   }
 
   if (currentPage === "sort") {
-    if (useImages === true) {
-      showAdjustmentContainer = true;
-      // showCardHeightSizer = true;
-      showFooterFontSizer = false;
-    } else {
-      showAdjustmentContainer = false;
-      // showCardHeightSizer = true;
-      showFooterFontSizer = true;
-    }
+    // if (useImages === true) {
+    //   showAdjustmentContainer = true;
+    //   // showCardHeightSizer = true;
+    //   showFooterFontSizer = false;
+    // } else {
+    //   showAdjustmentContainer = false;
+    //   // showCardHeightSizer = true;
+    //   showFooterFontSizer = true;
+    // }
+    showAdjustmentContainer = true;
   }
 
   if (

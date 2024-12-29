@@ -19,7 +19,11 @@ const createSortSlice = (set, get) => ({
   sortGridResults: {},
   bypassSort: false,
   bypassPresort: false,
+  mobileSortFontSize: 2,
 
+  setMobileSortFontSize: (inputValue) => {
+    set(() => ({ mobileSortFontSize: inputValue }));
+  },
   setBypassPresort: (inputValue) => {
     set(() => ({ bypassPresort: inputValue }));
   },
