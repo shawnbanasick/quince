@@ -190,7 +190,7 @@ const LandingPage = () => {
     JSON.stringify({
       presort: 42,
       thin: 68,
-      sort: 52,
+      sort: 72,
       postsort: 42,
     })
   );

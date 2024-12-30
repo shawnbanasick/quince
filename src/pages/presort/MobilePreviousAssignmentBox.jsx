@@ -16,12 +16,6 @@ const MobilePreviousAssignmentBox = (props) => {
   ).presort;
   const mobilePresortViewSize = useStore(getMobilePresortViewSize);
 
-  console.log(
-    "viewSize",
-    mobilePresortViewSize,
-    +persistedMobilePresortViewSize
-  );
-
   let assessedStatements = props.statements.map((item) => {
     return (
       <InternalDiv

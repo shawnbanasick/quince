@@ -180,7 +180,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  user-select: non e;
+  user-select: none;
 `;
 
 const SpanDiv = styled.div`

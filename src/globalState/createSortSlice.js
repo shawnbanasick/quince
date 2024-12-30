@@ -21,7 +21,11 @@ const createSortSlice = (set, get) => ({
   bypassPresort: false,
   mobileSortFontSize: 2,
   mobileSortViewSize: 42,
+  triggerMobileSortSwapModal: false,
 
+  setTriggerMobileSortSwapModal: (inputValue) => {
+    set(() => ({ triggerMobileSortSwapModal: inputValue }));
+  },
   setMobileSortViewSize: (inputValue) => {
     set(() => ({ mobileSortViewSize: inputValue }));
   },

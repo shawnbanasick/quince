@@ -1,4 +1,4 @@
-import { Component, ReactElement, useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import styled from "styled-components";
 import useStore from "../../globalState/useStore";
 import calculateTimeOnPage from "../../utilities/calculateTimeOnPage";
@@ -7,12 +7,16 @@ import { v4 as uuid } from "uuid";
 import DownArrows from "../../assets/downArrows.svg?react";
 import UpArrows from "../../assets/upArrows.svg?react";
 import useLocalStorage from "../../utilities/useLocalStorage";
+import MobileSortSwapModal from "./MobileSortSwapModal";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
 const getMapObj = (state) => state.mapObj;
 const getConfigObj = (state) => state.configObj;
 const getMobileSortFontSize = (state) => state.mobileSortFontSize;
+const getMobileSortViewSize = (state) => state.mobileSortViewSize;
+const getSetTriggerMobileSortSwapModal = (state) =>
+  state.setTriggerMobileSortSwapModal;
 
 const MobileSort = () => {
   const setCurrentPage = useStore(getSetCurrentPage);
@@ -20,17 +24,28 @@ const MobileSort = () => {
   const mapObj = useSettingsStore(getMapObj);
   const configObj = useSettingsStore(getConfigObj);
   const mobileSortFontSize = useStore(getMobileSortFontSize);
-  const persistedMobileSortFontSize = JSON.parse(
-    localStorage.getItem("mobileFontSizeObject")
-  ).sort;
+  const mobileSortViewSize = useStore(getMobileSortViewSize);
+  const setTriggerMobileSortSwapModal = useStore(
+    getSetTriggerMobileSortSwapModal
+  );
 
   // *********************************
   // *** Local State ****************************************************
   // *********************************
+  const targetArray = useRef([]);
+
   const [sortArray1, setSortArray1] = useLocalStorage(
     "sortArray1",
     JSON.parse(localStorage.getItem("mobileFinalThinCols"))
   );
+
+  const persistedMobileSortFontSize = JSON.parse(
+    localStorage.getItem("mobileFontSizeObject")
+  ).sort;
+
+  const persistedMobileSortViewSize = JSON.parse(
+    localStorage.getItem("mobileViewSizeObject")
+  ).sort;
 
   // *** record time on page
   useEffect(() => {
@@ -69,6 +84,46 @@ const MobileSort = () => {
   // *********************************
   // *** Event Handlers *************************
   // *********************************
+  const handleCardSelected = (e) => {
+    // if (targetArray.length === 2) {
+    //   return;
+    // }
+    // console.log(e.target.dataset);
+    // let targetArray2 = [];
+    // targetArray.current = [];
+    sortArray1.forEach((item) => {
+      if (item.id === e.target.dataset.id) {
+        item.selected = !item.selected;
+      }
+    });
+    setSortArray1([...sortArray1]);
+
+    let tempObj = {
+      id: e.target.dataset.id,
+      statement: e.target.dataset.statement_text,
+      color: e.target.dataset.color,
+      index: e.target.dataset.index,
+    };
+
+    targetArray.current = [...targetArray.current, tempObj];
+
+    console.log(JSON.stringify(targetArray.current));
+
+    if (targetArray.current.length >= 2) {
+      // targetArray.current = [...targetArray2];
+      setTriggerMobileSortSwapModal(true);
+      console.log(JSON.stringify("open modal"));
+    }
+  };
+
+  const clearSelected = () => {
+    sortArray1.forEach((item) => {
+      item.selected = false;
+    });
+    setSortArray1([...sortArray1]);
+    targetArray.current = [];
+  };
+
   const handleScroll = (e) => {
     const bottom =
       e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
@@ -120,6 +175,7 @@ const MobileSort = () => {
           <DownArrows style={{ pointerEvents: "none" }} />
         </DownArrowContainer>
         <InternalDiv
+          onClick={handleCardSelected}
           id={item.id}
           key={uuid()}
           fontSize={
@@ -127,9 +183,15 @@ const MobileSort = () => {
               ? mobileSortFontSize
               : persistedMobileSortFontSize
           }
-          color={colorArray[index].color}
+          color={item.selected ? "lightyellow" : colorArray[index].color}
         >
-          <div>
+          <div
+            data-index={index}
+            data-id={item.id}
+            data-color={colorArray[index].color}
+            data-group_num={colorArray[index].value}
+            data-statement_text={item.statement}
+          >
             <NumberContainer>{colorArray[index].value}</NumberContainer>
             {item.statement}
           </div>
@@ -146,8 +208,19 @@ const MobileSort = () => {
       <SortTitleBar background={configObj.headerBarColor}>
         Sort Statements
       </SortTitleBar>
-
-      <StatementsContainer onScroll={handleScroll}>
+      <MobileSortSwapModal
+        clearSelected={clearSelected}
+        targetArray={targetArray.current}
+        sortArray1={sortArray1}
+      />
+      <StatementsContainer
+        onScroll={handleScroll}
+        viewSize={
+          mobileSortViewSize === +persistedMobileSortViewSize
+            ? mobileSortViewSize
+            : persistedMobileSortViewSize
+        }
+      >
         {currentRankings}
       </StatementsContainer>
     </div>
@@ -183,7 +256,7 @@ const StatementsContainer = styled.div`
 
   background-color: #e5e5e5;
   width: 96vw;
-  height: calc(100vh - 170px);
+  height: ${(props) => `${props.viewSize}vh`};
   /* font-size: 1.1vh; */
   align-items: center;
   gap: 15px;
@@ -268,7 +341,8 @@ const NumberContainer = styled.div`
   height: 16px;
   font-size: 14px;
   padding-bottom: 3px;
-  background-color: lightgoldenrodyellow;
+  /* background-color: lightgoldenrodyellow; */
+  background-color: whitesmoke;
   outline: 1px solid black;
   border-bottom-right-radius: 3px;
   /* margin-right: 5px; */

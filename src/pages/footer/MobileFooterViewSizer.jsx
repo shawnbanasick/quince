@@ -28,7 +28,7 @@ const MobileFooterViewSizer = () => {
     {
       presort: 42,
       thin: 68,
-      sort: 52,
+      sort: 72,
       postsort: 42,
     }
   );
@@ -196,4 +196,5 @@ const SpanDiv = styled.div`
   text-align: center;
   padding: 5px;
   outline: 1px solid black;
+  user-select: none;
 `;

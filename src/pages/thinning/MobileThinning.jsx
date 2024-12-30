@@ -38,7 +38,7 @@ const MobileThinning = () => {
   const langObj = useSettingsStore(getLangObj);
   const configObj = useSettingsStore(getConfigObj);
   const showConfirmButton = useStore(getShowConfirmButton);
-  const setShowConfirmButton = useStore(getSetShowConfirmButton);
+  // const setShowConfirmButton = useStore(getSetShowConfirmButton);
   const setCurrentPage = useStore(getSetCurrentPage);
   const setProgressScore = useStore(getSetProgressScore);
   const setTriggerMobileThinMoveTopModal = useStore(
@@ -46,7 +46,7 @@ const MobileThinning = () => {
   );
   const mobileThinFontSize = useStore(getMobileThinFontSize);
   const mobileThinViewSize = useStore(getMobileThinViewSize);
-  const columnStatements = useStore(getColumnStatements);
+  // const columnStatements = useStore(getColumnStatements);
 
   // *** REFS *** //
   let cardId = useRef({ id: "", statement: "", color: "", direction: "" });
@@ -135,12 +135,24 @@ const MobileThinning = () => {
       let array = completedCols.vCols[item[0]];
       mobileFinalThinCols.push(...array);
     });
+    mobileFinalThinCols.forEach((item) => {
+      item.selected = false;
+    });
+
     localStorage.setItem(
       "mobileFinalThinCols",
       JSON.stringify(mobileFinalThinCols)
     );
     localStorage.setItem("columnStatements", JSON.stringify(completedCols));
   }
+
+  const persistedMobileThinViewSize = JSON.parse(
+    localStorage.getItem("mobileViewSizeObject")
+  ).thin;
+
+  const persistedMobileThinFontSize = JSON.parse(
+    localStorage.getItem("mobileFontSizeObject")
+  ).thin;
 
   // ********************************************************
   // *** EVENT HANDLING *************************************
@@ -321,7 +333,11 @@ const MobileThinning = () => {
           id={item.id}
           key={uuid()}
           color={item.color}
-          fontSize={mobileThinFontSize}
+          fontSize={
+            mobileThinFontSize === +persistedMobileThinFontSize
+              ? mobileThinFontSize
+              : persistedMobileThinFontSize
+          }
           data-targetcol={displayControllerArray[0]?.targetCol}
           data-max={displayControllerArray[0]?.maxNum}
           data-selected={item.selected}
@@ -369,7 +385,13 @@ const MobileThinning = () => {
           </ConfirmButton>
         )}
       </HeadersContainer>
-      <StatementsContainer viewSize={mobileThinViewSize}>
+      <StatementsContainer
+        viewSize={
+          mobileThinViewSize === +persistedMobileThinViewSize
+            ? mobileThinViewSize
+            : persistedMobileThinViewSize
+        }
+      >
         {assessedStatements}
       </StatementsContainer>
     </MainContainer>

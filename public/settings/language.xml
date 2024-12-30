@@ -116,9 +116,7 @@
         <item id="mobileTextSize">Text</item>
         <item id="mobileViewSize">View</item>
 
-
-
-        <!-- SORT: sorting (leave blank to skip popup) -->
+        <!-- SORT: sorting -->
         <item id="sortHelpModalHead">Step 2 of 4</item>
         <item id="sortHelpModalText">In this step, please click and drag the statement cards to the appropriate column based on your perspective and the researcher&apos;s instructions at the top of the page. {{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/iRxC9Vv3dLo?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
         <item id="sortAgreement">Agree</item>
@@ -130,6 +128,11 @@
         <item id="sortPreventNavModalText">Please finish the grid sorting before going to the next step.</item>
         <item id="sortOverloadedColumnModalHead">Navigation Disabled</item>
         <item id="sortOverloadedColumnModalText">One of the columns has too many cards (it will be outlined in orange and have a dashed border). Please adjust the placement of the cards so that all columns have the correct number.</item>
+
+        <!-- MOBILE SORT: sorting -->
+        <item id="mobileSortSwapModalHead">Swap Statement Positions?</item>
+        <item id="mobileSortSwapModalText">Click "Confirm" to swap.</item>
+
 
         <!-- POSTSORT: comments - only displayed if showStep3 = true -->
         <item id="postsortHeader">Post-Sort Comments</item>
