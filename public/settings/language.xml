@@ -132,6 +132,7 @@
         <!-- MOBILE SORT: sorting -->
         <item id="mobileSortSwapModalHead">Swap Statement Positions?</item>
         <item id="mobileSortSwapModalText">Click "Confirm" to swap.</item>
+        <item id="mobileSortSwapModalConfirmButton">Swap</item>
 
 
         <!-- POSTSORT: comments - only displayed if showStep3 = true -->

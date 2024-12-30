@@ -8,6 +8,7 @@ import DownArrows from "../../assets/downArrows.svg?react";
 import UpArrows from "../../assets/upArrows.svg?react";
 import useLocalStorage from "../../utilities/useLocalStorage";
 import MobileSortSwapModal from "./MobileSortSwapModal";
+import { head } from "lodash";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
@@ -68,6 +69,8 @@ const MobileSort = () => {
   const valuesArraySource = [...mapObj.qSortHeaderNumbers].reverse();
 
   const colorArray = useMemo(() => {
+    const headersText = mapObj.mobileHeadersText;
+    console.log(JSON.stringify(headersText));
     const qSortPattern = [...mapObj.qSortPattern];
     const tempArray = [];
     qSortPattern.forEach((item, index) => {
@@ -75,45 +78,66 @@ const MobileSort = () => {
       for (let i = 0; i < item; i++) {
         tempObj.color = colorArraySource[index];
         tempObj.value = valuesArraySource[index];
+        tempObj.header = headersText[index];
         tempArray.push({ ...tempObj });
       }
     });
+    console.log(JSON.stringify(tempArray));
     return tempArray;
-  }, [colorArraySource, valuesArraySource, mapObj.qSortPattern]);
+  }, [colorArraySource, valuesArraySource, mapObj]);
 
   // *********************************
   // *** Event Handlers *************************
   // *********************************
   const handleCardSelected = (e) => {
-    // if (targetArray.length === 2) {
-    //   return;
-    // }
-    // console.log(e.target.dataset);
-    // let targetArray2 = [];
-    // targetArray.current = [];
-    sortArray1.forEach((item) => {
-      if (item.id === e.target.dataset.id) {
-        item.selected = !item.selected;
+    try {
+      // error prevention
+      if (targetArray.length === 2 || e.target.dataset.id === undefined) {
+        return;
       }
-    });
-    setSortArray1([...sortArray1]);
 
-    let tempObj = {
-      id: e.target.dataset.id,
-      statement: e.target.dataset.statement_text,
-      color: e.target.dataset.color,
-      index: e.target.dataset.index,
-    };
+      // Toggle selected state
+      sortArray1.forEach((item) => {
+        if (item.id === e.target.dataset.id) {
+          item.selected = !item.selected;
+        }
+      });
+      setSortArray1([...sortArray1]);
 
-    targetArray.current = [...targetArray.current, tempObj];
+      // Check if the card is already selected
+      if (targetArray.current[0]?.id === e.target.dataset.id) {
+        targetArray.current = [];
+        return;
+      }
 
-    console.log(JSON.stringify(targetArray.current));
+      // Push data to targetArray
+      let tempObj = {
+        id: e.target.dataset.id,
+        statement: e.target.dataset.statement_text,
+        color: e.target.dataset.color,
+        index: e.target.dataset.index,
+        groupNumber: e.target.dataset.group_num,
+        fontSize: e.target.dataset.font_size,
+        header: e.target.dataset.header,
+      };
+      targetArray.current = [...targetArray.current, tempObj];
 
-    if (targetArray.current.length >= 2) {
-      // targetArray.current = [...targetArray2];
-      setTriggerMobileSortSwapModal(true);
-      console.log(JSON.stringify("open modal"));
+      // trigger MODAL if two cards are selected
+      if (targetArray.current.length >= 2) {
+        setTriggerMobileSortSwapModal(true);
+        console.log(JSON.stringify("open modal"));
+      }
+    } catch (error) {
+      console.error(error);
     }
+  };
+
+  const handleStatementSwap = (index0, index1) => {
+    [sortArray1[index0], sortArray1[index1]] = [
+      sortArray1[index1],
+      sortArray1[index0],
+    ];
+    setSortArray1([...sortArray1]);
   };
 
   const clearSelected = () => {
@@ -191,8 +215,13 @@ const MobileSort = () => {
             data-color={colorArray[index].color}
             data-group_num={colorArray[index].value}
             data-statement_text={item.statement}
+            data-font_size={persistedMobileSortFontSize}
+            data-header={colorArray[index].header}
           >
-            <NumberContainer>{colorArray[index].value}</NumberContainer>
+            <NumberContainer>
+              {colorArray[index].value}&nbsp;&nbsp;
+              {colorArray[index].header}
+            </NumberContainer>
             {item.statement}
           </div>
         </InternalDiv>
@@ -211,7 +240,7 @@ const MobileSort = () => {
       <MobileSortSwapModal
         clearSelected={clearSelected}
         targetArray={targetArray.current}
-        sortArray1={sortArray1}
+        handleStatementSwap={handleStatementSwap}
       />
       <StatementsContainer
         onScroll={handleScroll}
@@ -286,7 +315,7 @@ const InternalDiv = styled.div`
   text-align: center;
   outline: 1px solid black;
   padding: 5px;
-  padding-top: 18px;
+  padding-top: 22px;
   -webkit-transition: background-color 1000ms linear;
   -moz-transition: background-color 1000ms linear;
   -o-transition: background-color 1000ms linear;
@@ -333,16 +362,20 @@ const ItemContainer = styled.div`
 `;
 
 const NumberContainer = styled.div`
-  /* float: left; */
   position: absolute;
   top: 0;
   left: 0;
-  width: 22px;
+  width: fit-content;
+  text-align: left;
+  padding-left: 5px;
+  padding-right: 5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  color: gray;
   height: 16px;
-  font-size: 14px;
+  font-size: 12px;
   padding-bottom: 3px;
-  /* background-color: lightgoldenrodyellow; */
-  background-color: whitesmoke;
+  background-color: #e3e3e3;
   outline: 1px solid black;
   border-bottom-right-radius: 3px;
   /* margin-right: 5px; */

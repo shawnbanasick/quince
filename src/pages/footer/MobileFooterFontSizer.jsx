@@ -157,8 +157,8 @@ const SizeLeftButton = styled.div`
   justify-content: center;
   background: #337ab7;
   border-color: #2e6da4;
-  font-weight: bold;
   color: white;
+  font-weight: bold;
   /* color: black; */
   font-size: 1.4em;
   /* font-weight: bold; */
