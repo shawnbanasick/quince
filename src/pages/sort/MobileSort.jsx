@@ -8,7 +8,9 @@ import DownArrows from "../../assets/downArrows.svg?react";
 import UpArrows from "../../assets/upArrows.svg?react";
 import useLocalStorage from "../../utilities/useLocalStorage";
 import MobileSortSwapModal from "./MobileSortSwapModal";
-import { head } from "lodash";
+import ReactHtmlParser from "html-react-parser";
+import decodeHTML from "../../utilities/decodeHTML";
+import HelpSymbol from "../../assets/helpSymbol.svg?react";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
@@ -18,17 +20,26 @@ const getMobileSortFontSize = (state) => state.mobileSortFontSize;
 const getMobileSortViewSize = (state) => state.mobileSortViewSize;
 const getSetTriggerMobileSortSwapModal = (state) =>
   state.setTriggerMobileSortSwapModal;
+const getLangObj = (state) => state.langObj;
 
 const MobileSort = () => {
   const setCurrentPage = useStore(getSetCurrentPage);
   const setProgressScore = useStore(getSetProgressScore);
   const mapObj = useSettingsStore(getMapObj);
+  const langObj = useSettingsStore(getLangObj);
   const configObj = useSettingsStore(getConfigObj);
   const mobileSortFontSize = useStore(getMobileSortFontSize);
   const mobileSortViewSize = useStore(getMobileSortViewSize);
   const setTriggerMobileSortSwapModal = useStore(
     getSetTriggerMobileSortSwapModal
   );
+
+  // *********************************
+  // *** TEXT LOCALIZATION **********************************************
+  // *********************************
+  const conditionsOfInstruction =
+    ReactHtmlParser(decodeHTML(langObj.mobileSortConditionsOfInstruction)) ||
+    "";
 
   // *********************************
   // *** Local State ****************************************************
@@ -63,14 +74,13 @@ const MobileSort = () => {
   }, [setCurrentPage, setProgressScore]);
 
   // *********************************
-  // *** generate colorArray and card number based on qSortPattern
+  // *** generate card characteristics based on qSortPattern
   // *********************************
-  const colorArraySource = [...mapObj.columnHeadersColorsArray].reverse();
-  const valuesArraySource = [...mapObj.qSortHeaderNumbers].reverse();
 
   const colorArray = useMemo(() => {
+    const colorArraySource = [...mapObj.columnHeadersColorsArray].reverse();
+    const valuesArraySource = [...mapObj.qSortHeaderNumbers].reverse();
     const headersText = mapObj.mobileHeadersText;
-    console.log(JSON.stringify(headersText));
     const qSortPattern = [...mapObj.qSortPattern];
     const tempArray = [];
     qSortPattern.forEach((item, index) => {
@@ -82,9 +92,8 @@ const MobileSort = () => {
         tempArray.push({ ...tempObj });
       }
     });
-    console.log(JSON.stringify(tempArray));
     return tempArray;
-  }, [colorArraySource, valuesArraySource, mapObj]);
+  }, [mapObj]);
 
   // *********************************
   // *** Event Handlers *************************
@@ -235,7 +244,10 @@ const MobileSort = () => {
   return (
     <div>
       <SortTitleBar background={configObj.headerBarColor}>
-        Sort Statements
+        {conditionsOfInstruction}
+        <HelpContainer onClick={() => alert("Help")}>
+          <HelpSymbol />
+        </HelpContainer>
       </SortTitleBar>
       <MobileSortSwapModal
         clearSelected={clearSelected}
@@ -259,14 +271,14 @@ const MobileSort = () => {
 export default MobileSort;
 
 const SortTitleBar = styled.div`
+  display: flex;
   width: 100vw;
-  padding-left: 1.5vw;
+  padding-left: 10px;
   padding-right: 1.5vw;
   padding-top: 5px;
   min-height: 30px;
   background-color: ${(props) => props.background};
-  display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   color: white;
   font-weight: bold;
@@ -278,11 +290,10 @@ const StatementsContainer = styled.div`
   display: flex;
   align-self: top;
   justify-self: center;
-  margin-top: 20px;
+  margin-top: 10px;
   margin-bottom: 20px;
   flex-direction: row;
   flex-wrap: wrap;
-
   background-color: #e5e5e5;
   width: 96vw;
   height: ${(props) => `${props.viewSize}vh`};
@@ -379,4 +390,18 @@ const NumberContainer = styled.div`
   outline: 1px solid black;
   border-bottom-right-radius: 3px;
   /* margin-right: 5px; */
+`;
+
+const HelpContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-right: 5px;
+  align-items: center;
+  padding-bottom: 5px;
+  width: 20px;
+  height: 20px;
+  color: black;
+  font-size: 2.5vh;
+  font-weight: bold;
+  user-select: none;
 `;

@@ -18,7 +18,6 @@ const MobileSortSwapModal = (props) => {
   const setTriggerModal = useStore(getSetTriggerModal);
 
   let targetArray = [...props.targetArray];
-  console.log(JSON.stringify(targetArray));
 
   if (
     targetArray?.length > 0 &&

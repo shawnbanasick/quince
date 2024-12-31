@@ -90,9 +90,6 @@
         <item id="mobilePresortHelpModalHead">Stage 1. {{{br /}}}Statement Evaluation</item>
         <item id="mobilePresortHelpModalText">Click on the appropriate button to assign a value to each statement</item>
         
-
-
-
         <!-- THINNING:  -->
         <item id="thinningPreventNavModalHead">Navigation Disabled</item>
         <item id="thinningPreventNavModalText">Please finish the refining process before going to the next step.</item>
@@ -115,6 +112,7 @@
         <item id="moveTopMobileButtonCancel">Cancel</item>
         <item id="mobileTextSize">Text</item>
         <item id="mobileViewSize">View</item>
+        <item id="mobileThinConditionsOfInstruction">Refine Your Rankings</item>
 
         <!-- SORT: sorting -->
         <item id="sortHelpModalHead">Step 2 of 4</item>
@@ -133,6 +131,7 @@
         <item id="mobileSortSwapModalHead">Swap Statement Positions?</item>
         <item id="mobileSortSwapModalText">Click "Confirm" to swap.</item>
         <item id="mobileSortSwapModalConfirmButton">Swap</item>
+        <item id="mobileSortConditionsOfInstruction">Sort the Statements According to Your Experience of using the iPads in the Class</item>
 
 
         <!-- POSTSORT: comments - only displayed if showStep3 = true -->

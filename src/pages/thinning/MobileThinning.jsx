@@ -5,11 +5,11 @@ import useSettingsStore from "../../globalState/useSettingsStore";
 import decodeHTML from "../../utilities/decodeHTML";
 import ReactHtmlParser from "html-react-parser";
 import finishThinningSorts from "./finishThinningSorts";
-import Boxes from "./Boxes";
-import MobileInstructions from "./MobileInstructions";
-import moveSelectedNegCards from "./moveSelectedNegCards";
+// import Boxes from "./Boxes";
+// import MobileInstructions from "./MobileInstructions";
+// import moveSelectedNegCards from "./moveSelectedNegCards";
 // import moveSelectedPosCards from "./moveSelectedPosCards";
-import uniq from "lodash/uniq";
+// import uniq from "lodash/uniq";
 import { v4 as uuid } from "uuid";
 import useStore from "../../globalState/useStore";
 import mobileCardColor from "../presort/mobileCardColor";
@@ -21,6 +21,7 @@ import { useLongPress } from "@uidotdev/usehooks";
 import MobileThinMoveTopModal from "./MobileThinMoveTopModal";
 import mobileMoveSelectedPosCards from "./mobileMoveSelectedPosCards";
 import mobileMoveSelectedNegCards from "./mobileMoveSelectedNegCards";
+import HelpSymbol from "../../assets/helpSymbol.svg?react";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
@@ -66,6 +67,17 @@ const MobileThinning = () => {
   }, [setCurrentPage, setProgressScore]);
 
   // *************************** //
+  // *** TEXT LOCALIZATION ***** //
+  // *************************** //
+  const conditionsOfInstruction =
+    ReactHtmlParser(decodeHTML(langObj.mobileThinConditionsOfInstruction)) ||
+    "";
+  // let initialInstructionPart1 =
+  //   ReactHtmlParser(decodeHTML(langObj.initialInstructionPart1)) || "";
+  // let initialInstructionPart3 =
+  //   ReactHtmlParser(decodeHTML(langObj.initialInstructionPart3)) || "";
+
+  // *************************** //
   // *** USE LONG PRESS HOOK *** //
   // *************************** //
   const attrs = useLongPress(
@@ -87,12 +99,6 @@ const MobileThinning = () => {
       threshold: 800,
     }
   );
-
-  // Get language object values
-  let initialInstructionPart1 =
-    ReactHtmlParser(decodeHTML(langObj.initialInstructionPart1)) || "";
-  let initialInstructionPart3 =
-    ReactHtmlParser(decodeHTML(langObj.initialInstructionPart3)) || "";
 
   // *******************************************************
   // *** LOCAL STATE ***********************************
@@ -365,7 +371,10 @@ const MobileThinning = () => {
     <MainContainer>
       <MobileThinMoveTopModal cardId={cardId} onClick={handleMove} />
       <SortTitleBar background={configObj.headerBarColor}>
-        Refine Your Rankings
+        {conditionsOfInstruction}
+        <HelpContainer onClick={() => alert("Help")}>
+          <HelpSymbol />
+        </HelpContainer>
       </SortTitleBar>
       <HeadersContainer>
         <SelectionNumberDisplay
@@ -428,18 +437,19 @@ const StatementsContainer = styled.div`
 `;
 
 const SortTitleBar = styled.div`
+  display: flex;
   width: 100vw;
-  padding-left: 1.5vw;
+  padding-left: 10px;
   padding-right: 1.5vw;
   padding-top: 5px;
   min-height: 30px;
   background-color: ${(props) => props.background};
-  display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   color: white;
   font-weight: bold;
   font-size: 4.5vw;
+  user-select: none;
 `;
 
 // const InstructionsDiv = styled.div`
@@ -546,4 +556,18 @@ const HeadersContainer = styled.div`
   height: 50px;
   gap: 55px;
   /* outline: 1px solid black; */
+`;
+
+const HelpContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-right: 5px;
+  align-items: center;
+  padding-bottom: 5px;
+  width: 20px;
+  height: 20px;
+  color: black;
+  font-size: 2.5vh;
+  font-weight: bold;
+  user-select: none;
 `;
