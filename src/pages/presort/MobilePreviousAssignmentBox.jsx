@@ -9,10 +9,10 @@ const getMobilePresortViewSize = (state) => state.mobilePresortViewSize;
 const MobilePreviousAssignmentBox = (props) => {
   let mobilePresortFontSize = useStore(getMobilePresortFontSize);
   const persistedMobilePresortFontSize = JSON.parse(
-    localStorage.getItem("mobileFontSizeObject")
+    localStorage.getItem("m_FontSizeObject")
   ).presort;
   const persistedMobilePresortViewSize = JSON.parse(
-    localStorage.getItem("mobileViewSizeObject")
+    localStorage.getItem("m_ViewSizeObject")
   ).presort;
   const mobilePresortViewSize = useStore(getMobilePresortViewSize);
 

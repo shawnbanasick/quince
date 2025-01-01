@@ -23,8 +23,8 @@ const MobileFooterFontSizer = () => {
   const setMobilePostsortFontSize = useStore(getSetMobilePostsortFontSize);
 
   // *** LOCAL STATE *** //
-  let [mobileFontSizeObject, setMobileFontSizeObject] = useLocalStorage(
-    "mobileFontSizeObject",
+  let [m_FontSizeObject, setm_FontSizeObject] = useLocalStorage(
+    "m_FontSizeObject",
     {
       presort: 2,
       thin: 2,
@@ -42,69 +42,69 @@ const MobileFooterFontSizer = () => {
   //*********************** */
   const increaseFontSize = () => {
     if (currentPage === "presort") {
-      const currentSize = +mobileFontSizeObject.presort;
+      const currentSize = +m_FontSizeObject.presort;
       let newSize = currentSize + 0.1;
       newSize = newSize.toPrecision(2);
-      let newSizeObject = { ...mobileFontSizeObject, presort: newSize };
-      setMobileFontSizeObject(newSizeObject);
+      let newSizeObject = { ...m_FontSizeObject, presort: newSize };
+      setm_FontSizeObject(newSizeObject);
       setMobilePresortFontSize(newSize);
     }
     if (currentPage === "thin") {
-      const currentSize = +mobileFontSizeObject.thin;
+      const currentSize = +m_FontSizeObject.thin;
       let newSize = currentSize + 0.1;
       newSize = newSize.toPrecision(2);
-      let newSizeObject = { ...mobileFontSizeObject, thin: newSize };
-      setMobileFontSizeObject(newSizeObject);
+      let newSizeObject = { ...m_FontSizeObject, thin: newSize };
+      setm_FontSizeObject(newSizeObject);
       setMobileThinFontSize(newSize);
     }
     if (currentPage === "sort") {
-      const currentSize = +mobileFontSizeObject.sort;
+      const currentSize = +m_FontSizeObject.sort;
       let newSize = currentSize + 0.1;
       newSize = newSize.toPrecision(2);
-      let newSizeObject = { ...mobileFontSizeObject, sort: newSize };
-      setMobileFontSizeObject(newSizeObject);
+      let newSizeObject = { ...m_FontSizeObject, sort: newSize };
+      setm_FontSizeObject(newSizeObject);
       setMobileSortFontSize(newSize);
     }
     if (currentPage === "postsort") {
-      const currentSize = +mobileFontSizeObject.postsort;
+      const currentSize = +m_FontSizeObject.postsort;
       let newSize = currentSize + 0.1;
       newSize = newSize.toPrecision(2);
-      let newSizeObject = { ...mobileFontSizeObject, postsort: newSize };
-      setMobileFontSizeObject(newSizeObject);
+      let newSizeObject = { ...m_FontSizeObject, postsort: newSize };
+      setm_FontSizeObject(newSizeObject);
       setMobilePostsortFontSize(newSize);
     }
   };
   const decreaseFontSize = () => {
     if (currentPage === "presort") {
-      const currentSize = +mobileFontSizeObject.presort;
+      const currentSize = +m_FontSizeObject.presort;
       let newSize = currentSize - 0.1;
       newSize = newSize.toPrecision(2);
-      let newSizeObject = { ...mobileFontSizeObject, presort: newSize };
-      setMobileFontSizeObject(newSizeObject);
+      let newSizeObject = { ...m_FontSizeObject, presort: newSize };
+      setm_FontSizeObject(newSizeObject);
       setMobilePresortFontSize(newSize);
     }
     if (currentPage === "thin") {
-      const currentSize = +mobileFontSizeObject.thin;
+      const currentSize = +m_FontSizeObject.thin;
       let newSize = currentSize - 0.1;
       newSize = newSize.toPrecision(2);
-      let newSizeObject = { ...mobileFontSizeObject, thin: newSize };
-      setMobileFontSizeObject(newSizeObject);
+      let newSizeObject = { ...m_FontSizeObject, thin: newSize };
+      setm_FontSizeObject(newSizeObject);
       setMobileThinFontSize(newSize);
     }
     if (currentPage === "sort") {
-      const currentSize = +mobileFontSizeObject.sort;
+      const currentSize = +m_FontSizeObject.sort;
       let newSize = currentSize - 0.1;
       newSize = newSize.toPrecision(2);
-      let newSizeObject = { ...mobileFontSizeObject, sort: newSize };
-      setMobileFontSizeObject(newSizeObject);
+      let newSizeObject = { ...m_FontSizeObject, sort: newSize };
+      setm_FontSizeObject(newSizeObject);
       setMobileSortFontSize(newSize);
     }
     if (currentPage === "postsort") {
-      const currentSize = +mobileFontSizeObject.postsort;
+      const currentSize = +m_FontSizeObject.postsort;
       let newSize = currentSize - 0.1;
       newSize = newSize.toPrecision(2);
-      let newSizeObject = { ...mobileFontSizeObject, postsort: newSize };
-      setMobileFontSizeObject(newSizeObject);
+      let newSizeObject = { ...m_FontSizeObject, postsort: newSize };
+      setm_FontSizeObject(newSizeObject);
       setMobilePostsortFontSize(newSize);
     }
   };

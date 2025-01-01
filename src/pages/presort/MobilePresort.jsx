@@ -82,11 +82,11 @@ const MobilePresortPage = () => {
     initialArray
   );
   let [statementCount, setStatementCount] = useLocalStorage(
-    "mobilePresortStatementCount",
+    "m_PresortStatementCount",
     0
   );
-  let [mobilePresortResults, setMobilePresortResults] = useLocalStorage(
-    "mobilePresortResults",
+  let [m_PresortResults, setm_PresortResults] = useLocalStorage(
+    "m_PresortResults",
     []
   );
   let redoCardId = useRef({ id: "", statement: "" });
@@ -155,7 +155,7 @@ const MobilePresortPage = () => {
 
   const handleRedoClick = (value) => {
     setTriggerMobilePresortRedoModal(false);
-    let selectedStatementObject = mobilePresortResults.find(
+    let selectedStatementObject = m_PresortResults.find(
       (item) => item.id === redoCardId.current.id
     );
     selectedStatementObject.psValue = value;
@@ -175,7 +175,7 @@ const MobilePresortPage = () => {
       selectedStatementObject.greenChecked = false;
     }
 
-    mobilePresortResults.sort((a, b) => {
+    m_PresortResults.sort((a, b) => {
       let aVal = +a.id.slice(1);
       let bVal = +b.id.slice(1);
       if (a.psValue === b.psValue) {
@@ -183,12 +183,12 @@ const MobilePresortPage = () => {
       }
       return b.psValue - a.psValue;
     });
-    setMobilePresortResults([...mobilePresortResults]);
+    setm_PresortResults([...m_PresortResults]);
 
-    let selectedPosItems = mobilePresortResults.filter((item) => {
+    let selectedPosItems = m_PresortResults.filter((item) => {
       return +item.psValue > 0;
     });
-    let selectedNegItems = mobilePresortResults.filter((item) => {
+    let selectedNegItems = m_PresortResults.filter((item) => {
       return +item.psValue < 0;
     });
 
@@ -234,8 +234,8 @@ const MobilePresortPage = () => {
 
         currentObj.psValue = value;
         currentObj.color = mobileCardColor(value);
-        mobilePresortResults.push({ ...currentObj });
-        mobilePresortResults.sort((a, b) => {
+        m_PresortResults.push({ ...currentObj });
+        m_PresortResults.sort((a, b) => {
           let aVal = +a.id.slice(1);
           let bVal = +b.id.slice(1);
           if (a.psValue === b.psValue) {
@@ -245,11 +245,11 @@ const MobilePresortPage = () => {
         });
 
         // send to local storage
-        setMobilePresortResults(mobilePresortResults);
-        let selectedPosItems = mobilePresortResults.filter((item) => {
+        setm_PresortResults(m_PresortResults);
+        let selectedPosItems = m_PresortResults.filter((item) => {
           return +item.psValue > 0;
         });
-        let selectedNegItems = mobilePresortResults.filter((item) => {
+        let selectedNegItems = m_PresortResults.filter((item) => {
           return +item.psValue < 0;
         });
 
@@ -286,7 +286,7 @@ const MobilePresortPage = () => {
           );
 
           // *** update newCols ***
-          newCols.statementList = mobilePresortResults;
+          newCols.statementList = m_PresortResults;
           localStorage.setItem("newCols", JSON.stringify(newCols));
 
           setTriggerPresortFinishedModal(true);
@@ -362,7 +362,7 @@ const MobilePresortPage = () => {
       <RowText>{completedLabel}</RowText>
 
       <MobilePreviousAssignmentBox
-        statements={mobilePresortResults}
+        statements={m_PresortResults}
         onClick={handleRedo}
       />
       {/* <ModalContainer></ModalContainer> */}

@@ -136,28 +136,25 @@ const MobileThinning = () => {
 
     let colData = JSON.parse(localStorage.getItem("finalSortColData"));
     let reversedColData = colData.reverse();
-    let mobileFinalThinCols = [];
+    let m_FinalThinCols = [];
     reversedColData.forEach((item) => {
       let array = completedCols.vCols[item[0]];
-      mobileFinalThinCols.push(...array);
+      m_FinalThinCols.push(...array);
     });
-    mobileFinalThinCols.forEach((item) => {
+    m_FinalThinCols.forEach((item) => {
       item.selected = false;
     });
 
-    localStorage.setItem(
-      "mobileFinalThinCols",
-      JSON.stringify(mobileFinalThinCols)
-    );
+    localStorage.setItem("m_FinalThinCols", JSON.stringify(m_FinalThinCols));
     localStorage.setItem("columnStatements", JSON.stringify(completedCols));
   }
 
   const persistedMobileThinViewSize = JSON.parse(
-    localStorage.getItem("mobileViewSizeObject")
+    localStorage.getItem("m_ViewSizeObject")
   ).thin;
 
   const persistedMobileThinFontSize = JSON.parse(
-    localStorage.getItem("mobileFontSizeObject")
+    localStorage.getItem("m_FontSizeObject")
   ).thin;
 
   // ********************************************************

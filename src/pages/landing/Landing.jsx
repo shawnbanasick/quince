@@ -105,10 +105,12 @@ const LandingPage = () => {
     localStorage.removeItem("HC2-requiredCommentsObj");
     localStorage.removeItem("LC2-requiredCommentsObj");
     localStorage.removeItem("cumulativelandingPageDuration");
+    localStorage.removeItem("cumulativepostsortPageDuration");
     localStorage.removeItem("cumulativepresortPageDuration");
     localStorage.removeItem("cumulativesortPageDuration");
-    localStorage.removeItem("cumulativepostsortPageDuration");
     localStorage.removeItem("cumulativesurveyPageDuration");
+    localStorage.removeItem("cumulativethinPageDuration");
+    localStorage.removeItem("cumulativesubmitPageDuration");
     localStorage.removeItem("lastAccesslandingPage");
     localStorage.removeItem("lastAccesspresortPage");
     localStorage.removeItem("lastAccesssortPage");
@@ -136,11 +138,11 @@ const LandingPage = () => {
     localStorage.removeItem("finalSortColData");
     localStorage.removeItem("posSorted");
     localStorage.removeItem("negSorted");
-    localStorage.removeItem("mobilePresortResults");
+    localStorage.removeItem("m_PresortResults");
     localStorage.removeItem("selectedPosItems");
     localStorage.removeItem("selectedNegItems");
-    localStorage.removeItem("mobilePresortStatementCount");
-    localStorage.removeItem("mobilePresortResults");
+    localStorage.removeItem("m_PresortStatementCount");
+    localStorage.removeItem("m_PresortResults");
     localStorage.removeItem("presortArray2");
     localStorage.removeItem("thinDisplayControllerArray");
     localStorage.removeItem("mobilePresortFontSize");
@@ -148,8 +150,8 @@ const LandingPage = () => {
     localStorage.removeItem("selectedPosItems");
     localStorage.removeItem("selectedNegItems");
     localStorage.removeItem("columnStatements");
-    localStorage.removeItem("mobileFontSizeObject");
-    localStorage.removeItem("mobileViewSizeObject");
+    localStorage.removeItem("m_FontSizeObject");
+    localStorage.removeItem("m_ViewSizeObject");
 
     if (configObj.requiredAnswersObj !== undefined) {
       localStorage.setItem(
@@ -177,7 +179,7 @@ const LandingPage = () => {
 
   // set defaults
   localStorage.setItem(
-    "mobileFontSizeObject",
+    "m_FontSizeObject",
     JSON.stringify({
       presort: 2,
       thin: 2,
@@ -186,12 +188,12 @@ const LandingPage = () => {
     })
   );
   localStorage.setItem(
-    "mobileViewSizeObject",
+    "m_ViewSizeObject",
     JSON.stringify({
       presort: 42,
       thin: 68,
       sort: 72,
-      postsort: 42,
+      postsort: 72,
     })
   );
 
@@ -201,7 +203,7 @@ const LandingPage = () => {
     localStorage.setItem("currentRightIteration", 0);
     localStorage.setItem("isNotReload", "true");
     localStorage.setItem("thinningSide", "rightSide");
-    localStorage.setItem("mobilePresortResults", "");
+    localStorage.setItem("m_PresortResults", "");
 
     const maxIterations = setMaxIterations(qSortPattern);
 

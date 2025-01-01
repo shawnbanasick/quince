@@ -10,7 +10,7 @@ const createPresortSlice = (set, get) => ({
   triggerPresortFinishedModal: false,
   triggerPresortPreventNavModal: false,
   results: {},
-  mobilePresortResults: [],
+  m_PresortResults: [],
   triggerMobilePresortFinishedModal: false,
   mobilePresortFontSize: 2,
   mobilePresortViewSize: 42,
@@ -23,8 +23,8 @@ const createPresortSlice = (set, get) => ({
   setTriggerMobilePresortRedoModal: (bool) => {
     set(() => ({ triggerMobilePresortRedoModal: bool }));
   },
-  setMobilePresortStatementCount: (value) => {
-    set(() => ({ mobilePresortStatementCount: value }));
+  setm_PresortStatementCount: (value) => {
+    set(() => ({ m_PresortStatementCount: value }));
   },
   setMobilePresortViewSize: (value) => {
     set(() => ({ mobilePresortViewSize: value }));
@@ -35,8 +35,8 @@ const createPresortSlice = (set, get) => ({
   setTriggerMobilePresortFinishedModal: (bool) => {
     set(() => ({ triggerMobilePresortFinishedModal: bool }));
   },
-  setMobilePresortResults: (inputValue) => {
-    set(() => ({ mobilePresortResults: inputValue }));
+  setm_PresortResults: (inputValue) => {
+    set(() => ({ m_PresortResults: inputValue }));
   },
   setPresortNoReturn: (inputValue) => {
     set(() => ({ presortNoReturn: inputValue }));

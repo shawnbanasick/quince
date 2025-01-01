@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import styled from "styled-components";
 import useStore from "../../globalState/useStore";
 import useSettingsStore from "../../globalState/useSettingsStore";
@@ -8,19 +8,25 @@ import ReactHtmlParser from "html-react-parser";
 import HelpSymbol from "../../assets/helpSymbol.svg?react";
 import useLocalStorage from "../../utilities/useLocalStorage";
 import { v4 as uuid } from "uuid";
+import DebouncedTextarea from "./DebouncedTextArea";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
 const getMapObj = (state) => state.mapObj;
+const getMobilePostsortFontSize = (state) => state.mobilePostsortFontSize;
+const getMobilePostsortViewSize = (state) => state.mobilePostsortViewSize;
 
-const MobileSort = () => {
+const MobilePostsort = () => {
   const setCurrentPage = useStore(getSetCurrentPage);
   const setProgressScore = useStore(getSetProgressScore);
   const langObj = useSettingsStore(getLangObj);
   const mapObj = useSettingsStore(getMapObj);
   const configObj = useSettingsStore(getConfigObj);
+  let mobilePostsortFontSize = useStore(getMobilePostsortFontSize);
+  let required = configObj.postsortCommentsRequired;
+  console.log("required", required);
 
   // ***************************
   // *** TEXT LOCALIZATION *******************
@@ -32,31 +38,10 @@ const MobileSort = () => {
   const placeholder = langObj.placeholder;
 
   // ***************************
-  // *** STATE *******************
+  // *** INITIALIZATION *******************
   // ***************************
-  // const [showHelpModal, setShowHelpModal] = useLocalStorage(
-  //   "showHelpModal",
-  //   false
-  // );
-
-  // ***************************
-  // *** HOOKS *******************
-  // ***************************
-  useEffect(() => {
-    let startTime = Date.now();
-    const setStateAsync = async () => {
-      await setCurrentPage("postsort");
-      localStorage.setItem("currentPage", "postsort");
-      await setProgressScore(20);
-    };
-    setStateAsync();
-    return () => {
-      calculateTimeOnPage(startTime, "postsortPage", "postsortPage");
-    };
-  }, [setCurrentPage, setProgressScore]);
-
   const cardsArray = useMemo(() => {
-    const cards2 = JSON.parse(localStorage.getItem("sortArray1"));
+    const cards2 = JSON.parse(localStorage.getItem("sortArray1")) || [];
     const cards = [...cards2];
     const showSecondPosColumn = configObj.showSecondPosColumn;
     const showSecondNegColumn = configObj.showSecondNegColumn;
@@ -76,14 +61,74 @@ const MobileSort = () => {
     const posStatements = cards.slice(0, posStatementsNum);
     const negStatements = cards.slice(-negStatementsNum);
 
-    return [posStatements, negStatements];
+    let posResponsesObject = {};
+    let negResponsesObject = {};
+    posStatements.forEach((statement) => {
+      posResponsesObject[statement.id] = "";
+    });
+    negStatements.forEach((statement) => {
+      negResponsesObject[statement.id] = "";
+    });
+
+    return [
+      posStatements,
+      negStatements,
+      posResponsesObject,
+      negResponsesObject,
+    ];
   }, [mapObj.qSortPattern, configObj]);
 
-  console.log(JSON.stringify(cardsArray));
+  // ***************************
+  // *** STATE *******************
+  // ***************************
+  // const [showHelpModal, setShowHelpModal] = useLocalStorage(
+  //   "showHelpModal",
+  //   false
+  // );
+  const persistedMobilePostsortFontSize = JSON.parse(
+    localStorage.getItem("m_FontSizeObject")
+  ).postsort;
+  const persistedMobilePostsortViewSize = JSON.parse(
+    localStorage.getItem("m_ViewSizeObject")
+  ).postsort;
+  const mobilePostsortViewSize = useStore(getMobilePostsortViewSize);
+
+  const [mobilePosResponses, setMobilePosResponses] = useLocalStorage(
+    cardsArray[2]
+  );
+  const [mobileNegResponses, setMobileNegResponses] = useLocalStorage(
+    cardsArray[3]
+  );
+
+  // ***************************
+  // *** HOOKS *******************
+  // ***************************
+  useEffect(() => {
+    let startTime = Date.now();
+    const setStateAsync = async () => {
+      await setCurrentPage("postsort");
+      localStorage.setItem("currentPage", "postsort");
+      await setProgressScore(20);
+    };
+    setStateAsync();
+    return () => {
+      calculateTimeOnPage(startTime, "postsortPage", "postsortPage");
+    };
+  }, [setCurrentPage, setProgressScore]);
+
+  // ********************************************************
+  // *** EVENT HANDLING *************************************
+  // ********************************************************
+
+  const handleTextareaChange = (value) => {
+    console.log("Debounced value:", value);
+  };
 
   // ***************************
   // *** ELEMENTS *******************
   // ***************************
+
+  console.log("cardsArray", cardsArray[0][0]);
 
   let posStatements = cardsArray[0].map((card, index) => {
     return (
@@ -93,22 +138,18 @@ const MobileSort = () => {
           color="#BCF0DA"
           card={card}
           index={index}
-          placeholder={placeholder}
           agree={agree}
           disagree={disagree}
         >
           {card.statement}
         </InternalDiv>
-        <textarea
-          placeholder="Add Comments Here"
-          style={{
-            padding: "5px",
-            height: "75px",
-            width: "80vw",
-            outline: "1px solid black",
-            border: "0px",
-          }}
-        ></textarea>
+        <DebouncedTextarea
+          onChange={handleTextareaChange}
+          delay={500}
+          id={`m_PostsortComment(${card.id})`}
+          placeholder={placeholder}
+          required={required}
+        />
       </div>
     );
   });
@@ -120,28 +161,24 @@ const MobileSort = () => {
           card={card}
           color="#FBD5D5"
           index={index}
-          placeholder={placeholder}
           agree={agree}
           disagree={disagree}
         >
           {card.statement}
         </InternalDiv>
-        <textarea
-          placeholder="Add Comments Here"
-          style={{
-            padding: "5px",
-            height: "75px",
-            width: "80vw",
-            outline: "1px solid black",
-            border: "0px",
-          }}
-        ></textarea>
+        <DebouncedTextarea
+          onChange={handleTextareaChange}
+          delay={500}
+          id={`m_PostsortComment(${card.id})`}
+          placeholder={placeholder}
+          required={required}
+        ></DebouncedTextarea>
       </div>
     );
   });
 
   return (
-    <div>
+    <>
       <SortTitleBar background={configObj.headerBarColor}>
         {/* {conditionsOfInstruction} */}
         Mobile Postsort
@@ -149,15 +186,26 @@ const MobileSort = () => {
           <HelpSymbol />
         </HelpContainer>
       </SortTitleBar>
-      <Container viewSize={"80"} fontSize={"2"}>
+      <Container
+        viewSize={
+          mobilePostsortViewSize === +persistedMobilePostsortViewSize
+            ? mobilePostsortViewSize
+            : persistedMobilePostsortViewSize
+        }
+        fontSize={
+          mobilePostsortFontSize === +persistedMobilePostsortFontSize
+            ? mobilePostsortFontSize
+            : persistedMobilePostsortFontSize
+        }
+      >
         {posStatements}
         {negStatements}
       </Container>
-    </div>
+    </>
   );
 };
 
-export default MobileSort;
+export default MobilePostsort;
 
 const SortTitleBar = styled.div`
   display: flex;
@@ -220,6 +268,7 @@ const InternalDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
   background-color: ${(props) => props.color};
   width: 80vw;
   min-height: 8vh;
@@ -231,4 +280,16 @@ const InternalDiv = styled.div`
   text-align: center;
   outline: 1px solid black;
   padding: 5px;
+`;
+
+const InternalTextArea = styled.textarea`
+  box-sizing: border-box;
+  padding: 5px;
+  min-height: 12vh;
+  width: 80vw;
+  outline: 1px solid black;
+  border: none;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  field-sizing: content;
 `;

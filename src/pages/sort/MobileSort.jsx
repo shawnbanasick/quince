@@ -46,17 +46,17 @@ const MobileSort = () => {
   // *********************************
   const targetArray = useRef([]);
 
-  const [sortArray1, setSortArray1] = useLocalStorage(
-    "sortArray1",
-    JSON.parse(localStorage.getItem("mobileFinalThinCols"))
-  );
+  const [sortArray1, setSortArray1] = useLocalStorage("sortArray1", [
+    ...JSON.parse(localStorage.getItem("m_FinalThinCols")),
+  ]);
+  console.log(sortArray1);
 
   const persistedMobileSortFontSize = JSON.parse(
-    localStorage.getItem("mobileFontSizeObject")
+    localStorage.getItem("m_FontSizeObject")
   ).sort;
 
   const persistedMobileSortViewSize = JSON.parse(
-    localStorage.getItem("mobileViewSizeObject")
+    localStorage.getItem("m_ViewSizeObject")
   ).sort;
 
   // *** record time on page

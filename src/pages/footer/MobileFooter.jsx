@@ -48,7 +48,7 @@ const StyledFooter = () => {
   let backButtonText = langObj.postsortBackButtonText;
 
   if (currentPage === "postsort" && configObj.showBackButton) {
-    showBackButton = true;
+    showBackButton = false;
   } else {
     showBackButton = false;
   }
@@ -105,15 +105,15 @@ const StyledFooter = () => {
     displayNextButton = false;
   }
 
-  // if (
-  //   currentPage === "thin" ||
-  //   currentPage === "postsort" ||
-  //   currentPage === "survey" ||
-  //   currentPage === "sort"
-  // ) {
-  //   displayNextButton = true;
-  //   displayMobileHelpButton = false;
-  // }
+  if (
+    currentPage === "thin" ||
+    currentPage === "postsort" ||
+    currentPage === "survey" ||
+    currentPage === "sort"
+  ) {
+    displayNextButton = true;
+    displayMobileHelpButton = false;
+  }
 
   if (configObj.setupTarget === "local" && currentPage === "landing") {
     displayNextButton = false;
@@ -149,20 +149,26 @@ const StyledFooter = () => {
   if (
     currentPage === "landing" ||
     currentPage === "survey" ||
-    currentPage === "submit" ||
-    currentPage === "postsort"
+    currentPage === "submit"
   ) {
     showAdjustmentContainer = false;
   }
   // displayMobileHelpButton = false;
 
   if (currentPage === "postsort") {
-    showLogo = true;
+    showLogo = false;
+    showAdjustmentContainer = true;
   }
 
-  if (currentPage === "landing") {
+  if (
+    currentPage === "landing" ||
+    currentPage === "survey" ||
+    currentPage === "submit" ||
+    currentPage === "sort" ||
+    currentPage === "postsort"
+  ) {
     // showProgressBar = false;
-    showLogo = true;
+    // showLogo = true;
     displayMobileHelpButton = false;
   }
 

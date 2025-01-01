@@ -23,8 +23,8 @@ const MobileFooterViewSizer = () => {
   const setMobilePostsortViewSize = useStore(getSetMobilePostsortViewSize);
 
   // *** LOCAL STATE *** //
-  let [mobileViewSizeObject, setMobileViewSizeObject] = useLocalStorage(
-    "mobileViewSizeObject",
+  let [m_ViewSizeObject, setm_ViewSizeObject] = useLocalStorage(
+    "m_ViewSizeObject",
     {
       presort: 42,
       thin: 68,
@@ -42,69 +42,69 @@ const MobileFooterViewSizer = () => {
   //*********************** */
   const increaseViewSize = () => {
     if (currentPage === "presort") {
-      const currentSize = +mobileViewSizeObject.presort;
+      const currentSize = +m_ViewSizeObject.presort;
       let newSize = currentSize + 2;
       newSize = newSize.toPrecision(4);
-      let newSizeObject = { ...mobileViewSizeObject, presort: newSize };
-      setMobileViewSizeObject(newSizeObject);
+      let newSizeObject = { ...m_ViewSizeObject, presort: newSize };
+      setm_ViewSizeObject(newSizeObject);
       setMobilePresortViewSize(newSize);
     }
     if (currentPage === "thin") {
-      const currentSize = +mobileViewSizeObject.thin;
+      const currentSize = +m_ViewSizeObject.thin;
       let newSize = currentSize + 2;
       newSize = newSize.toPrecision(4);
-      let newSizeObject = { ...mobileViewSizeObject, thin: newSize };
-      setMobileViewSizeObject(newSizeObject);
+      let newSizeObject = { ...m_ViewSizeObject, thin: newSize };
+      setm_ViewSizeObject(newSizeObject);
       setMobileThinViewSize(newSize);
     }
     if (currentPage === "sort") {
-      const currentSize = +mobileViewSizeObject.sort;
+      const currentSize = +m_ViewSizeObject.sort;
       let newSize = currentSize + 2;
       newSize = newSize.toPrecision(4);
-      let newSizeObject = { ...mobileViewSizeObject, sort: newSize };
-      setMobileViewSizeObject(newSizeObject);
+      let newSizeObject = { ...m_ViewSizeObject, sort: newSize };
+      setm_ViewSizeObject(newSizeObject);
       setMobileSortViewSize(newSize);
     }
     if (currentPage === "postsort") {
-      const currentSize = +mobileViewSizeObject.postsort;
+      const currentSize = +m_ViewSizeObject.postsort;
       let newSize = currentSize + 2;
       newSize = newSize.toPrecision(4);
-      let newSizeObject = { ...mobileViewSizeObject, postsort: newSize };
-      setMobileViewSizeObject(newSizeObject);
+      let newSizeObject = { ...m_ViewSizeObject, postsort: newSize };
+      setm_ViewSizeObject(newSizeObject);
       setMobilePostsortViewSize(newSize);
     }
   };
   const decreaseViewSize = () => {
     if (currentPage === "presort") {
-      const currentSize = +mobileViewSizeObject.presort;
+      const currentSize = +m_ViewSizeObject.presort;
       let newSize = currentSize - 2;
       newSize = newSize.toPrecision(4);
-      let newSizeObject = { ...mobileViewSizeObject, presort: newSize };
-      setMobileViewSizeObject(newSizeObject);
+      let newSizeObject = { ...m_ViewSizeObject, presort: newSize };
+      setm_ViewSizeObject(newSizeObject);
       setMobilePresortViewSize(newSize);
     }
     if (currentPage === "thin") {
-      const currentSize = +mobileViewSizeObject.thin;
+      const currentSize = +m_ViewSizeObject.thin;
       let newSize = currentSize - 2;
       newSize = newSize.toPrecision(4);
-      let newSizeObject = { ...mobileViewSizeObject, thin: newSize };
-      setMobileViewSizeObject(newSizeObject);
+      let newSizeObject = { ...m_ViewSizeObject, thin: newSize };
+      setm_ViewSizeObject(newSizeObject);
       setMobileThinViewSize(newSize);
     }
     if (currentPage === "sort") {
-      const currentSize = +mobileViewSizeObject.sort;
+      const currentSize = +m_ViewSizeObject.sort;
       let newSize = currentSize - 2;
       newSize = newSize.toPrecision(4);
-      let newSizeObject = { ...mobileViewSizeObject, sort: newSize };
-      setMobileViewSizeObject(newSizeObject);
+      let newSizeObject = { ...m_ViewSizeObject, sort: newSize };
+      setm_ViewSizeObject(newSizeObject);
       setMobileSortViewSize(newSize);
     }
     if (currentPage === "postsort") {
-      const currentSize = +mobileViewSizeObject.postsort;
+      const currentSize = +m_ViewSizeObject.postsort;
       let newSize = currentSize - 2;
       newSize = newSize.toPrecision(4);
-      let newSizeObject = { ...mobileViewSizeObject, postsort: newSize };
-      setMobileViewSizeObject(newSizeObject);
+      let newSizeObject = { ...m_ViewSizeObject, postsort: newSize };
+      setm_ViewSizeObject(newSizeObject);
       setMobilePostsortViewSize(newSize);
     }
   };
@@ -180,7 +180,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  user-select: non e;
+  user-select: none;
 `;
 
 const SpanDiv = styled.div`
