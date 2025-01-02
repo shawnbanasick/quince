@@ -40,6 +40,8 @@ const getSetTriggerMobilePresortRedoModal = (state) =>
   state.setTriggerMobilePresortRedoModal;
 const getSetDisplayMobileHelpButton = (state) =>
   state.setDisplayMobileHelpButton;
+const getSetTriggerMobilePresortHelpModal = (state) =>
+  state.setTriggerMobilePresortHelpModal;
 
 const MobilePresortPage = () => {
   // GLOBAL STATE
@@ -59,28 +61,19 @@ const MobilePresortPage = () => {
     getSetTriggerMobilePresortRedoModal
   );
   const setDisplayMobileHelpButton = useStore(getSetDisplayMobileHelpButton);
-
-  // let cardFontSize = useStore(getCardFontSizePresort);
-
+  const setTriggerMobilePresortHelpModal = useStore(
+    getSetTriggerMobilePresortHelpModal
+  );
   const setTriggerPresortFinishedModal = useStore(
     getSetTriggerMobilePresortFinishedModal
   );
 
-  let screenOrientation = useScreenOrientation();
-
-  if (cardFontSizePersist) {
-    // cardFontSize = cardFontSizePersist;
-  }
-
-  let initialArray = [...JSON.parse(localStorage.getItem("presortArray"))];
-
   // ******************* //
-  // *** LOCAL STATE *** //
+  // *** LOCAL STATE **************************** //
   //******************** //
-  let [presortArray2, setPresortArray2] = useLocalStorage(
-    "presortArray2",
-    initialArray
-  );
+  let [presortArray2, setPresortArray2] = useLocalStorage("presortArray2", [
+    ...JSON.parse(localStorage.getItem("presortArray")),
+  ]);
   let [statementCount, setStatementCount] = useLocalStorage(
     "m_PresortStatementCount",
     0
@@ -89,10 +82,12 @@ const MobilePresortPage = () => {
     "m_PresortResults",
     []
   );
+
+  // ***********************
+  // *** USE HOOKS ******************
+  // ***********************
+  let screenOrientation = useScreenOrientation();
   let redoCardId = useRef({ id: "", statement: "" });
-
-  // setDisplayNextButton(true);
-
   useEffect(() => {
     let startTime = Date.now();
     const setStateAsync = async () => {
@@ -117,6 +112,9 @@ const MobilePresortPage = () => {
   const initialScreen = configObj.initialScreen;
   // const imageSort = configObj.useImages;
 
+  // ***********************
+  // *** TEXT LOCALIZATION *****************
+  // ***********************
   const titleText =
     ReactHtmlParser(decodeHTML(langObj.mobilePresortConditionsOfInstruction)) ||
     "";
@@ -126,17 +124,21 @@ const MobilePresortPage = () => {
     ReactHtmlParser(decodeHTML(langObj.mobilePresortAssignLeft)) || "";
   const assignRight =
     ReactHtmlParser(decodeHTML(langObj.mobilePresortAssignRight)) || "";
+  const mobilePresortProcessCompleteMessage =
+    ReactHtmlParser(decodeHTML(langObj.mobilePresortProcessCompleteMessage)) ||
+    "";
 
-  // early return if log-in required and not logged in
-  if (initialScreen !== "anonymous") {
-    if (isLoggedIn === false) {
-      return <PleaseLogInFirst />;
-    }
-  }
-  // early return of presort finished message if complete
-  if (presortNoReturn) {
-    return <PresortIsComplete />;
-  }
+  // // early return of presort finished message if complete
+  // if (presortNoReturn) {
+  //   return <PresortIsComplete />;
+  // }
+
+  // ***********************
+  // *** EVENT HANDLERS ***************
+  // ***********************
+  const handleOpenHelpModal = () => {
+    setTriggerMobilePresortHelpModal(true);
+  };
 
   const handleRedo = (e) => {
     setTriggerMobilePresortRedoModal(true);
@@ -298,11 +300,23 @@ const MobilePresortPage = () => {
     }
   };
 
+  // **************************
+  // *** EARLY RETURNS ***************
+  // **************************
   if (presortArray2.length === 0) {
+    localStorage.setItem(
+      "m_PresortDisplayStatements",
+      JSON.stringify({ display: false })
+    );
     setPresortFinished(true);
     setDisplayMobileHelpButton(false);
   }
 
+  if (initialScreen !== "anonymous") {
+    if (isLoggedIn === false) {
+      return <PleaseLogInFirst />;
+    }
+  }
   if (screenOrientation === "landscape-primary") {
     return (
       <OrientationDiv>
@@ -310,8 +324,18 @@ const MobilePresortPage = () => {
       </OrientationDiv>
     );
   }
-  let totalStatements = columnStatements.statementList.length;
 
+  // **************************
+  // *** RENDER VARIABLES ******************
+  // **************************
+  let totalStatements = columnStatements.statementList.length;
+  let displayStatements = JSON.parse(
+    localStorage.getItem("m_PresortDisplayStatements")
+  );
+
+  // **************************
+  // *** ELEMENTS ******************
+  // **************************
   return (
     <Container>
       <MobilePresortRedoModal
@@ -319,52 +343,63 @@ const MobilePresortPage = () => {
         statement={redoCardId}
       />
       <MobilePresortHelpModal />
+      <MobilePresortHelpModal />
       <SortTitleBar background={configObj.headerBarColor}>
         {titleText}
-        <HelpContainer onClick={() => alert("Help")}>
+        <HelpContainer onClick={handleOpenHelpModal}>
           <HelpSymbol />
         </HelpContainer>
       </SortTitleBar>
-      <MobileStatementBox
-        fontSize={mobilePresortFontSize}
-        statement={presortArray2?.[0]?.statement}
-        backgroundColor={"#e5e5e5"}
-      />
-      <ButtonRowLabel>
-        <AssignDiv>{assignLeft}</AssignDiv>
-        <CountDiv>{`${statementCount} / ${totalStatements}`}</CountDiv>
-        <AssignDiv>{assignRight}</AssignDiv>
-      </ButtonRowLabel>
-      <ButtonRow>
-        <MobileValueButton
-          id={`-2`}
-          value={-2}
-          text={`-`}
-          color={`#FBD5D5`}
-          onClick={handleClickNegative}
-        />
-        <MobileValueButton
-          id={`0`}
-          value={0}
-          text={`?`}
-          color={`#F3F4F6`}
-          onClick={handleClickNeutral}
-        />
 
-        <MobileValueButton
-          id={`2`}
-          value={2}
-          text={`+`}
-          color={`#BCF0DA`}
-          onClick={handleClickPositive}
-        />
-      </ButtonRow>
-      <RowText>{completedLabel}</RowText>
+      {displayStatements.display ? (
+        <>
+          <MobileStatementBox
+            fontSize={mobilePresortFontSize}
+            statement={presortArray2?.[0]?.statement}
+            backgroundColor={"#e5e5e5"}
+          />
+          <ButtonRowLabel>
+            <AssignDiv>{assignLeft}</AssignDiv>
+            <CountDiv>{`${statementCount} / ${totalStatements}`}</CountDiv>
+            <AssignDiv>{assignRight}</AssignDiv>
+          </ButtonRowLabel>
+          <ButtonRow>
+            <MobileValueButton
+              id={`-2`}
+              value={-2}
+              text={`-`}
+              color={`#FBD5D5`}
+              onClick={handleClickNegative}
+            />
+            <MobileValueButton
+              id={`0`}
+              value={0}
+              text={`?`}
+              color={`#F3F4F6`}
+              onClick={handleClickNeutral}
+            />
 
-      <MobilePreviousAssignmentBox
-        statements={m_PresortResults}
-        onClick={handleRedo}
-      />
+            <MobileValueButton
+              id={`2`}
+              value={2}
+              text={`+`}
+              color={`#BCF0DA`}
+              onClick={handleClickPositive}
+            />
+          </ButtonRow>
+          <RowText>{completedLabel}</RowText>
+
+          <MobilePreviousAssignmentBox
+            statements={m_PresortResults}
+            onClick={handleRedo}
+          />
+        </>
+      ) : (
+        <FinishedMessage>
+          <p>{mobilePresortProcessCompleteMessage}</p>
+        </FinishedMessage>
+      )}
+
       {/* <ModalContainer></ModalContainer> */}
       <MobilePresortFinishedModal />
 
@@ -481,4 +516,18 @@ const HelpContainer = styled.div`
   font-size: 2.5vh;
   font-weight: bold;
   user-select: none;
+`;
+
+const FinishedMessage = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 3.5vh;
+  font-weight: bold;
+  min-height: 30vh;
+  margin-top: 30px;
+  width: 80vw;
+  color: black;
+  font-size: 22px;
 `;

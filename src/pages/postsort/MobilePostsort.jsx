@@ -9,6 +9,7 @@ import HelpSymbol from "../../assets/helpSymbol.svg?react";
 import useLocalStorage from "../../utilities/useLocalStorage";
 import { v4 as uuid } from "uuid";
 import DebouncedTextarea from "./DebouncedTextArea";
+import MobilePostsortPreventNavModal from "./MobilePostsortPreventNavModal";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
@@ -17,6 +18,10 @@ const getConfigObj = (state) => state.configObj;
 const getMapObj = (state) => state.mapObj;
 const getMobilePostsortFontSize = (state) => state.mobilePostsortFontSize;
 const getMobilePostsortViewSize = (state) => state.mobilePostsortViewSize;
+const getSetShowPostsortCommentHighlighting = (state) =>
+  state.setShowPostsortCommentHighlighting;
+const getShowPostsortCommentHighlighting = (state) =>
+  state.showPostsortCommentHighlighting;
 
 const MobilePostsort = () => {
   const setCurrentPage = useStore(getSetCurrentPage);
@@ -26,7 +31,12 @@ const MobilePostsort = () => {
   const configObj = useSettingsStore(getConfigObj);
   let mobilePostsortFontSize = useStore(getMobilePostsortFontSize);
   let required = configObj.postsortCommentsRequired;
-  console.log("required", required);
+  const setShowPostsortCommentHighlighting = useStore(
+    getSetShowPostsortCommentHighlighting
+  );
+  const showPostsortCommentHighlighting = useStore(
+    getShowPostsortCommentHighlighting
+  );
 
   // ***************************
   // *** TEXT LOCALIZATION *******************
@@ -94,11 +104,15 @@ const MobilePostsort = () => {
   const mobilePostsortViewSize = useStore(getMobilePostsortViewSize);
 
   const [mobilePosResponses, setMobilePosResponses] = useLocalStorage(
+    "m_PosRequiredStatesObj",
     cardsArray[2]
   );
   const [mobileNegResponses, setMobileNegResponses] = useLocalStorage(
+    "m_NegRequiredStatesObj",
     cardsArray[3]
   );
+
+  // console.log("mobilePosResponses", mobilePosResponses);
 
   // ***************************
   // *** HOOKS *******************
@@ -120,15 +134,31 @@ const MobilePostsort = () => {
   // *** EVENT HANDLING *************************************
   // ********************************************************
 
-  const handleTextareaChange = (value) => {
-    console.log("Debounced value:", value);
+  const handleTextareaChange = (event) => {
+    // console.log(event.target);
+    // console.log(event.target.side);
+    // console.log("Debounced value:", value);
+    if (event.target.side === "positive") {
+      mobilePosResponses[event.target.statementId] = event.target.value;
+      setMobilePosResponses(mobilePosResponses);
+    }
+    if (event.target.side === "negative") {
+      mobileNegResponses[event.target.statementId] = event.target.value;
+      setMobileNegResponses(mobileNegResponses);
+    }
+
+    // const combinedResponses = { ...mobilePosResponses, ...mobileNegResponses };
+    // const objValues = Object.values(combinedResponses);
+    // if (objValues.includes("")) {
+    //   setShowPostsortCommentHighlighting(true);
+    // }
   };
 
   // ***************************
   // *** ELEMENTS *******************
   // ***************************
 
-  console.log("cardsArray", cardsArray[0][0]);
+  // console.log("cardsArray", cardsArray[0][0]);
 
   let posStatements = cardsArray[0].map((card, index) => {
     return (
@@ -144,11 +174,14 @@ const MobilePostsort = () => {
           {card.statement}
         </InternalDiv>
         <DebouncedTextarea
-          onChange={handleTextareaChange}
           delay={500}
           id={`m_PostsortComment(${card.id})`}
           placeholder={placeholder}
           required={required}
+          onChange={handleTextareaChange}
+          statementId={card.id}
+          side="positive"
+          highlight={showPostsortCommentHighlighting}
         />
       </div>
     );
@@ -172,13 +205,16 @@ const MobilePostsort = () => {
           id={`m_PostsortComment(${card.id})`}
           placeholder={placeholder}
           required={required}
+          side="negative"
+          statementId={card.id}
+          highlight={showPostsortCommentHighlighting}
         ></DebouncedTextarea>
       </div>
     );
   });
 
   return (
-    <>
+    <Container>
       <SortTitleBar background={configObj.headerBarColor}>
         {/* {conditionsOfInstruction} */}
         Mobile Postsort
@@ -186,7 +222,8 @@ const MobilePostsort = () => {
           <HelpSymbol />
         </HelpContainer>
       </SortTitleBar>
-      <Container
+      <MobilePostsortPreventNavModal />
+      <InnerContainer
         viewSize={
           mobilePostsortViewSize === +persistedMobilePostsortViewSize
             ? mobilePostsortViewSize
@@ -200,8 +237,8 @@ const MobilePostsort = () => {
       >
         {posStatements}
         {negStatements}
-      </Container>
-    </>
+      </InnerContainer>
+    </Container>
   );
 };
 
@@ -237,7 +274,7 @@ const HelpContainer = styled.div`
   user-select: none;
 `;
 
-const Container = styled.div`
+const InnerContainer = styled.div`
   display: flex;
   align-self: top;
   justify-self: center;
@@ -292,4 +329,14 @@ const InternalTextArea = styled.textarea`
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
   field-sizing: content;
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  user-select: none;
+  background-color: #f3f4f6;
 `;

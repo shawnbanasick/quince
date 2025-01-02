@@ -3,8 +3,8 @@ const createThinningSlice = (set, get) => ({
   showConfirmButton: true,
   previousColInfo: [],
   isThinningFinished: false,
-  triggerThinningPreventNavModal: false,
   isConfirmationFinished: false,
+  triggerThinningPreventNavModal: false,
   triggerConfirmationFinishedModal: false,
   isLeftSideFinished: false,
   isRightSideFinished: false,
@@ -19,9 +19,17 @@ const createThinningSlice = (set, get) => ({
   currentLeftIteration: 0,
   isTargetArrayFilled: false,
   triggerMobileThinMoveTopModal: false,
+  triggerMobileThinHelpModal: true,
   mobileThinFontSize: 2,
   mobileThinViewSize: 68,
+  triggerMobileThinPreventNavModal: false,
 
+  setTriggerMobileThinPreventNavModal: (bool) => {
+    set(() => ({ triggerMobileThinPreventNavModal: bool }));
+  },
+  setTriggerMobileThinHelpModal: (bool) => {
+    set(() => ({ triggerMobileThinHelpModal: bool }));
+  },
   setMobileThinViewSize: (value) => {
     set(() => ({ mobileThinViewSize: value }));
   },

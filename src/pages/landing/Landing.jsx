@@ -118,6 +118,7 @@ const LandingPage = () => {
     localStorage.removeItem("lastAccesssurveyPage");
     localStorage.removeItem("timeOnlandingPage");
     localStorage.removeItem("timeOnpresortPage");
+    localStorage.removeItem("timeOnthinPage");
     localStorage.removeItem("timeOnsortPage");
     localStorage.removeItem("timeOnpostsortPage");
     localStorage.removeItem("timeOnsurveyPage");
@@ -152,6 +153,20 @@ const LandingPage = () => {
     localStorage.removeItem("columnStatements");
     localStorage.removeItem("m_FontSizeObject");
     localStorage.removeItem("m_ViewSizeObject");
+    localStorage.removeItem("m_FinalThinCols");
+    localStorage.removeItem("m_NegRequiredStatesObj");
+    localStorage.removeItem("m_PosRequiredStatesObj");
+    localStorage.removeItem("CumulativeTimelandingPage");
+    localStorage.removeItem("CumulativeTimepresortPage");
+    localStorage.removeItem("CumulativeTimesortPage");
+    localStorage.removeItem("CumulativeTimepostsortPage");
+    localStorage.removeItem("CumulativeTimesurveyPage");
+    localStorage.removeItem("m_ThinDisplayStatements");
+
+    for (let i = 0; i < statementsObj.totalStatements; i++) {
+      let key = `m_PostsortComment(s${i + 1})`;
+      localStorage.removeItem(key);
+    }
 
     if (configObj.requiredAnswersObj !== undefined) {
       localStorage.setItem(
@@ -195,6 +210,16 @@ const LandingPage = () => {
       sort: 72,
       postsort: 72,
     })
+  );
+
+  localStorage.setItem(
+    "m_ThinDisplayStatements",
+    JSON.stringify({ display: true })
+  );
+
+  localStorage.setItem(
+    "m_PresortDisplayStatements",
+    JSON.stringify({ display: true })
   );
 
   useEffect(() => {
@@ -309,19 +334,17 @@ const LandingPage = () => {
       localStorage.setItem("urlUsercode", codeName);
     }
   }, [
-    setUrlUsercode,
-    configObj.initialScreen,
-    configObj.setDefaultFontSize,
-    configObj.defaultFontSize,
-    setDisplayNextButton,
+    configObj,
     mapObj,
+    setDisplayNextButton,
+    setUrlUsercode,
     setCardFontSizeSort,
     setCardFontSizePostsort,
     setMinCardHeightSort,
     setMinCardHeightPostsort,
-    configObj,
     headers,
     qSortPattern,
+    statementsObj,
   ]);
 
   // setup postsort comments object

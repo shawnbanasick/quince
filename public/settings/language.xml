@@ -17,12 +17,16 @@
         <item id="btnNext">Continue</item>
         <item id="btnNextLanding">Start</item>
         <item id="btnNextConsent">Agree</item>
-
+        
+        <!-- MOBILE FOOTER -->
+        <item id="mobileTextSize">Text</item>
+        <item id="mobileViewSize">View</item>
 
         <!-- LANDING SCREEN -->
         <item id="landingHead">University Research Project</item>
         <item id="welcomeText">{{{h2}}}EQ Web Sort Demo Project - iPad Use in the Classroom.{{{/h2}}}{{{br/}}}{{{br/}}}{{{p}}}Thank you for helping with this research project{{{/p}}}{{{br/}}}{{{br/}}}{{{br/}}} {{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/lMy4ARVEcCI?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
-
+        
+        <!-- MOBILE LANDING SCREEN -->
         <item id="mobileWelcomeText">{{{h2}}}EQ Web Sort Demo Project - iPad Use in the Classroom.{{{/h2}}}{{{br/}}}{{{br/}}}{{{p}}}Thank you for helping with this research project!{{{/p}}}{{{br/}}}{{{br/}}}{{{br/}}} {{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/lMy4ARVEcCI?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
 
 
@@ -86,10 +90,12 @@
         <item id="mobilePresortRedoModalHead">Re-Evaluate Statement</item>
         <item id="mobilePresortRedoModalText">Click on the appropriate icon</item>
         <item id="mobilePresortRedoModalConfirmButton">Confirm</item>
-        <item id="mobilePresortEvaluationsComplete">{{{div}}}{{{b}}}All Statements Evaluated.{{{/b}}} {{{br /}}}{{{br /}}}Click on the orange button on the bottom left side to go to the next stage.{{{div}}}</item>
+        <item id="mobilePresortEvaluationsComplete">{{{div}}}{{{b}}}All Statements Evaluated.{{{/b}}} {{{br /}}}{{{br /}}}Please click on the navigation button on the bottom right side to go to the next stage.{{{div}}}</item>
         <item id="mobilePresortHelpModalHead">Stage 1. {{{br /}}}Statement Evaluation</item>
         <item id="mobilePresortHelpModalText">Click on the appropriate button to assign a value to each statement</item>
-        
+         <item id="mobilePresortProcessCompleteMessage">The evaluation process is complete. {{{br/}}}{{{br/}}} Please click on the navigation button on the bottom right side to go to the next stage.</item>
+
+
         <!-- THINNING:  -->
         <item id="thinningPreventNavModalHead">Navigation Disabled</item>
         <item id="thinningPreventNavModalText">Please finish the refining process before going to the next step.</item>
@@ -100,8 +106,7 @@
         <item id="initialInstructionPart1">Below are the statements you rated positively in the previous step. Now, pick the number of statements that you {{{b}}}MOST AGREE{{{/b}}}.{{{br /}}}{{{br /}}}</item>
         <item id="initialInstructionPart2">Next, continue to select the statements that are CLOSEST to your perspective</item>
         <item id="initialInstructionPart3">Another set of statements will appear on the screen after you click the orange "Submit" button.</item>
-        <item id="finalInstructions">Refinement process complete. Click the button at the bottom to
-              continue.</item>
+        <item id="finalInstructions">Refinement process complete. Click on the navigation button on the bottom right side to go to the next stage..</item>
 
       <!-- MOBILE THINNING:  -->
         <item id="moveTopMobileHead">Confirm Move</item>
@@ -110,9 +115,13 @@
         <item id="moveAllTopMobileText">Move all selected statements to the top of the list?</item>
         <item id="moveTopMobileButtonOK">Yes</item>
         <item id="moveTopMobileButtonCancel">Cancel</item>
-        <item id="mobileTextSize">Text</item>
-        <item id="mobileViewSize">View</item>
-        <item id="mobileThinConditionsOfInstruction">Refine Your Rankings</item>
+        <item id="mobileThinConditionsOfInstruction">Refine Your Evaluations</item>
+        <item id="mobileThinSubmitButtonText">Submit</item>
+        <item id="mobileThinHelpModalHead">Refine Your Evaluations</item>
+        <item id="mobileThinHelpModalText">Click text. Click View, Click help, Arrow up. Arrow down. Long press. Select required number.</item>     
+        <item id="mobileThinPreventNavModalHead">Navigation Disabled</item>
+        <item id="mobileThinPreventNavModalText">Please complete the refining process before navigating to the next page.</item>
+        <item id="mobileThinProcessCompleteMessage">The refinement process is complete. {{{br/}}}{{{br/}}} Please click on the navigation button on the bottom right side to go to the next stage.</item>
 
         <!-- SORT: sorting -->
         <item id="sortHelpModalHead">Step 2 of 4</item>
@@ -145,6 +154,12 @@
         <item id="postsortPreventNavModalHead">Navigation Disabled</item>
         <item id="postsortPreventNavModalText">Please add comments to all of the cards before going to the next step.</item>
         <item id="postsortBackButtonText">Go Back</item>
+
+
+        <!-- MOBILE POSTSORT: comments - only displayed if showStep3 = true -->
+        <item id="mobilePostsortPreventNavModalHead">Navigation Disabled</item>
+        <item id="mobilePostsortPreventNavModalText">Please add comments to all of the cards before going to the next step.</item>
+
 
         <!-- SURVEY: Additional questions, only displayed if showStep4 == true -->
         <item id="surveyHeader">Post-Sort Questionnaire</item>

@@ -242,7 +242,7 @@ const MobileSort = () => {
   });
 
   return (
-    <div>
+    <Container>
       <SortTitleBar background={configObj.headerBarColor}>
         {conditionsOfInstruction}
         <HelpContainer onClick={() => alert("Help")}>
@@ -264,7 +264,7 @@ const MobileSort = () => {
       >
         {currentRankings}
       </StatementsContainer>
-    </div>
+    </Container>
   );
 };
 
@@ -404,4 +404,14 @@ const HelpContainer = styled.div`
   font-size: 2.5vh;
   font-weight: bold;
   user-select: none;
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  user-select: none;
+  background-color: #f3f4f6;
 `;

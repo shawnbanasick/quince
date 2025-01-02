@@ -5,10 +5,14 @@ const createPostsortSlice = (set, get) => ({
   postsortCommentCheckObj: {},
   showPostsortCommentHighlighting: false,
   triggerPostsortPreventNavModal: false,
+  triggerMobilePostsortPreventNavModal: false,
   postsortDualImageArray: [],
   mobilePostsortFontSize: 2,
   mobilePostsortViewSize: 72,
 
+  setTriggerMobilePostsortPreventNavModal: (inputValue) => {
+    set(() => ({ triggerMobilePostsortPreventNavModal: inputValue }));
+  },
   setMobilePostsortViewSize: (inputValue) => {
     set(() => ({ mobilePostsortViewSize: inputValue }));
   },

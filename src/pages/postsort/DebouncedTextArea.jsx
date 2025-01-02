@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import useLocalStorage from "../../utilities/useLocalStorage";
 
@@ -15,32 +15,30 @@ const debounce = (func, delay) => {
   };
 };
 
-const DebouncedTextarea = ({
-  onChange,
-  delay = 300,
-  id,
-  placeholder,
-  required,
-}) => {
-  const [value, setValue] = useLocalStorage(id, "");
+const DebouncedTextarea = ({ onChange, delay = 300, ...props }) => {
+  const [value, setValue] = useLocalStorage(props.id, "");
 
   // Debounced onChange handler
   const debouncedOnChange = debounce(onChange, delay);
 
   useEffect(() => {
-    debouncedOnChange(value);
-  }, [value, debouncedOnChange]);
+    debouncedOnChange({ target: { value, ...props } });
+  }, [value, debouncedOnChange, props]);
 
   const handleChange = (e) => {
     setValue(e.target.value);
+    console.log(e.target.dataset);
+    // e.target.dataset.id = props.statementId;
   };
 
   return (
     <InternalTextArea
-      placeholder={placeholder}
       value={value}
+      placeholder={props.placeholder}
+      data-id={props.statementId}
       onChange={handleChange}
-      required={required}
+      highlighting={props.highlight}
+      {...props}
     />
   );
 };
@@ -60,7 +58,7 @@ const InternalTextArea = styled.textarea`
   background-color: ${(props) =>
     props.value.length > 0
       ? "whitesmoke"
-      : props.required
+      : props.required && props.highlighting
       ? "rgba(253, 224, 71, .5)"
       : "whitesmoke"};
 `;

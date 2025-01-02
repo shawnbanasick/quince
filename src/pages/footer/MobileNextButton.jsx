@@ -24,8 +24,10 @@ const getColumnStatements = (state) => state.columnStatements;
 const getSetResults = (state) => state.setResults;
 const getSetShowPostsortCommentHighlighting = (state) =>
   state.setShowPostsortCommentHighlighting;
-const getSetTriggerPostsortPreventNavModal = (state) =>
-  state.setTriggerPostsortPreventNavModal;
+const getSetTriggerMobilePostsortPreventNavModal = (state) =>
+  state.setTriggerMobilePostsortPreventNavModal;
+const getSetTriggerMobileThinPreventNavModal = (state) =>
+  state.setTriggerMobileThinPreventNavModal;
 
 const LinkButton = (props) => {
   let goToNextPage;
@@ -46,8 +48,11 @@ const LinkButton = (props) => {
   const setShowPostsortCommentHighlighting = useStore(
     getSetShowPostsortCommentHighlighting
   );
-  const setTriggerPostsortPreventNavModal = useStore(
-    getSetTriggerPostsortPreventNavModal
+  const setTriggerMobilePostsortPreventNavModal = useStore(
+    getSetTriggerMobilePostsortPreventNavModal
+  );
+  const setTriggerMobileThinPreventNavModal = useStore(
+    getSetTriggerMobileThinPreventNavModal
   );
 
   const allowUnforcedSorts = configObj.allowUnforcedSorts;
@@ -82,6 +87,17 @@ const LinkButton = (props) => {
         return true;
       }
     }
+
+    if (currentPage === "thin") {
+      const isThinFinished = localStorage.getItem("m_ThinningFinished");
+      if (isThinFinished === "true") {
+        return true;
+      } else {
+        setTriggerMobileThinPreventNavModal(true);
+        return false;
+      }
+    }
+
     if (currentPage === "sort") {
       /*
       if (isSortingFinished === false) {
@@ -134,42 +150,28 @@ const LinkButton = (props) => {
     }
 
     if (currentPage === "postsort") {
-      let postsortCommentCardCount = +localStorage.getItem(
-        "postsortCommentCardCount"
+      console.log("on postsort");
+      let mobilePosResponses = JSON.parse(
+        localStorage.getItem("m_PosRequiredStatesObj")
       );
-      const required1 =
-        getObjectValues(
-          JSON.parse(localStorage.getItem("HC-requiredCommentsObj"))
-        ) || [];
-      const required2 =
-        getObjectValues(
-          JSON.parse(localStorage.getItem("HC2-requiredCommentsObj"))
-        ) || [];
-      const required3 =
-        getObjectValues(
-          JSON.parse(localStorage.getItem("LC-requiredCommentsObj"))
-        ) || [];
-      const required4 =
-        getObjectValues(
-          JSON.parse(localStorage.getItem("LC2-requiredCommentsObj"))
-        ) || [];
+      let mobileNegResponses = JSON.parse(
+        localStorage.getItem("m_NegRequiredStatesObj")
+      );
 
-      const checkArray2 = [
-        ...required1,
-        ...required2,
-        ...required3,
-        ...required4,
-      ];
+      // console.log(JSON.stringify(mobilePosResponses));
 
-      if (
-        checkArray2.includes("false") ||
-        checkArray2.includes(false) ||
-        checkArray2.length < postsortCommentCardCount
-      ) {
+      const combinedResponses = {
+        ...mobilePosResponses,
+        ...mobileNegResponses,
+      };
+      const objValues = Object.values(combinedResponses);
+      console.log(JSON.stringify(objValues));
+      if (objValues.includes("")) {
+        console.log("postsortCommentsRequired");
         // answers required in configObj
         if (postsortCommentsRequired === true) {
           setShowPostsortCommentHighlighting(true);
-          setTriggerPostsortPreventNavModal(true);
+          setTriggerMobilePostsortPreventNavModal(true);
           return false;
         }
         return true;
@@ -205,7 +207,7 @@ const LinkButton = (props) => {
       {...rest} // `children` is just another prop!
       width={props.width}
       onClick={(event) => {
-        console.log("clicked");
+        // console.log("clicked");
         onClick && onClick(event);
         goToNextPage = checkForNextPageConditions(
           allowUnforcedSorts,

@@ -22,18 +22,22 @@ import MobileThinMoveTopModal from "./MobileThinMoveTopModal";
 import mobileMoveSelectedPosCards from "./mobileMoveSelectedPosCards";
 import mobileMoveSelectedNegCards from "./mobileMoveSelectedNegCards";
 import HelpSymbol from "../../assets/helpSymbol.svg?react";
+import MobileThinHelpModal from "./MobileThinHelpModal";
+import MobileThinPreventNavModal from "./MobileThinPreventNavModal";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
 const getShowConfirmButton = (state) => state.showConfirmButton;
-const getSetShowConfirmButton = (state) => state.setShowConfirmButton;
+// const getSetShowConfirmButton = (state) => state.setShowConfirmButton;
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
 const getSetTriggerMobileThinMoveTopModal = (state) =>
   state.setTriggerMobileThinMoveTopModal;
 const getMobileThinFontSize = (state) => state.mobileThinFontSize;
 const getMobileThinViewSize = (state) => state.mobileThinViewSize;
-const getColumnStatements = (state) => state.columnStatements;
+// const getColumnStatements = (state) => state.columnStatements;
+const getSetTriggerMobileThinHelpModal = (state) =>
+  state.setTriggerMobileThinHelpModal;
 
 const MobileThinning = () => {
   const langObj = useSettingsStore(getLangObj);
@@ -47,7 +51,9 @@ const MobileThinning = () => {
   );
   const mobileThinFontSize = useStore(getMobileThinFontSize);
   const mobileThinViewSize = useStore(getMobileThinViewSize);
-  // const columnStatements = useStore(getColumnStatements);
+  const setTriggerMobileThinHelpModal = useStore(
+    getSetTriggerMobileThinHelpModal
+  );
 
   // *** REFS *** //
   let cardId = useRef({ id: "", statement: "", color: "", direction: "" });
@@ -72,6 +78,9 @@ const MobileThinning = () => {
   const conditionsOfInstruction =
     ReactHtmlParser(decodeHTML(langObj.mobileThinConditionsOfInstruction)) ||
     "";
+  const mobileThinProcessCompleteMessage =
+    ReactHtmlParser(decodeHTML(langObj.mobileThinProcessCompleteMessage)) || "";
+
   // let initialInstructionPart1 =
   //   ReactHtmlParser(decodeHTML(langObj.initialInstructionPart1)) || "";
   // let initialInstructionPart3 =
@@ -122,12 +131,16 @@ const MobileThinning = () => {
   // *******************************************************
   let cards;
   let selectedStatementsNum = 0;
+
+  // detect display side
   if (displayControllerArray[0]?.side === "right") {
     cards = [...selectedPosItems];
   }
   if (displayControllerArray[0]?.side === "left") {
     cards = [...selectedNegItems];
   }
+
+  // if display finished
   if (displayControllerArray.length === 0) {
     cards = [];
     let newCols = JSON.parse(localStorage.getItem("newCols"));
@@ -144,7 +157,11 @@ const MobileThinning = () => {
     m_FinalThinCols.forEach((item) => {
       item.selected = false;
     });
-
+    localStorage.setItem(
+      "m_ThinDisplayStatements",
+      JSON.stringify({ display: false })
+    );
+    localStorage.setItem("m_ThinningFinished", "true");
     localStorage.setItem("m_FinalThinCols", JSON.stringify(m_FinalThinCols));
     localStorage.setItem("columnStatements", JSON.stringify(completedCols));
   }
@@ -160,6 +177,10 @@ const MobileThinning = () => {
   // ********************************************************
   // *** EVENT HANDLING *************************************
   // ********************************************************
+  const showHelpModal = () => {
+    setTriggerMobileThinHelpModal(true);
+  };
+
   const handleCardSelected = (e) => {
     let targetcol = e.target.getAttribute("data-targetcol");
 
@@ -364,12 +385,17 @@ const MobileThinning = () => {
     );
   });
 
+  let displayStatements = JSON.parse(
+    localStorage.getItem("m_ThinDisplayStatements")
+  );
   return (
     <MainContainer>
       <MobileThinMoveTopModal cardId={cardId} onClick={handleMove} />
+      <MobileThinPreventNavModal />
+      <MobileThinHelpModal />
       <SortTitleBar background={configObj.headerBarColor}>
         {conditionsOfInstruction}
-        <HelpContainer onClick={() => alert("Help")}>
+        <HelpContainer onClick={showHelpModal}>
           <HelpSymbol />
         </HelpContainer>
       </SortTitleBar>
@@ -381,9 +407,17 @@ const MobileThinning = () => {
         {showConfirmButton && (
           <ConfirmButton
             onClick={handleConfirm}
+            disabled={
+              selectedStatementsNum !== displayControllerArray[0]?.maxNum
+            }
+            fontColor={
+              selectedStatementsNum === displayControllerArray[0]?.maxNum
+                ? "white"
+                : "black"
+            }
             color={
               selectedStatementsNum === displayControllerArray[0]?.maxNum
-                ? "#BCF0DA"
+                ? "#337ab7"
                 : "#d3d3d3"
             }
           >
@@ -391,15 +425,22 @@ const MobileThinning = () => {
           </ConfirmButton>
         )}
       </HeadersContainer>
-      <StatementsContainer
-        viewSize={
-          mobileThinViewSize === +persistedMobileThinViewSize
-            ? mobileThinViewSize
-            : persistedMobileThinViewSize
-        }
-      >
-        {assessedStatements}
-      </StatementsContainer>
+
+      {displayStatements.display ? (
+        <StatementsContainer
+          viewSize={
+            mobileThinViewSize === +persistedMobileThinViewSize
+              ? mobileThinViewSize
+              : persistedMobileThinViewSize
+          }
+        >
+          {assessedStatements}
+        </StatementsContainer>
+      ) : (
+        <FinishedMessage>
+          <p>{mobileThinProcessCompleteMessage}</p>
+        </FinishedMessage>
+      )}
     </MainContainer>
   );
 };
@@ -449,19 +490,6 @@ const SortTitleBar = styled.div`
   user-select: none;
 `;
 
-// const InstructionsDiv = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-//   padding: 2vw;
-//   font-size: 3.2vw;
-//   font-weight: normal;
-//   text-align: center;
-//   color: black;
-//   /* border: 2px solid red; */
-// `;
-
 const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -470,7 +498,6 @@ const MainContainer = styled.div`
   align-items: center;
   width: 100vw;
   height: 90vh;
-  /* outline: 2px solid red; */
 `;
 
 const ConfirmButton = styled.button`
@@ -480,15 +507,18 @@ const ConfirmButton = styled.button`
   background-color: ${(props) => {
     return props.color;
   }};
-  color: black;
+  color: ${(props) => {
+    return props.fontColor;
+  }};
   font-size: 1.2em;
   font-weight: normal;
   padding: 0.25em 0.5em;
   /* padding-bottom: ${(props) => props.padBottom}; */
-  height: 30px;
+  height: 34px;
   min-width: 115px;
   text-decoration: none;
-  border: 1px solid "gray" !important;
+  border: 0px;
+  border: 1px solid gray;
   border-radius: 3px;
   user-select: none;
 `;
@@ -567,4 +597,18 @@ const HelpContainer = styled.div`
   font-size: 2.5vh;
   font-weight: bold;
   user-select: none;
+`;
+
+const FinishedMessage = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 3.5vh;
+  font-weight: bold;
+  min-height: 30vh;
+  margin-top: 30px;
+  width: 80vw;
+  color: black;
+  font-size: 22px;
 `;
