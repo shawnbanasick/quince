@@ -5,16 +5,27 @@ import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
+import useLocalStorage from "../../utilities/useLocalStorage";
 
 const getLangObj = (state) => state.langObj;
 const getTriggerModal = (state) => state.triggerMobileThinHelpModal;
 const getSetTriggerModal = (state) => state.setTriggerMobileThinHelpModal;
+const getSetTriggerMobileThinGuidanceModal = (state) =>
+  state.setTriggerMobileThinGuidanceModal;
 
 const MobileThinHelpModal = () => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
   const triggerModal = useStore(getTriggerModal);
   const setTriggerModal = useStore(getSetTriggerModal);
+  const setTriggerMobileThinGuidanceModal = useStore(
+    getSetTriggerMobileThinGuidanceModal
+  );
+
+  const [hasDisplayed, setHasDisplayed] = useLocalStorage(
+    "m_HasDisplayedFirstThinModal",
+    false
+  );
 
   const ModalHead =
     ReactHtmlParser(decodeHTML(langObj.mobileThinHelpModalHead)) || "";
@@ -24,6 +35,10 @@ const MobileThinHelpModal = () => {
   // const onOpenModal = () => setOpen(true);
   const onCloseModal = () => {
     setTriggerModal(false);
+    if (hasDisplayed === false) {
+      setTriggerMobileThinGuidanceModal(true);
+      setHasDisplayed(true);
+    }
   };
 
   return (

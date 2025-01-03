@@ -109,7 +109,8 @@ const StyledFooter = () => {
     currentPage === "thin" ||
     currentPage === "postsort" ||
     currentPage === "survey" ||
-    currentPage === "sort"
+    currentPage === "sort" ||
+    currentPage === "presort"
   ) {
     displayNextButton = true;
     displayMobileHelpButton = false;

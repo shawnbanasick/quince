@@ -56,6 +56,8 @@
    <item id="defaultFontSizePresort">22</item>
    <item id="traceSorts">true</item>
   
+   <!-- THINNING -->
+   <item id="thinGuidanceModalMaxIterations">2</item>
 
    <!-- SORT -->
    <item id="allowUnforcedSorts">false</item>

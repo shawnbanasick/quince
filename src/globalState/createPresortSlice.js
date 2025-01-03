@@ -15,7 +15,7 @@ const createPresortSlice = (set, get) => ({
   mobilePresortFontSize: 2,
   mobilePresortViewSize: 42,
   triggerMobilePresortRedoModal: false,
-  triggerMobilePresortHelpModal: false,
+  triggerMobilePresortHelpModal: true,
 
   setTriggerMobilePresortHelpModal: (bool) => {
     set(() => ({ triggerMobilePresortHelpModal: bool }));

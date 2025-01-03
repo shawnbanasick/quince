@@ -84,6 +84,10 @@ const LinkButton = (props) => {
         setTriggerPresortPreventNavModal(true);
         return false;
       } else {
+        localStorage.setItem(
+          "m_PresortDisplayStatements",
+          JSON.stringify({ display: false })
+        );
         return true;
       }
     }

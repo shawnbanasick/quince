@@ -5,11 +5,6 @@ import useSettingsStore from "../../globalState/useSettingsStore";
 import decodeHTML from "../../utilities/decodeHTML";
 import ReactHtmlParser from "html-react-parser";
 import finishThinningSorts from "./finishThinningSorts";
-// import Boxes from "./Boxes";
-// import MobileInstructions from "./MobileInstructions";
-// import moveSelectedNegCards from "./moveSelectedNegCards";
-// import moveSelectedPosCards from "./moveSelectedPosCards";
-// import uniq from "lodash/uniq";
 import { v4 as uuid } from "uuid";
 import useStore from "../../globalState/useStore";
 import mobileCardColor from "../presort/mobileCardColor";
@@ -24,20 +19,21 @@ import mobileMoveSelectedNegCards from "./mobileMoveSelectedNegCards";
 import HelpSymbol from "../../assets/helpSymbol.svg?react";
 import MobileThinHelpModal from "./MobileThinHelpModal";
 import MobileThinPreventNavModal from "./MobileThinPreventNavModal";
+import MobileThinGuidanceModal from "./MobileThinGuidanceModal";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
 const getShowConfirmButton = (state) => state.showConfirmButton;
-// const getSetShowConfirmButton = (state) => state.setShowConfirmButton;
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
 const getSetTriggerMobileThinMoveTopModal = (state) =>
   state.setTriggerMobileThinMoveTopModal;
 const getMobileThinFontSize = (state) => state.mobileThinFontSize;
 const getMobileThinViewSize = (state) => state.mobileThinViewSize;
-// const getColumnStatements = (state) => state.columnStatements;
 const getSetTriggerMobileThinHelpModal = (state) =>
   state.setTriggerMobileThinHelpModal;
+const getSetTriggerMobileGuidanceModal = (state) =>
+  state.setTriggerMobileThinGuidanceModal;
 
 const MobileThinning = () => {
   const langObj = useSettingsStore(getLangObj);
@@ -54,9 +50,36 @@ const MobileThinning = () => {
   const setTriggerMobileThinHelpModal = useStore(
     getSetTriggerMobileThinHelpModal
   );
+  const setTriggerMobileThinGuidanceModal = useStore(
+    getSetTriggerMobileGuidanceModal
+  );
+  const thinGuidanceModalMaxIterations =
+    configObj.thinGuidanceModalMaxIterations;
 
-  // *** REFS *** //
-  let cardId = useRef({ id: "", statement: "", color: "", direction: "" });
+  // *************************** //
+  // *** TEXT LOCALIZATION ***** //
+  // *************************** //
+  const mobileThinProcessCompleteMessage =
+    ReactHtmlParser(decodeHTML(langObj.mobileThinProcessCompleteMessage)) || "";
+  const mobileGuidanceModalRight1Header =
+    ReactHtmlParser(decodeHTML(langObj.mobileGuidanceModalRight1Header)) || "";
+  const mobileGuidanceModalRight1Text =
+    ReactHtmlParser(decodeHTML(langObj.mobileGuidanceModalRight1Text)) || "";
+  const mobileGuidanceModalRight2Header =
+    ReactHtmlParser(decodeHTML(langObj.mobileGuidanceModalRight2Header)) || "";
+  const mobileGuidanceModalRight2Text =
+    ReactHtmlParser(decodeHTML(langObj.mobileGuidanceModalRight2Text)) || "";
+  const mobileGuidanceModalleft1Header =
+    ReactHtmlParser(decodeHTML(langObj.mobileGuidanceModalLeft1Header)) || "";
+  const mobileGuidanceModalLeft1Text =
+    ReactHtmlParser(decodeHTML(langObj.mobileGuidanceModalLeft1Text)) || "";
+  const mobileGuidanceModalLeft2Header =
+    ReactHtmlParser(decodeHTML(langObj.mobileGuidanceModalLeft2Header)) || "";
+  const mobileGuidanceModalLeft2Text =
+    ReactHtmlParser(decodeHTML(langObj.mobileGuidanceModalLeft2Text)) || "";
+  const conditionsOfInstruction =
+    ReactHtmlParser(decodeHTML(langObj.mobileThinConditionsOfInstruction)) ||
+    "";
 
   // *** SET TIME ON PAGE *** //
   useEffect(() => {
@@ -72,22 +95,12 @@ const MobileThinning = () => {
     };
   }, [setCurrentPage, setProgressScore]);
 
-  // *************************** //
-  // *** TEXT LOCALIZATION ***** //
-  // *************************** //
-  const conditionsOfInstruction =
-    ReactHtmlParser(decodeHTML(langObj.mobileThinConditionsOfInstruction)) ||
-    "";
-  const mobileThinProcessCompleteMessage =
-    ReactHtmlParser(decodeHTML(langObj.mobileThinProcessCompleteMessage)) || "";
-
-  // let initialInstructionPart1 =
-  //   ReactHtmlParser(decodeHTML(langObj.initialInstructionPart1)) || "";
-  // let initialInstructionPart3 =
-  //   ReactHtmlParser(decodeHTML(langObj.initialInstructionPart3)) || "";
+  // *** REFS *** //
+  let cardId = useRef({ id: "", statement: "", color: "", direction: "" });
+  let modalRef = useRef({ header: "", text: "" });
 
   // *************************** //
-  // *** USE LONG PRESS HOOK *** //
+  // *** HOOKS ************************ //
   // *************************** //
   const attrs = useLongPress(
     () => {
@@ -134,9 +147,35 @@ const MobileThinning = () => {
 
   // detect display side
   if (displayControllerArray[0]?.side === "right") {
+    console.log("displayControllerArray text", displayControllerArray);
+    if (displayControllerArray[0]?.iteration === 1) {
+      modalRef.current = {
+        header: mobileGuidanceModalRight1Header,
+        text: mobileGuidanceModalRight1Text,
+      };
+    }
+    if (displayControllerArray[0]?.iteration > 1) {
+      modalRef.current = {
+        header: mobileGuidanceModalRight2Header,
+        text: mobileGuidanceModalRight2Text,
+      };
+    }
     cards = [...selectedPosItems];
   }
+
   if (displayControllerArray[0]?.side === "left") {
+    if (displayControllerArray[0]?.iteration === 1) {
+      modalRef.current = {
+        header: mobileGuidanceModalleft1Header,
+        text: mobileGuidanceModalLeft1Text,
+      };
+    }
+    if (displayControllerArray[0]?.iteration > 1) {
+      modalRef.current = {
+        header: mobileGuidanceModalLeft2Header,
+        text: mobileGuidanceModalLeft2Text,
+      };
+    }
     cards = [...selectedNegItems];
   }
 
@@ -265,8 +304,14 @@ const MobileThinning = () => {
 
       localStorage.setItem("newCols", JSON.stringify(newCols2));
       displayControllerArray.shift();
+      console.log("displayControllerArray", displayControllerArray);
       setDisplayControllerArray([...displayControllerArray]);
       setSelectedPosItems([...nextSelectedPosItemsSet]);
+      if (
+        displayControllerArray[0]?.iteration <= thinGuidanceModalMaxIterations
+      ) {
+        setTriggerMobileThinGuidanceModal(true);
+      }
       return;
     }
     if (displayControllerArray[0]?.side === "left") {
@@ -284,8 +329,14 @@ const MobileThinning = () => {
 
       localStorage.setItem("newCols", JSON.stringify(newCols2));
       displayControllerArray.shift();
+      console.log("displayControllerArray", displayControllerArray);
       setDisplayControllerArray([...displayControllerArray]);
       setSelectedNegItems([...nextSelectedNegItemsSet]);
+      if (
+        displayControllerArray[0]?.iteration <= thinGuidanceModalMaxIterations
+      ) {
+        setTriggerMobileThinGuidanceModal(true);
+      }
       return;
     }
   };
@@ -391,6 +442,10 @@ const MobileThinning = () => {
   return (
     <MainContainer>
       <MobileThinMoveTopModal cardId={cardId} onClick={handleMove} />
+      <MobileThinGuidanceModal
+        modalHead={modalRef.current.header}
+        modalText={modalRef.current.text}
+      />
       <MobileThinPreventNavModal />
       <MobileThinHelpModal />
       <SortTitleBar background={configObj.headerBarColor}>

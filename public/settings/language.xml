@@ -90,11 +90,12 @@
         <item id="mobilePresortRedoModalHead">Re-Evaluate Statement</item>
         <item id="mobilePresortRedoModalText">Click on the appropriate icon</item>
         <item id="mobilePresortRedoModalConfirmButton">Confirm</item>
-        <item id="mobilePresortEvaluationsComplete">{{{div}}}{{{b}}}All Statements Evaluated.{{{/b}}} {{{br /}}}{{{br /}}}Please click on the navigation button on the bottom right side to go to the next stage.{{{div}}}</item>
+        <item id="mobilePresortEvaluationsComplete">{{{div}}}{{{b}}}All Statements Evaluated.{{{/b}}} {{{br /}}}{{{br /}}}Please review the statements to confirm your evaluations.  {{{br /}}}{{{br /}}}If you want to make a change, tap the "redo" icon to the left of the statement.{{{div}}}</item>
         <item id="mobilePresortHelpModalHead">Stage 1. {{{br /}}}Statement Evaluation</item>
         <item id="mobilePresortHelpModalText">Click on the appropriate button to assign a value to each statement</item>
-         <item id="mobilePresortProcessCompleteMessage">The evaluation process is complete. {{{br/}}}{{{br/}}} Please click on the navigation button on the bottom right side to go to the next stage.</item>
-
+        <item id="mobilePresortFinishedModalHead">Stage 1. {{{br /}}}Statement Evaluation</item>
+         <item id="mobilePresortFinishedModalText">The evaluation process is complete. {{{br/}}}{{{br/}}} Please review the statements to confirm your evaluations.  {{{br /}}}{{{br /}}}If you want to make a change, tap the "redo" icon to the left of the statement.{{{br /}}}{{{br /}}}When you are satisfied, tap the navigation button on the bottom right.</item>
+          <item id="mobilePresortProcessCompleteMessage">The evaluation process is complete. {{{br/}}}{{{br/}}} Please click on the navigation button on the bottom right side to go to the next stage.</item>
 
         <!-- THINNING:  -->
         <item id="thinningPreventNavModalHead">Navigation Disabled</item>
@@ -122,6 +123,15 @@
         <item id="mobileThinPreventNavModalHead">Navigation Disabled</item>
         <item id="mobileThinPreventNavModalText">Please complete the refining process before navigating to the next page.</item>
         <item id="mobileThinProcessCompleteMessage">The refinement process is complete. {{{br/}}}{{{br/}}} Please click on the navigation button on the bottom right side to go to the next stage.</item>
+        <item id="mobileGuidanceModalRight1Header">Refinement Process - Step 1</item>
+        <item id="mobileGuidanceModalRight1Text">Refinement Process - Step 1</item>
+        <item id="mobileGuidanceModalRight2Header">Refinement Process - Next Step</item>
+        <item id="mobileGuidanceModalRight2Text">Refinement Process - Next Step</item>
+        <item id="mobileGuidanceModalLeft1Header">Refinement Process - Step 1</item>
+        <item id="mobileGuidanceModalLeft1Text">Refinement Process - Step 1</item>
+        <item id="mobileGuidanceModalLeft2Header">Refinement Process - Next Step</item>
+        <item id="mobileGuidanceModalLeft2Text">Refinement Process - Next Step</item>
+
 
         <!-- SORT: sorting -->
         <item id="sortHelpModalHead">Step 2 of 4</item>

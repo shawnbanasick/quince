@@ -14,30 +14,24 @@ const calcThinDisplayControllerArray = (
     for (let i = 0; i < totalArraysNum; i++) {
       let tempObject = {};
       let tempObject2 = {};
-      let message = "";
-
-      if (i === 0) {
-        message = "initial";
-      } else {
-        message = "followUp";
-      }
 
       if (+sortRightArrays?.[i]?.[1] < remainingPosCount) {
         tempObject = {
           targetCol: sortRightArrays?.[i]?.[0],
           maxNum: sortRightArrays?.[i]?.[1],
           side: "right",
-          message: message,
+          iteration: i + 1,
         };
         thinDisplayControllerArray.push(tempObject);
         remainingPosCount = remainingPosCount - sortRightArrays?.[i]?.[1];
       }
+
       if (+sortLeftArrays?.[i]?.[1] < remainingNegCount) {
         tempObject2 = {
           targetCol: sortLeftArrays?.[i]?.[0],
           maxNum: sortLeftArrays?.[i]?.[1],
           side: "left",
-          message: message,
+          iteration: i + 1,
         };
         thinDisplayControllerArray.push(tempObject2);
         remainingNegCount = remainingNegCount - sortLeftArrays?.[i]?.[1];

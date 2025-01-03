@@ -1,27 +1,27 @@
 import { useEffect, useRef } from "react";
 import styled from "styled-components";
-// import cloneDeep from "lodash/cloneDeep";
 import calculateTimeOnPage from "../../utilities/calculateTimeOnPage";
-// import PresortPreventNavModal from "./PresortPreventNavModal";
-import MobilePresortFinishedModal from "./MobilePresortFinishedModal";
-import PresortIsComplete from "./PresortIsComplete";
 import PleaseLogInFirst from "./PleaseLogInFirst";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
-// import PromptUnload from "../../utilities/PromptUnload";
-// import PresortDndImages from "./PresortDndImages";
 import MobileStatementBox from "./MobileStatementBox";
 import MobileValueButton from "./MobileValueButton";
 import MobilePreviousAssignmentBox from "./MobilePreviousAssignmentBox";
 import useScreenOrientation from "../../utilities/useScreenOrientation";
 import mobileCardColor from "./mobileCardColor";
 import useLocalStorage from "../../utilities/useLocalStorage";
-import MobilePresortRedoModal from "./MobilePresortRedoModal";
 import calcThinDisplayControllerArray from "./calcThinDisplayControllerArray";
 import MobilePresortHelpModal from "./MobilePresortHelpModal";
+import MobilePresortRedoModal from "./MobilePresortRedoModal";
+import MobilePresortFinishedModal from "./MobilePresortFinishedModal";
 import HelpSymbol from "../../assets/helpSymbol.svg?react";
+// import PresortIsComplete from "./PresortIsComplete";
+// import PresortPreventNavModal from "./PresortPreventNavModal";
+// import PromptUnload from "../../utilities/PromptUnload";
+// import PresortDndImages from "./PresortDndImages";
+// import cloneDeep from "lodash/cloneDeep";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
@@ -29,9 +29,7 @@ const getStatementsObj = (state) => state.statementsObj;
 const getIsLoggedIn = (state) => state.isLoggedIn;
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
-const getPresortNoReturn = (state) => state.presortNoReturn;
 const getResetColumnStatements = (state) => state.resetColumnStatements;
-const getSetDisplayNextButton = (state) => state.setDisplayNextButton;
 const getSetTriggerMobilePresortFinishedModal = (state) =>
   state.setTriggerMobilePresortFinishedModal;
 const getSetPresortFinished = (state) => state.setPresortFinished;
@@ -42,6 +40,8 @@ const getSetDisplayMobileHelpButton = (state) =>
   state.setDisplayMobileHelpButton;
 const getSetTriggerMobilePresortHelpModal = (state) =>
   state.setTriggerMobilePresortHelpModal;
+// const getPresortNoReturn = (state) => state.presortNoReturn;
+// const getSetDisplayNextButton = (state) => state.setDisplayNextButton;
 
 const MobilePresortPage = () => {
   // GLOBAL STATE
@@ -51,10 +51,10 @@ const MobilePresortPage = () => {
   const isLoggedIn = useSettingsStore(getIsLoggedIn);
   const setCurrentPage = useStore(getSetCurrentPage);
   const setProgressScore = useStore(getSetProgressScore);
-  const presortNoReturn = useStore(getPresortNoReturn);
   const resetColumnStatements = useSettingsStore(getResetColumnStatements);
+  // const presortNoReturn = useStore(getPresortNoReturn);
   // const setDisplayNextButton = useStore(getSetDisplayNextButton);
-  const cardFontSizePersist = +localStorage.getItem("fontSizePresort");
+  // const cardFontSizePersist = +localStorage.getItem("fontSizePresort");
   const setPresortFinished = useStore(getSetPresortFinished);
   const mobilePresortFontSize = useStore(getMobilePresortFontSize);
   const setTriggerMobilePresortRedoModal = useStore(
@@ -304,10 +304,6 @@ const MobilePresortPage = () => {
   // *** EARLY RETURNS ***************
   // **************************
   if (presortArray2.length === 0) {
-    localStorage.setItem(
-      "m_PresortDisplayStatements",
-      JSON.stringify({ display: false })
-    );
     setPresortFinished(true);
     setDisplayMobileHelpButton(false);
   }
@@ -343,7 +339,7 @@ const MobilePresortPage = () => {
         statement={redoCardId}
       />
       <MobilePresortHelpModal />
-      <MobilePresortHelpModal />
+      <MobilePresortFinishedModal />
       <SortTitleBar background={configObj.headerBarColor}>
         {titleText}
         <HelpContainer onClick={handleOpenHelpModal}>
