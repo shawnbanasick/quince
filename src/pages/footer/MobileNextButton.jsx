@@ -185,7 +185,6 @@ const LinkButton = (props) => {
     }
 
     if (currentPage === "survey") {
-      /*
       let resultsSurvey = JSON.parse(localStorage.getItem("resultsSurvey"));
       let values = getObjectValues(resultsSurvey);
       let includesNoResponse = values.includes("no-*?*-response");
@@ -197,7 +196,6 @@ const LinkButton = (props) => {
       } else {
         return true;
       }
-        */
     }
 
     // for pages without checks

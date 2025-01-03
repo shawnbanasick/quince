@@ -18,6 +18,7 @@ import SurveyRating5Element from "./MobileSurveyRating5Element";
 import SurveyRating10Element from "./MobileSurveyRating10Element";
 import SurveyLikertElement from "./MobileSurveyLikertElement";
 import SurveyInformationElement from "./MobileSurveyInformationElement";
+import MobileSurveyPreventNavModal from "./MobileSurveyPreventNavModal";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
@@ -173,6 +174,7 @@ const MobileSort = () => {
     <div>
       <SortTitleBar background={headerBarColor}>{surveyHeader}</SortTitleBar>
       <Container>
+        <MobileSurveyPreventNavModal style={{ marginTop: "50px" }} />
         <SurveyQuestions />
       </Container>
     </div>
@@ -202,7 +204,6 @@ const SortTitleBar = styled.div`
   font-size: 28px;
   position: fixed;
   top: 0;
-  z-index: 9999;
 `;
 
 const Container = styled.div`

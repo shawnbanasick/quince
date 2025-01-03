@@ -18,6 +18,7 @@ import createRightLeftArrays from "../thinning/createRightLeftArrays";
 import createColumnData from "../thinning/createColumnData";
 import detectMobileBrowser from "../../utilities/detectMobileBrowser";
 import shuffle from "lodash/shuffle";
+import { v4 as uuid } from "uuid";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
@@ -139,11 +140,9 @@ const LandingPage = () => {
     localStorage.removeItem("finalSortColData");
     localStorage.removeItem("posSorted");
     localStorage.removeItem("negSorted");
-    localStorage.removeItem("m_PresortResults");
     localStorage.removeItem("selectedPosItems");
     localStorage.removeItem("selectedNegItems");
     localStorage.removeItem("m_PresortStatementCount");
-    localStorage.removeItem("m_PresortResults");
     localStorage.removeItem("presortArray2");
     localStorage.removeItem("thinDisplayControllerArray");
     localStorage.removeItem("mobilePresortFontSize");
@@ -162,6 +161,12 @@ const LandingPage = () => {
     localStorage.removeItem("CumulativeTimepostsortPage");
     localStorage.removeItem("CumulativeTimesurveyPage");
     localStorage.removeItem("m_ThinDisplayStatements");
+    localStorage.removeItem("m_HasDisplayedFirstThinModal");
+    localStorage.removeItem("m_PostSortResultsObj");
+    localStorage.removeItem("m_PresortResults");
+    localStorage.removeItem("m_SortCharacteristicsArray");
+    localStorage.removeItem("m_ThinningFinished");
+    localStorage.removeItem("randomId");
 
     for (let i = 0; i < statementsObj.totalStatements; i++) {
       let key = `m_PostsortComment(s${i + 1})`;
@@ -192,7 +197,9 @@ const LandingPage = () => {
     [mapObj.qSortPattern]
   );
 
-  // set defaults
+  // ************************
+  // *** set defaults *********************
+  // ************************
   localStorage.setItem(
     "m_FontSizeObject",
     JSON.stringify({
@@ -222,6 +229,9 @@ const LandingPage = () => {
     JSON.stringify({ display: true })
   );
 
+  localStorage.setItem("randomId", uuid().substring(0, 12));
+
+  // *** USE HOOKS *********************
   useEffect(() => {
     // set thinning iteration counts
     localStorage.setItem("currentLeftIteration", 0);

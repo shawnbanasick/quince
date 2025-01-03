@@ -169,6 +169,7 @@
         <!-- MOBILE POSTSORT: comments - only displayed if showStep3 = true -->
         <item id="mobilePostsortPreventNavModalHead">Navigation Disabled</item>
         <item id="mobilePostsortPreventNavModalText">Please add comments to all of the cards before going to the next step.</item>
+        <item id="mobilePostsortSortbarText">Mobile Postsort</item>
 
 
         <!-- SURVEY: Additional questions, only displayed if showStep4 == true -->
@@ -190,6 +191,10 @@
         <item id="fallbackMessage">Data transmission has failed. Please download the results and email them as an attachment to ken.q.tools@gmail.com. Thank you!</item>   
         <item id="btnDownload">Download</item>   
         <item id="goodbyeMessage">{{{div}}}Thank You!{{{/div}}} {{{br/}}}{{{div}}}You can now close the browser tab{{{/div}}}</item>   
+
+        <!-- MOBILE SUBMIT -->
+         <item id="mobileSortTitleBar">Submit Data</item>
+
 
         <!-- EMAIL -->
         <item id="btnTransferEmail">Open Email Client and Send Results</item>

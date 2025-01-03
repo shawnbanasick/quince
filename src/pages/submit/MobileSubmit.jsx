@@ -1,16 +1,48 @@
-import React, { Component, ReactElement, useEffect } from "react";
-import { DragDropContext } from "@hello-pangea/dnd";
-// import type { DropResult } from "@hello-pangea/dnd";
+import { useEffect } from "react";
+import styled from "styled-components";
 import useStore from "../../globalState/useStore";
+import useSettingsStore from "../../globalState/useSettingsStore";
 import calculateTimeOnPage from "../../utilities/calculateTimeOnPage";
+import decodeHTML from "../../utilities/decodeHTML";
+import ReactHtmlParser from "html-react-parser";
+import HelpSymbol from "../../assets/helpSymbol.svg?react";
+import SubmitButton from "./SubmitButton";
+import { v4 as uuid } from "uuid";
+import getCurrentDateTime from "../../utilities/getCurrentDateTime";
+import mobileCalcPresortCountsObject from "./mobileCalcPresortCountsObject";
+import calcPresortTraceAndSortResults from "./calcPresortTraceAndSortResults";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
+const getLangObj = (state) => state.langObj;
+const getConfigObj = (state) => state.configObj;
+const getDisplayGoodbyeMessage = (state) => state.displayGoodbyeMessage;
 
 const MobileSort = () => {
   const setCurrentPage = useStore(getSetCurrentPage);
   const setProgressScore = useStore(getSetProgressScore);
+  const langObj = useSettingsStore(getLangObj);
+  const configObj = useSettingsStore(getConfigObj);
+  const dateString = getCurrentDateTime();
+  const sortResults = JSON.parse([localStorage.getItem("sortArray1")]);
+  const displayGoodbyeMessage = useStore(getDisplayGoodbyeMessage);
 
+  // ***************
+  // *** TEXT LOCALIZATION ***
+  // ***************
+  const mobileSortTitleBar = ReactHtmlParser(
+    decodeHTML(langObj.mobileSortTitleBar)
+  );
+  const transferTextAbove =
+    ReactHtmlParser(decodeHTML(langObj.transferTextAbove)) || "";
+  const transferTextBelow =
+    ReactHtmlParser(decodeHTML(langObj.transferTextBelow)) || "";
+  const goodbyeMessage =
+    ReactHtmlParser(decodeHTML(langObj.goodbyeMessage)) || "";
+
+  // ***************
+  // *** HOOKS ***************
+  // ***************
   useEffect(() => {
     let startTime = Date.now();
     const setStateAsync = async () => {
@@ -24,11 +56,194 @@ const MobileSort = () => {
     };
   }, [setCurrentPage, setProgressScore]);
 
+  // *******************
+  // *** RESULTS PREP ***************
+  // *******************
+  let mobileTransmissionResults = {
+    surveyFormat: "mobile",
+    projectName: configObj.studyTitle || "my Q study",
+    partId: localStorage.getItem("partId") || "no part ID",
+    randomId: localStorage.getItem("randomId") || "no random ID",
+    urlUsercode: localStorage.getItem("urlUsercode") || "no usercode set",
+    dateTime: dateString,
+    timeLanding: localStorage.getItem("timeOnlandingPage") || "not recorded",
+    timeLandingText:
+      localStorage.getItem("CumulativeTimelandingPage") || "not recorded",
+    timePresort: localStorage.getItem("timeOnpresortPage") || "not recorded",
+    timePresortText:
+      localStorage.getItem("CumulativeTimepresortPage") || "not recorded",
+    timeThin: localStorage.getItem("timeOnThinPage") || "not recorded",
+    timeThinText:
+      localStorage.getItem("CumulativeTimethinPage") || "not recorded",
+    timeSort: localStorage.getItem("timeOnsortPage") || "not recorded",
+    timeSortText:
+      localStorage.getItem("CumulativeTimesortPage") || "not recorded",
+  };
+  let resultsSurveyFromStorage = JSON.parse(
+    localStorage.getItem("resultsSurvey")
+  );
+  if (resultsSurveyFromStorage === undefined) {
+    resultsSurveyFromStorage = {};
+  }
+
+  // add postsort and survey times if they exist
+  if (configObj.showPostsort === true) {
+    mobileTransmissionResults["timePostsort"] =
+      localStorage.getItem("timeOnpostsortPage") || "not recorded";
+  }
+  if (configObj.showSurvey === true) {
+    mobileTransmissionResults["timeSurvey"] =
+      localStorage.getItem("timeOnsurveyPage") || "not recorded";
+  }
+
+  // get presort count numbers
+  let presortCountsObject = mobileCalcPresortCountsObject([...sortResults]);
+  mobileTransmissionResults = {
+    ...mobileTransmissionResults,
+    ...presortCountsObject,
+  };
+
+  // get presort trace and sort results
+  let sortCharacteristicsArray = JSON.parse(
+    localStorage.getItem("m_SortCharacteristicsArray")
+  );
+  let formattedResults = calcPresortTraceAndSortResults(
+    sortResults,
+    sortCharacteristicsArray
+  );
+  mobileTransmissionResults = {
+    ...mobileTransmissionResults,
+    ...formattedResults,
+  };
+
+  // get postsort results
+  if (configObj.showPostsort === true) {
+    let postsortResults = JSON.parse(
+      localStorage.getItem("m_PostSortResultsObj")
+    );
+    mobileTransmissionResults = {
+      ...mobileTransmissionResults,
+      ...postsortResults,
+    };
+  }
+
+  try {
+    if (configObj.showSurvey && resultsSurveyFromStorage !== undefined) {
+      mobileTransmissionResults = {
+        ...mobileTransmissionResults,
+        ...resultsSurveyFromStorage,
+      };
+    }
+  } catch (error) {
+    console.log(error);
+    alert("problem reading in survey results: " + error.message);
+  }
+
+  // ***************
+  // *** ELEMENTS ***************
+  // ***************
+
+  if (displayGoodbyeMessage === true) {
+    // if (configObj.linkToSecondProject === true) {
+    //   return (
+    //     <GoodbyeDiv>
+    //       {linkedProjectFallbackMessage}
+    //       <a
+    //         id="secondProjectLink"
+    //         href={`${configObj.secondProjectUrl}/#/?usercode=${urlUsercode}`}
+    //         style={{ targetNew: "tab", textDecoration: "none" }}
+    //       >
+    //         <StyledButton>{linkedProjectBtnMessage}</StyledButton>
+    //       </a>
+    //     </GoodbyeDiv>
+    //   );
+    // } else {
+    // *** goodbye message for a normal firebase project ***
+    return (
+      <>
+        <GoodbyeDiv>{goodbyeMessage}</GoodbyeDiv>
+      </>
+    );
+  }
+  // }
+
   return (
-    <div>
-      <h1>Submit Page</h1>
-    </div>
+    <>
+      <SortTitleBar background={configObj.headerBarColor}>
+        {mobileSortTitleBar}
+        <HelpContainer onClick={() => alert("Help")}>
+          <HelpSymbol />
+        </HelpContainer>
+      </SortTitleBar>
+      <MainContainer>
+        <ContentDiv>{transferTextAbove}</ContentDiv>
+        <SubmitButton results={mobileTransmissionResults} />
+        <ContentDiv>{transferTextBelow}</ContentDiv>
+      </MainContainer>
+    </>
   );
 };
 
 export default MobileSort;
+
+const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  user-select: none;
+  background-color: #f3f4f6;
+`;
+
+const SortTitleBar = styled.div`
+  display: flex;
+  width: 100vw;
+  padding-left: 10px;
+  padding-right: 1.5vw;
+  padding-top: 5px;
+  min-height: 30px;
+  background-color: ${(props) => props.background};
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+  font-size: 4.5vw;
+  user-select: none;
+`;
+
+const HelpContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-right: 5px;
+  align-items: center;
+  padding-bottom: 5px;
+  width: 20px;
+  height: 20px;
+  color: black;
+  font-size: 2.5vh;
+  font-weight: bold;
+  user-select: none;
+`;
+
+const ContentDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  width: 80%;
+  font-size: 15px;
+  padding: 25px;
+  align-self: center;
+`;
+
+const GoodbyeDiv = styled.div`
+  display: flex;
+  width: calc(100vw -20px);
+  height: calc(100vh - 50px);
+  font-size: 22px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`;

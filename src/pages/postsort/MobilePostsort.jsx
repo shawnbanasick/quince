@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, useRef } from "react";
+import { useEffect, useMemo } from "react";
 import styled from "styled-components";
 import useStore from "../../globalState/useStore";
 import useSettingsStore from "../../globalState/useSettingsStore";
@@ -18,8 +18,8 @@ const getConfigObj = (state) => state.configObj;
 const getMapObj = (state) => state.mapObj;
 const getMobilePostsortFontSize = (state) => state.mobilePostsortFontSize;
 const getMobilePostsortViewSize = (state) => state.mobilePostsortViewSize;
-const getSetShowPostsortCommentHighlighting = (state) =>
-  state.setShowPostsortCommentHighlighting;
+// const getSetShowPostsortCommentHighlighting = (state) =>
+//   state.setShowPostsortCommentHighlighting;
 const getShowPostsortCommentHighlighting = (state) =>
   state.showPostsortCommentHighlighting;
 
@@ -31,9 +31,9 @@ const MobilePostsort = () => {
   const configObj = useSettingsStore(getConfigObj);
   let mobilePostsortFontSize = useStore(getMobilePostsortFontSize);
   let required = configObj.postsortCommentsRequired;
-  const setShowPostsortCommentHighlighting = useStore(
-    getSetShowPostsortCommentHighlighting
-  );
+  // const setShowPostsortCommentHighlighting = useStore(
+  //   getSetShowPostsortCommentHighlighting
+  // );
   const showPostsortCommentHighlighting = useStore(
     getShowPostsortCommentHighlighting
   );
@@ -41,7 +41,8 @@ const MobilePostsort = () => {
   // ***************************
   // *** TEXT LOCALIZATION *******************
   // ***************************
-  const titleText = ReactHtmlParser(decodeHTML(langObj.postsortHeader)) || "";
+  const sortbarText =
+    ReactHtmlParser(decodeHTML(langObj.mobilePostsortSortbarText)) || "";
   const agree = ReactHtmlParser(decodeHTML(langObj.postsortAgreement)) || "";
   const disagree =
     ReactHtmlParser(decodeHTML(langObj.postsortDisagreement)) || "";
@@ -51,8 +52,17 @@ const MobilePostsort = () => {
   // *** INITIALIZATION *******************
   // ***************************
   const cardsArray = useMemo(() => {
+    let postSortResultsObj = {};
     const cards2 = JSON.parse(localStorage.getItem("sortArray1")) || [];
     const cards = [...cards2];
+    const sortCharacteristicsArray = JSON.parse(
+      localStorage.getItem("m_SortCharacteristicsArray")
+    );
+    console.log(sortCharacteristicsArray);
+    const reversedSortCharacteristicsArray = [
+      ...sortCharacteristicsArray,
+    ].reverse();
+
     const showSecondPosColumn = configObj.showSecondPosColumn;
     const showSecondNegColumn = configObj.showSecondNegColumn;
     const qSortPattern = [...mapObj.qSortPattern];
@@ -69,16 +79,28 @@ const MobilePostsort = () => {
     }
 
     const posStatements = cards.slice(0, posStatementsNum);
+    console.log(posStatements);
     const negStatements = cards.slice(-negStatementsNum);
 
     let posResponsesObject = {};
     let negResponsesObject = {};
-    posStatements.forEach((statement) => {
+    posStatements.forEach((statement, index) => {
+      statement.sortValue = sortCharacteristicsArray[index].value;
+      postSortResultsObj[`column${statement.sortValue}_${statement.id}`] =
+        "no response";
       posResponsesObject[statement.id] = "";
     });
-    negStatements.forEach((statement) => {
+    negStatements.forEach((statement, index) => {
+      statement.sortValue = reversedSortCharacteristicsArray[index].value;
+      postSortResultsObj[`column${statement.sortValue}_${statement.id}`] =
+        "no response";
       negResponsesObject[statement.id] = "";
     });
+
+    localStorage.setItem(
+      "m_PostSortResultsObj",
+      JSON.stringify(postSortResultsObj)
+    );
 
     return [
       posStatements,
@@ -135,23 +157,21 @@ const MobilePostsort = () => {
   // ********************************************************
 
   const handleTextareaChange = (event) => {
-    // console.log(event.target);
-    // console.log(event.target.side);
-    // console.log("Debounced value:", value);
+    const resp = JSON.parse(localStorage.getItem("m_PostSortResultsObj"));
     if (event.target.side === "positive") {
+      resp[`column${event.target.sortValue}_${event.target.commentId}`] =
+        event.target.value;
       mobilePosResponses[event.target.statementId] = event.target.value;
       setMobilePosResponses(mobilePosResponses);
     }
     if (event.target.side === "negative") {
+      resp[`column${event.target.sortValue}_${event.target.commentId}`] =
+        event.target.value;
       mobileNegResponses[event.target.statementId] = event.target.value;
       setMobileNegResponses(mobileNegResponses);
     }
 
-    // const combinedResponses = { ...mobilePosResponses, ...mobileNegResponses };
-    // const objValues = Object.values(combinedResponses);
-    // if (objValues.includes("")) {
-    //   setShowPostsortCommentHighlighting(true);
-    // }
+    localStorage.setItem("m_PostSortResultsObj", JSON.stringify(resp));
   };
 
   // ***************************
@@ -168,6 +188,8 @@ const MobilePostsort = () => {
           color="#BCF0DA"
           card={card}
           index={index}
+          sortValue={card.sortValue}
+          commentId={card.id}
           agree={agree}
           disagree={disagree}
         >
@@ -178,6 +200,8 @@ const MobilePostsort = () => {
           id={`m_PostsortComment(${card.id})`}
           placeholder={placeholder}
           required={required}
+          commentId={card.id}
+          sortValue={card.sortValue}
           onChange={handleTextareaChange}
           statementId={card.id}
           side="positive"
@@ -195,6 +219,8 @@ const MobilePostsort = () => {
           color="#FBD5D5"
           index={index}
           agree={agree}
+          commentId={card.id}
+          sortValue={card.sortValue}
           disagree={disagree}
         >
           {card.statement}
@@ -205,6 +231,8 @@ const MobilePostsort = () => {
           id={`m_PostsortComment(${card.id})`}
           placeholder={placeholder}
           required={required}
+          sortValue={card.sortValue}
+          commentId={card.id}
           side="negative"
           statementId={card.id}
           highlight={showPostsortCommentHighlighting}
@@ -216,8 +244,7 @@ const MobilePostsort = () => {
   return (
     <Container>
       <SortTitleBar background={configObj.headerBarColor}>
-        {/* {conditionsOfInstruction} */}
-        Mobile Postsort
+        {sortbarText}
         <HelpContainer onClick={() => alert("Help")}>
           <HelpSymbol />
         </HelpContainer>

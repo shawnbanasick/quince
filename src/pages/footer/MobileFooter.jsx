@@ -103,6 +103,7 @@ const StyledFooter = () => {
 
   if (currentPage === "submit") {
     displayNextButton = false;
+    showLogo = true;
   }
 
   if (
@@ -222,9 +223,7 @@ const StyledFooter = () => {
         {showBackButton && (
           <PostsortBackButton to={"/sort"}>{backButtonText}</PostsortBackButton>
         )}
-        {displayMobileHelpButton ? (
-          <MobileHelpButton />
-        ) : (
+        {displayNextButton && (
           <MobileNextButton width={nextButtonWidth} to={nextPage}>
             {nextButtonText}
           </MobileNextButton>

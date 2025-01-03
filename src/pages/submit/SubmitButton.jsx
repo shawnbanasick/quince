@@ -154,7 +154,6 @@ const StyledButton = styled.button`
   width: auto;
   height: 50px;
   justify-self: right;
-  margin-right: 35px;
   display: flex;
   align-items: center;
   justify-content: center;

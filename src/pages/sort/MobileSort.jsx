@@ -92,6 +92,10 @@ const MobileSort = () => {
         tempArray.push({ ...tempObj });
       }
     });
+    localStorage.setItem(
+      "m_SortCharacteristicsArray",
+      JSON.stringify(tempArray)
+    );
     return tempArray;
   }, [mapObj]);
 
