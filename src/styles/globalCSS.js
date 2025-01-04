@@ -405,6 +405,7 @@ footer {
   background: white;
   max-width: 700px;
   width: 90vw;
+  min-height: 30vh;
   padding: 15px;
   border-radius: 10px;
 }

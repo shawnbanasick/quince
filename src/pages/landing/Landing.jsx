@@ -146,7 +146,7 @@ const LandingPage = () => {
     localStorage.removeItem("presortArray2");
     localStorage.removeItem("thinDisplayControllerArray");
     localStorage.removeItem("mobilePresortFontSize");
-    localStorage.removeItem("sortArray1");
+    localStorage.removeItem("m_SortArray1");
     localStorage.removeItem("selectedPosItems");
     localStorage.removeItem("selectedNegItems");
     localStorage.removeItem("columnStatements");
@@ -230,6 +230,8 @@ const LandingPage = () => {
   );
 
   localStorage.setItem("randomId", uuid().substring(0, 12));
+  localStorage.setItem("m_FinalThinCols", JSON.stringify([]));
+  localStorage.setItem("m_SortArray1", JSON.stringify([]));
 
   // *** USE HOOKS *********************
   useEffect(() => {

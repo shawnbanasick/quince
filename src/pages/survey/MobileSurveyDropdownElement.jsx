@@ -138,7 +138,7 @@ const SurveyDropdownElement = (props) => {
 export default SurveyDropdownElement;
 
 const Container = styled.div`
-  width: 90vw;
+  width: 90%;
   padding: 20px;
   margin-left: 20px;
   margin-right: 20px;

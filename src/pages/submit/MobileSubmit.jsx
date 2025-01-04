@@ -24,7 +24,7 @@ const MobileSort = () => {
   const langObj = useSettingsStore(getLangObj);
   const configObj = useSettingsStore(getConfigObj);
   const dateString = getCurrentDateTime();
-  const sortResults = JSON.parse([localStorage.getItem("sortArray1")]);
+  let sortResults = JSON.parse(localStorage.getItem("m_SortArray1"));
   const displayGoodbyeMessage = useStore(getDisplayGoodbyeMessage);
 
   // ***************
@@ -66,16 +66,16 @@ const MobileSort = () => {
     randomId: localStorage.getItem("randomId") || "no random ID",
     urlUsercode: localStorage.getItem("urlUsercode") || "no usercode set",
     dateTime: dateString,
-    timeLanding: localStorage.getItem("timeOnlandingPage") || "not recorded",
+    // timeLanding: localStorage.getItem("timeOnlandingPage") || "not recorded",
     timeLandingText:
       localStorage.getItem("CumulativeTimelandingPage") || "not recorded",
-    timePresort: localStorage.getItem("timeOnpresortPage") || "not recorded",
+    // timePresort: localStorage.getItem("timeOnpresortPage") || "not recorded",
     timePresortText:
       localStorage.getItem("CumulativeTimepresortPage") || "not recorded",
-    timeThin: localStorage.getItem("timeOnThinPage") || "not recorded",
+    // timeThin: localStorage.getItem("timeOnThinPage") || "not recorded",
     timeThinText:
       localStorage.getItem("CumulativeTimethinPage") || "not recorded",
-    timeSort: localStorage.getItem("timeOnsortPage") || "not recorded",
+    // timeSort: localStorage.getItem("timeOnsortPage") || "not recorded",
     timeSortText:
       localStorage.getItem("CumulativeTimesortPage") || "not recorded",
   };
@@ -88,20 +88,22 @@ const MobileSort = () => {
 
   // add postsort and survey times if they exist
   if (configObj.showPostsort === true) {
-    mobileTransmissionResults["timePostsort"] =
-      localStorage.getItem("timeOnpostsortPage") || "not recorded";
+    mobileTransmissionResults["timePostsortText"] =
+      localStorage.getItem("CumulativeTimepostsortPage") || "not recorded";
   }
   if (configObj.showSurvey === true) {
-    mobileTransmissionResults["timeSurvey"] =
-      localStorage.getItem("timeOnsurveyPage") || "not recorded";
+    mobileTransmissionResults["timeSurveyText"] =
+      localStorage.getItem("CumulativeTimesurveyPage") || "not recorded";
   }
 
   // get presort count numbers
-  let presortCountsObject = mobileCalcPresortCountsObject([...sortResults]);
-  mobileTransmissionResults = {
-    ...mobileTransmissionResults,
-    ...presortCountsObject,
-  };
+  if (sortResults && sortResults.length > 0) {
+    let presortCountsObject = mobileCalcPresortCountsObject([...sortResults]);
+    mobileTransmissionResults = {
+      ...mobileTransmissionResults,
+      ...presortCountsObject,
+    };
+  }
 
   // get presort trace and sort results
   let sortCharacteristicsArray = JSON.parse(

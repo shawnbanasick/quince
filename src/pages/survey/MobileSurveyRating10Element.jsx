@@ -277,12 +277,12 @@ const SurveyRatings10Element = (props) => {
 export default SurveyRatings10Element;
 
 const Container = styled.div`
-  width: 90vw;
+  width: 90%;
   padding: 20px;
   margin-left: 20px;
   margin-right: 20px;
   max-width: 1300px;
-  min-height: 200px;
+  height: auto;
   background-color: ${(props) => props.bgColor};
   outline: ${(props) => props.border};
   outline-offset: -3px;
@@ -328,7 +328,7 @@ const RadioContainer = styled.div`
 
 const ItemContainer = styled.div`
   display: inline-grid;
-  grid-template-columns: minmax(30%, 1000px) 20px 20px 20px 20px 20px 20px 20px 20px 20px 20px 1fr;
+  grid-template-columns: minmax(30%, 1000px) 10px 10px 10px 10px 10px 10px 10px 10px 10px 10px 1fr;
   margin-bottom: 17px;
   font-size: 10px;
   align-items: end;
@@ -343,7 +343,7 @@ const ItemContainer = styled.div`
 
 const RatingTitle = styled.div`
   display: inline-grid;
-  grid-template-columns: minmax(30%, 1000px) 20px 20px 20px 20px 20px 20px 20px 20px 20px 20px 1fr;
+  grid-template-columns: minmax(30%, 1000px) 10px 10px 10px 10px 10px 10px 10px 10px 10px 10px 1fr;
   margin-bottom: 7px;
   align-items: end;
   font-size: 11px;

@@ -10,6 +10,7 @@ import useLocalStorage from "../../utilities/useLocalStorage";
 import { v4 as uuid } from "uuid";
 import DebouncedTextarea from "./DebouncedTextArea";
 import MobilePostsortPreventNavModal from "./MobilePostsortPreventNavModal";
+import MobilePostsortHelpModal from "./MobilePostsortHelpModal";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
@@ -18,10 +19,10 @@ const getConfigObj = (state) => state.configObj;
 const getMapObj = (state) => state.mapObj;
 const getMobilePostsortFontSize = (state) => state.mobilePostsortFontSize;
 const getMobilePostsortViewSize = (state) => state.mobilePostsortViewSize;
-// const getSetShowPostsortCommentHighlighting = (state) =>
-//   state.setShowPostsortCommentHighlighting;
 const getShowPostsortCommentHighlighting = (state) =>
   state.showPostsortCommentHighlighting;
+const getSetTriggerMobilePostsortHelpModal = (state) =>
+  state.setTriggerMobilePostsortHelpModal;
 
 const MobilePostsort = () => {
   const setCurrentPage = useStore(getSetCurrentPage);
@@ -36,6 +37,9 @@ const MobilePostsort = () => {
   // );
   const showPostsortCommentHighlighting = useStore(
     getShowPostsortCommentHighlighting
+  );
+  const setTriggerMobilePostsortHelpModal = useStore(
+    getSetTriggerMobilePostsortHelpModal
   );
 
   // ***************************
@@ -53,7 +57,7 @@ const MobilePostsort = () => {
   // ***************************
   const cardsArray = useMemo(() => {
     let postSortResultsObj = {};
-    const cards2 = JSON.parse(localStorage.getItem("sortArray1")) || [];
+    const cards2 = JSON.parse(localStorage.getItem("m_SortArray1")) || [];
     const cards = [...cards2];
     const sortCharacteristicsArray = JSON.parse(
       localStorage.getItem("m_SortCharacteristicsArray")
@@ -156,6 +160,10 @@ const MobilePostsort = () => {
   // *** EVENT HANDLING *************************************
   // ********************************************************
 
+  const displayHelpModal = () => {
+    setTriggerMobilePostsortHelpModal(true);
+  };
+
   const handleTextareaChange = (event) => {
     const resp = JSON.parse(localStorage.getItem("m_PostSortResultsObj"));
     if (event.target.side === "positive") {
@@ -245,11 +253,12 @@ const MobilePostsort = () => {
     <Container>
       <SortTitleBar background={configObj.headerBarColor}>
         {sortbarText}
-        <HelpContainer onClick={() => alert("Help")}>
+        <HelpContainer onClick={displayHelpModal}>
           <HelpSymbol />
         </HelpContainer>
       </SortTitleBar>
       <MobilePostsortPreventNavModal />
+      <MobilePostsortHelpModal />
       <InnerContainer
         viewSize={
           mobilePostsortViewSize === +persistedMobilePostsortViewSize

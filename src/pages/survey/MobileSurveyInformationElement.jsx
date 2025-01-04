@@ -24,7 +24,7 @@ const SurveyInformationElement = (props) => {
 export default SurveyInformationElement;
 
 const Container = styled.div`
-  width: 96vw;
+  width: 90%;
   padding: 10px;
   margin-left: 10px;
   margin-right: 10px;

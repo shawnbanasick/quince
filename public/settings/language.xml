@@ -91,9 +91,9 @@
         <item id="mobilePresortRedoModalText">Click on the appropriate icon</item>
         <item id="mobilePresortRedoModalConfirmButton">Confirm</item>
         <item id="mobilePresortEvaluationsComplete">{{{div}}}{{{b}}}All Statements Evaluated.{{{/b}}} {{{br /}}}{{{br /}}}Please review the statements to confirm your evaluations.  {{{br /}}}{{{br /}}}{{{div}}}</item>
-        <item id="mobilePresortHelpModalHead">Stage 1. {{{br /}}}Statement Evaluation</item>
+        <item id="mobilePresortHelpModalHead">Stage 1 of 5{{{br /}}}Statement Evaluation</item>
         <item id="mobilePresortHelpModalText">Tap on the appropriate button to assign a value to each statement. {{{br /}}}{{{br /}}} If you feel that the statement is {{{b}}}similar to your perspective{{{/b}}}, tap the green "+" button.{{{br /}}}{{{br /}}} If you feel that the statement is {{{b}}}different from your perspective{{{/b}}}, tap the red "-" button. {{{br /}}}{{{br /}}}If you are unsure, tap the "?" button. {{{br /}}}{{{br /}}} There are {{{b}}}33 statements{{{/b}}} in this survey. {{{br /}}}{{{br /}}} If you want to {{{b}}}change{{{/b}}} your evaluation, tap the {{{b}}}redo icon{{{/b}}} next to the statement.</item>
-        <item id="mobilePresortFinishedModalHead">Stage 1. {{{br /}}}Statement Evaluation</item>
+        <item id="mobilePresortFinishedModalHead">Stage 1 of 5{{{br /}}}Statement Evaluation</item>
          <item id="mobilePresortFinishedModalText">The evaluation process is complete. {{{br/}}}{{{br/}}} Please {{{b}}}review the statements{{{/b}}} to confirm your evaluations.  {{{br /}}}{{{br /}}}If you want to make a change, tap the "redo" icon to the left of the statement.{{{br /}}}{{{br /}}}When you are satisfied with all of your evaluations, tap the {{{b}}}navigation button{{{/b}}} on the bottom right.</item>
           <item id="mobilePresortProcessCompleteMessage">The evaluation process is complete. {{{br/}}}{{{br/}}} Please click on the navigation button on the bottom right side to go to the next stage.</item>
 
@@ -123,13 +123,13 @@
         <item id="mobileThinPreventNavModalHead">Navigation Disabled</item>
         <item id="mobileThinPreventNavModalText">Please complete the refining process before navigating to the next page.</item>
         <item id="mobileThinProcessCompleteMessage">The refinement process is complete. {{{br/}}}{{{br/}}} Please click on the navigation button on the bottom right side to go to the next stage.</item>
-        <item id="mobileGuidanceModalRight1Header">Stage 2 {{{br/}}} Refinement Process</item>
+        <item id="mobileGuidanceModalRight1Header">Stage 2 of 5{{{br/}}} Refinement Process</item>
         <item id="mobileGuidanceModalRight1Text">There are several steps in this Stage. {{{br/}}}{{{br/}}}Step 1. Please look at all of the statements that you evaluated {{{b}}}positively{{{/b}}} and select those that are {{{b}}}closest to your perspective{{{/b}}}.{{{br/}}}{{{br/}}}You may need to {{{b}}}scroll{{{/b}}} down to see all of the statements.</item>
-        <item id="mobileGuidanceModalRight2Header">Stage 2 {{{br/}}} Refinement Process</item>
+        <item id="mobileGuidanceModalRight2Header">Stage 2 of 5{{{br/}}} Refinement Process</item>
         <item id="mobileGuidanceModalRight2Text">Next, once again look at the remaining statements that you evaluated {{{b}}}positively{{{/b}}} and select the {{{b}}}next set{{{/b}}} of statements that are {{{b}}}closest to your perspective{{{/b}}}.</item>
-        <item id="mobileGuidanceModalLeft1Header">Stage 2 {{{br/}}} Refinement Process</item>
+        <item id="mobileGuidanceModalLeft1Header">Stage 2 of 5{{{br/}}} Refinement Process</item>
         <item id="mobileGuidanceModalLeft1Text">Step 2. Next, please look at all of the statements that you evaluated negatively and {{{b}}}select{{{/b}}} those that {{{b}}}differ the most{{{/b}}} from your perspective.{{{br/}}}{{{br/}}}You may need to {{{b}}}scroll down{{{/b}}} to see all of the statements.</item>
-        <item id="mobileGuidanceModalLeft2Header">Stage 2 {{{br/}}} Refinement Process</item>
+        <item id="mobileGuidanceModalLeft2Header">Stage 2 of 5{{{br/}}} Refinement Process</item>
         <item id="mobileGuidanceModalLeft2Text">Next, once again look at the remaining statements that you evalued {{{b}}}negatively{{{/b}}} and {{{b}}}select{{{/b}}} the {{{b}}}next set{{{/b}}} of statements that are {{{b}}}most different from to your perspective{{{/b}}}.</item>
 
 
@@ -151,6 +151,9 @@
         <item id="mobileSortSwapModalText">Click "Confirm" to swap.</item>
         <item id="mobileSortSwapModalConfirmButton">Swap</item>
         <item id="mobileSortConditionsOfInstruction">Rank the Statements According to Your Experience of using the iPads in the Class</item>
+        <item id="mobileSortHelpModalHead">Stage 3 of 5{{{br/}}} Final Statement Ranking</item>
+        <item id="mobileSortHelpModalText">The statements have been ranked based on your previous evaluations.{{{br/}}}{{{br/}}} Those statements that are closest to your perspective should be at the top of the list. Those that are farthest from your perspective should be at the bottom of the list.{{{br/}}}{{{br/}}}You will need to {{{b}}}scroll down{{{/b}}} to see all of the statements.{{{br/}}}{{{br/}}}Please {{{b}}}review the rankings{{{/b}}} and make any necessary changes to the ranking of the statements so that the ordering {{{b}}}accurately reflects your perspective{{{/b}}}. {{{br/}}}{{{br/}}}{{{mark}}}This is the most critical stage of the survey, so please review the statement rankings carefully.{{{/mark}}}{{{br/}}}{{{br/}}}  
+        To {{{b}}}swap the positions of neighboring statements{{{/b}}}, tap the up or down arrows on the right or left side of the statement.{{{br/}}}{{{br/}}}To {{{b}}}swap the positions of statements that are separated{{{/b}}}, tap on two statements (the statement color will change to yellow) and a swap confirmation message will appear.{{{br/}}}{{{br/}}}When you are satisfied with all of the rankings, tap the navigation button on the bottom right.</item>
 
 
         <!-- POSTSORT: comments - only displayed if showStep3 = true -->
@@ -166,19 +169,27 @@
         <item id="postsortBackButtonText">Go Back</item>
 
 
-        <!-- MOBILE POSTSORT: comments - only displayed if showStep3 = true -->
+        <!-- MOBILE POSTSORT: comments - displayed if showStep3 = true -->
         <item id="mobilePostsortPreventNavModalHead">Navigation Disabled</item>
-        <item id="mobilePostsortPreventNavModalText">Please add comments to all of the cards before going to the next step.</item>
-        <item id="mobilePostsortSortbarText">Mobile Postsort</item>
+        <item id="mobilePostsortPreventNavModalText">Please add comments to all of the statements before going to the next step.</item>
+        <item id="mobilePostsortSortbarText">Postsort Comments</item>
+        <item id="mobilePostsortHelpModalHead">Stage 4 of 5{{{br/}}} Post-Ranking Comments</item>
+        <item id="mobilePostsortHelpModalText">Please comment on your rankings of these statements.</item>
+        
 
-
-        <!-- SURVEY: Additional questions, only displayed if showStep4 == true -->
+        <!-- SURVEY: Additional questions, displayed if showStep4 == true -->
         <item id="surveyHeader">Post-Sort Questionnaire</item>
         <item id="surveyModalHead">Step 4 of 4</item>
         <item id="surveyModalText">Finally, please answer the following questions regarding your background. The questions marked with an &quot;*&quot; in their title are required.{{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/68MHzgLn1zg?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
         <item id="surveyPreventNavModalHead">Navigation Disabled</item>
         <item id="surveyPreventNavModalText">Please answer the required questions (outlined in yellow) before going to the next step.</item>
        
+        <!-- MOBILE SURVEY: questions displayed if showStep4 == true -->
+        <item id="mobileSurveyHelpModalHead">Stage 5 of 5{{{br/}}} Post-Ranking Survey</item>
+        <item id="mobileSurveyHelpModalText">Please answer the following questions.</item>
+       
+
+
         <!-- SUBMIT -->
         <item id="btnTransfer">Submit Data</item>
         <item id="transferHead">Final Step</item>

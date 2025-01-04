@@ -1,6 +1,4 @@
-// import { DragDropContext } from "@hello-pangea/dnd";
-// import type { DropResult } from "@hello-pangea/dnd";
-import React, { Component, ReactElement, useEffect } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import useStore from "../../globalState/useStore";
 import calculateTimeOnPage from "../../utilities/calculateTimeOnPage";
@@ -19,6 +17,8 @@ import SurveyRating10Element from "./MobileSurveyRating10Element";
 import SurveyLikertElement from "./MobileSurveyLikertElement";
 import SurveyInformationElement from "./MobileSurveyInformationElement";
 import MobileSurveyPreventNavModal from "./MobileSurveyPreventNavModal";
+import HelpSymbol from "../../assets/helpSymbol.svg?react";
+import MobileSurveyHelpModal from "./MobileSurveyHelpModal";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
@@ -29,6 +29,8 @@ const getRequiredAnswersObj = (state) => state.requiredAnswersObj;
 const getSetRequiredAnswersObj = (state) => state.setRequiredAnswersObj;
 const getSetDisplayNextButton = (state) => state.setDisplayNextButton;
 const getCheckReqQuesComplete = (state) => state.checkRequiredQuestionsComplete;
+const getSetTriggerMobileSurveyHelpModal = (state) =>
+  state.setTriggerMobileSurveyHelpModal;
 
 const MobileSort = () => {
   const setCurrentPage = useStore(getSetCurrentPage);
@@ -40,6 +42,9 @@ const MobileSort = () => {
   const setRequiredAnswersObj = useSettingsStore(getSetRequiredAnswersObj);
   const setDisplayNextButton = useStore(getSetDisplayNextButton);
   const checkRequiredQuestionsComplete = useStore(getCheckReqQuesComplete);
+  const setTriggerMobileSurveyHelpModal = useStore(
+    getSetTriggerMobileSurveyHelpModal
+  );
 
   const headerBarColor = configObj.headerBarColor;
   const surveyQuestionObjects = surveyQuestionObjArray;
@@ -47,8 +52,10 @@ const MobileSort = () => {
   // setup language
   const surveyHeader = ReactHtmlParser(decodeHTML(langObj.surveyHeader)) || "";
 
-  // set next button display
-  //    setDisplayNextButton(true);
+  const displayHelpModal = () => {
+    console.log("clicked help");
+    setTriggerMobileSurveyHelpModal(true);
+  };
 
   useEffect(() => {
     // reset required questions if page return
@@ -172,9 +179,15 @@ const MobileSort = () => {
 
   return (
     <div>
-      <SortTitleBar background={headerBarColor}>{surveyHeader}</SortTitleBar>
+      <SortTitleBar background={headerBarColor}>
+        {surveyHeader}
+        <HelpContainer onClick={displayHelpModal}>
+          <HelpSymbol />
+        </HelpContainer>
+      </SortTitleBar>
+      <MobileSurveyPreventNavModal style={{ marginTop: "50px" }} />
+      <MobileSurveyHelpModal />
       <Container>
-        <MobileSurveyPreventNavModal style={{ marginTop: "50px" }} />
         <SurveyQuestions />
       </Container>
     </div>
@@ -190,26 +203,44 @@ const NoQuestionsDiv = styled.div`
 `;
 
 const SortTitleBar = styled.div`
+  display: flex;
   width: 100vw;
-  padding-left: 1.5vw;
+  padding-left: 10px;
   padding-right: 1.5vw;
   padding-top: 5px;
-  min-height: 50px;
+  min-height: 30px;
   background-color: ${(props) => props.background};
-  display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   color: white;
   font-weight: bold;
-  font-size: 28px;
-  position: fixed;
-  top: 0;
+  font-size: 4.5vw;
+  user-select: none;
 `;
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-self: center;
   padding-bottom: 150px;
-  margin-top: 50px;
+  width: 90%;
+  height: 80vh;
+  /* border: 1px solid red; */
+  overflow-x: hidden;
+  overflow-y: auto;
+`;
+
+const HelpContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-right: 5px;
+  align-items: center;
+  padding-bottom: 5px;
+  width: 20px;
+  height: 20px;
+  color: black;
+  font-size: 2.5vh;
+  font-weight: bold;
+  user-select: none;
 `;

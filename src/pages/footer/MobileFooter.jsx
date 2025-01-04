@@ -29,7 +29,7 @@ const StyledFooter = () => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
   const configObj = useSettingsStore(getConfigObj);
-  let displayNextButton = useStore(getDisplayNextButton);
+  // let displayNextButton = useStore(getDisplayNextButton);
   const currentPage = useStore(getCurrentPage);
   // const additionalProgress = useStore(getAdditionalProgress);
   // const additionalProgressSort = useStore(getAdditionalProgressSort);
@@ -43,6 +43,7 @@ const StyledFooter = () => {
   let showFooterFontSizer = true;
   let showLogo = false;
   let showFooterViewSizer = true;
+  let displayNextButton = false;
 
   let showBackButton;
   let backButtonText = langObj.postsortBackButtonText;
@@ -165,18 +166,6 @@ const StyledFooter = () => {
   if (currentPage === "postsort") {
     showLogo = false;
     showAdjustmentContainer = true;
-  }
-
-  if (
-    currentPage === "landing" ||
-    currentPage === "survey" ||
-    currentPage === "submit" ||
-    currentPage === "sort" ||
-    currentPage === "postsort"
-  ) {
-    // showProgressBar = false;
-    // showLogo = true;
-    displayMobileHelpButton = false;
   }
 
   let CenterContent = (

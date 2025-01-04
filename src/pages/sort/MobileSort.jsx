@@ -11,6 +11,7 @@ import MobileSortSwapModal from "./MobileSortSwapModal";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
 import HelpSymbol from "../../assets/helpSymbol.svg?react";
+import MobileSortHelpModal from "./MobileSortHelpModal";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
@@ -21,6 +22,8 @@ const getMobileSortViewSize = (state) => state.mobileSortViewSize;
 const getSetTriggerMobileSortSwapModal = (state) =>
   state.setTriggerMobileSortSwapModal;
 const getLangObj = (state) => state.langObj;
+const getSetTriggerMobileSortHelpModal = (state) =>
+  state.setTriggerMobileSortHelpModal;
 
 const MobileSort = () => {
   const setCurrentPage = useStore(getSetCurrentPage);
@@ -32,6 +35,9 @@ const MobileSort = () => {
   const mobileSortViewSize = useStore(getMobileSortViewSize);
   const setTriggerMobileSortSwapModal = useStore(
     getSetTriggerMobileSortSwapModal
+  );
+  const setTriggerMobileSortHelpModal = useStore(
+    getSetTriggerMobileSortHelpModal
   );
 
   // *********************************
@@ -46,10 +52,11 @@ const MobileSort = () => {
   // *********************************
   const targetArray = useRef([]);
 
-  const [sortArray1, setSortArray1] = useLocalStorage("sortArray1", [
+  const [sortArray1, setSortArray1] = useLocalStorage("m_SortArray1", [
     ...JSON.parse(localStorage.getItem("m_FinalThinCols")),
   ]);
-  console.log(sortArray1);
+
+  console.log("sortArray1", sortArray1);
 
   const persistedMobileSortFontSize = JSON.parse(
     localStorage.getItem("m_FontSizeObject")
@@ -102,6 +109,10 @@ const MobileSort = () => {
   // *********************************
   // *** Event Handlers *************************
   // *********************************
+  const triggerHelp = () => {
+    setTriggerMobileSortHelpModal(true);
+  };
+
   const handleCardSelected = (e) => {
     try {
       // error prevention
@@ -249,10 +260,11 @@ const MobileSort = () => {
     <Container>
       <SortTitleBar background={configObj.headerBarColor}>
         {conditionsOfInstruction}
-        <HelpContainer onClick={() => alert("Help")}>
+        <HelpContainer onClick={triggerHelp}>
           <HelpSymbol />
         </HelpContainer>
       </SortTitleBar>
+      <MobileSortHelpModal />
       <MobileSortSwapModal
         clearSelected={clearSelected}
         targetArray={targetArray.current}

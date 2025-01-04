@@ -501,7 +501,7 @@ const demoSortData = () => {
     });
   }
   // console.log(JSON.stringify(sortValuesArray));
-  localStorage.setItem("sortArray1", JSON.stringify(sortArray));
+  localStorage.setItem("m_SortArray1", JSON.stringify(sortArray));
   localStorage.setItem("sortValuesArray1", JSON.stringify(sortValuesArray));
 
   return;

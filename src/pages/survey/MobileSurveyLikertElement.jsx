@@ -123,7 +123,7 @@ const SurveyLikertElement = (props) => {
 export default SurveyLikertElement;
 
 const Container = styled.div`
-  width: 90vw;
+  width: 90%;
   padding: 12px 20px 0px 20px;
   margin-left: 20px;
   margin-right: 20px;

@@ -22,7 +22,11 @@ const createSortSlice = (set, get) => ({
   mobileSortFontSize: 2,
   mobileSortViewSize: 42,
   triggerMobileSortSwapModal: false,
+  triggerMobileSortHelpModal: true,
 
+  setTriggerMobileSortHelpModal: (inputValue) => {
+    set(() => ({ triggerMobileSortHelpModal: inputValue }));
+  },
   setTriggerMobileSortSwapModal: (inputValue) => {
     set(() => ({ triggerMobileSortSwapModal: inputValue }));
   },

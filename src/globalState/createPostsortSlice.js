@@ -9,7 +9,11 @@ const createPostsortSlice = (set, get) => ({
   postsortDualImageArray: [],
   mobilePostsortFontSize: 2,
   mobilePostsortViewSize: 72,
+  triggerMobilePostsortHelpModal: true,
 
+  setTriggerMobilePostsortHelpModal: (inputValue) => {
+    set(() => ({ triggerMobilePostsortHelpModal: inputValue }));
+  },
   setTriggerMobilePostsortPreventNavModal: (inputValue) => {
     set(() => ({ triggerMobilePostsortPreventNavModal: inputValue }));
   },
