@@ -20,6 +20,7 @@ import HelpSymbol from "../../assets/helpSymbol.svg?react";
 import MobileThinHelpModal from "./MobileThinHelpModal";
 import MobileThinPreventNavModal from "./MobileThinPreventNavModal";
 import MobileThinGuidanceModal from "./MobileThinGuidanceModal";
+import useScreenOrientation from "../../utilities/useScreenOrientation";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
@@ -80,6 +81,8 @@ const MobileThinning = () => {
   const conditionsOfInstruction =
     ReactHtmlParser(decodeHTML(langObj.mobileThinConditionsOfInstruction)) ||
     "";
+  const screenOrientationText =
+    ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
 
   // *** SET TIME ON PAGE *** //
   useEffect(() => {
@@ -102,6 +105,8 @@ const MobileThinning = () => {
   // *************************** //
   // *** HOOKS ************************ //
   // *************************** //
+  let screenOrientation = useScreenOrientation();
+
   const attrs = useLongPress(
     () => {
       // setIsOpen(true);
@@ -382,6 +387,18 @@ const MobileThinning = () => {
     }
     setTriggerMobileThinMoveTopModal(false);
   };
+
+  // **************************
+  // *** EARLY RETURNS ***************
+  // **************************
+
+  if (screenOrientation === "landscape-primary") {
+    return (
+      <OrientationDiv>
+        <h1>{screenOrientationText}</h1>
+      </OrientationDiv>
+    );
+  }
 
   // *******************************************************
   // *** Elements ****************************************
@@ -666,4 +683,12 @@ const FinishedMessage = styled.div`
   width: 80vw;
   color: black;
   font-size: 22px;
+`;
+
+const OrientationDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
 `;

@@ -19,6 +19,7 @@ import SurveyInformationElement from "./MobileSurveyInformationElement";
 import MobileSurveyPreventNavModal from "./MobileSurveyPreventNavModal";
 import HelpSymbol from "../../assets/helpSymbol.svg?react";
 import MobileSurveyHelpModal from "./MobileSurveyHelpModal";
+import useScreenOrientation from "../../utilities/useScreenOrientation";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
@@ -27,12 +28,12 @@ const getConfigObj = (state) => state.configObj;
 const getSurveyQuestionObjArray = (state) => state.surveyQuestionObjArray;
 const getRequiredAnswersObj = (state) => state.requiredAnswersObj;
 const getSetRequiredAnswersObj = (state) => state.setRequiredAnswersObj;
-const getSetDisplayNextButton = (state) => state.setDisplayNextButton;
+// const getSetDisplayNextButton = (state) => state.setDisplayNextButton;
 const getCheckReqQuesComplete = (state) => state.checkRequiredQuestionsComplete;
 const getSetTriggerMobileSurveyHelpModal = (state) =>
   state.setTriggerMobileSurveyHelpModal;
 
-const MobileSort = () => {
+const MobileSurvey = () => {
   const setCurrentPage = useStore(getSetCurrentPage);
   const setProgressScore = useStore(getSetProgressScore);
   const configObj = useSettingsStore(getConfigObj);
@@ -40,7 +41,6 @@ const MobileSort = () => {
   const requiredAnswersObj = useSettingsStore(getRequiredAnswersObj);
   const surveyQuestionObjArray = useSettingsStore(getSurveyQuestionObjArray);
   const setRequiredAnswersObj = useSettingsStore(getSetRequiredAnswersObj);
-  const setDisplayNextButton = useStore(getSetDisplayNextButton);
   const checkRequiredQuestionsComplete = useStore(getCheckReqQuesComplete);
   const setTriggerMobileSurveyHelpModal = useStore(
     getSetTriggerMobileSurveyHelpModal
@@ -48,14 +48,17 @@ const MobileSort = () => {
 
   const headerBarColor = configObj.headerBarColor;
   const surveyQuestionObjects = surveyQuestionObjArray;
-
-  // setup language
+  // ******************
+  // *** TEXT LOCALIZATION *******
+  // ******************
   const surveyHeader = ReactHtmlParser(decodeHTML(langObj.surveyHeader)) || "";
+  const screenOrientationText =
+    ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
 
-  const displayHelpModal = () => {
-    console.log("clicked help");
-    setTriggerMobileSurveyHelpModal(true);
-  };
+  // ***********************
+  // *** USE HOOKS ***************
+  // ***********************
+  let screenOrientation = useScreenOrientation();
 
   useEffect(() => {
     // reset required questions if page return
@@ -80,6 +83,17 @@ const MobileSort = () => {
     };
   }, [setCurrentPage, setProgressScore]);
 
+  // ***********************
+  // *** EVENT HANDLERS ***************
+  // ***********************
+  const displayHelpModal = () => {
+    console.log("clicked help");
+    setTriggerMobileSurveyHelpModal(true);
+  };
+
+  // ***********************
+  // *** ELEMENTS ***************
+  // ***********************
   const SurveyQuestions = () => {
     if (!surveyQuestionObjects) {
       return <NoQuestionsDiv>No questions added.</NoQuestionsDiv>;
@@ -177,6 +191,17 @@ const MobileSort = () => {
     }
   };
 
+  // **************************
+  // *** EARLY RETURNS ***************
+  // **************************
+  if (screenOrientation === "landscape-primary") {
+    return (
+      <OrientationDiv>
+        <h1>{screenOrientationText}</h1>
+      </OrientationDiv>
+    );
+  }
+
   return (
     <div>
       <SortTitleBar background={headerBarColor}>
@@ -194,7 +219,7 @@ const MobileSort = () => {
   );
 };
 
-export default MobileSort;
+export default MobileSurvey;
 
 const NoQuestionsDiv = styled.div`
   margin-top: 50px;
@@ -243,4 +268,12 @@ const HelpContainer = styled.div`
   font-size: 2.5vh;
   font-weight: bold;
   user-select: none;
+`;
+
+const OrientationDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
 `;

@@ -17,9 +17,6 @@ import MobilePresortHelpModal from "./MobilePresortHelpModal";
 import MobilePresortRedoModal from "./MobilePresortRedoModal";
 import MobilePresortFinishedModal from "./MobilePresortFinishedModal";
 import HelpSymbol from "../../assets/helpSymbol.svg?react";
-// import PresortIsComplete from "./PresortIsComplete";
-// import PresortPreventNavModal from "./PresortPreventNavModal";
-// import PromptUnload from "../../utilities/PromptUnload";
 // import PresortDndImages from "./PresortDndImages";
 // import cloneDeep from "lodash/cloneDeep";
 
@@ -36,12 +33,8 @@ const getSetPresortFinished = (state) => state.setPresortFinished;
 const getMobilePresortFontSize = (state) => state.mobilePresortFontSize;
 const getSetTriggerMobilePresortRedoModal = (state) =>
   state.setTriggerMobilePresortRedoModal;
-const getSetDisplayMobileHelpButton = (state) =>
-  state.setDisplayMobileHelpButton;
 const getSetTriggerMobilePresortHelpModal = (state) =>
   state.setTriggerMobilePresortHelpModal;
-// const getPresortNoReturn = (state) => state.presortNoReturn;
-// const getSetDisplayNextButton = (state) => state.setDisplayNextButton;
 
 const MobilePresortPage = () => {
   // GLOBAL STATE
@@ -52,21 +45,35 @@ const MobilePresortPage = () => {
   const setCurrentPage = useStore(getSetCurrentPage);
   const setProgressScore = useStore(getSetProgressScore);
   const resetColumnStatements = useSettingsStore(getResetColumnStatements);
-  // const presortNoReturn = useStore(getPresortNoReturn);
-  // const setDisplayNextButton = useStore(getSetDisplayNextButton);
-  // const cardFontSizePersist = +localStorage.getItem("fontSizePresort");
   const setPresortFinished = useStore(getSetPresortFinished);
   const mobilePresortFontSize = useStore(getMobilePresortFontSize);
   const setTriggerMobilePresortRedoModal = useStore(
     getSetTriggerMobilePresortRedoModal
   );
-  const setDisplayMobileHelpButton = useStore(getSetDisplayMobileHelpButton);
   const setTriggerMobilePresortHelpModal = useStore(
     getSetTriggerMobilePresortHelpModal
   );
   const setTriggerPresortFinishedModal = useStore(
     getSetTriggerMobilePresortFinishedModal
   );
+
+  // ***********************
+  // *** TEXT LOCALIZATION *****************
+  // ***********************
+  const titleText =
+    ReactHtmlParser(decodeHTML(langObj.mobilePresortConditionsOfInstruction)) ||
+    "";
+  const completedLabel =
+    ReactHtmlParser(decodeHTML(langObj.mobilePresortCompletedLabel)) || "";
+  const assignLeft =
+    ReactHtmlParser(decodeHTML(langObj.mobilePresortAssignLeft)) || "";
+  const assignRight =
+    ReactHtmlParser(decodeHTML(langObj.mobilePresortAssignRight)) || "";
+  const mobilePresortProcessCompleteMessage =
+    ReactHtmlParser(decodeHTML(langObj.mobilePresortProcessCompleteMessage)) ||
+    "";
+  const screenOrientationText =
+    ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
 
   // ******************* //
   // *** LOCAL STATE **************************** //
@@ -111,22 +118,6 @@ const MobilePresortPage = () => {
   // const headerBarColor = configObj.headerBarColor;
   const initialScreen = configObj.initialScreen;
   // const imageSort = configObj.useImages;
-
-  // ***********************
-  // *** TEXT LOCALIZATION *****************
-  // ***********************
-  const titleText =
-    ReactHtmlParser(decodeHTML(langObj.mobilePresortConditionsOfInstruction)) ||
-    "";
-  const completedLabel =
-    ReactHtmlParser(decodeHTML(langObj.mobilePresortCompletedLabel)) || "";
-  const assignLeft =
-    ReactHtmlParser(decodeHTML(langObj.mobilePresortAssignLeft)) || "";
-  const assignRight =
-    ReactHtmlParser(decodeHTML(langObj.mobilePresortAssignRight)) || "";
-  const mobilePresortProcessCompleteMessage =
-    ReactHtmlParser(decodeHTML(langObj.mobilePresortProcessCompleteMessage)) ||
-    "";
 
   // // early return of presort finished message if complete
   // if (presortNoReturn) {
@@ -292,7 +283,7 @@ const MobilePresortPage = () => {
           localStorage.setItem("newCols", JSON.stringify(newCols));
 
           setTriggerPresortFinishedModal(true);
-          setDisplayMobileHelpButton(false);
+          // setDisplayMobileHelpButton(false);
         }
       }
     } catch (error) {
@@ -304,8 +295,10 @@ const MobilePresortPage = () => {
   // *** EARLY RETURNS ***************
   // **************************
   if (presortArray2.length === 0) {
-    setPresortFinished(true);
-    setDisplayMobileHelpButton(false);
+    setTimeout(() => {
+      setPresortFinished(true);
+    }, 100);
+    // setDisplayMobileHelpButton(false);
   }
 
   if (initialScreen !== "anonymous") {
@@ -313,10 +306,11 @@ const MobilePresortPage = () => {
       return <PleaseLogInFirst />;
     }
   }
+
   if (screenOrientation === "landscape-primary") {
     return (
       <OrientationDiv>
-        <h1>Please use Portrait orientation!</h1>
+        <h1>{screenOrientationText}</h1>
       </OrientationDiv>
     );
   }

@@ -17,6 +17,7 @@ import setMaxIterations from "../thinning/setMaxIterations";
 import createRightLeftArrays from "../thinning/createRightLeftArrays";
 import createColumnData from "../thinning/createColumnData";
 import detectMobileBrowser from "../../utilities/detectMobileBrowser";
+import useScreenOrientation from "../../utilities/useScreenOrientation";
 import shuffle from "lodash/shuffle";
 import { v4 as uuid } from "uuid";
 
@@ -50,52 +51,30 @@ const LandingPage = () => {
   const setDisplayNextButton = useStore(getSetDisplayNextButton);
   const setPostsortCommentCheckObj = useStore(getSetPostsortCommentCheckObj);
   const headerBarColor = configObj.headerBarColor;
-  const landingHead = ReactHtmlParser(decodeHTML(langObj.landingHead)) || "";
-  const welcomeTextHtml =
-    ReactHtmlParser(decodeHTML(langObj.welcomeText)) || "";
   const setCardFontSizeSort = useStore(getSetCardFontSizeSort);
   const setCardFontSizePostsort = useStore(getSetCardFontSizePostsort);
   const setMinCardHeightSort = useStore(getSetMinCardHeightSort);
   const setMinCardHeightPostsort = useStore(getSetMinCardHeightPostsort);
-  // mobile
+
+  // ******************************
+  // *** TEXT LOCALIZATION  ****************
+  // ******************************
+  const landingHead = ReactHtmlParser(decodeHTML(langObj.landingHead)) || "";
+  const welcomeTextHtml =
+    ReactHtmlParser(decodeHTML(langObj.welcomeText)) || "";
   const statementsObj = useSettingsStore(getStatementsObj);
   const mobileWelcomeTextHtml =
     ReactHtmlParser(decodeHTML(langObj?.mobileWelcomeText)) || "";
+  const screenOrientationText =
+    ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
 
-  //   calc time on page
-  useEffect(() => {
-    const startTime = Date.now();
-    setProgressScore(10);
-    setCurrentPage("landing");
-    localStorage.setItem("currentPage", "landing");
-    return () => {
-      // will persist in localStorage
-      calculateTimeOnPage(startTime, "landingPage", "landingPage");
-    };
-  }, [setCurrentPage, setProgressScore]);
-
-  let archive;
-  if (localStorage.getItem("resultsSurveyArchive") !== undefined) {
-    archive = JSON.parse(localStorage.getItem("resultsSurveyArchive"));
-  }
-
-  let surveyResults;
-  if (localStorage.getItem("resultsSurvey") !== undefined) {
-    surveyResults = JSON.parse(localStorage.getItem("resultsSurvey"));
-  }
-
-  if (
-    (surveyResults && configObj.showSurvey === "true") ||
-    configObj.showSurvey === true
-  ) {
-    console.log(archive);
-    console.log(configObj.requiredAnswersObj);
-  }
-
+  //****************************************** */
+  // *** LOCAL STATE ***********************************
+  //****************************************** */
   const isLandingReload = localStorage.getItem("currentPage");
+
   if (isLandingReload === "landing") {
     // localStorage.clear();
-
     // clear local storage if previous sorts exist
     localStorage.removeItem("columns");
     localStorage.removeItem("sortColumns");
@@ -231,9 +210,24 @@ const LandingPage = () => {
 
   localStorage.setItem("randomId", uuid().substring(0, 12));
   localStorage.setItem("m_FinalThinCols", JSON.stringify([]));
-  localStorage.setItem("m_SortArray1", JSON.stringify([]));
 
   // *** USE HOOKS *********************
+  let isMobile = detectMobileBrowser();
+
+  let screenOrientation = useScreenOrientation();
+
+  //   calc time on page
+  useEffect(() => {
+    const startTime = Date.now();
+    setProgressScore(10);
+    setCurrentPage("landing");
+    localStorage.setItem("currentPage", "landing");
+    return () => {
+      // will persist in localStorage
+      calculateTimeOnPage(startTime, "landingPage", "landingPage");
+    };
+  }, [setCurrentPage, setProgressScore]);
+
   useEffect(() => {
     // set thinning iteration counts
     localStorage.setItem("currentLeftIteration", 0);
@@ -401,6 +395,19 @@ const LandingPage = () => {
   let displayPartIdScreen = false;
   let displayAccessCodeScreen = false;
 
+  // **********************************************
+  // ************ EARLY RETURNS **************************
+  // **********************************************
+  if (isMobile) {
+    if (screenOrientation === "landscape-primary") {
+      return (
+        <OrientationDiv>
+          <h1>{screenOrientationText}</h1>
+        </OrientationDiv>
+      );
+    }
+  }
+
   if (configObj.setupTarget === "local") {
     return (
       <>
@@ -443,8 +450,6 @@ const LandingPage = () => {
       configObj.useMobileMode === true ||
       configObj.useMobileMode === "true"
     ) {
-      let isMobile = detectMobileBrowser();
-
       // let array2 = shuffle(statementsObj?.columnStatements?.statementList);
 
       localStorage.setItem(
@@ -623,4 +628,12 @@ const MobileSortTitleBar = styled.div`
   font-size: 18px;
   position: fixed;
   top: 0;
+`;
+
+const OrientationDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
 `;

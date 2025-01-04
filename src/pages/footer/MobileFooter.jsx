@@ -7,23 +7,24 @@ import MobileFooterFontSizer from "./MobileFooterFontSizer";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
 // import calcProgressScore from "./calcProgressScore";
-import MobileHelpButton from "./MobileHelpButton";
+// import MobileHelpButton from "./MobileHelpButton";
 import getNextPage from "./getNextPage";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 import PostsortBackButton from "./PostsortBackButton";
 import MobileFooterViewSizer from "./MobileFooterViewSizer";
+import useScreenOrientation from "../../utilities/useScreenOrientation";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
-const getDisplayNextButton = (state) => state.displayNextButton;
+// const getDisplayNextButton = (state) => state.displayNextButton;
 const getCurrentPage = (state) => state.currentPage;
 // const getAdditionalProgress = (state) => state.progressScoreAdditional;
 // const getAdditionalProgressSort = (state) => state.progressScoreAdditionalSort;
 const getLocalUsercode = (state) => state.localUsercode;
-const getDisplayMobileHelpButton = (state) => state.displayMobileHelpButton;
-const getSetDisplayMobileHelpButton = (state) =>
-  state.setDisplayMobileHelpButton;
+// const getDisplayMobileHelpButton = (state) => state.displayMobileHelpButton;
+// const getSetDisplayMobileHelpButton = (state) =>
+//   state.setDisplayMobileHelpButton;
 
 const StyledFooter = () => {
   // STATE
@@ -34,8 +35,8 @@ const StyledFooter = () => {
   // const additionalProgress = useStore(getAdditionalProgress);
   // const additionalProgressSort = useStore(getAdditionalProgressSort);
   const localUsercode = useStore(getLocalUsercode);
-  let displayMobileHelpButton = useStore(getDisplayMobileHelpButton);
-  const setDisplayMobileHelpButton = useStore(getSetDisplayMobileHelpButton);
+  // let displayMobileHelpButton = useStore(getDisplayMobileHelpButton);
+  // const setDisplayMobileHelpButton = useStore(getSetDisplayMobileHelpButton);
 
   // let showProgressBar = false;
   // let showCardHeightSizer = true;
@@ -44,31 +45,41 @@ const StyledFooter = () => {
   let showLogo = false;
   let showFooterViewSizer = true;
   let displayNextButton = false;
-
   let showBackButton;
   let backButtonText = langObj.postsortBackButtonText;
+  let nextButtonWidth = 60;
+  let nextButtonText = "";
 
-  if (currentPage === "postsort" && configObj.showBackButton) {
-    showBackButton = false;
-  } else {
-    showBackButton = false;
-  }
+  const showPostsort = configObj.showPostsort;
+  const showSurvey = configObj.showSurvey;
+  const useImages = configObj.useImages;
+  const showConsent = configObj.showConsentPage;
+  const showThinning = configObj.useThinProcess;
 
+  // *** HOOKS ***
+  let screenOrientation = useScreenOrientation();
+
+  // *** LOGO ***
   let logoHtml = ReactHtmlParser(
     decodeHTML(
       `{{{center}}}{{{img src="./logo/logo.png" height="20" width="125" /}}}{{{/center}}}`
     )
   );
 
-  let nextButtonWidth = 60;
-  let nextButtonText = "";
+  // *** TEXT LOCALIZATION ***
   if (currentPage === "landing") {
     nextButtonWidth = 60;
     nextButtonText = ReactHtmlParser(decodeHTML(langObj.btnNextLanding)) || "";
   } else {
     nextButtonText = ReactHtmlParser(decodeHTML(langObj.btnNext)) || "";
   }
+  if (currentPage === "postsort" && configObj.showBackButton) {
+    showBackButton = false;
+  } else {
+    showBackButton = false;
+  }
 
+  // *** LOCAL DATA COLLECTION SETUP ***
   if (currentPage === "sort" && configObj.setupTarget === "local") {
     const usercode = localUsercode;
     const projectName = configObj.studyTitle;
@@ -82,29 +93,8 @@ const StyledFooter = () => {
     const time =
       today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     const dateTime = date + " " + time;
-
     logoHtml = `${usercode} - ${projectName} - ${dateTime}`;
   }
-
-  const showPostsort = configObj.showPostsort;
-  const showSurvey = configObj.showSurvey;
-  const useImages = configObj.useImages;
-  const showConsent = configObj.showConsentPage;
-  const showThinning = configObj.useThinProcess;
-
-  // const totalProgressScore = calcProgressScore(
-  //   currentPage,
-  //   additionalProgress,
-  //   additionalProgressSort,
-  //   showPostsort,
-  //   showSurvey,
-  //   additionalProgress,
-  //   additionalProgressSort
-  // );
-
-  // if (currentPage === "submit") {
-  //   displayNextButton = false;
-  // }
 
   // Display LOGO
   if (currentPage === "submit" || currentPage === "landing") {
@@ -176,18 +166,6 @@ const StyledFooter = () => {
           {showFooterViewSizer && <MobileFooterViewSizer />}
         </AdjustmentsContainer>
       )}
-      {/* {displayMobileHelpButton && <MobileHelpButton />} */}
-      {/* {showProgressBar && (
-        <ProgressBarDiv>
-          <ProgressBar
-            completed={totalProgressScore}
-            width={"100px"}
-            bgColor="#337ab7"
-            labelColor="#f0f0f0"
-            baseBgColor="lightgray"
-          />
-        </ProgressBarDiv>
-      )} */}
     </React.Fragment>
   );
 
@@ -199,15 +177,12 @@ const StyledFooter = () => {
     showThinning
   );
 
-  let showFooter = true;
-  if (currentPage === "presort") {
-    showFooter = true;
-  }
-
-  if (showFooter === false) {
+  // ************************
+  // *** EARLY RETURN ***********
+  // ************************
+  if (screenOrientation === "landscape-primary") {
     return null;
   }
-  // console.log(currentPage, showPostsort, showSurvey, nextPage, showFooter);
 
   return (
     <StyledFooterDiv>

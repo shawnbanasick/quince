@@ -11,6 +11,7 @@ import { v4 as uuid } from "uuid";
 import DebouncedTextarea from "./DebouncedTextArea";
 import MobilePostsortPreventNavModal from "./MobilePostsortPreventNavModal";
 import MobilePostsortHelpModal from "./MobilePostsortHelpModal";
+import useScreenOrientation from "../../utilities/useScreenOrientation";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
@@ -51,6 +52,8 @@ const MobilePostsort = () => {
   const disagree =
     ReactHtmlParser(decodeHTML(langObj.postsortDisagreement)) || "";
   const placeholder = langObj.placeholder;
+  const screenOrientationText =
+    ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
 
   // ***************************
   // *** INITIALIZATION *******************
@@ -143,6 +146,8 @@ const MobilePostsort = () => {
   // ***************************
   // *** HOOKS *******************
   // ***************************
+  let screenOrientation = useScreenOrientation();
+
   useEffect(() => {
     let startTime = Date.now();
     const setStateAsync = async () => {
@@ -181,6 +186,18 @@ const MobilePostsort = () => {
 
     localStorage.setItem("m_PostSortResultsObj", JSON.stringify(resp));
   };
+
+  // ***************************
+  // *** EARLY RETURN *******************
+  // ***************************
+
+  if (screenOrientation === "landscape-primary") {
+    return (
+      <OrientationDiv>
+        <h1>{screenOrientationText}</h1>
+      </OrientationDiv>
+    );
+  }
 
   // ***************************
   // *** ELEMENTS *******************
@@ -355,17 +372,17 @@ const InternalDiv = styled.div`
   padding: 5px;
 `;
 
-const InternalTextArea = styled.textarea`
-  box-sizing: border-box;
-  padding: 5px;
-  min-height: 12vh;
-  width: 80vw;
-  outline: 1px solid black;
-  border: none;
-  border-bottom-right-radius: 3px;
-  border-bottom-left-radius: 3px;
-  field-sizing: content;
-`;
+// const InternalTextArea = styled.textarea`
+//   box-sizing: border-box;
+//   padding: 5px;
+//   min-height: 12vh;
+//   width: 80vw;
+//   outline: 1px solid black;
+//   border: none;
+//   border-bottom-right-radius: 3px;
+//   border-bottom-left-radius: 3px;
+//   field-sizing: content;
+// `;
 
 const Container = styled.div`
   display: flex;
@@ -375,4 +392,12 @@ const Container = styled.div`
   height: 100vh;
   user-select: none;
   background-color: #f3f4f6;
+`;
+
+const OrientationDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
 `;

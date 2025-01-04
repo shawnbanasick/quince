@@ -12,6 +12,7 @@ import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
 import HelpSymbol from "../../assets/helpSymbol.svg?react";
 import MobileSortHelpModal from "./MobileSortHelpModal";
+import useScreenOrientation from "../../utilities/useScreenOrientation";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
@@ -46,6 +47,8 @@ const MobileSort = () => {
   const conditionsOfInstruction =
     ReactHtmlParser(decodeHTML(langObj.mobileSortConditionsOfInstruction)) ||
     "";
+  const screenOrientationText =
+    ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
 
   // *********************************
   // *** Local State ****************************************************
@@ -81,8 +84,9 @@ const MobileSort = () => {
   }, [setCurrentPage, setProgressScore]);
 
   // *********************************
-  // *** generate card characteristics based on qSortPattern
+  // *** USE HOOKS ************************************
   // *********************************
+  let screenOrientation = useScreenOrientation();
 
   const colorArray = useMemo(() => {
     const colorArraySource = [...mapObj.columnHeadersColorsArray].reverse();
@@ -211,6 +215,17 @@ const MobileSort = () => {
     setSortArray1([...sortArray1]);
     return;
   };
+
+  // *********************************
+  // *** EARLY RETURN *********************************
+  // *********************************
+  if (screenOrientation === "landscape-primary") {
+    return (
+      <OrientationDiv>
+        <h1>{screenOrientationText}</h1>
+      </OrientationDiv>
+    );
+  }
 
   // *********************************
   // *** Elements ****************************************************
@@ -343,11 +358,11 @@ const InternalDiv = styled.div`
   outline: 1px solid black;
   padding: 5px;
   padding-top: 22px;
-  -webkit-transition: background-color 1000ms linear;
-  -moz-transition: background-color 1000ms linear;
-  -o-transition: background-color 1000ms linear;
-  -ms-transition: background-color 1000ms linear;
-  transition: all 1000ms linear;
+  -webkit-transition: background-color 300ms linear;
+  -moz-transition: background-color 300ms linear;
+  -o-transition: background-color 300ms linear;
+  -ms-transition: background-color 300ms linear;
+  transition: all 300ms linear;
   user-select: none;
 `;
 
@@ -430,4 +445,12 @@ const Container = styled.div`
   height: 100vh;
   user-select: none;
   background-color: #f3f4f6;
+`;
+
+const OrientationDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
 `;

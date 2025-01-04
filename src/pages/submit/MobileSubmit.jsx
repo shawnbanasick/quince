@@ -5,12 +5,13 @@ import useSettingsStore from "../../globalState/useSettingsStore";
 import calculateTimeOnPage from "../../utilities/calculateTimeOnPage";
 import decodeHTML from "../../utilities/decodeHTML";
 import ReactHtmlParser from "html-react-parser";
-import HelpSymbol from "../../assets/helpSymbol.svg?react";
+// import HelpSymbol from "../../assets/helpSymbol.svg?react";
 import SubmitButton from "./SubmitButton";
-import { v4 as uuid } from "uuid";
+// import { v4 as uuid } from "uuid";
 import getCurrentDateTime from "../../utilities/getCurrentDateTime";
 import mobileCalcPresortCountsObject from "./mobileCalcPresortCountsObject";
 import calcPresortTraceAndSortResults from "./calcPresortTraceAndSortResults";
+import useScreenOrientation from "../../utilities/useScreenOrientation";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
@@ -39,10 +40,14 @@ const MobileSort = () => {
     ReactHtmlParser(decodeHTML(langObj.transferTextBelow)) || "";
   const goodbyeMessage =
     ReactHtmlParser(decodeHTML(langObj.goodbyeMessage)) || "";
+  const screenOrientationText =
+    ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
 
-  // ***************
-  // *** HOOKS ***************
-  // ***************
+  // **********************
+  // *** USE HOOKS ***************
+  // **********************
+  let screenOrientation = useScreenOrientation();
+
   useEffect(() => {
     let startTime = Date.now();
     const setStateAsync = async () => {
@@ -142,8 +147,15 @@ const MobileSort = () => {
   }
 
   // ***************
-  // *** ELEMENTS ***************
+  // *** EARLY RETURNS ***************
   // ***************
+  if (screenOrientation === "landscape-primary") {
+    return (
+      <OrientationDiv>
+        <h1>{screenOrientationText}</h1>
+      </OrientationDiv>
+    );
+  }
 
   if (displayGoodbyeMessage === true) {
     // if (configObj.linkToSecondProject === true) {
@@ -233,4 +245,12 @@ const GoodbyeDiv = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
+`;
+
+const OrientationDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
 `;
