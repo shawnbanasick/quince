@@ -171,9 +171,6 @@ const MobileSort = () => {
     <>
       <SortTitleBar background={configObj.headerBarColor}>
         {mobileSortTitleBar}
-        <HelpContainer onClick={() => alert("Help")}>
-          <HelpSymbol />
-        </HelpContainer>
       </SortTitleBar>
       <MainContainer>
         <ContentDiv>{transferTextAbove}</ContentDiv>
@@ -190,8 +187,10 @@ const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100vw;
-  height: 100vh;
+  justify-self: center;
+  width: 96vw;
+  margin-top: 10px;
+  min-height: 80vh;
   user-select: none;
   background-color: #f3f4f6;
 `;
@@ -209,20 +208,6 @@ const SortTitleBar = styled.div`
   color: white;
   font-weight: bold;
   font-size: 4.5vw;
-  user-select: none;
-`;
-
-const HelpContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-right: 5px;
-  align-items: center;
-  padding-bottom: 5px;
-  width: 20px;
-  height: 20px;
-  color: black;
-  font-size: 2.5vh;
-  font-weight: bold;
   user-select: none;
 `;
 

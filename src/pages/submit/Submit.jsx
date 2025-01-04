@@ -82,7 +82,8 @@ const SubmitPage = () => {
     transmissionResults["projectName"] = configObj.studyTitle;
     transmissionResults["partId"] =
       localStorage.getItem("partId") || "no part ID";
-    transmissionResults["randomId"] = localStorage.getItem("randomId");
+    transmissionResults["randomId"] =
+      localStorage.getItem("randomId") || "no random ID";
     transmissionResults["urlUsercode"] =
       localStorage.getItem("urlUsercode") || "no usercode set";
   } catch (error) {
