@@ -90,11 +90,11 @@
         <item id="mobilePresortRedoModalHead">Re-Evaluate Statement</item>
         <item id="mobilePresortRedoModalText">Click on the appropriate icon</item>
         <item id="mobilePresortRedoModalConfirmButton">Confirm</item>
-        <item id="mobilePresortEvaluationsComplete">{{{div}}}{{{b}}}All Statements Evaluated.{{{/b}}} {{{br /}}}{{{br /}}}Please review the statements to confirm your evaluations.  {{{br /}}}{{{br /}}}If you want to make a change, tap the "redo" icon to the left of the statement.{{{div}}}</item>
+        <item id="mobilePresortEvaluationsComplete">{{{div}}}{{{b}}}All Statements Evaluated.{{{/b}}} {{{br /}}}{{{br /}}}Please review the statements to confirm your evaluations.  {{{br /}}}{{{br /}}}{{{div}}}</item>
         <item id="mobilePresortHelpModalHead">Stage 1. {{{br /}}}Statement Evaluation</item>
-        <item id="mobilePresortHelpModalText">Click on the appropriate button to assign a value to each statement</item>
+        <item id="mobilePresortHelpModalText">Tap on the appropriate button to assign a value to each statement. {{{br /}}}{{{br /}}} If you feel that the statement is {{{b}}}similar to your perspective{{{/b}}}, tap the green "+" button.{{{br /}}}{{{br /}}} If you feel that the statement is {{{b}}}different from your perspective{{{/b}}}, tap the red "-" button. {{{br /}}}{{{br /}}}If you are unsure, tap the "?" button. {{{br /}}}{{{br /}}} There are {{{b}}}33 statements{{{/b}}} in this survey. {{{br /}}}{{{br /}}} If you want to {{{b}}}change{{{/b}}} your evaluation, tap the {{{b}}}redo icon{{{/b}}} next to the statement.</item>
         <item id="mobilePresortFinishedModalHead">Stage 1. {{{br /}}}Statement Evaluation</item>
-         <item id="mobilePresortFinishedModalText">The evaluation process is complete. {{{br/}}}{{{br/}}} Please review the statements to confirm your evaluations.  {{{br /}}}{{{br /}}}If you want to make a change, tap the "redo" icon to the left of the statement.{{{br /}}}{{{br /}}}When you are satisfied, tap the navigation button on the bottom right.</item>
+         <item id="mobilePresortFinishedModalText">The evaluation process is complete. {{{br/}}}{{{br/}}} Please {{{b}}}review the statements{{{/b}}} to confirm your evaluations.  {{{br /}}}{{{br /}}}If you want to make a change, tap the "redo" icon to the left of the statement.{{{br /}}}{{{br /}}}When you are satisfied with all of your evaluations, tap the {{{b}}}navigation button{{{/b}}} on the bottom right.</item>
           <item id="mobilePresortProcessCompleteMessage">The evaluation process is complete. {{{br/}}}{{{br/}}} Please click on the navigation button on the bottom right side to go to the next stage.</item>
 
         <!-- THINNING:  -->
@@ -119,18 +119,18 @@
         <item id="mobileThinConditionsOfInstruction">Refine Your Evaluations</item>
         <item id="mobileThinSubmitButtonText">Submit</item>
         <item id="mobileThinHelpModalHead">Refine Your Evaluations</item>
-        <item id="mobileThinHelpModalText">Click text. Click View, Click help, Arrow up. Arrow down. Long press. Select required number.</item>     
+        <item id="mobileThinHelpModalText">During this stage you will be asked to {{{b}}}review the statements{{{/b}}} you evaluated and choose those that are most similar or most different from your perspective.{{{br/}}}{{{br/}}}You may need to {{{b}}}scroll down{{{/b}}} to see all of the statements.{{{br/}}}{{{br/}}}To {{{b}}}select a statement{{{/b}}}, tap on the statement container. The color of the statement will change to yellow.{{{br/}}}{{{br/}}}When you have selected the {{{b}}}correct number{{{/b}}} of statements, the "Submit" button will change to {{{b}}}blue{{{/b}}}. {{{br/}}}{{{br/}}}To make it easier to compare the statements, you can {{{b}}}reorder{{{/b}}} them by tapping on the up and down arrows located on the right or left sides of the statement.{{{br/}}}{{{br/}}}You can also {{{b}}}move a group{{{/b}}} of selected statements to the top of the list by {{{b}}}long pressing{{{/b}}} (about 1 second) on a statement.</item>     
         <item id="mobileThinPreventNavModalHead">Navigation Disabled</item>
         <item id="mobileThinPreventNavModalText">Please complete the refining process before navigating to the next page.</item>
         <item id="mobileThinProcessCompleteMessage">The refinement process is complete. {{{br/}}}{{{br/}}} Please click on the navigation button on the bottom right side to go to the next stage.</item>
-        <item id="mobileGuidanceModalRight1Header">Refinement Process - Step 1</item>
-        <item id="mobileGuidanceModalRight1Text">Refinement Process - Step 1</item>
-        <item id="mobileGuidanceModalRight2Header">Refinement Process - Next Step</item>
-        <item id="mobileGuidanceModalRight2Text">Refinement Process - Next Step</item>
-        <item id="mobileGuidanceModalLeft1Header">Refinement Process - Step 1</item>
-        <item id="mobileGuidanceModalLeft1Text">Refinement Process - Step 1</item>
-        <item id="mobileGuidanceModalLeft2Header">Refinement Process - Next Step</item>
-        <item id="mobileGuidanceModalLeft2Text">Refinement Process - Next Step</item>
+        <item id="mobileGuidanceModalRight1Header">Stage 2 {{{br/}}} Refinement Process</item>
+        <item id="mobileGuidanceModalRight1Text">There are several steps in this Stage. {{{br/}}}{{{br/}}}Step 1. Please look at all of the statements that you evaluated {{{b}}}positively{{{/b}}} and select those that are {{{b}}}closest to your perspective{{{/b}}}.{{{br/}}}{{{br/}}}You may need to {{{b}}}scroll{{{/b}}} down to see all of the statements.</item>
+        <item id="mobileGuidanceModalRight2Header">Stage 2 {{{br/}}} Refinement Process</item>
+        <item id="mobileGuidanceModalRight2Text">Next, once again look at the remaining statements that you evaluated {{{b}}}positively{{{/b}}} and select the {{{b}}}next set{{{/b}}} of statements that are {{{b}}}closest to your perspective{{{/b}}}.</item>
+        <item id="mobileGuidanceModalLeft1Header">Stage 2 {{{br/}}} Refinement Process</item>
+        <item id="mobileGuidanceModalLeft1Text">Step 2. Next, please look at all of the statements that you evaluated negatively and {{{b}}}select{{{/b}}} those that {{{b}}}differ the most{{{/b}}} from your perspective.{{{br/}}}{{{br/}}}You may need to {{{b}}}scroll down{{{/b}}} to see all of the statements.</item>
+        <item id="mobileGuidanceModalLeft2Header">Stage 2 {{{br/}}} Refinement Process</item>
+        <item id="mobileGuidanceModalLeft2Text">Next, once again look at the remaining statements that you evalued {{{b}}}negatively{{{/b}}} and {{{b}}}select{{{/b}}} the {{{b}}}next set{{{/b}}} of statements that are {{{b}}}most different from to your perspective{{{/b}}}.</item>
 
 
         <!-- SORT: sorting -->
@@ -150,7 +150,7 @@
         <item id="mobileSortSwapModalHead">Swap Statement Positions?</item>
         <item id="mobileSortSwapModalText">Click "Confirm" to swap.</item>
         <item id="mobileSortSwapModalConfirmButton">Swap</item>
-        <item id="mobileSortConditionsOfInstruction">Sort the Statements According to Your Experience of using the iPads in the Class</item>
+        <item id="mobileSortConditionsOfInstruction">Rank the Statements According to Your Experience of using the iPads in the Class</item>
 
 
         <!-- POSTSORT: comments - only displayed if showStep3 = true -->

@@ -63,7 +63,7 @@ const ModalHeader = styled.div`
   font-size: 24px;
   line-height: 1.42;
   padding: 10px 0px 10px 0px;
-
+  margin-top: 25px;
   hr {
     color: black;
   }

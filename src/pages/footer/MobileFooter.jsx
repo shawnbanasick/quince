@@ -101,12 +101,19 @@ const StyledFooter = () => {
   //   additionalProgressSort
   // );
 
-  if (currentPage === "submit") {
-    displayNextButton = false;
+  // if (currentPage === "submit") {
+  //   displayNextButton = false;
+  // }
+
+  // Display LOGO
+  if (currentPage === "submit" || currentPage === "landing") {
     showLogo = true;
   }
 
+  // Display NEXT button
   if (
+    currentPage === "landing" ||
+    currentPage === "consent" ||
     currentPage === "thin" ||
     currentPage === "postsort" ||
     currentPage === "survey" ||
@@ -114,17 +121,14 @@ const StyledFooter = () => {
     currentPage === "presort"
   ) {
     displayNextButton = true;
-    displayMobileHelpButton = false;
   }
 
+  // Local data collection setup
   if (configObj.setupTarget === "local" && currentPage === "landing") {
     displayNextButton = false;
-    // displayHelpButton = false;
-  }
-  if (currentPage === "submit") {
-    // displayHelpButton = false;
   }
 
+  // Image sort adjustments
   if (currentPage === "presort") {
     if (configObj.useImages === true) {
       showAdjustmentContainer = false;
@@ -135,6 +139,7 @@ const StyledFooter = () => {
     }
   }
 
+  // Image sort adjustments
   if (currentPage === "sort") {
     // if (useImages === true) {
     //   showAdjustmentContainer = true;
@@ -148,6 +153,7 @@ const StyledFooter = () => {
     showAdjustmentContainer = true;
   }
 
+  // font size and view adjustments display
   if (
     currentPage === "landing" ||
     currentPage === "survey" ||
@@ -155,7 +161,6 @@ const StyledFooter = () => {
   ) {
     showAdjustmentContainer = false;
   }
-  // displayMobileHelpButton = false;
 
   if (currentPage === "postsort") {
     showLogo = false;
