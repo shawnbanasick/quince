@@ -7,7 +7,7 @@ const calcPresortTranceAndSortResults = (
     let presortTraceText = "";
     let objectArray = [];
 
-    console.log("sortResults", sortResults);
+    // console.log("sortResults", sortResults);
 
     sortResults.forEach((item, index) => {
       let tempObject = {};
@@ -29,7 +29,7 @@ const calcPresortTranceAndSortResults = (
       return a.statementNum - b.statementNum;
     });
 
-    console.log("objectArray", JSON.stringify(objectArray));
+    // console.log("objectArray", JSON.stringify(objectArray));
 
     objectArray.forEach((item) => {
       formattedSortResults += `${item.sortValue}|`;

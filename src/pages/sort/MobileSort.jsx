@@ -13,6 +13,7 @@ import decodeHTML from "../../utilities/decodeHTML";
 import HelpSymbol from "../../assets/helpSymbol.svg?react";
 import MobileSortHelpModal from "./MobileSortHelpModal";
 import useScreenOrientation from "../../utilities/useScreenOrientation";
+import MobileSortScrollBottomModal from "./MobileSortScrollBottomModal";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
@@ -25,6 +26,8 @@ const getSetTriggerMobileSortSwapModal = (state) =>
 const getLangObj = (state) => state.langObj;
 const getSetTriggerMobileSortHelpModal = (state) =>
   state.setTriggerMobileSortHelpModal;
+const getSetHasScrolledToBottomSort = (state) =>
+  state.setHasScrolledToBottomSort;
 
 const MobileSort = () => {
   const setCurrentPage = useStore(getSetCurrentPage);
@@ -40,6 +43,7 @@ const MobileSort = () => {
   const setTriggerMobileSortHelpModal = useStore(
     getSetTriggerMobileSortHelpModal
   );
+  const setHasScrolledToBottomSort = useStore(getSetHasScrolledToBottomSort);
 
   // *********************************
   // *** TEXT LOCALIZATION **********************************************
@@ -59,7 +63,12 @@ const MobileSort = () => {
     ...JSON.parse(localStorage.getItem("m_FinalThinCols")),
   ]);
 
-  console.log("sortArray1", sortArray1);
+  // const [viewedBottomSort, setViewedBottomSort] = useLocalStorage(
+  //   "m_ViewedBottomSort",
+  //   "false"
+  // );
+
+  // console.log("sortArray1", sortArray1);
 
   const persistedMobileSortFontSize = JSON.parse(
     localStorage.getItem("m_FontSizeObject")
@@ -181,6 +190,8 @@ const MobileSort = () => {
       e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
     if (bottom) {
       console.log("at bottom");
+      setHasScrolledToBottomSort(true);
+      // setViewedBottomSort("true");
     }
   };
 
@@ -280,6 +291,7 @@ const MobileSort = () => {
         </HelpContainer>
       </SortTitleBar>
       <MobileSortHelpModal />
+      <MobileSortScrollBottomModal />
       <MobileSortSwapModal
         clearSelected={clearSelected}
         targetArray={targetArray.current}

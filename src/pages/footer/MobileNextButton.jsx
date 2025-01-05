@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { withRouter } from "react-router";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
-import convertObjectToResults from "../sort/convertObjectToResults";
+// import convertObjectToResults from "../sort/convertObjectToResults";
 import getObjectValues from "lodash/values";
 
 const getConfigObj = (state) => state.configObj;
@@ -14,37 +14,41 @@ const getSetCheckReqQuesCompl = (state) =>
   state.setCheckRequiredQuestionsComplete;
 const getSetTrigSurvPrevNavModal = (state) =>
   state.setTriggerSurveyPreventNavModal;
-const getIsSortingFinished = (state) => state.isSortingFinished;
-const getHasOverloadedColumn = (state) => state.hasOverloadedColumn;
-const getSetTrigSortPrevNavModal = (state) =>
-  state.setTriggerSortPreventNavModal;
-const getSetTrigSortOverColMod = (state) =>
-  state.setTriggerSortOverloadedColumnModal;
 const getColumnStatements = (state) => state.columnStatements;
-const getSetResults = (state) => state.setResults;
 const getSetShowPostsortCommentHighlighting = (state) =>
   state.setShowPostsortCommentHighlighting;
 const getSetTriggerMobilePostsortPreventNavModal = (state) =>
   state.setTriggerMobilePostsortPreventNavModal;
 const getSetTriggerMobileThinPreventNavModal = (state) =>
   state.setTriggerMobileThinPreventNavModal;
+const getHasScrolledToBottomSort = (state) => state.hasScrolledToBottomSort;
+const getSetTriggerMobileSortScrollBottomModal = (state) =>
+  state.setTriggerMobileSortScrollBottomModal;
+
+// const getIsSortingFinished = (state) => state.isSortingFinished;
+// const getHasOverloadedColumn = (state) => state.hasOverloadedColumn;
+// const getSetTrigSortPrevNavModal = (state) =>
+//   state.setTriggerSortPreventNavModal;
+// const getSetTrigSortOverColMod = (state) =>
+//   state.setTriggerSortOverloadedColumnModal;
+// const getSetResults = (state) => state.setResults;
 
 const LinkButton = (props) => {
   let goToNextPage;
 
   // GLOBAL STATE
+  // const isSortingFinished = useStore(getIsSortingFinished);
+  // const hasOverloadedColumn = useStore(getHasOverloadedColumn);
+  // const setTriggerSortPreventNavModal = useStore(getSetTrigSortPrevNavModal);
+  // const setTriggerSortOverloadedColModal = useStore(getSetTrigSortOverColMod);
+  // const setResults = useStore(getSetResults);
+  // const columnStatements = useSettingsStore(getColumnStatements);
   const configObj = useSettingsStore(getConfigObj);
   const presortFinished = useStore(getPresortFinished);
   const setTriggerPresortPreventNavModal = useStore(getSetTrigPrePrevNavModal);
   const currentPage = useStore(getCurrentPage);
   const setCheckRequiredQuestionsComplete = useStore(getSetCheckReqQuesCompl);
   const setTriggerSurveyPreventNavModal = useStore(getSetTrigSurvPrevNavModal);
-  const isSortingFinished = useStore(getIsSortingFinished);
-  const hasOverloadedColumn = useStore(getHasOverloadedColumn);
-  const setTriggerSortPreventNavModal = useStore(getSetTrigSortPrevNavModal);
-  const setTriggerSortOverloadedColModal = useStore(getSetTrigSortOverColMod);
-  const columnStatements = useSettingsStore(getColumnStatements);
-  const setResults = useStore(getSetResults);
   const setShowPostsortCommentHighlighting = useStore(
     getSetShowPostsortCommentHighlighting
   );
@@ -54,13 +58,16 @@ const LinkButton = (props) => {
   const setTriggerMobileThinPreventNavModal = useStore(
     getSetTriggerMobileThinPreventNavModal
   );
+  const hasScrolledToBottomSort = useStore(getHasScrolledToBottomSort);
+  const setTriggerMobileSortScrollBottomModal = useStore(
+    getSetTriggerMobileSortScrollBottomModal
+  );
 
   const allowUnforcedSorts = configObj.allowUnforcedSorts;
   const postsortCommentsRequired = configObj.postsortCommentsRequired;
 
   // PERSISTENT STATE
-  const sortColumns = JSON.parse(localStorage.getItem("sortColumns")) || [];
-
+  // const sortColumns = JSON.parse(localStorage.getItem("sortColumns")) || [];
   const {
     history,
     location,
@@ -77,7 +84,7 @@ const LinkButton = (props) => {
     isPresortFinished
   ) => {
     // *** ReCalc Results ***
-    let sortResults1 = convertObjectToResults(columnStatements);
+    // let sortResults1 = convertObjectToResults(columnStatements);
 
     if (currentPage === "presort") {
       if (isPresortFinished === false) {
@@ -103,6 +110,12 @@ const LinkButton = (props) => {
     }
 
     if (currentPage === "sort") {
+      if (hasScrolledToBottomSort === false) {
+        setTriggerMobileSortScrollBottomModal(true);
+        return false;
+      } else {
+        return true;
+      }
       /*
       if (isSortingFinished === false) {
         // check to see if finished, but had sorting registration error

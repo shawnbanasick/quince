@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import styled from "styled-components";
 import calculateTimeOnPage from "../../utilities/calculateTimeOnPage";
 import PleaseLogInFirst from "./PleaseLogInFirst";
@@ -201,7 +201,7 @@ const MobilePresortPage = () => {
     );
   };
 
-  const processClick = (value) => {
+  const processClick = useCallback((value) => {
     try {
       if (presortArray2.length > 0) {
         // remove first object from array
@@ -289,7 +289,26 @@ const MobilePresortPage = () => {
     } catch (error) {
       console.error(error);
     }
-  };
+  });
+
+  // *******************************************
+  // *** KEYBOARD SHORTCUTS (FOR DEV TESTING) ***************
+  // ****************************************
+  useEffect(() => {
+    const handleKeyUp = (event) => {
+      if (event.key === "1" || event.key === 1) {
+        processClick(-2);
+      } else if (event.key === "2" || event.key === 2) {
+        processClick(0);
+      } else if (event.key === "3" || event.key === 3) {
+        processClick(2);
+      } else {
+        return;
+      }
+    };
+    window.addEventListener("keyup", handleKeyUp);
+    return () => window.removeEventListener("keyup", handleKeyUp);
+  }, [processClick]);
 
   // **************************
   // *** EARLY RETURNS ***************

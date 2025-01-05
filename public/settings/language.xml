@@ -158,7 +158,9 @@
         <item id="mobileSortHelpModalHead">Stage 3 of 5{{{br/}}} Final Statement Ranking</item>
         <item id="mobileSortHelpModalText">The statements have been ranked based on your previous evaluations.{{{br/}}}{{{br/}}} Those statements that are closest to your perspective should be at the top of the list. Those that are farthest from your perspective should be at the bottom of the list.{{{br/}}}{{{br/}}}You will need to {{{b}}}scroll down{{{/b}}} to see all of the statements.{{{br/}}}{{{br/}}}Please {{{b}}}review the rankings{{{/b}}} and make any necessary changes to the ranking of the statements so that the ordering {{{b}}}accurately reflects your perspective{{{/b}}}. {{{br/}}}{{{br/}}}{{{mark}}}This is the most critical stage of the survey, so please review the statement rankings carefully.{{{/mark}}}{{{br/}}}{{{br/}}}  
         To {{{b}}}swap the positions of neighboring statements{{{/b}}}, tap the up or down arrows on the right or left side of the statement.{{{br/}}}{{{br/}}}To {{{b}}}swap the positions of statements that are separated{{{/b}}}, tap on two statements (the statement color will change to yellow) and a swap confirmation message will appear.{{{br/}}}{{{br/}}}When you are satisfied with all of the rankings, tap the navigation button on the bottom right.</item>
-
+        <item id="mobileSortScrollBottomModalHead">Navigation Disabled</item>
+        <item id="mobileSortScrollBottomModalText">Please scroll to the bottom and review the ranking of all the statements before going to the next stage.</item>
+        
 
         <!-- POSTSORT: comments - only displayed if showStep3 = true -->
         <item id="postsortHeader">Post-Sort Comments</item>

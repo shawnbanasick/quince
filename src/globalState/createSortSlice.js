@@ -23,7 +23,15 @@ const createSortSlice = (set, get) => ({
   mobileSortViewSize: 42,
   triggerMobileSortSwapModal: false,
   triggerMobileSortHelpModal: true,
+  triggerMobileSortScrollBottomModal: false,
+  hasScrolledToBottomSort: false,
 
+  setHasScrolledToBottomSort: (inputValue) => {
+    set(() => ({ hasScrolledToBottomSort: inputValue }));
+  },
+  setTriggerMobileSortScrollBottomModal: (inputValue) => {
+    set(() => ({ triggerMobileSortScrollBottomModal: inputValue }));
+  },
   setTriggerMobileSortHelpModal: (inputValue) => {
     set(() => ({ triggerMobileSortHelpModal: inputValue }));
   },
