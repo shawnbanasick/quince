@@ -371,45 +371,20 @@ const MobileThinning = () => {
     }
   };
 
-  const handleMove = () => {
-    let selectedCard;
-    let index = cards.findIndex((item) => item.id === cardId.current.id);
-    if (index > 0 && cardId.current.direction === "up") {
-      selectedCard = cards.splice(index, 1);
-      cards.unshift(selectedCard[0]);
+  const moveAllTop = () => {
+    // iterate through the cards array and move the selected cards to the top
+    cards.forEach((item, i) => {
+      if (item.selected === true) {
+        let selectedCards = cards.splice(i, 1);
+        cards.unshift(selectedCards[0]);
+      }
       if (displayControllerArray[0]?.side === "right") {
         setSelectedPosItems([...cards]);
       }
       if (displayControllerArray[0]?.side === "left") {
         setSelectedNegItems([...cards]);
       }
-    } else if (
-      index < cards.length - 1 &&
-      cardId.current.direction === "down"
-    ) {
-      selectedCard = cards.splice(index, 1);
-      cards.push(selectedCard[0]);
-      if (displayControllerArray[0]?.side === "right") {
-        setSelectedPosItems([...cards]);
-      }
-      if (displayControllerArray[0]?.side === "left") {
-        setSelectedNegItems([...cards]);
-      }
-    } else if (cardId.current.direction === "allTop") {
-      // iterate through the cards array and move the selected card to the top
-      cards.forEach((item, i) => {
-        if (item.selected === true) {
-          let selectedCards = cards.splice(i, 1);
-          cards.unshift(selectedCards[0]);
-        }
-        if (displayControllerArray[0]?.side === "right") {
-          setSelectedPosItems([...cards]);
-        }
-        if (displayControllerArray[0]?.side === "left") {
-          setSelectedNegItems([...cards]);
-        }
-      });
-    }
+    });
     setTriggerMobileThinMoveTopModal(false);
   };
 
@@ -481,7 +456,7 @@ const MobileThinning = () => {
   );
   return (
     <MainContainer>
-      <MobileThinMoveTopModal cardId={cardId} onClick={handleMove} />
+      <MobileThinMoveTopModal cardId={cardId} onClick={moveAllTop} />
       <MobileThinGuidanceModal
         modalHead={modalRef.current.header}
         modalText={modalRef.current.text}

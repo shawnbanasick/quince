@@ -26,18 +26,9 @@ const MobileThinTopModal = (props) => {
 
   // *** LANGUAGE TRANSLATION *** //
   let moveTopMobileText = "";
-  let showStatement = true;
-  if (props.cardId.current.direction === "up") {
-    moveTopMobileText =
-      ReactHtmlParser(decodeHTML(langObj.moveTopMobileText)) || "";
-  } else if (props.cardId.current.direction === "down") {
-    moveTopMobileText =
-      ReactHtmlParser(decodeHTML(langObj.moveBottomMobileText)) || "";
-  } else if (props.cardId.current.direction === "allTop") {
-    moveTopMobileText =
-      ReactHtmlParser(decodeHTML(langObj.moveAllTopMobileText)) || "";
-    showStatement = false;
-  }
+
+  moveTopMobileText =
+    ReactHtmlParser(decodeHTML(langObj.moveAllTopMobileText)) || "";
 
   const okButtonText =
     ReactHtmlParser(decodeHTML(langObj.moveTopMobileButtonOK)) || "";
@@ -58,11 +49,6 @@ const MobileThinTopModal = (props) => {
       <ModalHeader>{moveTopMobileHead}</ModalHeader>
       <hr />
       <ModalContent>{moveTopMobileText}</ModalContent>
-      {showStatement && (
-        <Statement color={props.cardId.current.color}>
-          {props.cardId.current.statement}
-        </Statement>
-      )}
       <ButtonContainer>
         <ModalButton onClick={onCloseModal}>{cancelButtonText}</ModalButton>
         <ModalButton onClick={props.onClick}>{okButtonText}</ModalButton>
