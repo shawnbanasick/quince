@@ -122,7 +122,7 @@ const MobileSort = () => {
       result.push(tempArray.slice(index, index + length));
       index += length;
     }
-    console.log("result", JSON.stringify(result, null, 2));
+    // console.log("result", JSON.stringify(result, null, 2));
   }, [mapObj, sortArray1]);
 
   const characteristicsArray = useMemo(() => {
