@@ -417,7 +417,7 @@ const MobileThinning = () => {
           data-direction="down"
           onClick={handleOnClickDown}
         >
-          <DownArrows style={{ pointerEvents: "none" }} />
+          <DownArrows style={{ pointerEvents: "none", opacity: "0.75" }} />
         </DownArrowContainer>
         <InternalDiv
           onClick={handleCardSelected}
@@ -445,7 +445,7 @@ const MobileThinning = () => {
           data-direction="up"
           onClick={handleOnClickUp}
         >
-          <UpArrows style={{ pointerEvents: "none" }} />
+          <UpArrows style={{ pointerEvents: "none", opacity: "0.75" }} />
         </UpArrowContainer>
       </ItemContainer>
     );
@@ -601,21 +601,24 @@ const InternalDiv = styled.div`
   align-items: center;
   justify-content: center;
   background-color: ${(props) => props.color};
-  width: 66vw;
+  width: 86%;
   min-height: 8vh;
   font-size: ${(props) => {
     return `${props.fontSize}vh`;
   }};
   text-align: center;
-  outline: 1px solid black;
+  border: 1px solid black;
+  border-radius: 8px;
   padding: 5px;
 `;
 
 const UpArrowContainer = styled.button`
   display: flex;
   width: 10vw;
-  background-color: #d3d3d3;
-  outline: 1px solid black;
+  /* background-color: #d3d3d3; */
+  background-color: #e5e5e5;
+
+  /* outline: 1px solid black; */
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
   display: flex;
@@ -628,8 +631,10 @@ const UpArrowContainer = styled.button`
 
 const DownArrowContainer = styled.button`
   width: 10vw;
-  background-color: #d3d3d3;
-  outline: 1px solid black;
+  /* background-color: #d3d3d3; */
+  background-color: #e5e5e5;
+
+  /* outline: 1px solid black; */
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
   display: flex;
