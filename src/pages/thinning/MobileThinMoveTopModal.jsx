@@ -92,25 +92,6 @@ const ButtonContainer = styled.div`
   }
 `;
 
-const Statement = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 10px;
-  width: 100%;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  min-height: 140px;
-  font-size: 14px;
-  color: black;
-  border-radius: 5px;
-  border: 0.5px solid #d3d3d3;
-  background-color: ${(props) => {
-    return props.color;
-  }};
-`;
-
 const ModalButton = styled.div`
   display: flex;
   justify-content: center;
@@ -125,6 +106,3 @@ const ModalButton = styled.div`
   font-weight: bold;
   font-size: 1.2rem;
 `;
-
-// change css in globalCSS.js in src/styles
-// react-responsive-modal-overlay

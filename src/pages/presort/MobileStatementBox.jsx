@@ -34,7 +34,6 @@ const Container = styled.div`
   display: flex;
   align-self: center;
   justify-self: center;
-  /* background-color: #e5e5e5; */
   background-color: ${(props) => {
     return props.color;
   }};
@@ -44,10 +43,13 @@ const Container = styled.div`
   font-size: ${(props) => {
     return `${props.fontSize}vh`;
   }};
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
   align-items: center;
   justify-content: center;
   border-radius: 3px;
   text-align: center;
   padding: 15px 10px 15px 10px;
-  border: 1px solid black;
+  border: 1px solid #36454f;
 `;

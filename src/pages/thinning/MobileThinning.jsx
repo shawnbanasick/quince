@@ -149,17 +149,18 @@ const MobileThinning = () => {
 
   let threshold = 50;
   const handleScroll = useCallback(
-    debounce((event) => {
-      const target = event.target;
-      const scrollTop = target.scrollTop;
-      const scrollHeight = target.scrollHeight;
-      const clientHeight = target.clientHeight;
-      const distanceFromBottom = scrollHeight - (scrollTop + clientHeight);
-      if (distanceFromBottom <= threshold) {
-        setHasScrolledBottom(true);
-      }
-    }, 100), // Debounce delay in milliseconds
-    []
+    () =>
+      debounce((event) => {
+        const target = event.target;
+        const scrollTop = target.scrollTop;
+        const scrollHeight = target.scrollHeight;
+        const clientHeight = target.clientHeight;
+        const distanceFromBottom = scrollHeight - (scrollTop + clientHeight);
+        if (distanceFromBottom <= threshold) {
+          setHasScrolledBottom(true);
+        }
+      }, 100), // Debounce delay in milliseconds
+    [threshold]
   );
 
   // *******************************************************
@@ -331,7 +332,6 @@ const MobileThinning = () => {
         currentSelectedPosItems,
         newCols
       );
-
       localStorage.setItem("newCols", JSON.stringify(newCols2));
       displayControllerArray.shift();
       setDisplayControllerArray([...displayControllerArray]);
@@ -341,9 +341,9 @@ const MobileThinning = () => {
       ) {
         setTriggerMobileThinGuidanceModal(true);
       }
-      // hasBeenOnScreen.current = false;
       return;
     }
+
     if (displayControllerArray[0]?.side === "left") {
       let currentSelectedNegItems = selectedNegItems.filter(
         (item) => item.selected === true
@@ -356,7 +356,6 @@ const MobileThinning = () => {
         currentSelectedNegItems,
         newCols
       );
-
       localStorage.setItem("newCols", JSON.stringify(newCols2));
       displayControllerArray.shift();
       setDisplayControllerArray([...displayControllerArray]);
@@ -366,7 +365,6 @@ const MobileThinning = () => {
       ) {
         setTriggerMobileThinGuidanceModal(true);
       }
-      // hasBeenOnScreen.current = false;
       return;
     }
   };
@@ -404,7 +402,7 @@ const MobileThinning = () => {
   // *** Elements ****************************************
   // *******************************************************
 
-  let assessedStatements = cards.map((item) => {
+  let assessedStatements = (cards || []).map((item) => {
     if (item.selected === true) {
       selectedStatementsNum++;
     }
@@ -484,7 +482,7 @@ const MobileThinning = () => {
             fontColor={
               selectedStatementsNum === displayControllerArray[0]?.maxNum
                 ? "white"
-                : "black"
+                : "#3645f"
             }
             color={
               selectedStatementsNum === displayControllerArray[0]?.maxNum
@@ -531,7 +529,6 @@ const StatementsContainer = styled.div`
   background-color: #e5e5e5;
   width: 96vw;
   height: ${(props) => `${props.viewSize}vh`};
-  /* font-size: 1.1vh; */
   align-items: center;
   gap: 15px;
   user-select: none;
@@ -586,7 +583,6 @@ const ConfirmButton = styled.button`
   font-size: 1.2em;
   font-weight: normal;
   padding: 0.25em 0.5em;
-  /* padding-bottom: ${(props) => props.padBottom}; */
   height: 34px;
   min-width: 115px;
   text-decoration: none;
@@ -615,10 +611,7 @@ const InternalDiv = styled.div`
 const UpArrowContainer = styled.button`
   display: flex;
   width: 10vw;
-  /* background-color: #d3d3d3; */
   background-color: #e5e5e5;
-
-  /* outline: 1px solid black; */
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
   display: flex;
@@ -631,10 +624,7 @@ const UpArrowContainer = styled.button`
 
 const DownArrowContainer = styled.button`
   width: 10vw;
-  /* background-color: #d3d3d3; */
   background-color: #e5e5e5;
-
-  /* outline: 1px solid black; */
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
   display: flex;
@@ -660,7 +650,6 @@ const HeadersContainer = styled.div`
   min-width: 300px;
   height: 50px;
   gap: 55px;
-  /* outline: 1px solid black; */
 `;
 
 const HelpContainer = styled.div`
@@ -687,7 +676,9 @@ const FinishedMessage = styled.div`
   min-height: 30vh;
   margin-top: 30px;
   width: 80vw;
-  color: black;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
   font-size: 22px;
 `;
 

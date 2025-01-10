@@ -70,14 +70,12 @@ const Container = styled.div`
   margin-top: 10px;
   flex-direction: row;
   flex-wrap: wrap;
-
   background-color: #e5e5e5;
   width: 90vw;
   height: ${(props) => `${props.viewSize}vh`};
   font-size: 1.1vh;
   align-items: center;
   gap: 15px;
-
   justify-content: center;
   border-radius: 3px;
   text-align: center;
@@ -86,7 +84,10 @@ const Container = styled.div`
   padding-bottom: 10px;
   padding-top: 10px;
   border-radius: 5px;
-  border: 1px solid black;
+  border: 1px solid #36454f;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
 `;
 
 const InternalDiv = styled.div`
@@ -101,7 +102,7 @@ const InternalDiv = styled.div`
   }};
   border-radius: 3px;
   text-align: center;
-  outline: 1px solid black;
+  outline: 1px solid #36454f;
   padding: 5px;
 `;
 

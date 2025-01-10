@@ -25,14 +25,18 @@ const Container = styled.div`
   padding-top: 2px;
   padding-bottom: 1px;
   padding-right: 0px;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  outline: 1px solid darkgray;
+  outline: 1px solid #36454f;
   border-radius: 1.5px;
   user-select: none;
   &:active {
-    background-color: orange;
-    outline: 1px solid darkgray;
+    /* background-color: #36454f; */
+    opacity: 0.5;
+    outline: 1px solid #36454f;
   }
 `;

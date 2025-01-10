@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 import ReactHtmlParser from "html-react-parser";
@@ -15,7 +15,7 @@ const SurveyCheckboxElement = (props) => {
     array = array.filter(function (e) {
       return e;
     });
-    array.map((x) => (localStore[x] = false));
+    (array || []).map((x) => (localStore[x] = false));
     return array;
   };
 

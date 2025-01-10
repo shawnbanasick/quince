@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useCallback } from "react";
 import styled from "styled-components";
 import useStore from "../../globalState/useStore";
 import calculateTimeOnPage from "../../utilities/calculateTimeOnPage";
@@ -14,6 +14,7 @@ import HelpSymbol from "../../assets/helpSymbol.svg?react";
 import MobileSortHelpModal from "./MobileSortHelpModal";
 import useScreenOrientation from "../../utilities/useScreenOrientation";
 import MobileSortScrollBottomModal from "./MobileSortScrollBottomModal";
+import debounce from "lodash/debounce";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
@@ -55,21 +56,6 @@ const MobileSort = () => {
     ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
 
   // *********************************
-  // *** HELPER FUNCTIONS **********************************************
-  // *********************************
-  // function doPartitionArray(array, lengths) {
-  //   const result = [];
-  //   let index = 0;
-
-  //   for (const length of lengths) {
-  //     result.push(array.slice(index, index + length));
-  //     index += length;
-  //   }
-
-  //   return result;
-  // }
-
-  // *********************************
   // *** Local State ****************************************************
   // *********************************
   const targetArray = useRef([]);
@@ -77,13 +63,6 @@ const MobileSort = () => {
   const [sortArray1, setSortArray1] = useLocalStorage("m_SortArray1", [
     ...JSON.parse(localStorage.getItem("m_FinalThinCols")),
   ]);
-
-  // const [viewedBottomSort, setViewedBottomSort] = useLocalStorage(
-  //   "m_ViewedBottomSort",
-  //   "false"
-  // );
-
-  // console.log("sortArray1", sortArray1);
 
   const persistedMobileSortFontSize = JSON.parse(
     localStorage.getItem("m_FontSizeObject")
@@ -93,7 +72,9 @@ const MobileSort = () => {
     localStorage.getItem("m_ViewSizeObject")
   ).sort;
 
-  // *** record time on page
+  // *********************************
+  // *** USE HOOKS ************************************
+  // *********************************
   useEffect(() => {
     let startTime = Date.now();
     const setStateAsync = async () => {
@@ -107,9 +88,6 @@ const MobileSort = () => {
     };
   }, [setCurrentPage, setProgressScore]);
 
-  // *********************************
-  // *** USE HOOKS ************************************
-  // *********************************
   let screenOrientation = useScreenOrientation();
 
   const partitionArray = useMemo(() => {
@@ -122,12 +100,22 @@ const MobileSort = () => {
       result.push(tempArray.slice(index, index + length));
       index += length;
     }
-    // console.log("result", JSON.stringify(result, null, 2));
+    return result;
   }, [mapObj, sortArray1]);
+
+  const valuesArraySource = useMemo(() => {
+    let array3 = [...mapObj.qSortHeaderNumbers].reverse();
+    array3 = array3.map((item) => {
+      if (item > 0) {
+        return `+${item}`;
+      }
+      return item;
+    });
+    return array3;
+  }, [mapObj]);
 
   const characteristicsArray = useMemo(() => {
     const colorArraySource = [...mapObj.columnHeadersColorsArray].reverse();
-    const valuesArraySource = [...mapObj.qSortHeaderNumbers].reverse();
     const headersText = mapObj.mobileHeadersText;
     const qSortPattern = [...mapObj.qSortPattern].reverse();
     const tempArray = [];
@@ -146,7 +134,7 @@ const MobileSort = () => {
       JSON.stringify(tempArray)
     );
     return tempArray;
-  }, [mapObj, sortArray1]);
+  }, [mapObj, valuesArraySource]);
 
   // *********************************
   // *** Event Handlers *************************
@@ -157,11 +145,9 @@ const MobileSort = () => {
 
   const handleCardSelected = (e) => {
     try {
-      // error prevention
       if (targetArray.length === 2 || e.target.dataset.id === undefined) {
         return;
       }
-
       // Toggle selected state
       sortArray1.forEach((item) => {
         if (item.id === e.target.dataset.id) {
@@ -169,13 +155,11 @@ const MobileSort = () => {
         }
       });
       setSortArray1([...sortArray1]);
-
       // Check if the card is already selected
       if (targetArray.current[0]?.id === e.target.dataset.id) {
         targetArray.current = [];
         return;
       }
-
       // Push data to targetArray
       let tempObj = {
         id: e.target.dataset.id,
@@ -214,14 +198,22 @@ const MobileSort = () => {
     targetArray.current = [];
   };
 
-  const handleScroll = (e) => {
-    const bottom =
-      e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
-    if (bottom) {
-      console.log("at bottom");
-      setHasScrolledToBottomSort(true);
-    }
-  };
+  let threshold = 100;
+  const handleScroll = useCallback(
+    () =>
+      debounce((event) => {
+        const target = event.target;
+        const scrollTop = target.scrollTop;
+        const scrollHeight = target.scrollHeight;
+        const clientHeight = target.clientHeight;
+        const distanceFromBottom = scrollHeight - (scrollTop + clientHeight);
+        if (distanceFromBottom <= threshold) {
+          console.log("at bottom");
+          setHasScrolledToBottomSort(true);
+        }
+      }, 100), // Debounce delay in milliseconds
+    [setHasScrolledToBottomSort, threshold]
+  );
 
   const handleOnClickUp = (e) => {
     let clickedItemIndex = sortArray1.findIndex(
@@ -270,47 +262,71 @@ const MobileSort = () => {
   // *** Elements ****************************************************
   // *********************************
 
-  let currentRankings = (sortArray1 || []).map((item, index) => {
-    return (
-      <ItemContainer key={uuid()}>
-        <DownArrowContainer id={item.id} onClick={handleOnClickDown}>
-          <DownArrows style={{ pointerEvents: "none", opacity: "0.75" }} />
-        </DownArrowContainer>
-        <InternalDiv
-          onClick={handleCardSelected}
-          id={item.id}
-          key={uuid()}
-          fontSize={
-            mobileSortFontSize === +persistedMobileSortFontSize
-              ? mobileSortFontSize
-              : persistedMobileSortFontSize
-          }
-          color={
-            item.selected ? "lightyellow" : characteristicsArray[index].color
-          }
-        >
-          <div
-            data-index={index}
-            data-id={item.id}
-            data-color={characteristicsArray[index].color}
-            data-group_num={characteristicsArray[index].value}
-            data-statement_text={item.statement}
-            data-font_size={persistedMobileSortFontSize}
-            data-header={characteristicsArray[index].header}
+  let sortArray = [];
+  let externalIndex = -1;
+  (partitionArray || []).map((subArray) => {
+    let currentRankings2 = (subArray || []).map((item) => {
+      externalIndex++;
+
+      return (
+        <ItemContainer key={uuid()}>
+          <DownArrowContainer
+            id={item.id}
+            onClick={handleOnClickDown}
+            color={characteristicsArray[externalIndex].color}
           >
-            <NumberContainer>
-              {characteristicsArray[index].value}&nbsp;&nbsp;
-              {characteristicsArray[index].header}
-            </NumberContainer>
-            {item.statement}
-          </div>
-        </InternalDiv>
-        <UpArrowContainer id={item.id} onClick={handleOnClickUp}>
-          <UpArrows style={{ pointerEvents: "none", opacity: "0.75" }} />
-        </UpArrowContainer>
-      </ItemContainer>
+            <DownArrows style={{ pointerEvents: "none", opacity: "0.95" }} />
+          </DownArrowContainer>
+          <InternalDiv
+            onClick={handleCardSelected}
+            id={item.id}
+            key={uuid()}
+            fontSize={
+              mobileSortFontSize === +persistedMobileSortFontSize
+                ? mobileSortFontSize
+                : persistedMobileSortFontSize
+            }
+            color={
+              item.selected
+                ? "lightyellow"
+                : characteristicsArray[externalIndex].color
+            }
+          >
+            <div
+              data-index={externalIndex}
+              data-id={item.id}
+              data-color={characteristicsArray[externalIndex].color}
+              data-group_num={characteristicsArray[externalIndex].value}
+              data-statement_text={item.statement}
+              data-font_size={persistedMobileSortFontSize}
+              data-header={characteristicsArray[externalIndex].header}
+            >
+              {item.statement}
+            </div>
+          </InternalDiv>
+          <UpArrowContainer
+            id={item.id}
+            onClick={handleOnClickUp}
+            color={characteristicsArray[externalIndex].color}
+          >
+            <UpArrows style={{ pointerEvents: "none", opacity: "0.95" }} />
+          </UpArrowContainer>
+        </ItemContainer>
+      );
+    }); // end inner mappings
+
+    sortArray.push(
+      <Column key={uuid()} color={characteristicsArray[externalIndex].color}>
+        <Label margins={{ top: 10, bottom: 0 }}>
+          {characteristicsArray[externalIndex].value}
+        </Label>
+        {currentRankings2}
+        <Label margins={{ top: 0, bottom: 10 }}>
+          {characteristicsArray[externalIndex].value}
+        </Label>
+      </Column>
     );
-  });
+  }); // end outer mappings
 
   return (
     <Container>
@@ -335,7 +351,7 @@ const MobileSort = () => {
             : persistedMobileSortViewSize
         }
       >
-        {currentRankings}
+        {sortArray}
       </StatementsContainer>
     </Container>
   );
@@ -367,22 +383,15 @@ const StatementsContainer = styled.div`
   margin-bottom: 20px;
   flex-direction: row;
   flex-wrap: wrap;
-  background-color: #e5e5e5;
   width: 96vw;
   height: ${(props) => `${props.viewSize}vh`};
-  /* font-size: 1.1vh; */
   align-items: center;
   gap: 15px;
-
-  justify-content: center;
+  justify-content: space-between;
   border-radius: 3px;
   text-align: center;
   overflow-x: none;
   overflow-y: auto;
-  padding-bottom: 10px;
-  padding-top: 10px;
-  border-radius: 5px;
-  border: 0.5px solid black;
 `;
 
 const InternalDiv = styled.div`
@@ -391,16 +400,18 @@ const InternalDiv = styled.div`
   justify-content: center;
   background-color: ${(props) => props.color};
   position: relative;
-  width: 66vw;
+  width: 80%;
   min-height: 10vh;
   font-size: ${(props) => {
     return `${props.fontSize}vh`;
   }};
   text-align: center;
-  border: 1px solid black;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
+  border: 1px solid #36454f;
   border-radius: 8px;
   padding: 5px;
-  padding-top: 22px;
   -webkit-transition: background-color 300ms linear;
   -moz-transition: background-color 300ms linear;
   -o-transition: background-color 300ms linear;
@@ -413,7 +424,9 @@ const UpArrowContainer = styled.button`
   display: flex;
   width: 10vw;
   /* background-color: #d3d3d3; */
-  background-color: #e5e5e5;
+  background-color: ${(props) => {
+    return props.color;
+  }};
 
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
@@ -427,9 +440,9 @@ const UpArrowContainer = styled.button`
 
 const DownArrowContainer = styled.button`
   width: 10vw;
-  /* background-color: #d3d3d3; */
-  background-color: #e5e5e5;
-
+  background-color: ${(props) => {
+    return props.color;
+  }};
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
   display: flex;
@@ -446,27 +459,6 @@ const ItemContainer = styled.div`
   min-height: 10vh;
   flex-direction: row;
   user-select: none;
-`;
-
-const NumberContainer = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: fit-content;
-  text-align: left;
-  padding-left: 5px;
-  padding-right: 5px;
-  padding-top: 2px;
-  padding-bottom: 2px;
-  color: gray;
-  height: 16px;
-  font-size: 12px;
-  padding-bottom: 3px;
-  background-color: #e3e3e3;
-  outline: 1px solid black;
-  border-top-left-radius: 3px;
-  border-bottom-right-radius: 3px;
-  /* margin-right: 5px; */
 `;
 
 const HelpContainer = styled.div`
@@ -499,4 +491,38 @@ const OrientationDiv = styled.div`
   align-items: center;
   width: 100vw;
   height: 100vh;
+`;
+
+const Column = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  align-items: center;
+  width: 100%;
+  min-height: 80px;
+  background-color: ${(props) => {
+    return props.color;
+  }};
+  border-radius: 3px;
+  text-align: center;
+  border: 0.5px solid black;
+`;
+
+const Label = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-weight: bold;
+  margin-top: ${(props) => `${props.margins.top}px`};
+  margin-bottom: ${(props) => `${props.margins.bottom}px`};
+  padding: 5px;
+  width: 100%;
+  min-height: 20px;
+  font-size: 20px;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
+  border-radius: 5px;
 `;

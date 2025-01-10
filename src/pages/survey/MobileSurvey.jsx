@@ -98,7 +98,7 @@ const MobileSurvey = () => {
     if (!surveyQuestionObjects) {
       return <NoQuestionsDiv>No questions added.</NoQuestionsDiv>;
     } else {
-      const QuestionList = surveyQuestionObjects.map((object, index) => {
+      const QuestionList = (surveyQuestionObjects || []).map((object) => {
         if (object.type === "text") {
           return (
             <SurveyTextElement

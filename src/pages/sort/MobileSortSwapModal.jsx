@@ -28,8 +28,8 @@ const MobileSortSwapModal = (props) => {
 
   const loginHelpModalHead =
     ReactHtmlParser(decodeHTML(langObj.mobileSortSwapModalHead)) || "";
-  const loginHelpModalText =
-    ReactHtmlParser(decodeHTML(langObj.mobileSortSwapModalText)) || "";
+  // const loginHelpModalText =
+  //   ReactHtmlParser(decodeHTML(langObj.mobileSortSwapModalText)) || "";
   const okButtonText =
     ReactHtmlParser(decodeHTML(langObj.mobileSortSwapModalConfirmButton)) || "";
   const cancelButtonText =
@@ -62,9 +62,11 @@ const MobileSortSwapModal = (props) => {
       >
         <NumberContainer>
           {targetArray[0]?.groupNumber}&nbsp;&nbsp;
-          {targetArray[0]?.header}
+          {/* {targetArray[0]?.header} */}
         </NumberContainer>
-        <CardDiv>{targetArray[0]?.statement}</CardDiv>
+        <CardDiv color={targetArray[0]?.color}>
+          {targetArray[0]?.statement}
+        </CardDiv>
       </StatementBox>
 
       <SwapArrows
@@ -76,9 +78,11 @@ const MobileSortSwapModal = (props) => {
       >
         <NumberContainer>
           {targetArray[1]?.groupNumber}&nbsp;&nbsp;
-          {targetArray[1]?.header}
+          {/* {targetArray[1]?.header} */}
         </NumberContainer>
-        <CardDiv>{targetArray[1]?.statement}</CardDiv>
+        <CardDiv color={targetArray[1]?.color}>
+          {targetArray[1]?.statement}
+        </CardDiv>
       </StatementBox>
 
       <ButtonContainer>
@@ -108,15 +112,12 @@ const ModalHeader = styled.div`
   font-size: 24px;
   line-height: 1.42;
   padding: 30px 0px 10px 0px;
-
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
   hr {
     color: black;
   }
-`;
-
-const ModalContent = styled.div`
-  margin-top: 15px;
-  margin-bottom: 10px;
 `;
 
 const ButtonContainer = styled.div`
@@ -127,16 +128,6 @@ const ButtonContainer = styled.div`
   justify-content: space-around;
   margin-top: 30px;
   border-radius: 3px;
-  /* button {
-    width: 100px;
-    height: 40px;
-    border-radius: 5px;
-    border: 1px solid #d3d3d3;
-    background-color: white;
-    color: black;
-    font-weight: bold;
-    font-size: 1.2rem;
-  } */
 `;
 
 const ModalButton = styled.div`
@@ -146,9 +137,9 @@ const ModalButton = styled.div`
   width: 100px;
   height: 40px;
   border-radius: 5px;
-  /* border: ${(props) => `5px solid ${props.color}`}; */
-  /* outline: 1px solid lightgray; */
-  /* color: black; */
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
   background: #337ab7;
   border-color: #2e6da4;
   color: white;
@@ -188,15 +179,18 @@ const NumberContainer = styled.div`
   padding-left: 5px;
   padding-right: 5px;
   padding-top: 2px;
-  padding-bottom: 2px;
-  color: gray;
-  height: 16px;
-  font-size: 12px;
+  padding-bottom: 5px;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
+  height: 18px;
+  font-size: 14px;
+  font-weight: bold;
   padding-bottom: 3px;
   background-color: #e3e3e3;
   outline: 1px solid black;
   border-bottom-right-radius: 3px;
-  /* margin-right: 5px; */
+  border-top-left-radius: 3px;
 `;
 
 const CardDiv = styled.div`
@@ -207,9 +201,10 @@ const CardDiv = styled.div`
   width: 100%;
   min-height: 80px;
   margin-top: 10px;
-  background-color: #e5e5e5;
+  background-color: ${(props) => {
+    return props.color;
+  }};
   border-radius: 3px;
   text-align: center;
   padding: 15px 10px 15px 10px;
-  border: 1px solid black;
 `;

@@ -141,7 +141,7 @@ const SizeRightButton = styled.div`
   padding-bottom: ${(props) => props.padBottom};
   height: 26px;
   width: 35px;
-  outline: 1px solid black;
+  outline: 1px solid #36454f;
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
   border: 0px;
@@ -166,7 +166,7 @@ const SizeLeftButton = styled.div`
   padding-bottom: ${(props) => props.padBottom};
   height: 26px;
   width: 35px;
-  outline: 1px solid black;
+  outline: 1px solid #36454f;
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
   border: 0px;
@@ -195,5 +195,5 @@ const SpanDiv = styled.div`
   font-size: 14px;
   text-align: center;
   padding: 5px;
-  outline: 1px solid black;
+  outline: 1px solid #36454f;
 `;

@@ -49,6 +49,9 @@ const ModalHeader = styled.div`
   line-height: 1.42;
   padding: 10px 0px 10px 0px;
   margin-top: 25px;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
   hr {
     color: black;
   }
@@ -56,6 +59,9 @@ const ModalHeader = styled.div`
 
 const ModalContent = styled.div`
   margin-top: 15px;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
 `;
 
 // react-responsive-modal-overlay

@@ -19,7 +19,6 @@ const StyledSelectionNumberDisplay = styled.div`
   width: auto;
   height: 34px;
   padding: 0.25em 0.5em;
-  /* padding-left: 10px; */
   border-radius: 5px;
   border: 0.5px solid #d3d3d3;
   user-select: none;
@@ -27,7 +26,9 @@ const StyledSelectionNumberDisplay = styled.div`
 
   p {
     font-size: 1.2rem;
-    color: black;
+    color: ${(props) => {
+      return props.theme.mobileText;
+    }};
     font-weight: normal;
   }
   background-color: ${(props) => {

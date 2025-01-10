@@ -471,6 +471,9 @@ const RowText = styled.div`
   align-items: flex-end;
   font-size: 2.5vh;
   padding-left: 2.5vw;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
 `;
 
 const OrientationDiv = styled.div`
@@ -510,6 +513,9 @@ const CountDiv = styled.div`
   font-weight: bold;
   width: 28vw;
   height: 7vh;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
 `;
 
 const HelpContainer = styled.div`
@@ -537,6 +543,8 @@ const FinishedMessage = styled.div`
   min-height: 30vh;
   margin-top: 30px;
   width: 80vw;
-  color: black;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
   font-size: 22px;
 `;
