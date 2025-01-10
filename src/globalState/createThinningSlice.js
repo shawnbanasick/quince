@@ -24,7 +24,11 @@ const createThinningSlice = (set, get) => ({
   mobileThinViewSize: 68,
   triggerMobileThinPreventNavModal: false,
   triggerMobileThinGuidanceModal: false,
+  triggerMobileThinScrollBottomModal: false,
 
+  setTriggerMobileThinScrollBottomModal: (bool) => {
+    set(() => ({ triggerMobileThinScrollBottomModal: bool }));
+  },
   setTriggerMobileThinGuidanceModal: (bool) => {
     set(() => ({ triggerMobileThinGuidanceModal: bool }));
   },

@@ -64,7 +64,7 @@ const MobileSortSwapModal = (props) => {
           {targetArray[0]?.groupNumber}&nbsp;&nbsp;
           {targetArray[0]?.header}
         </NumberContainer>
-        {targetArray[0]?.statement}
+        <CardDiv>{targetArray[0]?.statement}</CardDiv>
       </StatementBox>
 
       <SwapArrows
@@ -78,7 +78,7 @@ const MobileSortSwapModal = (props) => {
           {targetArray[1]?.groupNumber}&nbsp;&nbsp;
           {targetArray[1]?.header}
         </NumberContainer>
-        {targetArray[1]?.statement}
+        <CardDiv>{targetArray[1]?.statement}</CardDiv>
       </StatementBox>
 
       <ButtonContainer>
@@ -197,4 +197,19 @@ const NumberContainer = styled.div`
   outline: 1px solid black;
   border-bottom-right-radius: 3px;
   /* margin-right: 5px; */
+`;
+
+const CardDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: 80px;
+  margin-top: 10px;
+  background-color: #e5e5e5;
+  border-radius: 3px;
+  text-align: center;
+  padding: 15px 10px 15px 10px;
+  border: 1px solid black;
 `;

@@ -146,6 +146,9 @@ const LandingPage = () => {
     localStorage.removeItem("m_SortCharacteristicsArray");
     localStorage.removeItem("m_ThinningFinished");
     localStorage.removeItem("randomId");
+    localStorage.removeItem("m_ThinScrollBottom");
+    localStorage.removeItem("m_ViewedBottomSort");
+    localStorage.removeItem("m_NeedsToScroll");
 
     for (let i = 0; i < statementsObj.totalStatements; i++) {
       let key = `m_PostsortComment(s${i + 1})`;

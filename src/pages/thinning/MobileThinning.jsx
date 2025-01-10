@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useRef, useCallback, useState } from "react";
 import styled from "styled-components";
 import calculateTimeOnPage from "../../utilities/calculateTimeOnPage";
 import useSettingsStore from "../../globalState/useSettingsStore";
@@ -12,7 +12,6 @@ import DownArrows from "../../assets/downArrows.svg?react";
 import UpArrows from "../../assets/upArrows.svg?react";
 import SelectionNumberDisplay from "./SelectedNumberDisplay";
 import useLocalStorage from "../../utilities/useLocalStorage";
-import { useLongPress } from "@uidotdev/usehooks";
 import MobileThinMoveTopModal from "./MobileThinMoveTopModal";
 import mobileMoveSelectedPosCards from "./mobileMoveSelectedPosCards";
 import mobileMoveSelectedNegCards from "./mobileMoveSelectedNegCards";
@@ -21,6 +20,9 @@ import MobileThinHelpModal from "./MobileThinHelpModal";
 import MobileThinPreventNavModal from "./MobileThinPreventNavModal";
 import MobileThinGuidanceModal from "./MobileThinGuidanceModal";
 import useScreenOrientation from "../../utilities/useScreenOrientation";
+import MobileThinScrollBottomModal from "./MobileThinScrollBottomModal";
+import debounce from "lodash/debounce";
+import { useLongPress } from "@uidotdev/usehooks";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
@@ -35,12 +37,13 @@ const getSetTriggerMobileThinHelpModal = (state) =>
   state.setTriggerMobileThinHelpModal;
 const getSetTriggerMobileGuidanceModal = (state) =>
   state.setTriggerMobileThinGuidanceModal;
+const getSetTriggerMobileThinScrollBottomModal = (state) =>
+  state.setTriggerMobileThinScrollBottomModal;
 
 const MobileThinning = () => {
   const langObj = useSettingsStore(getLangObj);
   const configObj = useSettingsStore(getConfigObj);
   const showConfirmButton = useStore(getShowConfirmButton);
-  // const setShowConfirmButton = useStore(getSetShowConfirmButton);
   const setCurrentPage = useStore(getSetCurrentPage);
   const setProgressScore = useStore(getSetProgressScore);
   const setTriggerMobileThinMoveTopModal = useStore(
@@ -56,6 +59,9 @@ const MobileThinning = () => {
   );
   const thinGuidanceModalMaxIterations =
     configObj.thinGuidanceModalMaxIterations;
+  const setTriggerMobileThinScrollBottomModal = useStore(
+    getSetTriggerMobileThinScrollBottomModal
+  );
 
   // *************************** //
   // *** TEXT LOCALIZATION ***** //
@@ -84,49 +90,6 @@ const MobileThinning = () => {
   const screenOrientationText =
     ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
 
-  // *** SET TIME ON PAGE *** //
-  useEffect(() => {
-    let startTime = Date.now();
-    const setStateAsync = async () => {
-      await setCurrentPage("thin");
-      localStorage.setItem("currentPage", "thin");
-      await setProgressScore(20);
-    };
-    setStateAsync();
-    return () => {
-      calculateTimeOnPage(startTime, "thinPage", "thinPage");
-    };
-  }, [setCurrentPage, setProgressScore]);
-
-  // *** REFS *** //
-  let cardId = useRef({ id: "", statement: "", color: "", direction: "" });
-  let modalRef = useRef({ header: "", text: "" });
-
-  // *************************** //
-  // *** HOOKS ************************ //
-  // *************************** //
-  let screenOrientation = useScreenOrientation();
-
-  const attrs = useLongPress(
-    () => {
-      // setIsOpen(true);
-      setTriggerMobileThinMoveTopModal(true);
-    },
-    {
-      onStart: (event) => {
-        cardId.current = {
-          id: event.target.dataset.id,
-          statement: event.target.dataset.statement,
-          color: event.target.dataset.color,
-          direction: event.target.dataset.direction,
-        };
-      },
-      // onFinish: (event) => {},
-      // onCancel: (event) => console.log("Press cancelled"),
-      threshold: 800,
-    }
-  );
-
   // *******************************************************
   // *** LOCAL STATE ***********************************
   // *******************************************************
@@ -143,6 +106,61 @@ const MobileThinning = () => {
     "thinDisplayControllerArray",
     JSON.parse(localStorage.getItem("thinDisplayControllerArray"))
   );
+  const [hasScrolledBottom, setHasScrolledBottom] = useState(false);
+
+  // *************************** //
+  // *** HOOKS ************************ //
+  // *************************** //
+  let cardId = useRef({ id: "", statement: "", color: "", direction: "" });
+  let divRef = useRef(null);
+  let modalRef = useRef({ header: "", text: "" });
+  let screenOrientation = useScreenOrientation();
+
+  useEffect(() => {
+    let startTime = Date.now();
+    const setStateAsync = async () => {
+      await setCurrentPage("thin");
+      localStorage.setItem("currentPage", "thin");
+      await setProgressScore(20);
+    };
+    setStateAsync();
+    return () => {
+      calculateTimeOnPage(startTime, "thinPage", "thinPage");
+    };
+  }, [setCurrentPage, setProgressScore]);
+
+  const attrs = useLongPress(
+    (event) => {
+      cardId.current = {
+        id: event.target.dataset.id,
+        statement: event.target.dataset.statement,
+        color: event.target.dataset.color,
+        direction: event.target.dataset.direction,
+      };
+      setTriggerMobileThinMoveTopModal(true);
+    },
+    {
+      // onStart: () => {},
+      // onFinish: () => {},
+      // onCancel: () => {},
+      threshold: 1000,
+    }
+  );
+
+  let threshold = 50;
+  const handleScroll = useCallback(
+    debounce((event) => {
+      const target = event.target;
+      const scrollTop = target.scrollTop;
+      const scrollHeight = target.scrollHeight;
+      const clientHeight = target.clientHeight;
+      const distanceFromBottom = scrollHeight - (scrollTop + clientHeight);
+      if (distanceFromBottom <= threshold) {
+        setHasScrolledBottom(true);
+      }
+    }, 100), // Debounce delay in milliseconds
+    []
+  );
 
   // *******************************************************
   // *** Display ****************************************
@@ -152,7 +170,6 @@ const MobileThinning = () => {
 
   // detect display side
   if (displayControllerArray[0]?.side === "right") {
-    console.log("displayControllerArray text", displayControllerArray);
     if (displayControllerArray[0]?.iteration === 1) {
       modalRef.current = {
         header: mobileGuidanceModalRight1Header,
@@ -184,13 +201,12 @@ const MobileThinning = () => {
     cards = [...selectedNegItems];
   }
 
-  // if display finished
+  // *** if display finished
   if (displayControllerArray.length === 0) {
     cards = [];
     let newCols = JSON.parse(localStorage.getItem("newCols"));
     let finalSortColData = JSON.parse(localStorage.getItem("finalSortColData"));
     let completedCols = finishThinningSorts(newCols, finalSortColData);
-
     let colData = JSON.parse(localStorage.getItem("finalSortColData"));
     let reversedColData = colData.reverse();
     let m_FinalThinCols = [];
@@ -248,8 +264,6 @@ const MobileThinning = () => {
   };
 
   const handleOnClickUp = (e) => {
-    console.log("clicked Up", e.target.id);
-
     let clickedItemIndex = cards.findIndex(
       (item) => item.id === e.target.dataset.id
     );
@@ -271,8 +285,6 @@ const MobileThinning = () => {
   };
 
   const handleOnClickDown = (e) => {
-    console.log("clicked Down", e.target.id);
-
     let clickedItemIndex = cards.findIndex(
       (item) => item.id === e.target.dataset.id
     );
@@ -294,6 +306,19 @@ const MobileThinning = () => {
   };
 
   const handleConfirm = () => {
+    const element = divRef.current;
+    let scrollable;
+    if (element) {
+      scrollable = element.scrollHeight > element.clientHeight;
+    }
+    if (scrollable === true) {
+      if (hasScrolledBottom === false) {
+        setTriggerMobileThinScrollBottomModal(true);
+        return;
+      }
+    }
+    setHasScrolledBottom(false);
+
     if (displayControllerArray[0]?.side === "right") {
       let currentSelectedPosItems = selectedPosItems.filter(
         (item) => item.selected === true
@@ -309,7 +334,6 @@ const MobileThinning = () => {
 
       localStorage.setItem("newCols", JSON.stringify(newCols2));
       displayControllerArray.shift();
-      console.log("displayControllerArray", displayControllerArray);
       setDisplayControllerArray([...displayControllerArray]);
       setSelectedPosItems([...nextSelectedPosItemsSet]);
       if (
@@ -317,6 +341,7 @@ const MobileThinning = () => {
       ) {
         setTriggerMobileThinGuidanceModal(true);
       }
+      // hasBeenOnScreen.current = false;
       return;
     }
     if (displayControllerArray[0]?.side === "left") {
@@ -334,7 +359,6 @@ const MobileThinning = () => {
 
       localStorage.setItem("newCols", JSON.stringify(newCols2));
       displayControllerArray.shift();
-      console.log("displayControllerArray", displayControllerArray);
       setDisplayControllerArray([...displayControllerArray]);
       setSelectedNegItems([...nextSelectedNegItemsSet]);
       if (
@@ -342,6 +366,7 @@ const MobileThinning = () => {
       ) {
         setTriggerMobileThinGuidanceModal(true);
       }
+      // hasBeenOnScreen.current = false;
       return;
     }
   };
@@ -416,7 +441,6 @@ const MobileThinning = () => {
           data-color={item.color}
           data-direction="down"
           onClick={handleOnClickDown}
-          {...attrs}
         >
           <DownArrows style={{ pointerEvents: "none" }} />
         </DownArrowContainer>
@@ -435,17 +459,16 @@ const MobileThinning = () => {
           data-selected={item.selected}
           data-id={item.id}
           data-direction="allTop"
-          {...attrs}
         >
           {item.statement}
         </InternalDiv>
         <UpArrowContainer
           data-id={item.id}
+          {...attrs}
           data-statement={item.statement}
           data-color={item.color}
           data-direction="up"
           onClick={handleOnClickUp}
-          {...attrs}
         >
           <UpArrows style={{ pointerEvents: "none" }} />
         </UpArrowContainer>
@@ -465,6 +488,7 @@ const MobileThinning = () => {
       />
       <MobileThinPreventNavModal />
       <MobileThinHelpModal />
+      <MobileThinScrollBottomModal />
       <SortTitleBar background={configObj.headerBarColor}>
         {conditionsOfInstruction}
         <HelpContainer onClick={showHelpModal}>
@@ -500,6 +524,8 @@ const MobileThinning = () => {
 
       {displayStatements.display ? (
         <StatementsContainer
+          onScroll={handleScroll}
+          ref={divRef}
           viewSize={
             mobileThinViewSize === +persistedMobileThinViewSize
               ? mobileThinViewSize

@@ -191,7 +191,6 @@ const MobileSort = () => {
     if (bottom) {
       console.log("at bottom");
       setHasScrolledToBottomSort(true);
-      // setViewedBottomSort("true");
     }
   };
 

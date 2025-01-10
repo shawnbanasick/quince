@@ -135,7 +135,8 @@
         <item id="mobileGuidanceModalLeft1Text">Step 2. Next, please look at all of the statements that you evaluated negatively and {{{b}}}select{{{/b}}} those that {{{b}}}differ the most{{{/b}}} from your perspective.{{{br/}}}{{{br/}}}You may need to {{{b}}}scroll down{{{/b}}} to see all of the statements.</item>
         <item id="mobileGuidanceModalLeft2Header">Stage 2 of 5{{{br/}}} Refinement Process</item>
         <item id="mobileGuidanceModalLeft2Text">Next, once again look at the remaining statements that you evalued {{{b}}}negatively{{{/b}}} and {{{b}}}select{{{/b}}} the {{{b}}}next set{{{/b}}} of statements that are {{{b}}}most different from to your perspective{{{/b}}}.</item>
-
+        <item id="mobileThinScrollBottomModalHead">Confirmation Disabled</item>
+        <item id="mobileThinScrollBottomModalText">Please scroll to the bottom and review all the statements before confirming your selections.</item>
 
         <!-- SORT: sorting -->
         <item id="sortHelpModalHead">Step 2 of 4</item>
@@ -151,7 +152,7 @@
         <item id="sortOverloadedColumnModalText">One of the columns has too many cards (it will be outlined in orange and have a dashed border). Please adjust the placement of the cards so that all columns have the correct number.</item>
 
         <!-- MOBILE SORT: sorting -->
-        <item id="mobileSortSwapModalHead">Swap Statement Positions?</item>
+        <item id="mobileSortSwapModalHead">Swap Statement Rankings?</item>
         <item id="mobileSortSwapModalText">Click "Confirm" to swap.</item>
         <item id="mobileSortSwapModalConfirmButton">Swap</item>
         <item id="mobileSortConditionsOfInstruction">Rank the Statements According to Your Experience of using the iPads in the Class</item>
