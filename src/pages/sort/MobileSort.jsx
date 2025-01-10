@@ -55,6 +55,21 @@ const MobileSort = () => {
     ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
 
   // *********************************
+  // *** HELPER FUNCTIONS **********************************************
+  // *********************************
+  // function doPartitionArray(array, lengths) {
+  //   const result = [];
+  //   let index = 0;
+
+  //   for (const length of lengths) {
+  //     result.push(array.slice(index, index + length));
+  //     index += length;
+  //   }
+
+  //   return result;
+  // }
+
+  // *********************************
   // *** Local State ****************************************************
   // *********************************
   const targetArray = useRef([]);
@@ -97,11 +112,24 @@ const MobileSort = () => {
   // *********************************
   let screenOrientation = useScreenOrientation();
 
-  const colorArray = useMemo(() => {
+  const partitionArray = useMemo(() => {
+    const lengths = [...mapObj.qSortPattern].reverse();
+    const result = [];
+    let index = 0;
+    let tempArray = [...sortArray1];
+
+    for (const length of lengths) {
+      result.push(tempArray.slice(index, index + length));
+      index += length;
+    }
+    console.log("result", JSON.stringify(result, null, 2));
+  }, [mapObj, sortArray1]);
+
+  const characteristicsArray = useMemo(() => {
     const colorArraySource = [...mapObj.columnHeadersColorsArray].reverse();
     const valuesArraySource = [...mapObj.qSortHeaderNumbers].reverse();
     const headersText = mapObj.mobileHeadersText;
-    const qSortPattern = [...mapObj.qSortPattern];
+    const qSortPattern = [...mapObj.qSortPattern].reverse();
     const tempArray = [];
     qSortPattern.forEach((item, index) => {
       const tempObj = {};
@@ -112,12 +140,13 @@ const MobileSort = () => {
         tempArray.push({ ...tempObj });
       }
     });
+
     localStorage.setItem(
       "m_SortCharacteristicsArray",
       JSON.stringify(tempArray)
     );
     return tempArray;
-  }, [mapObj]);
+  }, [mapObj, sortArray1]);
 
   // *********************************
   // *** Event Handlers *************************
@@ -241,11 +270,11 @@ const MobileSort = () => {
   // *** Elements ****************************************************
   // *********************************
 
-  let currentRankings = sortArray1.map((item, index) => {
+  let currentRankings = (sortArray1 || []).map((item, index) => {
     return (
       <ItemContainer key={uuid()}>
         <DownArrowContainer id={item.id} onClick={handleOnClickDown}>
-          <DownArrows style={{ pointerEvents: "none" }} />
+          <DownArrows style={{ pointerEvents: "none", opacity: "0.75" }} />
         </DownArrowContainer>
         <InternalDiv
           onClick={handleCardSelected}
@@ -256,26 +285,28 @@ const MobileSort = () => {
               ? mobileSortFontSize
               : persistedMobileSortFontSize
           }
-          color={item.selected ? "lightyellow" : colorArray[index].color}
+          color={
+            item.selected ? "lightyellow" : characteristicsArray[index].color
+          }
         >
           <div
             data-index={index}
             data-id={item.id}
-            data-color={colorArray[index].color}
-            data-group_num={colorArray[index].value}
+            data-color={characteristicsArray[index].color}
+            data-group_num={characteristicsArray[index].value}
             data-statement_text={item.statement}
             data-font_size={persistedMobileSortFontSize}
-            data-header={colorArray[index].header}
+            data-header={characteristicsArray[index].header}
           >
             <NumberContainer>
-              {colorArray[index].value}&nbsp;&nbsp;
-              {colorArray[index].header}
+              {characteristicsArray[index].value}&nbsp;&nbsp;
+              {characteristicsArray[index].header}
             </NumberContainer>
             {item.statement}
           </div>
         </InternalDiv>
         <UpArrowContainer id={item.id} onClick={handleOnClickUp}>
-          <UpArrows style={{ pointerEvents: "none" }} />
+          <UpArrows style={{ pointerEvents: "none", opacity: "0.75" }} />
         </UpArrowContainer>
       </ItemContainer>
     );
@@ -366,7 +397,8 @@ const InternalDiv = styled.div`
     return `${props.fontSize}vh`;
   }};
   text-align: center;
-  outline: 1px solid black;
+  border: 1px solid black;
+  border-radius: 8px;
   padding: 5px;
   padding-top: 22px;
   -webkit-transition: background-color 300ms linear;
@@ -380,8 +412,9 @@ const InternalDiv = styled.div`
 const UpArrowContainer = styled.button`
   display: flex;
   width: 10vw;
-  background-color: #d3d3d3;
-  outline: 1px solid black;
+  /* background-color: #d3d3d3; */
+  background-color: #e5e5e5;
+
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
   display: flex;
@@ -394,8 +427,9 @@ const UpArrowContainer = styled.button`
 
 const DownArrowContainer = styled.button`
   width: 10vw;
-  background-color: #d3d3d3;
-  outline: 1px solid black;
+  /* background-color: #d3d3d3; */
+  background-color: #e5e5e5;
+
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
   display: flex;
@@ -430,6 +464,7 @@ const NumberContainer = styled.div`
   padding-bottom: 3px;
   background-color: #e3e3e3;
   outline: 1px solid black;
+  border-top-left-radius: 3px;
   border-bottom-right-radius: 3px;
   /* margin-right: 5px; */
 `;
