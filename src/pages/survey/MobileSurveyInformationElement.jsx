@@ -24,13 +24,17 @@ const SurveyInformationElement = (props) => {
 export default SurveyInformationElement;
 
 const Container = styled.div`
-  width: 90%;
+  width: 100%;
   padding: 10px;
   margin-left: 10px;
   margin-right: 10px;
   max-width: 1300px;
   background-color: whitesmoke;
   min-height: 50px;
+  margin-bottom: 20px;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
 `;
 
 const TitleBar = styled.div`

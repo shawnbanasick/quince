@@ -249,11 +249,14 @@ const Container = styled.div`
   align-items: center;
   justify-self: center;
   padding-bottom: 150px;
-  width: 90%;
+  width: 98%;
   height: 80vh;
-  /* border: 1px solid red; */
+  border: 1px solid red;
   overflow-x: hidden;
   overflow-y: auto;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
 `;
 
 const HelpContainer = styled.div`
@@ -276,4 +279,7 @@ const OrientationDiv = styled.div`
   align-items: center;
   width: 100vw;
   height: 100vh;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
 `;

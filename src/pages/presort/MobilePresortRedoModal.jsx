@@ -153,42 +153,26 @@ const ButtonContainer = styled.div`
     border-radius: 5px;
     border: 1px solid #d3d3d3;
     background-color: white;
-    color: black;
+    color: ${(props) => {
+      return props.theme.mobileText;
+    }};
     font-weight: bold;
     font-size: 1.2rem;
   }
-`;
-
-const Statement = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 10px;
-  width: 100%;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  min-height: 140px;
-  font-size: 14px;
-  color: black;
-  border-radius: 5px;
-  border: 0.5px solid #d3d3d3;
-  background-color: ${(props) => {
-    return props.color;
-  }};
 `;
 
 const ModalButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
   width: 100px;
   height: 40px;
   border-radius: 5px;
   border: 1px solid #d3d3d3;
   background-color: #dedede;
-  color: black;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
   font-weight: bold;
   font-size: 1.2rem;
 `;
@@ -223,6 +207,3 @@ const AssignDiv = styled.div`
   font-size: 1.5vh;
   width: 28vw;
 `;
-
-// change css in globalCSS.js in src/styles
-// react-responsive-modal-overlay

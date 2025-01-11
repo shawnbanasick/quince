@@ -558,6 +558,9 @@ const MobileContainerDiv = styled.div`
   padding-top: 50px;
   transition: 0.3s ease all;
   margin-top: 50px;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
 
   img {
     margin-top: 20px;
@@ -591,7 +594,9 @@ const MobileContentDiv = styled.div`
   transition: visibility 0.5s linear;
   justify-content: center;
   align-items: center;
-  /* outline: 2px solid red; */
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
 
   iframe {
     width: 84vw;
@@ -637,6 +642,9 @@ const OrientationDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
   width: 100vw;
   height: 100vh;
 `;

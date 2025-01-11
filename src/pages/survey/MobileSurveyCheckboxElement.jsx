@@ -11,7 +11,7 @@ const SurveyCheckboxElement = (props) => {
   // HELPER FUNCTIONS
   let localStore = {};
   const getOptionsArray = (options) => {
-    let array = options.split(";;;");
+    let array = (options || "").split(";;;");
     array = array.filter(function (e) {
       return e;
     });

@@ -23,6 +23,9 @@ const StyledSelectionNumberDisplay = styled.div`
   border: 0.5px solid #d3d3d3;
   user-select: none;
   font-size: 1.2em;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
 
   p {
     font-size: 1.2rem;

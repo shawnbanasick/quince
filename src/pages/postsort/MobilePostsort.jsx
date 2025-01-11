@@ -33,9 +33,6 @@ const MobilePostsort = () => {
   const configObj = useSettingsStore(getConfigObj);
   let mobilePostsortFontSize = useStore(getMobilePostsortFontSize);
   let required = configObj.postsortCommentsRequired;
-  // const setShowPostsortCommentHighlighting = useStore(
-  //   getSetShowPostsortCommentHighlighting
-  // );
   const showPostsortCommentHighlighting = useStore(
     getShowPostsortCommentHighlighting
   );
@@ -120,10 +117,6 @@ const MobilePostsort = () => {
   // ***************************
   // *** STATE *******************
   // ***************************
-  // const [showHelpModal, setShowHelpModal] = useLocalStorage(
-  //   "showHelpModal",
-  //   false
-  // );
   const persistedMobilePostsortFontSize = JSON.parse(
     localStorage.getItem("m_FontSizeObject")
   ).postsort;
@@ -140,8 +133,6 @@ const MobilePostsort = () => {
     "m_NegRequiredStatesObj",
     cardsArray[3]
   );
-
-  // console.log("mobilePosResponses", mobilePosResponses);
 
   // ***************************
   // *** HOOKS *******************
@@ -202,9 +193,6 @@ const MobilePostsort = () => {
   // ***************************
   // *** ELEMENTS *******************
   // ***************************
-
-  // console.log("cardsArray", cardsArray[0][0]);
-
   let posStatements = cardsArray[0].map((card, index) => {
     return (
       <div key={uuid()}>
@@ -334,16 +322,18 @@ const InnerContainer = styled.div`
   margin-top: 10px;
   flex-direction: row;
   flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
   font-size: ${(props) => {
     return `${props.fontSize}vh`;
+  }};
+  color: ${(props) => {
+    return props.theme.mobileText;
   }};
   background-color: #e5e5e5;
   width: 90vw;
   height: ${(props) => `${props.viewSize}vh`};
   align-items: center;
-  gap: 15px;
-
-  justify-content: center;
   border-radius: 3px;
   text-align: center;
   overflow-x: none;
@@ -372,18 +362,6 @@ const InternalDiv = styled.div`
   padding: 5px;
 `;
 
-// const InternalTextArea = styled.textarea`
-//   box-sizing: border-box;
-//   padding: 5px;
-//   min-height: 12vh;
-//   width: 80vw;
-//   outline: 1px solid black;
-//   border: none;
-//   border-bottom-right-radius: 3px;
-//   border-bottom-left-radius: 3px;
-//   field-sizing: content;
-// `;
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -398,6 +376,9 @@ const OrientationDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
   width: 100vw;
   height: 100vh;
 `;

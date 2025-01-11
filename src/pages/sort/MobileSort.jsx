@@ -199,19 +199,19 @@ const MobileSort = () => {
   };
 
   let threshold = 100;
+  // ignore the warning about inlining the function
   const handleScroll = useCallback(
-    () =>
-      debounce((event) => {
-        const target = event.target;
-        const scrollTop = target.scrollTop;
-        const scrollHeight = target.scrollHeight;
-        const clientHeight = target.clientHeight;
-        const distanceFromBottom = scrollHeight - (scrollTop + clientHeight);
-        if (distanceFromBottom <= threshold) {
-          console.log("at bottom");
-          setHasScrolledToBottomSort(true);
-        }
-      }, 100), // Debounce delay in milliseconds
+    debounce((event) => {
+      const target = event.target;
+      const scrollTop = target.scrollTop;
+      const scrollHeight = target.scrollHeight;
+      const clientHeight = target.clientHeight;
+      const distanceFromBottom = scrollHeight - (scrollTop + clientHeight);
+      if (distanceFromBottom <= threshold) {
+        console.log("at bottom");
+        setHasScrolledToBottomSort(true);
+      }
+    }, 100), // Debounce delay in milliseconds
     [setHasScrolledToBottomSort, threshold]
   );
 

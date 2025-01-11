@@ -50,8 +50,11 @@ const InternalTextArea = styled.textarea`
   padding: 5px;
   min-height: 12vh;
   width: 80vw;
-  outline: 1px solid black;
+  outline: 1px solid #36454f;
   border: none;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
   field-sizing: content;

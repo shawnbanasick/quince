@@ -147,19 +147,19 @@ const MobileThinning = () => {
     }
   );
 
-  let threshold = 50;
+  let threshold = 150;
+  // ignore the warning about inlining the function
   const handleScroll = useCallback(
-    () =>
-      debounce((event) => {
-        const target = event.target;
-        const scrollTop = target.scrollTop;
-        const scrollHeight = target.scrollHeight;
-        const clientHeight = target.clientHeight;
-        const distanceFromBottom = scrollHeight - (scrollTop + clientHeight);
-        if (distanceFromBottom <= threshold) {
-          setHasScrolledBottom(true);
-        }
-      }, 100), // Debounce delay in milliseconds
+    debounce((event) => {
+      const target = event.target;
+      const scrollTop = target.scrollTop;
+      const scrollHeight = target.scrollHeight;
+      const clientHeight = target.clientHeight;
+      const distanceFromBottom = scrollHeight - (scrollTop + clientHeight);
+      if (distanceFromBottom <= threshold) {
+        setHasScrolledBottom(true);
+      }
+    }, 100), // Debounce delay in milliseconds
     [threshold]
   );
 
@@ -525,23 +525,24 @@ const StatementsContainer = styled.div`
   margin-top: 10px;
   flex-direction: row;
   flex-wrap: wrap;
-
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
   background-color: #e5e5e5;
   width: 96vw;
   height: ${(props) => `${props.viewSize}vh`};
-  align-items: center;
-  gap: 15px;
-  user-select: none;
-
-  justify-content: center;
   border-radius: 3px;
   text-align: center;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
   overflow-x: none;
   overflow-y: auto;
   padding-bottom: 10px;
   padding-top: 10px;
   border-radius: 5px;
   border: 1px solid darkgray;
+  user-select: none;
 `;
 
 const SortTitleBar = styled.div`
@@ -688,4 +689,7 @@ const OrientationDiv = styled.div`
   align-items: center;
   width: 100vw;
   height: 100vh;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
 `;
