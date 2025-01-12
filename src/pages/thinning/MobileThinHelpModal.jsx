@@ -22,10 +22,10 @@ const MobileThinHelpModal = () => {
     getSetTriggerMobileThinGuidanceModal
   );
 
-  const [hasDisplayed, setHasDisplayed] = useLocalStorage(
-    "m_HasDisplayedFirstThinModal",
-    false
-  );
+  // const [hasDisplayed, setHasDisplayed] = useLocalStorage(
+  //   "m_HasDisplayedFirstThinModal",
+  //   false
+  // );
 
   const ModalHead =
     ReactHtmlParser(decodeHTML(langObj.mobileThinHelpModalHead)) || "";
@@ -35,10 +35,10 @@ const MobileThinHelpModal = () => {
   // const onOpenModal = () => setOpen(true);
   const onCloseModal = () => {
     setTriggerModal(false);
-    if (hasDisplayed === false) {
-      setTriggerMobileThinGuidanceModal(true);
-      setHasDisplayed(true);
-    }
+    setTriggerMobileThinGuidanceModal(true);
+    // if (hasDisplayed === false) {
+    // setHasDisplayed(true);
+    // }
   };
 
   return (

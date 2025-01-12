@@ -6,7 +6,6 @@ import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
-const textAdjust = lazy(() => import("../../assets/textAdjust.png"));
 
 const getLangObj = (state) => state.langObj;
 const getTriggerModal = (state) => state.triggerMobilePresortHelpModal;
