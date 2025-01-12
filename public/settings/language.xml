@@ -93,7 +93,7 @@
     <item id="mobilePresortRedoModalConfirmButton">確認</item>
     <item id="mobilePresortEvaluationsComplete">{{{div}}}{{{b}}}すべてのステートメントが評価されました。{{{/b}}} {{{br /}}}{{{br /}}}評価を確認してください。  {{{br /}}}{{{br /}}}{{{div}}}</item>
     <item id="mobilePresortHelpModalHead">ステージ 1/5{{{br /}}}ステートメント評価</item>
-    <item id="mobilePresortHelpModalText">各ステートメントに値を割り当てるには、適切なボタンをタップしてください。 {{{br /}}}{{{br /}}} ステートメントが {{{b}}}自分の視点に似ている{{{/b}}} と感じる場合は、緑の「+」ボタンをタップしてください。{{{br /}}}{{{br /}}} ステートメントが {{{b}}}自分の視点と異なる{{{/b}}} と感じる場合は、赤の「-」ボタンをタップしてください。 {{{br /}}}{{{br /}}}不明な場合は、「?」ボタンをタップしてください。 {{{br /}}}{{{br /}}} この調査には {{{b}}}33のステートメント{{{/b}}} があります。 {{{br /}}}{{{br /}}} 評価を {{{b}}}変更{{{/b}}} したい場合は、ステートメントの横にある {{{b}}}再評価アイコン{{{/b}}} をタップしてください。</item>
+    <item id="mobilePresortHelpModalText">各ステートメントに値を割り当てるには、適切なボタンをタップしてください。 {{{br /}}}{{{br /}}} ステートメントが {{{b}}}自分の視点に似ている{{{/b}}} と感じる場合は、緑の「+」ボタンをタップしてください。{{{br /}}}{{{br /}}} ステートメントが {{{b}}}自分の視点と異なる{{{/b}}} と感じる場合は、赤の「-」ボタンをタップしてください。 {{{br /}}}{{{br /}}}不明な場合は、「?」ボタンをタップしてください。 {{{br /}}}{{{br /}}} この調査には {{{b}}}33のステートメント{{{/b}}} があります。 {{{br /}}}{{{br /}}} 評価を {{{b}}}変更{{{/b}}} したい場合は、ステートメントの横にある {{{b}}}再評価アイコン{{{/b}}} をタップしてください。{{{center}}}{{{br/}}} {{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/textAdjust.png?raw=true"  /}}}{{{/center}}}</item>
 
 
     <item id="mobilePresortFinishedModalHead">ステージ 1/5{{{br /}}}ステートメント評価</item>
