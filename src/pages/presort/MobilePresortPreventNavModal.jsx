@@ -1,4 +1,3 @@
-import React from "react";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 import styled from "styled-components";
@@ -8,33 +7,34 @@ import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 
 const getLangObj = (state) => state.langObj;
-const getTriggerModalOpen = (state) => state.triggerTransmissionOKModal;
-const getSetTriggerTransOKMod = (state) => state.setTriggerTransmissionOKModal;
-const getSetDisplayGoodbyeMessage = (state) => state.setDisplayGoodbyeMessage;
+const getTriggerMobilePresortPreventNavModal = (state) =>
+  state.triggerMobilePresortPreventNavModal;
+const getSetTriggerMobilePresortPreventNavModal = (state) =>
+  state.setTriggerMobilePresortPreventNavModal;
 
-const SubmitSuccessModal = () => {
+const MobilePresortPreventNavModal = () => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
-  const triggerModalOpen = useStore(getTriggerModalOpen);
-  const setTriggerTransmissionOKModal = useStore(getSetTriggerTransOKMod);
-  const setDisplayGoodbyeMessage = useStore(getSetDisplayGoodbyeMessage);
+  const triggerMobilePresortPreventNavModal = useStore(
+    getTriggerMobilePresortPreventNavModal
+  );
+  const setTriggerMobilePresortPreventNavModal = useStore(
+    getSetTriggerMobilePresortPreventNavModal
+  );
 
   const modalHead =
-    ReactHtmlParser(decodeHTML(langObj.transferOkModalHeader)) || "";
+    ReactHtmlParser(decodeHTML(langObj.mobilePresortPreventNavModalHead)) || "";
   const modalText =
-    ReactHtmlParser(decodeHTML(langObj.transferOkModalText)) || "";
+    ReactHtmlParser(decodeHTML(langObj.mobilePresortPreventNavModalText)) || "";
 
-  // const onOpenModal = () => setOpen(true);
   const onCloseModal = () => {
-    setTriggerTransmissionOKModal(false);
-    setDisplayGoodbyeMessage(true);
-    //document.getElementById("secondProjectLink").click();
+    setTriggerMobilePresortPreventNavModal(false);
   };
 
   return (
     <Modal
       className="customModal"
-      open={triggerModalOpen}
+      open={triggerMobilePresortPreventNavModal}
       onClose={onCloseModal}
       center
     >
@@ -45,14 +45,12 @@ const SubmitSuccessModal = () => {
   );
 };
 
-export default SubmitSuccessModal;
+export default MobilePresortPreventNavModal;
 
 const ModalHeader = styled.div`
   font-size: 24px;
   line-height: 1.42;
   padding: 10px 0px 10px 0px;
-  text-align: center;
-  margin-top: 25px;
 
   hr {
     color: black;
@@ -61,7 +59,6 @@ const ModalHeader = styled.div`
 
 const ModalContent = styled.div`
   margin-top: 15px;
-  text-align: center;
 `;
 
 // react-responsive-modal-overlay

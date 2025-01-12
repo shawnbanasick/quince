@@ -1,11 +1,21 @@
 import styled from "styled-components";
+import ReactHtmlParser from "html-react-parser";
+import decodeHTML from "../../utilities/decodeHTML";
+import useSettingsStore from "../../globalState/useSettingsStore";
+
+const getLangObj = (state) => state.langObj;
 
 const SelectionNumberDisplay = (props) => {
+  const langObj = useSettingsStore(getLangObj);
+
+  const selectedText =
+    ReactHtmlParser(decodeHTML(langObj.mobileThinSelectedText)) || "";
+
   let selected = props.selected || 0;
   let required = props.required || 0;
   return (
     <StyledSelectionNumberDisplay selected={selected} required={required}>
-      <p>Selected: {`${selected} / ${required}`}</p>
+      <p>{`${selectedText}: ${selected} / ${required}`}</p>
     </StyledSelectionNumberDisplay>
   );
 };

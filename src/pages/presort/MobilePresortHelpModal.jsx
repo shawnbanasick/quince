@@ -1,3 +1,4 @@
+import { lazy } from "react";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 import styled from "styled-components";
@@ -5,6 +6,7 @@ import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
+const textAdjust = lazy(() => import("../../assets/textAdjust.png"));
 
 const getLangObj = (state) => state.langObj;
 const getTriggerModal = (state) => state.triggerMobilePresortHelpModal;

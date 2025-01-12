@@ -89,6 +89,8 @@ const MobileThinning = () => {
     "";
   const screenOrientationText =
     ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
+  const submitButtonText =
+    ReactHtmlParser(decodeHTML(langObj.mobileThinSubmitButtonText)) || "";
 
   // *******************************************************
   // *** LOCAL STATE ***********************************
@@ -490,7 +492,7 @@ const MobileThinning = () => {
                 : "#d3d3d3"
             }
           >
-            Submit
+            {submitButtonText}
           </ConfirmButton>
         )}
       </HeadersContainer>

@@ -2,19 +2,17 @@ import styled from "styled-components";
 import { withRouter } from "react-router";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
-// import convertObjectToResults from "../sort/convertObjectToResults";
 import getObjectValues from "lodash/values";
 
 const getConfigObj = (state) => state.configObj;
 const getPresortFinished = (state) => state.presortFinished;
-const getSetTrigPrePrevNavModal = (state) =>
-  state.setTriggerPresortPreventNavModal;
+const getSetTrigMobilePrePrevNavModal = (state) =>
+  state.setTriggerMobilePresortPreventNavModal;
 const getCurrentPage = (state) => state.currentPage;
 const getSetCheckReqQuesCompl = (state) =>
   state.setCheckRequiredQuestionsComplete;
 const getSetTrigSurvPrevNavModal = (state) =>
   state.setTriggerSurveyPreventNavModal;
-const getColumnStatements = (state) => state.columnStatements;
 const getSetShowPostsortCommentHighlighting = (state) =>
   state.setShowPostsortCommentHighlighting;
 const getSetTriggerMobilePostsortPreventNavModal = (state) =>
@@ -25,6 +23,7 @@ const getHasScrolledToBottomSort = (state) => state.hasScrolledToBottomSort;
 const getSetTriggerMobileSortScrollBottomModal = (state) =>
   state.setTriggerMobileSortScrollBottomModal;
 
+// const getColumnStatements = (state) => state.columnStatements;
 // const getIsSortingFinished = (state) => state.isSortingFinished;
 // const getHasOverloadedColumn = (state) => state.hasOverloadedColumn;
 // const getSetTrigSortPrevNavModal = (state) =>
@@ -45,7 +44,9 @@ const LinkButton = (props) => {
   // const columnStatements = useSettingsStore(getColumnStatements);
   const configObj = useSettingsStore(getConfigObj);
   const presortFinished = useStore(getPresortFinished);
-  const setTriggerPresortPreventNavModal = useStore(getSetTrigPrePrevNavModal);
+  const setTriggerPresortPreventNavModal = useStore(
+    getSetTrigMobilePrePrevNavModal
+  );
   const currentPage = useStore(getCurrentPage);
   const setCheckRequiredQuestionsComplete = useStore(getSetCheckReqQuesCompl);
   const setTriggerSurveyPreventNavModal = useStore(getSetTrigSurvPrevNavModal);
@@ -79,23 +80,22 @@ const LinkButton = (props) => {
     ...rest
   } = props;
 
-  const checkForNextPageConditions = (
-    allowUnforcedSorts,
-    isPresortFinished
-  ) => {
-    // *** ReCalc Results ***
-    // let sortResults1 = convertObjectToResults(columnStatements);
+  const checkForNextPageConditions = () => {
+    let isPresortFinished = localStorage.getItem("m_PresortFinished");
 
     if (currentPage === "presort") {
-      if (isPresortFinished === false) {
-        setTriggerPresortPreventNavModal(true);
-        return false;
-      } else {
+      console.log(isPresortFinished);
+      if (isPresortFinished === "true" || isPresortFinished === true) {
+        setTriggerPresortPreventNavModal(false);
         localStorage.setItem(
           "m_PresortDisplayStatements",
           JSON.stringify({ display: false })
         );
         return true;
+      } else {
+        setTriggerPresortPreventNavModal(true);
+        console.log("on presort");
+        return false;
       }
     }
 
@@ -239,6 +239,8 @@ const LinkButton = (props) => {
 export default withRouter(LinkButton);
 
 const NextButton = styled.button`
+  display: flex;
+  justify-content: center;
   border-color: #2e6da4;
   color: white;
   font-size: 1.5vh;
@@ -248,20 +250,18 @@ const NextButton = styled.button`
   text-decoration: none;
   width: ${(props) => `${props.width}px;`};
   height: 28px;
-  justify-self: right;
-  margin-right: 2vw;
-  display: flex;
+  /* margin-right: 2vw; */
   align-items: center;
   user-select: none;
-  justify-content: center;
+
   background-color: ${({ theme, active }) =>
     active ? theme.secondary : theme.primary};
 
-  &:hover {
+  /* &:hover {
     background-color: ${({ theme }) => theme.secondary};
   }
 
   &:focus {
     background-color: ${({ theme }) => theme.focus};
-  }
+  } */
 `;

@@ -115,10 +115,11 @@ const SurveyTextAreaElement = (props) => {
 export default SurveyTextAreaElement;
 
 const Container = styled.div`
-  width: 90%;
+  width: 98%;
   padding: 20px;
   margin-left: 20px;
   margin-right: 20px;
+  margin-bottom: 20px;
   max-width: 1300px;
   min-height: 200px;
   background-color: whitesmoke;

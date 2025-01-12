@@ -179,7 +179,7 @@ const SizeLeftButton = styled.div`
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: center;
+  /* align-items: center; */
   user-select: none;
 `;
 

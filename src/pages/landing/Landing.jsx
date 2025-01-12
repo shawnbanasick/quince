@@ -145,6 +145,8 @@ const LandingPage = () => {
     localStorage.removeItem("m_PresortResults");
     localStorage.removeItem("m_SortCharacteristicsArray");
     localStorage.removeItem("m_ThinningFinished");
+    localStorage.removeItem("m_PresortFinished");
+
     localStorage.removeItem("randomId");
     localStorage.removeItem("m_ThinScrollBottom");
     localStorage.removeItem("m_ViewedBottomSort");
@@ -557,7 +559,7 @@ const MobileContainerDiv = styled.div`
   margin-bottom: 70px;
   padding-top: 50px;
   transition: 0.3s ease all;
-  margin-top: 50px;
+  margin-top: 20px;
   color: ${(props) => {
     return props.theme.mobileText;
   }};

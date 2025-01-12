@@ -131,7 +131,9 @@ const StyledFooter = () => {
   }
 
   // Image sort adjustments
-  if (currentPage === "sort") {
+  if (currentPage === "submit" || currentPage === "landing") {
+    showFooterFontSizer = false;
+    showFooterViewSizer = false;
     // if (useImages === true) {
     //   showAdjustmentContainer = true;
     //   // showCardHeightSizer = true;
@@ -187,17 +189,13 @@ const StyledFooter = () => {
   return (
     <StyledFooterDiv>
       {showLogo && <LogoContainer>{logoHtml}</LogoContainer>}
-      <CenterDiv>{CenterContent}</CenterDiv>
-      <ButtonDiv>
-        {showBackButton && (
-          <PostsortBackButton to={"/sort"}>{backButtonText}</PostsortBackButton>
-        )}
-        {displayNextButton && (
-          <MobileNextButton width={nextButtonWidth} to={nextPage}>
-            {nextButtonText}
-          </MobileNextButton>
-        )}
-      </ButtonDiv>
+      {showFooterFontSizer && <MobileFooterFontSizer />}
+      {showFooterViewSizer && <MobileFooterViewSizer />}
+      {displayNextButton && (
+        <MobileNextButton width={nextButtonWidth} to={nextPage}>
+          {nextButtonText}
+        </MobileNextButton>
+      )}
     </StyledFooterDiv>
   );
 };
@@ -205,29 +203,26 @@ const StyledFooter = () => {
 export default StyledFooter;
 
 const StyledFooterDiv = styled.footer`
+  display: flex;
+  flex-direction: row;
   position: fixed;
   bottom: 0px;
   left: 0px;
   border-top: 1px solid lightgray;
-
-  display: flex;
-  flex-direction: row;
   justify-content: space-between;
+  padding: 5px;
   align-items: center;
 `;
 
 const AdjustmentsContainer = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 36px;
+  /* justify-content: space-between; */
+  /* gap: 10px; */
   margin-left: 2vw;
+  width: 100%;
+  outline: 1px solid red;
 `;
-
-// const ProgressBarDiv = styled.div`
-//   align-self: center;
-//   justify-self: center;
-//   margin-left: 25px;
-// `;
 
 const LogoContainer = styled.div`
   padding-top: 5px;
@@ -247,5 +242,5 @@ const CenterDiv = styled.div`
 const ButtonDiv = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
 `;

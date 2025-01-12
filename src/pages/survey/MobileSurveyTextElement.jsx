@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
@@ -124,14 +124,18 @@ const SurveyTextElement = (props) => {
 export default SurveyTextElement;
 
 const Container = styled.div`
-  width: 90%;
+  width: 98%;
   padding: 20px;
   margin-left: 20px;
   margin-right: 20px;
+  margin-bottom: 20px;
   max-width: 1300px;
   background-color: ${(props) => props.bgColor};
   outline: ${(props) => props.border};
   outline-offset: -3px;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
 `;
 
 const TitleBar = styled.div`
@@ -170,6 +174,9 @@ const TextInput = styled.input`
   height: 30px;
   font-size: 12px;
   background-color: white;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
   width: 100%;
   border-radius: 3px;
   border: 2px solid lightgray;

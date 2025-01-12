@@ -30,10 +30,6 @@
    <item id="useThinProcess">true</item> 
    <item id="useMobileMode">true</item> 
 
-
-
-
-
    <!-- ACCESS -->
    <!-- options: anonymous, partId-access, partId, access -->
    <item id="initialScreen">anonymous</item>
@@ -85,7 +81,7 @@
 
 
    <!-- SURVEY - Survey Questions -->
-   <item id="showSurvey">true</item>
+   <item id="showSurvey">false</item>
 
    <item id="survey">
        <input type="information"></input>

@@ -5,9 +5,7 @@ import useSettingsStore from "../../globalState/useSettingsStore";
 import calculateTimeOnPage from "../../utilities/calculateTimeOnPage";
 import decodeHTML from "../../utilities/decodeHTML";
 import ReactHtmlParser from "html-react-parser";
-// import HelpSymbol from "../../assets/helpSymbol.svg?react";
 import SubmitButton from "./SubmitButton";
-// import { v4 as uuid } from "uuid";
 import getCurrentDateTime from "../../utilities/getCurrentDateTime";
 import mobileCalcPresortCountsObject from "./mobileCalcPresortCountsObject";
 import calcPresortTraceAndSortResults from "./calcPresortTraceAndSortResults";
@@ -207,6 +205,9 @@ const MainContainer = styled.div`
   min-height: 80vh;
   user-select: none;
   background-color: #f3f4f6;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
 `;
 
 const SortTitleBar = styled.div`
@@ -239,12 +240,17 @@ const ContentDiv = styled.div`
 
 const GoodbyeDiv = styled.div`
   display: flex;
-  width: calc(100vw -20px);
+  justify-self: center;
+  width: 76vw;
   height: calc(100vh - 50px);
+  text-align: center;
   font-size: 22px;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
 `;
 
 const OrientationDiv = styled.div`

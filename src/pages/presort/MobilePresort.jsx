@@ -17,6 +17,7 @@ import MobilePresortHelpModal from "./MobilePresortHelpModal";
 import MobilePresortRedoModal from "./MobilePresortRedoModal";
 import MobilePresortFinishedModal from "./MobilePresortFinishedModal";
 import HelpSymbol from "../../assets/helpSymbol.svg?react";
+import MobilePresortPreventNavModal from "./MobilePresortPreventNavModal";
 // import PresortDndImages from "./PresortDndImages";
 // import cloneDeep from "lodash/cloneDeep";
 
@@ -283,6 +284,7 @@ const MobilePresortPage = () => {
           localStorage.setItem("newCols", JSON.stringify(newCols));
 
           setTriggerPresortFinishedModal(true);
+          localStorage.setItem("m_PresortFinished", "true");
           // setDisplayMobileHelpButton(false);
         }
       }
@@ -353,6 +355,7 @@ const MobilePresortPage = () => {
       />
       <MobilePresortHelpModal />
       <MobilePresortFinishedModal />
+      <MobilePresortPreventNavModal />
       <SortTitleBar background={configObj.headerBarColor}>
         {titleText}
         <HelpContainer onClick={handleOpenHelpModal}>
