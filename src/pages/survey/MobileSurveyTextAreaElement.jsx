@@ -106,6 +106,7 @@ const SurveyTextAreaElement = (props) => {
           value={userText}
           placeholder={placeholder}
           onChange={handleOnChange}
+          height={"350"}
         />
       </Container>
     );
@@ -120,6 +121,7 @@ const Container = styled.div`
   margin-left: 20px;
   margin-right: 20px;
   margin-bottom: 20px;
+  margin-top: 20px;
   max-width: 1300px;
   min-height: 200px;
   background-color: whitesmoke;
@@ -162,7 +164,7 @@ const TextAreaInput = styled.textarea`
   align-items: center;
   vertical-align: center;
   margin-top: 0px;
-  height: 75px;
+  min-height: 120px;
   font-size: 12px;
   background-color: white;
   width: 100%;

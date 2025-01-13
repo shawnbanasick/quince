@@ -63,6 +63,7 @@ const MobileSurvey = () => {
   useEffect(() => {
     // reset required questions if page return
     let keys = Object.keys(requiredAnswersObj);
+
     for (let i = 0; i < keys.length; i++) {
       requiredAnswersObj[keys[i]] = "no response";
     }
@@ -251,7 +252,6 @@ const Container = styled.div`
   padding-bottom: 150px;
   width: 98%;
   height: 80vh;
-  border: 1px solid red;
   overflow-x: hidden;
   overflow-y: auto;
   color: ${(props) => {

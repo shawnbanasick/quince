@@ -172,24 +172,28 @@
     <item id="mobileSortConditionsOfInstruction">
     今年のグローバル・スタディーズの授業での経験に基づいてステートメントをランクしてください。</item>
     <item id="mobileSortHelpModalHead">ステージ 3/5{{{br/}}} 最終ステートメントランク付け</item>
-    <item id="mobileSortHelpModalText">ステートメントは以前の評価に基づいてランク付けされています。{{{br/}}}{{{br/}}}自分の視点に最も近いステートメントはリストの上部に、最も異なるステートメントはリストの下部にあるべきです。{{{br/}}}{{{br/}}}すべてのステートメントを見るために {{{b}}}スクロール{{{/b}}} する必要があります。{{{br/}}}{{{br/}}}ランク付けを {{{b}}}見直し{{{/b}}}、ステートメントの順序が {{{b}}}自分の視点を正確に反映している{{{/b}}} ように必要な変更を加えてください。{{{br/}}}{{{br/}}}{{{mark}}}これは調査の最も重要なステージですので、ステートメントのランク付けを慎重に見直してください。{{{/mark}}}{{{br/}}}{{{br/}}}隣接するステートメントの位置を {{{b}}}交換する{{{/b}}} には、ステートメントの右または左側にある上下の矢印をタップしてください。{{{br/}}}{{{br/}}}離れた位置にあるステートメントの位置を {{{b}}}交換する{{{/b}}} には、2つのステートメントをタップします（ステートメントの色が黄色に変わります）と、交換確認メッセージが表示されます。{{{br/}}}{{{br/}}}すべてのランク付けに満足したら、右下のナビゲーションボタンをタップしてください。</item>
+    <item id="mobileSortHelpModalText">ステートメントは以前の評価に基づいてランク付けされています。{{{br/}}}{{{br/}}}{{{mark}}}これは調査の最も重要なステージですので、ステートメントのランク付けを慎重に見直してください。{{{/mark}}}{{{br/}}}{{{br/}}}先に評価したステートメントは9つのグループに分けられています。{{{br/}}}{{{br/}}}  自分の視点に最も近いステートメントはリストの上部に、最も異なるステートメントはリストの下部にあるべきです。（下図）{{{br/}}} {{{br/}}}{{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/GroupColors.png?raw=true" width="150"/}}}{{{/center}}}{{{br/}}}{{{br/}}}ランク付けを {{{b}}}見直し{{{/b}}}、ステートメントの順序が {{{b}}}自分の視点を正確に反映している{{{/b}}} ように必要な変更を加えてください。{{{br/}}}{{{br/}}}{{{br/}}}
+
+    {{{b}}}ステートメントのランキングを変更する方法{{{/b}}}{{{hr /}}}{{{br/}}}
+    グループ内のステートメントの順位は重要ではありません。グループ内のステートメントはすべて同じ価値を持ちます。  {{{br/}}} {{{br/}}}{{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/moveInsideGroup.png?raw=true" width="300"/}}}{{{/center}}}{{{br/}}} {{{br/}}} 
+    しかし、{{{mark}}}グループ間のステートメントの順位を変更することは非常に重要であり、{{{/mark}}}そのステートメントに対する意見の違い（より肯定的またはより否定的）を示します。{{{br/}}}{{{br/}}}
+    {{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/moveBetweenGroups.png?raw=true" width="300"/}}}{{{/center}}}{{{br/}}} {{{br/}}}
+
+    隣接するステートメントの位置を {{{b}}}交換する{{{/b}}} には、ステートメントの右または左側にある上下の矢印をタップしてください。（下図）{{{br/}}}{{{br/}}}{{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/switchNeighbor.png?raw=true" width="300"/}}}{{{/center}}}{{{br/}}} {{{br/}}}
+    
+    離れた位置にあるステートメントの位置を {{{b}}}交換する{{{/b}}} には、2つのステートメントをタップします（ステートメントの色が黄色に変わります）と、自動的に交換確認メッセージが表示されます。（下図）{{{br/}}}{{{br/}}}　{{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/swapModal.png?raw=true" width="300"/}}}{{{/center}}}{{{br/}}} {{{br/}}}
+    
+    すべてのステートメントを見るために {{{b}}}スクロール{{{/b}}} する必要があります。{{{br/}}} {{{br/}}}
+
+    すべてのランク付けに満足したら、右下の「続ける」ボタンをタップしてください。</item>
     <item id="mobileSortScrollBottomModalHead">ナビゲーション無効</item>
     <item id="mobileSortScrollBottomModalText">次のステージに進む前に、下までスクロールしてすべてのステートメントのランク付けを確認してください。</item>
 
 
 
-    {{{br/}}} {{{br/}}}{{{center}}}{{{img src=" https://github.com/shawnbanasick/quince/blob/development/src/assets/moveTop2.png?raw=true" width="300"/}}}{{{/center}}}{{{br/}}} {{{br/}}}
-
-    {{{br/}}} {{{br/}}}{{{center}}}{{{img src=" https://github.com/shawnbanasick/quince/blob/development/src/assets/moveTop2.png?raw=true" width="300"/}}}{{{/center}}}{{{br/}}} {{{br/}}}
-
-    {{{br/}}} {{{br/}}}{{{center}}}{{{img src=" https://github.com/shawnbanasick/quince/blob/development/src/assets/moveTop2.png?raw=true" width="300"/}}}{{{/center}}}{{{br/}}} {{{br/}}}
-
-    {{{br/}}} {{{br/}}}{{{center}}}{{{img src=" https://github.com/shawnbanasick/quince/blob/development/src/assets/moveTop2.png?raw=true" width="300"/}}}{{{/center}}}{{{br/}}} {{{br/}}}
-
-
 
     <!-- POSTSORT: comments - only displayed if showStep3 = true -->
-    <item id="postsortHeader">ポストソートコメント</item>
+    <item id="postsortHeader">ランキング後のコメント</item>
     <item id="postsortInstructions">{{{h3}}}これらのステートメントについての考えを詳しく説明してください。{{{/h3}}}</item>
     <item id="placeholder">コメントを追加するにはここをクリック</item>
     <item id="postsortAgreement">同意に配置</item>
