@@ -30,7 +30,7 @@
     
     <!-- MOBILE LANDING SCREEN -->
     <item id="mobileWelcomeText">新設されたグローバル・スタディーズ学科の初年度に関する学生の意見を収集するための調査にご協力いただき、ありがとうございます。この調査は、学科のプログラムやサポート体制を改善し、今後の学生体験をより良いものにすることを目的としています。率直なご意見や感想をお聞かせいただけると幸いです。回答は匿名で扱われ、調査結果は統計的な目的でのみ使用されます。
-    {{{br /}}}{{{br/}}}この調査では、Q方法論の調査方法を使用しています。{{{br /}}}{{{br/}}}Q方法論（Q Methodology）は、個人の意見や価値観を深く理解するための調査手法です。この方法では、参加者にさまざまな意見や主張が書かれたカード（「Qステートメント」と呼ばれます）を提示し、それらを自分の考えに基づいて重要度や同意の度合いに従って並べ替えていただきます。並べ替えの結果は、自分がどのように考えているかを示すだけでなく、他の参加者との共通点や相違点を分析するためにも使われます。難しいルールはなく、自分自身の素直な感覚で取り組んでいただければ大丈夫です。すべての回答は匿名で扱われ、研究目的のみに使用されますので、安心してご参加ください。{{{br /}}}{{{br/}}}調査を開始する準備ができたら、このページの右下にある「開始」ボタンをタップしてください。</item>
+    {{{br /}}}{{{br/}}}この調査では、Q方法論の調査方法を使用しています。{{{br /}}}{{{br/}}}Q方法論（Q Methodology）は、個人の意見や価値観を深く理解するための調査手法です。この方法では、参加者にさまざまな意見や主張が書かれたカード（「Qステートメント」と呼ばれます）を提示し、それらを自分の考えに基づいて重要度や同意の度合いに従って並べ替えていただきます。並べ替えの結果は、自分がどのように考えているかを示すだけでなく、他の参加者との共通点や相違点を分析するためにも使われます。難しいルールはなく、自分自身の素直な感覚で取り組んでいただければ大丈夫です。すべての回答は匿名で扱われ、研究目的のみに使用されますので、安心してご参加ください。{{{br /}}}{{{br/}}}調査を開始する準備ができたら、右下にある「開始」ボタンをタップしてください。</item>
 
     <!-- LANDING -> ACCESS CONTROL - only displayed if access is restricted -->
     <item id="accessCodeText">アクセスコード</item>
@@ -93,7 +93,7 @@
     <item id="mobilePresortRedoModalConfirmButton">確認</item>
     <item id="mobilePresortEvaluationsComplete">{{{div}}}{{{b}}}すべてのステートメントが評価されました。{{{/b}}} {{{br /}}}{{{br /}}}評価を確認してください。  {{{br /}}}{{{br /}}}{{{div}}}</item>
     <item id="mobilePresortHelpModalHead">ステージ 1/5{{{br /}}}ステートメント評価</item>
-    <item id="mobilePresortHelpModalText">各ステートメントに値を割り当てるには、適切なボタンをタップしてください。 {{{br /}}}{{{br /}}} ステートメントが {{{b}}}自分の視点に似ている{{{/b}}} と感じる場合は、緑の「+」ボタンをタップしてください。{{{br /}}}{{{br /}}} ステートメントが {{{b}}}自分の視点と異なる{{{/b}}} と感じる場合は、赤の「-」ボタンをタップしてください。 {{{br /}}}{{{br /}}}不明な場合は、「?」ボタンをタップしてください。 {{{br /}}}{{{br /}}} この調査には {{{b}}}33のステートメント{{{/b}}} があります。 {{{br /}}}{{{br /}}} 評価を {{{b}}}変更{{{/b}}} したい場合は、ステートメントの横にある {{{b}}}再評価アイコン{{{/b}}}（下図）をタップしてください。{{{br/}}}{{{br/}}} {{{center}}}{{{img src="https://raw.githubusercontent.com/shawnbanasick/quince/5dec1c9752ddab34b3b5dabba5e2081efdabbc09/src/assets/redoArrow.svg"  width="30" /}}}{{{/center}}}{{{br/}}} また、{{{b}}}テキスト調整ボタン{{{/b}}}（下図）の隣にある「＋」または「-」ボタンをタップすることで、ステートメントのテキストのサイズを調整することができる。{{{br/}}}{{{center}}}{{{br /}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/textAdjust.png?raw=true" /}}}{{{/center}}}{{{br/}}}{{{b}}}ビューエリア調整ボタン{{{/b}}}の隣にある「＋」または「-」ボタンをタップすることで、ビューエリアの文字サイズを調整することができます（下図）。 {{{br/}}}{{{br/}}} {{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/viewAdjust.png?raw=true" /}}}{{{/center}}}{{{br /}}}ページ右上の「ヘルプアイコン」（下図）をタップすると、この情報を再度見ることができる。{{{br /}}}{{{br /}}}{{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/helpSymbol.png?raw=true" width="30"/}}}{{{/center}}}</item>
+    <item id="mobilePresortHelpModalText">各ステートメントに値を割り当てるには、適切なボタンをタップしてください。 {{{br /}}}{{{br /}}} ステートメントが {{{b}}}自分の視点に似ている{{{/b}}} と感じる場合は、緑の「+」ボタンをタップしてください。{{{br /}}}{{{br /}}} ステートメントが {{{b}}}自分の視点と異なる{{{/b}}} と感じる場合は、赤の「-」ボタンをタップしてください。 {{{br /}}}{{{br /}}}不明な場合は、「?」ボタンをタップしてください。 {{{br /}}}{{{br /}}} この調査には {{{b}}}33のステートメント{{{/b}}} があります。 {{{br /}}}{{{br /}}} 評価を {{{b}}}変更{{{/b}}} したい場合は、ステートメントの横にある {{{b}}}再評価アイコン{{{/b}}}（下図）をタップしてください。{{{br/}}}{{{br/}}} {{{center}}}{{{img src="https://raw.githubusercontent.com/shawnbanasick/quince/5dec1c9752ddab34b3b5dabba5e2081efdabbc09/src/assets/redoArrow.svg"  width="30" /}}}{{{/center}}}{{{br/}}} また、{{{b}}}テキスト調整ボタン{{{/b}}}（下図）の隣にある「＋」または「-」ボタンをタップすることで、ステートメントのテキストのサイズを調整することができる。{{{br/}}}{{{center}}}{{{br /}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/textAdjust.png?raw=true" /}}}{{{/center}}}{{{br/}}}{{{b}}}ビューエリア調整ボタン{{{/b}}}の隣にある「＋」または「-」ボタンをタップすることで、ビューエリアの高さを調整することができます（下図）。 {{{br/}}}{{{br/}}} {{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/viewAdjust.png?raw=true" /}}}{{{/center}}}{{{br /}}}ページ右上の「ヘルプアイコン」（下図）をタップすると、この情報を再度見ることができる。{{{br /}}}{{{br /}}}{{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/helpSymbol.png?raw=true" width="30"/}}}{{{/center}}}</item>
     
     <item id="mobilePresortFinishedModalHead">ステージ 1/5{{{br /}}}ステートメント評価</item>
     <item id="mobilePresortFinishedModalText">評価プロセスが完了しました。 {{{br/}}}{{{br/}}} 評価を確認してください。  {{{br /}}}{{{br /}}}変更を加えたい場合は、ステートメントの左側にある「再評価」アイコンをタップしてください。{{{br /}}}{{{br /}}}すべての評価に満足したら、右下の {{{b}}}「続ける」{{{/b}}}ボタン をタップしてください。</item>
@@ -134,10 +134,7 @@
     {{{b}}}ヒント{{{/b}}}{{{br/}}}
     ステートメントを比較しやすくするために、ステートメントの右または左側にある上下の矢印をタップして {{{b}}}並べ替える{{{/b}}} ことができます。
     {{{br/}}}{{{br/}}}{{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/upDownArrows.png?raw=true" width="300" /}}}{{{/center}}}
-    {{{br/}}}また、ステートメントの右側にある上の矢印を長押し（約1秒）することで、選択したステートメント（青色）のグループを{{{b}}}リストの上部に 移動{{{/b}}} することもできます。 {{{br/}}} {{{br/}}}{{{center}}}{{{img src=" https://github.com/shawnbanasick/quince/blob/development/src/assets/moveTop.png?raw=true" width="300"/}}}{{{/center}}}
-    
-    
-  </item>
+    {{{br/}}}また、ステートメントの右側にある上の矢印を長押し（約1秒）することで、選択したステートメント（青色）のグループを{{{b}}}リストの上部に 移動{{{/b}}} することもできます。 {{{br/}}} {{{br/}}}{{{center}}}{{{img src=" https://github.com/shawnbanasick/quince/blob/development/src/assets/moveTop2.png?raw=true" width="300"/}}}{{{/center}}}</item>
     <item id="mobileThinPreventNavModalHead">ナビゲーション無効</item>
     <item id="mobileThinPreventNavModalText">次のページに進む前に精緻化プロセスを完了してください。</item>
     <item id="mobileThinProcessCompleteMessage">精緻化プロセスが完了しました。{{{br/}}}{{{br/}}}次のステージに進むには、右下の「続ける」ボタンをクリックしてください。</item>
@@ -153,24 +150,6 @@
     <item id="mobileThinScrollBottomModalText">提出する前に、すべてのステートメントを見直すために{{{b}}}下までスクロールしてください。{{{/b}}}</item>
     <item id="mobileThinSubmitButtonText">提出</item>
     <item id="mobileThinSelectedText">選択された</item>
-
-
-{{{center}}}{{{img src=" https://github.com/shawnbanasick/quince/blob/development/src/assets/moveTop.png?raw=true" /}}}{{{/center}}}
-
-{{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/selectedNum.png?raw=true" /}}}{{{/center}}}
-
-{{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/selectedStatement.png?raw=true" /}}}{{{/center}}}
-
-{{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/upDownArrows.png?raw=true" /}}}{{{/center}}}
-
-   
-
-    
-
-    
-
-    
-
 
 
     <!-- SORT: sorting -->
@@ -196,6 +175,18 @@
     <item id="mobileSortHelpModalText">ステートメントは以前の評価に基づいてランク付けされています。{{{br/}}}{{{br/}}}自分の視点に最も近いステートメントはリストの上部に、最も異なるステートメントはリストの下部にあるべきです。{{{br/}}}{{{br/}}}すべてのステートメントを見るために {{{b}}}スクロール{{{/b}}} する必要があります。{{{br/}}}{{{br/}}}ランク付けを {{{b}}}見直し{{{/b}}}、ステートメントの順序が {{{b}}}自分の視点を正確に反映している{{{/b}}} ように必要な変更を加えてください。{{{br/}}}{{{br/}}}{{{mark}}}これは調査の最も重要なステージですので、ステートメントのランク付けを慎重に見直してください。{{{/mark}}}{{{br/}}}{{{br/}}}隣接するステートメントの位置を {{{b}}}交換する{{{/b}}} には、ステートメントの右または左側にある上下の矢印をタップしてください。{{{br/}}}{{{br/}}}離れた位置にあるステートメントの位置を {{{b}}}交換する{{{/b}}} には、2つのステートメントをタップします（ステートメントの色が黄色に変わります）と、交換確認メッセージが表示されます。{{{br/}}}{{{br/}}}すべてのランク付けに満足したら、右下のナビゲーションボタンをタップしてください。</item>
     <item id="mobileSortScrollBottomModalHead">ナビゲーション無効</item>
     <item id="mobileSortScrollBottomModalText">次のステージに進む前に、下までスクロールしてすべてのステートメントのランク付けを確認してください。</item>
+
+
+
+    {{{br/}}} {{{br/}}}{{{center}}}{{{img src=" https://github.com/shawnbanasick/quince/blob/development/src/assets/moveTop2.png?raw=true" width="300"/}}}{{{/center}}}{{{br/}}} {{{br/}}}
+
+    {{{br/}}} {{{br/}}}{{{center}}}{{{img src=" https://github.com/shawnbanasick/quince/blob/development/src/assets/moveTop2.png?raw=true" width="300"/}}}{{{/center}}}{{{br/}}} {{{br/}}}
+
+    {{{br/}}} {{{br/}}}{{{center}}}{{{img src=" https://github.com/shawnbanasick/quince/blob/development/src/assets/moveTop2.png?raw=true" width="300"/}}}{{{/center}}}{{{br/}}} {{{br/}}}
+
+    {{{br/}}} {{{br/}}}{{{center}}}{{{img src=" https://github.com/shawnbanasick/quince/blob/development/src/assets/moveTop2.png?raw=true" width="300"/}}}{{{/center}}}{{{br/}}} {{{br/}}}
+
+
 
     <!-- POSTSORT: comments - only displayed if showStep3 = true -->
     <item id="postsortHeader">ポストソートコメント</item>

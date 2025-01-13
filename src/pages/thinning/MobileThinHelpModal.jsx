@@ -13,7 +13,7 @@ const getSetTriggerModal = (state) => state.setTriggerMobileThinHelpModal;
 const getSetTriggerMobileThinGuidanceModal = (state) =>
   state.setTriggerMobileThinGuidanceModal;
 
-const MobileThinHelpModal = () => {
+const MobileThinHelpModal = (props) => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
   const triggerModal = useStore(getTriggerModal);
@@ -35,7 +35,10 @@ const MobileThinHelpModal = () => {
   // const onOpenModal = () => setOpen(true);
   const onCloseModal = () => {
     setTriggerModal(false);
-    setTriggerMobileThinGuidanceModal(true);
+
+    if (props.modalHead.length !== 0) {
+      setTriggerMobileThinGuidanceModal(true);
+    }
     // if (hasDisplayed === false) {
     // setHasDisplayed(true);
     // }

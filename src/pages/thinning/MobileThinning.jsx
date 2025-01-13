@@ -462,7 +462,7 @@ const MobileThinning = () => {
         modalText={modalRef.current.text}
       />
       <MobileThinPreventNavModal />
-      <MobileThinHelpModal />
+      <MobileThinHelpModal modalHead={modalRef.current.header} />
       <MobileThinScrollBottomModal />
       <SortTitleBar background={configObj.headerBarColor}>
         {conditionsOfInstruction}
