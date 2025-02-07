@@ -33,7 +33,7 @@ const calculatePostsortResults = (resultsPostsort, mapObj, configObj) => {
   }
 
   // check for neu card answers
-  if (configObj.displayNeutralObjects === true) {
+  if (configObj?.displayNeutralObjects === true) {
     const length5 = neuCardNum;
     for (let jjj = 0; jjj < length5; jjj++) {
       if (!resultsPostsort.hasOwnProperty(`column${neuCardVal}_${jjj}`))
