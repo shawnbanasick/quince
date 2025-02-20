@@ -57,7 +57,7 @@ const SubmitResultsButton = (props) => {
       method: "POST",
       url: "https://api.baserow.io/api/database/rows/table/452892/?user_field_names=true",
       headers: {
-        Authorization: "Token Y7WGwfUP7zg5uLTxcvRK3zOp1LN6HZxM",
+        Authorization: "Token ",
         "Content-Type": "application/json",
       },
       data: props.results,
