@@ -16,6 +16,7 @@ import convertObjectToResults from "../sort/convertObjectToResults";
 import getCurrentDateTime from "../../utilities/getCurrentDateTime";
 import SubmitButtonNetlify from "./SubmitButtonNetlify";
 import createPresortObject from "./createPresortObject";
+import SubmitButtonBaserow from "./SubmitButtonBaserow";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
@@ -41,9 +42,7 @@ const SubmitPage = () => {
   const urlUsercode = localStorage.getItem("urlUsercode") || "";
 
   // PERSISTENT STATE
-  let resultsSurveyFromStorage = JSON.parse(
-    localStorage.getItem("resultsSurvey")
-  );
+  let resultsSurveyFromStorage = JSON.parse(localStorage.getItem("resultsSurvey"));
   if (resultsSurveyFromStorage === undefined) {
     resultsSurveyFromStorage = {};
   }
@@ -54,21 +53,16 @@ const SubmitPage = () => {
   }, [setCurrentPage]);
 
   // Language - grab translations
-  const transferTextAbove =
-    ReactHtmlParser(decodeHTML(langObj.transferTextAbove)) || "";
-  const transferTextBelow =
-    ReactHtmlParser(decodeHTML(langObj.transferTextBelow)) || "";
-  const goodbyeMessage =
-    ReactHtmlParser(decodeHTML(langObj.goodbyeMessage)) || "";
+  const transferTextAbove = ReactHtmlParser(decodeHTML(langObj.transferTextAbove)) || "";
+  const transferTextBelow = ReactHtmlParser(decodeHTML(langObj.transferTextBelow)) || "";
+  const goodbyeMessage = ReactHtmlParser(decodeHTML(langObj.goodbyeMessage)) || "";
   const linkedProjectFallbackMessage =
     ReactHtmlParser(decodeHTML(langObj.linkedProjectFallbackMessage)) || "";
-  const linkedProjectBtnMessage =
-    decodeHTML(langObj.linkedProjectBtnMessage) || "";
+  const linkedProjectBtnMessage = decodeHTML(langObj.linkedProjectBtnMessage) || "";
   const pageHeader = ReactHtmlParser(decodeHTML(langObj.transferHead)) || "";
 
   // PERSISTENT STATE - read in results if they exist in local storage
-  const resultsPresort =
-    JSON.parse(localStorage.getItem("resultsPresort")) || {};
+  const resultsPresort = JSON.parse(localStorage.getItem("resultsPresort")) || {};
   const resultsSortObj = JSON.parse(localStorage.getItem("sortColumns")) || {};
 
   // config options
@@ -80,12 +74,9 @@ const SubmitPage = () => {
   try {
     // finish setup and format results object
     transmissionResults["projectName"] = configObj.studyTitle;
-    transmissionResults["partId"] =
-      localStorage.getItem("partId") || "no part ID";
-    transmissionResults["randomId"] =
-      localStorage.getItem("randomId") || "no random ID";
-    transmissionResults["urlUsercode"] =
-      localStorage.getItem("urlUsercode") || "no usercode set";
+    transmissionResults["partId"] = localStorage.getItem("partId") || "no part ID";
+    transmissionResults["randomId"] = localStorage.getItem("randomId") || "no random ID";
+    transmissionResults["urlUsercode"] = localStorage.getItem("urlUsercode") || "no usercode set";
   } catch (error) {
     console.log(error);
     alert("1: " + error.message);
@@ -93,12 +84,9 @@ const SubmitPage = () => {
 
   try {
     transmissionResults["dateTime"] = dateString;
-    transmissionResults["timeLanding"] =
-      localStorage.getItem("timeOnlandingPage") || "00:00:00";
-    transmissionResults["timePresort"] =
-      localStorage.getItem("timeOnpresortPage") || "00:00:00";
-    transmissionResults["timeSort"] =
-      localStorage.getItem("timeOnsortPage") || "00:00:00";
+    transmissionResults["timeLanding"] = localStorage.getItem("timeOnlandingPage") || "00:00:00";
+    transmissionResults["timePresort"] = localStorage.getItem("timeOnpresortPage") || "00:00:00";
+    transmissionResults["timeSort"] = localStorage.getItem("timeOnsortPage") || "00:00:00";
   } catch (error) {
     console.log(error);
     alert("2: " + error.message);
@@ -116,8 +104,7 @@ const SubmitPage = () => {
     }
 
     if (configObj.showSurvey === true) {
-      transmissionResults["timeSurvey"] =
-        localStorage.getItem("timeOnsurveyPage") || "00:00:00";
+      transmissionResults["timeSurvey"] = localStorage.getItem("timeOnsurveyPage") || "00:00:00";
     }
   } catch (error) {
     console.log(error);
@@ -138,13 +125,8 @@ const SubmitPage = () => {
   try {
     // if project included POSTSORT, read in complete sorted results
     if (configObj.showPostsort) {
-      const resultsPostsort =
-        JSON.parse(localStorage.getItem("resultsPostsort")) || {};
-      const newPostsortObject = calculatePostsortResults(
-        resultsPostsort,
-        mapObj,
-        configObj
-      );
+      const resultsPostsort = JSON.parse(localStorage.getItem("resultsPostsort")) || {};
+      const newPostsortObject = calculatePostsortResults(resultsPostsort, mapObj, configObj);
       const keys = Object.keys(newPostsortObject);
       for (let i = 0; i < keys.length; i++) {
         // skip unnecessary entries
@@ -209,10 +191,7 @@ const SubmitPage = () => {
   try {
     // remove null values to prevent errors
     for (const property in transmissionResults) {
-      if (
-        transmissionResults[property] === null ||
-        transmissionResults[property] === undefined
-      ) {
+      if (transmissionResults[property] === null || transmissionResults[property] === undefined) {
         transmissionResults[property] = "no data";
       }
     }
@@ -263,10 +242,7 @@ const SubmitPage = () => {
         <SortTitleBar background={headerBarColor}>{pageHeader}</SortTitleBar>
         <ContainerDiv>
           <ContentDiv>{transferTextAbove}</ContentDiv>
-          <SubmitButtonGS
-            results={transmissionResults}
-            api={configObj.steinApiUrl}
-          />
+          <SubmitButtonGS results={transmissionResults} api={configObj.steinApiUrl} />
 
           {displaySubmitFallback ? (
             <SubmitFallback results={transmissionResults} />
@@ -293,6 +269,17 @@ const SubmitPage = () => {
         <ContainerDiv>
           <ContentDiv>{transferTextAbove}</ContentDiv>
           <SubmitButtonNetlify results={transmissionResults} />
+          <ContentDiv>{transferTextBelow}</ContentDiv>
+        </ContainerDiv>
+      </React.Fragment>
+    );
+  } else if (configObj.setupTarget === "baserow") {
+    return (
+      <React.Fragment>
+        <SortTitleBar background={headerBarColor}>{pageHeader}</SortTitleBar>
+        <ContainerDiv>
+          <ContentDiv>{transferTextAbove}</ContentDiv>
+          <SubmitButtonBaserow results={transmissionResults} />
           <ContentDiv>{transferTextBelow}</ContentDiv>
         </ContainerDiv>
       </React.Fragment>
@@ -382,8 +369,7 @@ const StyledButton = styled.button`
   justify-content: center;
   margin-top: 30px;
   margin-bottom: 20px;
-  background-color: ${({ theme, active }) =>
-    active ? theme.secondary : theme.primary};
+  background-color: ${({ theme, active }) => (active ? theme.secondary : theme.primary)};
 
   &:hover {
     background-color: ${({ theme }) => theme.secondary};
