@@ -7,15 +7,13 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest"
   },
   "dependencies": {
     "@hello-pangea/dnd": "^16.6.0",
     "@netlify/blobs": "^7.3.0",
     "@ramonak/react-progress-bar": "^5.3.0",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
     "@uidotdev/usehooks": "^2.4.1",
     "axios": "^1.7.7",
     "html-react-parser": "^5.1.17",
@@ -36,6 +34,9 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.11.1",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/react": "^18.3.10",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.2",
@@ -44,6 +45,8 @@
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.12",
     "globals": "^15.9.0",
-    "vite": "^5.4.8"
+    "jsdom": "^26.0.0",
+    "vite": "^5.4.8",
+    "vitest": "^3.0.6"
   }
 }
