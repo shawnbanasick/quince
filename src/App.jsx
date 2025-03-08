@@ -42,7 +42,8 @@ const getSetRequiredAnswersObj = (state) => state.setRequiredAnswersObj;
 const getSetDataLoaded = (state) => state.setDataLoaded;
 const getDisplayGoodbyeMessage = (state) => state.displayGoodbyeMessage;
 const getDisableRefreshCheck = (state) => state.disableRefreshCheck;
-const getCurrentPage = (state) => state.currentPage;
+
+// const getCurrentPage = (state) => state.currentPage;
 
 function App() {
   // STATE
@@ -54,15 +55,26 @@ function App() {
   const setMapObj = useSettingsStore(getSetMapObj);
   const setStatementsObj = useSettingsStore(getSetStatementsObj);
   const setColumnStatements = useSettingsStore(getSetColumnStatements);
-  const setResetColumnStatements = useSettingsStore(
-    getSetResetColumnStatements
-  );
+  const setResetColumnStatements = useSettingsStore(getSetResetColumnStatements);
   const setSurveyQuestionObjArray = useSettingsStore(getSetSurveyQuesObjArray);
   const setRequiredAnswersObj = useSettingsStore(getSetRequiredAnswersObj);
   const setDataLoaded = useStore(getSetDataLoaded);
   const displayGoodbyeMessage = useStore(getDisplayGoodbyeMessage);
   const disableRefreshCheck = useStore(getDisableRefreshCheck);
-  const currentPage = useStore(getCurrentPage);
+
+  // const currentPage = useStore(getCurrentPage);
+
+  // console.log("configObj", configObj.firebaseApiKey);
+
+  // const anonymousLogin = async () => {
+  //   try {
+  //     const userCredential = await signInAnonymously(auth);
+  //     console.log("Signed in anonymously:", userCredential.user);
+  //   } catch (error) {
+  //     console.error("Error signing in:", error.message);
+  //   }
+  // };
+  // anonymousLogin(); // Call when the app loads
 
   useEffect(() => {
     const unloadCallback = (event) => {
@@ -148,9 +160,7 @@ function App() {
               item.backgroundColor = "white";
               item.element = (
                 <img
-                  src={`/settings/images/image${i + 1}.${
-                    info.configObj.imageFileType
-                  }`}
+                  src={`/settings/images/image${i + 1}.${info.configObj.imageFileType}`}
                   alt={`image${i + 1}`}
                   className="dragObject"
                 />
@@ -200,17 +210,11 @@ function App() {
         .then(function (response) {
           const options = { compact: true, ignoreComment: true, spaces: 4 };
           const statementsData = convert.xml2js(response.data, options);
-          const statementsObj = processStatementsXMLData(
-            statementsData,
-            shuffleCards,
-            vColsObj
-          );
+          const statementsObj = processStatementsXMLData(statementsData, shuffleCards, vColsObj);
           // add for images setup
           statementsObj.columnStatements.imagesList = imagesArray;
           setColumnStatements(statementsObj.columnStatements);
-          const resetColumnStatements = cloneDeep(
-            statementsObj.columnStatements
-          );
+          const resetColumnStatements = cloneDeep(statementsObj.columnStatements);
           setResetColumnStatements(resetColumnStatements);
           setStatementsObj(statementsObj);
         })
@@ -264,10 +268,7 @@ function App() {
     }
   }
 
-  if (
-    configObj.showConsentPage === true ||
-    configObj.showConsentPage === "true"
-  ) {
+  if (configObj.showConsentPage === true || configObj.showConsentPage === "true") {
     // routing for desktop, with consent page, no thin process
     return (
       <div className="App">

@@ -234,6 +234,7 @@
     <item id="fallbackMessage">データの送信に失敗しました。結果をダウンロードし、添付ファイルとしてken.q.tools@gmail.comにメールで送信してください。ありがとうございます！</item>
     <item id="btnDownload">ダウンロード</item>
     <item id="goodbyeMessage">{{{div}}}ありがとうございました！{{{/div}}} {{{br/}}}{{{div}}}ブラウザタブを閉じることができます{{{/div}}}</item>
+    <item id="checkInternetConnectionText">インターネット接続を確認してください。</item>
 
     <!-- MOBILE SUBMIT -->
     <item id="mobileSortTitleBar">データを送信</item>

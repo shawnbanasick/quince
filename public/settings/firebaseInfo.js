@@ -1,11 +1,13 @@
-const firebaseConfig = {
-  apiKey: "AIzaSyCMMMkdivJKVh7QanhW6uD_E82idKd19bg",
-  authDomain: "eq-demo2.firebaseapp.com",
-  projectId: "eq-demo2",
-  storageBucket: "eq-demo2.appspot.com",
-  messagingSenderId: "1092133774225",
-  appId: "1:1092133774225:web:3615c0aa62da1603d4f030",
-};
+// window.firebaseConfig = {
+//   apiKey: "AIzaSyAS2BrKXDufDeQ21B9D3g7Kv_UQZsqts08",
+//   authDomain: "quinceyq-3d549.firebaseapp.com",
+//   databaseURL: "https://quinceyq-3d549-default-rtdb.asia-southeast1.firebasedatabase.app",
+//   projectId: "quinceyq-3d549",
+//   storageBucket: "quinceyq-3d549.firebasestorage.app",
+//   messagingSenderId: "184968881153",
+//   appId: "1:184968881153:web:e9aab11ad4af09609acc00",
+// };
 
-firebase.initializeApp(firebaseConfig);
-var rootRef = firebase.database().ref();
+// // const app = firebase.initializeApp(firebaseConfig);
+// // const auth = firebase.auth();
+// // const database = window.firebase.database().ref();

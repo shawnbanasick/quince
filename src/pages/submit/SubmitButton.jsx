@@ -7,6 +7,11 @@ import decodeHTML from "../../utilities/decodeHTML";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 import PromptUnload from "../../utilities/PromptUnload";
+import { getDatabase, ref, push, set } from "firebase/database";
+import { initializeApp } from "firebase/app";
+import { getAuth, signInAnonymously } from "firebase/auth";
+
+// import { database, ref, push, set } from "./firebaseInitialization";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
@@ -18,8 +23,7 @@ const getSetDisplaySubmitFallback = (state) => state.setDisplaySubmitFallback;
 const getTransmittingData = (state) => state.transmittingData;
 const getSetTransmittingData = (state) => state.setTransmittingData;
 const getCheckInternetConnection = (state) => state.checkInternetConnection;
-const getSetCheckInternetConnection = (state) =>
-  state.setCheckInternetConnection;
+const getSetCheckInternetConnection = (state) => state.setCheckInternetConnection;
 const getSetDisplayGoodbyeMessage = (state) => state.setDisplayGoodbyeMessage;
 
 const SubmitResultsButton = (props) => {
@@ -37,79 +41,54 @@ const SubmitResultsButton = (props) => {
   const setCheckInternetConnection = useStore(getSetCheckInternetConnection);
   const setDisplayGoodbyeMessage = useStore(getSetDisplayGoodbyeMessage);
 
-  const btnTransferText =
-    ReactHtmlParser(decodeHTML(langObj.btnTransfer)) || "";
+  const btnTransferText = ReactHtmlParser(decodeHTML(langObj.btnTransfer)) || "";
+  const checkInternetConnectionText =
+    ReactHtmlParser(decodeHTML(langObj.checkInternetConnectionText)) || "";
 
-  const handleClick = (e) => {
+  const handleClick = async (e) => {
     e.preventDefault();
     e.target.disabled = true;
 
     // setup for client-side internet connection fail case
     setTransmittingData(true);
     setCheckInternetConnection(false);
-    setTimeout(() => {
-      setTransmittingData(false);
-      setCheckInternetConnection(true);
-    }, 20000);
 
     console.log(JSON.stringify(props.results, null, 2));
 
-    window.firebase
-      .auth()
-      .signInAnonymously()
+    const app = await initializeApp({
+      apiKey: configObj.firebaseApiKey,
+      authDomain: configObj.firebaseAuthDomain,
+      databaseURL: configObj.firebaseDatabaseURL,
+      projectId: configObj.firebaseProjectId,
+      storageBucket: configObj.firebaseStorageBucket,
+      messagingSenderId: configObj.firebaseMessagingSenderId,
+      appId: configObj.firebaseAppId,
+    });
+
+    await signInAnonymously(getAuth(app));
+    const database = await getDatabase();
+
+    if (!database) {
+      console.log("database not ready");
+      return;
+    }
+
+    const userRef = push(ref(database)); // anonymous login
+
+    set(userRef, props.results)
       .then(() => {
-        // Signed in..
-        window.rootRef.push(props.results, function (error) {
-          if (error) {
-            // data error action -  modal
-            console.log("data error - there was an error at rootRef level!");
-            setTriggerTransmissionFailModal(true);
-            e.target.disabled = false;
-          } else {
-            // do success action - modal
-            console.log("success! pushed to database");
-            localStorage.setItem("submitted", "true");
-            let urlUsercode = localStorage.getItem("urlUsercode");
-
-            if (configObj.linkToSecondProject === true) {
-              setDisplayGoodbyeMessage(true);
-
-              const nextLinkAnchor = document.createElement("a");
-              nextLinkAnchor.setAttribute("id", "secondProjectLink");
-              nextLinkAnchor.setAttribute(
-                "href",
-                `${configObj.secondProjectUrl}/#/?usercode=${urlUsercode}`
-              );
-              if (navigator.userAgent.toLowerCase().indexOf("chrome") > -1) {
-                nextLinkAnchor.setAttribute("target", "_blank");
-              }
-              document.body.appendChild(nextLinkAnchor);
-              document.getElementById("secondProjectLink").click();
-            }
-
-            setTriggerTransmissionOKModal(true);
-          }
-        });
+        console.log("Data saved successfully!");
+        setTransmittingData(false);
+        setTriggerTransmissionOKModal(true);
+        setDisplayGoodbyeMessage(true);
       })
       .catch((error) => {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        submitFailNumber = submitFailNumber + 1;
-        console.log(submitFailNumber);
-        setTransmittingData(false);
-        // Firebase connection error
-        console.log("Connection error - there was an error at firebase level!");
-        setTriggerTransmissionFailModal(true);
-        console.log(errorCode, errorMessage);
-        e.target.disabled = false;
-
-        if (submitFailNumber > 2) {
-          console.log("display fallback set to true");
-          setDisplaySubmitFallback(true);
-          displaySubmitFallback = true;
-        }
+        console.error("Error saving data:", error);
+        setTimeout(() => {
+          setTransmittingData(false);
+          setCheckInternetConnection(true);
+        }, 10000);
       });
-    console.log("submission processed");
   };
 
   if (displaySubmitFallback === true) {
@@ -135,9 +114,7 @@ const SubmitResultsButton = (props) => {
           {btnTransferText}
         </StyledButton>
       )}
-      {checkInternetConnection && (
-        <WarningDiv>Check your internet connection</WarningDiv>
-      )}
+      {checkInternetConnection && <WarningDiv>{checkInternetConnectionText}</WarningDiv>}
     </React.Fragment>
   );
 };
@@ -159,8 +136,7 @@ const StyledButton = styled.button`
   justify-content: center;
   margin-top: 30px;
   margin-bottom: 20px;
-  background-color: ${({ theme, active }) =>
-    active ? theme.secondary : theme.primary};
+  background-color: ${({ theme, active }) => (active ? theme.secondary : theme.primary)};
 
   &:hover {
     background-color: ${({ theme }) => theme.secondary};
