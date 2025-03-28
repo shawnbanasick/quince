@@ -11,8 +11,6 @@ import { getDatabase, ref, push, set } from "firebase/database";
 import { initializeApp } from "firebase/app";
 import { getAuth, signInAnonymously } from "firebase/auth";
 
-// import { database, ref, push, set } from "./firebaseInitialization";
-
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
 const getDisplaySubmitFallback = (state) => state.displaySubmitFallback;
