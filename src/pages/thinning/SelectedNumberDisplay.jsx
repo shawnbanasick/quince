@@ -8,8 +8,10 @@ const getLangObj = (state) => state.langObj;
 const SelectionNumberDisplay = (props) => {
   const langObj = useSettingsStore(getLangObj);
 
-  const selectedText =
-    ReactHtmlParser(decodeHTML(langObj.mobileThinSelectedText)) || "";
+  let selectedText = "Selected";
+  if (langObj.mobileThinSelectedText) {
+    selectedText = ReactHtmlParser(decodeHTML(langObj.mobileThinSelectedText)) || "";
+  }
 
   let selected = props.selected || 0;
   let required = props.required || 0;

@@ -14,10 +14,10 @@ import { getAuth, signInAnonymously } from "firebase/auth";
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
 const getDisplaySubmitFallback = (state) => state.displaySubmitFallback;
-const getSubmitFailNumber = (state) => state.submitFailNumber;
-const getSetTrigTranFailMod = (state) => state.setTriggerTransmissionFailModal;
+// const getSubmitFailNumber = (state) => state.submitFailNumber;
+// const getSetTrigTranFailMod = (state) => state.setTriggerTransmissionFailModal;
+// const getSetDisplaySubmitFallback = (state) => state.setDisplaySubmitFallback;
 const getSetTrigTransOKModal = (state) => state.setTriggerTransmissionOKModal;
-const getSetDisplaySubmitFallback = (state) => state.setDisplaySubmitFallback;
 const getTransmittingData = (state) => state.transmittingData;
 const getSetTransmittingData = (state) => state.setTransmittingData;
 const getCheckInternetConnection = (state) => state.checkInternetConnection;
@@ -29,19 +29,26 @@ const SubmitResultsButton = (props) => {
   const langObj = useSettingsStore(getLangObj);
   const configObj = useSettingsStore(getConfigObj);
   let displaySubmitFallback = useStore(getDisplaySubmitFallback);
-  let submitFailNumber = useStore(getSubmitFailNumber);
-  const setTriggerTransmissionFailModal = useStore(getSetTrigTranFailMod);
+  // let submitFailNumber = useStore(getSubmitFailNumber);
+  // const setTriggerTransmissionFailModal = useStore(getSetTrigTranFailMod);
   const setTriggerTransmissionOKModal = useStore(getSetTrigTransOKModal);
-  const setDisplaySubmitFallback = useStore(getSetDisplaySubmitFallback);
+  // const setDisplaySubmitFallback = useStore(getSetDisplaySubmitFallback);
   let transmittingData = useStore(getTransmittingData);
   const setTransmittingData = useStore(getSetTransmittingData);
   let checkInternetConnection = useStore(getCheckInternetConnection);
   const setCheckInternetConnection = useStore(getSetCheckInternetConnection);
   const setDisplayGoodbyeMessage = useStore(getSetDisplayGoodbyeMessage);
 
-  const btnTransferText = ReactHtmlParser(decodeHTML(langObj.btnTransfer)) || "";
-  const checkInternetConnectionText =
-    ReactHtmlParser(decodeHTML(langObj.checkInternetConnectionText)) || "";
+  let btnTransferText = "";
+  if (langObj.btnTransfer) {
+    btnTransferText = ReactHtmlParser(decodeHTML(langObj.btnTransfer)) || "";
+  }
+
+  let checkInternetConnectionText = "";
+  if (langObj.checkInternetConnectionText) {
+    checkInternetConnectionText =
+      ReactHtmlParser(decodeHTML(langObj.checkInternetConnectionText)) || "";
+  }
 
   const handleClick = async (e) => {
     e.preventDefault();

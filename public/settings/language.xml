@@ -1,255 +1,235 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
-<language version="7.0.0" htmlParse="true">
+   <language version="7.0.0" htmlParse="true">
+;
 
-    <!-- MULTI-PURPOSE MODALS -->
-    <item id="stepCompleteMessage">このステップが完了しました。次のステップに進むには、画面右下の {{{strong}}} 青い「続ける」ボタン {{{/strong}}} をクリックしてください。</item>
-    <item id="logInFirst">まずログインプロセスを完了してください。</item>
+        <!-- MULTI-PURPOSE MODALS -->
+        <item id="stepCompleteMessage">You have completed this step. Please click on the {{{strong}}} blue &quot;Continue&quot; button {{{/strong}}} at the bottom right-side of your screen to go to the next step.</item>
+        <item id="logInFirst">Please complete the log-in process first.</item>
 
-    <!-- MOBILE MULTI-PURPOSE  -->
-    <item id="screenOrientationText">縦向きで使用してください！</item>
+        <!-- MOBILE MULTI-PURPOSE  -->
+        <item id="screenOrientationText">Please Use Portrait Orientation!</item>
 
-    <!-- FOOTER -->
-    <item id="fontSizeText">文字サイズ</item>
-    <item id="cardHeightText">カードの高さ</item>
-    <item id="btnHelp">ヘルプ</item>
-    <item id="btnHelpLanding">ヘルプ</item>
-    <item id="btnHelpConsent">連絡先情報</item>
 
-    <item id="btnNext">続ける</item>
-    <item id="btnNextLanding">開始</item>
-    <item id="btnNextConsent">同意する</item>
+        <!-- FOOTER -->
+        <item id="fontSizeText">Text Size</item>
+        <item id="cardHeightText">Card Height</item>
+        <item id="btnHelp">Help</item>
+        <item id="btnHelpLanding">Help</item>
+        <item id="btnHelpConsent">Contact Information</item>
+
+        <item id="btnNext">Continue</item>
+        <item id="btnNextLanding">Start</item>
+        <item id="btnNextConsent">Agree</item>
+        
+        <!-- MOBILE FOOTER -->
+        <item id="mobileTextSize">Text</item>
+        <item id="mobileViewSize">View</item>
+
+        <!-- LANDING SCREEN -->
+        <item id="landingHead">University Research Project</item>
+        <item id="welcomeText">{{{h2}}}EQ Web Sort Demo Project - iPad Use in the Classroom.{{{/h2}}}{{{br/}}}{{{br/}}}{{{p}}}Thank you for helping with this research project{{{/p}}}{{{br/}}}{{{br/}}}{{{br/}}} {{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/lMy4ARVEcCI?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
+        
+        <!-- MOBILE LANDING SCREEN -->
+        <item id="mobileWelcomeText">{{{h2}}}EQ Web Sort Demo Project - iPad Use in the Classroom.{{{/h2}}}{{{br/}}}{{{br/}}}{{{p}}}Thank you for helping with this research project!{{{/p}}}{{{br/}}}{{{br/}}}{{{br/}}} {{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/lMy4ARVEcCI?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
+
+
+        <!-- LANDING -> ACCESS CONTROL - only displayed if access is restricted -->
+        <item id="accessCodeText">Access Code</item>
+        <item id="accessInputText">Please enter the access code for this survey.</item>
+        <item id="loginSubmitButtonText">Submit</item>
+        <item id="loginPartIdText">Please enter your name or participant ID</item>
+        <item id="accessCodeWarning">Access code invalid</item>
+        <item id="partIdWarning">Invalid name or ID</item>
+        <item id="loginHeaderText">Sign In</item>
+        <item id="loginWelcomeText">{{{center}}}{{{h3}}}Welcome!{{{/h3}}}{{{/center}}}{{{br}}} Thank you for participating in this Q methodology research project. {{{br}}}Please {{{strong}}}sign in{{{/strong}}} using the form below to begin the process.</item>
+        <item id="landingHelpModalHead">Welcome!</item>
+        <item id="landingHelpModalText">Thank you for participating in this University Research Project. Please click the &quot;{{{b}}}Continue{{{/b}}}&quot; button at the bottom right side of the screen to go to the next step.</item>
+
+        <!-- LOCAL DATA COLLECTION -->  
+        <item id="localHeader">Offline Q-sort Control Panel</item>
+        <item id="partIdText">Participant Name</item>
+        <item id="usercodeText">Usercode</item>
+        <item id="localStartButtonText">Start Q-sort</item>
+        <item id="localDeleteButtonText">Delete</item>
+        <item id="localDownloadButtonText">Save Q-sort Data to Disk</item>
+        <item id="storedQsortsHeaderText">Stored Q-sorts</item>
+        <item id="localDeleteModalHead">Delete Data Stored in Browser?</item>
+        <item id="localDeleteModalText">This will delete the participant Q-sort data that is currently stored in the browser. You would usually only do this when you are starting a new project.{{{br}}}{{{br}}}{{{b}}}CAUTION - Deleted data cannot be recovered.{{{/b}}} {{{br}}}{{{br}}} {{{center}}}{{{/center}}}</item>
+        <item id="localParticipantsText">Participants</item>
+        <item id="localSaveBeforeDeleteModalHeader">Delete Disabled</item>
+        <item id="localSaveBeforeDeleteModalText">Save Q sort Data to Disk before deleting.</item>
+        <item id="localSaveDataButton">Save Participant Data to Browser Memory</item>
+        <item id="localSubmitSuccessModalHeader">Success</item>
+        <item id="localSubmitSuccessModalText">Participant Q sort data have been successfully saved to browser memory</item>
+        <item id="returnToLocalPanelButtonText">Return to Control Panel</item>
+
+        <!-- CONSENT: get permission from participants-->
+        <item id="consentTitleBarText">Research Consent</item>
+        <item id="consentText">You are invited to participate in a research study conducted by [Principal Investigator’s Name] at [Institution or Organization]. Before you decide to participate, it is important that you understand why the research is being conducted and what it will involve. Please take the time to read the following information carefully. Feel free to contact the research team with any questions you may have.{{{br /}}}{{{br /}}}{{{b}}}Purpose of the Study{{{/b}}}{{{br /}}}The purpose of this study is to [briefly describe the purpose, e.g., understand the effects of a new teaching method on student performance]. This research will help us gain insights into [mention any broader implications or goals of the study]. {{{br /}}}{{{br /}}}{{{b}}}Study Procedures{{{/b}}}{{{br /}}}If you agree to participate, you will be asked to [describe the procedures involved, including what participants will do, how long it will take, and how frequently it will occur]. For example, you will be asked to complete evaluate a series of statements, sort them, and then reflect on the sorting. Additionally, there is a short questionnaires at the end. The study will take approximately [duration, e.g., 45 minutes]. {{{br /}}}{{{br /}}}{{{b}}}Benefits{{{/b}}}{{{br /}}}While there may not be direct benefits to you for participating, the information gathered from this study may help [describe potential benefits, e.g., improve educational methods, contribute to scientific knowledge, etc.]. You may also gain personal insights into [describe any personal benefits, if applicable].{{{br /}}}{{{br /}}}{{{b}}}Confidentiality{{{/b}}}{{{br /}}}All information collected in this study will be kept strictly confidential. Data will be stored securely and only the research team will have access to it. Your identity will not be disclosed in any reports or publications resulting from this study. [Describe how data will be anonymized, encrypted, or stored securely].{{{br /}}}{{{br /}}}{{{b}}}Voluntary Participation{{{/b}}}{{{br /}}}Your participation in this study is entirely voluntary. You are free to decline to participate, or to withdraw at any time, without penalty or loss of benefits to which you are otherwise entitled. If you decide to withdraw, close the webpage and any data collected up to that point will be deleted.{{{br /}}}{{{br /}}}{{{b}}}Consent{{{/b}}}{{{br /}}}By clicking on the "Agree" button on the bottom of this page, you are indicating that you have read and understood the information provided, and that you agree to participate in this study. If you have any questions about this study, please contact [Principal Investigator’s Name and Contact Information].</item>
+         <item id="consentHelpModalHead">Contact Information</item>
+        <item id="consentHelpModalText">Thank you for participating in this University Research Project. You can contact the research team by phone (1-555-867-5309) or by email at researchTeam@myMail.com</item>
+
+
+        <!-- PRESORT: rough sorting into three piles (leave blank to skip popup)-->
+        <item id="titleBarText">Preliminary Sorting</item>
+        <item id="presortAgreement">Agree (3)</item>
+        <item id="presortStatements">Statements</item>
+        <item id="presortNeutral">No Strong Feelings (2)</item>
+        <item id="presortDisagreement">Disagree (1)</item>
+        <item id="presortModalHead">Step 1 of 4</item>
+          <item id="presortModalText">Read the following statements carefully and split them up into three piles: a pile for statements you tend to disagree with, a pile for cards you tend to agree with, and a pile for the rest. Changes can be made later.{{{br/}}}{{{br/}}}If you want to read this instruction a second time, click the help-button at the bottom left corner.{{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/vtnLuKzpcKQ?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
+        <item id="presortPreventNavModalHead">Navigation Disabled</item>
+        <item id="presortPreventNavModalText">Please finish the preliminary sorting before going to the next step.</item>
+        <item id="presortFinishedModalHead">Preliminary Sorting Complete</item>
+        <item id="presortFinishedModalText">You have completed this step. Please click the &quot;Continue&quot; button in the bottom right side of the page to go to the next step.</item>
+        <item id="presortOnPageInstructions">{{{div style=&quot;font-size: 24px&quot;}}}Click and drag on the cards or press the &quot;1&quot;, &quot;2&quot;, or &quot;3&quot; keys to sort the statements.{{{/div}}}</item>
+        <item id="presortImageSortInstructions">To enlarge an image, hover your mouse pointer over it and double-click. {{{br/}}}{{{br/}}} To compare images, {{{u}}}press and hold{{{/u}}} the {{{b}}}{{{i}}}Shift{{{/i}}}{{{/b}}} key on your keyboard and then double-click on TWO images with your mouse.</item>
+      
+        <!-- MOBILE PRESORT:  -->
+        <item id="mobilePresortConditionsOfInstruction">Evaluate the Statements According to Your Experience of using the iPads in the Class</item>
+        <item id="mobilePresortCompletedLabel">Completed Evaluations</item>
+        <item id="mobilePresortAssignLeft">Different from My Perspective</item>
+        <item id="mobilePresortAssignRight">Similar to My Perspective</item>
+        <item id="mobilePresortRedoModalHead">Re-Evaluate Statement</item>
+        <item id="mobilePresortRedoModalText">Click on the appropriate icon</item>
+        <item id="mobilePresortRedoModalConfirmButton">Confirm</item>
+        <item id="mobilePresortEvaluationsComplete">{{{div}}}{{{b}}}All Statements Evaluated.{{{/b}}} {{{br /}}}{{{br /}}}Please review the statements to confirm your evaluations.  {{{br /}}}{{{br /}}}{{{div}}}</item>
+        <item id="mobilePresortHelpModalHead">Stage 1 of 5{{{br /}}}Statement Evaluation</item>
+        <item id="mobilePresortHelpModalText">Tap on the appropriate button to assign a value to each statement. {{{br /}}}{{{br /}}} If you feel that the statement is {{{b}}}similar to your perspective{{{/b}}}, tap the green "+" button.{{{br /}}}{{{br /}}} If you feel that the statement is {{{b}}}different from your perspective{{{/b}}}, tap the red "-" button. {{{br /}}}{{{br /}}}If you are unsure, tap the "?" button. {{{br /}}}{{{br /}}} There are {{{b}}}33 statements{{{/b}}} in this survey. {{{br /}}}{{{br /}}} If you want to {{{b}}}change{{{/b}}} your evaluation, tap the {{{b}}}redo icon{{{/b}}} next to the statement.</item>
+        <item id="mobilePresortFinishedModalHead">Stage 1 of 5{{{br /}}}Statement Evaluation</item>
+         <item id="mobilePresortFinishedModalText">The evaluation process is complete. {{{br/}}}{{{br/}}} Please {{{b}}}review the statements{{{/b}}} to confirm your evaluations.  {{{br /}}}{{{br /}}}If you want to make a change, tap the "redo" icon to the left of the statement.{{{br /}}}{{{br /}}}When you are satisfied with all of your evaluations, tap the {{{b}}}navigation button{{{/b}}} on the bottom right.</item>
+        <item id="mobilePresortProcessCompleteMessage">The evaluation process is complete. {{{br/}}}{{{br/}}} Please click on the navigation button on the bottom right side to go to the next stage.</item>
+        <item id="mobilePresortPreventNavModalHead">Navigation Disabled</item>
+        <item id="mobilePresortPreventNavModalText">Please finish the evaluations before going to the next stage.</item>
     
-    <!-- MOBILE FOOTER -->
-    <item id="mobileTextSize">テキスト</item>
-    <item id="mobileViewSize">ビュー</item>
+        <!-- THINNING:  -->
+        <item id="refinePageTitle">Refine Your Evaluations</item>
+        <item id="thinningPreventNavModalHead">Navigation Disabled</item>
+        <item id="thinningPreventNavModalText">Please finish the refining process before going to the next step.</item>
+        <item id="thinningConfirmModalHead">Incomplete Selection</item>
+        <item id="thinningConfirmModalText">Please select the required number of statements.</item>
+        <item id="agreeMostText">Next, repeat the process with the remaining statements, but this time please select the cards that you agree with the most.</item>
+        <item id="agreeLeastText">Next, repeat the process with the remaining statements, but this time please select the cards that you agree with the least.</item>
+        <item id="initialInstructionPart1">Below are the statements you rated positively in the previous step. Now, pick the number of statements that you {{{b}}}MOST AGREE{{{/b}}}.{{{br /}}}{{{br /}}}</item>
+        <item id="initialInstructionPart2">Next, continue to select the statements that are CLOSEST to your perspective</item>
+        <item id="initialInstructionPart3">Another set of statements will appear on the screen after you click the orange "Submit" button.</item>
+        <item id="finalInstructions">Refinement process complete. Click on the navigation button on the bottom right side to go to the next stage..</item>
 
-    <!-- LANDING SCREEN -->
-    <item id="landingHead">グローバル・スタディーズ学科</item>
-    <item id="welcomeText">{{{h2}}}EQ Web Sort デモプロジェクト - 教室でのiPadの使用{{{/h2}}}{{{br/}}}{{{br/}}}{{{p}}}この研究プロジェクトにご協力いただきありがとうございます{{{/p}}}{{{br/}}}{{{br/}}}{{{br/}}} {{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/lMy4ARVEcCI?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
-    
-    <!-- MOBILE LANDING SCREEN -->
-    <item id="mobileWelcomeText">新設されたグローバル・スタディーズ学科の初年度に関する学生の意見を収集するための調査にご協力いただき、ありがとうございます。この調査は、学科のプログラムやサポート体制を改善し、今後の学生体験をより良いものにすることを目的としています。率直なご意見や感想をお聞かせいただけると幸いです。回答は匿名で扱われ、調査結果は統計的な目的でのみ使用されます。
-    {{{br /}}}{{{br/}}}この調査では、Q方法論の調査方法を使用しています。{{{br /}}}{{{br/}}}Q方法論（Q Methodology）は、個人の意見や価値観を深く理解するための調査手法です。この方法では、参加者にさまざまな意見や主張が書かれたカード（「Qステートメント」と呼ばれます）を提示し、それらを自分の考えに基づいて重要度や同意の度合いに従って並べ替えていただきます。並べ替えの結果は、自分がどのように考えているかを示すだけでなく、他の参加者との共通点や相違点を分析するためにも使われます。難しいルールはなく、自分自身の素直な感覚で取り組んでいただければ大丈夫です。すべての回答は匿名で扱われ、研究目的のみに使用されますので、安心してご参加ください。{{{br /}}}{{{br/}}}調査を開始する準備ができたら、右下にある「開始」ボタンをタップしてください。</item>
+      <!-- MOBILE THINNING:  -->
+        <item id="moveTopMobileHead">Confirm Move</item>
+        <item id="moveTopMobileText">Move this statement to the top of the list?</item>
+        <item id="moveBottomMobileText">Move this statement to the bottom of the list?</item>
+        <item id="moveAllTopMobileText">Move all selected statements to the top of the list?</item>
+        <item id="moveTopMobileButtonOK">Yes</item>
+        <item id="moveTopMobileButtonCancel">Cancel</item>
+        <!-- <item id="moveTopMobileTextAllTopInstruction">Move all selected (yellow-colored) statements to the top?</item> -->
+        <item id="mobileThinConditionsOfInstruction">Refine Your Evaluations</item>
+        <item id="mobileThinSubmitButtonText">Submit</item>
+        <item id="mobileThinHelpModalHead">Refine Your Evaluations</item>
+        <item id="mobileThinHelpModalText">During this stage you will be asked to {{{b}}}review the statements{{{/b}}} you evaluated and choose those that are most similar or most different from your perspective.{{{br/}}}{{{br/}}}You may need to {{{b}}}scroll down{{{/b}}} to see all of the statements.{{{br/}}}{{{br/}}}To {{{b}}}select a statement{{{/b}}}, tap on the statement container. The color of the statement will change to yellow.{{{br/}}}{{{br/}}}When you have selected the {{{b}}}correct number{{{/b}}} of statements, the "Submit" button will change to {{{b}}}blue{{{/b}}}. {{{br/}}}{{{br/}}}To make it easier to compare the statements, you can {{{b}}}reorder{{{/b}}} them by tapping on the up and down arrows located on the right or left sides of the statement.{{{br/}}}{{{br/}}}You can also {{{b}}}move a group{{{/b}}} of selected statements to the top of the list by {{{b}}}long pressing{{{/b}}} (about 1 second) on a statement.</item>     
+        <item id="mobileThinPreventNavModalHead">Navigation Disabled</item>
+        <item id="mobileThinPreventNavModalText">Please complete the refining process before navigating to the next page.</item>
+        <item id="mobileThinProcessCompleteMessage">The refinement process is complete. {{{br/}}}{{{br/}}} Please click on the navigation button on the bottom right side to go to the next stage.</item>
+        <item id="mobileGuidanceModalRight1Header">Stage 2 of 5{{{br/}}} Refinement Process</item>
+        <item id="mobileGuidanceModalRight1Text">There are several steps in this Stage. {{{br/}}}{{{br/}}}Step 1. Please look at all of the statements that you evaluated {{{b}}}positively{{{/b}}} and select those that are {{{b}}}closest to your perspective{{{/b}}}.{{{br/}}}{{{br/}}}You may need to {{{b}}}scroll{{{/b}}} down to see all of the statements.</item>
+        <item id="mobileGuidanceModalRight2Header">Stage 2 of 5{{{br/}}} Refinement Process</item>
+        <item id="mobileGuidanceModalRight2Text">Next, once again look at the remaining statements that you evaluated {{{b}}}positively{{{/b}}} and select the {{{b}}}next set{{{/b}}} of statements that are {{{b}}}closest to your perspective{{{/b}}}.</item>
+        <item id="mobileGuidanceModalLeft1Header">Stage 2 of 5{{{br/}}} Refinement Process</item>
+        <item id="mobileGuidanceModalLeft1Text">Step 2. Next, please look at all of the statements that you evaluated negatively and {{{b}}}select{{{/b}}} those that {{{b}}}differ the most{{{/b}}} from your perspective.{{{br/}}}{{{br/}}}You may need to {{{b}}}scroll down{{{/b}}} to see all of the statements.</item>
+        <item id="mobileGuidanceModalLeft2Header">Stage 2 of 5{{{br/}}} Refinement Process</item>
+        <item id="mobileGuidanceModalLeft2Text">Next, once again look at the remaining statements that you evaluated {{{b}}}negatively{{{/b}}} and {{{b}}}select{{{/b}}} the {{{b}}}next set{{{/b}}} of statements that are {{{b}}}most different from to your perspective{{{/b}}}.</item>
+        <item id="mobileThinScrollBottomModalHead">Confirmation Disabled</item>
+        <item id="mobileThinScrollBottomModalText">Please scroll to the bottom and review all the statements before confirming your selections.</item>
 
-    <!-- LANDING -> ACCESS CONTROL - only displayed if access is restricted -->
-    <item id="accessCodeText">アクセスコード</item>
-    <item id="accessInputText">この調査のアクセスコードを入力してください。</item>
-    <item id="loginSubmitButtonText">送信</item>
-    <item id="loginPartIdText">名前または参加者IDを入力してください</item>
-    <item id="accessCodeWarning">アクセスコードが無効です</item>
-    <item id="partIdWarning">名前またはIDが無効です</item>
-    <item id="loginHeaderText">サインイン</item>
-    <item id="loginWelcomeText">{{{center}}}{{{h3}}}ようこそ！{{{/h3}}}{{{/center}}}{{{br}}} このQ方法論研究プロジェクトにご参加いただきありがとうございます。 {{{br}}}以下のフォームを使用して {{{strong}}}サインイン{{{/strong}}} してプロセスを開始してください。</item>
-    <item id="landingHelpModalHead">ようこそ！</item>
-    <item id="landingHelpModalText">この大学研究プロジェクトにご参加いただきありがとうございます。画面右下の「{{{b}}}続ける{{{/b}}}」ボタンをクリックして次のステップに進んでください。</item>
+        <!-- SORT: sorting -->
+        <item id="sortHelpModalHead">Step 2 of 4</item>
+        <item id="sortHelpModalText">In this step, please click and drag the statement cards to the appropriate column based on your perspective and the researcher&apos;s instructions at the top of the page. {{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/iRxC9Vv3dLo?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
+        <item id="sortAgreement">Agree</item>
+        <item id="sortDisagreement">Disagree</item>
+        <item id="condOfInst">Sort the cards according to your experience with the iPads this semester</item>
+        <item id="sortingCompleteModalHead">Sorting Complete</item>
+        <item id="sortingCompleteModalText">You have completed the initial sorting. Please take a moment to confirm your placement of the cards.{{{br/}}}{{{br/}}}When you are satisfied with their placement, please click on the {{{b}}}blue &quot;Continue&quot; button{{{/b}}} at the bottom right-side of your screen to go to the next step.</item>
+        <item id="sortPreventNavModalHead">Navigation Disabled</item>
+        <item id="sortPreventNavModalText">Please finish the grid sorting before going to the next step.</item>
+        <item id="sortOverloadedColumnModalHead">Navigation Disabled</item>
+        <item id="sortOverloadedColumnModalText">One of the columns has too many cards (it will be outlined in orange and have a dashed border). Please adjust the placement of the cards so that all columns have the correct number.</item>
 
-    <!-- LOCAL DATA COLLECTION -->  
-    <item id="localHeader">オフラインQソートコントロールパネル</item>
-    <item id="partIdText">参加者名</item>
-    <item id="usercodeText">ユーザーコード</item>
-    <item id="localStartButtonText">Qソートを開始</item>
-    <item id="localDeleteButtonText">削除</item>
-    <item id="localDownloadButtonText">Qソートデータをディスクに保存</item>
-    <item id="storedQsortsHeaderText">保存されたQソート</item>
-    <item id="localDeleteModalHead">ブラウザに保存されたデータを削除しますか？</item>
-    <item id="localDeleteModalText">これは現在ブラウザに保存されている参加者のQソートデータを削除します。通常、新しいプロジェクトを開始する際にのみこれを行います。{{{br}}}{{{br}}}{{{b}}}注意 - 削除されたデータは復元できません。{{{/b}}} {{{br}}}{{{br}}} {{{center}}}{{{/center}}}</item>
-    <item id="localParticipantsText">参加者</item>
-    <item id="localSaveBeforeDeleteModalHeader">削除無効</item>
-    <item id="localSaveBeforeDeleteModalText">削除する前にQソートデータをディスクに保存してください。</item>
-    <item id="localSaveDataButton">参加者データをブラウザメモリに保存</item>
-    <item id="localSubmitSuccessModalHeader">成功</item>
-    <item id="localSubmitSuccessModalText">参加者のQソートデータがブラウザメモリに正常に保存されました</item>
-    <item id="returnToLocalPanelButtonText">コントロールパネルに戻る</item>
+        <!-- MOBILE SORT: sorting -->
+        <item id="mobileSortSwapModalHead">Swap Statement Rankings?</item>
+        <item id="mobileSortSwapModalText">Click "Confirm" to swap.</item>
+        <item id="mobileSortSwapModalConfirmButton">Swap</item>
+        <item id="mobileSortConditionsOfInstruction">Rank the Statements According to Your Experience of using the iPads in the Class</item>
+        <item id="mobileSortHelpModalHead">Stage 3 of 5{{{br/}}} Final Statement Ranking</item>
+        <item id="mobileSortHelpModalText">The statements have been ranked based on your previous evaluations.{{{br/}}}{{{br/}}} Those statements that are closest to your perspective should be at the top of the list. Those that are farthest from your perspective should be at the bottom of the list.{{{br/}}}{{{br/}}}You will need to {{{b}}}scroll down{{{/b}}} to see all of the statements.{{{br/}}}{{{br/}}}Please {{{b}}}review the rankings{{{/b}}} and make any necessary changes to the ranking of the statements so that the ordering {{{b}}}accurately reflects your perspective{{{/b}}}. {{{br/}}}{{{br/}}}{{{mark}}}This is the most critical stage of the survey, so please review the statement rankings carefully.{{{/mark}}}{{{br/}}}{{{br/}}}  
+        To {{{b}}}swap the positions of neighboring statements{{{/b}}}, tap the up or down arrows on the right or left side of the statement.{{{br/}}}{{{br/}}}To {{{b}}}swap the positions of statements that are separated{{{/b}}}, tap on two statements (the statement color will change to yellow) and a swap confirmation message will appear.{{{br/}}}{{{br/}}}When you are satisfied with all of the rankings, tap the navigation button on the bottom right.</item>
+        <item id="mobileSortScrollBottomModalHead">Navigation Disabled</item>
+        <item id="mobileSortScrollBottomModalText">Please scroll to the bottom and review the ranking of all the statements before going to the next stage.</item>
+        
 
-    <!-- CONSENT: get permission from participants-->
-    <item id="consentTitleBarText">研究同意</item>
-    <item id="consentText">あなたは [Principal Investigator’s Name] が [Institution or Organization] で実施する研究に参加するよう招待されています。参加を決定する前に、研究がなぜ行われているのか、そしてそれが何を伴うのかを理解することが重要です。以下の情報を注意深く読んでください。質問がある場合は、研究チームにお問い合わせください。{{{br /}}}{{{br /}}}{{{b}}}研究の目的{{{/b}}}{{{br /}}}この研究の目的は [briefly describe the purpose, e.g., understand the effects of a new teaching method on student performance] です。この研究は [mention any broader implications or goals of the study] についての洞察を得るのに役立ちます。{{{br /}}}{{{br /}}}{{{b}}}研究手順{{{/b}}}{{{br /}}}参加に同意する場合、あなたは [describe the procedures involved, including what participants will do, how long it will take, and how frequently it will occur] を求められます。例えば、一連のステートメントを評価し、それをソートし、その後ソートについて反省するよう求められます。さらに、最後に短いアンケートがあります。研究は約 [duration, e.g., 45 minutes] かかります。{{{br /}}}{{{br /}}}{{{b}}}利益{{{/b}}}{{{br /}}}参加することによる直接的な利益はないかもしれませんが、この研究から得られる情報は [describe potential benefits, e.g., improve educational methods, contribute to scientific knowledge, etc.] に役立つかもしれません。また、 [describe any personal benefits, if applicable] についての個人的な洞察を得ることができるかもしれません。{{{br /}}}{{{br /}}}{{{b}}}機密保持{{{/b}}}{{{br /}}}この研究で収集されたすべての情報は厳密に機密として扱われます。データは安全に保管され、研究チームのみがアクセスできます。あなたの身元は、この研究の結果として作成される報告書や出版物には開示されません。 [Describe how data will be anonymized, encrypted, or stored securely]。{{{br /}}}{{{br /}}}{{{b}}}自発的な参加{{{/b}}}{{{br /}}}この研究への参加は完全に自発的です。参加を拒否することも、いつでもペナルティや利益の喪失なしに撤回することも自由です。撤回を決定した場合、ウェブページを閉じると、それまでに収集されたデータは削除されます。{{{br /}}}{{{br /}}}{{{b}}}同意{{{/b}}}{{{br /}}}このページの下部にある「同意する」ボタンをクリックすることで、提供された情報を読み、理解し、この研究に参加することに同意することを示しています。この研究について質問がある場合は、 [Principal Investigator’s Name and Contact Information] にお問い合わせください。</item>
-    <item id="consentHelpModalHead">連絡先情報</item>
-    <item id="consentHelpModalText">この大学研究プロジェクトにご参加いただきありがとうございます。電話（1-555-867-5309）またはメール（researchTeam@myMail.com）で研究チームに連絡できます。</item>
+        <!-- POSTSORT: comments - only displayed if showStep3 = true -->
+        <item id="postsortHeader">Post-Sort Comments</item>
+        <item id="postsortInstructions">{{{h3}}}Please describe your thoughts about these statements in more detail.{{{/h3}}}</item>
+        <item id="placeholder">Click here to add comment</item>
+        <item id="postsortAgreement">Placed on Agree</item>
+        <item id="postsortDisagreement">Placed on Disagree</item>
+        <item id="postsortModalHead">Step 3 of 4</item>
+        <item id="postsortModalText">You can use the buttons at the bottom of the page to change the font size or card height.{{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/EFNlSiaEVVg?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/h3}}}{{{/center}}}</item>
+        <item id="postsortPreventNavModalHead">Navigation Disabled</item>
+        <item id="postsortPreventNavModalText">Please add comments to all of the cards before going to the next step.</item>
+        <item id="postsortBackButtonText">Go Back</item>
 
-    <!-- PRESORT: rough sorting into three piles (leave blank to skip popup)-->
-    <item id="titleBarText">予備ソート</item>
-    <item id="presortAgreement">同意 (3)</item>
-    <item id="presortStatements">ステートメント</item>
-    <item id="presortNeutral">強い感情なし (2)</item>
-    <item id="presortDisagreement">不同意 (1)</item>
-    <item id="presortModalHead">ステップ 1/4</item>
-    <item id="presortModalText">以下のステートメントを注意深く読み、3つの山に分けてください：不同意するステートメントの山、同意するカードの山、残りのカードの山。後で変更することができます。{{{br/}}}{{{br/}}}この指示をもう一度読みたい場合は、左下のヘルプボタンをクリックしてください。{{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/vtnLuKzpcKQ?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
-    <item id="presortPreventNavModalHead">ナビゲーション無効</item>
-    <item id="presortPreventNavModalText">次のステップに進む前に予備ソートを完了してください。</item>
-    <item id="presortFinishedModalHead">予備ソート完了</item>
-    <item id="presortFinishedModalText">このステップが完了しました。次のステップに進むには、ページの右下にある「続ける」ボタンをクリックしてください。</item>
-    <item id="presortOnPageInstructions">{{{div style=&quot;font-size: 24px&quot;}}}カードをクリックしてドラッグするか、「1」、「2」、「3」キーを押してステートメントをソートしてください。{{{/div}}}</item>
-    <item id="presortImageSortInstructions">画像を拡大するには、マウスポインターを画像に合わせてダブルクリックしてください。 {{{br/}}}{{{br/}}} 画像を比較するには、{{{u}}}Shiftキーを押し続け{{{/u}}}、次にマウスで2つの画像をダブルクリックしてください。</item>
-  
-    <!-- MOBILE PRESORT:  -->
-    <item id="mobilePresortConditionsOfInstruction">今年のグローバル・スタディーズの授業での経験に基づいてステートメントを評価してください。</item>
-    <item id="mobilePresortCompletedLabel">評価完了</item>
-    <item id="mobilePresortAssignLeft">私の視点と異なる</item>
-    <item id="mobilePresortAssignRight">私の視点に似ている</item>
-    <item id="mobilePresortRedoModalHead">ステートメントを再評価</item>
-    <item id="mobilePresortRedoModalText">適切なアイコンをクリックしてください</item>
-    <item id="mobilePresortRedoModalConfirmButton">確認</item>
-    <item id="mobilePresortEvaluationsComplete">{{{div}}}{{{b}}}すべてのステートメントが評価されました。{{{/b}}} {{{br /}}}{{{br /}}}評価を確認してください。  {{{br /}}}{{{br /}}}{{{div}}}</item>
-    <item id="mobilePresortHelpModalHead">ステージ 1/5{{{br /}}}ステートメント評価</item>
-    <item id="mobilePresortHelpModalText">各ステートメントに値を割り当てるには、適切なボタンをタップしてください。 {{{br /}}}{{{br /}}} ステートメントが {{{b}}}自分の視点に似ている{{{/b}}} と感じる場合は、緑の「+」ボタンをタップしてください。{{{br /}}}{{{br /}}} ステートメントが {{{b}}}自分の視点と異なる{{{/b}}} と感じる場合は、赤の「-」ボタンをタップしてください。 {{{br /}}}{{{br /}}}不明な場合は、「?」ボタンをタップしてください。 {{{br /}}}{{{br /}}} この調査には {{{b}}}33のステートメント{{{/b}}} があります。 {{{br /}}}{{{br /}}} 評価を {{{b}}}変更{{{/b}}} したい場合は、ステートメントの横にある {{{b}}}再評価アイコン{{{/b}}}（下図）をタップしてください。{{{br/}}}{{{br/}}} {{{center}}}{{{img src="https://raw.githubusercontent.com/shawnbanasick/quince/5dec1c9752ddab34b3b5dabba5e2081efdabbc09/src/assets/redoArrow.svg"  width="30" /}}}{{{/center}}}{{{br/}}} また、{{{b}}}テキスト調整ボタン{{{/b}}}（下図）の隣にある「＋」または「-」ボタンをタップすることで、ステートメントのテキストのサイズを調整することができる。{{{br/}}}{{{center}}}{{{br /}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/textAdjust.png?raw=true" /}}}{{{/center}}}{{{br/}}}{{{b}}}ビューエリア調整ボタン{{{/b}}}の隣にある「＋」または「-」ボタンをタップすることで、ビューエリアの高さを調整することができます（下図）。 {{{br/}}}{{{br/}}} {{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/viewAdjust.png?raw=true" /}}}{{{/center}}}{{{br /}}}ページ右上の「ヘルプアイコン」（下図）をタップすると、この情報を再度見ることができる。{{{br /}}}{{{br /}}}{{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/helpSymbol.png?raw=true" width="30"/}}}{{{/center}}}</item>
-    
-    <item id="mobilePresortFinishedModalHead">ステージ 1/5{{{br /}}}ステートメント評価</item>
-    <item id="mobilePresortFinishedModalText">評価プロセスが完了しました。 {{{br/}}}{{{br/}}} 評価を確認してください。  {{{br /}}}{{{br /}}}変更を加えたい場合は、ステートメントの左側にある「再評価」アイコンをタップしてください。{{{br /}}}{{{br /}}}すべての評価に満足したら、右下の {{{b}}}「続ける」{{{/b}}}ボタン をタップしてください。</item>
-    <item id="mobilePresortProcessCompleteMessage">評価プロセスが完了しました。 {{{br/}}}{{{br/}}} 次のステージに進むには、右下の「ｔボタンをクリックしてください。</item>
-    <item id="mobilePresortPreventNavModalHead">ナビゲーション無効</item>
-    <item id="mobilePresortPreventNavModalText">次の段階に進む前に評価を完了させてください。</item>
-    
-    <!-- THINNING:  -->
-    <item id="thinningPreventNavModalHead">ナビゲーション無効</item>
-    <item id="thinningPreventNavModalText">次のステップに進む前に精緻化プロセスを完了してください。</item>
-    <item id="thinningConfirmModalHead">選択が不完全です</item>
-    <item id="thinningConfirmModalText">必要な数のステートメントを選択してください。</item>
-    <item id="agreeMostText">次に、残りのステートメントで同意するものを選択してください。</item>
-    <item id="agreeLeastText">次に、残りのステートメントで同意しないものを選択してください。</item>
-    <item id="initialInstructionPart1">以下は前のステップで肯定的に評価したステートメントです。今度は、最も {{{b}}}同意する{{{/b}}} ステートメントを選択してください。{{{br /}}}{{{br /}}}</item>
-    <item id="initialInstructionPart2">次に、自分の視点に最も近いステートメントを選択し続けてください</item>
-    <item id="initialInstructionPart3">オレンジ色の「送信」ボタンをクリックすると、別のセットのステートメントが画面に表示されます。</item>
-    <item id="finalInstructions">精緻化プロセスが完了しました。次のステージに進むには、右下のナビゲーションボタンをクリックしてください。</item>
-
-
-    <!-- MOBILE THINNING:  -->
-    <item id="moveTopMobileHead">移動を確認</item>
-    <item id="moveTopMobileText">このステートメントをリストの上部に移動しますか？</item>
-
-    <item id="moveBottomMobileText">このステートメントをリストの下部に移動しますか？</item>
-    <item id="moveAllTopMobileText">選択したすべてのステートメントをリストの上部に移動しますか？</item>
-    <item id="moveTopMobileButtonOK">はい</item>
-    <item id="moveTopMobileButtonCancel">キャンセル</item>
-    <!-- <item id="moveTopMobileTextAllTopInstruction">選択したすべての（黄色の）ステートメントを上部に移動しますか？</item> -->
-    <item id="mobileThinConditionsOfInstruction">
-    今年のグローバル・スタディーズの授業での経験に基づいてステートメントを評価を精緻化してください。</item>
-    <item id="mobileThinSubmitButtonText">送信</item>
-    <item id="mobileThinHelpModalHead">評価を精緻化してください</item>
-    <item id="mobileThinHelpModalText">このステージでは、評価したステートメントを {{{b}}}見直し{{{/b}}}、自分の視点に最も近いまたは最も異なるものを選択するよう求められます。{{{br/}}}{{{br/}}}すべてのステートメントを見るために {{{b}}}スクロール{{{/b}}} する必要があるかもしれません。{{{br/}}}{{{br/}}}ステートメントを {{{b}}}選択する{{{/b}}} には、ステートメントコンテナをタップしてください。ステートメントの色が黄色に変わります。{{{br/}}}{{{br/}}}
-    {{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/selectedStatement.png?raw=true" width="300" /}}}{{{/center}}}{{{br/}}}{{{br/}}}
-    正しい数のステートメントを選択すると、「提出」ボタンが {{{b}}}青色{{{/b}}} に変わります。{{{br/}}}{{{br/}}}
-    {{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/selectedNum.png?raw=true" width="300" /}}}{{{/center}}}{{{/b}}}{{{br/}}}
-    {{{b}}}ヒント{{{/b}}}{{{br/}}}
-    ステートメントを比較しやすくするために、ステートメントの右または左側にある上下の矢印をタップして {{{b}}}並べ替える{{{/b}}} ことができます。
-    {{{br/}}}{{{br/}}}{{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/upDownArrows.png?raw=true" width="300" /}}}{{{/center}}}
-    {{{br/}}}また、ステートメントの右側にある上の矢印を長押し（約1秒）することで、選択したステートメント（青色）のグループを{{{b}}}リストの上部に 移動{{{/b}}} することもできます。 {{{br/}}} {{{br/}}}{{{center}}}{{{img src=" https://github.com/shawnbanasick/quince/blob/development/src/assets/moveTop2.png?raw=true" width="300"/}}}{{{/center}}}</item>
-    <item id="mobileThinPreventNavModalHead">ナビゲーション無効</item>
-    <item id="mobileThinPreventNavModalText">次のページに進む前に精緻化プロセスを完了してください。</item>
-    <item id="mobileThinProcessCompleteMessage">精緻化プロセスが完了しました。{{{br/}}}{{{br/}}}次のステージに進むには、右下の「続ける」ボタンをクリックしてください。</item>
-    <item id="mobileGuidanceModalRight1Header">ステージ 2/5{{{br/}}} 精緻化プロセス</item>
-    <item id="mobileGuidanceModalRight1Text">このステージにはいくつかのステップがあります。{{{br/}}}{{{br/}}}{{{b}}}ステップ 1{{{/b}}}{{{br/}}} {{{b}}}肯定的に{{{/b}}} 評価したすべてのステートメントを見て、自分の {{{mark}}}{{{b}}}視点に最も近い{{{/b}}}{{{/mark}}} ものを選択してください。{{{br/}}}{{{br/}}}選択したステートメントの{{{b}}}必要数{{{/b}}}はページの上部に表示されます。{{{br/}}}{{{br/}}}すべてのステートメントを見るために {{{b}}}スクロール{{{/b}}} する必要があるかもしれません。</item>
-    <item id="mobileGuidanceModalRight2Header">ステージ 2/5{{{br/}}} 精緻化プロセス</item>
-    <item id="mobileGuidanceModalRight2Text">次に、再度自分が {{{b}}}肯定的に{{{/b}}} 評価した残りのステートメントを見て、 {{{mark}}}{{{b}}}視点に最も近い{{{/b}}}{{{/mark}}} 次のセットのステートメントを選択してください。{{{br/}}}{{{br/}}}選択したステートメントの{{{b}}}必要数{{{/b}}}はページの上部に表示されます。{{{br/}}}{{{br/}}}すべてのステートメントを見るために {{{b}}}スクロール{{{/b}}} する必要があるかもしれません。</item>
-    <item id="mobileGuidanceModalLeft1Header">ステージ 2/5{{{br/}}} 精緻化プロセス</item>
-    <item id="mobileGuidanceModalLeft1Text">{{{b}}}ステップ 2{{{/b}}}{{{br/}}} 次に、自分が否定的に評価したすべてのステートメントを見て、{{{mark}}}{{{b}}}視点に最も異なる{{{/b}}}{{{/mark}}}を選択してください。{{{br/}}}{{{br/}}}選択したステートメントの{{{b}}}必要数{{{/b}}}はページの上部に表示されます。{{{br/}}}{{{br/}}}すべてのステートメントを見るために {{{b}}}スクロール{{{/b}}} する必要があるかもしれません。</item>
-    <item id="mobileGuidanceModalLeft2Header">ステージ 2/5{{{br/}}} 精緻化プロセス</item>
-    <item id="mobileGuidanceModalLeft2Text">次に、再度{{{b}}}否定的に{{{/b}}} 評価した残りのステートメントを見て、{{{b}}}視点に最も異なる{{{/b}}} 次のセットのステートメントを選択してください。{{{br/}}}{{{br/}}}選択したステートメントの{{{b}}}必要数{{{/b}}}はページの上部に表示されます。{{{br/}}}{{{br/}}}すべてのステートメントを見るために {{{b}}}スクロール{{{/b}}} する必要があるかもしれません。</item>
-    <item id="mobileThinScrollBottomModalHead">提出無効</item>
-    <item id="mobileThinScrollBottomModalText">提出する前に、すべてのステートメントを見直すために{{{b}}}下までスクロールしてください。{{{/b}}}</item>
-    <item id="mobileThinSubmitButtonText">提出</item>
-    <item id="mobileThinSelectedText">選択された</item>
-
-
-    <!-- SORT: sorting -->
-    <item id="sortHelpModalHead">ステップ 2/4</item>
-    <item id="sortHelpModalText">このステップでは、ステートメントカードをクリックしてドラッグし、あなたの視点と研究者の指示に基づいて適切な列に配置してください。{{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/iRxC9Vv3dLo?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
-    <item id="sortAgreement">同意</item>
-    <item id="sortDisagreement">不同意</item>
-    <item id="condOfInst">今学期のiPadの使用経験に基づいてカードをソートしてください</item>
-    <item id="sortingCompleteModalHead">ソート完了</item>
-    <item id="sortingCompleteModalText">初期ソートが完了しました。カードの配置を確認するために少し時間を取ってください。{{{br/}}}{{{br/}}}配置に満足したら、画面右下の {{{b}}}青い「続ける」ボタン{{{/b}}} をクリックして次のステップに進んでください。</item>
-    <item id="sortPreventNavModalHead">ナビゲーション無効</item>
-    <item id="sortPreventNavModalText">次のステップに進む前にグリッドソートを完了してください。</item>
-    <item id="sortOverloadedColumnModalHead">ナビゲーション無効</item>
-    <item id="sortOverloadedColumnModalText">1つの列にカードが多すぎます（オレンジ色で囲まれ、破線の枠が表示されます）。すべての列に正しい数のカードが配置されるように調整してください。</item>
-
-    <!-- MOBILE SORT: sorting -->
-    <item id="mobileSortSwapModalHead">ステートメントの順位を交換しますか？</item>
-    <item id="mobileSortSwapModalText">交換するには「確認」をクリックしてください。</item>
-    <item id="mobileSortSwapModalConfirmButton">交換</item>
-    <item id="mobileSortConditionsOfInstruction">
-    今年のグローバル・スタディーズの授業での経験に基づいてステートメントをランクしてください。</item>
-    <item id="mobileSortHelpModalHead">ステージ 3/5{{{br/}}} 最終ステートメントランク付け</item>
-    <item id="mobileSortHelpModalText">ステートメントは以前の評価に基づいてランク付けされています。{{{br/}}}{{{br/}}}{{{mark}}}これは調査の最も重要なステージですので、ステートメントのランク付けを慎重に見直してください。{{{/mark}}}{{{br/}}}{{{br/}}}先に評価したステートメントは9つのグループに分けられています。{{{br/}}}{{{br/}}}  自分の視点に最も近いステートメントはリストの上部に、最も異なるステートメントはリストの下部にあるべきです。（下図）{{{br/}}} {{{br/}}}{{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/GroupColors.png?raw=true" width="150"/}}}{{{/center}}}{{{br/}}}{{{br/}}}ランク付けを {{{b}}}見直し{{{/b}}}、ステートメントの順序が {{{b}}}自分の視点を正確に反映している{{{/b}}} ように必要な変更を加えてください。{{{br/}}}{{{br/}}}{{{br/}}}
-
-    {{{b}}}ステートメントのランキングを変更する方法{{{/b}}}{{{hr /}}}{{{br/}}}
-    グループ内のステートメントの順位は重要ではありません。グループ内のステートメントはすべて同じ価値を持ちます。  {{{br/}}} {{{br/}}}{{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/moveInsideGroup.png?raw=true" width="300"/}}}{{{/center}}}{{{br/}}} {{{br/}}} 
-    しかし、{{{mark}}}グループ間のステートメントの順位を変更することは非常に重要であり、{{{/mark}}}そのステートメントに対する意見の違い（より肯定的またはより否定的）を示します。{{{br/}}}{{{br/}}}
-    {{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/moveBetweenGroups.png?raw=true" width="300"/}}}{{{/center}}}{{{br/}}} {{{br/}}}
-
-    隣接するステートメントの位置を {{{b}}}交換する{{{/b}}} には、ステートメントの右または左側にある上下の矢印をタップしてください。（下図）{{{br/}}}{{{br/}}}{{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/switchNeighbor.png?raw=true" width="300"/}}}{{{/center}}}{{{br/}}} {{{br/}}}
-    
-    離れた位置にあるステートメントの位置を {{{b}}}交換する{{{/b}}} には、2つのステートメントをタップします（ステートメントの色が黄色に変わります）と、自動的に交換確認メッセージが表示されます。（下図）{{{br/}}}{{{br/}}}　{{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/swapModal.png?raw=true" width="300"/}}}{{{/center}}}{{{br/}}} {{{br/}}}
-    
-    すべてのステートメントを見るために {{{b}}}スクロール{{{/b}}} する必要があります。{{{br/}}} {{{br/}}}
-
-    すべてのランク付けに満足したら、右下の「続ける」ボタンをタップしてください。</item>
-    <item id="mobileSortScrollBottomModalHead">ナビゲーション無効</item>
-    <item id="mobileSortScrollBottomModalText">次のステージに進む前に、下までスクロールしてすべてのステートメントのランク付けを確認してください。</item>
-
-
-
-
-    <!-- POSTSORT: comments - only displayed if showStep3 = true -->
-    <item id="postsortHeader">ランキング後のコメント</item>
-    <item id="postsortInstructions">{{{h3}}}これらのステートメントについての考えを詳しく説明してください。{{{/h3}}}</item>
-    <item id="placeholder">コメントを追加するにはここをクリック</item>
-    <item id="postsortAgreement">同意に配置</item>
-    <item id="postsortDisagreement">不同意に配置</item>
-    <item id="postsortModalHead">ステップ 3/4</item>
-    <item id="postsortModalText">ページ下部のボタンを使用して、フォントサイズやカードの高さを変更できます。{{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/EFNlSiaEVVg?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/h3}}}{{{/center}}}</item>
-    <item id="postsortPreventNavModalHead">ナビゲーション無効</item>
-    <item id="postsortPreventNavModalText">次のステップに進む前に、すべてのカードにコメントを追加してください。</item>
-    <item id="postsortBackButtonText">戻る</item>
 
         <!-- MOBILE POSTSORT: comments - displayed if showStep3 = true -->
-    <item id="mobilePostsortPreventNavModalHead">ナビゲーション無効</item>
-    <item id="mobilePostsortPreventNavModalText">次のステップに進む前に、すべてのステートメントにコメントを追加してください。</item>
-    <item id="mobilePostsortSortbarText">ポストソートコメント</item>
-    <item id="mobilePostsortHelpModalHead">ステージ 4/5{{{br/}}} ポストランク付けコメント</item>
-    <item id="mobilePostsortHelpModalText">これらのステートメントのランク付けについてコメントしてください。</item>
+        <item id="mobilePostsortPreventNavModalHead">Navigation Disabled</item>
+        <item id="mobilePostsortPreventNavModalText">Please add comments to all of the statements before going to the next step.</item>
+        <item id="mobilePostsortSortbarText">Postsort Comments</item>
+        <item id="mobilePostsortHelpModalHead">Stage 4 of 5{{{br/}}} Post-Ranking Comments</item>
+        <item id="mobilePostsortHelpModalText">Please comment on your rankings of these statements.</item>
+        
 
-    <!-- SURVEY: Additional questions, displayed if showStep4 == true -->
-    <item id="surveyHeader">ポストソートアンケート</item>
-    <item id="surveyModalHead">ステップ 4/4</item>
-    <item id="surveyModalText">最後に、あなたの背景に関する以下の質問にお答えください。タイトルに「*」が付いている質問は必須です。{{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/68MHzgLn1zg?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
-    <item id="surveyPreventNavModalHead">ナビゲーション無効</item>
-    <item id="surveyPreventNavModalText">次のステップに進む前に、必須の質問（黄色で囲まれたもの）にお答えください。</item>
+        <!-- SURVEY: Additional questions, displayed if showStep4 == true -->
+        <item id="surveyHeader">Post-Sort Questionnaire</item>
+        <item id="surveyModalHead">Step 4 of 4</item>
+        <item id="surveyModalText">Finally, please answer the following questions regarding your background. The questions marked with an &quot;*&quot; in their title are required.{{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/68MHzgLn1zg?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
+        <item id="surveyPreventNavModalHead">Navigation Disabled</item>
+        <item id="surveyPreventNavModalText">Please answer the required questions (outlined in yellow) before going to the next step.</item>
+       
+        <!-- MOBILE SURVEY: questions displayed if showStep4 == true -->
+        <item id="mobileSurveyHelpModalHead">Stage 5 of 5{{{br/}}} Post-Ranking Survey</item>
+        <item id="mobileSurveyHelpModalText">Please answer the following questions.</item>
+       
 
-    <!-- MOBILE SURVEY: questions displayed if showStep4 == true -->
-    <item id="mobileSurveyHelpModalHead">ステージ 5/5{{{br/}}} ポストランク付けアンケート</item>
-    <item id="mobileSurveyHelpModalText">以下の質問にお答えください。</item>
 
-    <!-- SUBMIT -->
-    <item id="btnTransfer">データを送信</item>
-    <item id="transferHead">最終ステップ</item>
-    <item id="transferTextAbove">{{{h1}}}送信準備完了{{{/h1}}}{{{br/}}}{{{br/}}} {{{h2}}}結果を送信するには「データを送信」ボタンをクリックしてください。{{{/h2}}}</item>
-    <item id="transferTextBelow">送信確認メッセージが表示されない場合は、{{{br/}}}数分待ってから再度送信ボタンをクリックしてください。</item>
-    <item id="transferOkModalHeader">成功 - データがサーバーに送信されました。</item>
-    <item id="transferOkModalText">{{{br/}}}{{{br/}}}ブラウザタブを閉じることができます。</item>
-    <item id="transferFailModalHeader">サーバーへの接続に失敗しました</item>
-    <item id="transferFailModalText">数分後にもう一度お試しください。</item>
-    <item id="fallbackMessage">データの送信に失敗しました。結果をダウンロードし、添付ファイルとしてken.q.tools@gmail.comにメールで送信してください。ありがとうございます！</item>
-    <item id="btnDownload">ダウンロード</item>
-    <item id="goodbyeMessage">{{{div}}}ありがとうございました！{{{/div}}} {{{br/}}}{{{div}}}ブラウザタブを閉じることができます{{{/div}}}</item>
-    <item id="checkInternetConnectionText">インターネット接続を確認してください。</item>
+        <!-- SUBMIT -->
+        <item id="btnTransfer">Submit Data</item>
+        <item id="transferHead">Final Step</item>
+        <item id="transferTextAbove">{{{h1}}}Ready to Submit{{{/h1}}}{{{br/}}}{{{br/}}} {{{h2}}}Please click the &quot;Submit Data&quot; button to transmit your results.{{{/h2}}}</item>
+        <item id="transferTextBelow">If the submission confirmation message does not appear, {{{br/}}}please wait a few minutes and click the submit button again.</item>
+        <item id="transferOkModalHeader">Success - The data have been sent to the server.</item>   
+        <item id="transferOkModalText">Thank you for using EQ Web Sort!{{{br/}}}{{{br/}}}You can now close your browser tab.</item>
+        <item id="transferFailModalHeader">Connection to server failed</item>   
+        <item id="transferFailModalText">Please try again in a few moments.</item>   
+        <item id="fallbackMessage">Data transmission has failed. Please download the results and email them as an attachment to ken.q.tools@gmail.com. Thank you!</item>   
+        <item id="btnDownload">Download</item>   
+        <item id="goodbyeMessage">{{{div}}}Thank You!{{{/div}}} {{{br/}}}{{{div}}}You can now close the browser tab{{{/div}}}</item>   
 
-    <!-- MOBILE SUBMIT -->
-    <item id="mobileSortTitleBar">データを送信</item>
+        <!-- MOBILE SUBMIT -->
+         <item id="mobileSortTitleBar">Submit Data</item>
 
-    <!-- EMAIL -->
-    <item id="btnTransferEmail">メールクライアントを開いて結果を送信</item>
-    <item id="clipboardResults">結果をクリップボードにコピー</item>
-    <item id="clipboardEmail">メールアドレスをクリップボードにコピー</item>
-    <item id="copiedText">コピーしました！</item>
-    <item id="copyTextError">エラー：もう一度お試しください。</item>
-    <item id="defaultEmailClientFail">デフォルトのメールクライアントが自動的に開き、結果がメール本文に表示されるはずです。開かない場合は、以下のボタンを使用して情報をコピーしてメールに貼り付けてください。</item>
-    <item id="emailMessage1">このメールに何も追加する必要はありません。送信ボタンをクリックしてください。</item>
 
-    <!-- LINKING -->
-    <item id="linkedProjectFallbackMessage">次のQソートを開始するにはボタンをクリックしてください</item>
-    <item id="linkedProjectBtnMessage">次のQソートを開始</item>
+        <!-- EMAIL -->
+        <item id="btnTransferEmail">Open Email Client and Send Results</item>
+        <item id="clipboardResults">Copy Results to Clipboard</item>  
+        <item id="clipboardEmail">Copy Email Address to Clipboard</item>  
+        <item id="copiedText">Copied!</item>  
+        <item id="copyTextError">Error: Please try again.</item>  
+        <item id="defaultEmailClientFail">Your default email client should have automatically opened with the results in the email body. If it didn&apos;t, please use the buttons below to copy and paste your information into an email.</item>   
+        <item id="emailMessage1">You don&apos;t have to add anything to this email. Please just click the SEND button.</item>
 
-</language>
+        <!-- LINKING -->
+        <item id="linkedProjectFallbackMessage">Please click the button to begin the next Q sort</item>   
+         <item id="linkedProjectBtnMessage">Begin Next Q sort</item>   
+
+
+   </language>

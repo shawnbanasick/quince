@@ -29,14 +29,11 @@ const getConfigObj = (state) => state.configObj;
 const getShowConfirmButton = (state) => state.showConfirmButton;
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
-const getSetTriggerMobileThinMoveTopModal = (state) =>
-  state.setTriggerMobileThinMoveTopModal;
+const getSetTriggerMobileThinMoveTopModal = (state) => state.setTriggerMobileThinMoveTopModal;
 const getMobileThinFontSize = (state) => state.mobileThinFontSize;
 const getMobileThinViewSize = (state) => state.mobileThinViewSize;
-const getSetTriggerMobileThinHelpModal = (state) =>
-  state.setTriggerMobileThinHelpModal;
-const getSetTriggerMobileGuidanceModal = (state) =>
-  state.setTriggerMobileThinGuidanceModal;
+const getSetTriggerMobileThinHelpModal = (state) => state.setTriggerMobileThinHelpModal;
+const getSetTriggerMobileGuidanceModal = (state) => state.setTriggerMobileThinGuidanceModal;
 const getSetTriggerMobileThinScrollBottomModal = (state) =>
   state.setTriggerMobileThinScrollBottomModal;
 
@@ -46,22 +43,13 @@ const MobileThinning = () => {
   const showConfirmButton = useStore(getShowConfirmButton);
   const setCurrentPage = useStore(getSetCurrentPage);
   const setProgressScore = useStore(getSetProgressScore);
-  const setTriggerMobileThinMoveTopModal = useStore(
-    getSetTriggerMobileThinMoveTopModal
-  );
+  const setTriggerMobileThinMoveTopModal = useStore(getSetTriggerMobileThinMoveTopModal);
   const mobileThinFontSize = useStore(getMobileThinFontSize);
   const mobileThinViewSize = useStore(getMobileThinViewSize);
-  const setTriggerMobileThinHelpModal = useStore(
-    getSetTriggerMobileThinHelpModal
-  );
-  const setTriggerMobileThinGuidanceModal = useStore(
-    getSetTriggerMobileGuidanceModal
-  );
-  const thinGuidanceModalMaxIterations =
-    configObj.thinGuidanceModalMaxIterations;
-  const setTriggerMobileThinScrollBottomModal = useStore(
-    getSetTriggerMobileThinScrollBottomModal
-  );
+  const setTriggerMobileThinHelpModal = useStore(getSetTriggerMobileThinHelpModal);
+  const setTriggerMobileThinGuidanceModal = useStore(getSetTriggerMobileGuidanceModal);
+  const thinGuidanceModalMaxIterations = configObj.thinGuidanceModalMaxIterations;
+  const setTriggerMobileThinScrollBottomModal = useStore(getSetTriggerMobileThinScrollBottomModal);
 
   // *************************** //
   // *** TEXT LOCALIZATION ***** //
@@ -85,12 +73,9 @@ const MobileThinning = () => {
   const mobileGuidanceModalLeft2Text =
     ReactHtmlParser(decodeHTML(langObj.mobileGuidanceModalLeft2Text)) || "";
   const conditionsOfInstruction =
-    ReactHtmlParser(decodeHTML(langObj.mobileThinConditionsOfInstruction)) ||
-    "";
-  const screenOrientationText =
-    ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
-  const submitButtonText =
-    ReactHtmlParser(decodeHTML(langObj.mobileThinSubmitButtonText)) || "";
+    ReactHtmlParser(decodeHTML(langObj.mobileThinConditionsOfInstruction)) || "";
+  const screenOrientationText = ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
+  const submitButtonText = ReactHtmlParser(decodeHTML(langObj.mobileThinSubmitButtonText)) || "";
 
   // *******************************************************
   // *** LOCAL STATE ***********************************
@@ -131,6 +116,7 @@ const MobileThinning = () => {
     };
   }, [setCurrentPage, setProgressScore]);
 
+  // *** LONG PRESS HOOK
   const attrs = useLongPress(
     (event) => {
       cardId.current = {
@@ -220,22 +206,15 @@ const MobileThinning = () => {
     m_FinalThinCols.forEach((item) => {
       item.selected = false;
     });
-    localStorage.setItem(
-      "m_ThinDisplayStatements",
-      JSON.stringify({ display: false })
-    );
+    localStorage.setItem("m_ThinDisplayStatements", JSON.stringify({ display: false }));
     localStorage.setItem("m_ThinningFinished", "true");
     localStorage.setItem("m_FinalThinCols", JSON.stringify(m_FinalThinCols));
     localStorage.setItem("columnStatements", JSON.stringify(completedCols));
   }
 
-  const persistedMobileThinViewSize = JSON.parse(
-    localStorage.getItem("m_ViewSizeObject")
-  ).thin;
+  const persistedMobileThinViewSize = JSON.parse(localStorage.getItem("m_ViewSizeObject")).thin;
 
-  const persistedMobileThinFontSize = JSON.parse(
-    localStorage.getItem("m_FontSizeObject")
-  ).thin;
+  const persistedMobileThinFontSize = JSON.parse(localStorage.getItem("m_FontSizeObject")).thin;
 
   // ********************************************************
   // *** EVENT HANDLING *************************************
@@ -267,9 +246,7 @@ const MobileThinning = () => {
   };
 
   const handleOnClickUp = (e) => {
-    let clickedItemIndex = cards.findIndex(
-      (item) => item.id === e.target.dataset.id
-    );
+    let clickedItemIndex = cards.findIndex((item) => item.id === e.target.dataset.id);
     // check if at start of array
     if (clickedItemIndex === 0) {
       return; // Element is already at the start
@@ -288,9 +265,7 @@ const MobileThinning = () => {
   };
 
   const handleOnClickDown = (e) => {
-    let clickedItemIndex = cards.findIndex(
-      (item) => item.id === e.target.dataset.id
-    );
+    let clickedItemIndex = cards.findIndex((item) => item.id === e.target.dataset.id);
     // check if at end of array
     if (clickedItemIndex >= cards.length - 1) {
       return; // Element is already at the end
@@ -323,48 +298,30 @@ const MobileThinning = () => {
     setHasScrolledBottom(false);
 
     if (displayControllerArray[0]?.side === "right") {
-      let currentSelectedPosItems = selectedPosItems.filter(
-        (item) => item.selected === true
-      );
-      let nextSelectedPosItemsSet = selectedPosItems.filter(
-        (item) => item.selected !== true
-      );
+      let currentSelectedPosItems = selectedPosItems.filter((item) => item.selected === true);
+      let nextSelectedPosItemsSet = selectedPosItems.filter((item) => item.selected !== true);
       let newCols = JSON.parse(localStorage.getItem("newCols"));
-      const newCols2 = mobileMoveSelectedPosCards(
-        currentSelectedPosItems,
-        newCols
-      );
+      const newCols2 = mobileMoveSelectedPosCards(currentSelectedPosItems, newCols);
       localStorage.setItem("newCols", JSON.stringify(newCols2));
       displayControllerArray.shift();
       setDisplayControllerArray([...displayControllerArray]);
       setSelectedPosItems([...nextSelectedPosItemsSet]);
-      if (
-        displayControllerArray[0]?.iteration <= thinGuidanceModalMaxIterations
-      ) {
+      if (displayControllerArray[0]?.iteration <= thinGuidanceModalMaxIterations) {
         setTriggerMobileThinGuidanceModal(true);
       }
       return;
     }
 
     if (displayControllerArray[0]?.side === "left") {
-      let currentSelectedNegItems = selectedNegItems.filter(
-        (item) => item.selected === true
-      );
-      let nextSelectedNegItemsSet = selectedNegItems.filter(
-        (item) => item.selected !== true
-      );
+      let currentSelectedNegItems = selectedNegItems.filter((item) => item.selected === true);
+      let nextSelectedNegItemsSet = selectedNegItems.filter((item) => item.selected !== true);
       let newCols = JSON.parse(localStorage.getItem("newCols"));
-      const newCols2 = mobileMoveSelectedNegCards(
-        currentSelectedNegItems,
-        newCols
-      );
+      const newCols2 = mobileMoveSelectedNegCards(currentSelectedNegItems, newCols);
       localStorage.setItem("newCols", JSON.stringify(newCols2));
       displayControllerArray.shift();
       setDisplayControllerArray([...displayControllerArray]);
       setSelectedNegItems([...nextSelectedNegItemsSet]);
-      if (
-        displayControllerArray[0]?.iteration <= thinGuidanceModalMaxIterations
-      ) {
+      if (displayControllerArray[0]?.iteration <= thinGuidanceModalMaxIterations) {
         setTriggerMobileThinGuidanceModal(true);
       }
       return;
@@ -451,9 +408,7 @@ const MobileThinning = () => {
     );
   });
 
-  let displayStatements = JSON.parse(
-    localStorage.getItem("m_ThinDisplayStatements")
-  );
+  let displayStatements = JSON.parse(localStorage.getItem("m_ThinDisplayStatements"));
   return (
     <MainContainer>
       <MobileThinMoveTopModal cardId={cardId} onClick={moveAllTop} />
@@ -478,18 +433,12 @@ const MobileThinning = () => {
         {showConfirmButton && (
           <ConfirmButton
             onClick={handleConfirm}
-            disabled={
-              selectedStatementsNum !== displayControllerArray[0]?.maxNum
-            }
+            disabled={selectedStatementsNum !== displayControllerArray[0]?.maxNum}
             fontColor={
-              selectedStatementsNum === displayControllerArray[0]?.maxNum
-                ? "white"
-                : "#3645f"
+              selectedStatementsNum === displayControllerArray[0]?.maxNum ? "white" : "#3645f"
             }
             color={
-              selectedStatementsNum === displayControllerArray[0]?.maxNum
-                ? "#337ab7"
-                : "#d3d3d3"
+              selectedStatementsNum === displayControllerArray[0]?.maxNum ? "#337ab7" : "#d3d3d3"
             }
           >
             {submitButtonText}

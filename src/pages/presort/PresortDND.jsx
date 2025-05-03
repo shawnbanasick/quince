@@ -6,21 +6,19 @@ import decodeHTML from "../../utilities/decodeHTML";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 import useLocalStorage from "../../utilities/useLocalStorage";
+import calcThinDisplayControllerArray from "./calcThinDisplayControllerArray";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
 const getStatementsObj = (state) => state.statementsObj;
 const getColumnStatements = (state) => state.columnStatements;
-const getPreSortedStateNumInit = (state) =>
-  state.presortSortedStatementsNumInitial;
+const getPreSortedStateNumInit = (state) => state.presortSortedStatementsNumInitial;
 // const getSetColumnStatements = (state) => state.setColumnStatements;
 const getSetPresortFinished = (state) => state.setPresortFinished;
-const getSetTrigPresortFinModal = (state) =>
-  state.setTriggerPresortFinishedModal;
+const getSetTrigPresortFinModal = (state) => state.setTriggerPresortFinishedModal;
 const getResults = (state) => state.results;
 const getSetResults = (state) => state.setResults;
-const getSetProgressScoreAdditional = (state) =>
-  state.setProgressScoreAdditional;
+const getSetProgressScoreAdditional = (state) => state.setProgressScoreAdditional;
 const getSetPosSorted = (state) => state.setPosSorted;
 const getSetNegSorted = (state) => state.setNegSorted;
 
@@ -40,15 +38,11 @@ function PresortDND(props) {
   const setPosSorted = useStore(getSetPosSorted);
   const setNegSorted = useStore(getSetNegSorted);
 
-  const statementsName =
-    ReactHtmlParser(decodeHTML(langObj.presortStatements)) || "";
-  const btnDisagreement =
-    ReactHtmlParser(decodeHTML(langObj.presortDisagreement)) || "";
-  const btnAgreement =
-    ReactHtmlParser(decodeHTML(langObj.presortAgreement)) || "";
+  const statementsName = ReactHtmlParser(decodeHTML(langObj.presortStatements)) || "";
+  const btnDisagreement = ReactHtmlParser(decodeHTML(langObj.presortDisagreement)) || "";
+  const btnAgreement = ReactHtmlParser(decodeHTML(langObj.presortAgreement)) || "";
   const btnNeutral = ReactHtmlParser(decodeHTML(langObj.presortNeutral)) || "";
-  const onPageInstructions =
-    ReactHtmlParser(decodeHTML(langObj.presortOnPageInstructions)) || "";
+  const onPageInstructions = ReactHtmlParser(decodeHTML(langObj.presortOnPageInstructions)) || "";
 
   // initialize local state
   let [presortSortedStatementsNum, setPresortSortedStatementsNum] = useState(
@@ -148,10 +142,7 @@ function PresortDND(props) {
       //   JSON.stringify(columnStatements, null, 2)
       // );
 
-      localStorage.setItem(
-        "columnStatements",
-        JSON.stringify(columnStatements)
-      );
+      localStorage.setItem("columnStatements", JSON.stringify(columnStatements));
 
       // when dropped on different droppable
       if (source.droppableId !== destination.droppableId) {
@@ -191,8 +182,7 @@ function PresortDND(props) {
           // calc remaining statements
           let sortedStatements;
           if (sourceColumn.id === "cards") {
-            sortedStatements =
-              statementsObj.totalStatements - sourceColumn.items.length + 1;
+            sortedStatements = statementsObj.totalStatements - sourceColumn.items.length + 1;
             setPresortSortedStatementsNum(sortedStatements);
             const ratio = sortedStatements / statementsObj.totalStatements;
             const completedPercent = (ratio * 30).toFixed();
@@ -311,14 +301,10 @@ function PresortDND(props) {
       setPresortFinished(true);
       setTriggerPresortFinishedModal(true);
 
-      console.log(
-        "setting posSorted and negSorted triggered by presortNoReturn"
-      );
+      console.log("setting posSorted and negSorted triggered by presortNoReturn");
 
       // get presort column statements from local storage
-      let presortColumnStatements = JSON.parse(
-        localStorage.getItem("columnStatements")
-      );
+      let presortColumnStatements = JSON.parse(localStorage.getItem("columnStatements"));
       localStorage.setItem("newCols", JSON.stringify(presortColumnStatements));
 
       // clear any previous selections
@@ -341,9 +327,25 @@ function PresortDND(props) {
         negSorted2 = sortingList.filter((item) => item.sortValue === 333);
         setNegSorted(negSorted2);
         localStorage.setItem("negSorted", JSON.stringify([...negSorted2]));
-      }
 
-      // setup THINNING PROCESS DATA
+        // setup THINNING PROCESS DATA
+        let sortRightArrays = JSON.parse(localStorage.getItem("sortRightArrays"));
+        let sortLeftArrays = JSON.parse(localStorage.getItem("sortLeftArrays"));
+        let remainingPosCount = posSorted2.length;
+        let remainingNegCount = negSorted2.length;
+
+        let thinDisplayControllerArray = calcThinDisplayControllerArray(
+          remainingPosCount,
+          remainingNegCount,
+          sortRightArrays,
+          sortLeftArrays
+        );
+
+        localStorage.setItem(
+          "thinDisplayControllerArray",
+          JSON.stringify(thinDisplayControllerArray)
+        );
+      }
     }
   }, [
     columns.cards.items.length,
@@ -372,22 +374,12 @@ function PresortDND(props) {
       <ColumnNamesPos id="negDivImg">
         <div>{columns.pos.name}</div>
       </ColumnNamesPos>
-      <DragDropContext
-        onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
-      >
+      <DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
         {Object.entries(columns).map(([columnId, column], index) => {
           return (
-            <AllColWrapper
-              key={columnId}
-              id={`${columnId}Div`}
-              className={`${columnId}Div`}
-            >
+            <AllColWrapper key={columnId} id={`${columnId}Div`} className={`${columnId}Div`}>
               <ThreeColCardWrapper>
-                <Droppable
-                  droppableId={columnId}
-                  className={columnId}
-                  key={columnId}
-                >
+                <Droppable droppableId={columnId} className={columnId} key={columnId}>
                   {(provided, snapshot) => {
                     return (
                       <div
@@ -396,9 +388,7 @@ function PresortDND(props) {
                         id={columnId}
                         className={columnId}
                         style={{
-                          background: snapshot.isDraggingOver
-                            ? "lightblue"
-                            : "white",
+                          background: snapshot.isDraggingOver ? "lightblue" : "white",
                           padding: 4,
                           width: "100%",
                         }}
