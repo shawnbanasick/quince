@@ -16,8 +16,7 @@ const PresortIsComplete = () => {
   const setCurrentPage = useStore(getSetCurrentPage);
 
   const headerBarColor = configObj.headerBarColor;
-  const mainText =
-    ReactHtmlParser(decodeHTML(langObj.stepCompleteMessage)) || "";
+  const mainText = ReactHtmlParser(decodeHTML(langObj.stepCompleteMessage)) || "";
   const titleBarText = ReactHtmlParser(decodeHTML(langObj.titleBarText)) || "";
 
   useEffect(() => {
@@ -53,7 +52,6 @@ const SortTitleBar = styled.div`
 
 const ContainerDiv = styled.div`
   display: flex;
-  min-height: 800px;
   width: calc(100vw-4px);
   flex-direction: column;
   justify-content: center;
@@ -63,11 +61,11 @@ const ContainerDiv = styled.div`
 const ContentDiv = styled.div`
   display: flex;
   flex-direction: column;
+  width: 50vw;
+  height: 50vw;
   justify-content: center;
   align-items: center;
-  line-height: 1.2em;
-  width: 85vw;
-  font-size: 1.35em;
-  padding: 25px;
-  align-self: center;
+  font-size: calc(14px + 1.5vw);
+  text-align: center;
+  color: black;
 `;

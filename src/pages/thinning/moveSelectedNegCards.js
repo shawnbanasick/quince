@@ -1,4 +1,5 @@
 import remove from "lodash/remove";
+import displayDebugStateNums from "./displayDebugStateNums";
 
 const moveSelectedNegCards = (selectedNegItems) => {
   console.log("called");
@@ -13,7 +14,8 @@ const moveSelectedNegCards = (selectedNegItems) => {
       }
     });
   });
-
+  let displayObject2 = displayDebugStateNums(newCols2);
+  console.log(JSON.stringify(displayObject2));
   localStorage.setItem("newCols", JSON.stringify(newCols2));
   return;
 };
