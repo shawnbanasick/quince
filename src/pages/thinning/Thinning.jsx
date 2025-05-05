@@ -14,6 +14,7 @@ import moveSelectedNegCards from "./moveSelectedNegCards";
 import moveSelectedPosCards from "./moveSelectedPosCards";
 import useLocalStorage from "../../utilities/useLocalStorage";
 import { v4 as uuid } from "uuid";
+import ThinHelpModal from "./ThinHelpModal";
 
 /* eslint react/prop-types: 0 */
 
@@ -232,6 +233,7 @@ const Thinning = () => {
         <PromptUnload />
         <ConfirmationModal />
         <ThinningPreventNavModal />
+        <ThinHelpModal />
         <SortTitleBar background={configObj.headerBarColor}>{thinPageTitle}</SortTitleBar>
         <div>
           <ContainerDiv>
@@ -272,6 +274,7 @@ const Thinning = () => {
         <PromptUnload />
         <ConfirmationModal />
         <ThinningPreventNavModal />
+        <ThinHelpModal />
         <SortTitleBar background={configObj.headerBarColor}>{thinPageTitle}</SortTitleBar>
         <ContainerDiv>
           <FinalInstructions>{finalInstructions}</FinalInstructions>

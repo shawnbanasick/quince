@@ -111,6 +111,8 @@
 
         <item id="thinningPreventNavModalHead">Navigation Disabled</item>
         <item id="thinningPreventNavModalText">Please finish the refining process before going to the next step.</item>
+        <item id="thinningHelpModalHead">Refine Evaluations</item>
+        <item id="thinningHelpModalText">Please select look again at the statements you evaluated in the previous stage. Choose those which you feel are the best expression of your perspective.</item>
         <item id="thinningConfirmModalHead">Incomplete Selection</item>
         <item id="thinningConfirmModalText">Please select the required number of statements.</item>
         <item id="agreeMostText">Next, repeat the process with the remaining statements, but this time please select the cards that you agree with the most.</item>
