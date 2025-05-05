@@ -9,8 +9,7 @@ import useStore from "../../globalState/useStore";
 
 const getLangObj = (state) => state.langObj;
 const getTriggerModalOpen = (state) => state.triggerPresortPreventNavModal;
-const getSetTrigPrePrevNavModal = (state) =>
-  state.setTriggerPresortPreventNavModal;
+const getSetTrigPrePrevNavModal = (state) => state.setTriggerPresortPreventNavModal;
 
 const PresortPreventNavModal = () => {
   // STATE
@@ -18,10 +17,8 @@ const PresortPreventNavModal = () => {
   const triggerModalOpen = useStore(getTriggerModalOpen);
   const setTriggerPresortPreventNavModal = useStore(getSetTrigPrePrevNavModal);
 
-  const modalHead =
-    ReactHtmlParser(decodeHTML(langObj.presortPreventNavModalHead)) || "";
-  const modalText =
-    ReactHtmlParser(decodeHTML(langObj.presortPreventNavModalText)) || "";
+  const modalHead = ReactHtmlParser(decodeHTML(langObj.presortPreventNavModalHead)) || "";
+  const modalText = ReactHtmlParser(decodeHTML(langObj.presortPreventNavModalText)) || "";
 
   // const onOpenModal = () => setOpen(true);
   const onCloseModal = () => {
@@ -29,12 +26,7 @@ const PresortPreventNavModal = () => {
   };
 
   return (
-    <Modal
-      className="customModal"
-      open={triggerModalOpen}
-      onClose={onCloseModal}
-      center
-    >
+    <Modal className="customModal" open={triggerModalOpen} onClose={onCloseModal} center>
       <ModalHeader>{modalHead}</ModalHeader>
       <hr />
       <ModalContent>{modalText}</ModalContent>
@@ -56,6 +48,8 @@ const ModalHeader = styled.div`
 
 const ModalContent = styled.div`
   margin-top: 15px;
+  font-size: calc(12px + 0.9vw);
+  padding: 15px;
 `;
 
 // react-responsive-modal-overlay

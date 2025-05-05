@@ -147,7 +147,6 @@ const Thinning = () => {
 
   // todo *** HANDLE BOX CLICK ***
   const handleClick = (e) => {
-    console.log(e.target.getAttribute("data-id"));
     let targetcol = e.target.getAttribute("data-targetcol");
 
     cards.forEach((item) => {
@@ -328,7 +327,6 @@ const BoxesDiv = styled.div`
   justify-content: center;
   flex-wrap: wrap;
   padding: 1vw;
-  /* border: 2px solid red; */
 `;
 
 const InstructionsDiv = styled.div`
@@ -345,7 +343,6 @@ const InstructionsDiv = styled.div`
   text-align: center;
   color: black;
   min-height: 200px;
-  /* border: 2px solid red; */
 `;
 
 const FinalInstructions = styled.div`
@@ -403,7 +400,6 @@ const Box = styled.div`
   border: 1px solid black;
   border-radius: 10px;
   background-color: ${(props) => {
-    // console.log(props);
     return props.selected && props.side === "right"
       ? "#ccffcc"
       : props.selected && props.side === "left"
@@ -419,7 +415,6 @@ const Box = styled.div`
   transition: 0.3s ease all;
 
   &:hover {
-    /* background-color: ${(props) => (props.side === "right" ? "#ccffcc" : "#ffe0e0")}; */
     background-color: ${(props) => {
       return props.selected && props.side === "right"
         ? "#ccffcc"

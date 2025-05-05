@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 const boxes = (props) => {
-  //   console.log("props", JSON.stringify(props, null, 2));
   const tiles = props.array.map((item) => {
     return (
       <Box
@@ -51,7 +50,6 @@ const Box = styled.div`
   transition: 0.3s ease all;
 
   &:hover {
-    background-color: ${(props) =>
-      props.side === "rightSide" ? "#ccffcc" : "#ffe0e0"};
+    background-color: ${(props) => (props.side === "rightSide" ? "#ccffcc" : "#ffe0e0")};
   }
 `;

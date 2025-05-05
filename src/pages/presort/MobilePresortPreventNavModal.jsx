@@ -7,25 +7,20 @@ import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 
 const getLangObj = (state) => state.langObj;
-const getTriggerMobilePresortPreventNavModal = (state) =>
-  state.triggerMobilePresortPreventNavModal;
+const getTriggerMobilePresortPreventNavModal = (state) => state.triggerMobilePresortPreventNavModal;
 const getSetTriggerMobilePresortPreventNavModal = (state) =>
   state.setTriggerMobilePresortPreventNavModal;
 
 const MobilePresortPreventNavModal = () => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
-  const triggerMobilePresortPreventNavModal = useStore(
-    getTriggerMobilePresortPreventNavModal
-  );
+  const triggerMobilePresortPreventNavModal = useStore(getTriggerMobilePresortPreventNavModal);
   const setTriggerMobilePresortPreventNavModal = useStore(
     getSetTriggerMobilePresortPreventNavModal
   );
 
-  const modalHead =
-    ReactHtmlParser(decodeHTML(langObj.mobilePresortPreventNavModalHead)) || "";
-  const modalText =
-    ReactHtmlParser(decodeHTML(langObj.mobilePresortPreventNavModalText)) || "";
+  const modalHead = ReactHtmlParser(decodeHTML(langObj.mobilePresortPreventNavModalHead)) || "";
+  const modalText = ReactHtmlParser(decodeHTML(langObj.mobilePresortPreventNavModalText)) || "";
 
   const onCloseModal = () => {
     setTriggerMobilePresortPreventNavModal(false);

@@ -17,22 +17,15 @@ const LandingModal = () => {
   const triggerLandingModal = useStore(getTriggerLandingModal);
   const setTriggerLandingModal = useStore(getSetTriggerLandingModal);
 
-  const loginHelpModalHead =
-    ReactHtmlParser(decodeHTML(langObj.landingHelpModalHead)) || "";
-  const loginHelpModalText =
-    ReactHtmlParser(decodeHTML(langObj.landingHelpModalText)) || "";
+  const loginHelpModalHead = ReactHtmlParser(decodeHTML(langObj.landingHelpModalHead)) || "";
+  const loginHelpModalText = ReactHtmlParser(decodeHTML(langObj.landingHelpModalText)) || "";
 
   const onCloseModal = () => {
     setTriggerLandingModal(false);
   };
 
   return (
-    <Modal
-      className="customModal"
-      open={triggerLandingModal}
-      onClose={onCloseModal}
-      center
-    >
+    <Modal className="customModal" open={triggerLandingModal} onClose={onCloseModal} center>
       <ModalHeader>{loginHelpModalHead}</ModalHeader>
       <hr />
       <ModalContent>{loginHelpModalText}</ModalContent>
@@ -43,7 +36,7 @@ const LandingModal = () => {
 export default LandingModal;
 
 const ModalHeader = styled.div`
-  font-size: 24px;
+  font-size: 28px;
   line-height: 1.42;
   padding: 10px 0px 10px 0px;
 
@@ -54,6 +47,8 @@ const ModalHeader = styled.div`
 
 const ModalContent = styled.div`
   margin-top: 15px;
+  font-size: calc(12px + 0.9vw);
+  padding: 15px;
 `;
 
 // react-responsive-modal-overlay

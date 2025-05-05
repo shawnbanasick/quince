@@ -7,25 +7,17 @@ import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 
 const getLangObj = (state) => state.langObj;
-const getTriggerThinningPreventNavModal = (state) =>
-  state.triggerThinningPreventNavModal;
-const getSetTriggerThinningPreventNavModal = (state) =>
-  state.setTriggerThinningPreventNavModal;
+const getTriggerThinningPreventNavModal = (state) => state.triggerThinningPreventNavModal;
+const getSetTriggerThinningPreventNavModal = (state) => state.setTriggerThinningPreventNavModal;
 
 const ThinningPreventNavModal = () => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
-  const triggerThinningPreventNavModal = useStore(
-    getTriggerThinningPreventNavModal
-  );
-  const setTriggerThinningPreventNavModal = useStore(
-    getSetTriggerThinningPreventNavModal
-  );
+  const triggerThinningPreventNavModal = useStore(getTriggerThinningPreventNavModal);
+  const setTriggerThinningPreventNavModal = useStore(getSetTriggerThinningPreventNavModal);
 
-  const thinningModalHead =
-    ReactHtmlParser(decodeHTML(langObj.thinningPreventNavModalHead)) || "";
-  const thinningModalText =
-    ReactHtmlParser(decodeHTML(langObj.thinningPreventNavModalText)) || "";
+  const thinningModalHead = ReactHtmlParser(decodeHTML(langObj.thinningPreventNavModalHead)) || "";
+  const thinningModalText = ReactHtmlParser(decodeHTML(langObj.thinningPreventNavModalText)) || "";
 
   const onCloseModal = () => {
     setTriggerThinningPreventNavModal(false);
@@ -59,6 +51,8 @@ const ModalHeader = styled.div`
 
 const ModalContent = styled.div`
   margin-top: 15px;
+  font-size: calc(12px + 0.9vw);
+  padding: 15px;
 `;
 
 // react-responsive-modal-overlay

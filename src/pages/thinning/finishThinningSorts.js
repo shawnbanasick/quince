@@ -1,28 +1,13 @@
 import shuffle from "lodash/shuffle";
 import remove from "lodash/remove";
-import displayDebugStateNums from "./displayDebugStateNums";
 
 const finishThinningSorts = (newCols, finalSortColData) => {
-  // let displayObject = displayDebugStateNums(newCols);
-  // console.log("debug newCols", JSON.stringify(displayObject));
-
   // shuffle the statementList array so the randoms don't always end up in the same place across parts.
   newCols.statementList = shuffle(newCols.statementList);
 
-  let remainingPink = newCols.statementList.filter(
-    (item) => item.pinkChecked === true
-  );
-  let remainingYellow = newCols.statementList.filter(
-    (item) => item.yellowChecked === true
-  );
-  let remainingGreen = newCols.statementList.filter(
-    (item) => item.greenChecked === true
-  );
-
-  // console.log("remainingPink", remainingPink.length);
-  // console.log("remainingYellow", remainingYellow.length);
-  // console.log("remainingGreen", remainingGreen.length);
-  // console.log("statementList", newCols.statementList.length);
+  let remainingPink = newCols.statementList.filter((item) => item.pinkChecked === true);
+  let remainingYellow = newCols.statementList.filter((item) => item.yellowChecked === true);
+  let remainingGreen = newCols.statementList.filter((item) => item.greenChecked === true);
 
   let counter1 = 0;
   let counter1b = 0;
@@ -30,8 +15,6 @@ const finishThinningSorts = (newCols, finalSortColData) => {
   let counter2b = 0;
   let counter3 = 0;
   let counter3b = 0;
-
-  // console.log("debug", JSON.stringify(finalSortColData));
 
   while (remainingPink.length > 0 && counter1 < 50) {
     // iterate through each column
@@ -63,7 +46,6 @@ const finishThinningSorts = (newCols, finalSortColData) => {
   }
 
   // let displayObject2 = displayDebugStateNums(newCols);
-  // console.log("debug newCols2", JSON.stringify(displayObject2));
 
   while (remainingYellow.length > 0 && counter2 < 50) {
     // iterate through each column
@@ -95,14 +77,10 @@ const finishThinningSorts = (newCols, finalSortColData) => {
   }
 
   while (remainingGreen.length > 0 && counter3 < 50) {
-    let displayObject3 = displayDebugStateNums(newCols);
-    console.log("debug newCols3", JSON.stringify(displayObject3));
-
     // iterate through each column
     finalSortColData.forEach((colInfoArray) => {
       const colName = colInfoArray[0];
       const colMax = colInfoArray[1];
-      console.log("colName", colName, colMax);
 
       // if there is room in the column, place a green card
       if (newCols.vCols[colName].length < colMax) {
@@ -126,8 +104,6 @@ const finishThinningSorts = (newCols, finalSortColData) => {
       counter3 = counter3 + 1;
     });
   }
-  // let displayObject4 = displayDebugStateNums(newCols);
-  // console.log("debug newCols4", JSON.stringify(displayObject4));
 
   return newCols;
 };
