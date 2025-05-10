@@ -1,4 +1,3 @@
-import React from "react";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 import styled from "styled-components";
@@ -9,22 +8,17 @@ import useStore from "../../globalState/useStore";
 
 const getLangObj = (state) => state.langObj;
 const getTriggerModalOpen = (state) => state.triggerPostsortPreventNavModal;
-const getSetTrigPostPrevNavModal = (state) =>
-  state.setTriggerPostsortPreventNavModal;
+const getSetTrigPostPrevNavModal = (state) => state.setTriggerPostsortPreventNavModal;
 
 const PostsortPreventNavModal = () => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
   const triggerModalOpen = useStore(getTriggerModalOpen);
 
-  const setTriggerPostsortPreventNavModal = useStore(
-    getSetTrigPostPrevNavModal
-  );
+  const setTriggerPostsortPreventNavModal = useStore(getSetTrigPostPrevNavModal);
 
-  const modalHead =
-    ReactHtmlParser(decodeHTML(langObj.postsortPreventNavModalHead)) || "";
-  const modalText =
-    ReactHtmlParser(decodeHTML(langObj.postsortPreventNavModalText)) || "";
+  const modalHead = ReactHtmlParser(decodeHTML(langObj.postsortPreventNavModalHead)) || "";
+  const modalText = ReactHtmlParser(decodeHTML(langObj.postsortPreventNavModalText)) || "";
 
   // const onOpenModal = () => setOpen(true);
   const onCloseModal = () => {
@@ -32,12 +26,7 @@ const PostsortPreventNavModal = () => {
   };
 
   return (
-    <Modal
-      className="customModal"
-      open={triggerModalOpen}
-      onClose={onCloseModal}
-      center
-    >
+    <Modal className="customModal" open={triggerModalOpen} onClose={onCloseModal} center>
       <ModalHeader>{modalHead}</ModalHeader>
       <hr />
       <ModalContent>{modalText}</ModalContent>

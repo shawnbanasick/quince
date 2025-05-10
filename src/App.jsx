@@ -1,7 +1,7 @@
-import { lazy, Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import LandingPage from "./pages/landing/Landing";
-const PostsortPage = lazy(() => import("./pages/postsort/Postsort"));
+import PostsortPage from "./pages/postsort/Postsort";
 import PresortPage from "./pages/presort/Presort";
 import SortPage from "./pages/sort/Sort";
 import SubmitPage from "./pages/submit/Submit";
@@ -276,6 +276,7 @@ function App() {
           <Switch>
             <Route exact path="/" component={ConsentPage} />
             <Route exact path="/presort" component={PresortPage} />
+            <Route exact path="/thin" component={ThinningPage} />
             <Route exact path="/sort" component={SortPage} />
             <Route exact path="/postsort" component={PostsortPage} />
             <Route exact path="/survey" component={SurveyPage} />

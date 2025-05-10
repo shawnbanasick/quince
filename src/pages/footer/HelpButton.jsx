@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import React from "react";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
 import useSettingsStore from "../../globalState/useSettingsStore";

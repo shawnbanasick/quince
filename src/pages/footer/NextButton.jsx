@@ -1,37 +1,29 @@
 import styled from "styled-components";
-import React from "react";
 import { withRouter } from "react-router";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 import convertObjectToResults from "../sort/convertObjectToResults";
 import getObjectValues from "lodash/values";
+import PropTypes from "prop-types";
 
 const getConfigObj = (state) => state.configObj;
 const getPresortFinished = (state) => state.presortFinished;
-const getSetTrigPrePrevNavModal = (state) =>
-  state.setTriggerPresortPreventNavModal;
+const getSetTrigPrePrevNavModal = (state) => state.setTriggerPresortPreventNavModal;
 const getCurrentPage = (state) => state.currentPage;
-const getSetCheckReqQuesCompl = (state) =>
-  state.setCheckRequiredQuestionsComplete;
-const getSetTrigSurvPrevNavModal = (state) =>
-  state.setTriggerSurveyPreventNavModal;
+const getSetCheckReqQuesCompl = (state) => state.setCheckRequiredQuestionsComplete;
+const getSetTrigSurvPrevNavModal = (state) => state.setTriggerSurveyPreventNavModal;
 const getIsSortingFinished = (state) => state.isSortingFinished;
 const getHasOverloadedColumn = (state) => state.hasOverloadedColumn;
-const getSetTrigSortPrevNavModal = (state) =>
-  state.setTriggerSortPreventNavModal;
-const getSetTrigSortOverColMod = (state) =>
-  state.setTriggerSortOverloadedColumnModal;
+const getSetTrigSortPrevNavModal = (state) => state.setTriggerSortPreventNavModal;
+const getSetTrigSortOverColMod = (state) => state.setTriggerSortOverloadedColumnModal;
 const getColumnStatements = (state) => state.columnStatements;
 const getSetResults = (state) => state.setResults;
-const getSetShowPostsortCommentHighlighting = (state) =>
-  state.setShowPostsortCommentHighlighting;
-const getSetTriggerPostsortPreventNavModal = (state) =>
-  state.setTriggerPostsortPreventNavModal;
+const getSetShowPostsortCommentHighlighting = (state) => state.setShowPostsortCommentHighlighting;
+const getSetTriggerPostsortPreventNavModal = (state) => state.setTriggerPostsortPreventNavModal;
 const getIsThinningFinished = (state) => state.isThinningFinished;
-const getSetTriggerThinningPreventNavModal = (state) =>
-  state.setTriggerThinningPreventNavModal;
+const getSetTriggerThinningPreventNavModal = (state) => state.setTriggerThinningPreventNavModal;
 
-const LinkButton = (props) => {
+const NextButton = (props) => {
   let goToNextPage;
 
   // GLOBAL STATE
@@ -47,16 +39,10 @@ const LinkButton = (props) => {
   const setTriggerSortOverloadedColModal = useStore(getSetTrigSortOverColMod);
   const columnStatements = useSettingsStore(getColumnStatements);
   const setResults = useStore(getSetResults);
-  const setShowPostsortCommentHighlighting = useStore(
-    getSetShowPostsortCommentHighlighting
-  );
-  const setTriggerPostsortPreventNavModal = useStore(
-    getSetTriggerPostsortPreventNavModal
-  );
+  const setShowPostsortCommentHighlighting = useStore(getSetShowPostsortCommentHighlighting);
+  const setTriggerPostsortPreventNavModal = useStore(getSetTriggerPostsortPreventNavModal);
   const isThinningFinished = useStore(getIsThinningFinished);
-  const setTriggerThinningPreventNavModal = useStore(
-    getSetTriggerThinningPreventNavModal
-  );
+  const setTriggerThinningPreventNavModal = useStore(getSetTriggerThinningPreventNavModal);
 
   const allowUnforcedSorts = configObj.allowUnforcedSorts;
   const postsortCommentsRequired = configObj.postsortCommentsRequired;
@@ -66,19 +52,16 @@ const LinkButton = (props) => {
 
   const {
     history,
-    location,
-    match,
-    staticContext,
+    // location,
+    // match,
+    // staticContext,
     to,
     onClick,
     // ⬆ filtering out props that `button` doesn’t know what to do with.
     ...rest
   } = props;
 
-  const checkForNextPageConditions = (
-    allowUnforcedSorts,
-    isPresortFinished
-  ) => {
+  const checkForNextPageConditions = (allowUnforcedSorts, isPresortFinished) => {
     // *** ReCalc Results ***
     let sortResults1 = convertObjectToResults(columnStatements);
 
@@ -151,32 +134,17 @@ const LinkButton = (props) => {
     }
 
     if (currentPage === "postsort") {
-      let postsortCommentCardCount = +localStorage.getItem(
-        "postsortCommentCardCount"
-      );
+      let postsortCommentCardCount = +localStorage.getItem("postsortCommentCardCount");
       const required1 =
-        getObjectValues(
-          JSON.parse(localStorage.getItem("HC-requiredCommentsObj"))
-        ) || [];
+        getObjectValues(JSON.parse(localStorage.getItem("HC-requiredCommentsObj"))) || [];
       const required2 =
-        getObjectValues(
-          JSON.parse(localStorage.getItem("HC2-requiredCommentsObj"))
-        ) || [];
+        getObjectValues(JSON.parse(localStorage.getItem("HC2-requiredCommentsObj"))) || [];
       const required3 =
-        getObjectValues(
-          JSON.parse(localStorage.getItem("LC-requiredCommentsObj"))
-        ) || [];
+        getObjectValues(JSON.parse(localStorage.getItem("LC-requiredCommentsObj"))) || [];
       const required4 =
-        getObjectValues(
-          JSON.parse(localStorage.getItem("LC2-requiredCommentsObj"))
-        ) || [];
+        getObjectValues(JSON.parse(localStorage.getItem("LC2-requiredCommentsObj"))) || [];
 
-      const checkArray2 = [
-        ...required1,
-        ...required2,
-        ...required3,
-        ...required4,
-      ];
+      const checkArray2 = [...required1, ...required2, ...required3, ...required4];
 
       if (
         checkArray2.includes("false") ||
@@ -214,14 +182,11 @@ const LinkButton = (props) => {
   };
 
   return (
-    <NextButton
+    <GoNextButton
       {...rest} // `children` is just another prop!
       onClick={(event) => {
         onClick && onClick(event);
-        goToNextPage = checkForNextPageConditions(
-          allowUnforcedSorts,
-          presortFinished
-        );
+        goToNextPage = checkForNextPageConditions(allowUnforcedSorts, presortFinished);
         if (goToNextPage) {
           history.push(to);
         }
@@ -230,9 +195,24 @@ const LinkButton = (props) => {
     />
   );
 };
-export default withRouter(LinkButton);
+export default withRouter(NextButton);
 
-const NextButton = styled.button`
+NextButton.defaultProps = {
+  to: "/",
+  onClick: () => {},
+};
+NextButton.propTypes = {
+  to: PropTypes.string,
+  onClick: PropTypes.func,
+  history: PropTypes.object.isRequired,
+  location: PropTypes.object,
+  match: PropTypes.object,
+  staticContext: PropTypes.object,
+  // ⬆ filtering out props that `button` doesn’t know what to do with.
+  rest: PropTypes.object,
+};
+
+const GoNextButton = styled.button`
   border-color: #2e6da4;
   color: white;
   font-size: 0.8em;
@@ -247,8 +227,7 @@ const NextButton = styled.button`
   align-items: center;
   user-select: none;
   justify-content: center;
-  background-color: ${({ theme, active }) =>
-    active ? theme.secondary : theme.primary};
+  background-color: ${({ theme, active }) => (active ? theme.secondary : theme.primary)};
 
   &:hover {
     background-color: ${({ theme }) => theme.secondary};

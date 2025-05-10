@@ -1,4 +1,3 @@
-import React from "react";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 import styled from "styled-components";
@@ -8,20 +7,14 @@ import useStore from "../../globalState/useStore";
 import useSettingsStore from "../../globalState/useSettingsStore";
 
 const getLangObj = (state) => state.langObj;
-const getTriggerSaveBeforeDeleteModal = (state) =>
-  state.triggerSaveBeforeDeleteModal;
-const getSetTriggerSaveBeforeDeleteModal = (state) =>
-  state.setTriggerSaveBeforeDeleteModal;
+const getTriggerSaveBeforeDeleteModal = (state) => state.triggerSaveBeforeDeleteModal;
+const getSetTriggerSaveBeforeDeleteModal = (state) => state.setTriggerSaveBeforeDeleteModal;
 
 const LocalDeleteModal = () => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
-  const triggerSaveBeforeDeleteModal = useStore(
-    getTriggerSaveBeforeDeleteModal
-  );
-  const setTriggerSaveBeforeDeleteModal = useStore(
-    getSetTriggerSaveBeforeDeleteModal
-  );
+  const triggerSaveBeforeDeleteModal = useStore(getTriggerSaveBeforeDeleteModal);
+  const setTriggerSaveBeforeDeleteModal = useStore(getSetTriggerSaveBeforeDeleteModal);
 
   const localDeleteModalHead =
     ReactHtmlParser(decodeHTML(langObj.localSaveBeforeDeleteModalHeader)) || "";
