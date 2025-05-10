@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 
 const useLocalPersist = create(
   persist(
-    (set, get) => ({
+    (set) => ({
       localStoredQsorts: {},
       hasDownloadedQsorts: false,
 

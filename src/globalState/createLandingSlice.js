@@ -1,4 +1,4 @@
-const createLandingSlice = (set, get) => ({
+const createLandingSlice = (set) => ({
   dataLoaded: false,
   isLoggedIn: false,
   triggerLandingModal: false,

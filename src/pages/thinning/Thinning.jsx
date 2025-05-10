@@ -26,6 +26,8 @@ const getSetDisplayNextButton = (state) => state.setDisplayNextButton;
 const getSetIsThinningFinished = (state) => state.setIsThinningFinished;
 const getIsLeftSideFinished = (state) => state.isLeftSideFinished;
 const getIsRightSideFinished = (state) => state.isRightSideFinished;
+const getCardFontSizeThin = (state) => state.cardFontSizeThin;
+const getCardHeightThin = (state) => state.cardHeightThin;
 
 const Thinning = () => {
   // GLOBAL STATE
@@ -37,6 +39,8 @@ const Thinning = () => {
   const setIsThinningFinished = useStore(getSetIsThinningFinished);
   const isLeftSideFinished = useStore(getIsLeftSideFinished);
   const isRightSideFinished = useStore(getIsRightSideFinished);
+  const cardFontSizeThin = useStore(getCardFontSizeThin);
+  const cardHeightThin = useStore(getCardHeightThin);
 
   // Get language object values
   let initialInstructionPart1 = ReactHtmlParser(decodeHTML(langObj.initialInstructionPart1)) || "";
@@ -215,6 +219,8 @@ const Thinning = () => {
         id={item.id}
         key={uuid()}
         side={displayControllerArray[0]?.side}
+        fontSize={cardFontSizeThin}
+        cardHeight={cardHeightThin}
         color={item.color}
         selected={item.selected}
         data-targetcol={displayControllerArray[0]?.targetCol}
@@ -396,7 +402,7 @@ const Box = styled.div`
   justify-content: center;
   align-items: center;
   width: 170px;
-  height: 150px;
+  height: ${(props) => props.cardHeight}px;
   padding: 10px;
   overflow: hidden;
   margin: 10px;
@@ -409,9 +415,8 @@ const Box = styled.div`
       ? "#ffe0e0"
       : "white";
   }};
-
   color: black;
-  font-size: 16px;
+  font-size: calc(${(props) => props.fontSize}px + 0.3vw);
   font-weight: normal;
   text-align: center;
   cursor: pointer;

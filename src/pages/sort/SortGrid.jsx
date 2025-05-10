@@ -205,7 +205,7 @@ const SortGrid = (props) => {
   const statements = columnStatements.statementList;
 
   // setup grid columns
-  const columns = qSortHeaders.map((value, index, highlightedColHeader) => {
+  const columns = qSortHeaders.map((value, index) => {
     const columnId = `column${qSortHeaders[index]}`;
     const sortValue = qSortHeaderNumbers[index];
     const columnColor = columnColorsArray[index];
@@ -274,11 +274,13 @@ const SortGrid = (props) => {
       );
     });
     /*
-    let finalItem = <div key={"placeholder"}>{props.provided.placeholder}</div>;
-    items.unshift(finalItem);
-    */
+      let finalItem = <div key={"placeholder"}>{props.provided.placeholder}</div>;
+      items.unshift(finalItem);
+      */
     return items;
   });
+
+  InnerList.displayName = "InnerList";
 
   // returning main content => horizontal feeder
   return (

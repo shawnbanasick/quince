@@ -1,4 +1,4 @@
-const createFooterSlice = (set, get) => ({
+const createFooterSlice = (set) => ({
   cardFontSizePresort: 5,
   cardFontSizeSort: 5,
   cardFontSizePostsort: 5,

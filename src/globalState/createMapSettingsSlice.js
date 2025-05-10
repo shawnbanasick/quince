@@ -1,4 +1,4 @@
-const createMapSettingsSlice = (set, get) => ({
+const createMapSettingsSlice = (set) => ({
   // includes qSortPattern, qSortHeaderNumbers, etc...
   mapObj: {},
 

@@ -1,4 +1,4 @@
-const createConfigSettingsSlice = (set, get) => ({
+const createConfigSettingsSlice = (set) => ({
   configObj: {},
   surveyQuestionObjArray: [],
   requiredAnswersObj: {},

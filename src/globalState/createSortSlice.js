@@ -1,4 +1,4 @@
-const createSortSlice = (set, get) => ({
+const createSortSlice = (set) => ({
   cardHeightSort: 120,
   cardHeightPostsort: 120,
   columnWidth: 100,

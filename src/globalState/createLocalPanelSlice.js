@@ -1,4 +1,4 @@
-const createLocalPanelSlice = (set, get) => ({
+const createLocalPanelSlice = (set) => ({
   displayLocalPartIdWarning1: false,
   displayLocalPartIdWarning2: false,
   triggerLocalDeleteModal: false,

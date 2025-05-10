@@ -1,4 +1,4 @@
-const createPostsortSlice = (set, get) => ({
+const createPostsortSlice = (set) => ({
   resultsPostsort: {},
   statementCommentsObj: {},
   triggerPostsortModal: true,

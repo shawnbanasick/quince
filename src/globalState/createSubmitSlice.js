@@ -1,4 +1,4 @@
-const createSubmitSlice = (set, get) => ({
+const createSubmitSlice = (set) => ({
   disableRefreshCheck: false,
   displaySubmitFallback: false,
   displayGoodbyeMessage: false,

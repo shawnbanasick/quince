@@ -1,4 +1,4 @@
-const createSurveySlice = (set, get) => ({
+const createSurveySlice = (set) => ({
   triggerSurveyModal: true,
   resultsSurvey: {},
   triggerSurveyPreventNavModal: false,

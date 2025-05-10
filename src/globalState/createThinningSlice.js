@@ -1,4 +1,4 @@
-const createThinningSlice = (set, get) => ({
+const createThinningSlice = (set) => ({
   thinningSide: "rightSide",
   showConfirmButton: true,
   previousColInfo: [],
@@ -26,7 +26,15 @@ const createThinningSlice = (set, get) => ({
   triggerMobileThinGuidanceModal: false,
   triggerMobileThinScrollBottomModal: false,
   triggerThinHelpModal: true,
+  cardFontSizeThin: 12,
+  cardHeightThin: 150,
 
+  setCardHeightThin: (value) => {
+    set(() => ({ cardHeightThin: value }));
+  },
+  setCardFontSizeThin: (value) => {
+    set(() => ({ cardFontSizeThin: value }));
+  },
   setTriggerThinHelpModal: (bool) => {
     set(() => ({ triggerThinHelpModal: bool }));
   },

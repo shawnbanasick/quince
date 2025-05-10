@@ -1,4 +1,4 @@
-const createPresortSlice = (set, get) => ({
+const createPresortSlice = (set) => ({
   triggerPresortModal: true,
   presortNoReturn: false,
   presortPosCards: [],

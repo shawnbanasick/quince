@@ -49,9 +49,7 @@ const SortColumn = (props) => {
               )}
             >
               {columnStatementsArray.map((item, index) => {
-                const statementHtml = ReactHtmlParser(
-                  `<div>${decodeHTML(item.statement)}</div>`
-                );
+                const statementHtml = ReactHtmlParser(`<div>${decodeHTML(item.statement)}</div>`);
                 return (
                   <Draggable
                     key={item.id}
@@ -110,5 +108,6 @@ const StatementDiv = styled.div`
   margin-left: 2%;
   margin-bottom: 5px !important;
   height: ${(props) => `${props.cardHeight}px`};
+  font-size: calc(${(props) => props.fontSize}px + 1.3vw);
   justify-content: center;
 `;
