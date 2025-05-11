@@ -107,7 +107,7 @@
         <item id="thinPageTitle">Refine Your Evaluations</item>
         <item id="thinPageSubmitButton">Submit</item>
         <item id="numStatementsToSelect">Number of Statements to Select</item>
-        <item id="currentlySelectedNumber">Currently Selected Statements</item>
+        <item id="currentlySelectedNumber">Currently Number of Selected Statements</item>
 
         <item id="thinningPreventNavModalHead">Navigation Disabled</item>
         <item id="thinningPreventNavModalText">Please finish the refining process before going to the next step.</item>

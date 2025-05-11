@@ -1,0 +1,14 @@
+
+   <item id="survey">
+        <input type="textarea" required="false"></input>
+        <label>1. 神戸女学院大学がグローバル・スタディーズ学科の新入生の経験を向上させるためにできることは何だとお考えですか？</label>
+        <note>この調査は匿名で行われますので、ご遠慮なくご意見をお寄せください。</note>
+        <placeholder>コメントをここに入力してください</placeholder>
+   </item>
+
+   <item id="survey">
+        <input type="textarea" required="false"></input>
+        <label>2. グローバル・スタディーズ学科の教員に伝えたいことがあれば、こちらにご記入ください。</label>
+        <note>この調査は匿名で行われますので、ご遠慮なくご意見をお寄せください。</note>
+        <placeholder>コメントをここに入力してください</placeholder>
+   </item>
