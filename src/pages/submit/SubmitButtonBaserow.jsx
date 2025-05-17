@@ -10,31 +10,31 @@ import PromptUnload from "../../utilities/PromptUnload";
 import axios from "axios";
 
 const getLangObj = (state) => state.langObj;
-const getConfigObj = (state) => state.configObj;
 const getDisplaySubmitFallback = (state) => state.displaySubmitFallback;
-const getSubmitFailNumber = (state) => state.submitFailNumber;
-const getSetTrigTranFailMod = (state) => state.setTriggerTransmissionFailModal;
-const getSetTrigTransOKModal = (state) => state.setTriggerTransmissionOKModal;
-const getSetDisplaySubmitFallback = (state) => state.setDisplaySubmitFallback;
 const getTransmittingData = (state) => state.transmittingData;
 const getSetTransmittingData = (state) => state.setTransmittingData;
 const getCheckInternetConnection = (state) => state.checkInternetConnection;
 const getSetCheckInternetConnection = (state) => state.setCheckInternetConnection;
+const getConfigObj = (state) => state.configObj;
+// const getSubmitFailNumber = (state) => state.submitFailNumber;
+// const getSetTrigTranFailMod = (state) => state.setTriggerTransmissionFailModal;
+const getSetTrigTransOKModal = (state) => state.setTriggerTransmissionOKModal;
+// const getSetDisplaySubmitFallback = (state) => state.setDisplaySubmitFallback;
 const getSetDisplayGoodbyeMessage = (state) => state.setDisplayGoodbyeMessage;
 
 const SubmitResultsButton = (props) => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
-  const configObj = useSettingsStore(getConfigObj);
   let displaySubmitFallback = useStore(getDisplaySubmitFallback);
-  let submitFailNumber = useStore(getSubmitFailNumber);
-  const setTriggerTransmissionFailModal = useStore(getSetTrigTranFailMod);
-  const setTriggerTransmissionOKModal = useStore(getSetTrigTransOKModal);
-  const setDisplaySubmitFallback = useStore(getSetDisplaySubmitFallback);
   let transmittingData = useStore(getTransmittingData);
   const setTransmittingData = useStore(getSetTransmittingData);
   let checkInternetConnection = useStore(getCheckInternetConnection);
   const setCheckInternetConnection = useStore(getSetCheckInternetConnection);
+  const configObj = useSettingsStore(getConfigObj);
+  // let submitFailNumber = useStore(getSubmitFailNumber);
+  // const setTriggerTransmissionFailModal = useStore(getSetTrigTranFailMod);
+  const setTriggerTransmissionOKModal = useStore(getSetTrigTransOKModal);
+  // const setDisplaySubmitFallback = useStore(getSetDisplaySubmitFallback);
   const setDisplayGoodbyeMessage = useStore(getSetDisplayGoodbyeMessage);
 
   const btnTransferText = ReactHtmlParser(decodeHTML(langObj.btnTransfer)) || "";
@@ -53,17 +53,31 @@ const SubmitResultsButton = (props) => {
 
     console.log(JSON.stringify(props.results, null, 2));
 
+    let token = configObj.baserowToken;
+    let databaseId = configObj.baserowDatabaseIdNumber;
+
+    if (token === undefined || token === null) {
+      console.log("Baserow token is not set");
+      return;
+    }
+
     axios({
       method: "POST",
-      url: "https://api.baserow.io/api/database/rows/table/452892/?user_field_names=true",
+      url: `https://api.baserow.io/api/database/rows/table/${databaseId}/?user_field_names=true`,
       headers: {
-        Authorization: "Token ",
+        Authorization: `Token ${token}`,
         "Content-Type": "application/json",
       },
       data: props.results,
     })
       .then((response) => {
         console.log(response);
+        if (response.status === 200) {
+          setTransmittingData(false);
+          setCheckInternetConnection(false);
+          setDisplayGoodbyeMessage(true);
+          setTriggerTransmissionOKModal(true);
+        }
       })
       .catch((error) => {
         console.log(error);

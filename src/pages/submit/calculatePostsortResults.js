@@ -19,7 +19,7 @@ const calculatePostsortResults = (resultsPostsort, mapObj, configObj) => {
   // check for high card answers
   const length = highCardNum;
   for (let i = 0; i < length; i++) {
-    if (!resultsPostsort.hasOwnProperty(`column${highCardVal}_${i}`))
+    if (!Object.prototype.hasOwnProperty.call(resultsPostsort, `column${highCardVal}_${i}`))
       resultsPostsort[`column${highCardVal}_${i}`] = "no response";
   }
 
@@ -27,7 +27,7 @@ const calculatePostsortResults = (resultsPostsort, mapObj, configObj) => {
   if (configObj.showSecondPosColumn === true) {
     const length2 = highCard2Num;
     for (let ii = 0; ii < length2; ii++) {
-      if (!resultsPostsort.hasOwnProperty(`column${highCard2Val}_${ii}`))
+      if (!Object.prototype.hasOwnProperty.call(resultsPostsort, `column${highCard2Val}_${ii}`))
         resultsPostsort[`column${highCard2Val}_${ii}`] = "no response";
     }
   }
@@ -36,7 +36,7 @@ const calculatePostsortResults = (resultsPostsort, mapObj, configObj) => {
   if (configObj?.displayNeutralObjects === true) {
     const length5 = neuCardNum;
     for (let jjj = 0; jjj < length5; jjj++) {
-      if (!resultsPostsort.hasOwnProperty(`column${neuCardVal}_${jjj}`))
+      if (!Object.prototype.hasOwnProperty.call(resultsPostsort, `column${neuCardVal}_${jjj}`))
         resultsPostsort[`column${neuCardVal}_${jjj}`] = "no response";
     }
   }
@@ -45,7 +45,7 @@ const calculatePostsortResults = (resultsPostsort, mapObj, configObj) => {
   if (configObj.showSecondNegColumn === true) {
     const length4 = lowCard2Num;
     for (let jj = 0; jj < length4; jj++) {
-      if (!resultsPostsort.hasOwnProperty(`column${lowCard2Val}_${jj}`))
+      if (!Object.prototype.hasOwnProperty.call(resultsPostsort, `column${lowCard2Val}_${jj}`))
         resultsPostsort[`column${lowCard2Val}_${jj}`] = "no response";
     }
   }
@@ -53,7 +53,7 @@ const calculatePostsortResults = (resultsPostsort, mapObj, configObj) => {
   // check for low card answers
   const length3 = lowCardNum;
   for (let j = 0; j < length3; j++) {
-    if (!resultsPostsort.hasOwnProperty(`column${lowCardVal}_${j}`))
+    if (!Object.prototype.hasOwnProperty.call(resultsPostsort, `column${lowCardVal}_${j}`))
       resultsPostsort[`column${lowCardVal}_${j}`] = "no response";
   }
 

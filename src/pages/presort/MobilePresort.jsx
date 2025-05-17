@@ -18,6 +18,7 @@ import MobilePresortRedoModal from "./MobilePresortRedoModal";
 import MobilePresortFinishedModal from "./MobilePresortFinishedModal";
 import HelpSymbol from "../../assets/helpSymbol.svg?react";
 import MobilePresortPreventNavModal from "./MobilePresortPreventNavModal";
+import Modal from "react-responsive-modal";
 // import PresortDndImages from "./PresortDndImages";
 // import cloneDeep from "lodash/cloneDeep";
 
@@ -32,10 +33,8 @@ const getSetTriggerMobilePresortFinishedModal = (state) =>
   state.setTriggerMobilePresortFinishedModal;
 const getSetPresortFinished = (state) => state.setPresortFinished;
 const getMobilePresortFontSize = (state) => state.mobilePresortFontSize;
-const getSetTriggerMobilePresortRedoModal = (state) =>
-  state.setTriggerMobilePresortRedoModal;
-const getSetTriggerMobilePresortHelpModal = (state) =>
-  state.setTriggerMobilePresortHelpModal;
+const getSetTriggerMobilePresortRedoModal = (state) => state.setTriggerMobilePresortRedoModal;
+const getSetTriggerMobilePresortHelpModal = (state) => state.setTriggerMobilePresortHelpModal;
 
 const MobilePresortPage = () => {
   // GLOBAL STATE
@@ -48,33 +47,20 @@ const MobilePresortPage = () => {
   const resetColumnStatements = useSettingsStore(getResetColumnStatements);
   const setPresortFinished = useStore(getSetPresortFinished);
   const mobilePresortFontSize = useStore(getMobilePresortFontSize);
-  const setTriggerMobilePresortRedoModal = useStore(
-    getSetTriggerMobilePresortRedoModal
-  );
-  const setTriggerMobilePresortHelpModal = useStore(
-    getSetTriggerMobilePresortHelpModal
-  );
-  const setTriggerPresortFinishedModal = useStore(
-    getSetTriggerMobilePresortFinishedModal
-  );
+  const setTriggerMobilePresortRedoModal = useStore(getSetTriggerMobilePresortRedoModal);
+  const setTriggerMobilePresortHelpModal = useStore(getSetTriggerMobilePresortHelpModal);
+  const setTriggerPresortFinishedModal = useStore(getSetTriggerMobilePresortFinishedModal);
 
   // ***********************
   // *** TEXT LOCALIZATION *****************
   // ***********************
-  const titleText =
-    ReactHtmlParser(decodeHTML(langObj.mobilePresortConditionsOfInstruction)) ||
-    "";
-  const completedLabel =
-    ReactHtmlParser(decodeHTML(langObj.mobilePresortCompletedLabel)) || "";
-  const assignLeft =
-    ReactHtmlParser(decodeHTML(langObj.mobilePresortAssignLeft)) || "";
-  const assignRight =
-    ReactHtmlParser(decodeHTML(langObj.mobilePresortAssignRight)) || "";
+  const titleText = ReactHtmlParser(decodeHTML(langObj.mobilePresortConditionsOfInstruction)) || "";
+  const completedLabel = ReactHtmlParser(decodeHTML(langObj.mobilePresortCompletedLabel)) || "";
+  const assignLeft = ReactHtmlParser(decodeHTML(langObj.mobilePresortAssignLeft)) || "";
+  const assignRight = ReactHtmlParser(decodeHTML(langObj.mobilePresortAssignRight)) || "";
   const mobilePresortProcessCompleteMessage =
-    ReactHtmlParser(decodeHTML(langObj.mobilePresortProcessCompleteMessage)) ||
-    "";
-  const screenOrientationText =
-    ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
+    ReactHtmlParser(decodeHTML(langObj.mobilePresortProcessCompleteMessage)) || "";
+  const screenOrientationText = ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
 
   // ******************* //
   // *** LOCAL STATE **************************** //
@@ -82,14 +68,8 @@ const MobilePresortPage = () => {
   let [presortArray2, setPresortArray2] = useLocalStorage("presortArray2", [
     ...JSON.parse(localStorage.getItem("presortArray")),
   ]);
-  let [statementCount, setStatementCount] = useLocalStorage(
-    "m_PresortStatementCount",
-    0
-  );
-  let [m_PresortResults, setm_PresortResults] = useLocalStorage(
-    "m_PresortResults",
-    []
-  );
+  let [statementCount, setStatementCount] = useLocalStorage("m_PresortStatementCount", 0);
+  let [m_PresortResults, setm_PresortResults] = useLocalStorage("m_PresortResults", []);
 
   // ***********************
   // *** USE HOOKS ******************
@@ -139,12 +119,21 @@ const MobilePresortPage = () => {
   };
   const handleClickNegative = () => {
     processClick(-2);
+    if (navigator.vibrate) {
+      navigator.vibrate(100);
+    }
   };
   const handleClickNeutral = () => {
     processClick(0);
+    if (navigator.vibrate) {
+      navigator.vibrate(100);
+    }
   };
   const handleClickPositive = () => {
     processClick(2);
+    if (navigator.vibrate) {
+      navigator.vibrate(100);
+    }
   };
 
   const handleRedoClick = (value) => {
@@ -247,22 +236,12 @@ const MobilePresortPage = () => {
           return +item.psValue < 0;
         });
 
-        localStorage.setItem(
-          "selectedPosItems",
-          JSON.stringify(selectedPosItems)
-        );
-        localStorage.setItem(
-          "selectedNegItems",
-          JSON.stringify(selectedNegItems)
-        );
+        localStorage.setItem("selectedPosItems", JSON.stringify(selectedPosItems));
+        localStorage.setItem("selectedNegItems", JSON.stringify(selectedNegItems));
 
         if (presortArray2.length === 0) {
-          let sortRightArrays = JSON.parse(
-            localStorage.getItem("sortRightArrays")
-          );
-          let sortLeftArrays = JSON.parse(
-            localStorage.getItem("sortLeftArrays")
-          );
+          let sortRightArrays = JSON.parse(localStorage.getItem("sortRightArrays"));
+          let sortLeftArrays = JSON.parse(localStorage.getItem("sortLeftArrays"));
           let newCols = JSON.parse(localStorage.getItem("newCols"));
           let remainingPosCount = selectedPosItems.length;
           let remainingNegCount = selectedNegItems.length;
@@ -340,82 +319,80 @@ const MobilePresortPage = () => {
   // *** RENDER VARIABLES ******************
   // **************************
   let totalStatements = columnStatements.statementList.length;
-  let displayStatements = JSON.parse(
-    localStorage.getItem("m_PresortDisplayStatements")
-  );
+  let displayStatements = JSON.parse(localStorage.getItem("m_PresortDisplayStatements"));
 
   // **************************
   // *** ELEMENTS ******************
   // **************************
   return (
-    <Container>
-      <MobilePresortRedoModal
-        clickFunction={handleRedoClick}
-        statement={redoCardId}
-      />
-      <MobilePresortHelpModal />
-      <MobilePresortFinishedModal />
-      <MobilePresortPreventNavModal />
-      <SortTitleBar background={configObj.headerBarColor}>
-        {titleText}
-        <HelpContainer onClick={handleOpenHelpModal}>
-          <HelpSymbol />
-        </HelpContainer>
-      </SortTitleBar>
+    <>
+      <ModalContainer>
+        <MobilePresortHelpModal />
+      </ModalContainer>
+      <Container>
+        <MobilePresortRedoModal clickFunction={handleRedoClick} statement={redoCardId} />
+        <MobilePresortFinishedModal />
+        <MobilePresortPreventNavModal />
+        <SortTitleBar background={configObj.headerBarColor}>
+          {titleText}
+          <HelpContainer onClick={handleOpenHelpModal}>
+            <HelpSymbol />
+          </HelpContainer>
+        </SortTitleBar>
 
-      {displayStatements.display ? (
-        <>
-          <MobileStatementBox
-            fontSize={mobilePresortFontSize}
-            statement={presortArray2?.[0]?.statement}
-            backgroundColor={"#e5e5e5"}
-          />
-          <ButtonRowLabel>
-            <AssignDiv>{assignLeft}</AssignDiv>
-            <CountDiv>{`${statementCount} / ${totalStatements}`}</CountDiv>
-            <AssignDiv>{assignRight}</AssignDiv>
-          </ButtonRowLabel>
-          <ButtonRow>
-            <MobileValueButton
-              id={`-2`}
-              value={-2}
-              text={`-`}
-              color={`#FBD5D5`}
-              onClick={handleClickNegative}
+        {displayStatements.display ? (
+          <>
+            <MobileStatementBox
+              fontSize={mobilePresortFontSize}
+              statement={presortArray2?.[0]?.statement}
+              backgroundColor={"#e5e5e5"}
             />
-            <MobileValueButton
-              id={`0`}
-              value={0}
-              text={`?`}
-              color={`#F3F4F6`}
-              onClick={handleClickNeutral}
-            />
+            <ButtonRowLabel>
+              <AssignDiv>{assignLeft}</AssignDiv>
+              <CountDiv>{`${statementCount} / ${totalStatements}`}</CountDiv>
+              <AssignDiv>{assignRight}</AssignDiv>
+            </ButtonRowLabel>
+            <ButtonRow>
+              <MobileValueButton
+                id={`-2`}
+                value={-2}
+                text={`-`}
+                color={`#FBD5D5`}
+                onClick={handleClickNegative}
+              />
+              <MobileValueButton
+                id={`0`}
+                value={0}
+                text={`?`}
+                color={`#F3F4F6`}
+                onClick={handleClickNeutral}
+              />
 
-            <MobileValueButton
-              id={`2`}
-              value={2}
-              text={`+`}
-              color={`#BCF0DA`}
-              onClick={handleClickPositive}
-            />
-          </ButtonRow>
-          <RowText>{completedLabel}</RowText>
+              <MobileValueButton
+                id={`2`}
+                value={2}
+                text={`+`}
+                color={`#BCF0DA`}
+                onClick={handleClickPositive}
+              />
+            </ButtonRow>
+            <RowText>{completedLabel}</RowText>
 
-          <MobilePreviousAssignmentBox
-            statements={m_PresortResults}
-            onClick={handleRedo}
-          />
-        </>
-      ) : (
-        <FinishedMessage>
-          <p>{mobilePresortProcessCompleteMessage}</p>
-        </FinishedMessage>
-      )}
+            <MobilePreviousAssignmentBox statements={m_PresortResults} onClick={handleRedo} />
+            <BoxSizeMessage>
+              Click the View "+" button below to expand the view area and hide this message.
+            </BoxSizeMessage>
+          </>
+        ) : (
+          <FinishedMessage>
+            <p>{mobilePresortProcessCompleteMessage}</p>
+          </FinishedMessage>
+        )}
 
-      {/* <ModalContainer></ModalContainer> */}
-      <MobilePresortFinishedModal />
+        {/* <ModalContainer></ModalContainer> */}
+        <MobilePresortFinishedModal />
 
-      {/* <PromptUnload />
+        {/* <PromptUnload />
       <PresortModal />
       <PresortPreventNavModal />
       {imageSort ? (
@@ -423,7 +400,8 @@ const MobilePresortPage = () => {
       ) : (
         <PresortDND statements={statements} cardFontSize={cardFontSize} />
       )} */}
-    </Container>
+      </Container>
+    </>
   );
 };
 
@@ -550,4 +528,23 @@ const FinishedMessage = styled.div`
     return props.theme.mobileText;
   }};
   font-size: 22px;
+`;
+
+const BoxSizeMessage = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1.5vh;
+  font-weight: bold;
+  margin-top: 10px;
+  width: 80vw;
+`;
+
+const ModalContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  max-height: 100vh;
 `;

@@ -6,12 +6,14 @@
    <!-- "setupTarget" options: netlify, firebase, local, email, or sheets -->
    <item id="studyTitle">Demo Project</item> 
    <item id="databaseOptions">Include_Google_Options</item>
-   <item id="setupTarget">firebase</item>
+   <item id="setupTarget">baserow</item>
+   <item id="baserowToken">9mai4vZoWKfizfMebLLwHYXXg2FvBgzt</item>
+   <item id="baserowDatabaseIdNumber">542139</item>
    <!-- STEIN -->
    <item id="steinApiUrl"></item>
    <!-- EMAIL -->
    <item id="emailAddress"></item>  
-   <item id="emailSubject">EQ Web Sort Results</item>  
+   <item id="emailSubject">Quincy Sort Results</item>  
    <!-- SECOND PROJECT LINKING -->
    <item id="linkToSecondProject">false</item> 
    <item id="secondProjectUrl">http://</item> 
@@ -34,7 +36,7 @@
    <item id="shuffleCards">false</item>
    <item id="headerBarColor">#337ab7</item>
    <item id="devMode">false</item> 
-   <item id="showConsentPage">false</item> 
+   <item id="showConsentPage">true</item> 
    <item id="showConsentPageHelpModal">true</item> 
    <item id="useThinProcess">true</item> 
    <item id="useMobileMode">true</item> 

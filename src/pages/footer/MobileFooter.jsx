@@ -1,27 +1,26 @@
-import React from "react";
 import styled from "styled-components";
 import MobileNextButton from "./MobileNextButton";
 import MobileFooterFontSizer from "./MobileFooterFontSizer";
-// import CardHeightSizer from "./CardHeightSizer";
-// import ProgressBar from "@ramonak/react-progress-bar";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
-// import calcProgressScore from "./calcProgressScore";
-// import MobileHelpButton from "./MobileHelpButton";
 import getNextPage from "./getNextPage";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
-import PostsortBackButton from "./PostsortBackButton";
 import MobileFooterViewSizer from "./MobileFooterViewSizer";
 import useScreenOrientation from "../../utilities/useScreenOrientation";
+// import CardHeightSizer from "./CardHeightSizer";
+// import ProgressBar from "@ramonak/react-progress-bar";
+// import calcProgressScore from "./calcProgressScore";
+// import MobileHelpButton from "./MobileHelpButton";
+// import PostsortBackButton from "./PostsortBackButton";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
-// const getDisplayNextButton = (state) => state.displayNextButton;
 const getCurrentPage = (state) => state.currentPage;
+const getLocalUsercode = (state) => state.localUsercode;
+// const getDisplayNextButton = (state) => state.displayNextButton;
 // const getAdditionalProgress = (state) => state.progressScoreAdditional;
 // const getAdditionalProgressSort = (state) => state.progressScoreAdditionalSort;
-const getLocalUsercode = (state) => state.localUsercode;
 // const getDisplayMobileHelpButton = (state) => state.displayMobileHelpButton;
 // const getSetDisplayMobileHelpButton = (state) =>
 //   state.setDisplayMobileHelpButton;
@@ -30,40 +29,38 @@ const StyledFooter = () => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
   const configObj = useSettingsStore(getConfigObj);
-  // let displayNextButton = useStore(getDisplayNextButton);
   const currentPage = useStore(getCurrentPage);
+  const localUsercode = useStore(getLocalUsercode);
   // const additionalProgress = useStore(getAdditionalProgress);
   // const additionalProgressSort = useStore(getAdditionalProgressSort);
-  const localUsercode = useStore(getLocalUsercode);
+  // let displayNextButton = useStore(getDisplayNextButton);
   // let displayMobileHelpButton = useStore(getDisplayMobileHelpButton);
   // const setDisplayMobileHelpButton = useStore(getSetDisplayMobileHelpButton);
 
   // let showProgressBar = false;
   // let showCardHeightSizer = true;
-  let showAdjustmentContainer = true;
+  // let showAdjustmentContainer = true;
+  // let backButtonText = langObj.postsortBackButtonText;
+  // let showBackButton;
   let showFooterFontSizer = true;
   let showLogo = false;
   let showFooterViewSizer = true;
   let displayNextButton = false;
-  let showBackButton;
-  let backButtonText = langObj.postsortBackButtonText;
   let nextButtonWidth = 60;
   let nextButtonText = "";
 
   const showPostsort = configObj.showPostsort;
   const showSurvey = configObj.showSurvey;
-  const useImages = configObj.useImages;
   const showConsent = configObj.showConsentPage;
   const showThinning = configObj.useThinProcess;
+  // const useImages = configObj.useImages;
 
   // *** HOOKS ***
   let screenOrientation = useScreenOrientation();
 
   // *** LOGO ***
   let logoHtml = ReactHtmlParser(
-    decodeHTML(
-      `{{{center}}}{{{img src="./logo/logo.png" height="20" width="125" /}}}{{{/center}}}`
-    )
+    decodeHTML(`{{{center}}}{{{img src="./logo/logo.png" height="20" width="125" /}}}{{{/center}}}`)
   );
 
   // *** TEXT LOCALIZATION ***
@@ -73,31 +70,25 @@ const StyledFooter = () => {
   } else {
     nextButtonText = ReactHtmlParser(decodeHTML(langObj.btnNext)) || "";
   }
-  if (currentPage === "postsort" && configObj.showBackButton) {
-    showBackButton = false;
-  } else {
-    showBackButton = false;
-  }
+  // if (currentPage === "postsort" && configObj.showBackButton) {
+  //   // showBackButton = false;
+  // } else {
+  //   // showBackButton = false;
+  // }
 
   // *** LOCAL DATA COLLECTION SETUP ***
   if (currentPage === "sort" && configObj.setupTarget === "local") {
     const usercode = localUsercode;
     const projectName = configObj.studyTitle;
     const today = new Date();
-    const date =
-      today.getFullYear() +
-      "-" +
-      (today.getMonth() + 1) +
-      "-" +
-      today.getDate();
-    const time =
-      today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    const date = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+    const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     const dateTime = date + " " + time;
     logoHtml = `${usercode} - ${projectName} - ${dateTime}`;
   }
 
   // Display LOGO
-  if (currentPage === "submit" || currentPage === "landing") {
+  if (currentPage === "submit" || currentPage === "landing" || currentPage === "consent") {
     showLogo = true;
   }
 
@@ -120,18 +111,18 @@ const StyledFooter = () => {
   }
 
   // Image sort adjustments
-  if (currentPage === "presort") {
-    if (configObj.useImages === true) {
-      showAdjustmentContainer = false;
-      // showCardHeightSizer = false;
-    } else {
-      showAdjustmentContainer = true;
-      // showCardHeightSizer = false;
-    }
-  }
+  // if (currentPage === "presort") {
+  //   if (configObj.useImages === true) {
+  //     // showAdjustmentContainer = false;
+  //     // showCardHeightSizer = false;
+  //   } else {
+  //     // showAdjustmentContainer = true;
+  //     // showCardHeightSizer = false;
+  //   }
+  // }
 
   // Image sort adjustments
-  if (currentPage === "submit" || currentPage === "landing") {
+  if (currentPage === "submit" || currentPage === "landing" || currentPage === "consent") {
     showFooterFontSizer = false;
     showFooterViewSizer = false;
     // if (useImages === true) {
@@ -143,41 +134,31 @@ const StyledFooter = () => {
     //   // showCardHeightSizer = true;
     //   showFooterFontSizer = true;
     // }
-    showAdjustmentContainer = true;
+    // showAdjustmentContainer = true;
   }
 
   // font size and view adjustments display
-  if (
-    currentPage === "landing" ||
-    currentPage === "survey" ||
-    currentPage === "submit"
-  ) {
-    showAdjustmentContainer = false;
+  if (currentPage === "landing" || currentPage === "survey" || currentPage === "submit") {
+    // showAdjustmentContainer = false;
   }
 
   if (currentPage === "postsort") {
     showLogo = false;
-    showAdjustmentContainer = true;
+    // showAdjustmentContainer = true;
   }
 
-  let CenterContent = (
-    <React.Fragment>
-      {showAdjustmentContainer && (
-        <AdjustmentsContainer>
-          {showFooterFontSizer && <MobileFooterFontSizer />}
-          {showFooterViewSizer && <MobileFooterViewSizer />}
-        </AdjustmentsContainer>
-      )}
-    </React.Fragment>
-  );
+  // let CenterContent = (
+  //   <React.Fragment>
+  //     {showAdjustmentContainer && (
+  //       <AdjustmentsContainer>
+  //         {showFooterFontSizer && <MobileFooterFontSizer />}
+  //         {showFooterViewSizer && <MobileFooterViewSizer />}
+  //       </AdjustmentsContainer>
+  //     )}
+  //   </React.Fragment>
+  // );
 
-  const nextPage = getNextPage(
-    currentPage,
-    showPostsort,
-    showSurvey,
-    showConsent,
-    showThinning
-  );
+  const nextPage = getNextPage(currentPage, showPostsort, showSurvey, showConsent, showThinning);
 
   // ************************
   // *** EARLY RETURN ***********
@@ -214,15 +195,15 @@ const StyledFooterDiv = styled.footer`
   align-items: center;
 `;
 
-const AdjustmentsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  /* justify-content: space-between; */
-  /* gap: 10px; */
-  margin-left: 2vw;
-  width: 100%;
-  outline: 1px solid red;
-`;
+// const AdjustmentsContainer = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   /* justify-content: space-between; */
+//   /* gap: 10px; */
+//   margin-left: 2vw;
+//   width: 100%;
+//   outline: 1px solid red;
+// `;
 
 const LogoContainer = styled.div`
   padding-top: 5px;
@@ -233,14 +214,14 @@ const LogoContainer = styled.div`
   text-align: center;
 `;
 
-const CenterDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-`;
+// const CenterDiv = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: center;
+// `;
 
-const ButtonDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`;
+// const ButtonDiv = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-between;
+// `;

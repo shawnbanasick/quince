@@ -410,6 +410,24 @@ footer {
   border-radius: 10px;
 }
 
+@media (max-width: 768px) {
+  .react-responsive-modal-container {
+    max-width: 100vw;
+    max-height: 100vh;
+}
+}
+
+@media (max-width: 768px) {
+  .react-responsive-modal-modal {
+    width: 90vw;
+    padding: 8px;
+    margin: 0px;
+    max-height: 80vh;
+    /* Add or override other styles for mobile here */
+  }
+
+}
+
   #cardsDiv{
     grid-column-start: 3;
     overflow: hidden;

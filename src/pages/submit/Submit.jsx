@@ -13,10 +13,12 @@ import LocalSubmitSuccessModal from "./LocalSubmitSuccessModal";
 import SubmitButtonGS from "./SubmitButtonGS";
 import SubmitButtonEmail from "./SubmitButtonEmail";
 import convertObjectToResults from "../sort/convertObjectToResults";
+import convertObjectToBaserowResults from "../sort/convertObjectToBaserowResults";
 import getCurrentDateTime from "../../utilities/getCurrentDateTime";
 import SubmitButtonNetlify from "./SubmitButtonNetlify";
 import createPresortObject from "./createPresortObject";
 import SubmitButtonBaserow from "./SubmitButtonBaserow";
+import createBaserowObject from "./createBaserowObject";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
@@ -28,6 +30,7 @@ const getParticipantName = (state) => state.localParticipantName;
 const getLocalUsercode = (state) => state.localUsercode;
 
 let transmissionResults = {};
+let baserowResults = {};
 
 const SubmitPage = () => {
   // GLOBAL STATE
@@ -72,21 +75,42 @@ const SubmitPage = () => {
   // useEffect(() => {
   // format results for transmission
   try {
+    let randomId = localStorage.getItem("randomId") || uuid();
+    let partId = localStorage.getItem("partId") || "no part ID";
+    let usercode = localStorage.getItem("usercode") || "no usercode set";
+
     // finish setup and format results object
     transmissionResults["projectName"] = configObj.studyTitle;
-    transmissionResults["partId"] = localStorage.getItem("partId") || "no part ID";
-    transmissionResults["randomId"] = localStorage.getItem("randomId") || "no random ID";
-    transmissionResults["urlUsercode"] = localStorage.getItem("urlUsercode") || "no usercode set";
+    transmissionResults["partId"] = partId;
+    transmissionResults["randomId"] = randomId;
+    transmissionResults["urlUsercode"] = usercode;
+
+    baserowResults["r1"] = randomId;
+    baserowResults["r2"] = configObj.studyTitle;
+    baserowResults["r3"] = `(partId) ${partId}`;
+    baserowResults["r4"] = `(urlUsercode) ${usercode}`;
   } catch (error) {
     console.log(error);
     alert("1: " + error.message);
   }
 
   try {
+    let timeOnlandingPage = localStorage.getItem("timeOnlandingPage") || "00:00:00";
+    let timeOnpresortPage = localStorage.getItem("timeOnpresortPage") || "00:00:00";
+    let timeOnthinningPage = localStorage.getItem("timeOnthinningPage") || "00:00:00";
+    let timeOnsortPage = localStorage.getItem("timeOnsortPage") || "00:00:00";
+
     transmissionResults["dateTime"] = dateString;
-    transmissionResults["timeLanding"] = localStorage.getItem("timeOnlandingPage") || "00:00:00";
-    transmissionResults["timePresort"] = localStorage.getItem("timeOnpresortPage") || "00:00:00";
-    transmissionResults["timeSort"] = localStorage.getItem("timeOnsortPage") || "00:00:00";
+    transmissionResults["timeLanding"] = timeOnlandingPage;
+    transmissionResults["timePresort"] = timeOnpresortPage;
+    transmissionResults["timeRefine"] = timeOnthinningPage;
+    transmissionResults["timeSort"] = timeOnsortPage;
+
+    baserowResults["r5"] = `(dateTime) ${dateString}`;
+    baserowResults["r6"] = `(timeOnWelcomePage) ${timeOnlandingPage}`;
+    baserowResults["r7"] = `(timeOnPresortPage) ${timeOnpresortPage}`;
+    baserowResults["r8"] = `(timeOnRefinePage) ${timeOnthinningPage}`;
+    baserowResults["r9"] = `(timeOnSortPage) ${timeOnsortPage}`;
   } catch (error) {
     console.log(error);
     alert("2: " + error.message);
@@ -99,12 +123,16 @@ const SubmitPage = () => {
     }
 
     if (configObj.showPostsort === true) {
-      transmissionResults["timePostsort"] =
-        localStorage.getItem("timeOnpostsortPage") || "00:00:00";
+      let timeOnpostsortPage = localStorage.getItem("timeOnpostsortPage") || "00:00:00";
+
+      transmissionResults["timePostsort"] = timeOnpostsortPage;
+      baserowResults["r10"] = `(timeOnPostsortPage) ${timeOnpostsortPage}`;
     }
 
     if (configObj.showSurvey === true) {
-      transmissionResults["timeSurvey"] = localStorage.getItem("timeOnsurveyPage") || "00:00:00";
+      let timeOnsurveyPage = localStorage.getItem("timeOnsurveyPage") || "00:00:00";
+      transmissionResults["timeSurvey"] = timeOnsurveyPage;
+      baserowResults["r11"] = `(timeOnSurveyPage) ${timeOnsurveyPage}`;
     }
   } catch (error) {
     console.log(error);
@@ -113,14 +141,23 @@ const SubmitPage = () => {
 
   try {
     const presortObject = createPresortObject();
+    const baserowObject = createBaserowObject();
+
     transmissionResults = {
       ...transmissionResults,
       ...presortObject,
+    };
+
+    baserowResults = {
+      ...baserowResults,
+      ...baserowObject,
     };
   } catch (error) {
     console.log(error);
     alert("4: " + error.message);
   }
+
+  let baserowCounter = 20;
 
   try {
     // if project included POSTSORT, read in complete sorted results
@@ -135,6 +172,8 @@ const SubmitPage = () => {
           continue;
         }
         transmissionResults[keys[i]] = newPostsortObject[keys[i]];
+        baserowResults[`r${baserowCounter}`] = `${keys[i]}: ${newPostsortObject[keys[i]]}`;
+        baserowCounter++;
       }
     }
   } catch (error) {
@@ -149,6 +188,13 @@ const SubmitPage = () => {
         ...transmissionResults,
         ...resultsSurveyFromStorage,
       };
+
+      const keys = Object.keys(resultsSurveyFromStorage);
+      for (let i = 0; i < keys.length; i++) {
+        // skip unnecessary entries
+        baserowResults[`r${baserowCounter}`] = `${keys[i]}: ${resultsSurveyFromStorage[keys[i]]}`;
+        baserowCounter++;
+      }
     }
   } catch (error) {
     console.log(error);
@@ -156,6 +202,7 @@ const SubmitPage = () => {
   }
 
   let resultsSort;
+  let baserowSortResults;
   try {
     // *** SORT RESULTS to obtain consistent results object
     if (
@@ -172,6 +219,13 @@ const SubmitPage = () => {
 
         configObj.traceSorts
       );
+
+      baserowSortResults = convertObjectToBaserowResults(
+        // all results
+        { ...resultsSortObj },
+        // presort results
+        { ...resultsPresort }
+      );
     }
   } catch (error) {
     console.log(error);
@@ -182,6 +236,11 @@ const SubmitPage = () => {
     transmissionResults = {
       ...transmissionResults,
       ...resultsSort,
+    };
+
+    baserowResults = {
+      ...baserowResults,
+      ...baserowSortResults,
     };
   } catch (error) {
     console.log(error);
@@ -279,7 +338,7 @@ const SubmitPage = () => {
         <SortTitleBar background={headerBarColor}>{pageHeader}</SortTitleBar>
         <ContainerDiv>
           <ContentDiv>{transferTextAbove}</ContentDiv>
-          <SubmitButtonBaserow results={transmissionResults} />
+          <SubmitButtonBaserow results={baserowResults} />
           <ContentDiv>{transferTextBelow}</ContentDiv>
         </ContainerDiv>
       </React.Fragment>
