@@ -325,74 +325,71 @@ const MobilePresortPage = () => {
   // *** ELEMENTS ******************
   // **************************
   return (
-    <>
-      <ModalContainer>
-        <MobilePresortHelpModal />
-      </ModalContainer>
-      <Container>
-        <MobilePresortRedoModal clickFunction={handleRedoClick} statement={redoCardId} />
-        <MobilePresortFinishedModal />
-        <MobilePresortPreventNavModal />
-        <SortTitleBar background={configObj.headerBarColor}>
-          {titleText}
-          <HelpContainer onClick={handleOpenHelpModal}>
-            <HelpSymbol />
-          </HelpContainer>
-        </SortTitleBar>
+    <Container>
+      <MobilePresortHelpModal />
+      <MobilePresortRedoModal clickFunction={handleRedoClick} statement={redoCardId} />
+      <MobilePresortFinishedModal />
+      <MobilePresortPreventNavModal />
+      <SortTitleBar background={configObj.headerBarColor}>
+        {titleText}
+        <HelpContainer onClick={handleOpenHelpModal}>
+          <HelpSymbol />
+        </HelpContainer>
+      </SortTitleBar>
 
-        {displayStatements.display ? (
-          <>
-            <MobileStatementBox
-              fontSize={mobilePresortFontSize}
-              statement={presortArray2?.[0]?.statement}
-              backgroundColor={"#e5e5e5"}
+      {displayStatements.display ? (
+        <>
+          <MobileStatementBox
+            fontSize={mobilePresortFontSize}
+            statement={presortArray2?.[0]?.statement}
+            backgroundColor={"#e5e5e5"}
+          />
+          <ButtonRowLabel>
+            <AssignDiv>{assignLeft}</AssignDiv>
+            <CountDiv>{`${statementCount} / ${totalStatements}`}</CountDiv>
+            <AssignDiv>{assignRight}</AssignDiv>
+          </ButtonRowLabel>
+          <ButtonRow>
+            <MobileValueButton
+              id={`-2`}
+              value={-2}
+              text={`-`}
+              color={`#FBD5D5`}
+              onClick={handleClickNegative}
             />
-            <ButtonRowLabel>
-              <AssignDiv>{assignLeft}</AssignDiv>
-              <CountDiv>{`${statementCount} / ${totalStatements}`}</CountDiv>
-              <AssignDiv>{assignRight}</AssignDiv>
-            </ButtonRowLabel>
-            <ButtonRow>
-              <MobileValueButton
-                id={`-2`}
-                value={-2}
-                text={`-`}
-                color={`#FBD5D5`}
-                onClick={handleClickNegative}
-              />
-              <MobileValueButton
-                id={`0`}
-                value={0}
-                text={`?`}
-                color={`#F3F4F6`}
-                onClick={handleClickNeutral}
-              />
+            <MobileValueButton
+              id={`0`}
+              value={0}
+              text={`?`}
+              color={`#F3F4F6`}
+              onClick={handleClickNeutral}
+            />
 
-              <MobileValueButton
-                id={`2`}
-                value={2}
-                text={`+`}
-                color={`#BCF0DA`}
-                onClick={handleClickPositive}
-              />
-            </ButtonRow>
-            <RowText>{completedLabel}</RowText>
+            <MobileValueButton
+              id={`2`}
+              value={2}
+              text={`+`}
+              color={`#BCF0DA`}
+              onClick={handleClickPositive}
+            />
+          </ButtonRow>
+          <RowText>{completedLabel}</RowText>
 
-            <MobilePreviousAssignmentBox statements={m_PresortResults} onClick={handleRedo} />
-            <BoxSizeMessage>
-              Click the View "+" button below to expand the view area and hide this message.
-            </BoxSizeMessage>
-          </>
-        ) : (
-          <FinishedMessage>
-            <p>{mobilePresortProcessCompleteMessage}</p>
-          </FinishedMessage>
-        )}
+          <MobilePreviousAssignmentBox statements={m_PresortResults} onClick={handleRedo} />
+          <BoxSizeMessage>
+            Click the View &quot;+&quot; button below to expand the view area and hide this message.
+          </BoxSizeMessage>
+        </>
+      ) : (
+        <FinishedMessage>
+          <p>{mobilePresortProcessCompleteMessage}</p>
+        </FinishedMessage>
+      )}
 
-        {/* <ModalContainer></ModalContainer> */}
-        <MobilePresortFinishedModal />
+      {/* <ModalContainer></ModalContainer> */}
+      <MobilePresortFinishedModal />
 
-        {/* <PromptUnload />
+      {/* <PromptUnload />
       <PresortModal />
       <PresortPreventNavModal />
       {imageSort ? (
@@ -400,8 +397,7 @@ const MobilePresortPage = () => {
       ) : (
         <PresortDND statements={statements} cardFontSize={cardFontSize} />
       )} */}
-      </Container>
-    </>
+    </Container>
   );
 };
 
@@ -539,12 +535,4 @@ const BoxSizeMessage = styled.div`
   font-weight: bold;
   margin-top: 10px;
   width: 80vw;
-`;
-
-const ModalContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  max-height: 100vh;
 `;

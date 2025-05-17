@@ -401,13 +401,14 @@ footer {
 
 
 
-  .react-responsive-modal-modal {
+.react-responsive-modal-modal {
   background: white;
   max-width: 700px;
   width: 90vw;
   min-height: 30vh;
   padding: 15px;
   border-radius: 10px;
+  padding-bottom: 20px;
 }
 
 @media (max-width: 768px) {
@@ -423,6 +424,7 @@ footer {
     padding: 8px;
     margin: 0px;
     max-height: 80vh;
+    padding-bottom: 20px;
     /* Add or override other styles for mobile here */
   }
 

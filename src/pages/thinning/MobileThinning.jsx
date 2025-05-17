@@ -447,17 +447,22 @@ const MobileThinning = () => {
       </HeadersContainer>
 
       {displayStatements.display ? (
-        <StatementsContainer
-          onScroll={handleScroll}
-          ref={divRef}
-          viewSize={
-            mobileThinViewSize === +persistedMobileThinViewSize
-              ? mobileThinViewSize
-              : persistedMobileThinViewSize
-          }
-        >
-          {assessedStatements}
-        </StatementsContainer>
+        <>
+          <StatementsContainer
+            onScroll={handleScroll}
+            ref={divRef}
+            viewSize={
+              mobileThinViewSize === +persistedMobileThinViewSize
+                ? mobileThinViewSize
+                : persistedMobileThinViewSize
+            }
+          >
+            {assessedStatements}
+          </StatementsContainer>
+          <BoxSizeMessage>
+            Click the View &quot;+&quot; button below to expand the view area and hide this message.
+          </BoxSizeMessage>
+        </>
       ) : (
         <FinishedMessage>
           <p>{mobileThinProcessCompleteMessage}</p>
@@ -519,7 +524,7 @@ const MainContainer = styled.div`
   gap: 5px;
   align-items: center;
   width: 100vw;
-  height: 90vh;
+  height: 100vh;
 `;
 
 const ConfirmButton = styled.button`
@@ -643,4 +648,15 @@ const OrientationDiv = styled.div`
   color: ${(props) => {
     return props.theme.mobileText;
   }};
+`;
+
+const BoxSizeMessage = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1.5vh;
+  font-weight: bold;
+  margin-top: 10px;
+  width: 80vw;
 `;
