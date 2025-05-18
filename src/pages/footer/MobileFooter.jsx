@@ -12,7 +12,7 @@ import useScreenOrientation from "../../utilities/useScreenOrientation";
 // import ProgressBar from "@ramonak/react-progress-bar";
 // import calcProgressScore from "./calcProgressScore";
 // import MobileHelpButton from "./MobileHelpButton";
-// import PostsortBackButton from "./PostsortBackButton";
+import MobileSurveyBackButton from "./MobileSurveyBackButton";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
@@ -70,6 +70,9 @@ const StyledFooter = () => {
   } else {
     nextButtonText = ReactHtmlParser(decodeHTML(langObj.btnNext)) || "";
   }
+
+  let backButtonText = ReactHtmlParser(decodeHTML(langObj.mobileSurveyBackButtonText)) || "";
+
   // if (currentPage === "postsort" && configObj.showBackButton) {
   //   // showBackButton = false;
   // } else {
@@ -105,6 +108,12 @@ const StyledFooter = () => {
     displayNextButton = true;
   }
 
+  // Display BACK button
+  let showBackButton = false;
+  if (currentPage === "survey") {
+    showBackButton = true;
+  }
+
   // Local data collection setup
   if (configObj.setupTarget === "local" && currentPage === "landing") {
     displayNextButton = false;
@@ -135,6 +144,12 @@ const StyledFooter = () => {
     //   showFooterFontSizer = true;
     // }
     // showAdjustmentContainer = true;
+  }
+
+  if (currentPage === "survey") {
+    showFooterFontSizer = false;
+    showFooterViewSizer = true;
+    // showAdjustmentContainer = false;
   }
 
   // font size and view adjustments display
@@ -170,6 +185,9 @@ const StyledFooter = () => {
   return (
     <StyledFooterDiv>
       {showLogo && <LogoContainer>{logoHtml}</LogoContainer>}
+      {showBackButton && (
+        <MobileSurveyBackButton to={"/postsort"}>{backButtonText}</MobileSurveyBackButton>
+      )}
       {showFooterFontSizer && <MobileFooterFontSizer />}
       {showFooterViewSizer && <MobileFooterViewSizer />}
       {displayNextButton && (

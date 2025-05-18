@@ -328,22 +328,26 @@ const RadioContainer = styled.div`
 
 const ItemContainer = styled.div`
   display: inline-grid;
-  grid-template-columns: minmax(30%, 1000px) 10px 10px 10px 10px 10px 10px 10px 10px 10px 10px 1fr;
+  grid-template-columns: minmax(30%, 1000px) 14px 14px 14px 14px 14px 14px 14px 14px 14px 14px 1fr;
   margin-bottom: 17px;
-  font-size: 10px;
+  font-size: 9.5px;
   align-items: end;
   padding-bottom: 8px;
-  height: 40px;
+  padding-top: 8px;
+  height: auto;
   background-color: ${(props) => (props.indexVal % 2 ? "white" : "#ececec")};
   border-radius: 3px;
   &:hover {
     background-color: rgba(131, 202, 254, 0.4);
   }
+  span {
+    font-size: 12px;
+  }
 `;
 
 const RatingTitle = styled.div`
   display: inline-grid;
-  grid-template-columns: minmax(30%, 1000px) 10px 10px 10px 10px 10px 10px 10px 10px 10px 10px 1fr;
+  grid-template-columns: minmax(30%, 1000px) 14px 14px 14px 14px 14px 14px 14px 14px 14px 14px 1fr;
   margin-bottom: 7px;
   align-items: end;
   font-size: 11px;
@@ -354,6 +358,7 @@ const CircleDiv = styled.div`
   justify-self: center;
   align-items: center;
   text-align: center;
+  font-size: 8px;
 `;
 
 const RadioInput = styled.input`

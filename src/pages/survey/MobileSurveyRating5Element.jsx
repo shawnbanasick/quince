@@ -240,7 +240,7 @@ const TitleBar = styled.div`
   justify-content: center;
   min-height: 50px;
   padding: 5px;
-  font-size: 18px;
+  font-size: 12px;
   text-align: center;
   background-color: lightgray;
   width: 100%;
@@ -277,9 +277,11 @@ const ItemContainer = styled.div`
   grid-template-columns: minmax(30%, 1000px) 30px 30px 30px 30px 30px 1fr;
   margin-bottom: 17px;
   padding-bottom: 8px;
+  padding-top: 8px;
   height: 40px;
   background-color: ${(props) => (props.indexVal % 2 ? "white" : "#ececec")};
   font-size: 12px;
+  height: auto;
   align-items: end;
   &:hover {
     background-color: rgba(131, 202, 254, 0.4);

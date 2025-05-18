@@ -30,8 +30,8 @@ const getRequiredAnswersObj = (state) => state.requiredAnswersObj;
 const getSetRequiredAnswersObj = (state) => state.setRequiredAnswersObj;
 // const getSetDisplayNextButton = (state) => state.setDisplayNextButton;
 const getCheckReqQuesComplete = (state) => state.checkRequiredQuestionsComplete;
-const getSetTriggerMobileSurveyHelpModal = (state) =>
-  state.setTriggerMobileSurveyHelpModal;
+const getSetTriggerMobileSurveyHelpModal = (state) => state.setTriggerMobileSurveyHelpModal;
+const getMobileSurveyViewSize = (state) => state.mobileSurveyViewSize;
 
 const MobileSurvey = () => {
   const setCurrentPage = useStore(getSetCurrentPage);
@@ -42,9 +42,8 @@ const MobileSurvey = () => {
   const surveyQuestionObjArray = useSettingsStore(getSurveyQuestionObjArray);
   const setRequiredAnswersObj = useSettingsStore(getSetRequiredAnswersObj);
   const checkRequiredQuestionsComplete = useStore(getCheckReqQuesComplete);
-  const setTriggerMobileSurveyHelpModal = useStore(
-    getSetTriggerMobileSurveyHelpModal
-  );
+  const setTriggerMobileSurveyHelpModal = useStore(getSetTriggerMobileSurveyHelpModal);
+  const mobileSurveyViewSize = useStore(getMobileSurveyViewSize);
 
   const headerBarColor = configObj.headerBarColor;
   const surveyQuestionObjects = surveyQuestionObjArray;
@@ -52,8 +51,12 @@ const MobileSurvey = () => {
   // *** TEXT LOCALIZATION *******
   // ******************
   const surveyHeader = ReactHtmlParser(decodeHTML(langObj.surveyHeader)) || "";
-  const screenOrientationText =
-    ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
+  const screenOrientationText = ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
+
+  // ***************************
+  // *** STATE *******************
+  // ***************************
+  const persistedMobileSurveyViewSize = JSON.parse(localStorage.getItem("m_ViewSizeObject")).survey;
 
   // ***********************
   // *** USE HOOKS ***************
@@ -102,11 +105,7 @@ const MobileSurvey = () => {
       const QuestionList = (surveyQuestionObjects || []).map((object) => {
         if (object.type === "text") {
           return (
-            <SurveyTextElement
-              key={uuid()}
-              check={checkRequiredQuestionsComplete}
-              opts={object}
-            />
+            <SurveyTextElement key={uuid()} check={checkRequiredQuestionsComplete} opts={object} />
           );
         }
         if (object.type === "textarea") {
@@ -120,11 +119,7 @@ const MobileSurvey = () => {
         }
         if (object.type === "radio") {
           return (
-            <SurveyRadioElement
-              key={uuid()}
-              check={checkRequiredQuestionsComplete}
-              opts={object}
-            />
+            <SurveyRadioElement key={uuid()} check={checkRequiredQuestionsComplete} opts={object} />
           );
         }
         if (object.type === "checkbox") {
@@ -192,6 +187,9 @@ const MobileSurvey = () => {
     }
   };
 
+  console.log("mobile survey view size", mobileSurveyViewSize);
+  console.log("persisted mobile survey view size", persistedMobileSurveyViewSize);
+
   // **************************
   // *** EARLY RETURNS ***************
   // **************************
@@ -204,7 +202,7 @@ const MobileSurvey = () => {
   }
 
   return (
-    <div>
+    <MainContainer>
       <SortTitleBar background={headerBarColor}>
         {surveyHeader}
         <HelpContainer onClick={displayHelpModal}>
@@ -213,10 +211,19 @@ const MobileSurvey = () => {
       </SortTitleBar>
       <MobileSurveyPreventNavModal style={{ marginTop: "50px" }} />
       <MobileSurveyHelpModal />
-      <Container>
+      <Container
+        viewSize={
+          mobileSurveyViewSize === +persistedMobileSurveyViewSize
+            ? mobileSurveyViewSize
+            : persistedMobileSurveyViewSize
+        }
+      >
         <SurveyQuestions />
       </Container>
-    </div>
+      <BoxSizeMessage>
+        Click the View &quot;+&quot; button below to expand the view area and hide this message.
+      </BoxSizeMessage>
+    </MainContainer>
   );
 };
 
@@ -249,11 +256,15 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-self: center;
-  padding-bottom: 150px;
+  padding-bottom: 20px;
   width: 98%;
-  height: 80vh;
+  /* height: 80vh; */
+  height: ${(props) => `${props.viewSize}vh`};
+
   overflow-x: hidden;
   overflow-y: auto;
+  border: 1px solid lightgray;
+  border-radius: 10px;
   color: ${(props) => {
     return props.theme.mobileText;
   }};
@@ -282,4 +293,24 @@ const OrientationDiv = styled.div`
   color: ${(props) => {
     return props.theme.mobileText;
   }};
+`;
+
+const BoxSizeMessage = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1.5vh;
+  font-weight: bold;
+  margin-top: 10px;
+  width: 80vw;
+`;
+
+const MainContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  /* height: 100vh; */
+  /* justify-content: center; */
+  align-items: center;
 `;

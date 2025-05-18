@@ -149,8 +149,13 @@
         <item id="mobileSortSwapModalConfirmButton">Swap</item>
         <item id="mobileSortConditionsOfInstruction">Rank the Statements According to Your Experience of using the iPads in the Class</item>
         <item id="mobileSortHelpModalHead">Stage 3 of 5{{{br/}}} Final Statement Ranking</item>
-        <item id="mobileSortHelpModalText">The statements have been ranked based on your previous evaluations.{{{br/}}}{{{br/}}} Those statements that are closest to your perspective should be at the top of the view area in the darker green colored sections.{{{br /}}}{{{center}}}{{{br /}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/GroupColors.png?raw=true"  width="150"/}}}{{{/center}}}{{{br /}}}Those that are farthest from your perspective should be at the bottom of the list in the darker red colored sections.{{{br/}}}{{{br/}}}You will need to {{{b}}}scroll down{{{/b}}} to see all of the statements.{{{br/}}}{{{br/}}}Please {{{b}}}review the rankings{{{/b}}} and make any necessary changes to the ranking of the statements so that the ordering {{{b}}}accurately reflects your perspective{{{/b}}}. {{{br/}}}{{{br/}}}{{{mark}}}This is the most critical stage of the survey, so please review the statement rankings carefully.{{{/mark}}}{{{br/}}}{{{br/}}}  
-        To {{{b}}}swap the positions of neighboring statements{{{/b}}}, tap the up or down arrows on the right or left side of the statement.{{{br/}}}{{{br/}}}To {{{b}}}swap the positions of statements that are separated{{{/b}}}, tap on two statements (the statement color will change to yellow) and a swap confirmation message will appear.{{{br/}}}{{{br/}}}When you are satisfied with all of the rankings, tap the "Continue" button on the bottom right.</item>
+        <item id="mobileSortHelpModalText">The statements have been ranked based on your previous evaluations.{{{br/}}}{{{br/}}} Those statements that are closest to your perspective should be at the top of the view area in the darker green colored sections.{{{br /}}}{{{center}}}{{{br /}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/GroupColors.png?raw=true"  width="150"/}}}{{{/center}}}{{{br /}}}Those that are farthest from your perspective should be at the bottom of the list in the darker red colored sections.{{{br/}}}{{{br/}}}You will need to {{{b}}}scroll down{{{/b}}} to see all of the statements.{{{br/}}}{{{br/}}}Please {{{b}}}review the rankings{{{/b}}} and make any necessary changes to the ranking of the statements so that the ordering {{{b}}}accurately reflects your perspective{{{/b}}}. {{{br/}}}{{{br/}}}{{{mark}}}This is the most critical stage of the survey, so please review the statement rankings carefully and change the positions of the statements if necessary.{{{/mark}}}{{{br/}}}{{{br/}}}  
+        To {{{b}}}swap the positions of neighboring statements{{{/b}}}, tap the up or down arrows on the right or left side of the statement.{{{br /}}}{{{br /}}}{{{center}}}{{{br /}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/sortUpDownArrows.svg?raw=true"  width="250"/}}}{{{/center}}}{{{br /}}}{{{br /}}}To {{{b}}}swap the positions of statements that are separated{{{/b}}}, tap the statement boxes to select the two statements (the statement color will change to yellow) and a swap confirmation message will automatically appear.{{{br/}}}
+        
+        {{{br /}}}{{{center}}}{{{br /}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/sortSwap.svg?raw=true"  width="250"/}}}{{{/center}}}{{{br /}}}
+        
+        {{{br/}}}Tap the "Swap" button to confirm the swap. If you tap the "Cancel" button, the statements will remain in their original positions. {{{br/}}}{{{br/}}}When you are satisfied with all of the statement rankings, tap the "Continue" button on the bottom right.{{{br/}}}{{{br/}}}
+        If you want to see these instructions again, tap the "?" button at the top of the main page.{{{br /}}}{{{br /}}}{{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/helpSymbol.png?raw=true" width="30"/}}}{{{br /}}}{{{br /}}}{{{mark}}}To close this dialog box, tap the "X" icon above.{{{/mark}}}</item>
         <item id="mobileSortScrollBottomModalHead">Navigation Disabled</item>
         <item id="mobileSortScrollBottomModalText">Please scroll to the bottom and review the ranking of all the statements before going to the next stage.</item>
         
@@ -171,21 +176,23 @@
         <!-- 13. MOBILE POSTSORT: comments - displayed if showStep3 = true -->
         <item id="mobilePostsortPreventNavModalHead">Navigation Disabled</item>
         <item id="mobilePostsortPreventNavModalText">Please add comments to all of the statements before going to the next step.</item>
-        <item id="mobilePostsortSortbarText">Postsort Comments</item>
+        <item id="mobilePostsortSortbarText">Post-Ranking Comments</item>
         <item id="mobilePostsortHelpModalHead">Stage 4 of 5{{{br/}}} Post-Ranking Comments</item>
         <item id="mobilePostsortHelpModalText">Please comment on your rankings of these statements.</item>
         
 
         <!-- 14. SURVEY: Additional questions, displayed if showStep4 == true -->
-        <item id="surveyHeader">Post-Sort Questionnaire</item>
+        <item id="surveyHeader">Post-Ranking Questionnaire</item>
         <item id="surveyModalHead">Step 4 of 4</item>
         <item id="surveyModalText">Finally, please answer the following questions regarding your background. The questions marked with an &quot;*&quot; in their title are required.{{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/68MHzgLn1zg?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
         <item id="surveyPreventNavModalHead">Navigation Disabled</item>
         <item id="surveyPreventNavModalText">Please answer the required questions (outlined in yellow) before going to the next step.</item>
        
         <!-- 15. MOBILE SURVEY: questions displayed if showStep4 == true -->
-        <item id="mobileSurveyHelpModalHead">Stage 5 of 5{{{br/}}} Post-Ranking Survey</item>
-        <item id="mobileSurveyHelpModalText">Please answer the following questions.</item>
+        <item id="mobileSurveyHelpModalHead">Stage 5 of 5{{{br/}}} Post-Ranking Questionnaire</item>
+        <item id="mobileSurveyHelpModalText">Please answer these background questions. {{{br /}}}{{{br /}}}Some of the questions may require that you provide an answer before you can go to the final step.</item>
+        <item id="mobileSurveyBackButtonText">Go Back</item>
+
        
         <!-- 16. SUBMIT -->
         <item id="btnTransfer">Submit Data</item>

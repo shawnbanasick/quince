@@ -6,7 +6,11 @@ const createSurveySlice = (set) => ({
   requiredAnswersObj: {},
   answersStorage: {},
   triggerMobileSurveyHelpModal: true,
+  mobileSurveyViewSize: 72,
 
+  setMobileSurveyViewSize: (inputValue) => {
+    set(() => ({ mobileSurveyViewSize: inputValue }));
+  },
   setTriggerMobileSurveyHelpModal: (inputValue) => {
     set(() => ({ triggerMobileSurveyHelpModal: inputValue }));
   },

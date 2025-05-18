@@ -189,6 +189,7 @@ const LandingPage = () => {
       thin: 68,
       sort: 72,
       postsort: 72,
+      survey: 72,
     })
   );
 

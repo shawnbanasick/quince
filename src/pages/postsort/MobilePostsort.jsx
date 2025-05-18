@@ -20,10 +20,8 @@ const getConfigObj = (state) => state.configObj;
 const getMapObj = (state) => state.mapObj;
 const getMobilePostsortFontSize = (state) => state.mobilePostsortFontSize;
 const getMobilePostsortViewSize = (state) => state.mobilePostsortViewSize;
-const getShowPostsortCommentHighlighting = (state) =>
-  state.showPostsortCommentHighlighting;
-const getSetTriggerMobilePostsortHelpModal = (state) =>
-  state.setTriggerMobilePostsortHelpModal;
+const getShowPostsortCommentHighlighting = (state) => state.showPostsortCommentHighlighting;
+const getSetTriggerMobilePostsortHelpModal = (state) => state.setTriggerMobilePostsortHelpModal;
 
 const MobilePostsort = () => {
   const setCurrentPage = useStore(getSetCurrentPage);
@@ -33,24 +31,17 @@ const MobilePostsort = () => {
   const configObj = useSettingsStore(getConfigObj);
   let mobilePostsortFontSize = useStore(getMobilePostsortFontSize);
   let required = configObj.postsortCommentsRequired;
-  const showPostsortCommentHighlighting = useStore(
-    getShowPostsortCommentHighlighting
-  );
-  const setTriggerMobilePostsortHelpModal = useStore(
-    getSetTriggerMobilePostsortHelpModal
-  );
+  const showPostsortCommentHighlighting = useStore(getShowPostsortCommentHighlighting);
+  const setTriggerMobilePostsortHelpModal = useStore(getSetTriggerMobilePostsortHelpModal);
 
   // ***************************
   // *** TEXT LOCALIZATION *******************
   // ***************************
-  const sortbarText =
-    ReactHtmlParser(decodeHTML(langObj.mobilePostsortSortbarText)) || "";
+  const sortbarText = ReactHtmlParser(decodeHTML(langObj.mobilePostsortSortbarText)) || "";
   const agree = ReactHtmlParser(decodeHTML(langObj.postsortAgreement)) || "";
-  const disagree =
-    ReactHtmlParser(decodeHTML(langObj.postsortDisagreement)) || "";
+  const disagree = ReactHtmlParser(decodeHTML(langObj.postsortDisagreement)) || "";
   const placeholder = langObj.placeholder;
-  const screenOrientationText =
-    ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
+  const screenOrientationText = ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
 
   // ***************************
   // *** INITIALIZATION *******************
@@ -59,13 +50,9 @@ const MobilePostsort = () => {
     let postSortResultsObj = {};
     const cards2 = JSON.parse(localStorage.getItem("m_SortArray1")) || [];
     const cards = [...cards2];
-    const sortCharacteristicsArray = JSON.parse(
-      localStorage.getItem("m_SortCharacteristicsArray")
-    );
+    const sortCharacteristicsArray = JSON.parse(localStorage.getItem("m_SortCharacteristicsArray"));
     console.log(sortCharacteristicsArray);
-    const reversedSortCharacteristicsArray = [
-      ...sortCharacteristicsArray,
-    ].reverse();
+    const reversedSortCharacteristicsArray = [...sortCharacteristicsArray].reverse();
 
     const showSecondPosColumn = configObj.showSecondPosColumn;
     const showSecondNegColumn = configObj.showSecondNegColumn;
@@ -90,28 +77,18 @@ const MobilePostsort = () => {
     let negResponsesObject = {};
     posStatements.forEach((statement, index) => {
       statement.sortValue = sortCharacteristicsArray[index].value;
-      postSortResultsObj[`column${statement.sortValue}_${statement.id}`] =
-        "no response";
+      postSortResultsObj[`column${statement.sortValue}_${statement.id}`] = "no response";
       posResponsesObject[statement.id] = "";
     });
     negStatements.forEach((statement, index) => {
       statement.sortValue = reversedSortCharacteristicsArray[index].value;
-      postSortResultsObj[`column${statement.sortValue}_${statement.id}`] =
-        "no response";
+      postSortResultsObj[`column${statement.sortValue}_${statement.id}`] = "no response";
       negResponsesObject[statement.id] = "";
     });
 
-    localStorage.setItem(
-      "m_PostSortResultsObj",
-      JSON.stringify(postSortResultsObj)
-    );
+    localStorage.setItem("m_PostSortResultsObj", JSON.stringify(postSortResultsObj));
 
-    return [
-      posStatements,
-      negStatements,
-      posResponsesObject,
-      negResponsesObject,
-    ];
+    return [posStatements, negStatements, posResponsesObject, negResponsesObject];
   }, [mapObj.qSortPattern, configObj]);
 
   // ***************************
@@ -163,14 +140,12 @@ const MobilePostsort = () => {
   const handleTextareaChange = (event) => {
     const resp = JSON.parse(localStorage.getItem("m_PostSortResultsObj"));
     if (event.target.side === "positive") {
-      resp[`column${event.target.sortValue}_${event.target.commentId}`] =
-        event.target.value;
+      resp[`column${event.target.sortValue}_${event.target.commentId}`] = event.target.value;
       mobilePosResponses[event.target.statementId] = event.target.value;
       setMobilePosResponses(mobilePosResponses);
     }
     if (event.target.side === "negative") {
-      resp[`column${event.target.sortValue}_${event.target.commentId}`] =
-        event.target.value;
+      resp[`column${event.target.sortValue}_${event.target.commentId}`] = event.target.value;
       mobileNegResponses[event.target.statementId] = event.target.value;
       setMobileNegResponses(mobileNegResponses);
     }
@@ -279,6 +254,9 @@ const MobilePostsort = () => {
         {posStatements}
         {negStatements}
       </InnerContainer>
+      <BoxSizeMessage>
+        Click the View &quot;+&quot; button below to expand the view area and hide this message.
+      </BoxSizeMessage>
     </Container>
   );
 };
@@ -381,4 +359,15 @@ const OrientationDiv = styled.div`
   }};
   width: 100vw;
   height: 100vh;
+`;
+
+const BoxSizeMessage = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1.5vh;
+  font-weight: bold;
+  margin-top: 10px;
+  width: 80vw;
 `;

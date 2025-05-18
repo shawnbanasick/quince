@@ -22,13 +22,10 @@ const getMapObj = (state) => state.mapObj;
 const getConfigObj = (state) => state.configObj;
 const getMobileSortFontSize = (state) => state.mobileSortFontSize;
 const getMobileSortViewSize = (state) => state.mobileSortViewSize;
-const getSetTriggerMobileSortSwapModal = (state) =>
-  state.setTriggerMobileSortSwapModal;
+const getSetTriggerMobileSortSwapModal = (state) => state.setTriggerMobileSortSwapModal;
 const getLangObj = (state) => state.langObj;
-const getSetTriggerMobileSortHelpModal = (state) =>
-  state.setTriggerMobileSortHelpModal;
-const getSetHasScrolledToBottomSort = (state) =>
-  state.setHasScrolledToBottomSort;
+const getSetTriggerMobileSortHelpModal = (state) => state.setTriggerMobileSortHelpModal;
+const getSetHasScrolledToBottomSort = (state) => state.setHasScrolledToBottomSort;
 
 const MobileSort = () => {
   const setCurrentPage = useStore(getSetCurrentPage);
@@ -38,22 +35,16 @@ const MobileSort = () => {
   const configObj = useSettingsStore(getConfigObj);
   const mobileSortFontSize = useStore(getMobileSortFontSize);
   const mobileSortViewSize = useStore(getMobileSortViewSize);
-  const setTriggerMobileSortSwapModal = useStore(
-    getSetTriggerMobileSortSwapModal
-  );
-  const setTriggerMobileSortHelpModal = useStore(
-    getSetTriggerMobileSortHelpModal
-  );
+  const setTriggerMobileSortSwapModal = useStore(getSetTriggerMobileSortSwapModal);
+  const setTriggerMobileSortHelpModal = useStore(getSetTriggerMobileSortHelpModal);
   const setHasScrolledToBottomSort = useStore(getSetHasScrolledToBottomSort);
 
   // *********************************
   // *** TEXT LOCALIZATION **********************************************
   // *********************************
   const conditionsOfInstruction =
-    ReactHtmlParser(decodeHTML(langObj.mobileSortConditionsOfInstruction)) ||
-    "";
-  const screenOrientationText =
-    ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
+    ReactHtmlParser(decodeHTML(langObj.mobileSortConditionsOfInstruction)) || "";
+  const screenOrientationText = ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
 
   // *********************************
   // *** Local State ****************************************************
@@ -64,13 +55,9 @@ const MobileSort = () => {
     ...JSON.parse(localStorage.getItem("m_FinalThinCols")),
   ]);
 
-  const persistedMobileSortFontSize = JSON.parse(
-    localStorage.getItem("m_FontSizeObject")
-  ).sort;
+  const persistedMobileSortFontSize = JSON.parse(localStorage.getItem("m_FontSizeObject")).sort;
 
-  const persistedMobileSortViewSize = JSON.parse(
-    localStorage.getItem("m_ViewSizeObject")
-  ).sort;
+  const persistedMobileSortViewSize = JSON.parse(localStorage.getItem("m_ViewSizeObject")).sort;
 
   // *********************************
   // *** USE HOOKS ************************************
@@ -129,10 +116,7 @@ const MobileSort = () => {
       }
     });
 
-    localStorage.setItem(
-      "m_SortCharacteristicsArray",
-      JSON.stringify(tempArray)
-    );
+    localStorage.setItem("m_SortCharacteristicsArray", JSON.stringify(tempArray));
     return tempArray;
   }, [mapObj, valuesArraySource]);
 
@@ -183,10 +167,7 @@ const MobileSort = () => {
   };
 
   const handleStatementSwap = (index0, index1) => {
-    [sortArray1[index0], sortArray1[index1]] = [
-      sortArray1[index1],
-      sortArray1[index0],
-    ];
+    [sortArray1[index0], sortArray1[index1]] = [sortArray1[index1], sortArray1[index0]];
     setSortArray1([...sortArray1]);
   };
 
@@ -216,9 +197,7 @@ const MobileSort = () => {
   );
 
   const handleOnClickUp = (e) => {
-    let clickedItemIndex = sortArray1.findIndex(
-      (item) => item.id === e.target.id
-    );
+    let clickedItemIndex = sortArray1.findIndex((item) => item.id === e.target.id);
     // check if at start of array
     if (clickedItemIndex === 0) {
       return; // Element is already at the start
@@ -232,9 +211,7 @@ const MobileSort = () => {
   };
 
   const handleOnClickDown = (e) => {
-    let clickedItemIndex = sortArray1.findIndex(
-      (item) => item.id === e.target.id
-    );
+    let clickedItemIndex = sortArray1.findIndex((item) => item.id === e.target.id);
     // check if at end of array
     if (clickedItemIndex >= sortArray1.length - 1) {
       return; // Element is already at the end
@@ -286,11 +263,7 @@ const MobileSort = () => {
                 ? mobileSortFontSize
                 : persistedMobileSortFontSize
             }
-            color={
-              item.selected
-                ? "lightyellow"
-                : characteristicsArray[externalIndex].color
-            }
+            color={item.selected ? "lightyellow" : characteristicsArray[externalIndex].color}
           >
             <div
               data-index={externalIndex}
@@ -317,13 +290,9 @@ const MobileSort = () => {
 
     sortArray.push(
       <Column key={uuid()} color={characteristicsArray[externalIndex].color}>
-        <Label margins={{ top: 10, bottom: 0 }}>
-          {characteristicsArray[externalIndex].value}
-        </Label>
+        <Label margins={{ top: 10, bottom: 0 }}>{characteristicsArray[externalIndex].value}</Label>
         {currentRankings2}
-        <Label margins={{ top: 0, bottom: 10 }}>
-          {characteristicsArray[externalIndex].value}
-        </Label>
+        <Label margins={{ top: 0, bottom: 10 }}>{characteristicsArray[externalIndex].value}</Label>
       </Column>
     );
   }); // end outer mappings
@@ -353,6 +322,9 @@ const MobileSort = () => {
       >
         {sortArray}
       </StatementsContainer>
+      <BoxSizeMessage>
+        Click the View &quot;+&quot; button below to expand the view area and hide this message.
+      </BoxSizeMessage>
     </Container>
   );
 };
@@ -525,4 +497,15 @@ const Label = styled.div`
     return props.theme.mobileText;
   }};
   border-radius: 5px;
+`;
+
+const BoxSizeMessage = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1.5vh;
+  font-weight: bold;
+  margin-top: 10px;
+  width: 80vw;
 `;

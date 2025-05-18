@@ -259,8 +259,9 @@ const ItemContainer = styled.div`
   grid-template-columns: minmax(30%, 1000px) 60px 60px 1fr;
   margin-bottom: 17px;
   padding-left: 5px;
+  padding-top: 8px;
   padding-bottom: 8px;
-  height: 40px;
+  height: auto;
   align-items: end;
   justify-items: left;
   // align-items: left;

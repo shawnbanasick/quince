@@ -11,6 +11,7 @@ const getSetMobilePresortViewSize = (state) => state.setMobilePresortViewSize;
 const getSetMobileThinViewSize = (state) => state.setMobileThinViewSize;
 const getSetMobileSortViewSize = (state) => state.setMobileSortViewSize;
 const getSetMobilePostsortViewSize = (state) => state.setMobilePostsortViewSize;
+const getSetMobileSurveyViewSize = (state) => state.setMobileSurveyViewSize;
 
 const MobileFooterViewSizer = () => {
   // *** GLOBAL STATE *** //
@@ -21,21 +22,19 @@ const MobileFooterViewSizer = () => {
   const setMobileThinViewSize = useStore(getSetMobileThinViewSize);
   const setMobileSortViewSize = useStore(getSetMobileSortViewSize);
   const setMobilePostsortViewSize = useStore(getSetMobilePostsortViewSize);
+  const setMobileSurveyViewSize = useStore(getSetMobileSurveyViewSize);
 
   // *** LOCAL STATE *** //
-  let [m_ViewSizeObject, setm_ViewSizeObject] = useLocalStorage(
-    "m_ViewSizeObject",
-    {
-      presort: 42,
-      thin: 68,
-      sort: 72,
-      postsort: 42,
-    }
-  );
+  let [m_ViewSizeObject, setm_ViewSizeObject] = useLocalStorage("m_ViewSizeObject", {
+    presort: 42,
+    thin: 68,
+    sort: 72,
+    postsort: 42,
+    survey: 72,
+  });
 
   // *** TEXT LOCALIZATION *** //
-  const mobileTextSize =
-    ReactHtmlParser(decodeHTML(langObj.mobileViewSize)) || "";
+  const mobileTextSize = ReactHtmlParser(decodeHTML(langObj.mobileViewSize)) || "";
 
   //*********************** */
   // *** EVENT HANDLERS ********* //
@@ -73,6 +72,14 @@ const MobileFooterViewSizer = () => {
       setm_ViewSizeObject(newSizeObject);
       setMobilePostsortViewSize(newSize);
     }
+    if (currentPage === "survey") {
+      const currentSize = +m_ViewSizeObject.survey;
+      let newSize = currentSize + 2;
+      newSize = newSize.toPrecision(4);
+      let newSizeObject = { ...m_ViewSizeObject, survey: newSize };
+      setm_ViewSizeObject(newSizeObject);
+      setMobileSurveyViewSize(newSize);
+    }
   };
   const decreaseViewSize = () => {
     if (currentPage === "presort") {
@@ -106,6 +113,14 @@ const MobileFooterViewSizer = () => {
       let newSizeObject = { ...m_ViewSizeObject, postsort: newSize };
       setm_ViewSizeObject(newSizeObject);
       setMobilePostsortViewSize(newSize);
+    }
+    if (currentPage === "survey") {
+      const currentSize = +m_ViewSizeObject.survey;
+      let newSize = currentSize - 2;
+      newSize = newSize.toPrecision(4);
+      let newSizeObject = { ...m_ViewSizeObject, survey: newSize };
+      setm_ViewSizeObject(newSizeObject);
+      setMobileSurveyViewSize(newSize);
     }
   };
 
