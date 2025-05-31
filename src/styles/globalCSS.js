@@ -1,7 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
-    *{
+    /* *{
         margin: 0;
         padding: 0;
         outline:0;
@@ -10,7 +10,16 @@ export default createGlobalStyle`
     }
     #root{
         margin:0 auto;
-    }
+    } */
+:root                  { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: inherit; }
+
+:root, body {
+  margin: 0;
+  padding: 0;
+  border: initial;
+}
+
 
     /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 
@@ -28,7 +37,7 @@ html {
   overflow: -moz-scrollbars-vertical; 
   overflow-y: scroll;
   -ms-touch-action: manipulation;
-touch-action: manipulation;
+  touch-action: manipulation;
 }
 
 
@@ -41,10 +50,12 @@ touch-action: manipulation;
  */
 
 body {
-  margin: 0;
-  height:calc(100vh-50px);
-  overscroll-behavior: none;
-  overflow: hidden;
+  /* margin: 0; */
+  /* height:calc(100vh-50px);  */
+  /* overscroll-behavior: none; */
+   overflow: hidden;
+   width: 100lvw;
+  height: 100lvh;
 }
 
 /**
@@ -400,21 +411,40 @@ footer {
   }
 
 
+  .Overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+  }
 
 .react-responsive-modal-modal {
   background: white;
   max-width: 700px;
   width: 90vw;
-  min-height: 30vh;
+  height: auto;
+  max-height: 80vh;
   padding: 15px;
   border-radius: 10px;
   padding-bottom: 20px;
+  overflow-y: auto;
+  /* overscroll-behavior: contain; */
+  -webkit-overflow-scrolling:touch;
 }
 
 @media (max-width: 768px) {
   .react-responsive-modal-container {
+    position: fixed;
     max-width: 100vw;
-    max-height: 100vh;
+    height: 100vh;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    overflow: scroll;
+    height: -webkit-fill-available;
+    -webkit-overflow-scrolling: touch;
 }
 }
 
@@ -422,9 +452,10 @@ footer {
   .react-responsive-modal-modal {
     width: 90vw;
     padding: 8px;
-    margin: 0px;
-    max-height: 80vh;
+    min-height: 70vh;
     padding-bottom: 20px;
+    /* overflow-y: auto;   */
+    /* -webkit-overflow-scrolling:touch; */
     /* Add or override other styles for mobile here */
   }
 

@@ -52,6 +52,7 @@ const MobileSurvey = () => {
   // ******************
   const surveyHeader = ReactHtmlParser(decodeHTML(langObj.surveyHeader)) || "";
   const screenOrientationText = ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
+  const expandViewMessage = ReactHtmlParser(decodeHTML(langObj.expandViewMessage)) || "";
 
   // ***************************
   // *** STATE *******************
@@ -220,9 +221,7 @@ const MobileSurvey = () => {
       >
         <SurveyQuestions />
       </Container>
-      <BoxSizeMessage>
-        Click the View &quot;+&quot; button below to expand the view area and hide this message.
-      </BoxSizeMessage>
+      <BoxSizeMessage>{expandViewMessage}</BoxSizeMessage>
     </MainContainer>
   );
 };

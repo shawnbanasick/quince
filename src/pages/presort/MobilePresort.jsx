@@ -13,14 +13,11 @@ import useScreenOrientation from "../../utilities/useScreenOrientation";
 import mobileCardColor from "./mobileCardColor";
 import useLocalStorage from "../../utilities/useLocalStorage";
 import calcThinDisplayControllerArray from "./calcThinDisplayControllerArray";
-import MobilePresortHelpModal from "./MobilePresortHelpModal";
+import MobilePresortHelpModal from "../../utilities/MobileModal";
 import MobilePresortRedoModal from "./MobilePresortRedoModal";
 import MobilePresortFinishedModal from "./MobilePresortFinishedModal";
 import HelpSymbol from "../../assets/helpSymbol.svg?react";
 import MobilePresortPreventNavModal from "./MobilePresortPreventNavModal";
-import Modal from "react-responsive-modal";
-// import PresortDndImages from "./PresortDndImages";
-// import cloneDeep from "lodash/cloneDeep";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
@@ -61,6 +58,11 @@ const MobilePresortPage = () => {
   const mobilePresortProcessCompleteMessage =
     ReactHtmlParser(decodeHTML(langObj.mobilePresortProcessCompleteMessage)) || "";
   const screenOrientationText = ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
+  const expandViewMessage = ReactHtmlParser(decodeHTML(langObj.expandViewMessage)) || "";
+  const presortHelpModalHead =
+    ReactHtmlParser(decodeHTML(langObj.mobilePresortHelpModalHead)) || "";
+  const presortHelpModalText =
+    ReactHtmlParser(decodeHTML(langObj.mobilePresortHelpModalText)) || "";
 
   // ******************* //
   // *** LOCAL STATE **************************** //
@@ -326,10 +328,12 @@ const MobilePresortPage = () => {
   // **************************
   return (
     <Container>
-      <MobilePresortHelpModal />
-      <MobilePresortRedoModal clickFunction={handleRedoClick} statement={redoCardId} />
-      <MobilePresortFinishedModal />
-      <MobilePresortPreventNavModal />
+      <ModalDiv>
+        <MobilePresortHelpModal head={presortHelpModalHead} text={presortHelpModalText} />
+        <MobilePresortRedoModal clickFunction={handleRedoClick} statement={redoCardId} />
+        <MobilePresortFinishedModal />
+        <MobilePresortPreventNavModal />
+      </ModalDiv>
       <SortTitleBar background={configObj.headerBarColor}>
         {titleText}
         <HelpContainer onClick={handleOpenHelpModal}>
@@ -376,9 +380,7 @@ const MobilePresortPage = () => {
           <RowText>{completedLabel}</RowText>
 
           <MobilePreviousAssignmentBox statements={m_PresortResults} onClick={handleRedo} />
-          <BoxSizeMessage>
-            Click the View &quot;+&quot; button below to expand the view area and hide this message.
-          </BoxSizeMessage>
+          <BoxSizeMessage>{expandViewMessage}</BoxSizeMessage>
         </>
       ) : (
         <FinishedMessage>
@@ -535,4 +537,10 @@ const BoxSizeMessage = styled.div`
   font-weight: bold;
   margin-top: 10px;
   width: 80vw;
+`;
+
+const ModalDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
 `;

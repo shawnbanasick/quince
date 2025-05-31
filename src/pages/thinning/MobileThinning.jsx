@@ -76,6 +76,7 @@ const MobileThinning = () => {
     ReactHtmlParser(decodeHTML(langObj.mobileThinConditionsOfInstruction)) || "";
   const screenOrientationText = ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
   const submitButtonText = ReactHtmlParser(decodeHTML(langObj.mobileThinSubmitButtonText)) || "";
+  const expandViewMessage = ReactHtmlParser(decodeHTML(langObj.expandViewMessage)) || "";
 
   // *******************************************************
   // *** LOCAL STATE ***********************************
@@ -459,9 +460,7 @@ const MobileThinning = () => {
           >
             {assessedStatements}
           </StatementsContainer>
-          <BoxSizeMessage>
-            Click the View &quot;+&quot; button below to expand the view area and hide this message.
-          </BoxSizeMessage>
+          <BoxSizeMessage>{expandViewMessage}</BoxSizeMessage>
         </>
       ) : (
         <FinishedMessage>

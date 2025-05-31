@@ -8,7 +8,8 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest",
+    "host": "vite --host"
   },
   "dependencies": {
     "@hello-pangea/dnd": "^16.6.0",
@@ -22,7 +23,9 @@
     "react": "^18.3.1",
     "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18.3.1",
+    "react-modal": "^3.16.3",
     "react-multi-select-component": "^4.3.4",
+    "react-overflow-indicator": "^0.2.2",
     "react-responsive-modal": "^6.1.0",
     "react-router-dom": "^5.2.0",
     "serialize-javascript": "^6.0.1",

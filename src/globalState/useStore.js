@@ -8,6 +8,7 @@ import createPostsortSlice from "./createPostsortSlice";
 import createSubmitSlice from "./createSubmitSlice";
 import createSurveySlice from "./createSurveySlice";
 import createThinningSlice from "./createThinningSlice";
+import createModalSlice from "./createModalSlice";
 
 const useStore = create((set, get) => ({
   ...createThinningSlice(set, get),
@@ -19,6 +20,7 @@ const useStore = create((set, get) => ({
   ...createPostsortSlice(set, get),
   ...createSubmitSlice(set, get),
   ...createSurveySlice(set, get),
+  ...createModalSlice(set, get),
 }));
 
 export default useStore;

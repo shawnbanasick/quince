@@ -42,6 +42,7 @@ const MobilePostsort = () => {
   const disagree = ReactHtmlParser(decodeHTML(langObj.postsortDisagreement)) || "";
   const placeholder = langObj.placeholder;
   const screenOrientationText = ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
+  const expandViewMessage = ReactHtmlParser(decodeHTML(langObj.expandViewMessage)) || "";
 
   // ***************************
   // *** INITIALIZATION *******************
@@ -254,9 +255,7 @@ const MobilePostsort = () => {
         {posStatements}
         {negStatements}
       </InnerContainer>
-      <BoxSizeMessage>
-        Click the View &quot;+&quot; button below to expand the view area and hide this message.
-      </BoxSizeMessage>
+      <BoxSizeMessage>{expandViewMessage}</BoxSizeMessage>
     </Container>
   );
 };

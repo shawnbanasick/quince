@@ -54,11 +54,7 @@ const PostSort = () => {
     if (urlString === undefined || urlString === null) {
       let urlName = localStorage.getItem("urlUsercode");
       // if nothing in local storage, set to "not_set"
-      if (
-        urlName === null ||
-        urlName === undefined ||
-        urlName === "undefined"
-      ) {
+      if (urlName === null || urlName === undefined || urlName === "undefined") {
         console.log("no url usercode in storage");
         setUrlUsercode("not_set");
         localStorage.setItem("urlUsercode", "not_set");
@@ -81,8 +77,7 @@ const PostSort = () => {
     }
   }, [setUrlUsercode, configObj]);
 
-  const titleText =
-    ReactHtmlParser(decodeHTML(langObj.consentTitleBarText)) || "";
+  const titleText = ReactHtmlParser(decodeHTML(langObj.consentTitleBarText)) || "";
 
   return (
     <div>
@@ -125,6 +120,11 @@ const ContainerDiv = styled.div`
   padding-top: 50px;
   transition: 0.3s ease all;
   margin-top: 50px;
+  overflow-y: auto;
+  width: 100%;
+  height: calc(100vh - 50px);
+  border: 3px solid red;
+  -webkit-overflow-scrolling: touch;
 
   img {
     margin-top: 20px;
