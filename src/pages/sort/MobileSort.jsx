@@ -11,10 +11,9 @@ import MobileSortSwapModal from "./MobileSortSwapModal";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
 import HelpSymbol from "../../assets/helpSymbol.svg?react";
-import MobileSortHelpModal from "./MobileSortHelpModal";
 import useScreenOrientation from "../../utilities/useScreenOrientation";
-import MobileSortScrollBottomModal from "./MobileSortScrollBottomModal";
 import debounce from "lodash/debounce";
+import MobileModal from "../../utilities/MobileModal";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
@@ -26,6 +25,10 @@ const getSetTriggerMobileSortSwapModal = (state) => state.setTriggerMobileSortSw
 const getLangObj = (state) => state.langObj;
 const getSetTriggerMobileSortHelpModal = (state) => state.setTriggerMobileSortHelpModal;
 const getSetHasScrolledToBottomSort = (state) => state.setHasScrolledToBottomSort;
+const getTriggerHelpModal = (state) => state.triggerMobileSortHelpModal;
+const getSetTriggerHelpModal = (state) => state.setTriggerMobileSortHelpModal;
+const getTriggerScrollBottomModal = (state) => state.triggerMobileSortScrollBottomModal;
+const getSetTriggerScrollBottomModal = (state) => state.setTriggerMobileSortScrollBottomModal;
 
 const MobileSort = () => {
   const setCurrentPage = useStore(getSetCurrentPage);
@@ -38,6 +41,10 @@ const MobileSort = () => {
   const setTriggerMobileSortSwapModal = useStore(getSetTriggerMobileSortSwapModal);
   const setTriggerMobileSortHelpModal = useStore(getSetTriggerMobileSortHelpModal);
   const setHasScrolledToBottomSort = useStore(getSetHasScrolledToBottomSort);
+  const triggerHelpModal = useStore(getTriggerHelpModal);
+  const setTriggerHelpModal = useStore(getSetTriggerHelpModal);
+  const triggerScrollBottomModal = useStore(getTriggerScrollBottomModal);
+  const setTriggerScrollBottomModal = useStore(getSetTriggerScrollBottomModal);
 
   // *********************************
   // *** TEXT LOCALIZATION **********************************************
@@ -46,6 +53,12 @@ const MobileSort = () => {
     ReactHtmlParser(decodeHTML(langObj.mobileSortConditionsOfInstruction)) || "";
   const screenOrientationText = ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
   const expandViewMessage = ReactHtmlParser(decodeHTML(langObj.expandViewMessage)) || "";
+  const helpModalHead = ReactHtmlParser(decodeHTML(langObj.mobileSortHelpModalHead)) || "";
+  const helpModalText = ReactHtmlParser(decodeHTML(langObj.mobileSortHelpModalText)) || "";
+  const scrollBottomModalHead =
+    ReactHtmlParser(decodeHTML(langObj.mobileSortScrollBottomModalHead)) || "";
+  const scrollBottomModalText =
+    ReactHtmlParser(decodeHTML(langObj.mobileSortScrollBottomModalText)) || "";
 
   // *********************************
   // *** Local State ****************************************************
@@ -306,8 +319,23 @@ const MobileSort = () => {
           <HelpSymbol />
         </HelpContainer>
       </SortTitleBar>
-      <MobileSortHelpModal />
-      <MobileSortScrollBottomModal />
+
+      <MobileModal
+        head={helpModalHead}
+        text={helpModalText}
+        trigger={triggerHelpModal}
+        setTrigger={setTriggerHelpModal}
+        showArrow={true}
+      />
+
+      <MobileModal
+        head={scrollBottomModalHead}
+        text={scrollBottomModalText}
+        trigger={triggerScrollBottomModal}
+        setTrigger={setTriggerScrollBottomModal}
+        showArrow={false}
+      />
+
       <MobileSortSwapModal
         clearSelected={clearSelected}
         targetArray={targetArray.current}

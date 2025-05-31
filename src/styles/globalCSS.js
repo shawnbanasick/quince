@@ -419,6 +419,37 @@ footer {
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.7);
   }
+/* Overlay fade */
+.OverlayFade {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: rgba(0,0,0,0.5);
+}
+
+.OverlayFade.ReactModal__Overlay--after-open {
+  opacity: 1;
+}
+
+.OverlayFade.ReactModal__Overlay--before-close {
+  opacity: 0;
+}
+
+/* Modal content fade */
+.ModalContentFade {
+  opacity: 0;
+  transform: scale(0.98);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.ModalContentFade.ReactModal__Content--after-open {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.ModalContentFade.ReactModal__Content--before-close {
+  opacity: 0;
+  transform: scale(0.98);
+}
 
 .react-responsive-modal-modal {
   background: white;

@@ -13,11 +13,9 @@ import useScreenOrientation from "../../utilities/useScreenOrientation";
 import mobileCardColor from "./mobileCardColor";
 import useLocalStorage from "../../utilities/useLocalStorage";
 import calcThinDisplayControllerArray from "./calcThinDisplayControllerArray";
-import MobilePresortHelpModal from "../../utilities/MobileModal";
+import MobileModal from "../../utilities/MobileModal";
 import MobilePresortRedoModal from "./MobilePresortRedoModal";
-import MobilePresortFinishedModal from "./MobilePresortFinishedModal";
 import HelpSymbol from "../../assets/helpSymbol.svg?react";
-import MobilePresortPreventNavModal from "./MobilePresortPreventNavModal";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
@@ -32,6 +30,9 @@ const getSetPresortFinished = (state) => state.setPresortFinished;
 const getMobilePresortFontSize = (state) => state.mobilePresortFontSize;
 const getSetTriggerMobilePresortRedoModal = (state) => state.setTriggerMobilePresortRedoModal;
 const getSetTriggerMobilePresortHelpModal = (state) => state.setTriggerMobilePresortHelpModal;
+const getTriggerHelpModal = (state) => state.triggerMobilePresortHelpModal;
+const getTriggerFinishedModal = (state) => state.triggerMobilePresortFinishedModal;
+const getSetTriggerFinishedModal = (state) => state.setTriggerMobilePresortFinishedModal;
 
 const MobilePresortPage = () => {
   // GLOBAL STATE
@@ -45,8 +46,15 @@ const MobilePresortPage = () => {
   const setPresortFinished = useStore(getSetPresortFinished);
   const mobilePresortFontSize = useStore(getMobilePresortFontSize);
   const setTriggerMobilePresortRedoModal = useStore(getSetTriggerMobilePresortRedoModal);
-  const setTriggerMobilePresortHelpModal = useStore(getSetTriggerMobilePresortHelpModal);
   const setTriggerPresortFinishedModal = useStore(getSetTriggerMobilePresortFinishedModal);
+  const triggerHelpModal = useStore(getTriggerHelpModal);
+  const setTriggerHelpModal = useStore(getSetTriggerMobilePresortHelpModal);
+  const getTriggerMobilePresortPreventNavModal = (state) =>
+    state.triggerMobilePresortPreventNavModal;
+  const getSetTriggerMobilePresortPreventNavModal = (state) =>
+    state.setTriggerMobilePresortPreventNavModal;
+  const triggerFinishedModal = useStore(getTriggerFinishedModal);
+  const setTriggerFinishedModal = useStore(getSetTriggerFinishedModal);
 
   // ***********************
   // *** TEXT LOCALIZATION *****************
@@ -63,6 +71,17 @@ const MobilePresortPage = () => {
     ReactHtmlParser(decodeHTML(langObj.mobilePresortHelpModalHead)) || "";
   const presortHelpModalText =
     ReactHtmlParser(decodeHTML(langObj.mobilePresortHelpModalText)) || "";
+
+  const triggerPreventNavModal = useStore(getTriggerMobilePresortPreventNavModal);
+  const setTriggerPreventNavModal = useStore(getSetTriggerMobilePresortPreventNavModal);
+  const preventNavModalHead =
+    ReactHtmlParser(decodeHTML(langObj.mobilePresortPreventNavModalHead)) || "";
+  const preventNavModalText =
+    ReactHtmlParser(decodeHTML(langObj.mobilePresortPreventNavModalText)) || "";
+  const finishedModalHead =
+    ReactHtmlParser(decodeHTML(langObj.mobilePresortFinishedModalHead)) || "";
+  const finishedModalText =
+    ReactHtmlParser(decodeHTML(langObj.mobilePresortFinishedModalText)) || "";
 
   // ******************* //
   // *** LOCAL STATE **************************** //
@@ -98,20 +117,14 @@ const MobilePresortPage = () => {
     columnStatements = JSON.parse(JSON.stringify(resetColumnStatements));
   }
 
-  // const headerBarColor = configObj.headerBarColor;
   const initialScreen = configObj.initialScreen;
   // const imageSort = configObj.useImages;
-
-  // // early return of presort finished message if complete
-  // if (presortNoReturn) {
-  //   return <PresortIsComplete />;
-  // }
 
   // ***********************
   // *** EVENT HANDLERS ***************
   // ***********************
   const handleOpenHelpModal = () => {
-    setTriggerMobilePresortHelpModal(true);
+    setTriggerHelpModal(true);
   };
 
   const handleRedo = (e) => {
@@ -329,10 +342,30 @@ const MobilePresortPage = () => {
   return (
     <Container>
       <ModalDiv>
-        <MobilePresortHelpModal head={presortHelpModalHead} text={presortHelpModalText} />
+        <MobileModal
+          head={presortHelpModalHead}
+          text={presortHelpModalText}
+          trigger={triggerHelpModal}
+          setTrigger={setTriggerHelpModal}
+          showArrow={true}
+        />
         <MobilePresortRedoModal clickFunction={handleRedoClick} statement={redoCardId} />
-        <MobilePresortFinishedModal />
-        <MobilePresortPreventNavModal />
+        {/* <MobilePresortFinishedModal /> */}
+        <MobileModal
+          head={preventNavModalHead}
+          text={preventNavModalText}
+          trigger={triggerPreventNavModal}
+          setTrigger={setTriggerPreventNavModal}
+          showArrow={false}
+        />
+
+        <MobileModal
+          head={finishedModalHead}
+          text={finishedModalText}
+          trigger={triggerFinishedModal}
+          setTrigger={setTriggerFinishedModal}
+          showArrow={false}
+        />
       </ModalDiv>
       <SortTitleBar background={configObj.headerBarColor}>
         {titleText}
@@ -389,7 +422,6 @@ const MobilePresortPage = () => {
       )}
 
       {/* <ModalContainer></ModalContainer> */}
-      <MobilePresortFinishedModal />
 
       {/* <PromptUnload />
       <PresortModal />

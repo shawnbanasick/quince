@@ -23,7 +23,7 @@ const Triangle = styled.div`
 `;
 
 const PulsingDownTriangle = (props) => {
-  if (props.atBottom === true) {
+  if (props.atBottom === true || props.showArrow === false) {
     return null; // Do not render the triangle if at the bottom
   }
   // If not at the bottom, render the pulsing triangle

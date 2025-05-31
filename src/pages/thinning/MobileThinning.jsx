@@ -16,13 +16,10 @@ import MobileThinMoveTopModal from "./MobileThinMoveTopModal";
 import mobileMoveSelectedPosCards from "./mobileMoveSelectedPosCards";
 import mobileMoveSelectedNegCards from "./mobileMoveSelectedNegCards";
 import HelpSymbol from "../../assets/helpSymbol.svg?react";
-import MobileThinHelpModal from "./MobileThinHelpModal";
-import MobileThinPreventNavModal from "./MobileThinPreventNavModal";
-import MobileThinGuidanceModal from "./MobileThinGuidanceModal";
 import useScreenOrientation from "../../utilities/useScreenOrientation";
-import MobileThinScrollBottomModal from "./MobileThinScrollBottomModal";
 import debounce from "lodash/debounce";
 import { useLongPress } from "@uidotdev/usehooks";
+import MobileModal from "../../utilities/MobileModal";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
@@ -36,6 +33,14 @@ const getSetTriggerMobileThinHelpModal = (state) => state.setTriggerMobileThinHe
 const getSetTriggerMobileGuidanceModal = (state) => state.setTriggerMobileThinGuidanceModal;
 const getSetTriggerMobileThinScrollBottomModal = (state) =>
   state.setTriggerMobileThinScrollBottomModal;
+const getTriggerHelpModal = (state) => state.triggerMobileThinHelpModal;
+const getSetTriggerHelpModal = (state) => state.setTriggerMobileThinHelpModal;
+const getTriggerMobileThinPreventNavModal = (state) => state.triggerMobileThinPreventNavModal;
+const getSetTriggerMobileThinPreventNavModal = (state) => state.setTriggerMobileThinPreventNavModal;
+const getTriggerScrollBottomModal = (state) => state.triggerMobileThinScrollBottomModal;
+const getSetTriggerScrollBottomModal = (state) => state.setTriggerMobileThinScrollBottomModal;
+const getTriggerGuidanceModal = (state) => state.triggerMobileThinGuidanceModal;
+const getSetTriggerGuidanceModal = (state) => state.setTriggerMobileThinGuidanceModal;
 
 const MobileThinning = () => {
   const langObj = useSettingsStore(getLangObj);
@@ -50,6 +55,18 @@ const MobileThinning = () => {
   const setTriggerMobileThinGuidanceModal = useStore(getSetTriggerMobileGuidanceModal);
   const thinGuidanceModalMaxIterations = configObj.thinGuidanceModalMaxIterations;
   const setTriggerMobileThinScrollBottomModal = useStore(getSetTriggerMobileThinScrollBottomModal);
+  // const helpModalHead = ReactHtmlParser(decodeHTML(langObj.mobileThinHelpModalHead)) || "";
+  const helpModalText = ReactHtmlParser(decodeHTML(langObj.mobileThinHelpModalText)) || "";
+  const triggerHelpModal = useStore(getTriggerHelpModal);
+  const setTriggerHelpModal = useStore(getSetTriggerHelpModal);
+  const triggerPreventNavModal = useStore(getTriggerMobileThinPreventNavModal);
+  const setTriggerPreventNavModal = useStore(getSetTriggerMobileThinPreventNavModal);
+  const triggerScrollBottomModal = useStore(getTriggerScrollBottomModal);
+  const setTriggerScrollBottomModal = useStore(getSetTriggerScrollBottomModal);
+  const triggerGuidanceModal = useStore(getTriggerGuidanceModal);
+  const setTriggerGuidanceModal = useStore(getSetTriggerGuidanceModal);
+
+  console.log(triggerPreventNavModal, "triggerPreventNavModal");
 
   // *************************** //
   // *** TEXT LOCALIZATION ***** //
@@ -77,6 +94,14 @@ const MobileThinning = () => {
   const screenOrientationText = ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
   const submitButtonText = ReactHtmlParser(decodeHTML(langObj.mobileThinSubmitButtonText)) || "";
   const expandViewMessage = ReactHtmlParser(decodeHTML(langObj.expandViewMessage)) || "";
+  const preventNavModalHead =
+    ReactHtmlParser(decodeHTML(langObj.thinningPreventNavModalHead)) || "";
+  const preventNavModalText =
+    ReactHtmlParser(decodeHTML(langObj.thinningPreventNavModalText)) || "";
+  const scrollBottomModalHead =
+    ReactHtmlParser(decodeHTML(langObj.mobileThinScrollBottomModalHead)) || "";
+  const scrollBottomModalText =
+    ReactHtmlParser(decodeHTML(langObj.mobileThinScrollBottomModalText)) || "";
 
   // *******************************************************
   // *** LOCAL STATE ***********************************
@@ -413,13 +438,34 @@ const MobileThinning = () => {
   return (
     <MainContainer>
       <MobileThinMoveTopModal cardId={cardId} onClick={moveAllTop} />
-      <MobileThinGuidanceModal
-        modalHead={modalRef.current.header}
-        modalText={modalRef.current.text}
+      <MobileModal
+        head={modalRef.current.header}
+        text={modalRef.current.text}
+        trigger={triggerGuidanceModal}
+        setTrigger={setTriggerGuidanceModal}
+        showArrow={false}
       />
-      <MobileThinPreventNavModal />
-      <MobileThinHelpModal modalHead={modalRef.current.header} />
-      <MobileThinScrollBottomModal />
+      <MobileModal
+        head={modalRef.current.header}
+        text={helpModalText}
+        trigger={triggerHelpModal}
+        setTrigger={setTriggerHelpModal}
+        showArrow={true}
+      />
+      <MobileModal
+        head={scrollBottomModalHead}
+        text={scrollBottomModalText}
+        trigger={triggerScrollBottomModal}
+        setTrigger={setTriggerScrollBottomModal}
+        showArrow={false}
+      />
+      <MobileModal
+        head={preventNavModalHead}
+        text={preventNavModalText}
+        trigger={triggerPreventNavModal}
+        setTrigger={setTriggerPreventNavModal}
+        showArrow={false}
+      />
       <SortTitleBar background={configObj.headerBarColor}>
         {conditionsOfInstruction}
         <HelpContainer onClick={showHelpModal}>
@@ -507,6 +553,7 @@ const SortTitleBar = styled.div`
   padding-right: 1.5vw;
   padding-top: 5px;
   min-height: 30px;
+  margin-bottom: 10px;
   background-color: ${(props) => props.background};
   justify-content: space-between;
   align-items: center;
@@ -520,7 +567,7 @@ const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-content: flex-start;
-  gap: 5px;
+  /* gap: 5px; */
   align-items: center;
   width: 100vw;
   height: 100vh;

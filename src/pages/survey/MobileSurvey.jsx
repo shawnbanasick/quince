@@ -16,10 +16,9 @@ import SurveyRating5Element from "./MobileSurveyRating5Element";
 import SurveyRating10Element from "./MobileSurveyRating10Element";
 import SurveyLikertElement from "./MobileSurveyLikertElement";
 import SurveyInformationElement from "./MobileSurveyInformationElement";
-import MobileSurveyPreventNavModal from "./MobileSurveyPreventNavModal";
 import HelpSymbol from "../../assets/helpSymbol.svg?react";
-import MobileSurveyHelpModal from "./MobileSurveyHelpModal";
 import useScreenOrientation from "../../utilities/useScreenOrientation";
+import MobileModal from "../../utilities/MobileModal";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
@@ -32,6 +31,10 @@ const getSetRequiredAnswersObj = (state) => state.setRequiredAnswersObj;
 const getCheckReqQuesComplete = (state) => state.checkRequiredQuestionsComplete;
 const getSetTriggerMobileSurveyHelpModal = (state) => state.setTriggerMobileSurveyHelpModal;
 const getMobileSurveyViewSize = (state) => state.mobileSurveyViewSize;
+const getTriggerHelpModal = (state) => state.triggerMobileSurveyHelpModal;
+const getSetTriggerHelpModal = (state) => state.setTriggerMobileSurveyHelpModal;
+const getTriggerPreventNavModal = (state) => state.triggerSurveyPreventNavModal;
+const getSetTrigerPreventNavModal = (state) => state.setTriggerSurveyPreventNavModal;
 
 const MobileSurvey = () => {
   const setCurrentPage = useStore(getSetCurrentPage);
@@ -44,6 +47,10 @@ const MobileSurvey = () => {
   const checkRequiredQuestionsComplete = useStore(getCheckReqQuesComplete);
   const setTriggerMobileSurveyHelpModal = useStore(getSetTriggerMobileSurveyHelpModal);
   const mobileSurveyViewSize = useStore(getMobileSurveyViewSize);
+  const triggerHelpModal = useStore(getTriggerHelpModal);
+  const setTriggerHelpModal = useStore(getSetTriggerHelpModal);
+  const triggerPreventNavModal = useStore(getTriggerPreventNavModal);
+  const setTriggerPreventNavModal = useStore(getSetTrigerPreventNavModal);
 
   const headerBarColor = configObj.headerBarColor;
   const surveyQuestionObjects = surveyQuestionObjArray;
@@ -53,6 +60,10 @@ const MobileSurvey = () => {
   const surveyHeader = ReactHtmlParser(decodeHTML(langObj.surveyHeader)) || "";
   const screenOrientationText = ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
   const expandViewMessage = ReactHtmlParser(decodeHTML(langObj.expandViewMessage)) || "";
+  const helpModalHead = ReactHtmlParser(decodeHTML(langObj.mobileSurveyHelpModalHead)) || "";
+  const helpModalText = ReactHtmlParser(decodeHTML(langObj.mobileSurveyHelpModalText)) || "";
+  const preventNavHead = ReactHtmlParser(decodeHTML(langObj.surveyPreventNavModalHead)) || "";
+  const preventNavText = ReactHtmlParser(decodeHTML(langObj.surveyPreventNavModalText)) || "";
 
   // ***************************
   // *** STATE *******************
@@ -210,8 +221,23 @@ const MobileSurvey = () => {
           <HelpSymbol />
         </HelpContainer>
       </SortTitleBar>
-      <MobileSurveyPreventNavModal style={{ marginTop: "50px" }} />
-      <MobileSurveyHelpModal />
+
+      <MobileModal
+        trigger={triggerPreventNavModal}
+        setTrigger={setTriggerPreventNavModal}
+        head={preventNavHead}
+        text={preventNavText}
+        showArrow={false}
+      />
+
+      <MobileModal
+        trigger={triggerHelpModal}
+        setTrigger={setTriggerHelpModal}
+        head={helpModalHead}
+        text={helpModalText}
+        showArrow={false}
+      />
+
       <Container
         viewSize={
           mobileSurveyViewSize === +persistedMobileSurveyViewSize

@@ -1,5 +1,7 @@
 import "react-responsive-modal/styles.css";
-import { Modal } from "react-responsive-modal";
+// import { Modal } from "react-responsive-modal";
+import ReactModal from "react-modal";
+
 import styled from "styled-components";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
@@ -19,21 +21,15 @@ const MobileSortSwapModal = (props) => {
 
   let targetArray = [...props.targetArray];
 
-  if (
-    targetArray?.length > 0 &&
-    +targetArray?.[0]?.index > +targetArray?.[1]?.index
-  ) {
+  if (targetArray?.length > 0 && +targetArray?.[0]?.index > +targetArray?.[1]?.index) {
     targetArray = targetArray.reverse();
   }
 
-  const loginHelpModalHead =
-    ReactHtmlParser(decodeHTML(langObj.mobileSortSwapModalHead)) || "";
+  const swapModalHead = ReactHtmlParser(decodeHTML(langObj.mobileSortSwapModalHead)) || "";
   // const loginHelpModalText =
   //   ReactHtmlParser(decodeHTML(langObj.mobileSortSwapModalText)) || "";
-  const okButtonText =
-    ReactHtmlParser(decodeHTML(langObj.mobileSortSwapModalConfirmButton)) || "";
-  const cancelButtonText =
-    ReactHtmlParser(decodeHTML(langObj.moveTopMobileButtonCancel)) || "";
+  const okButtonText = ReactHtmlParser(decodeHTML(langObj.mobileSortSwapModalConfirmButton)) || "";
+  const cancelButtonText = ReactHtmlParser(decodeHTML(langObj.moveTopMobileButtonCancel)) || "";
 
   //   console.log(JSON.stringify(props));
 
@@ -42,67 +38,73 @@ const MobileSortSwapModal = (props) => {
     setTriggerModal(false);
     props.clearSelected();
   };
+  const customStyles = {
+    content: {
+      display: "flex",
+      justifySelf: "center",
+      flexDirection: "column",
+      alignItems: "center",
+      backgroundColor: "#ffffff",
+      borderRadius: "10px",
+      padding: "0px",
+      width: "96vw",
+      height: "fit-content",
+      maxHeight: "80vh",
+      paddingBottom: "10px",
+      WebkitOverflowScrolling: "touch",
+    },
+  };
 
   return (
-    <Modal
-      id="presortFinishedModal"
-      className="presortCustomModal"
-      open={triggerModal}
-      onClose={onCloseModal}
-      closeOnOverlayClick={false}
-      center
-    >
-      <ModalHeader>{loginHelpModalHead}</ModalHeader>
-      <hr style={{ marginBottom: "30px" }} />
-      {/* <ModalContent>{loginHelpModalText}</ModalContent> */}
-
-      <StatementBox
-        color={targetArray[0]?.color}
-        fontSize={targetArray[0]?.fontSize}
+    <Container>
+      <ReactModal
+        id="sortSwapModal"
+        isOpen={triggerModal}
+        onClose={onCloseModal}
+        style={customStyles}
+        overlayClassName="Overlay"
+        // className="ModalContentFade"
+        ariaHideApp={false}
       >
-        <NumberContainer>
-          {targetArray[0]?.groupNumber}&nbsp;&nbsp;
-          {/* {targetArray[0]?.header} */}
-        </NumberContainer>
-        <CardDiv color={targetArray[0]?.color}>
-          {targetArray[0]?.statement}
-        </CardDiv>
-      </StatementBox>
+        <CloseDiv>
+          <CloseButton onClick={onCloseModal}>X</CloseButton>
+        </CloseDiv>
+        <ModalHeader>
+          {swapModalHead}
+          <hr />
+        </ModalHeader>
+        <StatementBox color={targetArray[0]?.color} fontSize={targetArray[0]?.fontSize}>
+          <NumberContainer>
+            {targetArray[0]?.groupNumber}&nbsp;&nbsp;
+            {/* {targetArray[0]?.header} */}
+          </NumberContainer>
+          <CardDiv color={targetArray[0]?.color}>{targetArray[0]?.statement}</CardDiv>
+        </StatementBox>
 
-      <SwapArrows
-        style={{ display: "flex", justifySelf: "center", height: "50px" }}
-      />
-      <StatementBox
-        color={targetArray[1]?.color}
-        fontSize={targetArray[1]?.fontSize}
-      >
-        <NumberContainer>
-          {targetArray[1]?.groupNumber}&nbsp;&nbsp;
-          {/* {targetArray[1]?.header} */}
-        </NumberContainer>
-        <CardDiv color={targetArray[1]?.color}>
-          {targetArray[1]?.statement}
-        </CardDiv>
-      </StatementBox>
+        <SwapArrows style={{ display: "flex", justifySelf: "center", height: "50px" }} />
+        <StatementBox color={targetArray[1]?.color} fontSize={targetArray[1]?.fontSize}>
+          <NumberContainer>
+            {targetArray[1]?.groupNumber}&nbsp;&nbsp;
+            {/* {targetArray[1]?.header} */}
+          </NumberContainer>
+          <CardDiv color={targetArray[1]?.color}>{targetArray[1]?.statement}</CardDiv>
+        </StatementBox>
 
-      <ButtonContainer>
-        <ModalButton color={"#FBD5D5"} onClick={onCloseModal}>
-          {cancelButtonText}
-        </ModalButton>
-        <ModalButton
-          color={"#BCF0DA"}
-          onClick={() => {
-            props.handleStatementSwap(
-              targetArray[0].index,
-              targetArray[1].index
-            ),
-              onCloseModal();
-          }}
-        >
-          {okButtonText}
-        </ModalButton>
-      </ButtonContainer>
-    </Modal>
+        <ButtonContainer>
+          <ModalButton color={"#FBD5D5"} onClick={onCloseModal}>
+            {cancelButtonText}
+          </ModalButton>
+          <ModalButton
+            color={"#BCF0DA"}
+            onClick={() => {
+              props.handleStatementSwap(targetArray[0].index, targetArray[1].index), onCloseModal();
+            }}
+          >
+            {okButtonText}
+          </ModalButton>
+        </ButtonContainer>
+      </ReactModal>
+    </Container>
   );
 };
 
@@ -207,4 +209,35 @@ const CardDiv = styled.div`
   border-radius: 3px;
   text-align: center;
   padding: 15px 10px 15px 10px;
+`;
+
+const CloseButton = styled.button`
+  background-color: red;
+  float: right;
+  color: white;
+  border: none;
+  border-bottom-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 10px;
+  width: 40px;
+  font-size: 16px;
+  cursor: pointer;
+  &:hover {
+    background-color: #555;
+  }
+`;
+
+const CloseDiv = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 0px;
+`;
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: relative;
 `;

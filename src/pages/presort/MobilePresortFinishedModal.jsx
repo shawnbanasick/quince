@@ -8,8 +8,7 @@ import useStore from "../../globalState/useStore";
 
 const getLangObj = (state) => state.langObj;
 const getTriggerModal = (state) => state.triggerMobilePresortFinishedModal;
-const getSetTriggerModal = (state) =>
-  state.setTriggerMobilePresortFinishedModal;
+const getSetTriggerModal = (state) => state.setTriggerMobilePresortFinishedModal;
 
 const PresortFinishedModal = () => {
   // STATE

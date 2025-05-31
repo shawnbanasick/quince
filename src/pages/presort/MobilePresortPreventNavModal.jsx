@@ -14,11 +14,11 @@ const getSetTriggerMobilePresortPreventNavModal = (state) =>
 const MobilePresortPreventNavModal = () => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
+
   const triggerMobilePresortPreventNavModal = useStore(getTriggerMobilePresortPreventNavModal);
   const setTriggerMobilePresortPreventNavModal = useStore(
     getSetTriggerMobilePresortPreventNavModal
   );
-
   const modalHead = ReactHtmlParser(decodeHTML(langObj.mobilePresortPreventNavModalHead)) || "";
   const modalText = ReactHtmlParser(decodeHTML(langObj.mobilePresortPreventNavModalText)) || "";
 

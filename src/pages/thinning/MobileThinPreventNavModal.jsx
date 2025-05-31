@@ -7,29 +7,23 @@ import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 
 const getLangObj = (state) => state.langObj;
-const getTriggerMobileThinPreventNavModal = (state) =>
-  state.triggerMobileThinPreventNavModal;
-const getSetTriggerMobileThinPreventNavModal = (state) =>
-  state.setTriggerMobileThinPreventNavModal;
+const getTriggerMobileThinPreventNavModal = (state) => state.triggerMobileThinPreventNavModal;
+const getSetTriggerMobileThinPreventNavModal = (state) => state.setTriggerMobileThinPreventNavModal;
 
 const ThinningPreventNavModal = () => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
-  const triggerMobileThinPreventNavModal = useStore(
-    getTriggerMobileThinPreventNavModal
-  );
-  const setTriggerMobileThinPreventNavModal = useStore(
-    getSetTriggerMobileThinPreventNavModal
-  );
+  const triggerMobileThinPreventNavModal = useStore(getTriggerMobileThinPreventNavModal);
+  const setTriggerMobileThinPreventNavModal = useStore(getSetTriggerMobileThinPreventNavModal);
 
-  const modalHead =
-    ReactHtmlParser(decodeHTML(langObj.mobileThinPreventNavModalHead)) || "";
-  const modalText =
-    ReactHtmlParser(decodeHTML(langObj.mobileThinPreventNavModalText)) || "";
+  const modalHead = ReactHtmlParser(decodeHTML(langObj.mobileThinPreventNavModalHead)) || "";
+  const modalText = ReactHtmlParser(decodeHTML(langObj.mobileThinPreventNavModalText)) || "";
 
   const onCloseModal = () => {
     setTriggerMobileThinPreventNavModal(false);
   };
+
+  console.log("modal modal modal modal modal modal modal");
 
   return (
     <Modal

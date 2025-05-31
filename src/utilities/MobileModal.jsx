@@ -5,15 +5,15 @@ import useStore from "../globalState/useStore";
 import PulsingDownTriangle from "./PulsingDownTriangle";
 import debounce from "lodash/debounce";
 
-const getTriggerModal = (state) => state.triggerMobilePresortHelpModal;
-const getSetTriggerModal = (state) => state.setTriggerMobilePresortHelpModal;
+// const getTriggerModal = (state) => state.triggerMobilePresortHelpModal;
+// const getSetTriggerModal = (state) => state.setTriggerMobilePresortHelpModal;
 const getSetHasScrolledToBottom = (state) => state.setM_hasScrolledBottom;
 const getHasScrolledToBottom = (state) => state.m_hasScrolledBottom;
 
 const MobileModal = (props) => {
   // STATE
-  const triggerModal = useStore(getTriggerModal);
-  const setTriggerModal = useStore(getSetTriggerModal);
+  const triggerModal = props.trigger; // useStore(getTriggerModal);
+  const setTriggerModal = props.setTrigger; // useStore(getSetTriggerModal);
   const hasScrolledToBottom = useStore(getHasScrolledToBottom);
   const setHasScrolledToBottom = useStore(getSetHasScrolledToBottom);
 
@@ -26,7 +26,6 @@ const MobileModal = (props) => {
   const handleScroll = useCallback(
     debounce((event) => {
       const target = event.target;
-      console.log("scrolling", target);
       const scrollTop = target.scrollTop;
       const scrollHeight = target.scrollHeight;
       const clientHeight = target.clientHeight;
@@ -47,16 +46,14 @@ const MobileModal = (props) => {
       display: "flex",
       justifySelf: "center",
       flexDirection: "column",
-      justifyContent: "center",
       alignItems: "center",
-      // border: "2px solid gray",
       backgroundColor: "#ffffff",
       borderRadius: "10px",
       padding: "0px",
-      paddingBottom: "10px",
       width: "96vw",
+      height: "fit-content",
       maxHeight: "80vh",
-      overflowY: "scroll",
+      paddingBottom: "10px",
       WebkitOverflowScrolling: "touch",
     },
   };
@@ -69,6 +66,8 @@ const MobileModal = (props) => {
         onClose={onCloseModal}
         style={customStyles}
         overlayClassName="Overlay"
+        // className="ModalContentFade"
+        ariaHideApp={false}
       >
         <CloseDiv>
           <CloseButton onClick={onCloseModal}>X</CloseButton>
@@ -80,7 +79,7 @@ const MobileModal = (props) => {
         <ContentContainer>
           <ModalContent onScroll={handleScroll}>{presortHelpModalText}</ModalContent>
           <OverlayTriangle>
-            <PulsingDownTriangle atBottom={hasScrolledToBottom} />
+            <PulsingDownTriangle atBottom={hasScrolledToBottom} showArrow={props.showArrow} />
           </OverlayTriangle>
         </ContentContainer>
       </ReactModal>
@@ -115,11 +114,11 @@ const ModalContent = styled.div`
 
 const ContentContainer = styled.div`
   // outer
-  height: 60vh;
   width: 100%;
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  max-height: 60vh;
 `;
 
 const Container = styled.div`
@@ -144,7 +143,8 @@ const CloseButton = styled.button`
   float: right;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-top-right-radius: 5px;
   padding: 10px;
   width: 40px;
   font-size: 16px;

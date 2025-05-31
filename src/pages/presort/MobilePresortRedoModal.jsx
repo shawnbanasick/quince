@@ -1,5 +1,4 @@
-import "react-responsive-modal/styles.css";
-import { Modal } from "react-responsive-modal";
+import ReactModal from "react-modal";
 import styled from "styled-components";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
@@ -10,26 +9,19 @@ import MobileStatementBox from "./MobileStatementBox";
 import { useState } from "react";
 
 const getLangObj = (state) => state.langObj;
-const getTriggerMobilePresortRedoModal = (state) =>
-  state.triggerMobilePresortRedoModal;
-const getSetTriggerMobilePresortRedoModal = (state) =>
-  state.setTriggerMobilePresortRedoModal;
+const getTriggerMobilePresortRedoModal = (state) => state.triggerMobilePresortRedoModal;
+const getSetTriggerMobilePresortRedoModal = (state) => state.setTriggerMobilePresortRedoModal;
 
 const MobilePresortRedoModal = (props) => {
   // *** STATE
   const langObj = useSettingsStore(getLangObj);
-  const triggerMobilePresortRedoModal = useStore(
-    getTriggerMobilePresortRedoModal
-  );
-  const setTriggerMobilePresortRedoModal = useStore(
-    getSetTriggerMobilePresortRedoModal
-  );
-  const moveTopMobileHead =
-    ReactHtmlParser(decodeHTML(langObj.mobilePresortRedoModalHead)) || "";
+  const triggerMobilePresortRedoModal = useStore(getTriggerMobilePresortRedoModal);
+  const setTriggerMobilePresortRedoModal = useStore(getSetTriggerMobilePresortRedoModal);
+  const moveTopMobileHead = ReactHtmlParser(decodeHTML(langObj.mobilePresortRedoModalHead)) || "";
 
   // *** LANGUAGE TRANSLATION *** //
   let moveTopMobileText = "";
-  let showStatement = true;
+  // let showStatement = true;
 
   let [characteristics, setCharacteristics] = useState({
     backgroundColor: "#e5e5e5",
@@ -49,35 +41,50 @@ const MobilePresortRedoModal = (props) => {
   };
 
   const okButtonText =
-    ReactHtmlParser(decodeHTML(langObj.mobilePresortRedoModalConfirmButton)) ||
-    "";
-  const cancelButtonText =
-    ReactHtmlParser(decodeHTML(langObj.moveTopMobileButtonCancel)) || "";
-  const assignLeft =
-    ReactHtmlParser(decodeHTML(langObj.mobilePresortAssignLeft)) || "";
-  const assignRight =
-    ReactHtmlParser(decodeHTML(langObj.mobilePresortAssignRight)) || "";
+    ReactHtmlParser(decodeHTML(langObj.mobilePresortRedoModalConfirmButton)) || "";
+  const cancelButtonText = ReactHtmlParser(decodeHTML(langObj.moveTopMobileButtonCancel)) || "";
+  const assignLeft = ReactHtmlParser(decodeHTML(langObj.mobilePresortAssignLeft)) || "";
+  const assignRight = ReactHtmlParser(decodeHTML(langObj.mobilePresortAssignRight)) || "";
 
   const onCloseModal = () => {
     setCharacteristics({ backgroundColor: "#e5e5e5", value: 0 });
     setTriggerMobilePresortRedoModal(false);
   };
 
+  const customStyles = {
+    content: {
+      display: "flex",
+      justifySelf: "center",
+      flexDirection: "column",
+      // justifyContent: "center",
+      alignItems: "center",
+      // border: "2px solid gray",
+      backgroundColor: "#ffffff",
+      borderRadius: "10px",
+      padding: "0px",
+      paddingBottom: "10px",
+      width: "96vw",
+      maxHeight: "60vh",
+      overflowY: "scroll",
+      WebkitOverflowScrolling: "touch",
+    },
+  };
+
   return (
-    <Modal
-      classNames={{ modal: "customMobileModal" }}
-      open={triggerMobilePresortRedoModal}
+    <ReactModal
+      isOpen={triggerMobilePresortRedoModal}
       onClose={onCloseModal}
       center
+      style={customStyles}
+      overlayClassName="Overlay"
     >
+      <CloseDiv>
+        <CloseButton onClick={onCloseModal}>X</CloseButton>
+      </CloseDiv>
+
       <ModalHeader>{moveTopMobileHead}</ModalHeader>
       <hr />
       <ModalContent>{moveTopMobileText}</ModalContent>
-      {/* {showStatement && (
-        <Statement color={props.cardId.current.color}>
-          {props.cardId.current.statement}
-        </Statement>
-      )} */}
       <MobileStatementBox
         backgroundColor={characteristics.backgroundColor}
         statement={props.statement.current.statement}
@@ -120,7 +127,7 @@ const MobilePresortRedoModal = (props) => {
           {okButtonText}
         </ModalButton>
       </ButtonContainer>
-    </Modal>
+    </ReactModal>
   );
 };
 
@@ -206,4 +213,26 @@ const AssignDiv = styled.div`
   text-align: center;
   font-size: 1.5vh;
   width: 28vw;
+`;
+
+const CloseButton = styled.button`
+  background-color: red;
+  float: right;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  width: 40px;
+  font-size: 16px;
+  cursor: pointer;
+  &:hover {
+    background-color: #555;
+  }
+`;
+
+const CloseDiv = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 0px;
 `;

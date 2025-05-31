@@ -9,9 +9,8 @@ import HelpSymbol from "../../assets/helpSymbol.svg?react";
 import useLocalStorage from "../../utilities/useLocalStorage";
 import { v4 as uuid } from "uuid";
 import DebouncedTextarea from "./DebouncedTextArea";
-import MobilePostsortPreventNavModal from "./MobilePostsortPreventNavModal";
-import MobilePostsortHelpModal from "./MobilePostsortHelpModal";
 import useScreenOrientation from "../../utilities/useScreenOrientation";
+import MobileModal from "../../utilities/MobileModal";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
@@ -22,6 +21,10 @@ const getMobilePostsortFontSize = (state) => state.mobilePostsortFontSize;
 const getMobilePostsortViewSize = (state) => state.mobilePostsortViewSize;
 const getShowPostsortCommentHighlighting = (state) => state.showPostsortCommentHighlighting;
 const getSetTriggerMobilePostsortHelpModal = (state) => state.setTriggerMobilePostsortHelpModal;
+const getTriggerHelpModal = (state) => state.triggerMobilePostsortHelpModal;
+const getSetTriggerHelpModal = (state) => state.setTriggerMobilePostsortHelpModal;
+const getTriggerPreventNavModal = (state) => state.triggerMobilePostsortPreventNavModal;
+const getSetTriggerPreventNavModal = (state) => state.setTriggerMobilePostsortPreventNavModal;
 
 const MobilePostsort = () => {
   const setCurrentPage = useStore(getSetCurrentPage);
@@ -33,6 +36,10 @@ const MobilePostsort = () => {
   let required = configObj.postsortCommentsRequired;
   const showPostsortCommentHighlighting = useStore(getShowPostsortCommentHighlighting);
   const setTriggerMobilePostsortHelpModal = useStore(getSetTriggerMobilePostsortHelpModal);
+  const triggerHelpModal = useStore(getTriggerHelpModal);
+  const setTriggerHelpModal = useStore(getSetTriggerHelpModal);
+  const triggerPreventNavModal = useStore(getTriggerPreventNavModal);
+  const setTriggerPreventNavModal = useStore(getSetTriggerPreventNavModal);
 
   // ***************************
   // *** TEXT LOCALIZATION *******************
@@ -43,6 +50,12 @@ const MobilePostsort = () => {
   const placeholder = langObj.placeholder;
   const screenOrientationText = ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
   const expandViewMessage = ReactHtmlParser(decodeHTML(langObj.expandViewMessage)) || "";
+  const helpHead = ReactHtmlParser(decodeHTML(langObj.mobilePostsortHelpModalHead)) || "";
+  const helpText = ReactHtmlParser(decodeHTML(langObj.mobilePostsortHelpModalText)) || "";
+  const preventNavHead =
+    ReactHtmlParser(decodeHTML(langObj.mobilePostsortPreventNavModalHead)) || "";
+  const preventNavText =
+    ReactHtmlParser(decodeHTML(langObj.mobilePostsortPreventNavModalText)) || "";
 
   // ***************************
   // *** INITIALIZATION *******************
@@ -238,8 +251,22 @@ const MobilePostsort = () => {
           <HelpSymbol />
         </HelpContainer>
       </SortTitleBar>
-      <MobilePostsortPreventNavModal />
-      <MobilePostsortHelpModal />
+
+      <MobileModal
+        head={preventNavHead}
+        text={preventNavText}
+        trigger={triggerPreventNavModal}
+        setTrigger={setTriggerPreventNavModal}
+        showArrow={false}
+      />
+
+      <MobileModal
+        head={helpHead}
+        text={helpText}
+        trigger={triggerHelpModal}
+        setTrigger={setTriggerHelpModal}
+        showArrow={false}
+      />
       <InnerContainer
         viewSize={
           mobilePostsortViewSize === +persistedMobilePostsortViewSize
