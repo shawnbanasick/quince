@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import ReactHtmlParser from "html-react-parser";
@@ -108,6 +108,7 @@ function PresortDND(props) {
             statementsArray[i].yellowChecked = false;
             statementsArray[i].greenChecked = false;
             statementsArray[i].sortValue = pinkArraySortValue;
+            statementsArray[i].psValue = -2;
           }
           if (destinationId === "neutral") {
             statementsArray[i].divColor = "isUncertainStatement";
@@ -115,6 +116,7 @@ function PresortDND(props) {
             statementsArray[i].pinkChecked = false;
             statementsArray[i].yellowChecked = true;
             statementsArray[i].greenChecked = false;
+            statementsArray[i].psValue = 0;
             statementsArray[i].sortValue = 222;
           }
           if (destinationId === "pos") {
@@ -124,6 +126,7 @@ function PresortDND(props) {
             statementsArray[i].yellowChecked = false;
             statementsArray[i].greenChecked = true;
             statementsArray[i].sortValue = greenArraySortValue;
+            statementsArray[i].psValue = 2;
           }
         }
       }

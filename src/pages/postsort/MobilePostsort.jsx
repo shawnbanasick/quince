@@ -153,6 +153,12 @@ const MobilePostsort = () => {
 
   const handleTextareaChange = (event) => {
     const resp = JSON.parse(localStorage.getItem("m_PostSortResultsObj"));
+    let resultsPostsort = JSON.parse(localStorage.getItem("resultsPostsort")) || {};
+
+    if (resultsPostsort === null || resultsPostsort === undefined) {
+      resultsPostsort = {};
+    }
+
     if (event.target.side === "positive") {
       resp[`column${event.target.sortValue}_${event.target.commentId}`] = event.target.value;
       mobilePosResponses[event.target.statementId] = event.target.value;
@@ -165,6 +171,7 @@ const MobilePostsort = () => {
     }
 
     localStorage.setItem("m_PostSortResultsObj", JSON.stringify(resp));
+    localStorage.setItem("resultsPostsort", JSON.stringify(resp));
   };
 
   // ***************************

@@ -18,7 +18,7 @@ const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetDisplayNextButton = (state) => state.setDisplayNextButton;
 const getSetUrlUsercode = (state) => state.setUrlUsercode;
 
-const PostSort = () => {
+const ConsentPage = () => {
   const ElementRef = useRef(null);
 
   // GLOBAL STATE
@@ -80,21 +80,21 @@ const PostSort = () => {
   const titleText = ReactHtmlParser(decodeHTML(langObj.consentTitleBarText)) || "";
 
   return (
-    <div>
+    <>
       <ConsentModal />
       <PromptUnload />
       <SortTitleBar background={headerBarColor}>{titleText}</SortTitleBar>
       <ContainerDiv>
         <div>{consentText}</div>
       </ContainerDiv>
-    </div>
+    </>
   );
 };
 
-export default PostSort;
+export default ConsentPage;
 
 const SortTitleBar = styled.div`
-  width: 100vw;
+  width: 100%;
   padding-left: 1.5vw;
   padding-right: 1.5vw;
   padding-top: 5px;
@@ -113,17 +113,19 @@ const SortTitleBar = styled.div`
 const ContainerDiv = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
-  padding: 5vw;
+  padding-left: 5vw;
+  padding-right: 5vw;
+  padding-bottom: 90px;
   margin-bottom: 70px;
-  padding-top: 50px;
   transition: 0.3s ease all;
-  margin-top: 50px;
+  margin-top: 70px;
   overflow-y: auto;
-  width: 100%;
-  height: calc(100vh - 50px);
-  border: 3px solid red;
+  width: 100vw;
+  font-size: 1.2em;
+  height: calc(100vh - 80px);
+  /* border: 3px solid red; */
   -webkit-overflow-scrolling: touch;
 
   img {

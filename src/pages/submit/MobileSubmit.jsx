@@ -5,21 +5,29 @@ import useSettingsStore from "../../globalState/useSettingsStore";
 import calculateTimeOnPage from "../../utilities/calculateTimeOnPage";
 import decodeHTML from "../../utilities/decodeHTML";
 import ReactHtmlParser from "html-react-parser";
-import SubmitButton from "./SubmitButton";
+// import SubmitButton from "./SubmitButtonBaserow";
+import SubmitButtonBaserow from "./SubmitButtonBaserow";
 import getCurrentDateTime from "../../utilities/getCurrentDateTime";
 import mobileCalcPresortCountsObject from "./mobileCalcPresortCountsObject";
 import calcPresortTraceAndSortResults from "./calcPresortTraceAndSortResults";
 import useScreenOrientation from "../../utilities/useScreenOrientation";
+import { v4 as uuid } from "uuid";
+import createBaserowObject from "./createBaserowObject";
+import calculatePostsortResults from "./calculatePostsortResults";
+import convertObjectToBaserowResults from "../sort/convertObjectToBaserowResults";
+import createMobilePresortResultsObject from "./createMobilePresortResultsObject";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
 const getDisplayGoodbyeMessage = (state) => state.displayGoodbyeMessage;
+const getMapObj = (state) => state.mapObj;
 
 const MobileSort = () => {
   const setCurrentPage = useStore(getSetCurrentPage);
   const setProgressScore = useStore(getSetProgressScore);
+  const mapObj = useSettingsStore(getMapObj);
   const langObj = useSettingsStore(getLangObj);
   const configObj = useSettingsStore(getConfigObj);
   const dateString = getCurrentDateTime();
@@ -29,17 +37,18 @@ const MobileSort = () => {
   // ***************
   // *** TEXT LOCALIZATION ***
   // ***************
-  const mobileSortTitleBar = ReactHtmlParser(
-    decodeHTML(langObj.mobileSortTitleBar)
-  );
-  const transferTextAbove =
-    ReactHtmlParser(decodeHTML(langObj.transferTextAbove)) || "";
-  const transferTextBelow =
-    ReactHtmlParser(decodeHTML(langObj.transferTextBelow)) || "";
-  const goodbyeMessage =
-    ReactHtmlParser(decodeHTML(langObj.goodbyeMessage)) || "";
-  const screenOrientationText =
-    ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
+  const mobileSortTitleBar = ReactHtmlParser(decodeHTML(langObj.mobileSortTitleBar));
+  const transferTextAbove = ReactHtmlParser(decodeHTML(langObj.transferTextAbove)) || "";
+  const transferTextBelow = ReactHtmlParser(decodeHTML(langObj.transferTextBelow)) || "";
+  const goodbyeMessage = ReactHtmlParser(decodeHTML(langObj.goodbyeMessage)) || "";
+  const screenOrientationText = ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
+
+  // PERSISTENT STATE - read in results if they exist in local storage
+  const resultsPresort = JSON.parse(localStorage.getItem("m_PresortResults")) || {};
+  const resultsSortObj = JSON.parse(localStorage.getItem("columnStatements")) || {};
+
+  const presortResults = createMobilePresortResultsObject(resultsPresort);
+  localStorage.setItem("resultsPresort", JSON.stringify(presortResults));
 
   // **********************
   // *** USE HOOKS ***************
@@ -62,31 +71,134 @@ const MobileSort = () => {
   // *******************
   // *** RESULTS PREP ***************
   // *******************
+
+  let baserowResults = {};
+
   let mobileTransmissionResults = {
     surveyFormat: "mobile",
     projectName: configObj.studyTitle || "my Q study",
+    randomId: localStorage.getItem("randomId") || uuid(),
     partId: localStorage.getItem("partId") || "no part ID",
-    randomId: localStorage.getItem("randomId") || "no random ID",
     urlUsercode: localStorage.getItem("urlUsercode") || "no usercode set",
     dateTime: dateString,
     // timeLanding: localStorage.getItem("timeOnlandingPage") || "not recorded",
-    timeLandingText:
-      localStorage.getItem("CumulativeTimelandingPage") || "not recorded",
+    timeLandingText: localStorage.getItem("CumulativeTimelandingPage") || "not recorded",
     // timePresort: localStorage.getItem("timeOnpresortPage") || "not recorded",
-    timePresortText:
-      localStorage.getItem("CumulativeTimepresortPage") || "not recorded",
+    timePresortText: localStorage.getItem("CumulativeTimepresortPage") || "not recorded",
     // timeThin: localStorage.getItem("timeOnThinPage") || "not recorded",
-    timeThinText:
-      localStorage.getItem("CumulativeTimethinPage") || "not recorded",
+    timeThinText: localStorage.getItem("CumulativeTimethinPage") || "not recorded",
     // timeSort: localStorage.getItem("timeOnsortPage") || "not recorded",
-    timeSortText:
-      localStorage.getItem("CumulativeTimesortPage") || "not recorded",
+    timeSortText: localStorage.getItem("CumulativeTimesortPage") || "not recorded",
   };
-  let resultsSurveyFromStorage = JSON.parse(
-    localStorage.getItem("resultsSurvey")
-  );
+
+  let resultsSurveyFromStorage = JSON.parse(localStorage.getItem("resultsSurvey"));
   if (resultsSurveyFromStorage === undefined) {
     resultsSurveyFromStorage = {};
+  }
+
+  let randomId = localStorage.getItem("randomId") || uuid();
+  let partId = localStorage.getItem("partId") || "no part ID";
+  let usercode = localStorage.getItem("usercode") || "no usercode set";
+
+  baserowResults["r1"] = randomId;
+  baserowResults["r2"] = configObj.studyTitle || "my Q study";
+  baserowResults["r3"] = `(partId) ${partId}`;
+  baserowResults["r4"] = `(urlUsercode) ${usercode}`;
+
+  let timeOnlandingPage = localStorage.getItem("timeOnlandingPage") || "00:00:00";
+  let timeOnpresortPage = localStorage.getItem("timeOnpresortPage") || "00:00:00";
+  let timeOnthinningPage = localStorage.getItem("timeOnthinningPage") || "00:00:00";
+  let timeOnsortPage = localStorage.getItem("timeOnsortPage") || "00:00:00";
+  let timeOnpostsortPage = localStorage.getItem("timeOnpostsortPage") || "00:00:00";
+  let timeOnsurveyPage = localStorage.getItem("timeOnsurveyPage") || "00:00:00";
+
+  baserowResults["r5"] = `(dateTime) ${dateString}`;
+  baserowResults["r6"] = `(timeOnWelcomePage) ${timeOnlandingPage}`;
+  baserowResults["r7"] = `(timeOnPresortPage) ${timeOnpresortPage}`;
+  baserowResults["r8"] = `(timeOnRefinePage) ${timeOnthinningPage}`;
+  baserowResults["r9"] = `(timeOnSortPage) ${timeOnsortPage}`;
+  baserowResults["r10"] = `(timeOnPostsortPage) ${timeOnpostsortPage}`;
+  baserowResults["r11"] = `(timeOnSurveyPage) ${timeOnsurveyPage}`;
+
+  try {
+    // creates r12 to r17 with presort results
+    const baserowObject = createBaserowObject();
+
+    baserowResults = {
+      ...baserowResults,
+      ...baserowObject,
+    };
+  } catch (error) {
+    console.log(error);
+    alert("4: " + error.message);
+  }
+
+  let baserowCounter = 20;
+
+  try {
+    // if project included POSTSORT, read in complete sorted results
+    if (configObj.showPostsort) {
+      const resultsPostsort = JSON.parse(localStorage.getItem("resultsPostsort")) || {};
+      const newPostsortObject = calculatePostsortResults(resultsPostsort, mapObj, configObj);
+      const keys = Object.keys(newPostsortObject);
+      for (let i = 0; i < keys.length; i++) {
+        // skip unnecessary entries
+        let skipText = keys[i].substring(0, 9);
+        if (skipText === "textArea-") {
+          continue;
+        }
+        baserowResults[`r${baserowCounter}`] = `${keys[i]}: ${newPostsortObject[keys[i]]}`;
+        baserowCounter++;
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    alert("5: " + error.message);
+  }
+
+  // ** IF SURVEY, read in results
+  try {
+    if (configObj.showSurvey && resultsSurveyFromStorage !== undefined) {
+      const keys = Object.keys(resultsSurveyFromStorage);
+      for (let i = 0; i < keys.length; i++) {
+        // skip unnecessary entries
+        baserowResults[`r${baserowCounter}`] = `${keys[i]}: ${resultsSurveyFromStorage[keys[i]]}`;
+        baserowCounter++;
+      }
+    }
+  } catch (error) {
+    console.log(error);
+    alert("6: " + error.message);
+  }
+
+  // let resultsSort;
+  let baserowSortResults;
+  try {
+    // *** SORT RESULTS to obtain consistent results object
+    if (
+      Object.keys(resultsSortObj).length !== 0 &&
+      resultsSortObj !== undefined &&
+      Object.keys(presortResults).length !== 0 &&
+      presortResults !== undefined
+    ) {
+      baserowSortResults = convertObjectToBaserowResults(
+        // all results
+        { ...resultsSortObj }
+      );
+    }
+  } catch (error) {
+    console.log(error);
+    alert("7: " + error.message);
+  }
+
+  try {
+    baserowResults = {
+      ...baserowResults,
+      ...baserowSortResults,
+    };
+  } catch (error) {
+    console.log(error);
+    alert("8: " + error.message);
   }
 
   // add postsort and survey times if they exist
@@ -109,13 +221,8 @@ const MobileSort = () => {
   }
 
   // get presort trace and sort results
-  let sortCharacteristicsArray = JSON.parse(
-    localStorage.getItem("m_SortCharacteristicsArray")
-  );
-  let formattedResults = calcPresortTraceAndSortResults(
-    sortResults,
-    sortCharacteristicsArray
-  );
+  let sortCharacteristicsArray = JSON.parse(localStorage.getItem("m_SortCharacteristicsArray"));
+  let formattedResults = calcPresortTraceAndSortResults(sortResults, sortCharacteristicsArray);
   mobileTransmissionResults = {
     ...mobileTransmissionResults,
     ...formattedResults,
@@ -123,9 +230,7 @@ const MobileSort = () => {
 
   // get postsort results
   if (configObj.showPostsort === true) {
-    let postsortResults = JSON.parse(
-      localStorage.getItem("m_PostSortResultsObj")
-    );
+    let postsortResults = JSON.parse(localStorage.getItem("m_PostSortResultsObj"));
     mobileTransmissionResults = {
       ...mobileTransmissionResults,
       ...postsortResults,
@@ -181,12 +286,10 @@ const MobileSort = () => {
 
   return (
     <>
-      <SortTitleBar background={configObj.headerBarColor}>
-        {mobileSortTitleBar}
-      </SortTitleBar>
+      <SortTitleBar background={configObj.headerBarColor}>{mobileSortTitleBar}</SortTitleBar>
       <MainContainer>
         <ContentDiv>{transferTextAbove}</ContentDiv>
-        <SubmitButton results={mobileTransmissionResults} />
+        <SubmitButtonBaserow results={baserowResults} />
         <ContentDiv>{transferTextBelow}</ContentDiv>
       </MainContainer>
     </>

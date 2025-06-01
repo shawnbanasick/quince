@@ -1,4 +1,4 @@
-const convertObjectToBaserowResults = (columnStatements, resultsPresort) => {
+const convertObjectToBaserowResults = (columnStatements) => {
   // columnStatements is an object with a key of vCols = sort results
   // resultsPresort is an object with keys posStateNums, neuStateNums, negStateNums
   // traceSorts (get all presort column values) is an object with keys of sortResults, sortResultsPresort, sortResultsTrace
@@ -11,24 +11,8 @@ const convertObjectToBaserowResults = (columnStatements, resultsPresort) => {
 
   const sortArray = [];
 
-  let posStateNums;
-  let neuStateNums;
-  let negStateNums;
-
-  if (resultsPresort !== undefined) {
-    let posStateNums2 = resultsPresort?.posStateNums;
-    let neuStateNums2 = resultsPresort?.neuStateNums;
-    let negStateNums2 = resultsPresort?.negStateNums;
-    posStateNums = posStateNums2.split(",");
-    neuStateNums = neuStateNums2.split(",");
-    negStateNums = negStateNums2.split(",");
-    posStateNums = posStateNums.filter((item) => item);
-    negStateNums = negStateNums.filter((item) => item);
-    neuStateNums = neuStateNums.filter((item) => item);
-  }
-  // old style loops for speed
-  //
   for (let i = 0; i < columnSortValues.length; i++) {
+    // iterate through each column sort value
     let tempArray1 = columnStatements?.vCols[columnSortValues[i]];
     let presortVal;
     // convert column key to column sort value
@@ -42,18 +26,16 @@ const convertObjectToBaserowResults = (columnStatements, resultsPresort) => {
     // push statement sort values into array
     for (let j = 0; j < tempArray1.length; j++) {
       let tempObject = {};
-      let statementNum2 = tempArray1[j].statementNum.toString();
-
       let statementNum = parseInt(tempArray1[j].statementNum, 10);
       tempObject.statement = statementNum;
       tempObject.sortValue = sortValue;
-      if (posStateNums.includes(statementNum2)) {
+      if (tempArray1[j].psValue > 0) {
         presortVal = "p";
       }
-      if (neuStateNums.includes(statementNum2)) {
+      if (tempArray1[j].psValue === 0) {
         presortVal = "u";
       }
-      if (negStateNums.includes(statementNum2)) {
+      if (tempArray1[j].psValue < 0) {
         presortVal = "n";
       }
       tempObject.presortVal = presortVal;
@@ -65,6 +47,8 @@ const convertObjectToBaserowResults = (columnStatements, resultsPresort) => {
   sortArray.sort((a, b) => {
     return a.statement - b.statement;
   });
+
+  console.log("sortArray", JSON.stringify(sortArray));
 
   // accumulate text string
   let resultsText = "";

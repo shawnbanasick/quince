@@ -68,6 +68,9 @@ const SubmitPage = () => {
   const resultsPresort = JSON.parse(localStorage.getItem("resultsPresort")) || {};
   const resultsSortObj = JSON.parse(localStorage.getItem("sortColumns")) || {};
 
+  console.log("resultsPresort", JSON.stringify(resultsPresort));
+  console.log("resultsSortObj", JSON.stringify(resultsSortObj));
+
   // config options
   const headerBarColor = configObj.headerBarColor;
   const dateString = getCurrentDateTime();
@@ -140,6 +143,7 @@ const SubmitPage = () => {
   }
 
   try {
+    // create r12 to r17 with presort results
     const presortObject = createPresortObject();
     const baserowObject = createBaserowObject();
 

@@ -1,7 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
-    /* *{
+* {
         margin: 0;
         padding: 0;
         outline:0;
@@ -10,7 +10,7 @@ export default createGlobalStyle`
     }
     #root{
         margin:0 auto;
-    } */
+    }
 :root                  { box-sizing: border-box; }
 *, *::before, *::after { box-sizing: inherit; }
 
@@ -50,12 +50,12 @@ html {
  */
 
 body {
-  /* margin: 0; */
-  /* height:calc(100vh-50px);  */
+  margin: 0; 
+   height:calc(100vh-50px); 
   /* overscroll-behavior: none; */
-   overflow: hidden;
-   width: 100lvw;
-  height: 100lvh;
+   /* overflow: hidden;
+   width: 100vw;
+  height: 100vh; */
 }
 
 /**

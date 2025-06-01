@@ -21,9 +21,9 @@ const createBaserowObject = () => {
     baserowObject["r13"] = `(numNeu): ${numNeu}`;
     baserowObject["r14"] = `(numNeg): ${numNeg}`;
 
-    baserowObject["r15"] = `(${numPos}): ${resultsPresort?.posStateNums || []}`;
-    baserowObject["r16"] = `(${numNeu}): ${resultsPresort?.neuStateNums || []}`;
-    baserowObject["r17"] = `(${numNeg}): ${resultsPresort?.negStateNums || []}`;
+    baserowObject["r15"] = `(pos): ${resultsPresort?.posStateNums || []}`;
+    baserowObject["r16"] = `(neu): ${resultsPresort?.neuStateNums || []}`;
+    baserowObject["r17"] = `(neg): ${resultsPresort?.negStateNums || []}`;
 
     // presortObject["npos"] = numPos;
     // presortObject["posStateNums"] = resultsPresort?.posStateNums || [];
