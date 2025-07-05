@@ -378,7 +378,8 @@ function PresortDND(props) {
         <div>{columns.pos.name}</div>
       </ColumnNamesPos>
       <DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
-        {Object.entries(columns).map(([columnId, column], index) => {
+        {/* {Object.entries(columns).map(([columnId, column], index) => { */}
+        {Object.entries(columns).map(([columnId, column]) => {
           return (
             <AllColWrapper key={columnId} id={`${columnId}Div`} className={`${columnId}Div`}>
               <ThreeColCardWrapper>

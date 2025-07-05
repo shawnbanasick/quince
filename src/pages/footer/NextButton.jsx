@@ -55,8 +55,8 @@ const NextButton = (props) => {
     // location,
     // match,
     // staticContext,
-    to,
-    onClick,
+    to = "/",
+    onClick = () => {},
     // ⬆ filtering out props that `button` doesn’t know what to do with.
     ...rest
   } = props;
@@ -197,10 +197,11 @@ const NextButton = (props) => {
 };
 export default withRouter(NextButton);
 
-NextButton.defaultProps = {
-  to: "/",
-  onClick: () => {},
-};
+// NextButton.defaultProps = {
+//   to: "/",
+//   onClick: () => {},
+// };
+
 NextButton.propTypes = {
   to: PropTypes.string,
   onClick: PropTypes.func,

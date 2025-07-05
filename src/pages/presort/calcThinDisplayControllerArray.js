@@ -4,9 +4,6 @@ const calcThinDisplayControllerArray = (
   sortRightArrays,
   sortLeftArrays
 ) => {
-  console.log(remainingNegCount, remainingPosCount);
-  console.log(sortRightArrays, sortLeftArrays);
-
   try {
     let totalNumPosItems = sortRightArrays.length;
     let totalNumNegItems = sortLeftArrays.length;
@@ -40,7 +37,6 @@ const calcThinDisplayControllerArray = (
         remainingNegCount = remainingNegCount - sortLeftArrays?.[i]?.[1];
       }
     }
-    console.log(JSON.stringify(thinDisplayControllerArray, null, 2));
     return thinDisplayControllerArray;
   } catch (e) {
     console.error(e);

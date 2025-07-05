@@ -44,7 +44,7 @@ const InstructionsText = styled.div`
 `;
 
 const RequiredStatementsText = styled.span`
-  width: 30vw;
+  width: 35vw;
   background-color: ${(props) => (props.selectedNum === props.maxNum ? "#ccffcc" : "#ffec8b")};
   padding: 5px;
   margin-top: 10px;
@@ -54,7 +54,7 @@ const RequiredStatementsText = styled.span`
 `;
 
 const CurrentlySelectedText = styled.span`
-  width: 30vw;
+  width: 35vw;
   background-color: ${(props) => {
     return props.selectedNum === props.maxNum
       ? "#ccffcc"

@@ -7,6 +7,7 @@ import useStore from "../../globalState/useStore";
 import MobileValueButton from "./MobileValueButton";
 import MobileStatementBox from "./MobileStatementBox";
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 const getLangObj = (state) => state.langObj;
 const getTriggerMobilePresortRedoModal = (state) => state.triggerMobilePresortRedoModal;
@@ -129,6 +130,11 @@ const MobilePresortRedoModal = (props) => {
       </ButtonContainer>
     </ReactModal>
   );
+};
+
+MobilePresortRedoModal.propTypes = {
+  clickFunction: PropTypes.func.isRequired,
+  statement: PropTypes.object.isRequired,
 };
 
 export default MobilePresortRedoModal;
