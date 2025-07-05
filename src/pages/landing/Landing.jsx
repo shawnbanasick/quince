@@ -111,8 +111,8 @@ const LandingPage = () => {
     localStorage.removeItem("currentLeftIteration");
     localStorage.removeItem("currentRightIteration");
     localStorage.removeItem("isNotReload");
-    localStorage.removeItem("sortRightArrays");
-    localStorage.removeItem("sortLeftArrays");
+    // localStorage.removeItem("sortRightArrays");
+    // localStorage.removeItem("sortLeftArrays");
     localStorage.removeItem("finalSortColData");
     localStorage.removeItem("posSorted");
     localStorage.removeItem("negSorted");
@@ -229,9 +229,15 @@ const LandingPage = () => {
 
     // **** LOCAL STATE ***** //
     let finalSortColData = createColumnData(headers, qSortPattern);
+
+    console.log(JSON.stringify(finalSortColData));
+
     localStorage.setItem("finalSortColData", JSON.stringify(finalSortColData));
 
     let rightLeftArrays = createRightLeftArrays([...finalSortColData], maxIterations);
+
+    console.log(JSON.stringify(rightLeftArrays));
+
     let sortRightArrays = [...rightLeftArrays[1]];
     let sortLeftArrays = [...rightLeftArrays[0]];
     localStorage.setItem("sortRightArrays", JSON.stringify(sortRightArrays));

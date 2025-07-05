@@ -26,7 +26,7 @@ const getPresortNoReturn = (state) => state.presortNoReturn;
 const getResetColumnStatements = (state) => state.resetColumnStatements;
 const getSetDisplayNextButton = (state) => state.setDisplayNextButton;
 
-const PresortPage = (props) => {
+const PresortPage = () => {
   // GLOBAL STATE
   const langObj = useSettingsStore(getLangObj);
   const configObj = useSettingsStore(getConfigObj);

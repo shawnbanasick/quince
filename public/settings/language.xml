@@ -107,7 +107,7 @@
         <!-- <item id="moveBottomMobileText">Move this statement to the bottom of the list?</item> -->
         <item id="moveAllTopMobileText">Move all selected statements to the top of the list?</item>
         <item id="moveTopMobileButtonOK">Yes</item>
-        <item id="moveTopMobileButtonCancel">Cancel</item>
+        <item id="mobileModalButtonCancel">Cancel</item>
         <!-- <item id="moveTopMobileTextAllTopInstruction">Move all selected (yellow-colored) statements to the top?</item> -->
         <item id="mobileThinConditionsOfInstruction">Refine Your Evaluations</item>
         <item id="mobileThinSubmitButtonText">Submit</item>

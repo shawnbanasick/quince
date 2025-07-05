@@ -3,6 +3,7 @@ import useStore from "../../globalState/useStore";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import decodeHTML from "../../utilities/decodeHTML";
 import ReactHtmlParser from "html-react-parser";
+import PropTypes from "prop-types";
 
 const getMobilePresortFontSize = (state) => state.mobilePresortFontSize;
 
@@ -12,8 +13,7 @@ const MobileStatementBox = (props) => {
   const mobilePresortFontSize = useStore(getMobilePresortFontSize);
   const langObj = useSettingsStore(getLangObj);
   let defautStatement =
-    ReactHtmlParser(decodeHTML(langObj?.mobilePresortEvaluationsComplete)) ||
-    "";
+    ReactHtmlParser(decodeHTML(langObj?.mobilePresortEvaluationsComplete)) || "";
 
   let statement = props.statement || defautStatement;
 
@@ -29,6 +29,12 @@ const MobileStatementBox = (props) => {
 };
 
 export default MobileStatementBox;
+
+MobileStatementBox.propTypes = {
+  backgroundColor: PropTypes.string.isRequired,
+  fontSize: PropTypes.number.isRequired,
+  statement: PropTypes.string,
+};
 
 const Container = styled.div`
   display: flex;

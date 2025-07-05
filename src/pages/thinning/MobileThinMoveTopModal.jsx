@@ -7,33 +7,23 @@ import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 
 const getLangObj = (state) => state.langObj;
-const getTriggerMobileThinMoveTopModal = (state) =>
-  state.triggerMobileThinMoveTopModal;
-const getSetTriggerMobileThinMoveTopModal = (state) =>
-  state.setTriggerMobileThinMoveTopModal;
+const getTriggerMobileThinMoveTopModal = (state) => state.triggerMobileThinMoveTopModal;
+const getSetTriggerMobileThinMoveTopModal = (state) => state.setTriggerMobileThinMoveTopModal;
 
 const MobileThinTopModal = (props) => {
   // *** STATE
   const langObj = useSettingsStore(getLangObj);
-  const triggerMobileThinMoveTopModal = useStore(
-    getTriggerMobileThinMoveTopModal
-  );
-  const setTriggerMobileThinMoveTopModal = useStore(
-    getSetTriggerMobileThinMoveTopModal
-  );
-  const moveTopMobileHead =
-    ReactHtmlParser(decodeHTML(langObj.moveTopMobileHead)) || "";
+  const triggerMobileThinMoveTopModal = useStore(getTriggerMobileThinMoveTopModal);
+  const setTriggerMobileThinMoveTopModal = useStore(getSetTriggerMobileThinMoveTopModal);
+  const moveTopMobileHead = ReactHtmlParser(decodeHTML(langObj.moveTopMobileHead)) || "";
 
   // *** LANGUAGE TRANSLATION *** //
   let moveTopMobileText = "";
 
-  moveTopMobileText =
-    ReactHtmlParser(decodeHTML(langObj.moveAllTopMobileText)) || "";
+  moveTopMobileText = ReactHtmlParser(decodeHTML(langObj.moveAllTopMobileText)) || "";
 
-  const okButtonText =
-    ReactHtmlParser(decodeHTML(langObj.moveTopMobileButtonOK)) || "";
-  const cancelButtonText =
-    ReactHtmlParser(decodeHTML(langObj.moveTopMobileButtonCancel)) || "";
+  const okButtonText = ReactHtmlParser(decodeHTML(langObj.moveTopMobileButtonOK)) || "";
+  const cancelButtonText = ReactHtmlParser(decodeHTML(langObj.mobileModalButtonCancel)) || "";
 
   const onCloseModal = () => {
     setTriggerMobileThinMoveTopModal(false);

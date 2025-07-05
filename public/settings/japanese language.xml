@@ -126,7 +126,7 @@
     <item id="moveBottomMobileText">このステートメントをリストの下部に移動しますか？</item>
     <item id="moveAllTopMobileText">選択したすべてのステートメントをリストの上部に移動しますか？</item>
     <item id="moveTopMobileButtonOK">はい</item>
-    <item id="moveTopMobileButtonCancel">キャンセル</item>
+    <item id="mobileModalButtonCancel">キャンセル</item>
     <!-- <item id="moveTopMobileTextAllTopInstruction">選択したすべての（黄色の）ステートメントを上部に移動しますか？</item> -->
     <item id="mobileThinConditionsOfInstruction">
     今年のグローバル・スタディーズの授業での経験に基づいてステートメントを評価を精緻化してください。</item>

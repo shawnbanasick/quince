@@ -42,7 +42,7 @@ const MobilePresortRedoModal = (props) => {
 
   const okButtonText =
     ReactHtmlParser(decodeHTML(langObj.mobilePresortRedoModalConfirmButton)) || "";
-  const cancelButtonText = ReactHtmlParser(decodeHTML(langObj.moveTopMobileButtonCancel)) || "";
+  const cancelButtonText = ReactHtmlParser(decodeHTML(langObj.mobileModalButtonCancel)) || "";
   const assignLeft = ReactHtmlParser(decodeHTML(langObj.mobilePresortAssignLeft)) || "";
   const assignRight = ReactHtmlParser(decodeHTML(langObj.mobilePresortAssignRight)) || "";
 

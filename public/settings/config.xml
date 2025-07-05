@@ -43,7 +43,7 @@
 
    <!-- ACCESS -->
    <!-- options: anonymous, partId-access, partId, access -->
-   <item id="initialScreen">anonymous</item>
+   <item id="initialScreen">partId-access</item>
    <item id="accessCode">demo</item>
 
    <!-- LEGACY DEFAULTS (do not change these)-->

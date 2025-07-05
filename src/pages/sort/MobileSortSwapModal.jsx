@@ -29,7 +29,7 @@ const MobileSortSwapModal = (props) => {
   // const loginHelpModalText =
   //   ReactHtmlParser(decodeHTML(langObj.mobileSortSwapModalText)) || "";
   const okButtonText = ReactHtmlParser(decodeHTML(langObj.mobileSortSwapModalConfirmButton)) || "";
-  const cancelButtonText = ReactHtmlParser(decodeHTML(langObj.moveTopMobileButtonCancel)) || "";
+  const cancelButtonText = ReactHtmlParser(decodeHTML(langObj.mobileModalButtonCancel)) || "";
 
   //   console.log(JSON.stringify(props));
 
