@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
@@ -6,6 +6,8 @@ import sanitizeString from "../../utilities/sanitizeString";
 import useLocalStorage from "../../utilities/useLocalStorage";
 
 const SurveyTextElement = (props) => {
+  console.log("SurveyTextElement props:", props);
+
   // HELPER FUNCTION
   const asyncLocalStorage = {
     async setItem(name, value) {
@@ -17,9 +19,9 @@ const SurveyTextElement = (props) => {
   // PROPS
   let questionId = `itemNum${props.opts.itemNum}`;
   const checkRequiredQuestionsComplete = props.check;
-  const labelText = ReactHtmlParser(decodeHTML(props.opts.label)) || "";
-  const placeholder = ReactHtmlParser(decodeHTML(props.opts.placeholder)) || "";
-  const noteText = ReactHtmlParser(decodeHTML(props.opts.note)) || "";
+  const labelText = ReactHtmlParser(decodeHTML(props?.opts?.label)) || "";
+  const placeholder = ReactHtmlParser(decodeHTML(props?.opts?.placeholder)) || "";
+  const noteText = ReactHtmlParser(decodeHTML(props?.opts?.note)) || "";
   let displayNoteText = true;
   if (noteText.length < 1 || noteText === "") {
     displayNoteText = false;

@@ -1,4 +1,8 @@
 const decodeHTML = (string) => {
+  if (string === undefined || string === null) {
+    return "";
+  }
+
   try {
     let shouldDoReplace = string.includes("{{{");
 

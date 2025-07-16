@@ -36,6 +36,7 @@ const SubmitResultsButton = (props) => {
   const setTriggerTransmissionOKModal = useStore(getSetTrigTransOKModal);
   // const setDisplaySubmitFallback = useStore(getSetDisplaySubmitFallback);
   const setDisplayGoodbyeMessage = useStore(getSetDisplayGoodbyeMessage);
+  const checkInternetMessage = ReactHtmlParser(decodeHTML(langObj.checkInternetMessage)) || "";
 
   const btnTransferText = ReactHtmlParser(decodeHTML(langObj.btnTransfer)) || "";
 
@@ -109,7 +110,7 @@ const SubmitResultsButton = (props) => {
           {btnTransferText}
         </StyledButton>
       )}
-      {checkInternetConnection && <WarningDiv>Check your internet connection</WarningDiv>}
+      {checkInternetConnection && <WarningDiv>{checkInternetMessage}</WarningDiv>}
     </React.Fragment>
   );
 };

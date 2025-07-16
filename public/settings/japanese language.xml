@@ -203,7 +203,7 @@
     <item id="placeholder">コメントを追加するにはここをクリック</item>
     <item id="postsortAgreement">同意に配置</item>
     <item id="postsortDisagreement">不同意に配置</item>
-    <item id="postsortModalHead">ステップ 3/4</item>
+    <item id="postsortModalHead">ステップ 4/5</item>
     <item id="postsortModalText">ページ下部のボタンを使用して、フォントサイズやカードの高さを変更できます。{{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/EFNlSiaEVVg?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/h3}}}{{{/center}}}</item>
     <item id="postsortPreventNavModalHead">ナビゲーション無効</item>
     <item id="postsortPreventNavModalText">次のステップに進む前に、すべてのカードにコメントを追加してください。</item>
@@ -218,7 +218,7 @@
 
     <!-- SURVEY: Additional questions, displayed if showStep4 == true -->
     <item id="surveyHeader">ポストソートアンケート</item>
-    <item id="surveyModalHead">ステップ 4/4</item>
+    <item id="surveyModalHead">ステップ 5/5</item>
     <item id="surveyModalText">最後に、あなたの背景に関する以下の質問にお答えください。タイトルに「*」が付いている質問は必須です。{{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/68MHzgLn1zg?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
     <item id="surveyPreventNavModalHead">ナビゲーション無効</item>
     <item id="surveyPreventNavModalText">次のステップに進む前に、必須の質問（黄色で囲まれたもの）にお答えください。</item>
