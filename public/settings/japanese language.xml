@@ -1,112 +1,91 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
-<language version="7.0.0" htmlParse="true">
+<language version="Qunicy 1.0.0" htmlParse="true">
 
-    <!-- MULTI-PURPOSE MODALS -->
-    <item id="stepCompleteMessage">このステップが完了しました。次のステップに進むには、画面右下の {{{strong}}} 青い「続ける」ボタン {{{/strong}}} をクリックしてください。</item>
-    <item id="logInFirst">まずログインプロセスを完了してください。</item>
+    <!-- 1. MULTI-PURPOSE MODALS -->
+    <item order="1-1" id="btnHelp">ヘルプ</item>
+    <item order="1-2" id="fontSizeText">文字サイズ</item>
+    <item order="1-3" id="cardHeightText">カードの高さ</item>
+    <item order="1-4" id="btnNext">続ける</item>
+    <item order="1-5" id="stepCompleteMessage">このステップが完了しました。次のステップに進むには、画面右下の {{{strong}}} 青い「続ける」ボタン {{{/strong}}} をクリックしてください。</item>
+    <item order="1-6" id="screenOrientationText">縦向きで使用してください！</item>
+    <item order="1-7" id="mobileTextSize">テキスト</item>
+    <item order="1-8" id="mobileViewSize">ビュー</item>
+    <item order="1-9" id="mobileModalButtonCancel">キャンセル</item>
+    <item order="1-10" id="expandViewMessage">下の「表示」ボタンをタップして表示領域を拡大し、このメッセージを非表示にします。</item>
 
-    <!-- MOBILE MULTI-PURPOSE  -->
-    <item id="screenOrientationText">縦向きで使用してください！</item>
+    <!-- 2. CONSENT: get permission from participants-->
+    <item order="2-1" id="consentTitleBarText">研究同意</item>
+    <item order="2-2" id="consentText">あなたは [Principal Investigator’s Name] が [Institution or Organization] で実施する研究に参加するよう招待されています。参加を決定する前に、研究がなぜ行われているのか、そしてそれが何を伴うのかを理解することが重要です。以下の情報を注意深く読んでください。質問がある場合は、研究チームにお問い合わせください。{{{br /}}}{{{br /}}}{{{b}}}研究の目的{{{/b}}}{{{br /}}}この研究の目的は [briefly describe the purpose, e.g., understand the effects of a new teaching method on student performance] です。この研究は [mention any broader implications or goals of the study] についての洞察を得るのに役立ちます。{{{br /}}}{{{br /}}}{{{b}}}研究手順{{{/b}}}{{{br /}}}参加に同意する場合、あなたは [describe the procedures involved, including what participants will do, how long it will take, and how frequently it will occur] を求められます。例えば、一連のステートメントを評価し、それをソートし、その後ソートについて反省するよう求められます。さらに、最後に短いアンケートがあります。研究は約 [duration, e.g., 45 minutes] かかります。{{{br /}}}{{{br /}}}{{{b}}}利益{{{/b}}}{{{br /}}}参加することによる直接的な利益はないかもしれませんが、この研究から得られる情報は [describe potential benefits, e.g., improve educational methods, contribute to scientific knowledge, etc.] に役立つかもしれません。また、 [describe any personal benefits, if applicable] についての個人的な洞察を得ることができるかもしれません。{{{br /}}}{{{br /}}}{{{b}}}機密保持{{{/b}}}{{{br /}}}この研究で収集されたすべての情報は厳密に機密として扱われます。データは安全に保管され、研究チームのみがアクセスできます。あなたの身元は、この研究の結果として作成される報告書や出版物には開示されません。 [Describe how data will be anonymized, encrypted, or stored securely]。{{{br /}}}{{{br /}}}{{{b}}}自発的な参加{{{/b}}}{{{br /}}}この研究への参加は完全に自発的です。参加を拒否することも、いつでもペナルティや利益の喪失なしに撤回することも自由です。撤回を決定した場合、ウェブページを閉じると、それまでに収集されたデータは削除されます。{{{br /}}}{{{br /}}}{{{b}}}同意{{{/b}}}{{{br /}}}このページの下部にある「同意する」ボタンをクリックすることで、提供された情報を読み、理解し、この研究に参加することに同意することを示しています。この研究について質問がある場合は、 [Principal Investigator’s Name and Contact Information] にお問い合わせください。</item>
+    <item order="2-3" id="consentHelpModalHead">連絡先情報</item>
+    <item order="2-4" id="consentHelpModalText">この大学研究プロジェクトにご参加いただきありがとうございます。電話（1-555-867-5309）またはメール（researchTeam@myMail.com）で研究チームに連絡できます。</item>
+    <item order="2-5" id="btnHelpConsent">連絡先情報</item>
+    <item order="2-6" id="btnNextConsent">同意する</item>
 
-    <!-- FOOTER -->
-    <item id="fontSizeText">文字サイズ</item>
-    <item id="cardHeightText">カードの高さ</item>
-    <item id="btnHelp">ヘルプ</item>
-    <item id="btnHelpLanding">ヘルプ</item>
-    <item id="btnHelpConsent">連絡先情報</item>
 
-    <item id="btnNext">続ける</item>
-    <item id="btnNextLanding">開始</item>
-    <item id="btnNextConsent">同意する</item>
+    <!-- 3. ACCESS CONTROL (LANDING) - only displayed if access is restricted -->
+    <item order="3-1" id="loginWelcomeText">{{{center}}}{{{h3}}}ようこそ！{{{/h3}}}{{{/center}}}{{{br}}} このQ方法論研究プロジェクトにご参加いただきありがとうございます。 {{{br}}}以下のフォームを使用して {{{strong}}}サインイン{{{/strong}}} してプロセスを開始してください。</item>
+    <item order="3-2" id="loginHeaderText">サインイン</item>
+    <item order="3-3" id="loginPartIdText">名前または参加者IDを入力してください</item>
+    <item order="3-4" id="accessCodeText">アクセスコード</item>
+    <item order="3-5" id="accessInputText">この調査のアクセスコードを入力してください。</item>
+    <item order="3-6" id="partIdWarning">名前またはIDが無効です</item>
+    <item order="3-7" id="accessCodeWarning">アクセスコードが無効です</item>
+    <item order="3-8" id="loginSubmitButtonText">送信</item>
+
+
     
-    <!-- MOBILE FOOTER -->
-    <item id="mobileTextSize">テキスト</item>
-    <item id="mobileViewSize">ビュー</item>
 
-    <!-- LANDING SCREEN -->
-    <item id="landingHead">グローバル・スタディーズ学科</item>
-    <item id="welcomeText">新設されたグローバル・スタディーズ学科の初年度に関する調査にご協力いただき、ありがとうございます。この調査は、学科のプログラムやサポート体制を改善し、今後の授業をより良いものにすることを目的としています。率直なご意見や感想をお聞かせいただけると幸いです。回答は匿名で扱われ、調査結果は統計的な目的でのみ使用されます。
-    {{{br /}}}{{{br/}}}この調査では、Q方法論の調査方法を使用しています。{{{br /}}}{{{br/}}}Q方法論（Q Methodology）は、個人の意見や価値観を深く理解するための調査手法です。この方法では、さまざまな意見や主張が書かれているカード（「Qステートメント」と呼ばれます）を参加者に見てもらい、それらを自分の考えに基づいて重要度や同意の度合いに従って並べ替えていただきます。並べ替えの結果は、自分がどのように考えているかを示すだけでなく、他の参加者との共通点や相違点を分析するためにも使われます。難しいルールはなく、自分自身の素直な感覚で取り組んでいただければ大丈夫です。すべての回答は匿名で扱われ、研究目的のみに使用されますので、安心してご参加ください。{{{br /}}}{{{br/}}}調査を開始する準備ができたら、右下にある「開始」ボタンをタップしてください。</item>
+    <!-- 4. WELCOME (LANDING) SCREEN -->
+    <item order="4-1" id="landingHead">グローバル・スタディーズ学科</item>
+    <item order="4-2" id="welcomeText">新設されたグローバル・スタディーズ学科の初年度に関する調査にご協力いただき、ありがとうございます。この調査は、学科のプログラムやサポート体制を改善し、今後の授業をより良いものにすることを目的としています。率直なご意見や感想をお聞かせいただけると幸いです。回答は匿名で扱われ、調査結果は統計的な目的でのみ使用されます。
+    {{{br /}}}{{{br/}}}この調査では、Q方法論の調査方法を使用しています。{{{br /}}}{{{br/}}}Q方法論（Q Methodology）は、個人の意見や価値観を深く理解するための調査手法です。この方法では、さまざまな意見や主張が書かれているカード（「Qステートメント」と呼ばれます）を参加者に見てもらい、それらを自分の考えに基づいて重要度や同意の度合いに従って並べ替えていただきます。並べ替えの結果は、自分がどのように考えているかを示すだけでなく、他の参加者との共通点や相違点を分析するためにも使われます。難しいルールはなく、自分自身の素直な感覚で取り組んでいただければ大丈夫です。すべての回答は匿名で扱われ、研究目的のみに使用されますので、安心してご参加ください。{{{br /}}}{{{br/}}}調査を開始する準備ができたら、右下にある「開始」ボタンをタップしてください。</item>    
+    <item order="4-3" id="landingHelpModalHead">ようこそ！</item>
+    <item order="4-4" id="landingHelpModalText">この大学研究プロジェクトにご参加いただきありがとうございます。画面右下の「{{{b}}}続ける{{{/b}}}」ボタンをクリックして次のステップに進んでください。</item>
+    <item order="4-5" id="btnNextLanding">開始</item>
+    <item order="4-6" id="btnHelpLanding">ヘルプ</item>
     
-    <!-- MOBILE LANDING SCREEN -->
-
-    <item id="mobileWelcomeText">新設されたグローバル・スタディーズ学科の初年度に関する調査にご協力いただき、ありがとうございます。この調査は、学科のプログラムやサポート体制を改善し、今後の授業をより良いものにすることを目的としています。率直なご意見や感想をお聞かせいただけると幸いです。回答は匿名で扱われ、調査結果は統計的な目的でのみ使用されます。
+    <!-- 5. MOBILE WELCOME (LANDING) SCREEN -->
+    <item order="5-1" id="mobileWelcomeText">新設されたグローバル・スタディーズ学科の初年度に関する調査にご協力いただき、ありがとうございます。この調査は、学科のプログラムやサポート体制を改善し、今後の授業をより良いものにすることを目的としています。率直なご意見や感想をお聞かせいただけると幸いです。回答は匿名で扱われ、調査結果は統計的な目的でのみ使用されます。
     {{{br /}}}{{{br/}}}この調査では、Q方法論の調査方法を使用しています。{{{br /}}}{{{br/}}}Q方法論（Q Methodology）は、個人の意見や価値観を深く理解するための調査手法です。この方法では、さまざまな意見や主張が書かれているカード（「Qステートメント」と呼ばれます）を参加者に見てもらい、それらを自分の考えに基づいて重要度や同意の度合いに従って並べ替えていただきます。並べ替えの結果は、自分がどのように考えているかを示すだけでなく、他の参加者との共通点や相違点を分析するためにも使われます。難しいルールはなく、自分自身の素直な感覚で取り組んでいただければ大丈夫です。すべての回答は匿名で扱われ、研究目的のみに使用されますので、安心してご参加ください。{{{br /}}}{{{br/}}}調査を開始する準備ができたら、右下にある「開始」ボタンをタップしてください。</item>
 
-    <!-- LANDING -> ACCESS CONTROL - only displayed if access is restricted -->
-    <item id="accessCodeText">アクセスコード</item>
-    <item id="accessInputText">この調査のアクセスコードを入力してください。</item>
-    <item id="loginSubmitButtonText">送信</item>
-    <item id="loginPartIdText">名前または参加者IDを入力してください</item>
-    <item id="accessCodeWarning">アクセスコードが無効です</item>
-    <item id="partIdWarning">名前またはIDが無効です</item>
-    <item id="loginHeaderText">サインイン</item>
-    <item id="loginWelcomeText">{{{center}}}{{{h3}}}ようこそ！{{{/h3}}}{{{/center}}}{{{br}}} このQ方法論研究プロジェクトにご参加いただきありがとうございます。 {{{br}}}以下のフォームを使用して {{{strong}}}サインイン{{{/strong}}} してプロセスを開始してください。</item>
-    <item id="landingHelpModalHead">ようこそ！</item>
-    <item id="landingHelpModalText">この大学研究プロジェクトにご参加いただきありがとうございます。画面右下の「{{{b}}}続ける{{{/b}}}」ボタンをクリックして次のステップに進んでください。</item>
 
-    <!-- LOCAL DATA COLLECTION -->  
-    <item id="localHeader">オフラインQソートコントロールパネル</item>
-    <item id="partIdText">参加者名</item>
-    <item id="usercodeText">ユーザーコード</item>
-    <item id="localStartButtonText">Qソートを開始</item>
-    <item id="localDeleteButtonText">削除</item>
-    <item id="localDownloadButtonText">Qソートデータをディスクに保存</item>
-    <item id="storedQsortsHeaderText">保存されたQソート</item>
-    <item id="localDeleteModalHead">ブラウザに保存されたデータを削除しますか？</item>
-    <item id="localDeleteModalText">これは現在ブラウザに保存されている参加者のQソートデータを削除します。通常、新しいプロジェクトを開始する際にのみこれを行います。{{{br}}}{{{br}}}{{{b}}}注意 - 削除されたデータは復元できません。{{{/b}}} {{{br}}}{{{br}}} {{{center}}}{{{/center}}}</item>
-    <item id="localParticipantsText">参加者</item>
-    <item id="localSaveBeforeDeleteModalHeader">削除無効</item>
-    <item id="localSaveBeforeDeleteModalText">削除する前にQソートデータをディスクに保存してください。</item>
-    <item id="localSaveDataButton">参加者データをブラウザメモリに保存</item>
-    <item id="localSubmitSuccessModalHeader">成功</item>
-    <item id="localSubmitSuccessModalText">参加者のQソートデータがブラウザメモリに正常に保存されました</item>
-    <item id="returnToLocalPanelButtonText">コントロールパネルに戻る</item>
 
-    <!-- CONSENT: get permission from participants-->
-    <item id="consentTitleBarText">研究同意</item>
-    <item id="consentText">あなたは [Principal Investigator’s Name] が [Institution or Organization] で実施する研究に参加するよう招待されています。参加を決定する前に、研究がなぜ行われているのか、そしてそれが何を伴うのかを理解することが重要です。以下の情報を注意深く読んでください。質問がある場合は、研究チームにお問い合わせください。{{{br /}}}{{{br /}}}{{{b}}}研究の目的{{{/b}}}{{{br /}}}この研究の目的は [briefly describe the purpose, e.g., understand the effects of a new teaching method on student performance] です。この研究は [mention any broader implications or goals of the study] についての洞察を得るのに役立ちます。{{{br /}}}{{{br /}}}{{{b}}}研究手順{{{/b}}}{{{br /}}}参加に同意する場合、あなたは [describe the procedures involved, including what participants will do, how long it will take, and how frequently it will occur] を求められます。例えば、一連のステートメントを評価し、それをソートし、その後ソートについて反省するよう求められます。さらに、最後に短いアンケートがあります。研究は約 [duration, e.g., 45 minutes] かかります。{{{br /}}}{{{br /}}}{{{b}}}利益{{{/b}}}{{{br /}}}参加することによる直接的な利益はないかもしれませんが、この研究から得られる情報は [describe potential benefits, e.g., improve educational methods, contribute to scientific knowledge, etc.] に役立つかもしれません。また、 [describe any personal benefits, if applicable] についての個人的な洞察を得ることができるかもしれません。{{{br /}}}{{{br /}}}{{{b}}}機密保持{{{/b}}}{{{br /}}}この研究で収集されたすべての情報は厳密に機密として扱われます。データは安全に保管され、研究チームのみがアクセスできます。あなたの身元は、この研究の結果として作成される報告書や出版物には開示されません。 [Describe how data will be anonymized, encrypted, or stored securely]。{{{br /}}}{{{br /}}}{{{b}}}自発的な参加{{{/b}}}{{{br /}}}この研究への参加は完全に自発的です。参加を拒否することも、いつでもペナルティや利益の喪失なしに撤回することも自由です。撤回を決定した場合、ウェブページを閉じると、それまでに収集されたデータは削除されます。{{{br /}}}{{{br /}}}{{{b}}}同意{{{/b}}}{{{br /}}}このページの下部にある「同意する」ボタンをクリックすることで、提供された情報を読み、理解し、この研究に参加することに同意することを示しています。この研究について質問がある場合は、 [Principal Investigator’s Name and Contact Information] にお問い合わせください。</item>
-    <item id="consentHelpModalHead">連絡先情報</item>
-    <item id="consentHelpModalText">この大学研究プロジェクトにご参加いただきありがとうございます。電話（1-555-867-5309）またはメール（researchTeam@myMail.com）で研究チームに連絡できます。</item>
 
     <!-- PRESORT: rough sorting into three piles (leave blank to skip popup)-->
-    <item id="titleBarText">予備ソート</item>
-    <!-- <item id="presortAgreement">同意 (3)</item> -->
-    <item id="presortAgreement">とても思う (3)</item>
-    <item id="presortStatements">文章</item>
-    <item id="presortNeutral">どちらでもない (2)</item>
-    <!-- <item id="presortNeutral">強い感情なし (2)</item> -->
-    <!-- <item id="presortDisagreement">不同意 (1)</item> -->
-    <item id="presortDisagreement">全く思わない (1)</item>
-    <item id="presortModalHead">ステップ 1/4</item>
-    <item id="presortModalText">以下のステートメントを注意深く読み、3つの山に分けてください：不同意するステートメントの山、同意するカードの山、残りのカードの山。後で変更することができます。{{{br/}}}{{{br/}}}この指示をもう一度読みたい場合は、左下のヘルプボタンをクリックしてください。{{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/vtnLuKzpcKQ?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
-    <item id="presortPreventNavModalHead">ナビゲーション無効</item>
-    <item id="presortPreventNavModalText">次のステップに進む前に予備ソートを完了してください。</item>
-    <item id="presortFinishedModalHead">予備ソート完了</item>
-    <item id="presortFinishedModalText">このステップが完了しました。次のステップに進むには、ページの右下にある「続ける」ボタンをクリックしてください。</item>
-    <item id="presortOnPageInstructions">{{{div style=&quot;font-size: 24px&quot;}}}カードをクリックしてドラッグするか、「1」、「2」、「3」キーを押してステートメントをソートしてください。{{{/div}}}</item>
-    <item id="presortImageSortInstructions">画像を拡大するには、マウスポインターを画像に合わせてダブルクリックしてください。 {{{br/}}}{{{br/}}} 画像を比較するには、{{{u}}}Shiftキーを押し続け{{{/u}}}、次にマウスで2つの画像をダブルクリックしてください。</item>
+    <item order="6-1" id="logInFirst">まずログインプロセスを完了してください。</item>
+    <item order="6-2" id="titleBarText">予備ソート</item>
+    <item order="6-3" id="presortAgreement">とても思う (3)</item>
+    <item order="6-4" id="presortNeutral">どちらでもない (2)</item>
+    <item order="6-5" id="presortDisagreement">全く思わない (1)</item>
+    <item order="6-6" id="presortStatements">文章</item>
+    <item order="6-7" id="presortOnPageInstructions">{{{div style=&quot;font-size: 24px&quot;}}}カードをクリックしてドラッグするか、「1」、「2」、「3」キーを押してステートメントをソートしてください。{{{/div}}}</item>
+    <item order="6-8" id="presortModalHead">ステップ 1/4</item>
+    <item order="6-9" id="presortModalText">以下のステートメントを注意深く読み、3つの山に分けてください：不同意するステートメントの山、同意するカードの山、残りのカードの山。後で変更することができます。{{{br/}}}{{{br/}}}この指示をもう一度読みたい場合は、左下のヘルプボタンをクリックしてください。{{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/vtnLuKzpcKQ?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
+    <item order="6-10" id="presortPreventNavModalHead">ナビゲーション無効</item>
+    <item order="6-11" id="presortPreventNavModalText">次のステップに進む前に予備ソートを完了してください。</item>
+    <item order="6-12" id="presortFinishedModalHead">予備ソート完了</item>
+    <item order="6-13" id="presortFinishedModalText">このステップが完了しました。次のステップに進むには、ページの右下にある「続ける」ボタンをクリックしてください。</item>
+    <item order="6-14" id="presortImageSortInstructions">画像を拡大するには、マウスポインターを画像に合わせてダブルクリックしてください。 {{{br/}}}{{{br/}}} 画像を比較するには、{{{u}}}Shiftキーを押し続け{{{/u}}}、次にマウスで2つの画像をダブルクリックしてください。</item>
   
-    <!-- MOBILE PRESORT:  -->
-    <item id="mobilePresortConditionsOfInstruction">今年のグローバル・スタディーズの授業での経験に基づいてステートメントを評価してください。</item>
-    <item id="mobilePresortCompletedLabel">評価完了</item>
-    <item id="mobilePresortAssignLeft">私の考えと異なる</item>
-    <item id="mobilePresortAssignRight">私の考えに似ている</item>
-    <item id="mobilePresortRedoModalHead">ステートメントを再評価</item>
-    <item id="mobilePresortRedoModalText">適切なアイコンをクリックしてください</item>
-    <item id="mobilePresortRedoModalConfirmButton">確認</item>
-    <item id="mobilePresortEvaluationsComplete">{{{div}}}{{{b}}}すべてのステートメントが評価されました。{{{/b}}} {{{br /}}}{{{br /}}}評価を確認してください。  {{{br /}}}{{{br /}}}{{{div}}}</item>
-    <item id="mobilePresortHelpModalHead">ステージ 1/5{{{br /}}}ステートメント評価</item>
-    <item id="mobilePresortHelpModalText">各ステートメントに値を割り当てるには、適切なボタンをタップしてください。 {{{br /}}}{{{br /}}} ステートメントが {{{b}}}自分の考えに近い{{{/b}}} と感じる場合は、緑の「+」ボタンをタップしてください。{{{br /}}}{{{br /}}} ステートメントが {{{b}}}自分の考えと異なる{{{/b}}} と感じる場合は、赤の「-」ボタンをタップしてください。 {{{br /}}}{{{br /}}}不明な場合は、「?」ボタンをタップしてください。 {{{br /}}}{{{br /}}} この調査には {{{b}}}33の文章{{{/b}}} があります。 {{{br /}}}{{{br /}}} 評価を {{{b}}}変更{{{/b}}} したい場合は、文章の横にある {{{b}}}再評価アイコン{{{/b}}}（下図）をタップしてください。{{{br/}}}{{{br/}}} {{{center}}}{{{img src="https://raw.githubusercontent.com/shawnbanasick/quince/5dec1c9752ddab34b3b5dabba5e2081efdabbc09/src/assets/redoArrow.svg"  width="30" /}}}{{{/center}}}{{{br/}}} また、{{{b}}}テキスト調整ボタン{{{/b}}}（下図）の隣にある「＋」または「-」ボタンをタップすることで、ステートメントの文字のサイズを調整することができる。{{{br/}}}{{{center}}}{{{br /}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/textAdjust.png?raw=true" /}}}{{{/center}}}{{{br/}}}{{{b}}}ビューエリア調整ボタン{{{/b}}}の隣にある「＋」または「-」ボタンをタップすることで、ビューエリアの高さを調整することができます（下図）。 {{{br/}}}{{{br/}}} {{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/viewAdjust.png?raw=true" /}}}{{{/center}}}{{{br /}}}ページ右上の「ヘルプアイコン」（下図）をタップすると、この情報を再度見ることができる。{{{br /}}}{{{br /}}}{{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/helpSymbol.png?raw=true" width="30"/}}}{{{br /}}}{{{br /}}}{{{mark}}}一番上に戻って右上の「X」を押してこのメッセージを消してから解答してください。{{{/mark}}}{{{/center}}}</item>
+    <!-- 7. MOBILE PRESORT:  -->
+    <item order="7-1" id="mobilePresortHelpModalHead">ステージ 1/5{{{br /}}}ステートメント評価</item>
+    <item order="7-2" id="mobilePresortHelpModalText">各ステートメントに値を割り当てるには、適切なボタンをタップしてください。 {{{br /}}}{{{br /}}} ステートメントが {{{b}}}自分の考えに近い{{{/b}}} と感じる場合は、緑の「+」ボタンをタップしてください。{{{br /}}}{{{br /}}} ステートメントが {{{b}}}自分の考えと異なる{{{/b}}} と感じる場合は、赤の「-」ボタンをタップしてください。 {{{br /}}}{{{br /}}}不明な場合は、「?」ボタンをタップしてください。 {{{br /}}}{{{br /}}} この調査には {{{b}}}33の文章{{{/b}}} があります。 {{{br /}}}{{{br /}}} 評価を {{{b}}}変更{{{/b}}} したい場合は、文章の横にある {{{b}}}再評価アイコン{{{/b}}}（下図）をタップしてください。{{{br/}}}{{{br/}}} {{{center}}}{{{img src="https://raw.githubusercontent.com/shawnbanasick/quince/5dec1c9752ddab34b3b5dabba5e2081efdabbc09/src/assets/redoArrow.svg"  width="30" /}}}{{{/center}}}{{{br/}}} また、{{{b}}}テキスト調整ボタン{{{/b}}}（下図）の隣にある「＋」または「-」ボタンをタップすることで、ステートメントの文字のサイズを調整することができる。{{{br/}}}{{{center}}}{{{br /}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/textAdjust.png?raw=true" /}}}{{{/center}}}{{{br/}}}{{{b}}}ビューエリア調整ボタン{{{/b}}}の隣にある「＋」または「-」ボタンをタップすることで、ビューエリアの高さを調整することができます（下図）。 {{{br/}}}{{{br/}}} {{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/viewAdjust.png?raw=true" /}}}{{{/center}}}{{{br /}}}ページ右上の「ヘルプアイコン」（下図）をタップすると、この情報を再度見ることができる。{{{br /}}}{{{br /}}}{{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/helpSymbol.png?raw=true" width="30"/}}}{{{br /}}}{{{br /}}}{{{mark}}}一番上に戻って右上の「X」を押してこのメッセージを消してから解答してください。{{{/mark}}}{{{/center}}}</item>
+    <item order="7-3" id="mobilePresortConditionsOfInstruction">今年のグローバル・スタディーズの授業での経験に基づいてステートメントを評価してください。</item>
+    <item order="7-4" id="mobilePresortCompletedLabel">評価完了</item>
+    <item order="7-5" id="mobilePresortAssignLeft">私の考えと異なる</item>
+    <item order="7-6" id="mobilePresortAssignRight">私の考えに似ている</item>
+    <item order="7-7" id="mobilePresortRedoModalHead">ステートメントを再評価</item>
+    <item order="7-8" id="mobilePresortRedoModalConfirmButton">確認</item>
+    <item order="7-9" id="mobilePresortEvaluationsComplete">{{{div}}}{{{b}}}すべてのステートメントが評価されました。{{{/b}}} {{{br /}}}{{{br /}}}評価を確認してください。  {{{br /}}}{{{br /}}}{{{div}}}</item>
+    <item order="7-10" id="mobilePresortFinishedModalHead">ステージ 1/5{{{br /}}}ステートメント評価</item>
+    <item order="7-11" id="mobilePresortFinishedModalText">評価プロセスが完了しました。 {{{br/}}}{{{br/}}} 評価を確認してください。  {{{br /}}}{{{br /}}}変更を加えたい場合は、ステートメントの左側にある「再評価」アイコンをタップしてください。{{{br /}}}{{{br /}}}すべての評価に満足したら、右下の {{{b}}}「続ける」{{{/b}}}ボタン をタップしてください。</item>
+    <item order="7-12" id="mobilePresortPreventNavModalHead">ナビゲーション無効</item>
+    <item order="7-13" id="mobilePresortPreventNavModalText">次の段階に進む前に評価を完了させてください。</item>
+    <item order="7-??" id="mobilePresortRedoModalText">適切なアイコンをクリックしてください</item>
+    <item order="7-??" id="mobilePresortProcessCompleteMessage">評価プロセスが完了しました。 {{{br/}}}{{{br/}}} 次のステージに進むには、右下の「ｔボタンをクリックしてください。</item>
     
-    <item id="mobilePresortFinishedModalHead">ステージ 1/5{{{br /}}}ステートメント評価</item>
-    <item id="mobilePresortFinishedModalText">評価プロセスが完了しました。 {{{br/}}}{{{br/}}} 評価を確認してください。  {{{br /}}}{{{br /}}}変更を加えたい場合は、ステートメントの左側にある「再評価」アイコンをタップしてください。{{{br /}}}{{{br /}}}すべての評価に満足したら、右下の {{{b}}}「続ける」{{{/b}}}ボタン をタップしてください。</item>
-    <item id="mobilePresortProcessCompleteMessage">評価プロセスが完了しました。 {{{br/}}}{{{br/}}} 次のステージに進むには、右下の「ｔボタンをクリックしてください。</item>
-    <item id="mobilePresortPreventNavModalHead">ナビゲーション無効</item>
-    <item id="mobilePresortPreventNavModalText">次の段階に進む前に評価を完了させてください。</item>
-    
-    <!-- THINNING:  -->
+    <!-- 8. THINNING:  -->
     <item id="thinningPreventNavModalHead">ナビゲーション無効</item>
     <item id="thinningPreventNavModalText">次のステップに進む前に精緻化プロセスを完了してください。</item>
     <item id="thinningConfirmModalHead">選択が不完全です</item>
@@ -126,7 +105,6 @@
     <item id="moveBottomMobileText">このステートメントをリストの下部に移動しますか？</item>
     <item id="moveAllTopMobileText">選択したすべてのステートメントをリストの上部に移動しますか？</item>
     <item id="moveTopMobileButtonOK">はい</item>
-    <item id="mobileModalButtonCancel">キャンセル</item>
     <!-- <item id="moveTopMobileTextAllTopInstruction">選択したすべての（黄色の）ステートメントを上部に移動しますか？</item> -->
     <item id="mobileThinConditionsOfInstruction">
     今年のグローバル・スタディーズの授業での経験に基づいてステートメントを評価を精緻化してください。</item>
@@ -256,5 +234,23 @@
     <!-- LINKING -->
     <item id="linkedProjectFallbackMessage">次のQソートを開始するにはボタンをクリックしてください</item>
     <item id="linkedProjectBtnMessage">次のQソートを開始</item>
+
+    <!-- LOCAL DATA COLLECTION -->  
+    <item id="localHeader">オフラインQソートコントロールパネル</item>
+    <item id="partIdText">参加者名</item>
+    <item id="usercodeText">ユーザーコード</item>
+    <item id="localStartButtonText">Qソートを開始</item>
+    <item id="localDeleteButtonText">削除</item>
+    <item id="localDownloadButtonText">Qソートデータをディスクに保存</item>
+    <item id="storedQsortsHeaderText">保存されたQソート</item>
+    <item id="localDeleteModalHead">ブラウザに保存されたデータを削除しますか？</item>
+    <item id="localDeleteModalText">これは現在ブラウザに保存されている参加者のQソートデータを削除します。通常、新しいプロジェクトを開始する際にのみこれを行います。{{{br}}}{{{br}}}{{{b}}}注意 - 削除されたデータは復元できません。{{{/b}}} {{{br}}}{{{br}}} {{{center}}}{{{/center}}}</item>
+    <item id="localParticipantsText">参加者</item>
+    <item id="localSaveBeforeDeleteModalHeader">削除無効</item>
+    <item id="localSaveBeforeDeleteModalText">削除する前にQソートデータをディスクに保存してください。</item>
+    <item id="localSaveDataButton">参加者データをブラウザメモリに保存</item>
+    <item id="localSubmitSuccessModalHeader">成功</item>
+    <item id="localSubmitSuccessModalText">参加者のQソートデータがブラウザメモリに正常に保存されました</item>
+    <item id="returnToLocalPanelButtonText">コントロールパネルに戻る</item>
 
 </language>
