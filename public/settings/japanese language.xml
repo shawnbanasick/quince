@@ -86,22 +86,30 @@
     <item order="7-??" id="mobilePresortProcessCompleteMessage">評価プロセスが完了しました。 {{{br/}}}{{{br/}}} 次のステージに進むには、右下の「ｔボタンをクリックしてください。</item>
     
     <!-- 8. THINNING:  -->
-    <item id="thinningPreventNavModalHead">ナビゲーション無効</item>
-    <item id="thinningPreventNavModalText">次のステップに進む前に精緻化プロセスを完了してください。</item>
-    <item id="thinningConfirmModalHead">選択が不完全です</item>
-    <item id="thinningConfirmModalText">必要な数のステートメントを選択してください。</item>
-    <item id="agreeMostText">次に、残りのステートメントで同意するものを選択してください。</item>
-    <item id="agreeLeastText">次に、残りのステートメントで同意しないものを選択してください。</item>
-    <item id="initialInstructionPart1">以下は前のステップで肯定的に評価したステートメントです。今度は、最も {{{b}}}同意する{{{/b}}} ステートメントを選択してください。{{{br /}}}{{{br /}}}</item>
-    <item id="initialInstructionPart2">次に、自分の考えに最も近いステートメントを選択し続けてください</item>
-    <item id="initialInstructionPart3">オレンジ色の「送信」ボタンをクリックすると、別のセットのステートメントが画面に表示されます。</item>
-    <item id="finalInstructions">精緻化プロセスが完了しました。次のステージに進むには、右下のナビゲーションボタンをクリックしてください。</item>
+    <item order="8-1" id="thinningHelpModalHead">評価の精緻化</item>
+    <item order="8-2" id="thinningHelpModalText">前回の段階で評価した陈述文をもう一度ご確認ください。その中で、ご自身の見解を最も適切に表現しているものを選択してください。</item>
+    <item order="8-3" id="thinPageTitle">評価の精緻化</item>
+    <item order="8-4" id="thinPageSubmitButton">送信</item>
+    <item order="8-5" id="numStatementsToSelect">選択するステートメントの数</item>
+    <item order="8-6" id="currentlySelectedNumber">現在選択されている文の数</item>
+    <item order="8-7" id="initialInstructionPart1">以下の項目は、前のステップで肯定的に評価したものです。次に、最も同意する項目の数を {{{mark}}}{{{b}}}最も同意する{{{/b}}}{{{/mark}}} で選択してください。</item>
+    <item order="8-8" id="initialInstructionPart2">次に、自分の考えに最も近いステートメントを選択し続けてください</item>
+    <item order="8-9" id="initialInstructionPart3">オレンジ色の「送信」ボタンをクリックすると、別のセットのステートメントが画面に表示されます。</item>
+    <item order="8-10" id="initialInstructionPartNeg1">以下の項目は、前のステップでポジティブに評価したものです。次に、{{{mark}}}{{{b}}}あなたの視点から最も異なる{{{/b}}}{{{/mark}}}項目を選択してください。</item>
+    <item order="8-11" id="initialInstructionPartNeg2">次に、ご自身の見解から最も異なる陈述文を選択し続けてください。</item>
+    <item order="8-12" id="finalInstructions">精緻化プロセスが完了しました。次のステージに進むには、右下のナビゲーションボタンをクリックしてください。</item>
+    <item order="8-13" id="thinningPreventNavModalHead">ナビゲーション無効</item>
+    <item order="8-14" id="thinningPreventNavModalText">次のステップに進む前に精緻化プロセスを完了してください。</item>
+    <!-- <item order="8-7" id="thinningConfirmModalHead">選択が不完全です</item>
+    <item order="8-7" id="thinningConfirmModalText">必要な数のステートメントを選択してください。</item>
+    <item order="8-7" id="agreeMostText">次に、残りのステートメントで同意するものを選択してください。</item>
+    <item order="8-7" id="agreeLeastText">次に、残りのステートメントで同意しないものを選択してください。</item> -->
+    <!-- <item order="8-7" id="initialInstructionPart1">以下は前のステップで肯定的に評価したステートメントです。今度は、最も {{{b}}}同意する{{{/b}}} ステートメントを選択してください。{{{br /}}}{{{br /}}}</item> -->
 
 
-    <!-- MOBILE THINNING:  -->
+    <!-- 9. MOBILE THINNING:  -->
     <item id="moveTopMobileHead">移動を確認</item>
     <item id="moveTopMobileText">このステートメントをリストの上部に移動しますか？</item>
-
     <item id="moveBottomMobileText">このステートメントをリストの下部に移動しますか？</item>
     <item id="moveAllTopMobileText">選択したすべてのステートメントをリストの上部に移動しますか？</item>
     <item id="moveTopMobileButtonOK">はい</item>
