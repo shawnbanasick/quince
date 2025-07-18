@@ -108,6 +108,15 @@
 
 
     <!-- 9. MOBILE THINNING:  -->
+    <item order="9-1" id="mobileThinHelpModalHead">評価を精緻化してください</item>
+    <item order="9-2" id="mobileThinHelpModalText">このステージでは、評価したステートメントを {{{b}}}見直し{{{/b}}}、自分の考えに最も近いまたは最も異なるものを選択するよう求められます。{{{br/}}}{{{br/}}}すべてのステートメントを見るために {{{b}}}スクロール{{{/b}}} する必要があるかもしれません。{{{br/}}}{{{br/}}}ステートメントを {{{b}}}選択する{{{/b}}} には、ステートメントコンテナをタップしてください。ステートメントの色が黄色に変わります。{{{br/}}}{{{br/}}}
+    {{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/selectedStatement.png?raw=true" width="300" /}}}{{{/center}}}{{{br/}}}{{{br/}}}
+    正しい数のステートメントを選択すると、「提出」ボタンが {{{b}}}青色{{{/b}}} に変わります。{{{br/}}}{{{br/}}}
+    {{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/selectedNum.png?raw=true" width="300" /}}}{{{/center}}}{{{/b}}}{{{br/}}}
+    {{{b}}}ヒント{{{/b}}}{{{br/}}}
+    ステートメントを比較しやすくするために、ステートメントの右または左側にある上下の矢印をタップして {{{b}}}並べ替える{{{/b}}} ことができます。
+    {{{br/}}}{{{br/}}}{{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/upDownArrows.png?raw=true" width="300" /}}}{{{/center}}}
+    {{{br/}}}また、ステートメントの右側にある上の矢印を長押し（約1秒）することで、選択したステートメント（青色）のグループを{{{b}}}リストの上部に 移動{{{/b}}} することもできます。 {{{br/}}} {{{br/}}}{{{center}}}{{{img src=" https://github.com/shawnbanasick/quince/blob/development/src/assets/moveTop2.png?raw=true" width="300"/}}}{{{br /}}}{{{br /}}}{{{mark}}}一番上に戻って右上の「X」を押してこのメッセージを消してから解答してください。{{{/mark}}}{{{/center}}}</item>
     <item id="moveTopMobileHead">移動を確認</item>
     <item id="moveTopMobileText">このステートメントをリストの上部に移動しますか？</item>
     <item id="moveBottomMobileText">このステートメントをリストの下部に移動しますか？</item>
@@ -117,15 +126,6 @@
     <item id="mobileThinConditionsOfInstruction">
     今年のグローバル・スタディーズの授業での経験に基づいてステートメントを評価を精緻化してください。</item>
     <item id="mobileThinSubmitButtonText">送信</item>
-    <item id="mobileThinHelpModalHead">評価を精緻化してください</item>
-    <item id="mobileThinHelpModalText">このステージでは、評価したステートメントを {{{b}}}見直し{{{/b}}}、自分の考えに最も近いまたは最も異なるものを選択するよう求められます。{{{br/}}}{{{br/}}}すべてのステートメントを見るために {{{b}}}スクロール{{{/b}}} する必要があるかもしれません。{{{br/}}}{{{br/}}}ステートメントを {{{b}}}選択する{{{/b}}} には、ステートメントコンテナをタップしてください。ステートメントの色が黄色に変わります。{{{br/}}}{{{br/}}}
-    {{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/selectedStatement.png?raw=true" width="300" /}}}{{{/center}}}{{{br/}}}{{{br/}}}
-    正しい数のステートメントを選択すると、「提出」ボタンが {{{b}}}青色{{{/b}}} に変わります。{{{br/}}}{{{br/}}}
-    {{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/selectedNum.png?raw=true" width="300" /}}}{{{/center}}}{{{/b}}}{{{br/}}}
-    {{{b}}}ヒント{{{/b}}}{{{br/}}}
-    ステートメントを比較しやすくするために、ステートメントの右または左側にある上下の矢印をタップして {{{b}}}並べ替える{{{/b}}} ことができます。
-    {{{br/}}}{{{br/}}}{{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/upDownArrows.png?raw=true" width="300" /}}}{{{/center}}}
-    {{{br/}}}また、ステートメントの右側にある上の矢印を長押し（約1秒）することで、選択したステートメント（青色）のグループを{{{b}}}リストの上部に 移動{{{/b}}} することもできます。 {{{br/}}} {{{br/}}}{{{center}}}{{{img src=" https://github.com/shawnbanasick/quince/blob/development/src/assets/moveTop2.png?raw=true" width="300"/}}}{{{br /}}}{{{br /}}}{{{mark}}}一番上に戻って右上の「X」を押してこのメッセージを消してから解答してください。{{{/mark}}}{{{/center}}}</item>
     <item id="mobileThinPreventNavModalHead">ナビゲーション無効</item>
     <item id="mobileThinPreventNavModalText">次のページに進む前に精緻化プロセスを完了してください。</item>
     <item id="mobileThinProcessCompleteMessage">精緻化プロセスが完了しました。{{{br/}}}{{{br/}}}次のステージに進むには、右下の「続ける」ボタンをクリックしてください。</item>
