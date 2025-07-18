@@ -130,117 +130,117 @@
 
 
         <!-- 10. SORT: sorting -->
-        <item id="sortHelpModalHead">Step 3 of 5</item>
-        <item id="sortHelpModalText">In this step, please click and drag the statement cards to the appropriate column based on your perspective and the researcher&apos;s instructions at the top of the page. {{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/iRxC9Vv3dLo?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
-        <item id="sortAgreement">Agree</item>
-        <item id="sortDisagreement">Disagree</item>
-        <item id="condOfInst">Sort the cards according to your experience with the iPads this semester</item>
-        <item id="sortingCompleteModalHead">Sorting Complete</item>
-        <item id="sortingCompleteModalText">You have completed the initial sorting. Please take a moment to confirm your placement of the cards.{{{br/}}}{{{br/}}}When you are satisfied with their placement, please click on the {{{b}}}blue &quot;Continue&quot; button{{{/b}}} at the bottom right-side of your screen to go to the next step.</item>
-        <item id="sortPreventNavModalHead">Navigation Disabled</item>
-        <item id="sortPreventNavModalText">Please finish the grid sorting before going to the next step.</item>
-        <item id="sortOverloadedColumnModalHead">Navigation Disabled</item>
-        <item id="sortOverloadedColumnModalText">One of the columns has too many cards (it will be outlined in orange and have a dashed border). Please adjust the placement of the cards so that all columns have the correct number.</item>
+        <item order="10-1" id="sortHelpModalHead">Step 3 of 5</item>
+        <item order="10-1" id="sortHelpModalText">In this step, please click and drag the statement cards to the appropriate column based on your perspective and the researcher&apos;s instructions at the top of the page. {{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/iRxC9Vv3dLo?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
+        <item order="10-1" id="sortAgreement">Agree</item>
+        <item order="10-1" id="sortDisagreement">Disagree</item>
+        <item order="10-1" id="condOfInst">Sort the cards according to your experience with the iPads this semester</item>
+        <item order="10-1" id="sortingCompleteModalHead">Sorting Complete</item>
+        <item order="10-1" id="sortingCompleteModalText">You have completed the initial sorting. Please take a moment to confirm your placement of the cards.{{{br/}}}{{{br/}}}When you are satisfied with their placement, please click on the {{{b}}}blue &quot;Continue&quot; button{{{/b}}} at the bottom right-side of your screen to go to the next step.</item>
+        <item order="10-1" id="sortPreventNavModalHead">Navigation Disabled</item>
+        <item order="10-1" id="sortPreventNavModalText">Please finish the grid sorting before going to the next step.</item>
+        <item order="10-1" id="sortOverloadedColumnModalHead">Navigation Disabled</item>
+        <item order="10-1" id="sortOverloadedColumnModalText">One of the columns has too many cards (it will be outlined in orange and have a dashed border). Please adjust the placement of the cards so that all columns have the correct number.</item>
 
         <!-- 11. MOBILE SORT: sorting -->
-        <item id="mobileSortSwapModalHead">Swap Statement Rankings?</item>
-        <item id="mobileSortSwapModalText">Click "Confirm" to swap.</item>
-        <item id="mobileSortSwapModalConfirmButton">Swap</item>
-        <item id="mobileSortConditionsOfInstruction">Rank the Statements According to Your Experience of using the iPads in the Class</item>
-        <item id="mobileSortHelpModalHead">Stage 3 of 5{{{br/}}} Final Statement Ranking</item>
-        <item id="mobileSortHelpModalText">The statements have been ranked based on your previous evaluations.{{{br/}}}{{{br/}}} Those statements that are closest to your perspective should be at the top of the view area in the darker green colored sections.{{{br /}}}{{{center}}}{{{br /}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/GroupColors.png?raw=true"  width="150"/}}}{{{/center}}}{{{br /}}}Those that are farthest from your perspective should be at the bottom of the list in the darker red colored sections.{{{br/}}}{{{br/}}}You will need to {{{b}}}scroll down{{{/b}}} to see all of the statements.{{{br/}}}{{{br/}}}Please {{{b}}}review the rankings{{{/b}}} and make any necessary changes to the ranking of the statements so that the ordering {{{b}}}accurately reflects your perspective{{{/b}}}. {{{br/}}}{{{br/}}}{{{mark}}}This is the most critical stage of the survey, so please review the statement rankings carefully and change the positions of the statements if necessary.{{{/mark}}}{{{br/}}}{{{br/}}}  
+        <item order="11-1" id="mobileSortSwapModalHead">Swap Statement Rankings?</item>
+        <item order="11-1" id="mobileSortSwapModalText">Click "Confirm" to swap.</item>
+        <item order="11-1" id="mobileSortSwapModalConfirmButton">Swap</item>
+        <item order="11-1" id="mobileSortConditionsOfInstruction">Rank the Statements According to Your Experience of using the iPads in the Class</item>
+        <item order="11-1" id="mobileSortHelpModalHead">Stage 3 of 5{{{br/}}} Final Statement Ranking</item>
+        <item order="11-1" id="mobileSortHelpModalText">The statements have been ranked based on your previous evaluations.{{{br/}}}{{{br/}}} Those statements that are closest to your perspective should be at the top of the view area in the darker green colored sections.{{{br /}}}{{{center}}}{{{br /}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/GroupColors.png?raw=true"  width="150"/}}}{{{/center}}}{{{br /}}}Those that are farthest from your perspective should be at the bottom of the list in the darker red colored sections.{{{br/}}}{{{br/}}}You will need to {{{b}}}scroll down{{{/b}}} to see all of the statements.{{{br/}}}{{{br/}}}Please {{{b}}}review the rankings{{{/b}}} and make any necessary changes to the ranking of the statements so that the ordering {{{b}}}accurately reflects your perspective{{{/b}}}. {{{br/}}}{{{br/}}}{{{mark}}}This is the most critical stage of the survey, so please review the statement rankings carefully and change the positions of the statements if necessary.{{{/mark}}}{{{br/}}}{{{br/}}}  
         To {{{b}}}swap the positions of neighboring statements{{{/b}}}, tap the up or down arrows on the right or left side of the statement.{{{br /}}}{{{br /}}}{{{center}}}{{{br /}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/sortUpDownArrows.svg?raw=true"  width="250"/}}}{{{/center}}}{{{br /}}}{{{br /}}}To {{{b}}}swap the positions of statements that are separated{{{/b}}}, tap the statement boxes to select the two statements (the statement color will change to yellow) and a swap confirmation message will automatically appear.{{{br/}}}
         
         {{{br /}}}{{{center}}}{{{br /}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/sortSwap.svg?raw=true"  width="250"/}}}{{{/center}}}{{{br /}}}
         
         {{{br/}}}Tap the "Swap" button to confirm the swap. If you tap the "Cancel" button, the statements will remain in their original positions. {{{br/}}}{{{br/}}}When you are satisfied with all of the statement rankings, tap the "Continue" button on the bottom right.{{{br/}}}{{{br/}}}
         If you want to see these instructions again, tap the "?" button at the top of the main page.{{{br /}}}{{{br /}}}{{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/helpSymbol.png?raw=true" width="30"/}}}</item>
-        <item id="mobileSortScrollBottomModalHead">Navigation Disabled</item>
-        <item id="mobileSortScrollBottomModalText">Please scroll to the bottom and review the ranking of all the statements before going to the next stage.</item>
+        <item order="11-1" id="mobileSortScrollBottomModalHead">Navigation Disabled</item>
+        <item order="11-1" id="mobileSortScrollBottomModalText">Please scroll to the bottom and review the ranking of all the statements before going to the next stage.</item>
         
 
         <!-- 12. POSTSORT: comments - only displayed if showStep3 = true -->
-        <item id="postsortHeader">Post-Sort Comments</item>
-        <item id="postsortInstructions">{{{h3}}}Please describe your thoughts about these statements in more detail.{{{/h3}}}</item>
-        <item id="placeholder">Click here to add comment</item>
-        <item id="postsortAgreement">Placed on Agree</item>
-        <item id="postsortDisagreement">Placed on Disagree</item>
-        <item id="postsortModalHead">Step 4 of 5</item>
-        <item id="postsortModalText">You can use the buttons at the bottom of the page to change the font size or card height.{{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/EFNlSiaEVVg?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/h3}}}{{{/center}}}</item>
-        <item id="postsortPreventNavModalHead">Navigation Disabled</item>
-        <item id="postsortPreventNavModalText">Please add comments to all of the cards before going to the next step.</item>
-        <item id="postsortBackButtonText">Go Back</item>
+        <item order="12-1" id="postsortHeader">Post-Sort Comments</item>
+        <item order="12-1" id="postsortInstructions">{{{h3}}}Please describe your thoughts about these statements in more detail.{{{/h3}}}</item>
+        <item order="12-1" id="placeholder">Click here to add comment</item>
+        <item order="12-1" id="postsortAgreement">Placed on Agree</item>
+        <item order="12-1" id="postsortDisagreement">Placed on Disagree</item>
+        <item order="12-1" id="postsortModalHead">Step 4 of 5</item>
+        <item order="12-1" id="postsortModalText">You can use the buttons at the bottom of the page to change the font size or card height.{{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/EFNlSiaEVVg?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/h3}}}{{{/center}}}</item>
+        <item order="12-1" id="postsortPreventNavModalHead">Navigation Disabled</item>
+        <item order="12-1" id="postsortPreventNavModalText">Please add comments to all of the cards before going to the next step.</item>
+        <item order="12-1" id="postsortBackButtonText">Go Back</item>
 
 
         <!-- 13. MOBILE POSTSORT: comments - displayed if showStep3 = true -->
-        <item id="mobilePostsortPreventNavModalHead">Navigation Disabled</item>
-        <item id="mobilePostsortPreventNavModalText">Please add comments to all of the statements before going to the next step.</item>
-        <item id="mobilePostsortSortbarText">Post-Ranking Comments</item>
-        <item id="mobilePostsortHelpModalHead">Stage 4 of 5{{{br/}}} Post-Ranking Comments</item>
-        <item id="mobilePostsortHelpModalText">Please comment on your rankings of these statements.</item>
+        <item order="13-1" id="mobilePostsortPreventNavModalHead">Navigation Disabled</item>
+        <item order="13-1" id="mobilePostsortPreventNavModalText">Please add comments to all of the statements before going to the next step.</item>
+        <item order="13-1" id="mobilePostsortSortbarText">Post-Ranking Comments</item>
+        <item order="13-1" id="mobilePostsortHelpModalHead">Stage 4 of 5{{{br/}}} Post-Ranking Comments</item>
+        <item order="13-1" id="mobilePostsortHelpModalText">Please comment on your rankings of these statements.</item>
         
 
         <!-- 14. SURVEY: Additional questions, displayed if showStep4 == true -->
-        <item id="surveyHeader">Post-Ranking Questionnaire</item>
-        <item id="surveyModalHead">Step 5 of 5</item>
-        <item id="surveyModalText">Finally, please answer the following questions regarding your background. The questions marked with an &quot;*&quot; in their title are required.{{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/68MHzgLn1zg?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
-        <item id="surveyPreventNavModalHead">Navigation Disabled</item>
-        <item id="surveyPreventNavModalText">Please answer the required questions (outlined in yellow) before going to the next step.</item>
+        <item order="14-1" id="surveyHeader">Post-Ranking Questionnaire</item>
+        <item order="14-1" id="surveyModalHead">Step 5 of 5</item>
+        <item order="14-1" id="surveyModalText">Finally, please answer the following questions regarding your background. The questions marked with an &quot;*&quot; in their title are required.{{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/68MHzgLn1zg?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
+        <item order="14-1" id="surveyPreventNavModalHead">Navigation Disabled</item>
+        <item order="14-1" id="surveyPreventNavModalText">Please answer the required questions (outlined in yellow) before going to the next step.</item>
        
         <!-- 15. MOBILE SURVEY: questions displayed if showStep4 == true -->
-        <item id="mobileSurveyHelpModalHead">Stage 5 of 5{{{br/}}} Post-Ranking Questionnaire</item>
-        <item id="mobileSurveyHelpModalText">Please answer these background questions. {{{br /}}}{{{br /}}}Some of the questions may require that you provide an answer before you can go to the final step.</item>
-        <item id="mobileSurveyBackButtonText">Go Back</item>
+        <item order="15-1" id="mobileSurveyHelpModalHead">Stage 5 of 5{{{br/}}} Post-Ranking Questionnaire</item>
+        <item order="15-1" id="mobileSurveyHelpModalText">Please answer these background questions. {{{br /}}}{{{br /}}}Some of the questions may require that you provide an answer before you can go to the final step.</item>
+        <item order="15-1" id="mobileSurveyBackButtonText">Go Back</item>
 
        
         <!-- 16. SUBMIT -->
-        <item id="btnTransfer">Submit Data</item>
-        <item id="transferHead">Final Step</item>
-        <item id="transferTextAbove">{{{h1}}}Ready to Submit{{{/h1}}}{{{br/}}}{{{br/}}} {{{h2}}}Please click the &quot;Submit Data&quot; button to transmit your results.{{{/h2}}}</item>
-        <item id="transferTextBelow">If the submission confirmation message does not appear, {{{br/}}}please wait a few minutes and click the submit button again.</item>
-        <item id="transferOkModalHeader">Success - The data have been sent to the server.</item>   
-        <item id="transferOkModalText">Thank you for using Quincy!{{{br/}}}{{{br/}}}You can now close your browser tab.</item>
-        <item id="transferFailModalHeader">Connection to server failed</item>   
-        <item id="transferFailModalText">Please try again in a few moments.</item>   
-        <item id="fallbackMessage">Data transmission has failed. Please download the results and email them as an attachment to ken.q.tools@gmail.com. Thank you!</item>   
-        <item id="btnDownload">Download</item>   
-        <item id="goodbyeMessage">{{{div}}}Thank You!{{{/div}}} {{{br/}}}{{{div}}}You can now close the browser tab{{{/div}}}</item>   
-        <item id="checkInternetMessage">*** Error - Transmission Failure *** {{{br/}}} Please check your internet connection and click the "Submit Data" button again.</item>   
+        <item order="16-1" id="btnTransfer">Submit Data</item>
+        <item order="16-1" id="transferHead">Final Step</item>
+        <item order="16-1" id="transferTextAbove">{{{h1}}}Ready to Submit{{{/h1}}}{{{br/}}}{{{br/}}} {{{h2}}}Please click the &quot;Submit Data&quot; button to transmit your results.{{{/h2}}}</item>
+        <item order="16-1" id="transferTextBelow">If the submission confirmation message does not appear, {{{br/}}}please wait a few minutes and click the submit button again.</item>
+        <item order="16-1" id="transferOkModalHeader">Success - The data have been sent to the server.</item>   
+        <item order="16-1" id="transferOkModalText">Thank you for using Quincy!{{{br/}}}{{{br/}}}You can now close your browser tab.</item>
+        <item order="16-1" id="transferFailModalHeader">Connection to server failed</item>   
+        <item order="16-1" id="transferFailModalText">Please try again in a few moments.</item>   
+        <item order="16-1" id="fallbackMessage">Data transmission has failed. Please download the results and email them as an attachment to ken.q.tools@gmail.com. Thank you!</item>   
+        <item order="16-1" id="btnDownload">Download</item>   
+        <item order="16-1" id="goodbyeMessage">{{{div}}}Thank You!{{{/div}}} {{{br/}}}{{{div}}}You can now close the browser tab{{{/div}}}</item>   
+        <item order="16-1" id="checkInternetMessage">*** Error - Transmission Failure *** {{{br/}}} Please check your internet connection and click the "Submit Data" button again.</item>   
         
 
         <!-- 17. MOBILE SUBMIT -->
-         <item id="mobileSortTitleBar">Submit Data</item>
+         <item order="17-1" id="mobileSortTitleBar">Submit Data</item>
 
         <!-- 19. EMAIL -->
-        <item id="btnTransferEmail">Open Email Client and Send Results</item>
-        <item id="clipboardResults">Copy Results to Clipboard</item>  
-        <item id="clipboardEmail">Copy Email Address to Clipboard</item>  
-        <item id="copiedText">Copied!</item>  
-        <item id="copyTextError">Error: Please try again.</item>  
-        <item id="defaultEmailClientFail">Your default email client should have automatically opened with the results in the email body. If it didn&apos;t, please use the buttons below to copy and paste your information into an email.</item>   
-        <item id="emailMessage1">You don&apos;t have to add anything to this email. Please just click the SEND button.</item>
+        <item order="19-1" id="btnTransferEmail">Open Email Client and Send Results</item>
+        <item order="19-1" id="clipboardResults">Copy Results to Clipboard</item>  
+        <item order="19-1" id="clipboardEmail">Copy Email Address to Clipboard</item>  
+        <item order="19-1" id="copiedText">Copied!</item>  
+        <item order="19-1" id="copyTextError">Error: Please try again.</item>  
+        <item order="19-1" id="defaultEmailClientFail">Your default email client should have automatically opened with the results in the email body. If it didn&apos;t, please use the buttons below to copy and paste your information into an email.</item>   
+        <item order="19-1" id="emailMessage1">You don&apos;t have to add anything to this email. Please just click the SEND button.</item>
 
         <!-- 20. LINKING -->
-        <item id="linkedProjectFallbackMessage">Please click the button to begin the next Q sort</item>   
-         <item id="linkedProjectBtnMessage">Begin Next Q sort</item>   
+        <item order="20-1" id="linkedProjectFallbackMessage">Please click the button to begin the next Q sort</item>   
+         <item order="20-1" id="linkedProjectBtnMessage">Begin Next Q sort</item>   
 
         <!-- 21. LOCAL DATA COLLECTION -->  
-        <item id="localHeader">Offline Q-sort Control Panel</item>
-        <item id="partIdText">Participant Name</item>
-        <item id="usercodeText">Usercode</item>
-        <item id="localStartButtonText">Start Q-sort</item>
-        <item id="localDeleteButtonText">Delete</item>
-        <item id="localDownloadButtonText">Save Q-sort Data to Disk</item>
-        <item id="storedQsortsHeaderText">Stored Q-sorts</item>
-        <item id="localDeleteModalHead">Delete Data Stored in Browser?</item>
-        <item id="localDeleteModalText">This will delete the participant Q-sort data that is currently stored in the browser. You would usually only do this when you are starting a new project.{{{br}}}{{{br}}}{{{b}}}CAUTION - Deleted data cannot be recovered.{{{/b}}} {{{br}}}{{{br}}} {{{center}}}{{{/center}}}</item>
-        <item id="localParticipantsText">Participants</item>
-        <item id="localSaveBeforeDeleteModalHeader">Delete Disabled</item>
-        <item id="localSaveBeforeDeleteModalText">Save Q sort Data to Disk before deleting.</item>
-        <item id="localSaveDataButton">Save Participant Data to Browser Memory</item>
-        <item id="localSubmitSuccessModalHeader">Success</item>
-        <item id="localSubmitSuccessModalText">Participant Q sort data have been successfully saved to browser memory</item>
-        <item id="returnToLocalPanelButtonText">Return to Control Panel</item>
+        <item order="22-1" id="localHeader">Offline Q-sort Control Panel</item>
+        <item order="22-1" id="partIdText">Participant Name</item>
+        <item order="22-1" id="usercodeText">Usercode</item>
+        <item order="22-1" id="localStartButtonText">Start Q-sort</item>
+        <item order="22-1" id="localDeleteButtonText">Delete</item>
+        <item order="22-1" id="localDownloadButtonText">Save Q-sort Data to Disk</item>
+        <item order="22-1" id="storedQsortsHeaderText">Stored Q-sorts</item>
+        <item order="22-1" id="localDeleteModalHead">Delete Data Stored in Browser?</item>
+        <item order="22-1" id="localDeleteModalText">This will delete the participant Q-sort data that is currently stored in the browser. You would usually only do this when you are starting a new project.{{{br}}}{{{br}}}{{{b}}}CAUTION - Deleted data cannot be recovered.{{{/b}}} {{{br}}}{{{br}}} {{{center}}}{{{/center}}}</item>
+        <item order="22-1" id="localParticipantsText">Participants</item>
+        <item order="22-1" id="localSaveBeforeDeleteModalHeader">Delete Disabled</item>
+        <item order="22-1" id="localSaveBeforeDeleteModalText">Save Q sort Data to Disk before deleting.</item>
+        <item order="22-1" id="localSaveDataButton">Save Participant Data to Browser Memory</item>
+        <item order="22-1" id="localSubmitSuccessModalHeader">Success</item>
+        <item order="22-1" id="localSubmitSuccessModalText">Participant Q sort data have been successfully saved to browser memory</item>
+        <item order="22-1" id="returnToLocalPanelButtonText">Return to Control Panel</item>
 
 
    </language>
