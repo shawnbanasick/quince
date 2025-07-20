@@ -8,7 +8,7 @@ import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 import PromptUnload from "../../utilities/PromptUnload";
 import axios from "axios";
-import SubmitButtonEmail from "./SubmitButtonEmail";
+import MobileSubmitButtonEmail from "./MobileSubmitButtonEmail";
 
 const getLangObj = (state) => state.langObj;
 const getDisplaySubmitFallback = (state) => state.displaySubmitFallback;
@@ -117,7 +117,7 @@ const SubmitResultsButton = (props) => {
       {checkInternetConnection && <WarningDiv>{checkInternetMessage}</WarningDiv>}
       {failureCount > 1 && (
         <DownloadEmailFallback>
-          <SubmitButtonEmail results={props.results} />
+          <MobileSubmitButtonEmail results={props.results} />
         </DownloadEmailFallback>
       )}
     </React.Fragment>
@@ -183,7 +183,7 @@ const WarningDiv = styled.div`
   align-items: center;
   width: 70vw;
   height: fit-content;
-  font-size: 1.2em;
+  font-size: 0.9em;
   text-align: center;
   background-color: #ffc067;
   padding: 5px;
@@ -226,3 +226,5 @@ const DownloadEmailFallback = styled.div`
 //   margin-bottom: 20px;
 //   background-color: lightgray;
 // `;
+
+// Add this styled component to your existing styled components

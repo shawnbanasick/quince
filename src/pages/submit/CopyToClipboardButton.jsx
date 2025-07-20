@@ -12,8 +12,7 @@ const CopyToClipboardButton = (props) => {
   // GLOBAL STATE
   const langObj = useSettingsStore(getLangObj);
   const copiedText = ReactHtmlParser(decodeHTML(langObj.copiedText)) || "";
-  const copyTextError =
-    ReactHtmlParser(decodeHTML(langObj.copyTextError)) || "";
+  const copyTextError = ReactHtmlParser(decodeHTML(langObj.copyTextError)) || "";
 
   // LOCAL STATE
   const [result, setResult] = useState("");
@@ -65,7 +64,6 @@ const CopyToClipboardButton = (props) => {
 export default CopyToClipboardButton;
 
 const StyledButton = styled.button`
-  grid-area: b;
   border-color: #2e6da4;
   color: white;
   font-size: 1.2em;
@@ -73,33 +71,35 @@ const StyledButton = styled.button`
   padding: 0.25em 1em;
   border-radius: 3px;
   text-decoration: none;
-  min-width: 200px;
+  width: 220px;
   height: 50px;
-  justify-self: right;
-  margin-right: 35px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 30px;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
   background-color: ${({ theme }) => theme.primary};
-
   &:hover {
     background-color: ${({ theme }) => theme.secondary};
   }
 `;
 
 const ContainerDiv = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  grid-template-areas: "a b c";
+  width: 100%;
+  height: 100%;
+  /* border: 1px solid #2e6da4; */
 `;
 
 const MessageDiv = styled.div`
   grid-area: c;
-  font-size: 1.2em;
+  font-size: 1.5em;
   font-weight: bold;
-  margin-top: 0.7em;
+  height: 50px;
+  min-width: 200px;
+  margin-top: 0.2em;
+  /* border: 1px solid #2e6da4; */
 `;

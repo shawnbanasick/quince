@@ -71,7 +71,7 @@ const StyledFooter = () => {
     nextButtonText = ReactHtmlParser(decodeHTML(langObj.btnNext)) || "";
   }
 
-  let backButtonText = ReactHtmlParser(decodeHTML(langObj.mobileSurveyBackButtonText)) || "";
+  let backButtonText = ReactHtmlParser(decodeHTML(langObj.postsortBackButtonText)) || "";
 
   // if (currentPage === "postsort" && configObj.showBackButton) {
   //   // showBackButton = false;

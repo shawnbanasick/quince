@@ -101,83 +101,87 @@
         <item id="agreeLeastText">Next, repeat the process with the remaining statements, but this time please select the cards that you agree with the least.</item> -->
 
       <!-- 9 MOBILE THINNING:  -->
-        <item order="9-1" id="mobileThinHelpModalHead">Refine Your Evaluations</item>
-        <item order="9-1" id="mobileThinHelpModalText">During this stage you will be asked to refine the evaluations you made in the previous step. {{{br/}}}{{{br/}}}Please {{{b}}}review the statements{{{/b}}} carefully. {{{br/}}}{{{br/}}}First, you will be asked to select those that are {{{b}}}most similar{{{/b}}} to your perspective. {{{br/}}}{{{br/}}}Then, you will be asked to select those that {{{b}}}differ the most{{{/b}}} from your perspective.{{{br/}}}{{{br/}}}To {{{b}}}select a statement{{{/b}}}, tap on the statement container. The color of the statement will change to yellow.{{{br/}}}{{{br/}}}When you have selected the {{{b}}}correct number{{{/b}}} of statements, the color of the {{{b}}}"Submit"{{{/b}}} button will change to {{{b}}}blue{{{/b}}}. Click on the Submit button to move to the next step.{{{br/}}}{{{br/}}}You may need to {{{b}}}scroll down{{{/b}}} to view all of the statements before you tap the Submit button.{{{br/}}}{{{br/}}}To make it easier to compare the statements, you can {{{b}}}reorder{{{/b}}} them by tapping on the up and down arrows located on the right or left sides of the statement.{{{br/}}}{{{br/}}}{{{center}}}{{{br /}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/upDownArrows.svg?raw=true"  width="250"/}}}{{{/center}}}{{{br /}}}{{{br /}}}
+        <item order="9-1" id="mobileThinHelpModalHead">Step 2 of 5{{{br/}}}Refinement Process</item>
+        <item order="9-2" id="mobileThinHelpModalText">During this stage you will be asked to refine the evaluations you made in the previous step. {{{br/}}}{{{br/}}}Please {{{b}}}review the statements{{{/b}}} carefully. {{{br/}}}{{{br/}}}First, you will be asked to select those that are {{{b}}}most similar{{{/b}}} to your perspective. {{{br/}}}{{{br/}}}Then, you will be asked to select those that {{{b}}}differ the most{{{/b}}} from your perspective.{{{br/}}}{{{br/}}}To {{{b}}}select a statement{{{/b}}}, tap on the statement container. The color of the statement will change to yellow.{{{br/}}}{{{br/}}}When you have selected the {{{b}}}correct number{{{/b}}} of statements, the color of the {{{b}}}"Submit"{{{/b}}} button will change to {{{b}}}blue{{{/b}}}. Click on the Submit button to move to the next step.{{{br/}}}{{{br/}}}You may need to {{{b}}}scroll down{{{/b}}} to view all of the statements before you tap the Submit button.{{{br/}}}{{{br/}}}To make it easier to compare the statements, you can {{{b}}}reorder{{{/b}}} them by tapping on the up and down arrows located on the right or left sides of the statement.{{{br/}}}{{{br/}}}{{{center}}}{{{br /}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/upDownArrows.svg?raw=true"  width="250"/}}}{{{/center}}}{{{br /}}}{{{br /}}}
         You can also {{{b}}}move a group of selected statements{{{/b}}} to the top of the list by {{{b}}}long pressing{{{/b}}} (about 1 second) on the arrows to the {{{b}}}right side{{{/b}}} of the statements.{{{br /}}}{{{br /}}}{{{center}}}{{{br /}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/longPressArrow.svg?raw=true"  width="250"/}}}{{{/center}}}{{{br /}}}{{{br /}}}
         If you want to see these instructions again, tap the "?" button at the top of the main page.{{{br /}}}{{{br /}}}{{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/helpSymbol.png?raw=true" width="30"/}}}</item>     
-        <item order="9-1" id="moveTopMobileHead">Confirm Move</item>
-        <item order="9-1" id="moveTopMobileText">Move this statement to the top of the list?</item>
-        <item order="9-1" id="moveAllTopMobileText">Move all selected statements to the top of the list?</item>
-        <item order="9-1" id="moveTopMobileButtonOK">Yes</item>
-        <item order="9-1" id="mobileThinConditionsOfInstruction">Refine Your Evaluations</item>
-        <item order="9-1" id="mobileThinSubmitButtonText">Submit</item>
-        <item order="9-1" id="mobileThinSelectedText">Selected</item>
-        <item order="9-1" id="mobileThinPreventNavModalHead">Navigation Disabled</item>
-        <item order="9-1" id="mobileThinPreventNavModalText">Please complete the refining process before navigating to the next page.</item>
-        <item order="9-1" id="mobileThinProcessCompleteMessage">The refinement process is complete. {{{br/}}}{{{br/}}} Please click on the "Continue" button on the bottom right side to go to the next stage.</item>
+        <item order="9-3" id="mobileThinConditionsOfInstruction">Refine Your Evaluations</item>
+        <item order="9-4" id="mobileThinSelectedText">Selected</item>
+        <item order="9-5" id="mobileThinSubmitButtonText">Submit</item>
+        <item order="9-6" id="mobileGuidanceModalLeft1Header">Stage 2 of 5{{{br/}}} Refinement Process</item>
+        <item order="9-7" id="mobileGuidanceModalLeft1Text">Step 2. Next, please look at all of the statements that you evaluated negatively and {{{b}}}select{{{/b}}} those that {{{b}}}differ the most{{{/b}}} from your perspective.{{{br/}}}{{{br/}}}You may need to {{{b}}}scroll down{{{/b}}} to see all of the statements.</item>
+        <item order="9-8" id="mobileGuidanceModalRight2Header">Stage 2 of 5{{{br/}}} Refinement Process</item>
+        <item order="9-9" id="mobileGuidanceModalRight2Text">Next, once again look at the remaining statements that you evaluated {{{b}}}positively{{{/b}}} and select the {{{b}}}next set{{{/b}}} of statements that are {{{b}}}closest to your perspective{{{/b}}}.</item>
+        <item order="9-10" id="mobileGuidanceModalLeft2Header">Stage 2 of 5{{{br/}}} Refinement Process</item>
+        <item order="9-11" id="mobileGuidanceModalLeft2Text">Next, once again look at the remaining statements that you evaluated {{{b}}}negatively{{{/b}}} and {{{b}}}select{{{/b}}} the {{{b}}}next set{{{/b}}} of statements that are {{{b}}}most different from to your perspective{{{/b}}}.</item>
+        <item order="9-12" id="mobileThinScrollBottomModalHead">Confirmation Disabled</item>
+        <item order="9-13" id="mobileThinScrollBottomModalText">Please scroll to the bottom and review all the statements before submitting your selections.</item>
+        <item order="9-14" id="moveTopMobileHead">Confirm Move</item>
+        <item order="9-15" id="moveTopMobileText">Move this statement to the top of the list?</item>
+        <item order="9-16" id="moveTopMobileButtonOK">Yes</item>
+        <item order="9-17" id="mobileThinPreventNavModalHead">Navigation Disabled</item>
+        <item order="9-18" id="mobileThinPreventNavModalText">Please complete the refining process before navigating to the next page.</item>
+        <item order="9-19" id="mobileThinProcessCompleteMessage">The refinement process is complete. {{{br/}}}{{{br/}}} Please click on the "Continue" button on the bottom right side to go to the next stage.</item>
+        
+        <!-- <item order="9-1" id="moveAllTopMobileText">Move all selected statements to the top of the list?</item>
         <item order="9-1" id="mobileGuidanceModalRight1Header">Stage 2 of 5{{{br/}}} Refinement Process</item>
-        <item order="9-1" id="mobileGuidanceModalRight1Text">There are several steps in this Stage. {{{br/}}}{{{br/}}}Step 1. Please look at all of the statements that you evaluated {{{b}}}positively{{{/b}}} and select those that are {{{b}}}closest to your perspective{{{/b}}}.{{{br/}}}{{{br/}}}You may need to {{{b}}}scroll{{{/b}}} down to see all of the statements.</item>
-        <item order="9-1" id="mobileGuidanceModalRight2Header">Stage 2 of 5{{{br/}}} Refinement Process</item>
-        <item order="9-1" id="mobileGuidanceModalRight2Text">Next, once again look at the remaining statements that you evaluated {{{b}}}positively{{{/b}}} and select the {{{b}}}next set{{{/b}}} of statements that are {{{b}}}closest to your perspective{{{/b}}}.</item>
-        <item order="9-1" id="mobileGuidanceModalLeft1Header">Stage 2 of 5{{{br/}}} Refinement Process</item>
-        <item order="9-1" id="mobileGuidanceModalLeft1Text">Step 2. Next, please look at all of the statements that you evaluated negatively and {{{b}}}select{{{/b}}} those that {{{b}}}differ the most{{{/b}}} from your perspective.{{{br/}}}{{{br/}}}You may need to {{{b}}}scroll down{{{/b}}} to see all of the statements.</item>
-        <item order="9-1" id="mobileGuidanceModalLeft2Header">Stage 2 of 5{{{br/}}} Refinement Process</item>
-        <item order="9-1" id="mobileGuidanceModalLeft2Text">Next, once again look at the remaining statements that you evaluated {{{b}}}negatively{{{/b}}} and {{{b}}}select{{{/b}}} the {{{b}}}next set{{{/b}}} of statements that are {{{b}}}most different from to your perspective{{{/b}}}.</item>
-        <item order="9-1" id="mobileThinScrollBottomModalHead">Confirmation Disabled</item>
-        <item order="9-1" id="mobileThinScrollBottomModalText">Please scroll to the bottom and review all the statements before submitting your selections.</item>
+        <item order="9-1" id="mobileGuidanceModalRight1Text">There are several steps in this Stage. {{{br/}}}{{{br/}}}Step 1. Please look at all of the statements that you evaluated {{{b}}}positively{{{/b}}} and select those that are {{{b}}}closest to your perspective{{{/b}}}.{{{br/}}}{{{br/}}}You may need to {{{b}}}scroll{{{/b}}} down to see all of the statements.</item> -->
         <!-- <item id="moveBottomMobileText">Move this statement to the bottom of the list?</item> -->
         <!-- <item id="moveTopMobileTextAllTopInstruction">Move all selected (yellow-colored) statements to the top?</item> -->
 
 
         <!-- 10. SORT: sorting -->
         <item order="10-1" id="sortHelpModalHead">Step 3 of 5</item>
-        <item order="10-1" id="sortHelpModalText">In this step, please click and drag the statement cards to the appropriate column based on your perspective and the researcher&apos;s instructions at the top of the page. {{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/iRxC9Vv3dLo?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
-        <item order="10-1" id="sortAgreement">Agree</item>
-        <item order="10-1" id="sortDisagreement">Disagree</item>
-        <item order="10-1" id="condOfInst">Sort the cards according to your experience with the iPads this semester</item>
-        <item order="10-1" id="sortingCompleteModalHead">Sorting Complete</item>
+        <item order="10-2" id="sortHelpModalText">In this step, please click and drag the statement cards to the appropriate column based on your perspective and the researcher&apos;s instructions at the top of the page. {{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/iRxC9Vv3dLo?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
+        <item order="10-3" id="sortAgreement">Agree</item>
+        <item order="10-4" id="sortDisagreement">Disagree</item>
+        <item order="10-5" id="condOfInst">Sort the cards according to your experience with the iPads this semester</item>
+        <item order="10-6" id="sortOverloadedColumnModalHead">Navigation Disabled</item>
+        <item order="10-7" id="sortOverloadedColumnModalText">One of the columns has too many cards (it will be outlined in orange and have a dashed border). Please adjust the placement of the cards so that all columns have the correct number.</item>
+
+        <!-- <item order="10-1" id="sortingCompleteModalHead">Sorting Complete</item>
         <item order="10-1" id="sortingCompleteModalText">You have completed the initial sorting. Please take a moment to confirm your placement of the cards.{{{br/}}}{{{br/}}}When you are satisfied with their placement, please click on the {{{b}}}blue &quot;Continue&quot; button{{{/b}}} at the bottom right-side of your screen to go to the next step.</item>
         <item order="10-1" id="sortPreventNavModalHead">Navigation Disabled</item>
-        <item order="10-1" id="sortPreventNavModalText">Please finish the grid sorting before going to the next step.</item>
-        <item order="10-1" id="sortOverloadedColumnModalHead">Navigation Disabled</item>
-        <item order="10-1" id="sortOverloadedColumnModalText">One of the columns has too many cards (it will be outlined in orange and have a dashed border). Please adjust the placement of the cards so that all columns have the correct number.</item>
+        <item order="10-1" id="sortPreventNavModalText">Please finish the grid sorting before going to the next step.</item> -->
+
 
         <!-- 11. MOBILE SORT: sorting -->
-        <item order="11-1" id="mobileSortSwapModalHead">Swap Statement Rankings?</item>
-        <item order="11-1" id="mobileSortSwapModalText">Click "Confirm" to swap.</item>
-        <item order="11-1" id="mobileSortSwapModalConfirmButton">Swap</item>
-        <item order="11-1" id="mobileSortConditionsOfInstruction">Rank the Statements According to Your Experience of using the iPads in the Class</item>
         <item order="11-1" id="mobileSortHelpModalHead">Stage 3 of 5{{{br/}}} Final Statement Ranking</item>
-        <item order="11-1" id="mobileSortHelpModalText">The statements have been ranked based on your previous evaluations.{{{br/}}}{{{br/}}} Those statements that are closest to your perspective should be at the top of the view area in the darker green colored sections.{{{br /}}}{{{center}}}{{{br /}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/GroupColors.png?raw=true"  width="150"/}}}{{{/center}}}{{{br /}}}Those that are farthest from your perspective should be at the bottom of the list in the darker red colored sections.{{{br/}}}{{{br/}}}You will need to {{{b}}}scroll down{{{/b}}} to see all of the statements.{{{br/}}}{{{br/}}}Please {{{b}}}review the rankings{{{/b}}} and make any necessary changes to the ranking of the statements so that the ordering {{{b}}}accurately reflects your perspective{{{/b}}}. {{{br/}}}{{{br/}}}{{{mark}}}This is the most critical stage of the survey, so please review the statement rankings carefully and change the positions of the statements if necessary.{{{/mark}}}{{{br/}}}{{{br/}}}  
+        <item order="11-2" id="mobileSortHelpModalText">The statements have been ranked based on your previous evaluations.{{{br/}}}{{{br/}}} Those statements that are closest to your perspective should be at the top of the view area in the darker green colored sections.{{{br /}}}{{{center}}}{{{br /}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/GroupColors.png?raw=true"  width="150"/}}}{{{/center}}}{{{br /}}}Those that are farthest from your perspective should be at the bottom of the list in the darker red colored sections.{{{br/}}}{{{br/}}}You will need to {{{b}}}scroll down{{{/b}}} to see all of the statements.{{{br/}}}{{{br/}}}Please {{{b}}}review the rankings{{{/b}}} and make any necessary changes to the ranking of the statements so that the ordering {{{b}}}accurately reflects your perspective{{{/b}}}. {{{br/}}}{{{br/}}}{{{mark}}}This is the most critical stage of the survey, so please review the statement rankings carefully and change the positions of the statements if necessary.{{{/mark}}}{{{br/}}}{{{br/}}}  
         To {{{b}}}swap the positions of neighboring statements{{{/b}}}, tap the up or down arrows on the right or left side of the statement.{{{br /}}}{{{br /}}}{{{center}}}{{{br /}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/sortUpDownArrows.svg?raw=true"  width="250"/}}}{{{/center}}}{{{br /}}}{{{br /}}}To {{{b}}}swap the positions of statements that are separated{{{/b}}}, tap the statement boxes to select the two statements (the statement color will change to yellow) and a swap confirmation message will automatically appear.{{{br/}}}
         
         {{{br /}}}{{{center}}}{{{br /}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/sortSwap.svg?raw=true"  width="250"/}}}{{{/center}}}{{{br /}}}
         
         {{{br/}}}Tap the "Swap" button to confirm the swap. If you tap the "Cancel" button, the statements will remain in their original positions. {{{br/}}}{{{br/}}}When you are satisfied with all of the statement rankings, tap the "Continue" button on the bottom right.{{{br/}}}{{{br/}}}
         If you want to see these instructions again, tap the "?" button at the top of the main page.{{{br /}}}{{{br /}}}{{{center}}}{{{img src="https://github.com/shawnbanasick/quince/blob/development/src/assets/helpSymbol.png?raw=true" width="30"/}}}</item>
-        <item order="11-1" id="mobileSortScrollBottomModalHead">Navigation Disabled</item>
-        <item order="11-1" id="mobileSortScrollBottomModalText">Please scroll to the bottom and review the ranking of all the statements before going to the next stage.</item>
+        <item order="11-3" id="mobileSortConditionsOfInstruction">Rank the Statements According to Your Experience of using the iPads in the Class</item>
+        <item order="11-4" id="mobileSortScrollBottomModalHead">Navigation Disabled</item>
+        <item order="11-5" id="mobileSortScrollBottomModalText">Please scroll to the bottom and review the ranking of all the statements before going to the next stage.</item>
+        <item order="11-6" id="mobileSortSwapModalHead">Swap Statement Rankings?</item>
+        <item order="11-7" id="mobileSortSwapModalConfirmButton">Swap</item>
+        <!-- <item order="11-1" id="mobileSortSwapModalText">Click "Confirm" to swap.</item> -->
         
 
-        <!-- 12. POSTSORT: comments - only displayed if showStep3 = true -->
-        <item order="12-1" id="postsortHeader">Post-Sort Comments</item>
-        <item order="12-1" id="postsortInstructions">{{{h3}}}Please describe your thoughts about these statements in more detail.{{{/h3}}}</item>
-        <item order="12-1" id="placeholder">Click here to add comment</item>
-        <item order="12-1" id="postsortAgreement">Placed on Agree</item>
-        <item order="12-1" id="postsortDisagreement">Placed on Disagree</item>
+        <!-- 12. POSTSORT: comments - only displayed if selected in config.xml -->
         <item order="12-1" id="postsortModalHead">Step 4 of 5</item>
-        <item order="12-1" id="postsortModalText">You can use the buttons at the bottom of the page to change the font size or card height.{{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/EFNlSiaEVVg?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/h3}}}{{{/center}}}</item>
-        <item order="12-1" id="postsortPreventNavModalHead">Navigation Disabled</item>
-        <item order="12-1" id="postsortPreventNavModalText">Please add comments to all of the cards before going to the next step.</item>
-        <item order="12-1" id="postsortBackButtonText">Go Back</item>
+        <item order="12-2" id="postsortModalText">You can use the buttons at the bottom of the page to change the font size or card height.{{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/EFNlSiaEVVg?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/h3}}}{{{/center}}}</item>
+        <item order="12-3" id="postsortHeader">Post-Sort Comments</item>
+        <item order="12-4" id="postsortInstructions">{{{h3}}}Please describe your thoughts about these statements in more detail.{{{/h3}}}</item>
+        <item order="12-5" id="placeholder">Click here to add comment</item>
+        <item order="12-6" id="postsortAgreement">Placed on Agree</item>
+        <item order="12-7" id="postsortDisagreement">Placed on Disagree</item>
+        <item order="12-8" id="postsortBackButtonText">Go Back</item>
+        <item order="12-9" id="postsortPreventNavModalHead">Navigation Disabled</item>
+        <item order="12-10" id="postsortPreventNavModalText">Please add comments to all of the cards before going to the next step.</item>
 
 
         <!-- 13. MOBILE POSTSORT: comments - displayed if showStep3 = true -->
-        <item order="13-1" id="mobilePostsortPreventNavModalHead">Navigation Disabled</item>
-        <item order="13-1" id="mobilePostsortPreventNavModalText">Please add comments to all of the statements before going to the next step.</item>
-        <item order="13-1" id="mobilePostsortSortbarText">Post-Ranking Comments</item>
         <item order="13-1" id="mobilePostsortHelpModalHead">Stage 4 of 5{{{br/}}} Post-Ranking Comments</item>
-        <item order="13-1" id="mobilePostsortHelpModalText">Please comment on your rankings of these statements.</item>
+        <item order="13-2" id="mobilePostsortHelpModalText">Please comment on your rankings of these statements.</item>
+        <item order="13-3" id="mobilePostsortSortbarText">Post-Ranking Comments</item>
+        <item order="13-4" id="mobilePostsortPlaceholder">Click here to add comment</item>
+        <item order="13-5" id="mobilePostsortPreventNavModalHead">Navigation Disabled</item>
+        <item order="13-6" id="mobilePostsortPreventNavModalText">Please add comments to all of the statements before going to the next step.</item>
         
 
         <!-- 14. SURVEY: Additional questions, displayed if showStep4 == true -->
@@ -189,15 +193,15 @@
        
         <!-- 15. MOBILE SURVEY: questions displayed if showStep4 == true -->
         <item order="15-1" id="mobileSurveyHelpModalHead">Stage 5 of 5{{{br/}}} Post-Ranking Questionnaire</item>
-        <item order="15-1" id="mobileSurveyHelpModalText">Please answer these background questions. {{{br /}}}{{{br /}}}Some of the questions may require that you provide an answer before you can go to the final step.</item>
-        <item order="15-1" id="mobileSurveyBackButtonText">Go Back</item>
+        <item order="15-2" id="mobileSurveyHelpModalText">Please answer these background questions. {{{br /}}}{{{br /}}}Some of the questions may require that you provide an answer before you can go to the final step.</item>
+        <!-- <item order="15-1" id="mobileSurveyBackButtonText">Go Back</item> -->
 
        
         <!-- 16. SUBMIT -->
         <item order="16-1" id="btnTransfer">Submit Data</item>
         <item order="16-1" id="transferHead">Final Step</item>
         <item order="16-1" id="transferTextAbove">{{{h1}}}Ready to Submit{{{/h1}}}{{{br/}}}{{{br/}}} {{{h2}}}Please click the &quot;Submit Data&quot; button to transmit your results.{{{/h2}}}</item>
-        <item order="16-1" id="transferTextBelow">If the submission confirmation message does not appear, {{{br/}}}please wait a few minutes and click the submit button again.</item>
+        <item order="16-1" id="transferTextBelow">Please wait for the confirmation message that indicates your data have been sent to the server successfully.</item>
         <item order="16-1" id="transferOkModalHeader">Success - The data have been sent to the server.</item>   
         <item order="16-1" id="transferOkModalText">Thank you for using Quincy!{{{br/}}}{{{br/}}}You can now close your browser tab.</item>
         <item order="16-1" id="transferFailModalHeader">Connection to server failed</item>   
@@ -205,24 +209,27 @@
         <item order="16-1" id="fallbackMessage">Data transmission has failed. Please download the results and email them as an attachment to ken.q.tools@gmail.com. Thank you!</item>   
         <item order="16-1" id="btnDownload">Download</item>   
         <item order="16-1" id="goodbyeMessage">{{{div}}}Thank You!{{{/div}}} {{{br/}}}{{{div}}}You can now close the browser tab{{{/div}}}</item>   
-        <item order="16-1" id="checkInternetMessage">*** Error - Transmission Failure *** {{{br/}}} Please check your internet connection and click the "Submit Data" button again.</item>   
         
 
         <!-- 17. MOBILE SUBMIT -->
          <item order="17-1" id="mobileSortTitleBar">Submit Data</item>
 
-        <!-- 19. EMAIL -->
-        <item order="19-1" id="btnTransferEmail">Open Email Client and Send Results</item>
-        <item order="19-1" id="clipboardResults">Copy Results to Clipboard</item>  
-        <item order="19-1" id="clipboardEmail">Copy Email Address to Clipboard</item>  
-        <item order="19-1" id="copiedText">Copied!</item>  
-        <item order="19-1" id="copyTextError">Error: Please try again.</item>  
-        <item order="19-1" id="defaultEmailClientFail">Your default email client should have automatically opened with the results in the email body. If it didn&apos;t, please use the buttons below to copy and paste your information into an email.</item>   
-        <item order="19-1" id="emailMessage1">You don&apos;t have to add anything to this email. Please just click the SEND button.</item>
+        <!-- 19. FAILURE -->
+        <item order="19-1" id="checkInternetMessage">*** Error - Transmission Failure *** {{{br/}}} Please check your internet connection and click the "Submit Data" button again.</item>
+        <item order="19-2" id="btnTransferEmail">Open Email Client and Send Results</item>
+        <item order="19-3" id="SubmitFailMessage">Unable to connect with the database. {{{br/}}}{{{br/}}}Please click the button above to send an email with your data.</item>
+        <item order="19-4" id="defaultEmailClientFail">Your default email client should have automatically opened with the results in the email body. If it didn&apos;t, please use the buttons below to copy and paste your information into an email.{{{br/}}}{{{br/}}}There is also a button to download your results to your computer as a backup.</item>   
+        <item order="19-5" id="clipboardEmail">Copy Email Address to Clipboard</item>  
+        <item order="19-6" id="clipboardResults">Copy Results to Clipboard</item>  
+        <item order="19-7" id="copiedText">Copied!</item>  
+        <item order="19-8" id="downloadResultsButtonText">Download Results</item>  
+        <item order="19-9" id="emailMessage1">You don&apos;t have to add anything to this email. Please just click the SEND button.</item>
+        <!-- <item order="19-1" id="copyTextError">Error: Please try again.</item>   -->
+
 
         <!-- 20. LINKING -->
         <item order="20-1" id="linkedProjectFallbackMessage">Please click the button to begin the next Q sort</item>   
-         <item order="20-1" id="linkedProjectBtnMessage">Begin Next Q sort</item>   
+         <item order="20-2" id="linkedProjectBtnMessage">Begin Next Q sort</item>   
 
         <!-- 21. LOCAL DATA COLLECTION -->  
         <item order="22-1" id="localHeader">Offline Q-sort Control Panel</item>

@@ -6,7 +6,7 @@ import calculateTimeOnPage from "../../utilities/calculateTimeOnPage";
 import decodeHTML from "../../utilities/decodeHTML";
 import ReactHtmlParser from "html-react-parser";
 // import SubmitButton from "./SubmitButtonBaserow";
-import SubmitButtonBaserow from "./SubmitButtonBaserow";
+import MobileSubmitButtonBaserow from "./MobileSubmitButtonBaserow";
 import getCurrentDateTime from "../../utilities/getCurrentDateTime";
 import mobileCalcPresortCountsObject from "./mobileCalcPresortCountsObject";
 import calcPresortTraceAndSortResults from "./calcPresortTraceAndSortResults";
@@ -81,13 +81,9 @@ const MobileSort = () => {
     partId: localStorage.getItem("partId") || "no part ID",
     urlUsercode: localStorage.getItem("urlUsercode") || "no usercode set",
     dateTime: dateString,
-    // timeLanding: localStorage.getItem("timeOnlandingPage") || "not recorded",
     timeLandingText: localStorage.getItem("CumulativeTimelandingPage") || "not recorded",
-    // timePresort: localStorage.getItem("timeOnpresortPage") || "not recorded",
     timePresortText: localStorage.getItem("CumulativeTimepresortPage") || "not recorded",
-    // timeThin: localStorage.getItem("timeOnThinPage") || "not recorded",
     timeThinText: localStorage.getItem("CumulativeTimethinPage") || "not recorded",
-    // timeSort: localStorage.getItem("timeOnsortPage") || "not recorded",
     timeSortText: localStorage.getItem("CumulativeTimesortPage") || "not recorded",
   };
 
@@ -261,38 +257,38 @@ const MobileSort = () => {
   }
 
   if (displayGoodbyeMessage === true) {
-    // if (configObj.linkToSecondProject === true) {
-    //   return (
-    //     <GoodbyeDiv>
-    //       {linkedProjectFallbackMessage}
-    //       <a
-    //         id="secondProjectLink"
-    //         href={`${configObj.secondProjectUrl}/#/?usercode=${urlUsercode}`}
-    //         style={{ targetNew: "tab", textDecoration: "none" }}
-    //       >
-    //         <StyledButton>{linkedProjectBtnMessage}</StyledButton>
-    //       </a>
-    //     </GoodbyeDiv>
-    //   );
-    // } else {
-    // *** goodbye message for a normal firebase project ***
-    return (
-      <>
-        <GoodbyeDiv>{goodbyeMessage}</GoodbyeDiv>
-      </>
-    );
+    if (configObj.linkToSecondProject === true) {
+      return (
+        <GoodbyeDiv>
+          {/* {linkedProjectFallbackMessage} */}
+          <a
+            id="secondProjectLink"
+            href={`${configObj.secondProjectUrl}/#/?usercode=${configObj.urlUsercode}`}
+            style={{ targetNew: "tab", textDecoration: "none" }}
+          >
+            <StyledButton>{langObj.linkedProjectBtnMessage}</StyledButton>
+          </a>
+        </GoodbyeDiv>
+      );
+    } else {
+      // *** goodbye message for a normal firebase project ***
+      return (
+        <>
+          <GoodbyeDiv>{goodbyeMessage}</GoodbyeDiv>
+        </>
+      );
+    }
   }
-  // }
 
   return (
-    <>
+    <ScrollableContainer>
       <SortTitleBar background={configObj.headerBarColor}>{mobileSortTitleBar}</SortTitleBar>
       <MainContainer>
         <ContentDiv>{transferTextAbove}</ContentDiv>
-        <SubmitButtonBaserow results={baserowResults} />
-        <ContentDiv>{transferTextBelow}</ContentDiv>
+        <MobileSubmitButtonBaserow results={baserowResults} />
+        <BelowContentDiv>{transferTextBelow}</BelowContentDiv>
       </MainContainer>
-    </>
+    </ScrollableContainer>
   );
 };
 
@@ -341,6 +337,18 @@ const ContentDiv = styled.div`
   align-self: center;
 `;
 
+const BelowContentDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  width: 80%;
+  font-size: 14px;
+  padding: 10px;
+  align-self: center;
+`;
+
 const GoodbyeDiv = styled.div`
   display: flex;
   justify-self: center;
@@ -362,4 +370,63 @@ const OrientationDiv = styled.div`
   align-items: center;
   width: 100vw;
   height: 100vh;
+`;
+
+const ScrollableContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-height: 90vh; /* Set desired max height */
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 10px;
+
+  /* Optional: Custom scrollbar styling */
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+`;
+
+const StyledButton = styled.button`
+  grid-area: b;
+  border-color: #2e6da4;
+  color: white;
+  font-size: 0.8em;
+  font-weight: bold;
+  padding: 0.25em 1em;
+  border-radius: 3px;
+  text-decoration: none;
+  width: fit-content;
+  height: 50px;
+  justify-self: right;
+  margin-right: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  background-color: ${({ theme, active }) => (active ? theme.secondary : theme.primary)};
+
+  &:hover {
+    background-color: ${({ theme }) => theme.secondary};
+  }
+
+  &:focus {
+    background-color: ${({ theme }) => theme.focus};
+  }
 `;

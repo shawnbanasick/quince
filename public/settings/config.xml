@@ -12,11 +12,11 @@
    <!-- STEIN -->
    <item id="steinApiUrl"></item>
    <!-- EMAIL -->
-   <item id="emailAddress"></item>  
+   <item id="emailAddress">ken.q.tools@gmail.com</item>  
    <item id="emailSubject">Quincy Sort Results</item>  
    <!-- SECOND PROJECT LINKING -->
-   <item id="linkToSecondProject">false</item> 
-   <item id="secondProjectUrl">http://</item> 
+   <item id="linkToSecondProject">true</item> 
+   <item id="secondProjectUrl">http://localhost:5173/</item> 
    <!-- IMAGE OPTIONS  (imageFormat: 169 or 43)-->
    <item id="useImages">false</item>
    <item id="numImages">30</item>

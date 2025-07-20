@@ -2,32 +2,33 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
-import SubmitButton from "./SubmitButton";
 import calculatePostsortResults from "./calculatePostsortResults";
-import SubmitFallback from "./SubmitFallback";
 import { v4 as uuid } from "uuid";
 import SaveLocalDataToLocalStorageButton from "./SaveLocalDataToLocalStorageButton";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 import LocalSubmitSuccessModal from "./LocalSubmitSuccessModal";
-import SubmitButtonGS from "./SubmitButtonGS";
-import SubmitButtonEmail from "./SubmitButtonEmail";
 import convertObjectToResults from "../sort/convertObjectToResults";
 import convertObjectToBaserowResults from "../sort/convertObjectToBaserowResults";
 import getCurrentDateTime from "../../utilities/getCurrentDateTime";
-import SubmitButtonNetlify from "./SubmitButtonNetlify";
 import createPresortObject from "./createPresortObject";
 import SubmitButtonBaserow from "./SubmitButtonBaserow";
 import createBaserowObject from "./createBaserowObject";
+// import SubmitFallback from "./SubmitFallback";
+// import SubmitButtonNetlify from "./SubmitButtonNetlify";
+// import SubmitButton from "./SubmitButton";
+// import SubmitButtonGS from "./SubmitButtonGS";
+// import SubmitButtonEmail from "./SubmitButtonEmail";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
 const getMapObj = (state) => state.mapObj;
 const getSetCurrentPage = (state) => state.setCurrentPage;
-const getDisplaySubmitFallback = (state) => state.displaySubmitFallback;
+// const getDisplaySubmitFallback = (state) => state.displaySubmitFallback;
 const getDisplayGoodbyeMessage = (state) => state.displayGoodbyeMessage;
 const getParticipantName = (state) => state.localParticipantName;
 const getLocalUsercode = (state) => state.localUsercode;
+const getDisplayBelowButtonText = (state) => state.displayBelowButtonText;
 
 let transmissionResults = {};
 let baserowResults = {};
@@ -38,11 +39,12 @@ const SubmitPage = () => {
   const configObj = useSettingsStore(getConfigObj);
   const mapObj = useSettingsStore(getMapObj);
   const setCurrentPage = useStore(getSetCurrentPage);
-  const displaySubmitFallback = useStore(getDisplaySubmitFallback);
+  // const displaySubmitFallback = useStore(getDisplaySubmitFallback);
   const displayGoodbyeMessage = useStore(getDisplayGoodbyeMessage);
   const localParticipantName = useStore(getParticipantName);
   const localUsercode = useStore(getLocalUsercode);
   const urlUsercode = localStorage.getItem("urlUsercode") || "";
+  const displayBelowButtonText = useStore(getDisplayBelowButtonText);
 
   // PERSISTENT STATE
   let resultsSurveyFromStorage = JSON.parse(localStorage.getItem("resultsSurvey"));
@@ -299,68 +301,15 @@ const SubmitPage = () => {
         </ContainerDiv>
       </React.Fragment>
     );
-  } else if (configObj.setupTarget === "sheets") {
-    return (
-      <React.Fragment>
-        <SortTitleBar background={headerBarColor}>{pageHeader}</SortTitleBar>
-        <ContainerDiv>
-          <ContentDiv>{transferTextAbove}</ContentDiv>
-          <SubmitButtonGS results={transmissionResults} api={configObj.steinApiUrl} />
-
-          {displaySubmitFallback ? (
-            <SubmitFallback results={transmissionResults} />
-          ) : (
-            <ContentDiv>{transferTextBelow}</ContentDiv>
-          )}
-        </ContainerDiv>
-      </React.Fragment>
-    );
-  } else if (configObj.setupTarget === "email") {
-    return (
-      <React.Fragment>
-        <SortTitleBar background={headerBarColor}>{pageHeader}</SortTitleBar>
-        <ContainerDiv>
-          <ContentDiv>{transferTextAbove}</ContentDiv>
-          <SubmitButtonEmail results={transmissionResults} />
-        </ContainerDiv>
-      </React.Fragment>
-    );
-  } else if (configObj.setupTarget === "netlify") {
-    return (
-      <React.Fragment>
-        <SortTitleBar background={headerBarColor}>{pageHeader}</SortTitleBar>
-        <ContainerDiv>
-          <ContentDiv>{transferTextAbove}</ContentDiv>
-          <SubmitButtonNetlify results={transmissionResults} />
-          <ContentDiv>{transferTextBelow}</ContentDiv>
-        </ContainerDiv>
-      </React.Fragment>
-    );
-  } else if (configObj.setupTarget === "baserow") {
+  } else {
+    // *** default to Baserow ***
     return (
       <React.Fragment>
         <SortTitleBar background={headerBarColor}>{pageHeader}</SortTitleBar>
         <ContainerDiv>
           <ContentDiv>{transferTextAbove}</ContentDiv>
           <SubmitButtonBaserow results={baserowResults} />
-          <ContentDiv>{transferTextBelow}</ContentDiv>
-        </ContainerDiv>
-      </React.Fragment>
-    );
-  } else {
-    // *** default to FIREBASE ***
-    return (
-      <React.Fragment>
-        <SortTitleBar background={headerBarColor}>{pageHeader}</SortTitleBar>
-        <ContainerDiv>
-          <ContentDiv>{transferTextAbove}</ContentDiv>
-          <SubmitButton results={transmissionResults} />
-
-          {displaySubmitFallback ? (
-            <SubmitFallback results={transmissionResults} />
-          ) : (
-            <ContentDiv>{transferTextBelow}</ContentDiv>
-          )}
+          {displayBelowButtonText && <ContentDiv>{transferTextBelow}</ContentDiv>}
         </ContainerDiv>
       </React.Fragment>
     );
@@ -397,9 +346,10 @@ const ContentDiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  text-align: center;
   align-items: center;
   line-height: 1.2em;
-  width: 85vw;
+  width: 75vw;
   font-size: 1.35em;
   padding: 25px;
   align-self: center;

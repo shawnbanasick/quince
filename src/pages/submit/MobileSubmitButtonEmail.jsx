@@ -181,10 +181,11 @@ const EmailButtonDiv = styled.div`
 
 const ButtonContainer = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   /* flex-wrap: wrap; */
-  height: 180px;
-  gap: 30px;
+  margin-top: 10px;
+  height: 110px;
+  gap: 10px;
   justify-content: center;
   align-items: center;
 `;

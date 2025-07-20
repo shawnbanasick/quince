@@ -8,7 +8,11 @@ const createSubmitSlice = (set) => ({
   submitFailNumber: 0,
   transmittingData: false,
   checkInternetConnection: false,
+  displayBelowButtonText: false,
 
+  setDisplayBelowButtonText: (input) => {
+    set(() => ({ displayBelowButtonText: input }));
+  },
   setDisableRefreshCheck: (input) => {
     set(() => ({ disableRefreshCheck: input }));
   },
