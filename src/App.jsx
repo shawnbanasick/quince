@@ -46,7 +46,6 @@ const getDisableRefreshCheck = (state) => state.disableRefreshCheck;
 // const getCurrentPage = (state) => state.currentPage;
 
 function App() {
-  // STATE
   const [isLoading, setLoading] = useState(true);
   const configObj = useSettingsStore(getConfigObj);
 
@@ -127,7 +126,7 @@ function App() {
 
     (async () => {
       await axios
-        .get("./settings/language.xml", {
+        .get(`./settings/language.xml`, {
           "Content-Type": "application/xml; charset=utf-8",
         })
         .then(function (response) {

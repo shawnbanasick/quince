@@ -18,7 +18,7 @@ const SubmitResultsButton = (props) => {
 
   const defaultEmailClientFailText =
     ReactHtmlParser(decodeHTML(langObj.defaultEmailClientFail)) || "";
-  const databaseFailText = ReactHtmlParser(decodeHTML(langObj.SubmitFailMessage)) || "";
+  const databaseFailText = ReactHtmlParser(decodeHTML(langObj.submitFailMessage)) || "";
 
   // Local State for email button visibility
   const [belowButtonMessage, setBelowButtonMessage] = useState(databaseFailText);
@@ -70,13 +70,13 @@ const SubmitResultsButton = (props) => {
     if (navigator.userAgent.toLowerCase().indexOf("chrome") > -1) {
       // Do Chrome-related actions  -  %0D%0A is a line break
       window.open(
-        `mailto:${configObj.emailAddress}?subject=${configObj.emailSubject}&body=${langObj.emailMessage1} %0D%0A%0D%0AMy Results:%0D%0A${formattedResultsTxt}`
+        `mailto:${configObj.emailAddress}?subject=${langObj.emailSubjectText}&body=${langObj.emailBodyMessage} %0D%0A%0D%0AMy Results:%0D%0A${formattedResultsTxt}`
       );
       // setShowEmailButtons(true);
       setShowCopyButtons(true);
     } else {
       // Do non-Chrome-related actions   -  %0D%0A is a line break
-      window.location.href = `mailto:${configObj.emailAddress}?subject=${configObj.emailSubject}&body=${langObj.emailMessage1} %0D%0A%0D%0AMy Results:%0D%0A${formattedResultsTxt}`;
+      window.location.href = `mailto:${configObj.emailAddress}?subject=${langObj.emailSubjectText}&body=${langObj.emailBodyMessage} %0D%0A%0D%0AMy Results:%0D%0A${formattedResultsTxt}`;
       // setShowEmailButtons(true);
       setShowCopyButtons(true);
     }
