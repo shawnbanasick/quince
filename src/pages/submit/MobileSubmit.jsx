@@ -13,7 +13,7 @@ import calcPresortTraceAndSortResults from "./calcPresortTraceAndSortResults";
 import useScreenOrientation from "../../utilities/useScreenOrientation";
 import { v4 as uuid } from "uuid";
 import createBaserowObject from "./createBaserowObject";
-import calculatePostsortResults from "./calculatePostsortResults";
+// import calculatePostsortResults from "./calculatePostsortResults";
 import convertObjectToBaserowResults from "../sort/convertObjectToBaserowResults";
 import createMobilePresortResultsObject from "./createMobilePresortResultsObject";
 
@@ -135,15 +135,20 @@ const MobileSort = () => {
     // if project included POSTSORT, read in complete sorted results
     if (configObj.showPostsort) {
       const resultsPostsort = JSON.parse(localStorage.getItem("resultsPostsort")) || {};
-      const newPostsortObject = calculatePostsortResults(resultsPostsort, mapObj, configObj);
-      const keys = Object.keys(newPostsortObject);
+      // const newPostsortObject = calculatePostsortResults(resultsPostsort, mapObj, configObj);
+      const keys = Object.keys(resultsPostsort);
+
+      console.log(JSON.stringify(resultsPostsort, null, 2));
+      // console.log(JSON.stringify(newPostsortObject, null, 2));
+      console.log(JSON.stringify(keys));
+
       for (let i = 0; i < keys.length; i++) {
         // skip unnecessary entries
         let skipText = keys[i].substring(0, 9);
         if (skipText === "textArea-") {
           continue;
         }
-        baserowResults[`r${baserowCounter}`] = `${keys[i]}: ${newPostsortObject[keys[i]]}`;
+        baserowResults[`r${baserowCounter}`] = `${keys[i]} ${resultsPostsort[keys[i]]}`;
         baserowCounter++;
       }
     }
@@ -225,13 +230,13 @@ const MobileSort = () => {
   };
 
   // get postsort results
-  if (configObj.showPostsort === true) {
-    let postsortResults = JSON.parse(localStorage.getItem("m_PostSortResultsObj"));
-    mobileTransmissionResults = {
-      ...mobileTransmissionResults,
-      ...postsortResults,
-    };
-  }
+  // if (configObj.showPostsort === true) {
+  //   // let postsortResults = JSON.parse(localStorage.getItem("m_PostSortResultsObj"));
+  //   mobileTransmissionResults = {
+  //     // ...mobileTransmissionResults,
+  //     // ...postsortResults,
+  //   };
+  // }
 
   try {
     if (configObj.showSurvey && resultsSurveyFromStorage !== undefined) {

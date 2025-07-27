@@ -91,12 +91,12 @@ const MobilePostsort = () => {
     let negResponsesObject = {};
     posStatements.forEach((statement, index) => {
       statement.sortValue = sortCharacteristicsArray[index].value;
-      postSortResultsObj[`column${statement.sortValue}_${statement.id}`] = "no response";
+      // postSortResultsObj[`column${statement.sortValue}_${statement.id}`] = "no response";
       posResponsesObject[statement.id] = "";
     });
     negStatements.forEach((statement, index) => {
       statement.sortValue = reversedSortCharacteristicsArray[index].value;
-      postSortResultsObj[`column${statement.sortValue}_${statement.id}`] = "no response";
+      // postSortResultsObj[`column${statement.sortValue}_${statement.id}`] = "no response";
       negResponsesObject[statement.id] = "";
     });
 
@@ -159,13 +159,21 @@ const MobilePostsort = () => {
       resultsPostsort = {};
     }
 
+    // console.log(event.target.sortValue);
+    // console.log(event.target);
+
+    const index = event.target.index;
+    const newValue2 = event.target.sortValue;
+    const newValue3 = newValue2.replace("+", "");
+    const newValue = newValue3.replace("-", "N");
+
     if (event.target.side === "positive") {
-      resp[`column${event.target.sortValue}_${event.target.commentId}`] = event.target.value;
+      resp[`column${newValue}_${index}:(${event.target.commentId})`] = event.target.value;
       mobilePosResponses[event.target.statementId] = event.target.value;
       setMobilePosResponses(mobilePosResponses);
     }
     if (event.target.side === "negative") {
-      resp[`column${event.target.sortValue}_${event.target.commentId}`] = event.target.value;
+      resp[`column${newValue}_${index}:(${event.target.commentId})`] = event.target.value;
       mobileNegResponses[event.target.statementId] = event.target.value;
       setMobileNegResponses(mobileNegResponses);
     }
@@ -209,6 +217,7 @@ const MobilePostsort = () => {
           id={`m_PostsortComment(${card.id})`}
           placeholder={placeholder}
           required={required}
+          index={index}
           commentId={card.id}
           sortValue={card.sortValue}
           onChange={handleTextareaChange}
@@ -239,6 +248,7 @@ const MobilePostsort = () => {
           delay={500}
           id={`m_PostsortComment(${card.id})`}
           placeholder={placeholder}
+          index={index}
           required={required}
           sortValue={card.sortValue}
           commentId={card.id}
