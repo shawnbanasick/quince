@@ -5,6 +5,7 @@
    <!-- GENERAL SETTINGS -->
    <!-- "setupTarget" options: netlify, firebase, local, email, or sheets -->
    <item id="studyTitle">Demo Project</item> 
+   <item id="creationDate">2025-7-27@10:54</item> 
    <item id="databaseOptions">Include_Google_Options</item>
    <item id="setupTarget">baserow</item>
    <item id="baserowToken">9mai4vZoWKfizfMebLLwHYXXg2FvBgzt</item>
@@ -80,10 +81,10 @@
 
    <!-- POSTSORT -->
    <item id="showPostsort">true</item>
-   <item id="showSecondPosColumn">false</item>
-   <item id="showSecondNegColumn">false</item>
+   <item id="showSecondPosColumn">true</item>
+   <item id="showSecondNegColumn">true</item>
    <item id="showBackButton">true</item>
-   <item id="postsortCommentsRequired">true</item>
+   <item id="postsortCommentsRequired">false</item>
 
    <item id="setDefaultFontSizePostsort">true</item>
    <item id="defaultFontSizePostsort">16</item>
@@ -100,7 +101,7 @@
    </item>
 
    <item id="survey">
-        <input type="text" required="true" limited="true" maxlength="100" restricted="false"></input>
+        <input type="text" required="false" limited="true" maxlength="100" restricted="false"></input>
         <label>1. Have you had classes with me before?*</label>
         <note>If yes, please {{{i}}}list them here{{{/i}}}. (limit = 100 characters)</note>
    </item>
@@ -123,7 +124,7 @@
    </item>
 
    <item id="survey">
-        <input type="checkbox" required="true">Lecture;;;Group Discussion;;;Active Learning</input>
+        <input type="checkbox" required="false">Lecture;;;Group Discussion;;;Active Learning</input>
         <label>5. What kind of class do you prefer?*</label>
    </item>
 

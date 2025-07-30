@@ -95,11 +95,14 @@ const MobileSort = () => {
   let randomId = localStorage.getItem("randomId") || uuid();
   let partId = localStorage.getItem("partId") || "no part ID";
   let usercode = localStorage.getItem("usercode") || "no usercode set";
+  let creationDate = configObj.creationDate || "unknown date";
 
-  baserowResults["r1"] = randomId;
-  baserowResults["r2"] = configObj.studyTitle || "my Q study";
-  baserowResults["r3"] = `(partId) ${partId}`;
-  baserowResults["r4"] = `(urlUsercode) ${usercode}`;
+  baserowResults["r1"] = configObj.studyTitle
+    ? `(projectName): ${configObj.studyTitle} - ${creationDate}`
+    : `(projectName): my Q study - ${creationDate}`;
+  baserowResults["r2"] = `(randomId): ${randomId}`;
+  baserowResults["r3"] = `(partId): ${partId}`;
+  baserowResults["r4"] = `(urlUsercode): ${usercode}`;
 
   let timeOnlandingPage = localStorage.getItem("timeOnlandingPage") || "00:00:00";
   let timeOnpresortPage = localStorage.getItem("timeOnpresortPage") || "00:00:00";
@@ -108,13 +111,13 @@ const MobileSort = () => {
   let timeOnpostsortPage = localStorage.getItem("timeOnpostsortPage") || "00:00:00";
   let timeOnsurveyPage = localStorage.getItem("timeOnsurveyPage") || "00:00:00";
 
-  baserowResults["r5"] = `(dateTime) ${dateString}`;
-  baserowResults["r6"] = `(timeOnWelcomePage) ${timeOnlandingPage}`;
-  baserowResults["r7"] = `(timeOnPresortPage) ${timeOnpresortPage}`;
-  baserowResults["r8"] = `(timeOnRefinePage) ${timeOnthinningPage}`;
-  baserowResults["r9"] = `(timeOnSortPage) ${timeOnsortPage}`;
-  baserowResults["r10"] = `(timeOnPostsortPage) ${timeOnpostsortPage}`;
-  baserowResults["r11"] = `(timeOnSurveyPage) ${timeOnsurveyPage}`;
+  baserowResults["r5"] = `(dateTime): ${dateString}`;
+  baserowResults["r6"] = `(timeOnWelcomePage): ${timeOnlandingPage}`;
+  baserowResults["r7"] = `(timeOnPresortPage): ${timeOnpresortPage}`;
+  baserowResults["r8"] = `(timeOnRefinePage): ${timeOnthinningPage}`;
+  baserowResults["r9"] = `(timeOnSortPage): ${timeOnsortPage}`;
+  baserowResults["r10"] = `(timeOnPostsortPage): ${timeOnpostsortPage}`;
+  baserowResults["r11"] = `(timeOnSurveyPage): ${timeOnsurveyPage}`;
 
   try {
     // creates r12 to r17 with presort results

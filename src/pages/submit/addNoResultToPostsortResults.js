@@ -1,4 +1,4 @@
-const calculatePostsortResults = (resultsPostsort, mapObj, configObj) => {
+const addNoResultToPostsortResults = (resultsPostsort, mapObj, configObj) => {
   const newObject = {};
 
   // check for missing responses
@@ -16,28 +16,44 @@ const calculatePostsortResults = (resultsPostsort, mapObj, configObj) => {
   const neuCardNum = maxValue;
   const neuCardVal = 0;
 
+  console.log(JSON.stringify(resultsPostsort, null, 2));
+  let noResponseCheckArrayHC1 = JSON.parse(localStorage.getItem("noResponseCheckArrayHC1")) || [];
+  let noResponseCheckArrayHC2 = JSON.parse(localStorage.getItem("noResponseCheckArrayHC2")) || [];
+  let noResponseCheckArrayLC1 = JSON.parse(localStorage.getItem("noResponseCheckArrayLC1")) || [];
+  let noResponseCheckArrayLC2 = JSON.parse(localStorage.getItem("noResponseCheckArrayLC2")) || [];
+
+  let combinedArray2 = [
+    ...noResponseCheckArrayLC2,
+    ...noResponseCheckArrayLC1,
+    ...noResponseCheckArrayHC2,
+    ...noResponseCheckArrayHC1,
+  ];
+
+  let combinedObject = {};
+  combinedArray2.forEach((item) => {
+    let item2 = item.split(":");
+    let id2 = item2[0].trim();
+    let stateNum = item2[1].trim();
+    combinedObject[id2] = stateNum;
+  });
+
+  console.log("999x", JSON.stringify(combinedObject));
+
   // check for high card answers
   const length = highCardNum;
   for (let i = 0; i < length; i++) {
-    if (!Object.prototype.hasOwnProperty.call(resultsPostsort, `column${highCardVal}_${i}`))
-      resultsPostsort[`column${highCardVal}_${i}`] = "no response";
+    let identifier = `column${highCardVal}_${i}`;
+    if (!Object.prototype.hasOwnProperty.call(resultsPostsort, identifier))
+      resultsPostsort[identifier] = `(${combinedObject[identifier]}): no response`;
   }
 
   // check for high card 2 answers
   if (configObj.showSecondPosColumn === true) {
     const length2 = highCard2Num;
     for (let ii = 0; ii < length2; ii++) {
-      if (!Object.prototype.hasOwnProperty.call(resultsPostsort, `column${highCard2Val}_${ii}`))
-        resultsPostsort[`column${highCard2Val}_${ii}`] = "no response";
-    }
-  }
-
-  // check for neu card answers
-  if (configObj?.displayNeutralObjects === true) {
-    const length5 = neuCardNum;
-    for (let jjj = 0; jjj < length5; jjj++) {
-      if (!Object.prototype.hasOwnProperty.call(resultsPostsort, `column${neuCardVal}_${jjj}`))
-        resultsPostsort[`column${neuCardVal}_${jjj}`] = "no response";
+      let identifier2 = `column${highCard2Val}_${ii}`;
+      if (!Object.prototype.hasOwnProperty.call(resultsPostsort, identifier2))
+        resultsPostsort[identifier2] = `(${combinedObject[identifier2]}): no response`;
     }
   }
 
@@ -67,4 +83,4 @@ const calculatePostsortResults = (resultsPostsort, mapObj, configObj) => {
   return newObject;
 };
 
-export default calculatePostsortResults;
+export default addNoResultToPostsortResults;

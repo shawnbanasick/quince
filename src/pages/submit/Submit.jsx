@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
-import calculatePostsortResults from "./calculatePostsortResults";
+import addNoResultToPostsortResults from "./addNoResultToPostsortResults";
 import { v4 as uuid } from "uuid";
 import SaveLocalDataToLocalStorageButton from "./SaveLocalDataToLocalStorageButton";
 import useSettingsStore from "../../globalState/useSettingsStore";
@@ -83,6 +83,7 @@ const SubmitPage = () => {
     let randomId = localStorage.getItem("randomId") || uuid();
     let partId = localStorage.getItem("partId") || "no part ID";
     let usercode = localStorage.getItem("usercode") || "no usercode set";
+    let creationDate = configObj.creationDate || "unknown date";
 
     // finish setup and format results object
     transmissionResults["projectName"] = configObj.studyTitle;
@@ -90,10 +91,12 @@ const SubmitPage = () => {
     transmissionResults["randomId"] = randomId;
     transmissionResults["urlUsercode"] = usercode;
 
-    baserowResults["r1"] = randomId;
-    baserowResults["r2"] = configObj.studyTitle;
-    baserowResults["r3"] = `(partId) ${partId}`;
-    baserowResults["r4"] = `(urlUsercode) ${usercode}`;
+    baserowResults["r1"] = configObj.studyTitle
+      ? `(projectName): ${configObj.studyTitle} - ${creationDate}`
+      : `(projectName): my Q study - ${creationDate}`;
+    baserowResults["r2"] = `(randomId): ${randomId}`;
+    baserowResults["r3"] = `(partId): ${partId}`;
+    baserowResults["r4"] = `(urlUsercode): ${usercode}`;
   } catch (error) {
     console.log(error);
     alert("1: " + error.message);
@@ -111,11 +114,11 @@ const SubmitPage = () => {
     transmissionResults["timeRefine"] = timeOnthinningPage;
     transmissionResults["timeSort"] = timeOnsortPage;
 
-    baserowResults["r5"] = `(dateTime) ${dateString}`;
-    baserowResults["r6"] = `(timeOnWelcomePage) ${timeOnlandingPage}`;
-    baserowResults["r7"] = `(timeOnPresortPage) ${timeOnpresortPage}`;
-    baserowResults["r8"] = `(timeOnRefinePage) ${timeOnthinningPage}`;
-    baserowResults["r9"] = `(timeOnSortPage) ${timeOnsortPage}`;
+    baserowResults["r5"] = `(dateTime): ${dateString}`;
+    baserowResults["r6"] = `(timeOnWelcomePage): ${timeOnlandingPage}`;
+    baserowResults["r7"] = `(timeOnPresortPage): ${timeOnpresortPage}`;
+    baserowResults["r8"] = `(timeOnRefinePage): ${timeOnthinningPage}`;
+    baserowResults["r9"] = `(timeOnSortPage): ${timeOnsortPage}`;
   } catch (error) {
     console.log(error);
     alert("2: " + error.message);
@@ -131,13 +134,13 @@ const SubmitPage = () => {
       let timeOnpostsortPage = localStorage.getItem("timeOnpostsortPage") || "00:00:00";
 
       transmissionResults["timePostsort"] = timeOnpostsortPage;
-      baserowResults["r10"] = `(timeOnPostsortPage) ${timeOnpostsortPage}`;
+      baserowResults["r10"] = `(timeOnPostsortPage): ${timeOnpostsortPage}`;
     }
 
     if (configObj.showSurvey === true) {
       let timeOnsurveyPage = localStorage.getItem("timeOnsurveyPage") || "00:00:00";
       transmissionResults["timeSurvey"] = timeOnsurveyPage;
-      baserowResults["r11"] = `(timeOnSurveyPage) ${timeOnsurveyPage}`;
+      baserowResults["r11"] = `(timeOnSurveyPage): ${timeOnsurveyPage}`;
     }
   } catch (error) {
     console.log(error);
@@ -169,7 +172,7 @@ const SubmitPage = () => {
     // if project included POSTSORT, read in complete sorted results
     if (configObj.showPostsort) {
       const resultsPostsort = JSON.parse(localStorage.getItem("resultsPostsort")) || {};
-      const newPostsortObject = calculatePostsortResults(resultsPostsort, mapObj, configObj);
+      const newPostsortObject = addNoResultToPostsortResults(resultsPostsort, mapObj, configObj);
       const keys = Object.keys(newPostsortObject);
       for (let i = 0; i < keys.length; i++) {
         // skip unnecessary entries

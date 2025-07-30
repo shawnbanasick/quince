@@ -13,11 +13,9 @@ import useLocalStorage from "../../utilities/useLocalStorage";
 // format example ===> {high: ["column4"], middle: ["column0"], low: ["columnN4"]}
 
 const getPostsortCommentCheckObj = (state) => state.postsortCommentCheckObj;
-const getSetPostsortCommentCheckObj = (state) =>
-  state.setPostsortCommentCheckObj;
+const getSetPostsortCommentCheckObj = (state) => state.setPostsortCommentCheckObj;
 const getConfigObj = (state) => state.configObj;
-const getShowPostsortCommentHighlighting = (state) =>
-  state.showPostsortCommentHighlighting;
+const getShowPostsortCommentHighlighting = (state) => state.showPostsortCommentHighlighting;
 const getPostsortDualImageArray = (state) => state.postsortDualImageArray;
 const getSetPostsortDualImageArray = (state) => state.setPostsortDualImageArray;
 
@@ -29,6 +27,8 @@ const HighCards2Display = (props) => {
       return localStorage.setItem(key, value);
     },
   };
+
+  console.log("999x", props);
 
   // LOCAL STATE
   const [openImageModal, setOpenImageModal] = useState(false);
@@ -46,9 +46,7 @@ const HighCards2Display = (props) => {
   const postsortCommentCheckObj = useStore(getPostsortCommentCheckObj);
   const setPostsortCommentCheckObj = useStore(getSetPostsortCommentCheckObj);
   const configObj = useSettingsStore(getConfigObj);
-  const showPostsortCommentHighlighting = useStore(
-    getShowPostsortCommentHighlighting
-  );
+  const showPostsortCommentHighlighting = useStore(getShowPostsortCommentHighlighting);
   const postsortDualImageArray = useStore(getPostsortDualImageArray);
   const setPostsortDualImageArray = useStore(getSetPostsortDualImageArray);
 
@@ -56,6 +54,13 @@ const HighCards2Display = (props) => {
   const highCards2 = columnStatements.vCols[agreeObj.columnDisplay2];
   const { agreeText, placeholder } = agreeObj;
   let columnDisplay = agreeObj.columnDisplay2;
+
+  let noResponseCheckArrayHC2 = [];
+  props.highCards2.forEach((item, index) => {
+    let idString = `${columnDisplay}_${index}: ${item.id}`;
+    noResponseCheckArrayHC2.push(idString);
+  });
+  localStorage.setItem("noResponseCheckArrayHC2", JSON.stringify(noResponseCheckArrayHC2));
 
   // enlarge images on double click
   const handleOpenImageModal = (e, src) => {
@@ -76,8 +81,7 @@ const HighCards2Display = (props) => {
   // on leaving card comment section,
   const onChange = (event, itemId) => {
     const results = JSON.parse(localStorage.getItem("resultsPostsort")) || {};
-    let allCommentsObj =
-      JSON.parse(localStorage.getItem("allCommentsObj")) || {};
+    let allCommentsObj = JSON.parse(localStorage.getItem("allCommentsObj")) || {};
 
     // set comment check object for Results formatting on Submit page
     let commentLength = event.target.value.length;
@@ -108,17 +112,15 @@ const HighCards2Display = (props) => {
 
           results[identifier] = `(${el.id}) ${comment}`;
           // setup persistence for comments
-          allCommentsObj[identifier] = `(${el.id}) ${comment}`;
-          allCommentsObj[
-            `textArea-${columnDisplay}_${itemId + 1}`
-          ] = `${comment}`;
+          allCommentsObj[identifier] = `(${el.id}): ${comment}`;
+          allCommentsObj[`textArea-${columnDisplay}_${itemId + 1}`] = `${comment}`;
           setRequiredCommentsObject((requiredCommentsObject) => {
             return { ...requiredCommentsObject, [`hc2-${itemId}`]: true };
           });
         } else {
           el.comment = "";
           results[identifier] = "";
-          allCommentsObj[identifier] = "";
+          allCommentsObj[identifier] = `(${el.id}): no response`;
           allCommentsObj[`textArea-${columnDisplay}_${itemId + 1}`] = "";
           setRequiredCommentsObject((requiredCommentsObject) => {
             return { ...requiredCommentsObject, [`hc2-${itemId}`]: false };
@@ -134,10 +136,8 @@ const HighCards2Display = (props) => {
   // render elements
   return highCards2.map((item, index) => {
     let content = ReactHtmlParser(`<div>${decodeHTML(item.statement)}</div>`);
-    let allCommentsObj =
-      JSON.parse(localStorage.getItem("allCommentsObj")) || {};
-    let cardComment =
-      allCommentsObj[`textArea-${columnDisplay}_${+index + 1}`] || "";
+    let allCommentsObj = JSON.parse(localStorage.getItem("allCommentsObj")) || {};
+    let cardComment = allCommentsObj[`textArea-${columnDisplay}_${+index + 1}`] || "";
 
     if (configObj.useImages === true) {
       content = ReactHtmlParser(
@@ -177,12 +177,7 @@ const HighCards2Display = (props) => {
           }}
           classNames={{ overlay: "dualImageOverlay", modal: "dualImageModal" }}
         >
-          <img
-            src={postsortDualImageArray[0]}
-            width="49.5%"
-            height="auto"
-            alt="modalImage"
-          />
+          <img src={postsortDualImageArray[0]} width="49.5%" height="auto" alt="modalImage" />
           <img
             src={postsortDualImageArray[1]}
             width="49.5%"
@@ -254,8 +249,7 @@ const CardAndTextHolder = styled.div`
 const CommentArea = styled.textarea`
   padding: 10px;
   margin-top: 2px;
-  background-color: ${(props) =>
-    props.bgColor ? "whitesmoke" : "rgba(253, 224, 71, .5)"};
+  background-color: ${(props) => (props.bgColor ? "whitesmoke" : "rgba(253, 224, 71, .5)")};
   height: ${(props) => `${props.height}px;`};
   font-size: ${(props) => `${props.cardFontSize}px`};
   width: calc(100% - 6px);

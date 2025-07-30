@@ -13,11 +13,9 @@ import useLocalStorage from "../../utilities/useLocalStorage";
 // format example ===> {high: ["column4"], middle: ["column0"], low: ["columnN4"]}
 
 const getPostsortCommentCheckObj = (state) => state.postsortCommentCheckObj;
-const getSetPostsortCommentCheckObj = (state) =>
-  state.setPostsortCommentCheckObj;
+const getSetPostsortCommentCheckObj = (state) => state.setPostsortCommentCheckObj;
 const getConfigObj = (state) => state.configObj;
-const getShowPostsortCommentHighlighting = (state) =>
-  state.showPostsortCommentHighlighting;
+const getShowPostsortCommentHighlighting = (state) => state.showPostsortCommentHighlighting;
 const getPostsortDualImageArray = (state) => state.postsortDualImageArray;
 const getSetPostsortDualImageArray = (state) => state.setPostsortDualImageArray;
 
@@ -46,9 +44,7 @@ const LowCards = (props) => {
   const postsortCommentCheckObj = useStore(getPostsortCommentCheckObj);
   const setPostsortCommentCheckObj = useStore(getSetPostsortCommentCheckObj);
   const configObj = useSettingsStore(getConfigObj);
-  const showPostsortCommentHighlighting = useStore(
-    getShowPostsortCommentHighlighting
-  );
+  const showPostsortCommentHighlighting = useStore(getShowPostsortCommentHighlighting);
   const postsortDualImageArray = useStore(getPostsortDualImageArray);
   const setPostsortDualImageArray = useStore(getSetPostsortDualImageArray);
 
@@ -56,6 +52,15 @@ const LowCards = (props) => {
   const lowCards = columnStatements.vCols[disagreeObj.columnDisplay];
   const { disagreeText, placeholder } = disagreeObj;
   let columnDisplay = disagreeObj.columnDisplay;
+
+  console.log("999x", props);
+
+  let noResponseCheckArrayLC1 = [];
+  props.lowCards.forEach((item, index) => {
+    let idString = `${columnDisplay}_${index}: ${item.id}`;
+    noResponseCheckArrayLC1.push(idString);
+  });
+  localStorage.setItem("noResponseCheckArrayLC1", JSON.stringify(noResponseCheckArrayLC1));
 
   // on double click of card, enlarge image
   const handleOpenImageModal = (e, src) => {
@@ -76,8 +81,7 @@ const LowCards = (props) => {
   // on change, get text and add comment to card object
   const onChange = (event, itemId) => {
     const results = JSON.parse(localStorage.getItem("resultsPostsort")) || {};
-    let allCommentsObj =
-      JSON.parse(localStorage.getItem("allCommentsObj")) || {};
+    let allCommentsObj = JSON.parse(localStorage.getItem("allCommentsObj")) || {};
 
     // set comment check object for Results formatting on Submit page
     let commentLength = event.target.value.length;
@@ -110,17 +114,15 @@ const LowCards = (props) => {
 
           results[identifier] = `(${el.id}) ${comment}`;
           // setup persistence for comments
-          allCommentsObj[identifier] = `(${el.id}) ${comment}`;
-          allCommentsObj[
-            `textArea-${columnDisplay}_${itemId + 1}`
-          ] = `${comment}`;
+          allCommentsObj[identifier] = `(${el.id}): ${comment}`;
+          allCommentsObj[`textArea-${columnDisplay}_${itemId + 1}`] = `${comment}`;
           setRequiredCommentsObject((requiredCommentsObject) => {
             return { ...requiredCommentsObject, [`lc-${itemId}`]: true };
           });
         } else {
           el.comment = "";
           results[identifier] = "";
-          allCommentsObj[identifier] = "";
+          allCommentsObj[identifier] = `(${el.id}): no response`;
           allCommentsObj[`textArea-${columnDisplay}_${itemId + 1}`] = "";
           setRequiredCommentsObject((requiredCommentsObject) => {
             return { ...requiredCommentsObject, [`lc-${itemId}`]: false };
@@ -136,10 +138,8 @@ const LowCards = (props) => {
   // MAP cards to DOM
   return lowCards.map((item, index) => {
     let content = ReactHtmlParser(`<div>${decodeHTML(item.statement)}</div>`);
-    let allCommentsObj =
-      JSON.parse(localStorage.getItem("allCommentsObj")) || {};
-    let cardComment =
-      allCommentsObj[`textArea-${columnDisplay}_${+index + 1}`] || "";
+    let allCommentsObj = JSON.parse(localStorage.getItem("allCommentsObj")) || {};
+    let cardComment = allCommentsObj[`textArea-${columnDisplay}_${+index + 1}`] || "";
 
     if (configObj.useImages === true) {
       content = ReactHtmlParser(
@@ -179,12 +179,7 @@ const LowCards = (props) => {
           }}
           classNames={{ overlay: "dualImageOverlay", modal: "dualImageModal" }}
         >
-          <img
-            src={postsortDualImageArray[0]}
-            width="49.5%"
-            height="auto"
-            alt="modalImage"
-          />
+          <img src={postsortDualImageArray[0]} width="49.5%" height="auto" alt="modalImage" />
           <img
             src={postsortDualImageArray[1]}
             width="49.5%"
@@ -256,8 +251,7 @@ const CardAndTextHolder = styled.div`
 const CommentArea = styled.textarea`
   padding: 10px;
   margin-top: 2px;
-  background-color: ${(props) =>
-    props.bgColor ? "whitesmoke" : "rgba(253, 224, 71, .5)"};
+  background-color: ${(props) => (props.bgColor ? "whitesmoke" : "rgba(253, 224, 71, .5)")};
   height: ${(props) => `${props.height}px;`};
   font-size: ${(props) => `${props.cardFontSize}px`};
   width: calc(100% - 6px);
