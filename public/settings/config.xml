@@ -10,8 +10,6 @@
    <item id="setupTarget">baserow</item>
    <item id="baserowToken">9mai4vZoWKfizfMebLLwHYXXg2FvBgzt</item>
    <item id="baserowDatabaseIdNumber">542139</item>
-   <!-- STEIN -->
-   <item id="steinApiUrl"></item>
    <!-- EMAIL -->
    <item id="emailAddress">ken.q.tools@gmail.com</item>  
    <item id="emailSubject">Quincy Sort Results</item>  
@@ -23,15 +21,6 @@
    <item id="numImages">30</item>
    <item id="imageFileType">jpg</item>
    <item id="imageFormat">postSortImageModal169</item>
-
-   <!-- FIREBASE OPTIONS -->
-     <item id="firebaseApiKey">AIzaSyAS2BrKXDufDeQ21B9D3g7Kv_UQZsqts08</item>
-     <item id="firebaseAuthDomain">quinceyq-3d549.firebaseapp.com</item>
-     <item id="firebaseDatabaseURL">https://quinceyq-3d549-default-rtdb.asia-southeast1.firebasedatabase.app</item>
-     <item id="firebaseProjectId">quinceyq-3d549</item>
-     <item id="firebaseStorageBucket">quinceyq-3d549.firebasestorage.app</item>
-     <item id="firebaseMessagingSenderId">184968881153</item>
-     <item id="firebaseAppId">1:184968881153:web:e9aab11ad4af09609acc00</item>
 
    <!-- OTHER GENERAL OPTIONS -->
    <item id="shuffleCards">false</item>

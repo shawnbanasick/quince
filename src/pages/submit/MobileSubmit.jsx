@@ -151,7 +151,13 @@ const MobileSort = () => {
         if (skipText === "textArea-") {
           continue;
         }
-        baserowResults[`r${baserowCounter}`] = `${keys[i]} ${resultsPostsort[keys[i]]}`;
+
+        let response = resultsPostsort[keys[i]];
+        if (response === "") {
+          response = ` no response`;
+        }
+
+        baserowResults[`r${baserowCounter}`] = `${keys[i]}: ${response}`;
         baserowCounter++;
       }
     }

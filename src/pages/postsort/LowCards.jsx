@@ -112,7 +112,7 @@ const LowCards = (props) => {
           el.comment = sanitizeString(comment);
           // assign to comments object
 
-          results[identifier] = `(${el.id}) ${comment}`;
+          results[identifier] = `(${el.id}): ${comment}`;
           // setup persistence for comments
           allCommentsObj[identifier] = `(${el.id}): ${comment}`;
           allCommentsObj[`textArea-${columnDisplay}_${itemId + 1}`] = `${comment}`;

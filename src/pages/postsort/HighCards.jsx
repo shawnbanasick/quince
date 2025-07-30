@@ -108,7 +108,7 @@ const HighCards = (props) => {
         if (comment.length > 0) {
           el.comment = sanitizeString(comment);
 
-          results[identifier] = `(${el.id}) ${comment}`;
+          results[identifier] = `(${el.id}): ${comment}`;
           // setup persistence for comments
           allCommentsObj[identifier] = `(${el.id}): ${comment}`;
           allCommentsObj[`textArea-${columnDisplay}_${itemId + 1}`] = `${comment}`;
