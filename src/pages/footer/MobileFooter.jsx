@@ -18,7 +18,7 @@ const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
 const getCurrentPage = (state) => state.currentPage;
 const getLocalUsercode = (state) => state.localUsercode;
-// const getDisplayNextButton = (state) => state.displayNextButton;
+const getDisplayNextButton = (state) => state.displayNextButton;
 // const getAdditionalProgress = (state) => state.progressScoreAdditional;
 // const getAdditionalProgressSort = (state) => state.progressScoreAdditionalSort;
 // const getDisplayMobileHelpButton = (state) => state.displayMobileHelpButton;
@@ -33,7 +33,7 @@ const StyledFooter = () => {
   const localUsercode = useStore(getLocalUsercode);
   // const additionalProgress = useStore(getAdditionalProgress);
   // const additionalProgressSort = useStore(getAdditionalProgressSort);
-  // let displayNextButton = useStore(getDisplayNextButton);
+  let displayNextButtonGlobal = useStore(getDisplayNextButton);
   // let displayMobileHelpButton = useStore(getDisplayMobileHelpButton);
   // const setDisplayMobileHelpButton = useStore(getSetDisplayMobileHelpButton);
 
@@ -117,6 +117,10 @@ const StyledFooter = () => {
   // Local data collection setup
   if (configObj.setupTarget === "local" && currentPage === "landing") {
     displayNextButton = false;
+  }
+
+  if (currentPage === "landing") {
+    displayNextButton = displayNextButtonGlobal;
   }
 
   // Image sort adjustments

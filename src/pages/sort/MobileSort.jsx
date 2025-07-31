@@ -76,8 +76,9 @@ const MobileSort = () => {
   // *********************************
   // *** USE HOOKS ************************************
   // *********************************
+  const startTimeRef = useRef(null);
   useEffect(() => {
-    let startTime = Date.now();
+    startTimeRef.current = Date.now();
     const setStateAsync = async () => {
       await setCurrentPage("sort");
       localStorage.setItem("currentPage", "sort");
@@ -85,7 +86,7 @@ const MobileSort = () => {
     };
     setStateAsync();
     return () => {
-      calculateTimeOnPage(startTime, "sortPage", "sortPage");
+      calculateTimeOnPage(startTimeRef.current, "sortPage", "sortPage");
     };
   }, [setCurrentPage, setProgressScore]);
 

@@ -129,8 +129,9 @@ const MobileThinning = () => {
   let modalRef = useRef({ header: "", text: "" });
   let screenOrientation = useScreenOrientation();
 
+  const startTimeRef = useRef(null);
   useEffect(() => {
-    let startTime = Date.now();
+    startTimeRef.current = Date.now();
     const setStateAsync = async () => {
       await setCurrentPage("thin");
       localStorage.setItem("currentPage", "thin");
@@ -138,7 +139,7 @@ const MobileThinning = () => {
     };
     setStateAsync();
     return () => {
-      calculateTimeOnPage(startTime, "thinPage", "thinPage");
+      calculateTimeOnPage(startTimeRef.current, "thinPage", "thinPage");
     };
   }, [setCurrentPage, setProgressScore]);
 

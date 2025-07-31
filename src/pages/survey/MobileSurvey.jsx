@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import styled from "styled-components";
 import useStore from "../../globalState/useStore";
 import calculateTimeOnPage from "../../utilities/calculateTimeOnPage";
@@ -86,8 +86,9 @@ const MobileSurvey = () => {
   }, [setRequiredAnswersObj, requiredAnswersObj]);
 
   // setup time on page and navigation
+  const startTimeRef = useRef(null);
   useEffect(() => {
-    let startTime = Date.now();
+    startTimeRef.current = Date.now();
     const setStateAsync = async () => {
       await setCurrentPage("survey");
       localStorage.setItem("currentPage", "survey");
@@ -95,7 +96,7 @@ const MobileSurvey = () => {
     };
     setStateAsync();
     return () => {
-      calculateTimeOnPage(startTime, "surveyPage", "surveyPage");
+      calculateTimeOnPage(startTimeRef.current, "surveyPage", "surveyPage");
     };
   }, [setCurrentPage, setProgressScore]);
 

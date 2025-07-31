@@ -6,7 +6,6 @@
    <!-- "setupTarget" options: netlify, firebase, local, email, or sheets -->
    <item id="studyTitle">Demo Project</item> 
    <item id="creationDate">2025-7-27@10:54</item> 
-   <item id="databaseOptions">Include_Google_Options</item>
    <item id="setupTarget">baserow</item>
    <item id="baserowToken">9mai4vZoWKfizfMebLLwHYXXg2FvBgzt</item>
    <item id="baserowDatabaseIdNumber">542139</item>
@@ -14,7 +13,7 @@
    <item id="emailAddress">ken.q.tools@gmail.com</item>  
    <item id="emailSubject">Quincy Sort Results</item>  
    <!-- SECOND PROJECT LINKING -->
-   <item id="linkToSecondProject">true</item> 
+   <item id="linkToSecondProject">false</item> 
    <item id="secondProjectUrl">http://localhost:5173/</item> 
    <!-- IMAGE OPTIONS  (imageFormat: 169 or 43)-->
    <item id="useImages">false</item>

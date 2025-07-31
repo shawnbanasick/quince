@@ -196,16 +196,17 @@ const Thinning = () => {
   let selectedStatementsNum = 0;
 
   // set TIME-ON-PAGE records
+  const startTimeRef = useRef(null);
   useEffect(() => {
-    let startTime = Date.now();
+    startTimeRef.current = Date.now();
     const setStateAsync = async () => {
       await setCurrentPage("thin");
       localStorage.setItem("currentPage", "thin");
-      await setProgressScore(15);
+      await setProgressScore(35);
     };
     setStateAsync();
     return () => {
-      calculateTimeOnPage(startTime, "thinningPage", "thinningPage");
+      calculateTimeOnPage(startTimeRef.current, "thinningPage", "thinningPage");
     };
   }, [setCurrentPage, setProgressScore]);
 

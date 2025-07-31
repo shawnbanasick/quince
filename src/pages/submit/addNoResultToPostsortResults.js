@@ -29,6 +29,8 @@ const addNoResultToPostsortResults = (resultsPostsort, mapObj, configObj) => {
     ...noResponseCheckArrayHC1,
   ];
 
+  console.log("zzz", combinedArray2);
+
   let combinedObject = {};
   combinedArray2.forEach((item) => {
     let item2 = item.split(":");
@@ -37,7 +39,7 @@ const addNoResultToPostsortResults = (resultsPostsort, mapObj, configObj) => {
     combinedObject[id2] = stateNum;
   });
 
-  console.log("999x", JSON.stringify(combinedObject));
+  console.log("zzz", JSON.stringify(combinedObject));
 
   // check for high card answers
   const length = highCardNum;
@@ -77,6 +79,7 @@ const addNoResultToPostsortResults = (resultsPostsort, mapObj, configObj) => {
 
   // re-arrange object properties
   let keys = Object.keys(resultsPostsort);
+
   keys.sort();
 
   for (let i = 0; i < keys.length; i++) {

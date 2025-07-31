@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import LowCards from "./LowCards";
 import LowCards2 from "./LowCards2";
 import HighCards from "./HighCards";
@@ -39,12 +39,8 @@ const PostSort = () => {
 
   // PERSISTENT STATE
   const columnStatements = JSON.parse(localStorage.getItem("columnStatements"));
-  let cardFontSizePersist = +JSON.parse(
-    localStorage.getItem("fontSizePostsort")
-  );
-  let cardHeightPersist = +JSON.parse(
-    localStorage.getItem("cardHeightPostsort")
-  );
+  let cardFontSizePersist = +JSON.parse(localStorage.getItem("fontSizePostsort"));
+  let cardHeightPersist = +JSON.parse(localStorage.getItem("cardHeightPostsort"));
 
   if (cardFontSizePersist) {
     cardFontSizePostsort = cardFontSizePersist;
@@ -58,16 +54,16 @@ const PostSort = () => {
   setDisplayNextButton(true);
 
   const headerBarColor = configObj.headerBarColor;
-  const postsortInstructions =
-    ReactHtmlParser(decodeHTML(langObj.postsortInstructions)) || "";
+  const postsortInstructions = ReactHtmlParser(decodeHTML(langObj.postsortInstructions)) || "";
 
   useEffect(() => {
     const Elementcount = ElementRef.current.childNodes.length;
     localStorage.setItem("postsortCommentCardCount", Elementcount - 1);
   });
 
+  const startTimeRef = useRef(null);
   useEffect(() => {
-    let startTime = Date.now();
+    startTimeRef.current = Date.now();
     const setStateAsync = async () => {
       await setCurrentPage("postsort");
       localStorage.setItem("currentPage", "postsort");
@@ -75,7 +71,7 @@ const PostSort = () => {
     };
     setStateAsync();
     return () => {
-      calculateTimeOnPage(startTime, "postsortPage", "postsortPage");
+      calculateTimeOnPage(startTimeRef.current, "postsortPage", "postsortPage");
     };
   }, [setCurrentPage, setProgressScore]);
 
@@ -84,8 +80,7 @@ const PostSort = () => {
 
   const titleText = ReactHtmlParser(decodeHTML(langObj.postsortHeader)) || "";
   const agree = ReactHtmlParser(decodeHTML(langObj.postsortAgreement)) || "";
-  const disagree =
-    ReactHtmlParser(decodeHTML(langObj.postsortDisagreement)) || "";
+  const disagree = ReactHtmlParser(decodeHTML(langObj.postsortDisagreement)) || "";
   const placeholder = langObj.placeholder;
 
   const keys = Object.keys(mapObj.postsortConvertObj);

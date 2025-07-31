@@ -5,7 +5,6 @@ import useSettingsStore from "../../globalState/useSettingsStore";
 import calculateTimeOnPage from "../../utilities/calculateTimeOnPage";
 import decodeHTML from "../../utilities/decodeHTML";
 import ReactHtmlParser from "html-react-parser";
-// import SubmitButton from "./SubmitButtonBaserow";
 import MobileSubmitButtonBaserow from "./MobileSubmitButtonBaserow";
 import getCurrentDateTime from "../../utilities/getCurrentDateTime";
 import mobileCalcPresortCountsObject from "./mobileCalcPresortCountsObject";
@@ -13,26 +12,27 @@ import calcPresortTraceAndSortResults from "./calcPresortTraceAndSortResults";
 import useScreenOrientation from "../../utilities/useScreenOrientation";
 import { v4 as uuid } from "uuid";
 import createBaserowObject from "./createBaserowObject";
-// import calculatePostsortResults from "./calculatePostsortResults";
 import convertObjectToBaserowResults from "../sort/convertObjectToBaserowResults";
 import createMobilePresortResultsObject from "./createMobilePresortResultsObject";
+// import calculatePostsortResults from "./calculatePostsortResults";
+// import SubmitButton from "./SubmitButtonBaserow";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
 const getDisplayGoodbyeMessage = (state) => state.displayGoodbyeMessage;
-const getMapObj = (state) => state.mapObj;
+// const getMapObj = (state) => state.mapObj;
 
 const MobileSort = () => {
   const setCurrentPage = useStore(getSetCurrentPage);
   const setProgressScore = useStore(getSetProgressScore);
-  const mapObj = useSettingsStore(getMapObj);
   const langObj = useSettingsStore(getLangObj);
   const configObj = useSettingsStore(getConfigObj);
   const dateString = getCurrentDateTime();
   let sortResults = JSON.parse(localStorage.getItem("m_SortArray1"));
   const displayGoodbyeMessage = useStore(getDisplayGoodbyeMessage);
+  // const mapObj = useSettingsStore(getMapObj);
 
   // ***************
   // *** TEXT LOCALIZATION ***
@@ -138,12 +138,17 @@ const MobileSort = () => {
     // if project included POSTSORT, read in complete sorted results
     if (configObj.showPostsort) {
       const resultsPostsort = JSON.parse(localStorage.getItem("resultsPostsort")) || {};
-      // const newPostsortObject = calculatePostsortResults(resultsPostsort, mapObj, configObj);
-      const keys = Object.keys(resultsPostsort);
 
-      console.log(JSON.stringify(resultsPostsort, null, 2));
+      // console.log("999x", JSON.stringify(resultsPostsort, null, 2));
+
+      const sortedResultsPostsort = Object.fromEntries(
+        Object.entries(resultsPostsort).sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
+      );
+
+      const keys = Object.keys(sortedResultsPostsort);
+
       // console.log(JSON.stringify(newPostsortObject, null, 2));
-      console.log(JSON.stringify(keys));
+      // console.log(JSON.stringify(keys));
 
       for (let i = 0; i < keys.length; i++) {
         // skip unnecessary entries
@@ -152,10 +157,12 @@ const MobileSort = () => {
           continue;
         }
 
-        let response = resultsPostsort[keys[i]];
+        let response = sortedResultsPostsort[keys[i]];
         if (response === "") {
+          console.log("called");
           response = ` no response`;
         }
+        // console.log(JSON.stringify(sortedResultsPostsort, null, 2));
 
         baserowResults[`r${baserowCounter}`] = `${keys[i]}: ${response}`;
         baserowCounter++;

@@ -246,6 +246,7 @@ function App() {
       console.log("Mobile Mode");
 
       if (configObj.showConsentPage === true || configObj.showConsentPage === "true") {
+        console.log("consent");
         return (
           <div className="App">
             <Router>
@@ -253,7 +254,6 @@ function App() {
                 <Route exact path="/" component={ConsentPage} />
                 <Route exact path="/presort" component={MobilePresortPage} />
                 <Route exact path="/thin" component={MobileThinningPage} />
-                {/* <Route exact path="/presort" component={PresortPage} /> */}
                 <Route exact path="/sort" component={MobileSortPage} />
                 <Route exact path="/postsort" component={MobilePostsortPage} />
                 <Route exact path="/survey" component={MobileSurveyPage} />
@@ -273,6 +273,7 @@ function App() {
         <div className="App">
           <Router>
             <Switch>
+              <Route exact path="/" component={LandingPage} />
               <Route exact path="/presort" component={MobilePresortPage} />
               <Route exact path="/thin" component={MobileThinningPage} />
               {/* <Route exact path="/presort" component={PresortPage} /> */}
@@ -280,7 +281,6 @@ function App() {
               <Route exact path="/postsort" component={MobilePostsortPage} />
               <Route exact path="/survey" component={MobileSurveyPage} />
               <Route exact path="/submit" component={MobileSubmitPage} />
-              <Route exact path="/" component={LandingPage} />
               <Route component={NoPageFound} />
             </Switch>
             <Suspense>

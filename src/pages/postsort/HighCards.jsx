@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
@@ -62,7 +62,7 @@ const HighCards = (props) => {
   localStorage.setItem("noResponseCheckArrayHC1", JSON.stringify(noResponseCheckArrayHC1));
 
   // on double click of card, enlarge image
-  const handleOpenImageModal = (e, src) => {
+  const handleOpenImageModal = (e) => {
     if (e.detail === 2) {
       if (e.shiftKey) {
         postsortDualImageArray.push(e.target.src);
@@ -117,7 +117,7 @@ const HighCards = (props) => {
           });
         } else {
           el.comment = "";
-          results[identifier] = "";
+          results[identifier] = `(${el.id}): no response`;
           allCommentsObj[identifier] = `(${el.id}): no response`;
           allCommentsObj[`textArea-${columnDisplay}_${itemId + 1}`] = "";
           setRequiredCommentsObject((requiredCommentsObject) => {

@@ -119,7 +119,7 @@ const HighCards2Display = (props) => {
           });
         } else {
           el.comment = "";
-          results[identifier] = "";
+          results[identifier] = `(${el.id}): no response`;
           allCommentsObj[identifier] = `(${el.id}): no response`;
           allCommentsObj[`textArea-${columnDisplay}_${itemId + 1}`] = "";
           setRequiredCommentsObject((requiredCommentsObject) => {

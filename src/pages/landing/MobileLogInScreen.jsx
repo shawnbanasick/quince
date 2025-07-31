@@ -54,8 +54,6 @@ const LogInScreen = () => {
   };
 
   useEffect(() => {
-    setDisplayNextButton(false);
-
     const handleKeyUpStart = (event) => {
       if (event.key === "Enter") {
         try {
@@ -167,24 +165,24 @@ const LogInScreen = () => {
       <LogInWelcomeText>{welcomeText}</LogInWelcomeText>
       <Container>
         <div>
-          <h2>{loginHeaderText}</h2>
+          <TextSpan2>{loginHeaderText}</TextSpan2>
           <StyledHr />
         </div>
-        <div>
-          <h3>{loginPartIdText}</h3>
+        <TopContainer>
+          <TextSpan1>{loginPartIdText}</TextSpan1>
           <StyledInputDiv>
             <StyledInput onChange={handleInput} type="text" autoFocus />
             {displayPartIdWarning && <WarningText>{partIdWarning}</WarningText>}
           </StyledInputDiv>
-        </div>
-        <div>
-          <h3>{accessInputText}</h3>
+        </TopContainer>
+        <BottomContainer>
+          <TextSpan1>{accessInputText}</TextSpan1>
           <StyledInputDiv>
             <StyledInput onChange={handleAccess} type="text" />
             {displayAccessCodeWarning && <WarningText>{accessCodeWarning}</WarningText>}
           </StyledInputDiv>
-        </div>
-        <LogInSubmitButton onClick={handleSubmit} size={"1.5em"} width={"200px"} height={"50px"} />
+        </BottomContainer>
+        <LogInSubmitButton size={"1.0em"} width={"120px"} height={"30px"} onClick={handleSubmit} />
       </Container>
       <WarningText>{}</WarningText>
     </React.Fragment>
@@ -196,45 +194,72 @@ export default LogInScreen;
 const Container = styled.div`
   display: grid;
   grid-template-rows: 23% 28% 28% 1fr;
-  margin-top: 50px;
-  width: 800px;
+  margin-top: 30px;
+  width: 96vw;
   padding: 20px;
-  min-height: 400px;
-  margin-bottom: 200px;
+  /* min-height: 400px; */
+  margin-bottom: 10px;
   border: 2px solid black;
   justify-self: center;
+  border-radius: 5px;
   background-color: whitesmoke;
 `;
 
 const LogInWelcomeText = styled.div`
-  width: 900px;
-  font-size: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100vw;
+  font-size: 16px;
   line-height: 1.3em;
-  padding-left: 35px;
+  /* border: 2px solid red; */
+  padding: 10px;
+  /* padding-left: 35px; */
 `;
 
 const StyledHr = styled.hr`
   margin-top: 5px;
-  margin-bottom: 30px;
+  margin-bottom: 5px;
 `;
 
 const StyledInput = styled.input`
   margin-top: 5px;
-  width: 400px;
+  width: 80vw;
   height: 30px;
-  font-size: 1.4em;
+  font-size: 1em;
   padding-left: 5px;
 `;
 
 const StyledInputDiv = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  gap: 10px;
   align-items: center;
 `;
 
 const WarningText = styled.div`
   color: red;
   font-weight: bold;
-  font-size: 1.4em;
+  font-size: 1em;
   margin-left: 10px;
+`;
+
+const TextSpan2 = styled.span`
+  font-size: 1.1em;
+  font-weight: bold;
+`;
+
+const TextSpan1 = styled.span`
+  font-size: 0.8em;
+  font-weight: bold;
+`;
+
+const TopContainer = styled.div`
+  height: 140px;
+`;
+
+const BottomContainer = styled.div`
+  margin-top: 10px;
+  height: 80px;
 `;

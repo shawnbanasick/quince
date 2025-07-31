@@ -173,15 +173,16 @@ const SubmitPage = () => {
     if (configObj.showPostsort) {
       const resultsPostsort = JSON.parse(localStorage.getItem("resultsPostsort")) || {};
       const newPostsortObject = addNoResultToPostsortResults(resultsPostsort, mapObj, configObj);
-      const keys = Object.keys(newPostsortObject);
+
+      const sortedResultsPostsort = Object.fromEntries(
+        Object.entries(newPostsortObject).sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
+      );
+
+      const keys = Object.keys(sortedResultsPostsort);
       for (let i = 0; i < keys.length; i++) {
-        // skip unnecessary entries
-        let skipText = keys[i].substring(0, 9);
-        if (skipText === "textArea-") {
-          continue;
-        }
-        transmissionResults[keys[i]] = newPostsortObject[keys[i]];
-        baserowResults[`r${baserowCounter}`] = `${keys[i]}: ${newPostsortObject[keys[i]]}`;
+        let newKey = keys[i].split("_");
+        transmissionResults[newKey[0]] = sortedResultsPostsort[keys[i]];
+        baserowResults[`r${baserowCounter}`] = `${newKey[0]}: ${sortedResultsPostsort[keys[i]]}`;
         baserowCounter++;
       }
     }

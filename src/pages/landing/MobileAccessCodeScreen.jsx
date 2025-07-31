@@ -16,7 +16,7 @@ const getSetIsLoggedIn = (state) => state.setIsLoggedIn;
 const getSetUserInputAccessCode = (state) => state.setUserInputAccessCode;
 const getSetDisplayAccessCodeWarning = (state) => state.setDisplayAccessCodeWarning;
 
-const LogInScreen = () => {
+const MobileAccessCodeScreen = () => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
   const configObj = useSettingsStore(getConfigObj);
@@ -100,45 +100,47 @@ const LogInScreen = () => {
   return (
     <Container>
       <div>
-        <h2>{loginHeaderText}</h2>
+        <TextSpan2>{loginHeaderText}</TextSpan2>
         <StyledHr />
       </div>
       <div>
-        <h3>{accessInputText}</h3>
+        <TextSpan1>{accessInputText}</TextSpan1>
         <StyledInputDiv>
           <StyledInput onChange={handleAccess} type="text" autoFocus />
           {displayAccessCodeWarning && <WarningText>{accessCodeWarning}</WarningText>}
         </StyledInputDiv>
       </div>
 
-      <LogInSubmitButton onClick={handleSubmit} size={"1.5em"} width={"200px"} height={"50px"} />
+      <LogInSubmitButton onClick={handleSubmit} size={"1em"} width={"100px"} height={"30px"} />
     </Container>
   );
 };
 
-export default LogInScreen;
+export default MobileAccessCodeScreen;
 
 const Container = styled.div`
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
   margin-top: 50px;
-  width: 50vw;
+  width: 90vw;
   padding: 1.5vw;
   min-height: 300px;
   margin-bottom: 200px;
   border: 2px solid black;
   justify-self: center;
   background-color: whitesmoke;
+  border-radius: 5px;
 `;
 
 const StyledHr = styled.hr`
   margin-top: 5px;
   margin-bottom: 30px;
+  width: 80vw;
 `;
 
 const StyledInput = styled.input`
   margin-top: 5px;
-  width: 400px;
+  width: 85vw;
   height: 30px;
   font-size: 1.4em;
   padding-left: 5px;
@@ -146,7 +148,8 @@ const StyledInput = styled.input`
 
 const StyledInputDiv = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  gap: 10px;
   align-items: center;
 `;
 
@@ -155,4 +158,14 @@ const WarningText = styled.div`
   font-weight: bold;
   font-size: 1.4em;
   margin-left: 10px;
+`;
+
+const TextSpan1 = styled.span`
+  font-size: 0.9em;
+  font-weight: bold;
+`;
+
+const TextSpan2 = styled.span`
+  font-size: 1.4em;
+  font-weight: bold;
 `;

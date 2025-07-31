@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import styled from "styled-components";
 import calculateTimeOnPage from "../../utilities/calculateTimeOnPage";
 import decodeHTML from "../../utilities/decodeHTML";
@@ -19,7 +19,7 @@ const getSetDisplayNextButton = (state) => state.setDisplayNextButton;
 const getSetUrlUsercode = (state) => state.setUrlUsercode;
 
 const ConsentPage = () => {
-  const ElementRef = useRef(null);
+  // const ElementRef = useRef(null);
 
   // GLOBAL STATE
   const langObj = useSettingsStore(getLangObj);
@@ -34,8 +34,9 @@ const ConsentPage = () => {
   const headerBarColor = configObj.headerBarColor;
   const consentText = ReactHtmlParser(decodeHTML(langObj.consentText)) || "";
 
+  const startTimeRef = useRef(null);
   useEffect(() => {
-    let startTime = Date.now();
+    startTimeRef.current = Date.now();
     const setStateAsync = async () => {
       await setCurrentPage("consent");
       localStorage.setItem("currentPage", "consent");
@@ -43,7 +44,7 @@ const ConsentPage = () => {
     };
     setStateAsync();
     return () => {
-      calculateTimeOnPage(startTime, "consentPage", "consentPage");
+      calculateTimeOnPage(startTimeRef.current, "consentPage", "consentPage");
     };
   }, [setCurrentPage, setProgressScore]);
 

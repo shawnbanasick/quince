@@ -97,8 +97,11 @@ const MobilePresortPage = () => {
   // ***********************
   let screenOrientation = useScreenOrientation();
   let redoCardId = useRef({ id: "", statement: "" });
+
+  // set time on page
+  const startTimeRef = useRef(null);
   useEffect(() => {
-    let startTime = Date.now();
+    startTimeRef.current = Date.now();
     const setStateAsync = async () => {
       await setCurrentPage("presort");
       localStorage.setItem("currentPage", "presort");
@@ -106,7 +109,7 @@ const MobilePresortPage = () => {
     };
     setStateAsync();
     return () => {
-      calculateTimeOnPage(startTime, "presortPage", "presortPage");
+      calculateTimeOnPage(startTimeRef.current, "presortPage", "presortPage");
     };
   }, [setCurrentPage, setProgressScore]);
 
@@ -254,7 +257,10 @@ const MobilePresortPage = () => {
         localStorage.setItem("selectedPosItems", JSON.stringify(selectedPosItems));
         localStorage.setItem("selectedNegItems", JSON.stringify(selectedNegItems));
 
+        // console.log(JSON.stringify(presortArray2));
+
         if (presortArray2.length === 0) {
+          console.log("length zero branch entered");
           let sortRightArrays = JSON.parse(localStorage.getItem("sortRightArrays"));
           let sortLeftArrays = JSON.parse(localStorage.getItem("sortLeftArrays"));
           let newCols = JSON.parse(localStorage.getItem("newCols"));
@@ -273,13 +279,14 @@ const MobilePresortPage = () => {
             JSON.stringify(thinDisplayControllerArray)
           );
 
+          console.log(JSON.stringify(m_PresortResults));
+
           // *** update newCols ***
           newCols.statementList = m_PresortResults;
           localStorage.setItem("newCols", JSON.stringify(newCols));
 
           setTriggerPresortFinishedModal(true);
           localStorage.setItem("m_PresortFinished", "true");
-          // setDisplayMobileHelpButton(false);
         }
       }
     } catch (error) {

@@ -1,10 +1,13 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import styled, { keyframes } from "styled-components";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
 import calculateTimeOnPage from "../../utilities/calculateTimeOnPage";
 import LandingModal from "../landing/LandingModal";
 import LogInScreen from "./LogInScreen";
+import MobileLogInScreen from "./MobileLogInScreen";
+import MobilePartIdScreen from "./MobilePartIdScreen";
+import MobileAccessCodeScreen from "./MobileAccessCodeScreen";
 import PartIdScreen from "./PartIdScreen";
 import AccessCodeScreen from "./AccessCodeScreen";
 import checkForIeBrowser from "./checkForIeBrowser";
@@ -70,7 +73,6 @@ const LandingPage = () => {
   const isLandingReload = localStorage.getItem("currentPage");
 
   if (isLandingReload === "landing") {
-    // localStorage.clear();
     // clear local storage if previous sorts exist
     localStorage.removeItem("columns");
     localStorage.removeItem("sortColumns");
@@ -111,9 +113,6 @@ const LandingPage = () => {
     localStorage.removeItem("currentLeftIteration");
     localStorage.removeItem("currentRightIteration");
     localStorage.removeItem("isNotReload");
-    // localStorage.removeItem("sortRightArrays");
-    // localStorage.removeItem("sortLeftArrays");
-    // localStorage.removeItem("finalSortColData");
     localStorage.removeItem("posSorted");
     localStorage.removeItem("negSorted");
     localStorage.removeItem("selectedPosItems");
@@ -194,11 +193,13 @@ const LandingPage = () => {
   );
 
   localStorage.setItem("m_ThinDisplayStatements", JSON.stringify({ display: true }));
-
   localStorage.setItem("m_PresortDisplayStatements", JSON.stringify({ display: true }));
-
   localStorage.setItem("randomId", uuid().substring(0, 12));
   localStorage.setItem("m_FinalThinCols", JSON.stringify([]));
+
+  // set newCols to local storage
+  let columnStatements = statementsObj.columnStatements;
+  localStorage.setItem("newCols", JSON.stringify(columnStatements));
 
   // *** USE HOOKS *********************
   let isMobile = detectMobileBrowser();
@@ -206,14 +207,15 @@ const LandingPage = () => {
   let screenOrientation = useScreenOrientation();
 
   //   calc time on page
+  const startTimeRef = useRef(null);
   useEffect(() => {
-    const startTime = Date.now();
+    startTimeRef.current = Date.now();
     setProgressScore(10);
     setCurrentPage("landing");
     localStorage.setItem("currentPage", "landing");
     return () => {
       // will persist in localStorage
-      calculateTimeOnPage(startTime, "landingPage", "landingPage");
+      calculateTimeOnPage(startTimeRef.current, "landingPage", "landingPage");
     };
   }, [setCurrentPage, setProgressScore]);
 
@@ -235,10 +237,6 @@ const LandingPage = () => {
     let sortLeftArrays = [...rightLeftArrays[0]];
     localStorage.setItem("sortRightArrays", JSON.stringify(sortRightArrays));
     localStorage.setItem("sortLeftArrays", JSON.stringify(sortLeftArrays));
-
-    // set newCols to local storage
-    let columnStatements = statementsObj.columnStatements;
-    localStorage.setItem("newCols", JSON.stringify(columnStatements));
 
     // display "Next" button if anonymous log in
     if (configObj.initialScreen === "anonymous") {
@@ -428,9 +426,14 @@ const LandingPage = () => {
               <React.Fragment>
                 <MobileSortTitleBar background={headerBarColor}>{landingHead}</MobileSortTitleBar>
                 <MobileContainerDiv>
-                  <MobileContentDiv>
-                    <div>{mobileWelcomeTextHtml}</div>
-                  </MobileContentDiv>
+                  {displayLogInScreen && <MobileLogInScreen />}
+                  {displayPartIdScreen && <MobilePartIdScreen />}
+                  {displayAccessCodeScreen && <MobileAccessCodeScreen />}
+                  {displayLandingContent && (
+                    <MobileContentDiv>
+                      <div>{mobileWelcomeTextHtml}</div>
+                    </MobileContentDiv>
+                  )}
                 </MobileContainerDiv>
               </React.Fragment>
             )}
@@ -514,6 +517,7 @@ const MobileContainerDiv = styled.div`
   padding-top: 50px;
   transition: 0.3s ease all;
   margin-top: 20px;
+  /* border: 2px solid red; */
   color: ${(props) => {
     return props.theme.mobileText;
   }};

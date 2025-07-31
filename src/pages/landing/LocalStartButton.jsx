@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, { useEffect, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
 import { withRouter } from "react-router";
@@ -13,8 +13,7 @@ const getSetLocalParticipantName = (state) => state.setLocalParticipantName;
 const getSetLocalUsercode = (state) => state.setLocalUsercode;
 const getSetLocalPartIdWarning1 = (state) => state.setLocalPartIdWarning1;
 const getSetLocalPartIdWarning2 = (state) => state.setLocalPartIdWarning2;
-const getSetTriggerLocalSubmitSuccessModal = (state) =>
-  state.setTriggerLocalSubmitSuccessModal;
+const getSetTriggerLocalSubmitSuccessModal = (state) => state.setTriggerLocalSubmitSuccessModal;
 const getSetResults = (state) => state.setResults;
 const getResults = (state) => state.results;
 
@@ -27,14 +26,11 @@ const LogInSubmitButton = (props) => {
   const setLocalUsercode = useStore(getSetLocalUsercode);
   let setLocalPartIdWarning1 = useStore(getSetLocalPartIdWarning1);
   let setLocalPartIdWarning2 = useStore(getSetLocalPartIdWarning2);
-  const setTriggerLocalSubmitSuccessModal = useStore(
-    getSetTriggerLocalSubmitSuccessModal
-  );
+  const setTriggerLocalSubmitSuccessModal = useStore(getSetTriggerLocalSubmitSuccessModal);
   const setResults = useStore(getSetResults);
   const results = useStore(getResults);
 
-  const localStartButtonText =
-    ReactHtmlParser(decodeHTML(langObj.localStartButtonText)) || "";
+  const localStartButtonText = ReactHtmlParser(decodeHTML(langObj.localStartButtonText)) || "";
 
   const checkForNextPageConditions = useCallback(() => {
     let value0 = false;
@@ -66,12 +62,7 @@ const LogInSubmitButton = (props) => {
     }
 
     return value0;
-  }, [
-    setLocalPartIdWarning1,
-    setLocalPartIdWarning2,
-    localParticipantName,
-    localUsercode,
-  ]);
+  }, [setLocalPartIdWarning1, setLocalPartIdWarning2, localParticipantName, localUsercode]);
 
   const {
     history,
@@ -107,12 +98,7 @@ const LogInSubmitButton = (props) => {
     setLocalUsercode("");
     setLocalPartIdWarning1(false);
     setLocalPartIdWarning2(false);
-  }, [
-    setLocalPartIdWarning1,
-    setLocalPartIdWarning2,
-    setLocalParticipantName,
-    setLocalUsercode,
-  ]);
+  }, [setLocalPartIdWarning1, setLocalPartIdWarning2, setLocalParticipantName, setLocalUsercode]);
 
   return (
     <StyledSubmitButton
@@ -148,8 +134,7 @@ const StyledSubmitButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme, active }) =>
-    active ? theme.secondary : theme.primary};
+  background-color: ${({ theme, active }) => (active ? theme.secondary : theme.primary)};
 
   &:hover {
     background-color: ${({ theme }) => theme.secondary};

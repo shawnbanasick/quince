@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import styled from "styled-components";
 import useStore from "../../globalState/useStore";
 import useSettingsStore from "../../globalState/useSettingsStore";
@@ -62,20 +62,30 @@ const MobilePostsort = () => {
   // ***************************
   const cardsArray = useMemo(() => {
     let postSortResultsObj = {};
+    // ranking of all statements
     const cards2 = JSON.parse(localStorage.getItem("m_SortArray1")) || [];
     const cards = [...cards2];
+    // array of objects with Q sort values for each position
     const sortCharacteristicsArray = JSON.parse(localStorage.getItem("m_SortCharacteristicsArray"));
-    console.log(sortCharacteristicsArray);
+    // console.log("999z", sortCharacteristicsArray);
+
+    // negative first
     const reversedSortCharacteristicsArray = [...sortCharacteristicsArray].reverse();
 
     const showSecondPosColumn = configObj.showSecondPosColumn;
     const showSecondNegColumn = configObj.showSecondNegColumn;
+
     const qSortPattern = [...mapObj.qSortPattern];
 
+    // most positive and negative values
     let posStatementsNum = qSortPattern[0];
     let negStatementsNum = qSortPattern[qSortPattern.length - 1];
+
+    // 2nd most positive and negative values
     const posStatementsNum2 = qSortPattern[1];
     const negStatementsNum2 = qSortPattern[qSortPattern.length - 2];
+
+    // check setup
     if (showSecondPosColumn === true || showSecondPosColumn === "true") {
       posStatementsNum = +posStatementsNum + +posStatementsNum2;
     }
@@ -84,7 +94,6 @@ const MobilePostsort = () => {
     }
 
     const posStatements = cards.slice(0, posStatementsNum);
-    console.log(posStatements);
     const negStatements = cards.slice(-negStatementsNum);
 
     let posResponsesObject = {};
@@ -130,8 +139,9 @@ const MobilePostsort = () => {
   // ***************************
   let screenOrientation = useScreenOrientation();
 
+  const startTimeRef = useRef(null);
   useEffect(() => {
-    let startTime = Date.now();
+    startTimeRef.current = Date.now();
     const setStateAsync = async () => {
       await setCurrentPage("postsort");
       localStorage.setItem("currentPage", "postsort");
@@ -139,7 +149,7 @@ const MobilePostsort = () => {
     };
     setStateAsync();
     return () => {
-      calculateTimeOnPage(startTime, "postsortPage", "postsortPage");
+      calculateTimeOnPage(startTimeRef.current, "postsortPage", "postsortPage");
     };
   }, [setCurrentPage, setProgressScore]);
 
@@ -159,21 +169,17 @@ const MobilePostsort = () => {
       resultsPostsort = {};
     }
 
-    // console.log(event.target.sortValue);
-    // console.log(event.target);
-
-    const index = event.target.index;
     const newValue2 = event.target.sortValue;
     const newValue3 = newValue2.replace("+", "");
     const newValue = newValue3.replace("-", "N");
 
     if (event.target.side === "positive") {
-      resp[`column${newValue}_${index}:(${event.target.commentId})`] = event.target.value;
+      resp[`column${newValue}:(${event.target.commentId})`] = event.target.value;
       mobilePosResponses[event.target.statementId] = event.target.value;
       setMobilePosResponses(mobilePosResponses);
     }
     if (event.target.side === "negative") {
-      resp[`column${newValue}_${index}:(${event.target.commentId})`] = event.target.value;
+      resp[`column${newValue}:(${event.target.commentId})`] = event.target.value;
       mobileNegResponses[event.target.statementId] = event.target.value;
       setMobileNegResponses(mobileNegResponses);
     }
@@ -197,6 +203,9 @@ const MobilePostsort = () => {
   // ***************************
   // *** ELEMENTS *******************
   // ***************************
+
+  console.log("999q", JSON.stringify(cardsArray, null, 2));
+
   let posStatements = cardsArray[0].map((card, index) => {
     return (
       <div key={uuid()}>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import cloneDeep from "lodash/cloneDeep";
 import PresortModal from "./PresortModal";
 import PresortDND from "./PresortDND";
@@ -47,16 +47,17 @@ const PresortPage = () => {
   // set next button display
   setDisplayNextButton(true);
 
+  const startTimeRef = useRef(null);
   useEffect(() => {
-    let startTime = Date.now();
+    startTimeRef.current = Date.now();
     const setStateAsync = async () => {
       await setCurrentPage("presort");
       localStorage.setItem("currentPage", "presort");
-      await setProgressScore(20);
+      await setProgressScore(15);
     };
     setStateAsync();
     return () => {
-      calculateTimeOnPage(startTime, "presortPage", "presortPage");
+      calculateTimeOnPage(startTimeRef.current, "presortPage", "presortPage");
     };
   }, [setCurrentPage, setProgressScore]);
 
