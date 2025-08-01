@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
@@ -24,27 +24,27 @@ const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
 const getMapObj = (state) => state.mapObj;
 const getSetCurrentPage = (state) => state.setCurrentPage;
-// const getDisplaySubmitFallback = (state) => state.displaySubmitFallback;
 const getDisplayGoodbyeMessage = (state) => state.displayGoodbyeMessage;
-const getParticipantName = (state) => state.localParticipantName;
-const getLocalUsercode = (state) => state.localUsercode;
 const getDisplayBelowButtonText = (state) => state.displayBelowButtonText;
-
-let transmissionResults = {};
-let baserowResults = {};
+// const getParticipantName = (state) => state.localParticipantName;
+// const getLocalUsercode = (state) => state.localUsercode;
+// const getDisplaySubmitFallback = (state) => state.displaySubmitFallback;
 
 const SubmitPage = () => {
+  let transmissionResults = {};
+  let baserowResults = {};
+
   // GLOBAL STATE
   const langObj = useSettingsStore(getLangObj);
   const configObj = useSettingsStore(getConfigObj);
   const mapObj = useSettingsStore(getMapObj);
   const setCurrentPage = useStore(getSetCurrentPage);
-  // const displaySubmitFallback = useStore(getDisplaySubmitFallback);
   const displayGoodbyeMessage = useStore(getDisplayGoodbyeMessage);
-  const localParticipantName = useStore(getParticipantName);
-  const localUsercode = useStore(getLocalUsercode);
   const urlUsercode = localStorage.getItem("urlUsercode") || "";
   const displayBelowButtonText = useStore(getDisplayBelowButtonText);
+  // const localParticipantName = useStore(getParticipantName);
+  // const localUsercode = useStore(getLocalUsercode);
+  // const displaySubmitFallback = useStore(getDisplaySubmitFallback);
 
   // PERSISTENT STATE
   let resultsSurveyFromStorage = JSON.parse(localStorage.getItem("resultsSurvey"));
@@ -52,6 +52,47 @@ const SubmitPage = () => {
     resultsSurveyFromStorage = {};
   }
 
+  const [timeData, setTimeData] = useState({
+    consent: "00:00:00",
+    landing: "00:00:00",
+    presort: "00:00:00",
+    thinning: "00:00:00",
+    sort: "00:00:00",
+    postsort: "00:00:00",
+    survey: "00:00:00",
+  });
+
+  useEffect(() => {
+    const getTimeFromStorage = (key, fallback = "00:00:00") => {
+      const value = localStorage.getItem(key);
+      return value !== null ? value : fallback;
+    };
+
+    const newTimeData = {
+      consent: getTimeFromStorage("timeOnconsentPage"),
+      landing: getTimeFromStorage("timeOnlandingPage"),
+      presort: getTimeFromStorage("timeOnpresortPage"),
+      thinning: getTimeFromStorage("timeOnthinningPage"),
+      sort: getTimeFromStorage("timeOnsortPage"),
+      postsort: getTimeFromStorage("timeOnpostsortPage"),
+      survey: getTimeFromStorage("timeOnsurveyPage"),
+    };
+
+    // Apply conditional logic
+    if (configObj.showConsentPage === false || configObj.showConsentPage === "false") {
+      newTimeData.consent = "n/a";
+    }
+    if (configObj.showPostsort === false || configObj.showPostsort === "false") {
+      newTimeData.postsort = "n/a";
+    }
+    if (configObj.showSurvey === false || configObj.showSurvey === "false") {
+      newTimeData.survey = "n/a";
+    }
+
+    setTimeData(newTimeData);
+  }, [configObj]);
+
+  // HOOKS
   useEffect(() => {
     setCurrentPage("submit");
     localStorage.setItem("currentPage", "submit");
@@ -70,14 +111,10 @@ const SubmitPage = () => {
   const resultsPresort = JSON.parse(localStorage.getItem("resultsPresort")) || {};
   const resultsSortObj = JSON.parse(localStorage.getItem("sortColumns")) || {};
 
-  console.log("resultsPresort", JSON.stringify(resultsPresort));
-  console.log("resultsSortObj", JSON.stringify(resultsSortObj));
-
   // config options
   const headerBarColor = configObj.headerBarColor;
   const dateString = getCurrentDateTime();
 
-  // useEffect(() => {
   // format results for transmission
   try {
     let randomId = localStorage.getItem("randomId") || uuid();
@@ -103,45 +140,24 @@ const SubmitPage = () => {
   }
 
   try {
-    let timeOnlandingPage = localStorage.getItem("timeOnlandingPage") || "00:00:00";
-    let timeOnpresortPage = localStorage.getItem("timeOnpresortPage") || "00:00:00";
-    let timeOnthinningPage = localStorage.getItem("timeOnthinningPage") || "00:00:00";
-    let timeOnsortPage = localStorage.getItem("timeOnsortPage") || "00:00:00";
-
-    transmissionResults["dateTime"] = dateString;
-    transmissionResults["timeLanding"] = timeOnlandingPage;
-    transmissionResults["timePresort"] = timeOnpresortPage;
-    transmissionResults["timeRefine"] = timeOnthinningPage;
-    transmissionResults["timeSort"] = timeOnsortPage;
-
     baserowResults["r5"] = `(dateTime): ${dateString}`;
-    baserowResults["r6"] = `(timeOnWelcomePage): ${timeOnlandingPage}`;
-    baserowResults["r7"] = `(timeOnPresortPage): ${timeOnpresortPage}`;
-    baserowResults["r8"] = `(timeOnRefinePage): ${timeOnthinningPage}`;
-    baserowResults["r9"] = `(timeOnSortPage): ${timeOnsortPage}`;
+    baserowResults["r6"] = `(timeOnConsentPage): ${timeData.consent}`;
+    baserowResults["r7"] = `(timeOnWelcomePage): ${timeData.landing}`;
+    baserowResults["r8"] = `(timeOnPresortPage): ${timeData.presort}`;
+    baserowResults["r9"] = `(timeOnRefinePage): ${timeData.thinning}`;
+    baserowResults["r10"] = `(timeOnSortPage): ${timeData.sort}`;
+    baserowResults["r11"] = `(timeOnPostsortPage): ${timeData.postsort}`;
+    baserowResults["r12"] = `(timeOnSurveyPage): ${timeData.survey}`;
   } catch (error) {
     console.log(error);
     alert("2: " + error.message);
   }
 
   try {
-    if (configObj.setupTarget === "local") {
-      transmissionResults["partId"] = localParticipantName || "no part ID";
-      transmissionResults["usercode"] = localUsercode || "no usercode set";
-    }
-
-    if (configObj.showPostsort === true) {
-      let timeOnpostsortPage = localStorage.getItem("timeOnpostsortPage") || "00:00:00";
-
-      transmissionResults["timePostsort"] = timeOnpostsortPage;
-      baserowResults["r10"] = `(timeOnPostsortPage): ${timeOnpostsortPage}`;
-    }
-
-    if (configObj.showSurvey === true) {
-      let timeOnsurveyPage = localStorage.getItem("timeOnsurveyPage") || "00:00:00";
-      transmissionResults["timeSurvey"] = timeOnsurveyPage;
-      baserowResults["r11"] = `(timeOnSurveyPage): ${timeOnsurveyPage}`;
-    }
+    // if (configObj.setupTarget === "local") {
+    //   transmissionResults["partId"] = localParticipantName || "no part ID";
+    //   transmissionResults["usercode"] = localUsercode || "no usercode set";
+    // }
   } catch (error) {
     console.log(error);
     alert("3: " + error.message);
@@ -166,7 +182,7 @@ const SubmitPage = () => {
     alert("4: " + error.message);
   }
 
-  let baserowCounter = 20;
+  let baserowCounter = 21;
 
   try {
     // if project included POSTSORT, read in complete sorted results

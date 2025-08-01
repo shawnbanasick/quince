@@ -139,7 +139,7 @@ const MobileThinning = () => {
     };
     setStateAsync();
     return () => {
-      calculateTimeOnPage(startTimeRef.current, "thinPage", "thinPage");
+      calculateTimeOnPage(startTimeRef.current, "thinningPage", "thinningPage");
     };
   }, [setCurrentPage, setProgressScore]);
 

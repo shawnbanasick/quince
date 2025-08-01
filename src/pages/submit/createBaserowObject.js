@@ -17,13 +17,13 @@ const createBaserowObject = () => {
       numNeg = 0;
     }
 
-    baserowObject["r12"] = `(numPos): ${numPos}`;
-    baserowObject["r13"] = `(numNeu): ${numNeu}`;
-    baserowObject["r14"] = `(numNeg): ${numNeg}`;
+    baserowObject["r13"] = `(numPos): ${numPos}`;
+    baserowObject["r14"] = `(numNeu): ${numNeu}`;
+    baserowObject["r15"] = `(numNeg): ${numNeg}`;
 
-    baserowObject["r15"] = `(pos): ${resultsPresort?.posStateNums || []}`;
-    baserowObject["r16"] = `(neu): ${resultsPresort?.neuStateNums || []}`;
-    baserowObject["r17"] = `(neg): ${resultsPresort?.negStateNums || []}`;
+    baserowObject["r16"] = `(pos): ${resultsPresort?.posStateNums || []}`;
+    baserowObject["r17"] = `(neu): ${resultsPresort?.neuStateNums || []}`;
+    baserowObject["r18"] = `(neg): ${resultsPresort?.negStateNums || []}`;
 
     // presortObject["npos"] = numPos;
     // presortObject["posStateNums"] = resultsPresort?.posStateNums || [];

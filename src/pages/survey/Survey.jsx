@@ -62,8 +62,8 @@ const SurveyPage = () => {
   useEffect(() => {
     startTimeRef.current = Date.now();
     const setStateAsync = async () => {
-      localStorage.setItem("currentPage", "survey");
       await setCurrentPage("survey");
+      localStorage.setItem("currentPage", "survey");
     };
     setStateAsync();
     return () => {

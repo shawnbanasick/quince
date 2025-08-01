@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import useStore from "../../globalState/useStore";
 import useSettingsStore from "../../globalState/useSettingsStore";
@@ -7,13 +7,13 @@ import decodeHTML from "../../utilities/decodeHTML";
 import ReactHtmlParser from "html-react-parser";
 import MobileSubmitButtonBaserow from "./MobileSubmitButtonBaserow";
 import getCurrentDateTime from "../../utilities/getCurrentDateTime";
-import mobileCalcPresortCountsObject from "./mobileCalcPresortCountsObject";
-import calcPresortTraceAndSortResults from "./calcPresortTraceAndSortResults";
 import useScreenOrientation from "../../utilities/useScreenOrientation";
 import { v4 as uuid } from "uuid";
 import createBaserowObject from "./createBaserowObject";
 import convertObjectToBaserowResults from "../sort/convertObjectToBaserowResults";
 import createMobilePresortResultsObject from "./createMobilePresortResultsObject";
+// import mobileCalcPresortCountsObject from "./mobileCalcPresortCountsObject";
+// import calcPresortTraceAndSortResults from "./calcPresortTraceAndSortResults";
 // import calculatePostsortResults from "./calculatePostsortResults";
 // import SubmitButton from "./SubmitButtonBaserow";
 
@@ -32,7 +32,63 @@ const MobileSort = () => {
   const dateString = getCurrentDateTime();
   let sortResults = JSON.parse(localStorage.getItem("m_SortArray1"));
   const displayGoodbyeMessage = useStore(getDisplayGoodbyeMessage);
-  // const mapObj = useSettingsStore(getMapObj);
+
+  const [timeData, setTimeData] = useState({
+    consent: "00:00:00",
+    landing: "00:00:00",
+    presort: "00:00:00",
+    thinning: "00:00:00",
+    sort: "00:00:00",
+    postsort: "00:00:00",
+    survey: "00:00:00",
+  });
+
+  useEffect(() => {
+    const getTimeFromStorage = (key, fallback = "00:00:00") => {
+      const value = localStorage.getItem(key);
+      return value !== null ? value : fallback;
+    };
+
+    const newTimeData = {
+      consent: getTimeFromStorage("timeOnconsentPage"),
+      landing: getTimeFromStorage("timeOnlandingPage"),
+      presort: getTimeFromStorage("timeOnpresortPage"),
+      thinning: getTimeFromStorage("timeOnthinningPage"),
+      sort: getTimeFromStorage("timeOnsortPage"),
+      postsort: getTimeFromStorage("timeOnpostsortPage"),
+      survey: getTimeFromStorage("timeOnsurveyPage"),
+    };
+
+    // Apply conditional logic
+    if (configObj.showConsentPage === false || configObj.showConsentPage === "false") {
+      newTimeData.consent = "n/a";
+    }
+    if (configObj.showPostsort === false || configObj.showPostsort === "false") {
+      newTimeData.postsort = "n/a";
+    }
+    if (configObj.showSurvey === false || configObj.showSurvey === "false") {
+      newTimeData.survey = "n/a";
+    }
+
+    setTimeData(newTimeData);
+  }, [configObj]);
+
+  // let timeOnconsentPage = localStorage.getItem("timeOnconsentPage") || "00:00:00";
+  // if (configObj.showConsentPage === false || configObj.showConsentPage === "false") {
+  //   timeOnconsentPage = "n/a";
+  // }
+  // let timeOnlandingPage = localStorage.getItem("timeOnlandingPage") || "00:00:00";
+  // let timeOnpresortPage = localStorage.getItem("timeOnpresortPage") || "00:00:00";
+  // let timeOnthinningPage = localStorage.getItem("timeOnthinningPage") || "00:00:00";
+  // let timeOnsortPage = localStorage.getItem("timeOnsortPage") || "00:00:00";
+  // let timeOnpostsortPage = localStorage.getItem("timeOnpostsortPage") || "00:00:00";
+  // if (configObj.showPostsort === false || configObj.showPostsort === "false") {
+  //   timeOnpostsortPage = "n/a";
+  // }
+  // let timeOnsurveyPage = localStorage.getItem("timeOnsurveyPage") || "00:00:00";
+  // if (configObj.showSurvey === false || configObj.showSurvey === "false") {
+  //   timeOnsurveyPage = "n/a";
+  // }
 
   // ***************
   // *** TEXT LOCALIZATION ***
@@ -74,18 +130,18 @@ const MobileSort = () => {
 
   let baserowResults = {};
 
-  let mobileTransmissionResults = {
-    surveyFormat: "mobile",
-    projectName: configObj.studyTitle || "my Q study",
-    randomId: localStorage.getItem("randomId") || uuid(),
-    partId: localStorage.getItem("partId") || "no part ID",
-    urlUsercode: localStorage.getItem("urlUsercode") || "no usercode set",
-    dateTime: dateString,
-    timeLandingText: localStorage.getItem("CumulativeTimelandingPage") || "not recorded",
-    timePresortText: localStorage.getItem("CumulativeTimepresortPage") || "not recorded",
-    timeThinText: localStorage.getItem("CumulativeTimethinPage") || "not recorded",
-    timeSortText: localStorage.getItem("CumulativeTimesortPage") || "not recorded",
-  };
+  // let mobileTransmissionResults = {
+  //   surveyFormat: "mobile",
+  //   projectName: configObj.studyTitle || "my Q study",
+  //   randomId: localStorage.getItem("randomId") || uuid(),
+  //   partId: localStorage.getItem("partId") || "no part ID",
+  //   urlUsercode: localStorage.getItem("urlUsercode") || "no usercode set",
+  //   dateTime: dateString,
+  //   timeLandingText: localStorage.getItem("CumulativeTimelandingPage") || "not recorded",
+  //   timePresortText: localStorage.getItem("CumulativeTimepresortPage") || "not recorded",
+  //   timeThinText: localStorage.getItem("CumulativeTimethinPage") || "not recorded",
+  //   timeSortText: localStorage.getItem("CumulativeTimesortPage") || "not recorded",
+  // };
 
   let resultsSurveyFromStorage = JSON.parse(localStorage.getItem("resultsSurvey"));
   if (resultsSurveyFromStorage === undefined) {
@@ -103,24 +159,17 @@ const MobileSort = () => {
   baserowResults["r2"] = `(randomId): ${randomId}`;
   baserowResults["r3"] = `(partId): ${partId}`;
   baserowResults["r4"] = `(urlUsercode): ${usercode}`;
-
-  let timeOnlandingPage = localStorage.getItem("timeOnlandingPage") || "00:00:00";
-  let timeOnpresortPage = localStorage.getItem("timeOnpresortPage") || "00:00:00";
-  let timeOnthinningPage = localStorage.getItem("timeOnthinningPage") || "00:00:00";
-  let timeOnsortPage = localStorage.getItem("timeOnsortPage") || "00:00:00";
-  let timeOnpostsortPage = localStorage.getItem("timeOnpostsortPage") || "00:00:00";
-  let timeOnsurveyPage = localStorage.getItem("timeOnsurveyPage") || "00:00:00";
-
   baserowResults["r5"] = `(dateTime): ${dateString}`;
-  baserowResults["r6"] = `(timeOnWelcomePage): ${timeOnlandingPage}`;
-  baserowResults["r7"] = `(timeOnPresortPage): ${timeOnpresortPage}`;
-  baserowResults["r8"] = `(timeOnRefinePage): ${timeOnthinningPage}`;
-  baserowResults["r9"] = `(timeOnSortPage): ${timeOnsortPage}`;
-  baserowResults["r10"] = `(timeOnPostsortPage): ${timeOnpostsortPage}`;
-  baserowResults["r11"] = `(timeOnSurveyPage): ${timeOnsurveyPage}`;
+  baserowResults["r6"] = `(timeOnConsentPage): ${timeData.consent}`;
+  baserowResults["r7"] = `(timeOnWelcomePage): ${timeData.landing}`;
+  baserowResults["r8"] = `(timeOnPresortPage): ${timeData.presort}`;
+  baserowResults["r9"] = `(timeOnRefinePage): ${timeData.thinning}`;
+  baserowResults["r10"] = `(timeOnSortPage): ${timeData.sort}`;
+  baserowResults["r11"] = `(timeOnPostsortPage): ${timeData.postsort}`;
+  baserowResults["r12"] = `(timeOnSurveyPage): ${timeData.survey}`;
 
   try {
-    // creates r12 to r17 with presort results
+    // creates r13 to r18 with presort results
     const baserowObject = createBaserowObject();
 
     baserowResults = {
@@ -132,7 +181,7 @@ const MobileSort = () => {
     alert("4: " + error.message);
   }
 
-  let baserowCounter = 20;
+  let baserowCounter = 21;
 
   try {
     // if project included POSTSORT, read in complete sorted results
@@ -220,30 +269,30 @@ const MobileSort = () => {
 
   // add postsort and survey times if they exist
   if (configObj.showPostsort === true) {
-    mobileTransmissionResults["timePostsortText"] =
-      localStorage.getItem("CumulativeTimepostsortPage") || "not recorded";
+    // mobileTransmissionResults["timePostsortText"] =
+    //   localStorage.getItem("CumulativeTimepostsortPage") || "not recorded";
   }
   if (configObj.showSurvey === true) {
-    mobileTransmissionResults["timeSurveyText"] =
-      localStorage.getItem("CumulativeTimesurveyPage") || "not recorded";
+    // mobileTransmissionResults["timeSurveyText"] =
+    //   localStorage.getItem("CumulativeTimesurveyPage") || "not recorded";
   }
 
   // get presort count numbers
   if (sortResults && sortResults.length > 0) {
-    let presortCountsObject = mobileCalcPresortCountsObject([...sortResults]);
-    mobileTransmissionResults = {
-      ...mobileTransmissionResults,
-      ...presortCountsObject,
-    };
+    // let presortCountsObject = mobileCalcPresortCountsObject([...sortResults]);
+    // mobileTransmissionResults = {
+    //   ...mobileTransmissionResults,
+    //   ...presortCountsObject,
+    // };
   }
 
   // get presort trace and sort results
-  let sortCharacteristicsArray = JSON.parse(localStorage.getItem("m_SortCharacteristicsArray"));
-  let formattedResults = calcPresortTraceAndSortResults(sortResults, sortCharacteristicsArray);
-  mobileTransmissionResults = {
-    ...mobileTransmissionResults,
-    ...formattedResults,
-  };
+  // let sortCharacteristicsArray = JSON.parse(localStorage.getItem("m_SortCharacteristicsArray"));
+  // let formattedResults = calcPresortTraceAndSortResults(sortResults, sortCharacteristicsArray);
+  // mobileTransmissionResults = {
+  //   ...mobileTransmissionResults,
+  //   ...formattedResults,
+  // };
 
   // get postsort results
   // if (configObj.showPostsort === true) {
@@ -256,10 +305,10 @@ const MobileSort = () => {
 
   try {
     if (configObj.showSurvey && resultsSurveyFromStorage !== undefined) {
-      mobileTransmissionResults = {
-        ...mobileTransmissionResults,
-        ...resultsSurveyFromStorage,
-      };
+      // mobileTransmissionResults = {
+      //   ...mobileTransmissionResults,
+      //   ...resultsSurveyFromStorage,
+      // };
     }
   } catch (error) {
     console.log(error);
