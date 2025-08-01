@@ -141,13 +141,14 @@ const SubmitPage = () => {
 
   try {
     baserowResults["r5"] = `(dateTime): ${dateString}`;
-    baserowResults["r6"] = `(timeOnConsentPage): ${timeData.consent}`;
-    baserowResults["r7"] = `(timeOnWelcomePage): ${timeData.landing}`;
-    baserowResults["r8"] = `(timeOnPresortPage): ${timeData.presort}`;
-    baserowResults["r9"] = `(timeOnRefinePage): ${timeData.thinning}`;
-    baserowResults["r10"] = `(timeOnSortPage): ${timeData.sort}`;
-    baserowResults["r11"] = `(timeOnPostsortPage): ${timeData.postsort}`;
-    baserowResults["r12"] = `(timeOnSurveyPage): ${timeData.survey}`;
+    baserowResults["r6"] = `(desktop/mobile): desktop`;
+    baserowResults["r7"] = `(timeOnConsentPage): ${timeData.consent}`;
+    baserowResults["r8"] = `(timeOnWelcomePage): ${timeData.landing}`;
+    baserowResults["r9"] = `(timeOnPresortPage): ${timeData.presort}`;
+    baserowResults["r10"] = `(timeOnRefinePage): ${timeData.thinning}`;
+    baserowResults["r11"] = `(timeOnSortPage): ${timeData.sort}`;
+    baserowResults["r12"] = `(timeOnPostsortPage): ${timeData.postsort}`;
+    baserowResults["r13"] = `(timeOnSurveyPage): ${timeData.survey}`;
   } catch (error) {
     console.log(error);
     alert("2: " + error.message);
@@ -182,7 +183,7 @@ const SubmitPage = () => {
     alert("4: " + error.message);
   }
 
-  let baserowCounter = 21;
+  let baserowCounter = 22;
 
   try {
     // if project included POSTSORT, read in complete sorted results

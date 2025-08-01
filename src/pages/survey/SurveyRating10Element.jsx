@@ -71,6 +71,11 @@ const SurveyRatings10Element = (props) => {
     let textString = "";
     newCheckedState.forEach((item, index) => {
       let value = newCheckedState[index].indexOf(true) + 1;
+      let hasAnswered = item.includes(true);
+      if (!hasAnswered) {
+        value = "nr";
+      }
+
       if (index === 0) {
         textString += value;
       } else {
@@ -82,9 +87,10 @@ const SurveyRatings10Element = (props) => {
     if (objTestValue2 !== arrayLen2) {
       if (props.opts.required === true || props.opts.required === "true") {
         resultsSurvey[`itemNum${props.opts.itemNum}`] = "no-*?*-response";
-      } else {
-        resultsSurvey[`itemNum${props.opts.itemNum}`] = "no response";
       }
+      // else {
+      //   resultsSurvey[`itemNum${props.opts.itemNum}`] = "no response";
+      // }
     }
     localStorage.setItem("resultsSurvey", JSON.stringify(resultsSurvey));
   }; // end handleChange

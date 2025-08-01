@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 import ReactHtmlParser from "html-react-parser";
@@ -23,6 +23,7 @@ const SurveyRatings2Element = (props) => {
   // PROPS
   const optsArray = getOptionsArray(props.opts.options);
   const checkRequiredQuestionsComplete = props.check;
+
   // gives the number of questions
   const rows = optsArray.length;
   const questionId = `itemNum${props.opts.itemNum}`;
@@ -38,6 +39,7 @@ const SurveyRatings2Element = (props) => {
     questionId,
     Array.from({ length: rows }, () => Array.from({ length: 2 }, () => false))
   );
+  console.log(checkedState);
 
   // LOCAL STATE
   const [formatOptions, setFormatOptions] = useState({
@@ -48,7 +50,7 @@ const SurveyRatings2Element = (props) => {
   const scaleArray = getOptionsArray(props.opts.scale);
 
   // ****** ON CHANGE  *******
-  const handleChange = (selectedRow, column, e) => {
+  const handleChange = (selectedRow, column) => {
     const resultsSurvey = JSON.parse(localStorage.getItem("resultsSurvey"));
     // update local state with radio selected
     const newArray = [];
@@ -68,31 +70,46 @@ const SurveyRatings2Element = (props) => {
         return row;
       }
     });
+    console.log(newCheckedState);
     setCheckedState(newCheckedState);
     // record if answered or not
     let arrayLen2 = checkedState.length;
     let flattenedCheckedState2 = flatten([...newCheckedState]);
+    console.log(flattenedCheckedState2);
     let count2 = countBy(flattenedCheckedState2);
+    console.log(count2);
+    // number of true values (has been answered)
     let objTestValue2 = count2[true] || 0;
 
+    // construct the text string
     let textString = "";
+    console.log("333", newCheckedState);
     newCheckedState.forEach((item, index) => {
+      console.log(item);
       // let name = `itemNum${props.opts.itemNum}-${index + 1}`;
       let value = item[0] ? "1" : "2";
+      let hasAnswered = item.includes(true);
+      if (!hasAnswered) {
+        value = "nr";
+      }
       if (index === 0) {
         textString += value;
       } else {
         textString += "," + value;
       }
     });
+    // add to results
     resultsSurvey[`itemNum${props.opts.itemNum}`] = textString;
 
+    // check for required - no answers
+    console.log("333", objTestValue2, arrayLen2);
     if (objTestValue2 !== arrayLen2) {
       if (props.opts.required === true || props.opts.required === "true") {
         resultsSurvey[`itemNum${props.opts.itemNum}`] = "no-*?*-response";
-      } else {
-        resultsSurvey[`itemNum${props.opts.itemNum}`] = "no response";
       }
+      // else {
+      //   resultsSurvey[`itemNum${props.opts.itemNum}`] = "no response";
+      // }
     }
     localStorage.setItem("resultsSurvey", JSON.stringify(resultsSurvey));
   }; // end handleChange

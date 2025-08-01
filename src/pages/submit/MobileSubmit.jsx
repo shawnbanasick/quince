@@ -73,23 +73,6 @@ const MobileSort = () => {
     setTimeData(newTimeData);
   }, [configObj]);
 
-  // let timeOnconsentPage = localStorage.getItem("timeOnconsentPage") || "00:00:00";
-  // if (configObj.showConsentPage === false || configObj.showConsentPage === "false") {
-  //   timeOnconsentPage = "n/a";
-  // }
-  // let timeOnlandingPage = localStorage.getItem("timeOnlandingPage") || "00:00:00";
-  // let timeOnpresortPage = localStorage.getItem("timeOnpresortPage") || "00:00:00";
-  // let timeOnthinningPage = localStorage.getItem("timeOnthinningPage") || "00:00:00";
-  // let timeOnsortPage = localStorage.getItem("timeOnsortPage") || "00:00:00";
-  // let timeOnpostsortPage = localStorage.getItem("timeOnpostsortPage") || "00:00:00";
-  // if (configObj.showPostsort === false || configObj.showPostsort === "false") {
-  //   timeOnpostsortPage = "n/a";
-  // }
-  // let timeOnsurveyPage = localStorage.getItem("timeOnsurveyPage") || "00:00:00";
-  // if (configObj.showSurvey === false || configObj.showSurvey === "false") {
-  //   timeOnsurveyPage = "n/a";
-  // }
-
   // ***************
   // *** TEXT LOCALIZATION ***
   // ***************
@@ -160,13 +143,14 @@ const MobileSort = () => {
   baserowResults["r3"] = `(partId): ${partId}`;
   baserowResults["r4"] = `(urlUsercode): ${usercode}`;
   baserowResults["r5"] = `(dateTime): ${dateString}`;
-  baserowResults["r6"] = `(timeOnConsentPage): ${timeData.consent}`;
-  baserowResults["r7"] = `(timeOnWelcomePage): ${timeData.landing}`;
-  baserowResults["r8"] = `(timeOnPresortPage): ${timeData.presort}`;
-  baserowResults["r9"] = `(timeOnRefinePage): ${timeData.thinning}`;
-  baserowResults["r10"] = `(timeOnSortPage): ${timeData.sort}`;
-  baserowResults["r11"] = `(timeOnPostsortPage): ${timeData.postsort}`;
-  baserowResults["r12"] = `(timeOnSurveyPage): ${timeData.survey}`;
+  baserowResults["r6"] = `(desktop/mobile): mobile`;
+  baserowResults["r7"] = `(timeOnConsentPage): ${timeData.consent}`;
+  baserowResults["r8"] = `(timeOnWelcomePage): ${timeData.landing}`;
+  baserowResults["r9"] = `(timeOnPresortPage): ${timeData.presort}`;
+  baserowResults["r10"] = `(timeOnRefinePage): ${timeData.thinning}`;
+  baserowResults["r11"] = `(timeOnSortPage): ${timeData.sort}`;
+  baserowResults["r12"] = `(timeOnPostsortPage): ${timeData.postsort}`;
+  baserowResults["r13"] = `(timeOnSurveyPage): ${timeData.survey}`;
 
   try {
     // creates r13 to r18 with presort results
@@ -181,23 +165,18 @@ const MobileSort = () => {
     alert("4: " + error.message);
   }
 
-  let baserowCounter = 21;
+  let baserowCounter = 22;
 
   try {
     // if project included POSTSORT, read in complete sorted results
     if (configObj.showPostsort) {
       const resultsPostsort = JSON.parse(localStorage.getItem("resultsPostsort")) || {};
 
-      // console.log("999x", JSON.stringify(resultsPostsort, null, 2));
-
       const sortedResultsPostsort = Object.fromEntries(
         Object.entries(resultsPostsort).sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
       );
 
       const keys = Object.keys(sortedResultsPostsort);
-
-      // console.log(JSON.stringify(newPostsortObject, null, 2));
-      // console.log(JSON.stringify(keys));
 
       for (let i = 0; i < keys.length; i++) {
         // skip unnecessary entries
@@ -211,8 +190,6 @@ const MobileSort = () => {
           console.log("called");
           response = ` no response`;
         }
-        // console.log(JSON.stringify(sortedResultsPostsort, null, 2));
-
         baserowResults[`r${baserowCounter}`] = `${keys[i]}: ${response}`;
         baserowCounter++;
       }
@@ -247,6 +224,7 @@ const MobileSort = () => {
       Object.keys(presortResults).length !== 0 &&
       presortResults !== undefined
     ) {
+      // add entries "r20 and r21"
       baserowSortResults = convertObjectToBaserowResults(
         // all results
         { ...resultsSortObj }

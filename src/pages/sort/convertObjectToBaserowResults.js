@@ -69,7 +69,7 @@ const convertObjectToBaserowResults = (columnStatements) => {
 
   //   if (traceSorts === true || traceSorts === "true") {
   // return { sort: resultsText, presortTrace: presortTraceText };
-  return { r19: `sort: ${resultsText}`, r20: `presortTrace: ${presortTraceText}` };
+  return { r20: `sort: ${resultsText}`, r21: `presortTrace: ${presortTraceText}` };
   //   } else {
   //     return { r18: `sort: ${resultsText}` };
   //   }
