@@ -107,7 +107,7 @@ const MobilePartIdScreen = () => {
       <div>
         <TextSpan1>{loginPartIdText}</TextSpan1>
         <StyledInputDiv>
-          <StyledInput onChange={handleInput} type="text" autoFocus />
+          <StyledInput onChange={handleInput} type="text" autoFocus autoCapitalize="none" />
           {displayPartIdWarning && <WarningText>{partIdWarning}</WarningText>}
         </StyledInputDiv>
       </div>

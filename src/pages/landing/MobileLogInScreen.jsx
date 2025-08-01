@@ -171,14 +171,14 @@ const LogInScreen = () => {
         <TopContainer>
           <TextSpan1>{loginPartIdText}</TextSpan1>
           <StyledInputDiv>
-            <StyledInput onChange={handleInput} type="text" autoFocus />
+            <StyledInput onChange={handleInput} type="text" autoCapitalize="none" autoFocus />
             {displayPartIdWarning && <WarningText>{partIdWarning}</WarningText>}
           </StyledInputDiv>
         </TopContainer>
         <BottomContainer>
           <TextSpan1>{accessInputText}</TextSpan1>
           <StyledInputDiv>
-            <StyledInput onChange={handleAccess} type="text" />
+            <StyledInput onChange={handleAccess} type="text" autoCapitalize="none" />
             {displayAccessCodeWarning && <WarningText>{accessCodeWarning}</WarningText>}
           </StyledInputDiv>
         </BottomContainer>
