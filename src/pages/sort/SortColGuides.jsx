@@ -1,7 +1,7 @@
-import React from "react";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 import useSettingsStore from "../../globalState/useSettingsStore";
+import EmojiN5 from "../../assets/emojiN5.svg?react";
 
 const getMapObj = (state) => state.mapObj;
 
@@ -13,16 +13,30 @@ const SortColGuides = (props) => {
   const columnHeadersColorsArray = [...mapObj.columnHeadersColorsArray];
   let columnWidth = +props.columnWidth + 11;
 
+  let shouldDisplayNums;
+  let displayNumbers = mapObj?.useColLabelNumsDesktop;
+  console.log(displayNumbers[0]);
+  if (displayNumbers !== undefined || displayNumbers !== null) {
+    if (displayNumbers === false || displayNumbers.toString() === "false") {
+      console.log("correct branch");
+      shouldDisplayNums = false;
+    } else {
+      console.log("wrong branch");
+      shouldDisplayNums = true;
+    }
+  }
+
+  console.log(shouldDisplayNums);
+
   return (
     <ColorBarDivContainer id="colorBarDivContainer">
       {qSortHeaderNumbers.map((value, index) => {
         return (
-          <ColorBarDiv
-            key={uuid()}
-            width={columnWidth}
-            color={columnHeadersColorsArray[index]}
-          >
-            {value}
+          <ColorBarDiv key={uuid()} width={columnWidth} color={columnHeadersColorsArray[index]}>
+            {shouldDisplayNums ? value : ""}
+            <EmojiDiv>
+              <EmojiN5 />
+            </EmojiDiv>
           </ColorBarDiv>
         );
       })}
@@ -33,6 +47,7 @@ const SortColGuides = (props) => {
 export default SortColGuides;
 
 const ColorBarDiv = styled.div`
+  flex-direction: row;
   background-color: ${(props) => props.color};
   width: ${(props) => +props.width}px;
   margin-right: 1px;
@@ -51,4 +66,9 @@ const ColorBarDivContainer = styled.div`
   background-color: #d8d8d8;
   margin-bottom: 0px;
   height: 30px;
+`;
+
+const EmojiDiv = styled.div`
+  width: 50px;
+  height: 50px;
 `;

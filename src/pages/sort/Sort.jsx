@@ -13,6 +13,7 @@ import SortColGuides from "./SortColGuides";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 import PromptUnload from "../../utilities/PromptUnload";
+import { generateColHeaders } from "./generateColHeaders";
 
 function debounce(fn, ms) {
   let timer;
@@ -61,6 +62,8 @@ const Sort = () => {
   if (cardFontSizePersist) {
     cardFontSize = cardFontSizePersist;
   }
+
+  generateColHeaders();
 
   // force updates on window resize
   const [dimensions, setDimensions] = useState({

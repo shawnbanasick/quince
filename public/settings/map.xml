@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-   <map version="6.0.0" htmlParse="false">
+   <map version="Quincy 1.0.0" htmlParse="false">
      <column id="-4" colour="FFD5D5">2</column>
      <column id="-3" colour="FFD5D5">3</column>
      <column id="-2" colour="FFD5D5">4</column>
@@ -16,4 +16,11 @@
      <item id="columnHeadersColorsArray">#F98080,#F8B4B4,#FBD5D5,#FDE8E8,#F3F4F6,#DEF7EC,#BCF0DA,#84E1BC,#31C48D</item>
      <item id="columnColorsArray">whitesmoke,whitesmoke,whitesmoke,whitesmoke,whitesmoke,whitesmoke,whitesmoke,whitesmoke,whitesmoke</item>
      <item id="mobileHeadersText">Very Strongly Agree,Strongly Agree,Agree,Agree Somewhat,Neutral, Disagree Somewhat,Disagree,Strongly Disagree,Very Strongly Disagree</item>
+     <item id="useColLabelNumsDesktop">true</item>
+     <item id="useColLabelNumsMobile">true</item>
+     <item id="useColLabelTextDesktop">false</item>
+     <item id="useColLabelTextMobile">false</item>
+     <item id="useColLabelEmojiDesktop">false</item>
+     <item id="useColLabelEmojiMobile">false</item>
+     <item id="emojiArrayType">emoji4Array</item>
    </map>
