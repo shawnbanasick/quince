@@ -106,7 +106,7 @@ const MobileAccessCodeScreen = () => {
       <div>
         <TextSpan1>{accessInputText}</TextSpan1>
         <StyledInputDiv>
-          <StyledInput onChange={handleAccess} type="text" autoFocus autoCapitalize="none" />
+          <StyledInput onChange={handleAccess} type="password" autoFocus autoCapitalize="none" />
           {displayAccessCodeWarning && <WarningText>{accessCodeWarning}</WarningText>}
         </StyledInputDiv>
       </div>

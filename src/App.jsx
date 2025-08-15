@@ -43,12 +43,9 @@ const getSetDataLoaded = (state) => state.setDataLoaded;
 const getDisplayGoodbyeMessage = (state) => state.displayGoodbyeMessage;
 const getDisableRefreshCheck = (state) => state.disableRefreshCheck;
 
-// const getCurrentPage = (state) => state.currentPage;
-
 function App() {
   const [isLoading, setLoading] = useState(true);
   const configObj = useSettingsStore(getConfigObj);
-
   const setConfigObj = useSettingsStore(getSetConfigObj);
   const setLangObj = useSettingsStore(getSetLangObj);
   const setMapObj = useSettingsStore(getSetMapObj);
@@ -60,20 +57,6 @@ function App() {
   const setDataLoaded = useStore(getSetDataLoaded);
   const displayGoodbyeMessage = useStore(getDisplayGoodbyeMessage);
   const disableRefreshCheck = useStore(getDisableRefreshCheck);
-
-  // const currentPage = useStore(getCurrentPage);
-
-  // console.log("configObj", configObj.firebaseApiKey);
-
-  // const anonymousLogin = async () => {
-  //   try {
-  //     const userCredential = await signInAnonymously(auth);
-  //     console.log("Signed in anonymously:", userCredential.user);
-  //   } catch (error) {
-  //     console.error("Error signing in:", error.message);
-  //   }
-  // };
-  // anonymousLogin(); // Call when the app loads
 
   useEffect(() => {
     const unloadCallback = (event) => {
@@ -96,28 +79,6 @@ function App() {
       };
     }
   }, [displayGoodbyeMessage, disableRefreshCheck]);
-
-  // useEffect(() => {
-  //   const unloadEvent = (event) => {
-  //     const e = event || window.event;
-  //     e.preventDefault();
-  //     if (e) {
-  //       e.returnValue = "";
-  //     }
-  //     return "";
-  //   };
-
-  //   if (displayGoodbyeMessage) {
-  //       // reset localStorage
-  //       let submitted = localStorage.getItem("submitted");
-  //       if (currentPage === "submit" && submitted === "true") {
-  //         let urlUsercode = localStorage.getItem("urlUsercode");
-  //         localStorage.clear();
-  //         localStorage.setItem("urlUsercode", urlUsercode);
-  //       } else {
-  //         window
-  //       }
-  //     }
 
   useEffect(() => {
     let shuffleCards;
@@ -246,7 +207,6 @@ function App() {
       console.log("Mobile Mode");
 
       if (configObj.showConsentPage === true || configObj.showConsentPage === "true") {
-        console.log("consent");
         return (
           <div className="App">
             <Router>

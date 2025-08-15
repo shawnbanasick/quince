@@ -70,7 +70,6 @@ const MobileSort = () => {
   ]);
 
   const persistedMobileSortFontSize = JSON.parse(localStorage.getItem("m_FontSizeObject")).sort;
-
   const persistedMobileSortViewSize = JSON.parse(localStorage.getItem("m_ViewSizeObject")).sort;
 
   // *********************************

@@ -67,7 +67,6 @@ const MobilePostsort = () => {
     const cards = [...cards2];
     // array of objects with Q sort values for each position
     const sortCharacteristicsArray = JSON.parse(localStorage.getItem("m_SortCharacteristicsArray"));
-    // console.log("999z", sortCharacteristicsArray);
 
     // negative first
     const reversedSortCharacteristicsArray = [...sortCharacteristicsArray].reverse();
@@ -203,8 +202,6 @@ const MobilePostsort = () => {
   // ***************************
   // *** ELEMENTS *******************
   // ***************************
-
-  console.log("999q", JSON.stringify(cardsArray, null, 2));
 
   let posStatements = cardsArray[0].map((card, index) => {
     return (

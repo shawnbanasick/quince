@@ -104,7 +104,6 @@ const MobileSurvey = () => {
   // *** EVENT HANDLERS ***************
   // ***********************
   const displayHelpModal = () => {
-    console.log("clicked help");
     setTriggerMobileSurveyHelpModal(true);
   };
 
@@ -199,9 +198,6 @@ const MobileSurvey = () => {
       return QuestionList;
     }
   };
-
-  console.log("mobile survey view size", mobileSurveyViewSize);
-  console.log("persisted mobile survey view size", persistedMobileSurveyViewSize);
 
   // **************************
   // *** EARLY RETURNS ***************

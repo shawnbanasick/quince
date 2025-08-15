@@ -71,14 +71,12 @@ const LinkButton = (props) => {
     let isPresortFinished = localStorage.getItem("m_PresortFinished");
 
     if (currentPage === "presort") {
-      console.log(isPresortFinished);
       if (isPresortFinished === "true" || isPresortFinished === true) {
         setTriggerPresortPreventNavModal(false);
         localStorage.setItem("m_PresortDisplayStatements", JSON.stringify({ display: false }));
         return true;
       } else {
         setTriggerPresortPreventNavModal(true);
-        console.log("on presort");
         return false;
       }
     }
@@ -88,7 +86,6 @@ const LinkButton = (props) => {
       if (isThinFinished === "true") {
         return true;
       } else {
-        console.log("on thinning");
         setTriggerMobileThinPreventNavModal(true);
         return false;
       }
@@ -152,20 +149,15 @@ const LinkButton = (props) => {
     }
 
     if (currentPage === "postsort") {
-      console.log("on postsort");
       let mobilePosResponses = JSON.parse(localStorage.getItem("m_PosRequiredStatesObj"));
       let mobileNegResponses = JSON.parse(localStorage.getItem("m_NegRequiredStatesObj"));
-
-      // console.log(JSON.stringify(mobilePosResponses));
 
       const combinedResponses = {
         ...mobilePosResponses,
         ...mobileNegResponses,
       };
       const objValues = Object.values(combinedResponses);
-      console.log(JSON.stringify(objValues));
       if (objValues.includes("")) {
-        console.log("postsortCommentsRequired");
         // answers required in configObj
         if (postsortCommentsRequired === true) {
           setShowPostsortCommentHighlighting(true);
@@ -196,14 +188,11 @@ const LinkButton = (props) => {
     return true;
   };
 
-  //   console.log(props.width, nextButtonWidth);
-
   return (
     <NextButton
       {...rest} // `children` is just another prop!
       width={props.width}
       onClick={(event) => {
-        // console.log("clicked");
         onClick && onClick(event);
         goToNextPage = checkForNextPageConditions(allowUnforcedSorts, presortFinished);
         if (goToNextPage) {

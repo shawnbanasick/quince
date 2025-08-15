@@ -10,7 +10,7 @@ import getCurrentDateTime from "../../utilities/getCurrentDateTime";
 import useScreenOrientation from "../../utilities/useScreenOrientation";
 import { v4 as uuid } from "uuid";
 import createBaserowObject from "./createBaserowObject";
-import convertObjectToBaserowResults from "../sort/convertObjectToBaserowResults";
+import mobileConvertObjectToBaserowResults from "../sort/mobileConvertObjectToBaserowResults";
 import createMobilePresortResultsObject from "./createMobilePresortResultsObject";
 // import mobileCalcPresortCountsObject from "./mobileCalcPresortCountsObject";
 // import calcPresortTraceAndSortResults from "./calcPresortTraceAndSortResults";
@@ -32,6 +32,8 @@ const MobileSort = () => {
   const dateString = getCurrentDateTime();
   let sortResults = JSON.parse(localStorage.getItem("m_SortArray1"));
   const displayGoodbyeMessage = useStore(getDisplayGoodbyeMessage);
+
+  console.log(JSON.stringify(sortResults, null, 2));
 
   const [timeData, setTimeData] = useState({
     consent: "00:00:00",
@@ -85,6 +87,8 @@ const MobileSort = () => {
   // PERSISTENT STATE - read in results if they exist in local storage
   const resultsPresort = JSON.parse(localStorage.getItem("m_PresortResults")) || {};
   const resultsSortObj = JSON.parse(localStorage.getItem("columnStatements")) || {};
+
+  const m_SortCharacteristicsArray = JSON.parse(localStorage.getItem("m_SortCharacteristicsArray"));
 
   const presortResults = createMobilePresortResultsObject(resultsPresort);
   localStorage.setItem("resultsPresort", JSON.stringify(presortResults));
@@ -225,9 +229,10 @@ const MobileSort = () => {
       presortResults !== undefined
     ) {
       // add entries "r20 and r21"
-      baserowSortResults = convertObjectToBaserowResults(
+      baserowSortResults = mobileConvertObjectToBaserowResults(
         // all results
-        { ...resultsSortObj }
+        [...sortResults],
+        [...m_SortCharacteristicsArray]
       );
     }
   } catch (error) {
