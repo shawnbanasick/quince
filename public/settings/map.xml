@@ -14,8 +14,8 @@
      <item id="qSortHeaders">N4,N3,N2,N1,0,1,2,3,4</item>
      <item id="qSortPattern">2,3,4,5,5,5,4,3,2</item>
      <item id="columnHeadersColorsArray">#F98080,#F8B4B4,#FBD5D5,#FDE8E8,#F3F4F6,#DEF7EC,#BCF0DA,#84E1BC,#31C48D</item>
-     <item id="columnColorsArray">whitesmoke,whitesmoke,whitesmoke,whitesmoke,whitesmoke,whitesmoke,whitesmoke,whitesmoke,whitesmoke</item>
-     <item id="mobileHeadersText">Very Strongly Agree,Strongly Agree,Agree,Agree Somewhat,Neutral, Disagree Somewhat,Disagree,Strongly Disagree,Very Strongly Disagree</item>
+     <item id="columnColorsArray">#F98080,#F8B4B4,#FBD5D5,#FDE8E8,#F3F4F6,#DEF7EC,#BCF0DA,#84E1BC,#31C48D</item>
+     <item id="mobileHeadersText">Very Strongly Disagree, Strongly Disagree, Disagree, Disagree Somewhat, Neutral, Agree Somewhat, Agree, Strongly Agree, Very Strongly Agree</item>
      <item id="useColLabelNumsDesktop">true</item>
      <item id="useColLabelNumsMobile">true</item>
      <item id="useColLabelTextDesktop">false</item>

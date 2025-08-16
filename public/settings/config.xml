@@ -43,9 +43,9 @@
    
    <!-- PRESORT -->
    <!-- default colors #2a2a2a, #ccffcc, #e0e0e0, #ffe0f0 -->
-   <item id="greenCardColor">#ccffcc</item>
-   <item id="yellowCardColor">#e0e0e0</item>
-   <item id="pinkCardColor">#ffe0e0</item>
+   <item id="greenCardColor">#E1E1E1</item>
+   <item id="yellowCardColor">#E1E1E1</item>
+   <item id="pinkCardColor">#E1E1E1</item>
    <item id="defaultFontColor">#2a2a2a</item>
 
    <item id="setDefaultFontSizePresort">true</item>

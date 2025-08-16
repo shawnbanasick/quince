@@ -164,6 +164,8 @@ const Sort = () => {
     };
   }, [setPresortNoReturn, setCurrentPage]);
 
+  console.log(headerBarColor);
+
   return (
     <React.Fragment>
       <PromptUnload />
