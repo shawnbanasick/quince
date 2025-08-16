@@ -1,11 +1,9 @@
 import React from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import styled from "styled-components";
+import { DragDropContext, Draggable } from "react-beautiful-dnd";
 import move from "./move";
 import reorder from "./reorder";
 import SortColumn from "./SortColumn";
-import getListStyleHori from "./getListStyleHori";
-import getItemStyleHori from "./getItemStyleHori";
+// import getItemStyleHori from "./getItemStyleHori";
 import calculateDragResults from "./calculateDragResults";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
@@ -80,12 +78,6 @@ const SortGrid = (props) => {
 
   const sortCharacteristics = sortCharacterisiticsPrep;
   const allowUnforcedSorts = configObj.allowUnforcedSorts;
-
-  // get sort direction
-  let sortDirection = "rtl";
-  if (configObj.sortDirection === "negative") {
-    sortDirection = "ltr";
-  }
 
   // fire move and re-order functions
   const onDragEnd = (result) => {
@@ -197,10 +189,10 @@ const SortGrid = (props) => {
   const fontColor = props.fontColor;
 
   // just the hori container size, not card size
-  let horiCardMinHeight = 50;
+  // let horiCardMinHeight = 0;
 
   // pull data from STATE
-  const statements = columnStatements.statementList;
+  // const statements = columnStatements.statementList;
 
   // setup grid columns
   const columns = qSortHeaders.map((value, index) => {
@@ -283,52 +275,30 @@ const SortGrid = (props) => {
   // returning main content => horizontal feeder
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="rootDiv">
-        {columns}
-        <SortFooterDiv id="SortFooterDiv">
-          <CardSlider id="CardSlider">
-            <Droppable id="Droppable" droppableId="statements" direction="horizontal">
-              {(provided, snapshot) => (
-                <HorizontalFeederDiv
-                  id="HorizontalFeederDiv"
-                  ref={provided.innerRef}
-                  style={getListStyleHori(
-                    snapshot.isDraggingOver,
-                    horiCardMinHeight,
-                    sortDirection
-                  )}
-                >
-                  <InnerList statements={statements} provided={provided} />
-                  <div style={{ width: `0px` }}>{provided.placeholder}</div>
-                </HorizontalFeederDiv>
-              )}
-            </Droppable>
-          </CardSlider>
-        </SortFooterDiv>
-      </div>
+      <div className="rootDiv">{columns}</div>
     </DragDropContext>
   );
 };
 
 export default SortGrid;
 
-const SortFooterDiv = styled.div`
-  background: #e4e4e4;
-  padding-right: 10px;
-  position: fixed;
-  left: 0px;
-  bottom: 50px;
-  width: 100vw;
-  height: ${(props) => `${+props.cardHeight + 20}px;`};
-`;
+// const SortFooterDiv = styled.div`
+//   background: #e4e4e4;
+//   padding-right: 10px;
+//   position: fixed;
+//   left: 0px;
+//   bottom: 50px;
+//   width: 100vw;
+//   height: ${(props) => `${+props.cardHeight + 20}px;`};
+// `;
 
-const CardSlider = styled.div`
-  display: flex;
-  width: 100vw;
-  overflow: hidden;
-`;
+// const CardSlider = styled.div`
+//   display: flex;
+//   width: 100vw;
+//   overflow: hidden;
+// `;
 
-const HorizontalFeederDiv = styled.div``;
+// const HorizontalFeederDiv = styled.div``;
 
 /* DO NOT DELETE - important
 "columnColorsArray": [

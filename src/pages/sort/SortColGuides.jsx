@@ -53,7 +53,7 @@ const SortColGuides = (props) => {
   // console.log(textHeaders2);
 
   let shouldDisplayEmojis = true;
-  shouldDisplayNums = true;
+  shouldDisplayNums = false;
   let shouldDisplayText = true;
 
   return (
@@ -63,6 +63,8 @@ const SortColGuides = (props) => {
           <ColorBarDiv key={uuid()} width={columnWidth} color={columnHeadersColorsArray[index]}>
             <ContentWrapper>
               {shouldDisplayNums && <HeaderNumber>{value}</HeaderNumber>}
+              {shouldDisplayEmojis && <EmojiDiv>{emoji4Array[index]}</EmojiDiv>}
+
               {/* {shouldDisplayEmojis && <EmojiDiv>{emoji4Array[index]}</EmojiDiv>} */}
               {/* {shouldDisplayEmojis && <EmojiDiv>{emoji4Array[index]}</EmojiDiv>} */}
               {shouldDisplayText && <HeaderText>{textHeaders[index]}</HeaderText>}
@@ -128,7 +130,12 @@ const EmojiDiv = styled.div`
 
 const HeaderText = styled.div`
   display: flex;
+  padding-top: 2px;
+  justify-content: center;
   flex-wrap: wrap;
+  text-align: center;
   font-size: 0.8vw;
   text-align: center;
+  line-height: 0.8rem;
+  width: 6vw;
 `;
