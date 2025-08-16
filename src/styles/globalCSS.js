@@ -496,12 +496,12 @@ footer {
     grid-column-start: 3;
     overflow: hidden;
     align-self: end;
-    margin-top: 20px;
+    height: 275x;
   }
   
   #cards{
-    max-height: 215px;
-    min-height:150px;
+    max-height: 200px;
+    min-height:140px;
     overflow: hidden;
   }
   
@@ -516,13 +516,14 @@ footer {
     grid-row-start: 3;
     grid-column-start: 2;
     overflow-y: auto;
-    background-color: white;
+    background-color: #fee2e2;
     min-height: 300px;
-    height: 58vh;
-    padding-top: 5px;
+    height: 56vh;
+    padding-top: 0px;
     border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
-    border: 1px solid #aeaeae;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+    border: 1px solid lightgray;
 
     ::-webkit-scrollbar {
       // Width of vertical scroll bar
@@ -542,11 +543,13 @@ footer {
     grid-row-start: 3;
     grid-column-start: 3;
     overflow-y: auto;
-    background-color: white;
+    background-color: #fef3c7;
     min-height: 300px;
-    height: 58vh;
-    padding-top: 5px;
-    border: 1px solid #aeaeae;
+    height: 56vh;
+    padding-top: 0px;
+    border: 1px solid lightgray;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
 
     ::-webkit-scrollbar {
       // Width of vertical scroll bar
@@ -566,12 +569,13 @@ footer {
     grid-row-start: 3;
     grid-column-start: 4;
     overflow-y: auto;
-    background-color: white;
-    height: 58vh;
-    padding-top: 5px;
-    border-top-right-radius: 3px;
+    background-color: #dcfce7;
+    height: 56vh;
+    padding-top: 0px;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
     border-bottom-right-radius: 3px;
-    border: 1px solid #aeaeae;
+    border: 1px solid lightgray;
 
     ::-webkit-scrollbar {
       // Width of vertical scroll bar

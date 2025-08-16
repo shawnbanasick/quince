@@ -13,7 +13,6 @@ const getConfigObj = (state) => state.configObj;
 const getStatementsObj = (state) => state.statementsObj;
 const getColumnStatements = (state) => state.columnStatements;
 const getPreSortedStateNumInit = (state) => state.presortSortedStatementsNumInitial;
-// const getSetColumnStatements = (state) => state.setColumnStatements;
 const getSetPresortFinished = (state) => state.setPresortFinished;
 const getSetTrigPresortFinModal = (state) => state.setTriggerPresortFinishedModal;
 const getResults = (state) => state.results;
@@ -29,7 +28,6 @@ function PresortDND(props) {
   const statementsObj = useSettingsStore(getStatementsObj);
   const columnStatements = useSettingsStore(getColumnStatements);
   const presortSortedStatementsNumInitial = useStore(getPreSortedStateNumInit);
-  // const setColumnStatements = useSettingsStore(getSetColumnStatements);
   const setPresortFinished = useStore(getSetPresortFinished);
   const setTriggerPresortFinishedModal = useStore(getSetTrigPresortFinModal);
   const results = useStore(getResults);
@@ -53,7 +51,8 @@ function PresortDND(props) {
   let defaultFontColor = configObj.defaultFontColor;
   let statementsLength = columnStatements.statementList.length;
 
-  const cardHeight = 210;
+  const cardHeight = 180;
+  // const cardHeight = "19.8vh";
 
   const [columns, setColumns] = useLocalStorage("columns", {
     cards: {
@@ -138,13 +137,6 @@ function PresortDND(props) {
 
       // save to memory
       columnStatements.statementList = [...statementsArray];
-      //setColumnStatements(columnStatements);
-
-      // console.log(
-      //   "columnStatements: ",
-      //   JSON.stringify(columnStatements, null, 2)
-      // );
-
       localStorage.setItem("columnStatements", JSON.stringify(columnStatements));
 
       // when dropped on different droppable
@@ -223,7 +215,7 @@ function PresortDND(props) {
       greenArraySortValue,
       pinkArraySortValue,
     ]
-  ); // END DRAG-END
+  );
 
   useEffect(() => {
     const handleKeyUp = (event) => {
@@ -258,10 +250,9 @@ function PresortDND(props) {
 
         onDragEnd(results, columns, setColumns);
       }
-    }; // end keyup
+    };
 
     window.addEventListener("keyup", handleKeyUp);
-
     return () => window.removeEventListener("keyup", handleKeyUp);
   }, [onDragEnd, setColumns, columns]);
 
@@ -306,11 +297,9 @@ function PresortDND(props) {
 
       console.log("setting posSorted and negSorted triggered by presortNoReturn");
 
-      // get presort column statements from local storage
       let presortColumnStatements = JSON.parse(localStorage.getItem("columnStatements"));
       localStorage.setItem("newCols", JSON.stringify(presortColumnStatements));
 
-      // clear any previous selections
       let posSorted2 = [];
       let negSorted2 = [];
       let sortingList = [];
@@ -323,7 +312,7 @@ function PresortDND(props) {
           item.selectedNeg = false;
           return item;
         });
-        // filter out green and pink checked items
+
         posSorted2 = sortingList.filter((item) => item.sortValue === 111);
         setPosSorted(posSorted2);
         localStorage.setItem("posSorted", JSON.stringify([...posSorted2]));
@@ -331,7 +320,6 @@ function PresortDND(props) {
         setNegSorted(negSorted2);
         localStorage.setItem("negSorted", JSON.stringify([...negSorted2]));
 
-        // setup THINNING PROCESS DATA
         let sortRightArrays = JSON.parse(localStorage.getItem("sortRightArrays"));
         let sortLeftArrays = JSON.parse(localStorage.getItem("sortLeftArrays"));
         let remainingPosCount = posSorted2.length;
@@ -358,8 +346,23 @@ function PresortDND(props) {
     setNegSorted,
   ]);
 
-  // RENDER COMPONENT
+  // Helper function to get column background
+  const getColumnBackground = (columnId, isDraggingOver) => {
+    switch (columnId) {
+      case "cards":
+        return isDraggingOver ? "#e6f3ff" : "#f8fafc";
+      case "neg":
+        return isDraggingOver ? "#fef7f7" : "#fee2e2";
+      case "neutral":
+        return isDraggingOver ? "#fefdf8" : "#fef3c7";
+      case "pos":
+        return isDraggingOver ? "#f7fef7" : "#dcfce7";
+      default:
+        return "#ffffff";
+    }
+  };
 
+  // RENDER COMPONENT
   return (
     <PresortGrid id="statementsGrid">
       <ImageEnlargeInstructionsDiv id="imageEnlargeInstructionsDiv">
@@ -368,17 +371,16 @@ function PresortDND(props) {
       <CompletionRatioDiv id="completionRatio">
         {presortSortedStatementsNum}/{statementsLength}
       </CompletionRatioDiv>
-      <ColumnNamesNeg id="negDivImg">
+      <ColumnNamesNeg id="negColumnHeader">
         <div>{columns.neg.name}</div>
       </ColumnNamesNeg>
-      <ColumnNamesNeu id="negDivImg">
+      <ColumnNamesNeu id="neutralColumnHeader">
         <div>{columns.neutral.name}</div>
       </ColumnNamesNeu>
-      <ColumnNamesPos id="negDivImg">
+      <ColumnNamesPos id="posColumnHeader">
         <div>{columns.pos.name}</div>
       </ColumnNamesPos>
       <DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
-        {/* {Object.entries(columns).map(([columnId, column], index) => { */}
         {Object.entries(columns).map(([columnId, column]) => {
           return (
             <AllColWrapper key={columnId} id={`${columnId}Div`} className={`${columnId}Div`}>
@@ -386,15 +388,15 @@ function PresortDND(props) {
                 <Droppable droppableId={columnId} className={columnId} key={columnId}>
                   {(provided, snapshot) => {
                     return (
-                      <div
+                      <DroppableZone
                         {...provided.droppableProps}
                         ref={provided.innerRef}
                         id={columnId}
                         className={columnId}
+                        columnType={columnId}
+                        isDraggingOver={snapshot.isDraggingOver}
                         style={{
-                          background: snapshot.isDraggingOver ? "lightblue" : "white",
-                          padding: 4,
-                          width: "100%",
+                          background: getColumnBackground(columnId, snapshot.isDraggingOver),
                         }}
                       >
                         {column.items.map((item, index) => {
@@ -441,7 +443,7 @@ function PresortDND(props) {
                           );
                         })}
                         {provided.placeholder}
-                      </div>
+                      </DroppableZone>
                     );
                   }}
                 </Droppable>
@@ -455,6 +457,8 @@ function PresortDND(props) {
 }
 
 export default PresortDND;
+
+// Styled Components with enhanced backgrounds
 const ColumnNamesNeg = styled.div`
   display: flex;
   grid-column-start: 2;
@@ -466,13 +470,16 @@ const ColumnNamesNeg = styled.div`
 
   div {
     display: flex;
-    outline: 1px solid #a8a8a8;
+    outline: 1px solid #fca5a5;
     justify-content: center;
     align-items: center;
-    background-color: rgba(255, 182, 193, 0.4);
-    min-width: 50%;
-    padding: 2px;
-    border-radius: 5px;
+    /* background: linear-gradient(135deg, #fecaca, #f87171); */
+    background: #fee2e2;
+    color: #7f1d1d;
+    min-width: 60%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
   }
 `;
 
@@ -490,11 +497,14 @@ const ColumnNamesNeu = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    outline: 1px solid #a8a8a8;
-    background-color: lightgray;
-    min-width: 50%;
-    padding: 2px;
-    border-radius: 5px;
+    outline: 1px solid #fbbf24;
+    /* background: linear-gradient(135deg, #fde68a, #fbbf24); */
+    background: #fef3c7;
+    color: #78350f;
+    min-width: 60%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(245, 158, 11, 0.2);
   }
 `;
 
@@ -511,11 +521,14 @@ const ColumnNamesPos = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(199, 246, 199, 0.6);
-    min-width: 50%;
-    padding: 2px;
-    border-radius: 5px;
-    outline: 1px solid #a8a8a8;
+    /* background: linear-gradient(135deg, #bbf7d0, #34d399); */
+    background: #dcfce7;
+    color: #064e3b;
+    min-width: 60%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    outline: 1px solid #34d399;
+    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
   }
 `;
 
@@ -525,12 +538,45 @@ const PresortGrid = styled.div`
   margin-bottom: 55px;
   display: grid;
   min-height: calc(100vh-100px);
-  grid-template-rows: 25vh 35px 60vh;
+  grid-template-rows: 30vh 55px 58vh;
   grid-template-columns: 0.25fr 1.5fr 1.5fr 1.5fr 0.25fr;
   row-gap: 3px;
   column-gap: 15px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+`;
+
+const DroppableZone = styled.div`
+  padding: 12px;
+  width: 100%;
+  min-height: 400px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  position: relative;
+
+  ${(props) =>
+    props.columnType === "cards" &&
+    `
+    box-shadow: inset 0 0 20px rgba(59, 130, 246, 0.05);
+  `}
+
+  ${(props) =>
+    props.columnType === "neg" &&
+    `
+    box-shadow: inset 0 0 20px rgba(239, 68, 68, 0.05);
+  `}
+  
+  ${(props) =>
+    props.columnType === "neutral" &&
+    `
+    box-shadow: inset 0 0 20px rgba(245, 158, 11, 0.05);
+  `}
+  
+  ${(props) =>
+    props.columnType === "pos" &&
+    `
+    box-shadow: inset 0 0 20px rgba(16, 185, 129, 0.05);
+  `}
 `;
 
 const DroppableContainer = styled.div`
@@ -539,8 +585,16 @@ const DroppableContainer = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  border-radius: 2px;
+  border-radius: 8px;
   width: 27.8vw;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
+  }
 `;
 
 const ThreeColCardWrapper = styled.div`
@@ -561,6 +615,10 @@ const CompletionRatioDiv = styled.div`
   font-weight: bold;
   padding-left: 3px;
   padding-right: 3px;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 `;
 
 const ImageEnlargeInstructionsDiv = styled.div`
@@ -568,15 +626,21 @@ const ImageEnlargeInstructionsDiv = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 5px;
+  margin-top: 70px;
   font-size: 16px;
-  padding-left: 3px;
-  padding-right: 3px;
+  padding: 16px 20px;
   width: 100%;
+  height: 100px;
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  border-radius: 12px;
+  border-left: 4px solid #0ea5e9;
+  color: #0c4a6e;
+  box-shadow: 0 2px 4px rgba(14, 165, 233, 0.1);
 `;
 
 const AllColWrapper = styled.div`
   margin: 4px;
-  display: "flex";
-  flex-direction: "column";
+  display: flex;
+  flex-direction: column;
   width: 100%;
 `;
