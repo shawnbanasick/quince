@@ -215,7 +215,7 @@ const Thinning = () => {
       selectedStatementsNum = selectedStatementsNum + 1;
     }
     return (
-      <Box
+      <Card
         onClick={handleClick}
         id={item.id}
         key={uuid()}
@@ -230,7 +230,7 @@ const Thinning = () => {
         data-id={item.id}
       >
         {item.statement}
-      </Box>
+      </Card>
     );
   });
 
@@ -241,10 +241,12 @@ const Thinning = () => {
         <ConfirmationModal />
         <ThinningPreventNavModal />
         <ThinHelpModal />
-        <SortTitleBar background={configObj.headerBarColor}>{thinPageTitle}</SortTitleBar>
-        <div>
-          <ContainerDiv>
-            <InstructionsDiv>
+        <Header background={configObj.headerBarColor}>
+          <HeaderTitle>{thinPageTitle}</HeaderTitle>
+        </Header>
+        <MainContent>
+          <ContentContainer>
+            <InstructionsSection>
               <Instructions
                 part1={instructionsRef.current.part1}
                 part2={instructionsRef.current.part2}
@@ -252,27 +254,17 @@ const Thinning = () => {
                 maxNum={displayControllerArray[0]?.maxNum}
                 selectedNum={selectedStatementsNum}
               />
-              <ConfirmButton
+              <ActionButton
                 onClick={handleConfirm}
                 disabled={selectedStatementsNum !== displayControllerArray[0]?.maxNum}
-                fontColor={
-                  selectedStatementsNum === displayControllerArray[0]?.maxNum ? "black" : "darkgray"
-                }
-                border={
-                  selectedStatementsNum === displayControllerArray[0]?.maxNum ? "black" : "gray"
-                }
-                color={
-                  selectedStatementsNum === displayControllerArray[0]?.maxNum
-                    ? "#fca70893"
-                    : "lightgray"
-                }
+                isActive={selectedStatementsNum === displayControllerArray[0]?.maxNum}
               >
                 {thinPageSubmitButton}
-              </ConfirmButton>
-            </InstructionsDiv>
-            <BoxesDiv>{assessedStatements}</BoxesDiv>
-          </ContainerDiv>
-        </div>
+              </ActionButton>
+            </InstructionsSection>
+            <CardsGrid>{assessedStatements}</CardsGrid>
+          </ContentContainer>
+        </MainContent>
       </>
     );
   } else {
@@ -282,10 +274,14 @@ const Thinning = () => {
         <ConfirmationModal />
         <ThinningPreventNavModal />
         <ThinHelpModal />
-        <SortTitleBar background={configObj.headerBarColor}>{thinPageTitle}</SortTitleBar>
-        <ContainerDiv>
-          <FinalInstructions>{finalInstructions}</FinalInstructions>
-        </ContainerDiv>
+        <Header background={configObj.headerBarColor}>
+          <HeaderTitle>{thinPageTitle}</HeaderTitle>
+        </Header>
+        <MainContent>
+          <FinalInstructionsContainer>
+            <FinalInstructionsText>{finalInstructions}</FinalInstructionsText>
+          </FinalInstructionsContainer>
+        </MainContent>
       </>
     );
   }
@@ -293,143 +289,234 @@ const Thinning = () => {
 
 export default Thinning;
 
-const SortTitleBar = styled.div`
-  width: 100vw;
-  padding-left: 1.5vw;
-  padding-right: 1.5vw;
-  padding-top: 5px;
-  min-height: 50px;
-  background-color: ${(props) => props.background};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-weight: bold;
-  font-size: 28px;
+// Styled Components with Improved CSS
+
+const Header = styled.header`
   position: fixed;
   top: 0;
-`;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: ${(props) => props.background};
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
 
-const ContainerDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2vw;
-  margin-bottom: 200px;
-  padding-top: 30px;
-  transition: 0.3s ease all;
-  min-height: 80vh;
-
-  img {
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
-  iframe {
-    margin-top: 20px;
-    margin-bottom: 20px;
+  @media (max-width: 768px) {
+    box-shadow: 0 1px 10px rgba(0, 0, 0, 0.05);
   }
 `;
 
-const BoxesDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  padding: 1vw;
-`;
-
-const InstructionsDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  justify-content: center;
-  align-items: center;
-  padding: 1vw;
-  margin-top: 20px;
-  margin-bottom: 0px;
-  font-size: 16px;
-  font-weight: normal;
+const HeaderTitle = styled.h1`
+  color: white;
+  font-weight: 700;
+  font-size: clamp(1.2rem, 4vw, 1.75rem);
+  margin: 0;
+  padding: 1rem 1.5rem;
   text-align: center;
-  color: black;
-  min-height: 200px;
-`;
+  letter-spacing: -0.025em;
 
-const FinalInstructions = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 50vw;
-  height: 50vw;
-  justify-content: center;
-  align-items: center;
-  font-size: calc(14px + 1.5vw);
-  text-align: center;
-  color: black;
-`;
-
-const ConfirmButton = styled.button`
-  display: flex;
-  border: 2px solid white;
-  background-color: ${(props) => {
-    return props.color;
-  }};
-  color: ${(props) => {
-    return props.fontColor;
-  }};
-  font-size: 1.6em;
-  font-weight: normal;
-  margin: 0 3px 0 3px;
-  padding: 5px;
-  height: 50px;
-  min-width: 115px;
-  border-radius: 10px;
-  text-decoration: none;
-  align-items: center;
-  justify-content: center;
-  user-select: none;
-
-  &:hover {
-    border-color: ${(props) => {
-      return props.border;
-    }};
-    color: ${(props) => {
-      return props.border;
-    }};
+  @media (max-width: 768px) {
+    padding: 0.75rem 1rem;
   }
 `;
 
-const Box = styled.div`
+const MainContent = styled.main`
+  padding-top: 80px; /* Account for fixed header */
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+
+  @media (max-width: 768px) {
+    padding-top: 70px;
+  }
+`;
+
+const ContentContainer = styled.div`
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 2rem;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+    gap: 1.5rem;
+  }
+`;
+
+const InstructionsSection = styled.section`
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  width: 170px;
-  height: ${(props) => props.cardHeight}px;
-  padding: 10px;
-  overflow: hidden;
-  margin: 10px;
-  border: 1px solid black;
-  border-radius: 10px;
-  background-color: ${(props) => {
-    return props.selected && props.side === "right"
-      ? "#ccffcc"
-      : props.selected && props.side === "left"
-      ? "#ffe0e0"
-      : "white";
+  gap: 1.5rem;
+  text-align: center;
+
+  @media (max-width: 768px) {
+    padding: 1.5rem;
+    border-radius: 12px;
+  }
+`;
+
+const ActionButton = styled.button`
+  background: ${(props) =>
+    props.isActive
+      ? "linear-gradient(135deg, #3b82f6 0%, #1e40af 100%)"
+      : "linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%)"};
+  color: ${(props) => (props.isActive ? "white" : "#6b7280")};
+  border: none;
+  border-radius: 12px;
+  padding: 0.75rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: ${(props) => (props.isActive ? "pointer" : "not-allowed")};
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  min-width: 140px;
+  box-shadow: ${(props) =>
+    props.isActive ? "0 4px 14px 0 rgba(59, 130, 246, 0.25)" : "0 2px 4px 0 rgba(0, 0, 0, 0.05)"};
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: ${(props) =>
+      props.isActive ? "0 8px 25px 0 rgba(59, 130, 246, 0.35)" : "0 4px 12px 0 rgba(0, 0, 0, 0.1)"};
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.625rem 1.5rem;
+    font-size: 1rem;
+    min-width: 120px;
+  }
+`;
+
+const CardsGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  padding: 0;
+
+  @media (max-width: 1200px) {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 0.5rem;
+  }
+`;
+
+const Card = styled.div`
+  background: ${(props) => {
+    if (props.selected && props.side === "right")
+      return "linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)";
+    if (props.selected && props.side === "left")
+      return "linear-gradient(135deg, #fee2e2 0%, #fecaca 100%)";
+    return "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)";
   }};
-  color: black;
-  font-size: calc(${(props) => props.fontSize}px + 0.3vw);
-  font-weight: normal;
+  border: 2px solid
+    ${(props) => {
+      if (props.selected && props.side === "right") return "#22c55e";
+      if (props.selected && props.side === "left") return "#ef4444";
+      return "#e2e8f0";
+    }};
+  border-radius: 12px;
+  padding: 1rem;
+  height: ${(props) => Math.max(props.cardHeight || 120, 120)}px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   cursor: pointer;
-  transition: 0.3s ease all;
+  user-select: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: clamp(0.875rem, ${(props) => (props.fontSize || 14) / 16}rem + 0.2vw, 1.125rem);
+  font-weight: 500;
+  color: #1f2937;
+  line-height: 1.4;
+  overflow: hidden;
+  position: relative;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: ${(props) => {
+      if (props.selected && props.side === "right") return "rgba(34, 197, 94, 0.05)";
+      if (props.selected && props.side === "left") return "rgba(239, 68, 68, 0.05)";
+      return "transparent";
+    }};
+    border-radius: 10px;
+    transition: all 0.2s ease;
+  }
 
   &:hover {
-    background-color: ${(props) => {
-      return props.selected && props.side === "right"
-        ? "#ccffcc"
-        : props.selected && props.side === "left"
-        ? "#ffe0e0"
-        : "#FFEC8B";
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    border-color: ${(props) => {
+      if (props.selected && props.side === "right") return "#16a34a";
+      if (props.selected && props.side === "left") return "#dc2626";
+      return "#94a3b8";
     }};
+  }
+
+  &:active {
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 768px) {
+    padding: 0.75rem;
+    height: ${(props) => Math.max((props.cardHeight || 120) * 0.9, 100)}px;
+    border-radius: 8px;
+
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
+`;
+
+const FinalInstructionsContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 120px);
+  padding: 2rem;
+
+  @media (max-width: 768px) {
+    padding: 1rem;
+  }
+`;
+
+const FinalInstructionsText = styled.div`
+  background: white;
+  border-radius: 16px;
+  padding: 3rem;
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+  font-size: clamp(1.125rem, 3vw, 1.5rem);
+  color: #1f2937;
+  line-height: 1.6;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+
+  @media (max-width: 768px) {
+    padding: 2rem;
+    border-radius: 12px;
   }
 `;
