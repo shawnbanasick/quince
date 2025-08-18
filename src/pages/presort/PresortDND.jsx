@@ -7,6 +7,9 @@ import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 import useLocalStorage from "../../utilities/useLocalStorage";
 import calcThinDisplayControllerArray from "./calcThinDisplayControllerArray";
+import EmojiN3 from "../../assets/emojiN3.svg?react";
+import Emoji0 from "../../assets/emoji0.svg?react";
+import Emoji3 from "../../assets/emoji3.svg?react";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
@@ -372,13 +375,46 @@ function PresortDND(props) {
         {presortSortedStatementsNum}/{statementsLength}
       </CompletionRatioDiv>
       <ColumnNamesNeg id="negColumnHeader">
-        <div>{columns.neg.name}</div>
+        <div id="negHeader">
+          <EmojiDiv>
+            <EmojiN3 />
+          </EmojiDiv>
+          {columns.neg.name}
+          <EmojiDiv>
+            <EmojiN3 />
+          </EmojiDiv>
+        </div>
+        <ButtonPressDiv>
+          <div>{langObj["press1"]}</div>
+        </ButtonPressDiv>
       </ColumnNamesNeg>
       <ColumnNamesNeu id="neutralColumnHeader">
-        <div>{columns.neutral.name}</div>
+        <div id="neuHeader">
+          <EmojiDiv>
+            <Emoji0 />
+          </EmojiDiv>
+          {columns.neutral.name}
+          <EmojiDiv>
+            <Emoji0 />
+          </EmojiDiv>
+        </div>
+        <ButtonPressDiv>
+          <div>{langObj["press2"]}</div>
+        </ButtonPressDiv>
       </ColumnNamesNeu>
       <ColumnNamesPos id="posColumnHeader">
-        <div>{columns.pos.name}</div>
+        <div id="posHeader">
+          <EmojiDiv>
+            <Emoji3 />
+          </EmojiDiv>
+          {columns.pos.name}
+          <EmojiDiv>
+            <Emoji3 />
+          </EmojiDiv>
+        </div>
+        <ButtonPressDiv>
+          <div>{langObj["press3"]}</div>
+        </ButtonPressDiv>
       </ColumnNamesPos>
       <DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
         {Object.entries(columns).map(([columnId, column]) => {
@@ -461,6 +497,7 @@ export default PresortDND;
 // Styled Components with enhanced backgrounds
 const ColumnNamesNeg = styled.div`
   display: flex;
+  flex-direction: column;
   grid-column-start: 2;
   grid-row-start: 2;
   justify-content: center;
@@ -468,8 +505,9 @@ const ColumnNamesNeg = styled.div`
   font-size: 20px;
   font-weight: bold;
 
-  div {
+  #negHeader {
     display: flex;
+    gap: 10px;
     outline: 1px solid #fca5a5;
     justify-content: center;
     align-items: center;
@@ -485,6 +523,8 @@ const ColumnNamesNeg = styled.div`
 
 const ColumnNamesNeu = styled.div`
   display: flex;
+  flex-direction: column;
+
   align-self: center;
   grid-column-start: 3;
   grid-row-start: 2;
@@ -493,8 +533,9 @@ const ColumnNamesNeu = styled.div`
   font-size: 20px;
   font-weight: bold;
 
-  div {
+  #neuHeader {
     display: flex;
+    gap: 10px;
     justify-content: center;
     align-items: center;
     outline: 1px solid #fbbf24;
@@ -510,6 +551,7 @@ const ColumnNamesNeu = styled.div`
 
 const ColumnNamesPos = styled.div`
   display: flex;
+  flex-direction: column;
   grid-column-start: 4;
   grid-row-start: 2;
   justify-content: center;
@@ -517,8 +559,9 @@ const ColumnNamesPos = styled.div`
   font-size: 20px;
   font-weight: bold;
 
-  div {
+  #posHeader {
     display: flex;
+    gap: 10px;
     justify-content: center;
     align-items: center;
     /* background: linear-gradient(135deg, #bbf7d0, #34d399); */
@@ -538,7 +581,7 @@ const PresortGrid = styled.div`
   margin-bottom: 55px;
   display: grid;
   min-height: calc(100vh-100px);
-  grid-template-rows: 30vh 55px 58vh;
+  grid-template-rows: 30vh 85px 58vh;
   grid-template-columns: 0.25fr 1.5fr 1.5fr 1.5fr 0.25fr;
   row-gap: 3px;
   column-gap: 15px;
@@ -643,4 +686,33 @@ const AllColWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+`;
+
+const ButtonPressDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  padding-top: 2px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  font-size: 12px;
+  border: 1px solid darkgray;
+  width: 150px;
+  text-align: center;
+  height: 20px;
+`;
+
+const EmojiDiv = styled.div`
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
 `;

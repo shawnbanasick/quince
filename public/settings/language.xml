@@ -47,9 +47,12 @@
         <!-- 6. PRE-SORT: rough sorting into three piles -->
         <item order="6-1" id="logInFirst">Please complete the log-in process first.</item>
         <item order="6-2" id="titleBarText">Preliminary Sorting</item>
-        <item order="6-3" id="presortAgreement">Agree (press 3)</item>
-        <item order="6-4" id="presortNeutral">No Strong Feelings (press 2)</item>
-        <item order="6-5" id="presortDisagreement">Disagree (press 1)</item>
+        <item order="6-3" id="presortAgreement">Agree</item>
+        <item order="6-3b" id="press1">(press 1)</item>
+        <item order="6-4" id="presortNeutral">No Strong Feelings</item>
+        <item order="6-4b" id="press2">(press 2)</item>
+        <item order="6-5" id="presortDisagreement">Disagree</item>
+        <item order="6-5b" id="press3">(press 3)</item>
         <item order="6-6" id="presortStatements">Statements</item>
         <item order="6-7" id="presortOnPageInstructions">{{{div style=&quot;font-size: 24px&quot;}}}Click and drag on the cards or press the &quot;1&quot;, &quot;2&quot;, or &quot;3&quot; keys to sort the statements.{{{/div}}}</item>
         <item order="6-8" id="presortModalHead">Step 1 of 4</item>
