@@ -765,7 +765,7 @@ footer {
 }
 
 .rootDiv {
-  background-color: white;
+  background-color: whitesmoke;
   /* background-color: #6a9bc3; */
   padding: 0px, 0px, 10px, 10px;
   min-height: 100vh;

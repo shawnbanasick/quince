@@ -33,7 +33,7 @@ const SortColGuides = (props) => {
 
   const qSortHeaderNumbers = [...mapObj.qSortHeaderNumbers];
   const columnHeadersColorsArray = [...mapObj.columnHeadersColorsArray];
-  let columnWidth = +props.columnWidth + 11;
+  let columnWidth = +props.columnWidth + 13;
 
   const textHeaders = [...mapObj.mobileHeadersText];
 
@@ -47,20 +47,25 @@ const SortColGuides = (props) => {
     }
   }
 
-  console.log(textHeaders);
+  // console.log(textHeaders);
 
   // let textHeaders2 = textHeaders.reverse();
   // console.log(textHeaders2);
 
-  let shouldDisplayEmojis = true;
+  let shouldDisplayEmojis = false;
   shouldDisplayNums = false;
   let shouldDisplayText = true;
-
+  // let widthVal;
   return (
     <ColorBarDivContainer id="colorBarDivContainer">
       {qSortHeaderNumbers.map((value, index) => {
+        // widthValue
         return (
-          <ColorBarDiv key={uuid()} width={columnWidth} color={columnHeadersColorsArray[index]}>
+          <ColorBarDiv
+            key={uuid()}
+            width={columnWidth + 0.5}
+            color={columnHeadersColorsArray[index]}
+          >
             <ContentWrapper>
               {shouldDisplayNums && <HeaderNumber>{value}</HeaderNumber>}
               {shouldDisplayEmojis && <EmojiDiv>{emoji4Array[index]}</EmojiDiv>}
@@ -79,25 +84,30 @@ const SortColGuides = (props) => {
 
 export default SortColGuides;
 
-const ColorBarDiv = styled.div`
-  background-color: ${(props) => props.color};
-  width: ${(props) => +props.width}px;
+const ColorBarDivContainer = styled.div`
+  display: flex;
+  padding-left: 0px;
   margin-right: 1px;
-  margin-left: 1px;
+  flex-direction: row;
+  width: 99.1vw;
+  /* background-color: #d8d8d8; */
+  margin-bottom: 0px;
+  /* border-right: 1px solid whitesmoke;
+  border-left: 1px solid whitesmoke; */
   height: 28px;
-  border-bottom: 2px solid black;
+`;
+
+const ColorBarDiv = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-`;
-
-const ColorBarDivContainer = styled.div`
-  display: flex;
-  padding-left: 2px;
-  flex-direction: row;
-  background-color: #d8d8d8;
-  margin-bottom: 0px;
-  height: 30px;
+  gap: 6px;
+  background-color: ${(props) => props.color};
+  width: ${(props) => +props.width}px;
+  border-right: 1px solid whitesmoke;
+  border-left: 1px solid whitesmoke;
+  height: 28px;
+  border-bottom: 2px solid black;
 `;
 
 const ContentWrapper = styled.div`
@@ -105,7 +115,10 @@ const ContentWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  gap: 3px;
+
+  gap: 10px;
+  padding-right: 2px;
+  padding-left: 2px;
   height: 100%;
 `;
 
@@ -134,8 +147,9 @@ const HeaderText = styled.div`
   justify-content: center;
   flex-wrap: wrap;
   text-align: center;
-  font-size: 0.8vw;
+  font-size: 0.75vw;
   text-align: center;
   line-height: 0.8rem;
-  width: 6vw;
+
+  /* width: ${(shouldDisplayEmojis) => (shouldDisplayEmojis ? "6vw" : "8vw")}; */
 `;

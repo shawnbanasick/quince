@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
@@ -7,6 +7,9 @@ import useStore from "../../globalState/useStore";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import { Modal } from "react-responsive-modal";
 import useLocalStorage from "../../utilities/useLocalStorage";
+import EmojiN2 from "../../assets/emojiN2.svg?react";
+import EmojiN3 from "../../assets/emojiN3.svg?react";
+import EmojiN5 from "../../assets/emojiN5.svg?react";
 
 /* eslint react/prop-types: 0 */
 
@@ -18,6 +21,7 @@ const getConfigObj = (state) => state.configObj;
 const getShowPostsortCommentHighlighting = (state) => state.showPostsortCommentHighlighting;
 const getPostsortDualImageArray = (state) => state.postsortDualImageArray;
 const getSetPostsortDualImageArray = (state) => state.setPostsortDualImageArray;
+const getMapObject = (state) => state.mapObj;
 
 const LowCards = (props) => {
   // HELPER FUNCTION
@@ -47,13 +51,49 @@ const LowCards = (props) => {
   const showPostsortCommentHighlighting = useStore(getShowPostsortCommentHighlighting);
   const postsortDualImageArray = useStore(getPostsortDualImageArray);
   const setPostsortDualImageArray = useStore(getSetPostsortDualImageArray);
+  const mapObj = useSettingsStore(getMapObject);
 
   const { height, width, cardFontSize, disagreeObj } = props;
   const lowCards = columnStatements.vCols[disagreeObj.columnDisplay];
-  const { disagreeText, placeholder } = disagreeObj;
+  let { disagreeText, placeholder } = disagreeObj;
   let columnDisplay = disagreeObj.columnDisplay;
 
-  console.log("999x", props);
+  // get header text
+  if (
+    mapObj.useHeaderLabelsPostsort === true ||
+    mapObj["useHeaderLabelsPostsort"].toString() === "true"
+  ) {
+    let headersTextArray = [...mapObj["mobileHeadersText"]];
+    disagreeText = headersTextArray[0];
+  }
+
+  const getEmoji = (selector) => {
+    if (selector[0] === "emoji5Array") {
+      return <EmojiN5 key="emojiN5" />;
+    }
+    if (selector[0] === "emoji4Array") {
+      return <EmojiN5 key="emojiN5" />;
+    }
+    if (selector[0] === "emoji3Array") {
+      return <EmojiN3 key="emojiN3" />;
+    }
+    if (selector[0] === "emoji2Array") {
+      return <EmojiN2 key="emojiN2" />;
+    }
+  };
+
+  const backgroundColor1 = [...mapObj["columnHeadersColorsArray"]];
+  const backgroundColor = backgroundColor1[0];
+
+  if (mapObj.useEmojiPostsort === true || mapObj["useEmojiPostsort"].toString() === "true") {
+    disagreeText = (
+      <RowDiv>
+        <EmojiDiv>{getEmoji(mapObj["emojiArrayType"])}</EmojiDiv>
+        {disagreeText}
+        <EmojiDiv>{getEmoji(mapObj["emojiArrayType"])}</EmojiDiv>
+      </RowDiv>
+    );
+  }
 
   let noResponseCheckArrayLC1 = [];
   props.lowCards.forEach((item, index) => {
@@ -188,7 +228,9 @@ const LowCards = (props) => {
             alt="modalImage2"
           />
         </Modal>
-        <CardTag cardFontSize={cardFontSize}>{disagreeText}</CardTag>
+        <CardTag cardFontSize={cardFontSize} backgroundColor={backgroundColor}>
+          {disagreeText}
+        </CardTag>
         <CardAndTextHolder>
           <Card
             cardFontSize={cardFontSize}
@@ -234,7 +276,7 @@ const CardTag = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  background: lightpink;
+  background: ${(props) => `${props.backgroundColor}`};
   color: black;
   text-align: center;
   font-size: ${(props) => `${props.cardFontSize}px`};
@@ -287,4 +329,23 @@ const Card = styled.div`
     max-width: 100%;
     max-height: 100%;
   }
+`;
+
+const EmojiDiv = styled.div`
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+const RowDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
 `;

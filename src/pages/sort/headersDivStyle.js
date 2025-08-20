@@ -16,7 +16,7 @@ const headersDivStyle = (
 
   let color;
   if (location === index) {
-    color = 'lightblue';
+    color = "lightblue";
   } else {
     color = headerColorsArray[index];
   }

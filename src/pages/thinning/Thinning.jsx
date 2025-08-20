@@ -429,7 +429,7 @@ const Card = styled.div`
   border: 2px solid
     ${(props) => {
       if (props.selected && props.side === "right") return "#22c55e";
-      if (props.selected && props.side === "left") return "#ef4444";
+      if (props.selected && props.side === "left") return "#ef6944";
       return "#e2e8f0";
     }};
   border-radius: 12px;

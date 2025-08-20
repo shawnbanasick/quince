@@ -45,7 +45,8 @@ const InstructionsText = styled.div`
 
 const RequiredStatementsText = styled.span`
   width: 35vw;
-  background-color: ${(props) => (props.selectedNum === props.maxNum ? "#ccffcc" : "#ffec8b")};
+  background-color: ${(props) =>
+    props.selectedNum === props.maxNum ? "white" : "rgb(249, 249, 0)"};
   padding: 5px;
   margin-top: 10px;
   font-style: italic;
@@ -57,10 +58,10 @@ const CurrentlySelectedText = styled.span`
   width: 35vw;
   background-color: ${(props) => {
     return props.selectedNum === props.maxNum
-      ? "#ccffcc"
+      ? "white"
       : props.selectedNum > props.maxNum
-      ? "#f90606"
-      : "#ffec8b";
+      ? "#ff8080"
+      : "rgb(249, 249, 0)";
   }};
   padding: 5px;
   margin-top: 0px;

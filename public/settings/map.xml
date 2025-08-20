@@ -23,4 +23,7 @@
      <item id="useColLabelEmojiDesktop">false</item>
      <item id="useColLabelEmojiMobile">false</item>
      <item id="emojiArrayType">emoji4Array</item>
+     <item id="useEmojiPresort">false</item>
+     <item id="useEmojiPostsort">false</item>
+     <item id="useHeaderLabelsPostsort">false</item>
    </map>

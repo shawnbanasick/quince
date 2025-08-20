@@ -1,15 +1,17 @@
-import React from "react";
-import { DragDropContext, Draggable } from "react-beautiful-dnd";
+import { DragDropContext } from "react-beautiful-dnd";
 import move from "./move";
 import reorder from "./reorder";
 import SortColumn from "./SortColumn";
-// import getItemStyleHori from "./getItemStyleHori";
 import calculateDragResults from "./calculateDragResults";
-import ReactHtmlParser from "html-react-parser";
-import decodeHTML from "../../utilities/decodeHTML";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 import useLocalStorage from "../../utilities/useLocalStorage";
+// import getListStyleHori from "./getListStyleHori";
+// import getItemStyleHori from "./getItemStyleHori";
+// import ReactHtmlParser from "html-react-parser";
+// import decodeHTML from "../../utilities/decodeHTML";
+// import React from "react";
+// import styled from "styled-components";
 
 /* eslint react/prop-types: 0 */
 
@@ -68,7 +70,7 @@ const SortGrid = (props) => {
   );
 
   // layout settings
-  let columnWidth = props.columnWidth;
+  // let columnWidth = props.columnWidth;
   const totalStatements = +configObj.totalStatements;
   const sortCharacterisiticsPrep = {};
   sortCharacterisiticsPrep.qSortPattern = [...mapObj.qSortPattern];
@@ -188,12 +190,6 @@ const SortGrid = (props) => {
   const cardFontSize = props.cardFontSize;
   const fontColor = props.fontColor;
 
-  // just the hori container size, not card size
-  // let horiCardMinHeight = 0;
-
-  // pull data from STATE
-  // const statements = columnStatements.statementList;
-
   // setup grid columns
   const columns = qSortHeaders.map((value, index) => {
     const columnId = `column${qSortHeaders[index]}`;
@@ -223,56 +219,6 @@ const SortGrid = (props) => {
     );
   }); // end map of sort columns
 
-  const InnerList = React.memo((props) => {
-    const items = props.statements.map((item, index) => {
-      const statementHtml = ReactHtmlParser(`<div>${decodeHTML(item.statement)}</div>`);
-      return (
-        <Draggable
-          key={item.id}
-          draggableId={item.id}
-          index={index}
-          sortValue={item.sortValue}
-          cardColor={item.cardColor}
-          className="droppableCards"
-        >
-          {(provided, snapshot) => (
-            <>
-              <div
-                ref={provided.innerRef}
-                className={`${item.cardColor}`}
-                {...provided.draggableProps}
-                {...provided.dragHandleProps}
-                style={getItemStyleHori(
-                  snapshot.isDragging,
-                  provided.draggableProps.style,
-                  `${item.sortValue}`,
-                  `${item.cardColor}`,
-                  columnWidth,
-                  cardHeight,
-                  cardFontSize,
-                  greenCardColor,
-                  yellowCardColor,
-                  pinkCardColor,
-                  fontColor
-                )}
-              >
-                <span style={{ direction: "ltr" }}>{statementHtml}</span>
-              </div>
-            </>
-          )}
-        </Draggable>
-      );
-    });
-    /*
-      let finalItem = <div key={"placeholder"}>{props.provided.placeholder}</div>;
-      items.unshift(finalItem);
-      */
-    return items;
-  });
-
-  InnerList.displayName = "InnerList";
-
-  // returning main content => horizontal feeder
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className="rootDiv">{columns}</div>
@@ -281,24 +227,6 @@ const SortGrid = (props) => {
 };
 
 export default SortGrid;
-
-// const SortFooterDiv = styled.div`
-//   background: #e4e4e4;
-//   padding-right: 10px;
-//   position: fixed;
-//   left: 0px;
-//   bottom: 50px;
-//   width: 100vw;
-//   height: ${(props) => `${+props.cardHeight + 20}px;`};
-// `;
-
-// const CardSlider = styled.div`
-//   display: flex;
-//   width: 100vw;
-//   overflow: hidden;
-// `;
-
-// const HorizontalFeederDiv = styled.div``;
 
 /* DO NOT DELETE - important
 "columnColorsArray": [

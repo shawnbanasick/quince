@@ -13,7 +13,6 @@ import SortColGuides from "./SortColGuides";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 import PromptUnload from "../../utilities/PromptUnload";
-import { generateColHeaders } from "./generateColHeaders";
 
 function debounce(fn, ms) {
   let timer;
@@ -62,8 +61,6 @@ const Sort = () => {
   if (cardFontSizePersist) {
     cardFontSize = cardFontSizePersist;
   }
-
-  generateColHeaders();
 
   // force updates on window resize
   const [dimensions, setDimensions] = useState({
@@ -164,8 +161,6 @@ const Sort = () => {
     };
   }, [setPresortNoReturn, setCurrentPage]);
 
-  console.log(headerBarColor);
-
   return (
     <React.Fragment>
       <PromptUnload />
@@ -260,4 +255,5 @@ const Disagree = styled.div`
 const SortGridContainer = styled.div`
   margin-top: ${(props) => `${props.marginTop}px`};
   margin-bottom: 250px;
+  /* background-color: #83cafe; */
 `;
