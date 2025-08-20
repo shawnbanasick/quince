@@ -40,7 +40,7 @@ const SortColGuides = (props) => {
   let shouldDisplayNums;
   let displayNumbers = mapObj?.useColLabelNumsDesktop;
   if (displayNumbers !== undefined || displayNumbers !== null) {
-    if (displayNumbers === false || displayNumbers.toString() === "false") {
+    if (displayNumbers === false || displayNumbers === "false") {
       shouldDisplayNums = false;
     } else {
       shouldDisplayNums = true;
@@ -106,8 +106,8 @@ const ColorBarDiv = styled.div`
   background-color: ${(props) => props.color};
   width: ${(props) => +props.width}px;
   /* width: calc(99.1vw / ${(props) => props.count}); */
-  border-right: 1px solid whitesmoke;
-  border-left: 1px solid whitesmoke;
+  border-right: 1px solid lightgray;
+  border-left: 1px solid lightgray;
   height: 28px;
   border-bottom: 1.5px solid black;
 `;
