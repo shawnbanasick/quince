@@ -79,7 +79,6 @@ const SortColGuides = (props) => {
 
   const qSortHeaderNumbers = [...mapObj.qSortHeaderNumbers];
   const columnHeadersColorsArray = [...mapObj.columnHeadersColorsArray];
-  let columnWidth = +props.columnWidth;
   const textHeaders = [...mapObj.mobileHeadersText];
 
   let shouldDisplayNums;
@@ -112,44 +111,29 @@ const SortColGuides = (props) => {
     }
   }
 
-  return (
-    <ColorBarDivContainer id="colorBarDivContainer">
-      {qSortHeaderNumbers.map((value, index) => {
-        // widthValue
-        return (
-          <ColorBarDiv
-            key={uuid()}
-            width={columnWidth}
-            color={columnHeadersColorsArray[index]}
-            count={columnHeadersColorsArray.length}
-          >
-            <ContentWrapper>
-              {shouldDisplayEmojis && <EmojiDiv>{displayArray[index]}</EmojiDiv>}
-              <TextDiv>
-                {shouldDisplayNums && <HeaderNumber>{value}</HeaderNumber>}
-                {shouldDisplayText && <HeaderText>{textHeaders[index]}</HeaderText>}
-              </TextDiv>
-              {shouldDisplayEmojis && <EmojiDiv>{displayArray[index]}</EmojiDiv>}
-            </ContentWrapper>
-          </ColorBarDiv>
-        );
-      })}
-    </ColorBarDivContainer>
-  );
+  return qSortHeaderNumbers.map((value, index) => {
+    // widthValue
+    return (
+      <ColorBarDiv
+        key={uuid()}
+        width={200}
+        color={columnHeadersColorsArray[index]}
+        count={columnHeadersColorsArray.length}
+      >
+        <ContentWrapper>
+          {shouldDisplayEmojis && <EmojiDiv>{displayArray[index]}</EmojiDiv>}
+          <TextDiv>
+            {shouldDisplayNums && <HeaderNumber>{value}</HeaderNumber>}
+            {shouldDisplayText && <HeaderText>{textHeaders[index]}</HeaderText>}
+          </TextDiv>
+          {shouldDisplayEmojis && <EmojiDiv>{displayArray[index]}</EmojiDiv>}
+        </ContentWrapper>
+      </ColorBarDiv>
+    );
+  });
 };
 
 export default SortColGuides;
-
-const ColorBarDivContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 100vw;
-  /* background-color: #d8d8d8; */
-  margin-bottom: 0px;
-  /* border-right: 1px solid whitesmoke;
-  border-left: 1px solid whitesmoke; */
-  height: 28px;
-`;
 
 const ColorBarDiv = styled.div`
   display: flex;
