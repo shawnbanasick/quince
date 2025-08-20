@@ -109,7 +109,8 @@ const Sort = () => {
 
   // page resize
   useEffect(() => {
-    const columnWidth = (dimensions.width - visibleWidthAdjust) / qSortPattern.length;
+    // const columnWidth = (dimensions.width - visibleWidthAdjust) / qSortPattern.length;
+    const columnWidth = dimensions.width / qSortPattern.length;
     setColumnWidth(columnWidth);
 
     const debouncedHandleResize = debounce(function handleResize() {

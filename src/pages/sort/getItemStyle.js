@@ -32,7 +32,7 @@ const getItemStyle = (
     fontSize: cardFontSize,
     color: fontColor,
     height: cardHeight,
-    // width: cardWidth,
+    width: cardWidth,
     // borderRadius: `5px`,
     display: "flex",
     justifyContent: "center",

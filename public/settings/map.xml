@@ -16,14 +16,11 @@
      <item id="columnHeadersColorsArray">#F98080,#F8B4B4,#FBD5D5,#FDE8E8,#F3F4F6,#DEF7EC,#BCF0DA,#84E1BC,#31C48D</item>
      <item id="columnColorsArray">#F98080,#F8B4B4,#FBD5D5,#FDE8E8,#F3F4F6,#DEF7EC,#BCF0DA,#84E1BC,#31C48D</item>
      <item id="mobileHeadersText">Very Strongly Disagree, Strongly Disagree, Disagree, Disagree Somewhat, Neutral, Agree Somewhat, Agree, Strongly Agree, Very Strongly Agree</item>
-     <item id="useColLabelNumsDesktop">true</item>
-     <item id="useColLabelNumsMobile">true</item>
-     <item id="useColLabelTextDesktop">false</item>
-     <item id="useColLabelTextMobile">false</item>
-     <item id="useColLabelEmojiDesktop">false</item>
-     <item id="useColLabelEmojiMobile">false</item>
+     <item id="useColLabelNums">true</item>
+     <item id="useColLabelText">false</item>
+     <item id="useColLabelEmoji">false</item>
      <item id="emojiArrayType">emoji4Array</item>
      <item id="useEmojiPresort">false</item>
-     <item id="useEmojiPostsort">false</item>
-     <item id="useHeaderLabelsPostsort">false</item>
+     <item id="useEmojiPostsort">true</item>
+     <item id="useHeaderLabelsPostsort">true</item>
    </map>

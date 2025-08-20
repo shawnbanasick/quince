@@ -19,7 +19,7 @@ const getListStyle = (isDraggingOver, props, forcedSorts, columnWidth, columnCol
     background: isDraggingOver ? "lightblue" : isUnderMaxCards ? columnColor : "#F4BB44",
     // padding: `3px 0.5px 0px 3.5px`,
 
-    minWidth: columnWidth + 13,
+    maxWidth: columnWidth,
     marginTop: 0,
     marginRight: 0,
     minHeight: props.minHeight - 12,

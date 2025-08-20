@@ -33,7 +33,7 @@ const SortColGuides = (props) => {
 
   const qSortHeaderNumbers = [...mapObj.qSortHeaderNumbers];
   const columnHeadersColorsArray = [...mapObj.columnHeadersColorsArray];
-  let columnWidth = +props.columnWidth + 13;
+  let columnWidth = +props.columnWidth;
 
   const textHeaders = [...mapObj.mobileHeadersText];
 
@@ -52,7 +52,7 @@ const SortColGuides = (props) => {
   // let textHeaders2 = textHeaders.reverse();
   // console.log(textHeaders2);
 
-  let shouldDisplayEmojis = false;
+  let shouldDisplayEmojis = true;
   shouldDisplayNums = false;
   let shouldDisplayText = true;
   // let widthVal;
@@ -63,8 +63,9 @@ const SortColGuides = (props) => {
         return (
           <ColorBarDiv
             key={uuid()}
-            width={columnWidth + 0.5}
+            width={columnWidth}
             color={columnHeadersColorsArray[index]}
+            count={columnHeadersColorsArray.length}
           >
             <ContentWrapper>
               {shouldDisplayNums && <HeaderNumber>{value}</HeaderNumber>}
@@ -86,10 +87,8 @@ export default SortColGuides;
 
 const ColorBarDivContainer = styled.div`
   display: flex;
-  padding-left: 0px;
-  margin-right: 1px;
   flex-direction: row;
-  width: 99.1vw;
+  width: 100vw;
   /* background-color: #d8d8d8; */
   margin-bottom: 0px;
   /* border-right: 1px solid whitesmoke;
@@ -102,12 +101,15 @@ const ColorBarDiv = styled.div`
   align-items: center;
   justify-content: center;
   gap: 6px;
+  padding-right: 8px;
+  padding-left: 8px;
   background-color: ${(props) => props.color};
   width: ${(props) => +props.width}px;
+  /* width: calc(99.1vw / ${(props) => props.count}); */
   border-right: 1px solid whitesmoke;
   border-left: 1px solid whitesmoke;
   height: 28px;
-  border-bottom: 2px solid black;
+  border-bottom: 1.5px solid black;
 `;
 
 const ContentWrapper = styled.div`
