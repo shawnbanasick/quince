@@ -19,6 +19,20 @@ const SortColGuides = (props) => {
   // STATE
   const mapObj = useSettingsStore(getMapObj);
 
+  const emoji5Array = [
+    <EmojiN5 key={uuid()} />,
+    <EmojiN4 key={uuid()} />,
+    <EmojiN3 key={uuid()} />,
+    <EmojiN2 key={uuid()} />,
+    <EmojiN1 key={uuid()} />,
+    <Emoji0 key={uuid()} />,
+    <Emoji1 key={uuid()} />,
+    <Emoji2 key={uuid()} />,
+    <Emoji3 key={uuid()} />,
+    <Emoji4 key={uuid()} />,
+    <Emoji5 key={uuid()} />,
+  ];
+
   const emoji4Array = [
     <EmojiN5 key={uuid()} />,
     <EmojiN3 key={uuid()} />,
@@ -31,14 +45,45 @@ const SortColGuides = (props) => {
     <Emoji5 key={uuid()} />,
   ];
 
+  const emoji3Array = [
+    <EmojiN3 key={uuid()} />,
+    <EmojiN2 key={uuid()} />,
+    <EmojiN1 key={uuid()} />,
+    <Emoji0 key={uuid()} />,
+    <Emoji1 key={uuid()} />,
+    <Emoji2 key={uuid()} />,
+    <Emoji3 key={uuid()} />,
+  ];
+
+  const emoji2Array = [
+    <EmojiN2 key={uuid()} />,
+    <EmojiN1 key={uuid()} />,
+    <Emoji0 key={uuid()} />,
+    <Emoji1 key={uuid()} />,
+    <Emoji2 key={uuid()} />,
+  ];
+
+  let displayArray = [];
+  if (mapObj["emojiArrayType"][0] === "emoji5Array") {
+    displayArray = [...emoji5Array];
+  }
+  if (mapObj["emojiArrayType"][0] === "emoji4Array") {
+    displayArray = [...emoji4Array];
+  }
+  if (mapObj["emojiArrayType"][0] === "emoji3Array") {
+    displayArray = [...emoji3Array];
+  }
+  if (mapObj["emojiArrayType"][0] === "emoji2Array") {
+    displayArray = [...emoji2Array];
+  }
+
   const qSortHeaderNumbers = [...mapObj.qSortHeaderNumbers];
   const columnHeadersColorsArray = [...mapObj.columnHeadersColorsArray];
   let columnWidth = +props.columnWidth;
-
   const textHeaders = [...mapObj.mobileHeadersText];
 
   let shouldDisplayNums;
-  let displayNumbers = mapObj?.useColLabelNumsDesktop;
+  let displayNumbers = mapObj["useColLabelNums"][0];
   if (displayNumbers !== undefined || displayNumbers !== null) {
     if (displayNumbers === false || displayNumbers === "false") {
       shouldDisplayNums = false;
@@ -47,15 +92,26 @@ const SortColGuides = (props) => {
     }
   }
 
-  // console.log(textHeaders);
+  let shouldDisplayText;
+  let displayText = mapObj["useColLabelText"][0];
+  if (displayText !== undefined || displayText !== null) {
+    if (displayText === false || displayText === "false") {
+      shouldDisplayText = false;
+    } else {
+      shouldDisplayText = true;
+    }
+  }
 
-  // let textHeaders2 = textHeaders.reverse();
-  // console.log(textHeaders2);
+  let shouldDisplayEmojis;
+  let displayEmoji = mapObj["useColLabelEmoji"][0];
+  if (displayEmoji !== undefined || displayEmoji !== null) {
+    if (displayEmoji === false || displayEmoji === "false") {
+      shouldDisplayEmojis = false;
+    } else {
+      shouldDisplayEmojis = true;
+    }
+  }
 
-  let shouldDisplayEmojis = true;
-  shouldDisplayNums = false;
-  let shouldDisplayText = true;
-  // let widthVal;
   return (
     <ColorBarDivContainer id="colorBarDivContainer">
       {qSortHeaderNumbers.map((value, index) => {
@@ -68,13 +124,12 @@ const SortColGuides = (props) => {
             count={columnHeadersColorsArray.length}
           >
             <ContentWrapper>
-              {shouldDisplayNums && <HeaderNumber>{value}</HeaderNumber>}
-              {shouldDisplayEmojis && <EmojiDiv>{emoji4Array[index]}</EmojiDiv>}
-
-              {/* {shouldDisplayEmojis && <EmojiDiv>{emoji4Array[index]}</EmojiDiv>} */}
-              {/* {shouldDisplayEmojis && <EmojiDiv>{emoji4Array[index]}</EmojiDiv>} */}
-              {shouldDisplayText && <HeaderText>{textHeaders[index]}</HeaderText>}
-              {shouldDisplayEmojis && <EmojiDiv>{emoji4Array[index]}</EmojiDiv>}
+              {shouldDisplayEmojis && <EmojiDiv>{displayArray[index]}</EmojiDiv>}
+              <TextDiv>
+                {shouldDisplayNums && <HeaderNumber>{value}</HeaderNumber>}
+                {shouldDisplayText && <HeaderText>{textHeaders[index]}</HeaderText>}
+              </TextDiv>
+              {shouldDisplayEmojis && <EmojiDiv>{displayArray[index]}</EmojiDiv>}
             </ContentWrapper>
           </ColorBarDiv>
         );
@@ -89,23 +144,18 @@ const ColorBarDivContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 100vw;
-  /* background-color: #d8d8d8; */
   margin-bottom: 0px;
-  /* border-right: 1px solid whitesmoke;
-  border-left: 1px solid whitesmoke; */
   height: 28px;
 `;
 
 const ColorBarDiv = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding-right: 8px;
-  padding-left: 8px;
+  justify-content: space-evenly;
+  padding-right: 4px;
+  padding-left: 4px;
   background-color: ${(props) => props.color};
   width: ${(props) => +props.width}px;
-  /* width: calc(99.1vw / ${(props) => props.count}); */
   border-right: 1px solid lightgray;
   border-left: 1px solid lightgray;
   height: 28px;
@@ -121,7 +171,7 @@ const ContentWrapper = styled.div`
   gap: 10px;
   padding-right: 2px;
   padding-left: 2px;
-  height: 100%;
+  /* height: 100%; */
 `;
 
 const HeaderNumber = styled.span`
@@ -137,10 +187,10 @@ const EmojiDiv = styled.div`
   align-items: center;
   justify-content: center;
 
-  svg {
+  /* svg {
     width: 100%;
     height: 100%;
-  }
+  } */
 `;
 
 const HeaderText = styled.div`
@@ -152,6 +202,12 @@ const HeaderText = styled.div`
   font-size: 0.75vw;
   text-align: center;
   line-height: 0.8rem;
+`;
 
-  /* width: ${(shouldDisplayEmojis) => (shouldDisplayEmojis ? "6vw" : "8vw")}; */
+const TextDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 60%;
 `;

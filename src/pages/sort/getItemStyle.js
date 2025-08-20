@@ -13,7 +13,7 @@ const getItemStyle = (
   return {
     // some basic styles to make the items look a bit nicer
     userSelect: "none",
-    padding: `2px`,
+    padding: `5px`,
     // margin: `0 2px 2px 3px`,
     margin: `1px`,
     lineHeight: `1.3em`,
