@@ -63,6 +63,36 @@ const MobilePostsort = () => {
   let posEmojiArray = [];
   let negEmojiArray = [];
 
+  let shouldDisplayNums;
+  let displayNumbers = mapObj["useNumsPostsort"][0];
+  if (displayNumbers !== undefined || displayNumbers !== null) {
+    if (displayNumbers === false || displayNumbers === "false") {
+      shouldDisplayNums = false;
+    } else {
+      shouldDisplayNums = true;
+    }
+  }
+
+  let shouldDisplayText;
+  let displayText = mapObj["useHeaderLabelsPostsort"][0];
+  if (displayText !== undefined || displayText !== null) {
+    if (displayText === false || displayText === "false") {
+      shouldDisplayText = false;
+    } else {
+      shouldDisplayText = true;
+    }
+  }
+
+  let shouldDisplayEmojis;
+  let displayEmoji = mapObj["useEmojiPostsort"][0];
+  if (displayEmoji !== undefined || displayEmoji !== null) {
+    if (displayEmoji === false || displayEmoji === "false") {
+      shouldDisplayEmojis = false;
+    } else {
+      shouldDisplayEmojis = true;
+    }
+  }
+
   // ***************************
   // *** INITIALIZATION *******************
   // ***************************
@@ -225,9 +255,9 @@ const MobilePostsort = () => {
   // *** ELEMENTS *******************
   // ***************************
 
-  let shouldDisplayEmojis = true;
-  let shouldDisplayNums = false;
-  let shouldDisplayText = true;
+  // let shouldDisplayEmojis = true;
+  // let shouldDisplayNums = false;
+  // let shouldDisplayText = true;
 
   let posStatements = cardsArray[0].map((card, index) => {
     return (

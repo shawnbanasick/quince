@@ -23,4 +23,5 @@
      <item id="useEmojiPresort">false</item>
      <item id="useEmojiPostsort">true</item>
      <item id="useHeaderLabelsPostsort">true</item>
+     <item id="useNumsPostsort">false</item>
    </map>
