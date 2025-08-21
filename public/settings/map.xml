@@ -22,6 +22,6 @@
      <item id="emojiArrayType">emoji4Array</item>
      <item id="useEmojiPresort">false</item>
      <item id="useEmojiPostsort">true</item>
-     <item id="useHeaderLabelsPostsort">true</item>
-     <item id="useNumsPostsort">false</item>
+     <item id="useHeaderLabelsPostsort">false</item>
+     <item id="useNumsPostsort">true</item>
    </map>

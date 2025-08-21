@@ -62,6 +62,9 @@ const MobilePostsort = () => {
   let emojiDisplayArray = [...emojiArray.displayArray];
   let posEmojiArray = [];
   let negEmojiArray = [];
+  let posNumValues = [];
+  let negNumValues = [];
+  let headerNumsArray = [...mapObj["qSortHeaderNumbers"]];
 
   let shouldDisplayNums;
   let displayNumbers = mapObj["useNumsPostsort"][0];
@@ -121,9 +124,11 @@ const MobilePostsort = () => {
     let nextMostNegEmoji = emojiDisplayArray[1];
     for (let i = 0; i < posStatementsNum; i++) {
       posEmojiArray.push(mostPosEmoji);
+      posNumValues.push(headerNumsArray[headerNumsArray.length - 1].toString());
     }
     for (let j = 0; j < negStatementsNum; j++) {
       negEmojiArray.push(mostNegEmoji);
+      negNumValues.push(headerNumsArray[0].toString());
     }
 
     // check setup
@@ -131,12 +136,14 @@ const MobilePostsort = () => {
       posStatementsNum = +posStatementsNum + +posStatementsNum2;
       for (let i = 0; i < posStatementsNum2; i++) {
         posEmojiArray.push(nextMostPosEmoji);
+        posNumValues.push(headerNumsArray[headerNumsArray.length - 2].toString());
       }
     }
     if (showSecondNegColumn === true || showSecondNegColumn === "true") {
       negStatementsNum = +negStatementsNum + +negStatementsNum2;
       for (let j = 0; j < negStatementsNum2; j++) {
         negEmojiArray.unshift(nextMostNegEmoji);
+        negNumValues.unshift(headerNumsArray[1].toString());
       }
     }
 
@@ -275,7 +282,7 @@ const MobilePostsort = () => {
           <ContentWrapper>
             {shouldDisplayEmojis && <EmojiDiv>{posEmojiArray[index]}</EmojiDiv>}
             <TextDiv>
-              {/* {shouldDisplayNums && <HeaderNumber>{value}</HeaderNumber>} */}
+              {shouldDisplayNums && <HeaderNumber>{"+" + posNumValues[index]}</HeaderNumber>}
               {shouldDisplayText && <HeaderText>{card.header}</HeaderText>}
             </TextDiv>
             {shouldDisplayEmojis && <EmojiDiv>{posEmojiArray[index]}</EmojiDiv>}
@@ -316,7 +323,7 @@ const MobilePostsort = () => {
           <ContentWrapper>
             {shouldDisplayEmojis && <EmojiDiv>{negEmojiArray[index]}</EmojiDiv>}
             <TextDiv>
-              {/* {shouldDisplayNums && <HeaderNumber>{value}</HeaderNumber>} */}
+              {shouldDisplayNums && <HeaderNumber>{negNumValues[index]}</HeaderNumber>}
               {shouldDisplayText && <HeaderText>{card.header}</HeaderText>}
             </TextDiv>
             {shouldDisplayEmojis && <EmojiDiv>{negEmojiArray[index]}</EmojiDiv>}
@@ -506,6 +513,7 @@ const HeaderCardStatement = styled.div`
   background-color: lightgray;
   border-radius: 3px;
   padding: 5px;
+  outline: 1px solid darkgray;
 `;
 
 const ContentWrapper = styled.div`
