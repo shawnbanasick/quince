@@ -1,13 +1,13 @@
 // MobileSort.jsx
-import { useEffect, useMemo, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback } from "react";
 import styled from "styled-components";
 import useStore from "../../globalState/useStore";
 import calculateTimeOnPage from "../../utilities/calculateTimeOnPage";
 import useSettingsStore from "../../globalState/useSettingsStore";
-import useLocalStorage from "../../utilities/useLocalStorage";
+// import useLocalStorage from "../../utilities/useLocalStorage";
 import MobileSortSwapModal from "./MobileSortSwapModal";
-import ReactHtmlParser from "html-react-parser";
-import decodeHTML from "../../utilities/decodeHTML";
+// import ReactHtmlParser from "html-react-parser";
+// import decodeHTML from "../../utilities/decodeHTML";
 import useScreenOrientation from "../../utilities/useScreenOrientation";
 import debounce from "lodash/debounce";
 import MobileModal from "../../utilities/MobileModal";
@@ -44,7 +44,7 @@ const MobileSort = () => {
   const configObj = useSettingsStore(getConfigObj);
   const mobileSortFontSize = useStore(getMobileSortFontSize);
   const mobileSortViewSize = useStore(getMobileSortViewSize);
-  const setTriggerMobileSortSwapModal = useStore(getSetTriggerMobileSortSwapModal);
+  // const setTriggerMobileSortSwapModal = useStore(getSetTriggerMobileSortSwapModal);
   const setTriggerMobileSortHelpModal = useStore(getSetTriggerMobileSortHelpModal);
   const setHasScrolledToBottomSort = useStore(getSetHasScrolledToBottomSort);
   const triggerHelpModal = useStore(getTriggerHelpModal);

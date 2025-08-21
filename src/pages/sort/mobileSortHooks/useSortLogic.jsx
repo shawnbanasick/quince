@@ -15,6 +15,8 @@ export const useSortLogic = (mapObj, displayArray) => {
     ...JSON.parse(localStorage.getItem("m_FinalThinCols")),
   ]);
 
+  console.log(displayArray);
+
   const partitionArray = useMemo(() => {
     const lengths = [...mapObj.qSortPattern].reverse();
     const result = [];
@@ -41,7 +43,7 @@ export const useSortLogic = (mapObj, displayArray) => {
 
   const characteristicsArray = useMemo(() => {
     const colorArraySource = [...mapObj.columnHeadersColorsArray].reverse();
-    const headersText = mapObj.mobileHeadersText;
+    const headersText = [...mapObj.mobileHeadersText].reverse();
     const qSortPattern = [...mapObj.qSortPattern].reverse();
     const tempArray = [];
 

@@ -11,6 +11,7 @@ import { v4 as uuid } from "uuid";
 import DebouncedTextarea from "./DebouncedTextArea";
 import useScreenOrientation from "../../utilities/useScreenOrientation";
 import MobileModal from "../../utilities/MobileModal";
+import { useEmojiArrays } from "../sort/mobileSortHooks/useEmojiArrays";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
@@ -57,6 +58,11 @@ const MobilePostsort = () => {
   const preventNavText =
     ReactHtmlParser(decodeHTML(langObj.mobilePostsortPreventNavModalText)) || "";
 
+  let emojiArray = useEmojiArrays(mapObj);
+  let emojiDisplayArray = [...emojiArray.displayArray];
+  let posEmojiArray = [];
+  let negEmojiArray = [];
+
   // ***************************
   // *** INITIALIZATION *******************
   // ***************************
@@ -67,13 +73,8 @@ const MobilePostsort = () => {
     const cards = [...cards2];
     // array of objects with Q sort values for each position
     const sortCharacteristicsArray = JSON.parse(localStorage.getItem("m_SortCharacteristicsArray"));
-
-    // negative first
-    const reversedSortCharacteristicsArray = [...sortCharacteristicsArray].reverse();
-
     const showSecondPosColumn = configObj.showSecondPosColumn;
     const showSecondNegColumn = configObj.showSecondNegColumn;
-
     const qSortPattern = [...mapObj.qSortPattern];
 
     // most positive and negative values
@@ -84,34 +85,54 @@ const MobilePostsort = () => {
     const posStatementsNum2 = qSortPattern[1];
     const negStatementsNum2 = qSortPattern[qSortPattern.length - 2];
 
+    let mostPosEmoji = emojiDisplayArray[emojiDisplayArray.length - 1];
+    let nextMostPosEmoji = emojiDisplayArray[emojiDisplayArray.length - 2];
+    let mostNegEmoji = emojiDisplayArray[0];
+    let nextMostNegEmoji = emojiDisplayArray[1];
+    for (let i = 0; i < posStatementsNum; i++) {
+      posEmojiArray.push(mostPosEmoji);
+    }
+    for (let j = 0; j < negStatementsNum; j++) {
+      negEmojiArray.push(mostNegEmoji);
+    }
+
     // check setup
     if (showSecondPosColumn === true || showSecondPosColumn === "true") {
       posStatementsNum = +posStatementsNum + +posStatementsNum2;
+      for (let i = 0; i < posStatementsNum2; i++) {
+        posEmojiArray.push(nextMostPosEmoji);
+      }
     }
     if (showSecondNegColumn === true || showSecondNegColumn === "true") {
       negStatementsNum = +negStatementsNum + +negStatementsNum2;
+      for (let j = 0; j < negStatementsNum2; j++) {
+        negEmojiArray.unshift(nextMostNegEmoji);
+      }
     }
 
     const posStatements = cards.slice(0, posStatementsNum);
-    const negStatements = cards.slice(-negStatementsNum);
+    let negStatements = cards.slice(-negStatementsNum);
+    let negStatementsCharacteristics = sortCharacteristicsArray.slice(-negStatementsNum);
 
     let posResponsesObject = {};
     let negResponsesObject = {};
     posStatements.forEach((statement, index) => {
       statement.sortValue = sortCharacteristicsArray[index].value;
-      // postSortResultsObj[`column${statement.sortValue}_${statement.id}`] = "no response";
+      statement.header = sortCharacteristicsArray[index].header;
+      statement.color = sortCharacteristicsArray[index].color;
       posResponsesObject[statement.id] = "";
     });
     negStatements.forEach((statement, index) => {
-      statement.sortValue = reversedSortCharacteristicsArray[index].value;
-      // postSortResultsObj[`column${statement.sortValue}_${statement.id}`] = "no response";
+      statement.sortValue = negStatementsCharacteristics[index].value;
+      statement.header = negStatementsCharacteristics[index].header;
+      statement.color = negStatementsCharacteristics[index].color;
       negResponsesObject[statement.id] = "";
     });
 
     localStorage.setItem("m_PostSortResultsObj", JSON.stringify(postSortResultsObj));
 
     return [posStatements, negStatements, posResponsesObject, negResponsesObject];
-  }, [mapObj.qSortPattern, configObj]);
+  }, [mapObj.qSortPattern, configObj, emojiDisplayArray, posEmojiArray, negEmojiArray]);
 
   // ***************************
   // *** STATE *******************
@@ -136,6 +157,7 @@ const MobilePostsort = () => {
   // ***************************
   // *** HOOKS *******************
   // ***************************
+
   let screenOrientation = useScreenOrientation();
 
   const startTimeRef = useRef(null);
@@ -203,12 +225,16 @@ const MobilePostsort = () => {
   // *** ELEMENTS *******************
   // ***************************
 
+  let shouldDisplayEmojis = true;
+  let shouldDisplayNums = false;
+  let shouldDisplayText = true;
+
   let posStatements = cardsArray[0].map((card, index) => {
     return (
       <div key={uuid()}>
         <InternalDiv
           fontSize={"2"}
-          color="#BCF0DA"
+          color={card.color}
           card={card}
           index={index}
           sortValue={card.sortValue}
@@ -216,7 +242,17 @@ const MobilePostsort = () => {
           agree={agree}
           disagree={disagree}
         >
-          {card.statement}
+          <ContentWrapper>
+            {shouldDisplayEmojis && <EmojiDiv>{posEmojiArray[index]}</EmojiDiv>}
+            <TextDiv>
+              {/* {shouldDisplayNums && <HeaderNumber>{value}</HeaderNumber>} */}
+              {shouldDisplayText && <HeaderText>{card.header}</HeaderText>}
+            </TextDiv>
+            {shouldDisplayEmojis && <EmojiDiv>{posEmojiArray[index]}</EmojiDiv>}
+          </ContentWrapper>
+
+          {/* <HeaderDivPos>{card.header}</HeaderDivPos> */}
+          <HeaderCardStatement>{card.statement}</HeaderCardStatement>
         </InternalDiv>
         <DebouncedTextarea
           delay={500}
@@ -240,14 +276,22 @@ const MobilePostsort = () => {
       <div key={uuid()}>
         <InternalDiv
           card={card}
-          color="#FBD5D5"
+          color={card.color}
           index={index}
           agree={agree}
           commentId={card.id}
           sortValue={card.sortValue}
           disagree={disagree}
         >
-          {card.statement}
+          <ContentWrapper>
+            {shouldDisplayEmojis && <EmojiDiv>{negEmojiArray[index]}</EmojiDiv>}
+            <TextDiv>
+              {/* {shouldDisplayNums && <HeaderNumber>{value}</HeaderNumber>} */}
+              {shouldDisplayText && <HeaderText>{card.header}</HeaderText>}
+            </TextDiv>
+            {shouldDisplayEmojis && <EmojiDiv>{negEmojiArray[index]}</EmojiDiv>}
+          </ContentWrapper>
+          <HeaderCardStatement>{card.statement}</HeaderCardStatement>
         </InternalDiv>
         <DebouncedTextarea
           onChange={handleTextareaChange}
@@ -373,8 +417,10 @@ const InnerContainer = styled.div`
 
 const InternalDiv = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 3px;
   box-sizing: border-box;
   background-color: ${(props) => props.color};
   width: 80vw;
@@ -419,4 +465,58 @@ const BoxSizeMessage = styled.div`
   font-weight: bold;
   margin-top: 10px;
   width: 80vw;
+`;
+
+const HeaderDivPos = styled.div`
+  height: 16px;
+  margin-bottom: 4px;
+`;
+
+const HeaderCardStatement = styled.div`
+  background-color: lightgray;
+  border-radius: 3px;
+  padding: 5px;
+`;
+
+const ContentWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding-right: 2px;
+  padding-left: 2px;
+`;
+
+const HeaderNumber = styled.span`
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 1;
+`;
+
+const EmojiDiv = styled.div`
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const HeaderText = styled.div`
+  display: flex;
+  padding-top: 2px;
+  justify-content: center;
+  flex-wrap: wrap;
+  text-align: center;
+  font-size: 4vw;
+  text-align: center;
+  line-height: 0.8rem;
+`;
+
+const TextDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
 `;
