@@ -18,10 +18,10 @@ import Emoji5 from "../../assets/emoji5.svg?react";
 const getPostsortCommentCheckObj = (state) => state.postsortCommentCheckObj;
 const getSetPostsortCommentCheckObj = (state) => state.setPostsortCommentCheckObj;
 const getConfigObj = (state) => state.configObj;
+const getMapObject = (state) => state.mapObj;
 const getShowPostsortCommentHighlighting = (state) => state.showPostsortCommentHighlighting;
 const getPostsortDualImageArray = (state) => state.postsortDualImageArray;
 const getSetPostsortDualImageArray = (state) => state.setPostsortDualImageArray;
-const getMapObject = (state) => state.mapObj;
 
 const HighCards = (props) => {
   console.log("props", props);
@@ -54,17 +54,21 @@ const HighCards = (props) => {
   const postsortDualImageArray = useStore(getPostsortDualImageArray);
   const setPostsortDualImageArray = useStore(getSetPostsortDualImageArray);
   const { agreeObj, cardFontSize, width, height } = props;
-  const highCards = columnStatements.vCols[agreeObj.columnDisplay];
-  let { agreeText, placeholder } = agreeObj;
+  const highCards = columnStatements?.vCols[agreeObj.columnDisplay];
+  let { agreeText, placeholder, placedOn } = agreeObj;
   let columnDisplay = agreeObj.columnDisplay;
 
   // get header text
-  if (
-    mapObj.useHeaderLabelsPostsort === true ||
-    mapObj["useHeaderLabelsPostsort"].toString() === "true"
-  ) {
+  let columnLabel = "";
+  if (mapObj["mobileHeadersText"]) {
     let headersTextArray = [...mapObj["mobileHeadersText"]];
-    agreeText = headersTextArray[headersTextArray.length - 1];
+    columnLabel = headersTextArray[headersTextArray.length - 1];
+  }
+
+  let columnNum = "";
+  if (mapObj["useNumsPostsort"]) {
+    let headersNumArray = [...mapObj["qSortHeaderNumbers"]];
+    columnNum = `${placedOn} +${headersNumArray[headersNumArray.length - 1]}`;
   }
 
   const getEmoji = (selector) => {
@@ -85,15 +89,53 @@ const HighCards = (props) => {
   const backgroundColor1 = [...mapObj["columnHeadersColorsArray"]];
   const backgroundColor = backgroundColor1[backgroundColor1.length - 1];
 
-  if (mapObj.useEmojiPostsort === true || mapObj["useEmojiPostsort"].toString() === "true") {
-    agreeText = (
-      <RowDiv>
-        <EmojiDiv>{getEmoji(mapObj["emojiArrayType"])}</EmojiDiv>
-        {agreeText}
-        <EmojiDiv>{getEmoji(mapObj["emojiArrayType"])}</EmojiDiv>
-      </RowDiv>
-    );
+  let highlighting = true;
+  let shouldDisplayNums;
+  let displayNumbers = mapObj["useNumsPostsort"][0];
+  console.log(displayNumbers);
+
+  if (displayNumbers !== undefined || displayNumbers !== null) {
+    if (displayNumbers === false || displayNumbers === "false") {
+      shouldDisplayNums = false;
+    } else {
+      shouldDisplayNums = true;
+    }
   }
+
+  let shouldDisplayText;
+  let displayText = mapObj["useHeaderLabelsPostsort"][0];
+  console.log(displayText);
+
+  if (displayText !== undefined || displayText !== null) {
+    if (displayText === false || displayText === "false") {
+      shouldDisplayText = false;
+    } else {
+      shouldDisplayText = true;
+    }
+  }
+
+  let shouldDisplayEmojis;
+  let displayEmoji = mapObj["useEmojiPostsort"][0];
+  console.log(displayEmoji);
+  if (displayEmoji !== undefined || displayEmoji !== null) {
+    if (displayEmoji === false || displayEmoji === "false") {
+      shouldDisplayEmojis = false;
+    } else {
+      shouldDisplayEmojis = true;
+    }
+  }
+
+  console.log(shouldDisplayEmojis, shouldDisplayText, shouldDisplayNums);
+
+  let agreeTextElement = (
+    <RowDiv>
+      {shouldDisplayEmojis && <EmojiDiv>{getEmoji(mapObj["emojiArrayType"])}</EmojiDiv>}
+      {/* {agreeText} */}
+      {shouldDisplayText && <HeaderText>{columnLabel}</HeaderText>}
+      {shouldDisplayNums && <HeaderNumber>{columnNum}</HeaderNumber>}
+      {shouldDisplayEmojis && <EmojiDiv>{getEmoji(mapObj["emojiArrayType"])}</EmojiDiv>}
+    </RowDiv>
+  );
 
   let noResponseCheckArrayHC1 = [];
   props.highCards.forEach((item, index) => {
@@ -184,7 +226,6 @@ const HighCards = (props) => {
       );
     }
 
-    let highlighting = true;
     if (
       configObj.postsortCommentsRequired === "true" ||
       configObj.postsortCommentsRequired === true
@@ -227,7 +268,7 @@ const HighCards = (props) => {
           />
         </Modal>
         <CardTag cardFontSize={cardFontSize} backgroundColor={backgroundColor}>
-          {agreeText}{" "}
+          {agreeTextElement}{" "}
         </CardTag>
         <CardAndTextHolder>
           <Card
@@ -349,4 +390,23 @@ const RowDiv = styled.div`
   display: flex;
   flex-direction: row;
   gap: 10px;
+`;
+
+const HeaderText = styled.div`
+  display: flex;
+  padding-top: 3px;
+  justify-content: center;
+  flex-wrap: wrap;
+  text-align: center;
+  font-weight: bold;
+  font-size: clamp(1rem, 1vw, 1.5rem);
+  text-align: center;
+  line-height: 0.8rem;
+`;
+
+const HeaderNumber = styled.span`
+  font-weight: bold;
+  padding-top: 3px;
+  font-size: clamp(1rem, 1vw, 1.5rem);
+  line-height: 1;
 `;

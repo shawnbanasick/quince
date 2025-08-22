@@ -58,16 +58,20 @@ const HighCards2Display = (props) => {
 
   const { height, width, agreeObj, cardFontSize } = props;
   const highCards2 = columnStatements.vCols[agreeObj.columnDisplay2];
-  let { agreeText, placeholder } = agreeObj;
+  let { placeholder, placedOn } = agreeObj;
   let columnDisplay = agreeObj.columnDisplay2;
 
   // get header text
-  if (
-    mapObj.useHeaderLabelsPostsort === true ||
-    mapObj["useHeaderLabelsPostsort"].toString() === "true"
-  ) {
+  let columnLabel = "";
+  if (mapObj["mobileHeadersText"]) {
     let headersTextArray = [...mapObj["mobileHeadersText"]];
-    agreeText = headersTextArray[headersTextArray.length - 2];
+    columnLabel = headersTextArray[headersTextArray.length - 2];
+  }
+
+  let columnNum = "";
+  if (mapObj["useNumsPostsort"]) {
+    let headersNumArray = [...mapObj["qSortHeaderNumbers"]];
+    columnNum = `${placedOn} +${headersNumArray[headersNumArray.length - 2]}`;
   }
 
   const getEmoji = (selector) => {
@@ -88,15 +92,50 @@ const HighCards2Display = (props) => {
   const backgroundColor1 = [...mapObj["columnHeadersColorsArray"]];
   const backgroundColor = backgroundColor1[backgroundColor1.length - 2];
 
-  if (mapObj.useEmojiPostsort === true || mapObj["useEmojiPostsort"].toString() === "true") {
-    agreeText = (
-      <RowDiv>
-        <EmojiDiv>{getEmoji(mapObj["emojiArrayType"])}</EmojiDiv>
-        {agreeText}
-        <EmojiDiv>{getEmoji(mapObj["emojiArrayType"])}</EmojiDiv>
-      </RowDiv>
-    );
+  let shouldDisplayNums;
+  let displayNumbers = mapObj["useNumsPostsort"][0];
+  console.log(displayNumbers);
+
+  if (displayNumbers !== undefined || displayNumbers !== null) {
+    if (displayNumbers === false || displayNumbers === "false") {
+      shouldDisplayNums = false;
+    } else {
+      shouldDisplayNums = true;
+    }
   }
+
+  let shouldDisplayText;
+  let displayText = mapObj["useHeaderLabelsPostsort"][0];
+  console.log(displayText);
+
+  if (displayText !== undefined || displayText !== null) {
+    if (displayText === false || displayText === "false") {
+      shouldDisplayText = false;
+    } else {
+      shouldDisplayText = true;
+    }
+  }
+
+  let shouldDisplayEmojis;
+  let displayEmoji = mapObj["useEmojiPostsort"][0];
+  console.log(displayEmoji);
+  if (displayEmoji !== undefined || displayEmoji !== null) {
+    if (displayEmoji === false || displayEmoji === "false") {
+      shouldDisplayEmojis = false;
+    } else {
+      shouldDisplayEmojis = true;
+    }
+  }
+
+  let agreeTextElement = (
+    <RowDiv>
+      {shouldDisplayEmojis && <EmojiDiv>{getEmoji(mapObj["emojiArrayType"])}</EmojiDiv>}
+      {/* {agreeText} */}
+      {shouldDisplayText && <HeaderText>{columnLabel}</HeaderText>}
+      {shouldDisplayNums && <HeaderNumber>{columnNum}</HeaderNumber>}
+      {shouldDisplayEmojis && <EmojiDiv>{getEmoji(mapObj["emojiArrayType"])}</EmojiDiv>}
+    </RowDiv>
+  );
 
   let noResponseCheckArrayHC2 = [];
   props.highCards2.forEach((item, index) => {
@@ -230,7 +269,7 @@ const HighCards2Display = (props) => {
           />
         </Modal>
         <CardTag cardFontSize={cardFontSize} backgroundColor={backgroundColor}>
-          {agreeText}
+          {agreeTextElement}
         </CardTag>
         <CardAndTextHolder>
           <Card
@@ -349,4 +388,23 @@ const RowDiv = styled.div`
   display: flex;
   flex-direction: row;
   gap: 10px;
+`;
+
+const HeaderText = styled.div`
+  display: flex;
+  padding-top: 3px;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-weight: bold;
+  text-align: center;
+  font-size: clamp(1rem, 1vw, 1.5rem);
+  text-align: center;
+  line-height: 0.8rem;
+`;
+
+const HeaderNumber = styled.span`
+  font-weight: bold;
+  padding-top: 3px;
+  font-size: clamp(1rem, 1vw, 1.5rem);
+  line-height: 1;
 `;

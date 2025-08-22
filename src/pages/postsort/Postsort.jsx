@@ -80,6 +80,7 @@ const PostSort = () => {
 
   const titleText = ReactHtmlParser(decodeHTML(langObj.postsortHeader)) || "";
   const agree = ReactHtmlParser(decodeHTML(langObj.postsortAgreement)) || "";
+  const placedOn = ReactHtmlParser(decodeHTML(langObj.postsortPlacedOn)) || "";
   const disagree = ReactHtmlParser(decodeHTML(langObj.postsortDisagreement)) || "";
   const placeholder = langObj.placeholder;
 
@@ -102,6 +103,7 @@ const PostSort = () => {
   agreeObj.columnDisplay2 = [postsortAgreeColDisp2];
   agreeObj.displaySecondColumn = showSecondPosColumn;
   agreeObj.placeholder = placeholder;
+  agreeObj.placedOn = placedOn;
 
   const disagreeObj = {};
   disagreeObj.disagreeText = disagree;
@@ -109,6 +111,7 @@ const PostSort = () => {
   disagreeObj.columnDisplay2 = [postsortDisagreeColDisp2];
   disagreeObj.displaySecondColumn = showSecondNegColumn;
   disagreeObj.placeholder = placeholder;
+  disagreeObj.placedOn = placedOn;
 
   const highCards = columnStatements?.vCols[agreeObj.columnDisplay];
   const highCards2 = columnStatements?.vCols[agreeObj.columnDisplay2];

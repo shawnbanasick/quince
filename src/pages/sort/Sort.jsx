@@ -42,7 +42,6 @@ const Sort = () => {
   const mapObj = useSettingsStore(getMapObj);
   const configObj = useSettingsStore(getConfigObj);
   const imageSort = configObj.useImages;
-
   let cardFontSize = useStore(getCardFontSizeSort);
   const topMargin = useStore(getTopMargin);
   const setPresortNoReturn = useStore(getSetPresortNoReturn);
@@ -52,6 +51,7 @@ const Sort = () => {
   // const setCardFontSize = useStore(getSetCardFontSize);
   const qSortPattern = [...mapObj.qSortPattern];
   let cardHeight = useStore(getCardHeightSort);
+
   const cardHeightPersist = +localStorage.getItem("cardHeightSort");
   const cardFontSizePersist = +localStorage.getItem("fontSizeSort");
 

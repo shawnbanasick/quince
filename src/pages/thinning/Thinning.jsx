@@ -420,18 +420,17 @@ const CardsGrid = styled.div`
 
 const Card = styled.div`
   background: ${(props) => {
-    if (props.selected && props.side === "right")
-      return "linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)";
-    if (props.selected && props.side === "left")
-      return "linear-gradient(135deg, #fee2e2 0%, #fecaca 100%)";
+    if (props.selected) return "rgb(249, 249, 0)";
+    if (props.side === "right") return "linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)";
+    if (props.side === "left") return "linear-gradient(135deg, #fee2e2 0%, #fecaca 100%)";
     return "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)";
   }};
-  border: 2px solid
-    ${(props) => {
-      if (props.selected && props.side === "right") return "#22c55e";
-      if (props.selected && props.side === "left") return "#ef6944";
-      return "#e2e8f0";
-    }};
+  border: ${(props) => {
+    if (props.selected) return "4px solid darkgray";
+    if (props.side === "right") return "1px solid #22c55e";
+    if (props.side === "left") return "1px solid #ef6944";
+    return "#e2e8f0";
+  }};
   border-radius: 12px;
   padding: 1rem;
   height: ${(props) => Math.max(props.cardHeight || 120, 120)}px;
@@ -466,7 +465,7 @@ const Card = styled.div`
   }
 
   &:hover {
-    transform: translateY(-4px);
+    transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     border-color: ${(props) => {
       if (props.selected && props.side === "right") return "#16a34a";

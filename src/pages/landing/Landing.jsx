@@ -37,6 +37,7 @@ const getSetPostsortCommentCheckObj = (state) => state.setPostsortCommentCheckOb
 const getSetCardFontSizeSort = (state) => state.setCardFontSizeSort;
 const getSetCardFontSizePostsort = (state) => state.setCardFontSizePostsort;
 const getSetMinCardHeightSort = (state) => state.setMinCardHeightSort;
+const getSetCardHeightSort = (state) => state.setCardHeightSort;
 const getSetMinCardHeightPostsort = (state) => state.setMinCardHeightPostsort;
 const getStatementsObj = (state) => state.statementsObj;
 
@@ -56,6 +57,7 @@ const LandingPage = () => {
   const setCardFontSizeSort = useStore(getSetCardFontSizeSort);
   const setCardFontSizePostsort = useStore(getSetCardFontSizePostsort);
   const setMinCardHeightSort = useStore(getSetMinCardHeightSort);
+  const setCardHeightSort = useStore(getSetCardHeightSort);
   const setMinCardHeightPostsort = useStore(getSetMinCardHeightPostsort);
 
   // ******************************
@@ -169,6 +171,15 @@ const LandingPage = () => {
   const headers = useMemo(() => [...mapObj.qSortHeaders], [mapObj.qSortHeaders]);
   const qSortPattern = useMemo(() => [...mapObj.qSortPattern], [mapObj.qSortPattern]);
 
+  // SORT card height
+  let maxColCards = Math.max(...qSortPattern);
+  console.log("qsort", maxColCards);
+
+  let height = (window.innerHeight - 150) / maxColCards;
+  console.log(height);
+  localStorage.setItem("cardHeightSort", height);
+  setCardHeightSort(height);
+
   // ************************
   // *** set defaults *********************
   // ************************
@@ -256,7 +267,6 @@ const LandingPage = () => {
       localStorage.setItem("fontSizeSort", configObj.defaultFontSizeSort);
     }
 
-    // SORT card height
     if (configObj.setMinCardHeightSort === "true" || configObj.setMinCardHeightSort === true) {
       localStorage.setItem("cardHeightSort", configObj.minCardHeightSort);
     }
@@ -318,6 +328,8 @@ const LandingPage = () => {
     headers,
     qSortPattern,
     statementsObj,
+    maxColCards,
+    setCardHeightSort,
   ]);
 
   // setup postsort comments object

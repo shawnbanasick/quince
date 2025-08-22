@@ -171,6 +171,7 @@
         <item order="12-3" id="postsortHeader">Post-Sort Comments</item>
         <item order="12-4" id="postsortInstructions">{{{h3}}}Please describe your thoughts about these statements in more detail.{{{/h3}}}</item>
         <item order="12-5" id="placeholder">Click here to add comment</item>
+        <item order="12-6" id="postsortPlacedOn">Placed on</item>
         <item order="12-6" id="postsortAgreement">Placed on Agree</item>
         <item order="12-7" id="postsortDisagreement">Placed on Disagree</item>
         <item order="12-8" id="postsortBackButtonText">Go Back</item>
