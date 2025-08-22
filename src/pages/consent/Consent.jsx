@@ -29,13 +29,12 @@ const ConsentPage = () => {
   const setDisplayNextButton = useStore(getSetDisplayNextButton);
   const setUrlUsercode = useStore(getSetUrlUsercode);
 
-  setDisplayNextButton(true);
-
   const headerBarColor = configObj.headerBarColor;
   const consentText = ReactHtmlParser(decodeHTML(langObj.consentText)) || "";
 
   const startTimeRef = useRef(null);
   useEffect(() => {
+    setDisplayNextButton(true);
     startTimeRef.current = Date.now();
     const setStateAsync = async () => {
       await setCurrentPage("consent");
@@ -46,7 +45,7 @@ const ConsentPage = () => {
     return () => {
       calculateTimeOnPage(startTimeRef.current, "consentPage", "consentPage");
     };
-  }, [setCurrentPage, setProgressScore]);
+  }, [setCurrentPage, setProgressScore, setDisplayNextButton]);
 
   useEffect(() => {
     // set participant Id if set in URL
@@ -123,7 +122,7 @@ const ContainerDiv = styled.div`
   transition: 0.3s ease all;
   margin-top: 70px;
   overflow-y: auto;
-  width: 100vw;
+  width: 98vw;
   font-size: 1.2em;
   height: calc(100vh - 80px);
   /* border: 3px solid red; */
