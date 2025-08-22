@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-   <config version="7.0.0" htmlParse="false">
+   <config version="Quince 1.0.1" htmlParse="false">
+   <!-- 0. FILE INFORMATION -->
+   <item order="0-1" id="configFileVersion">1.0.1</item>
+   <item order="0-2" id="creationDate">2025-08-31</item>
 
    <!-- GENERAL SETTINGS -->
-   <!-- "setupTarget" options: netlify, firebase, local, email, or sheets -->
+   <!-- "setupTarget" options: baserow or local -->
    <item id="studyTitle">Demo Project</item> 
    <item id="creationDate">2025-7-27@10:54</item> 
    <item id="setupTarget">baserow</item>

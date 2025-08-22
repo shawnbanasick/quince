@@ -17,6 +17,7 @@
     "@ramonak/react-progress-bar": "^5.3.0",
     "@uidotdev/usehooks": "^2.4.1",
     "axios": "^1.7.7",
+    "compare-versions": "^6.1.1",
     "firebase": "^11.4.0",
     "html-react-parser": "^5.1.17",
     "lodash": "^4.17.21",

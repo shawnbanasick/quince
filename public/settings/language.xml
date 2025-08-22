@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
-   <language version="Quincy 1.0.0" htmlParse="true">
+   <language version="Quince 1.0.0" htmlParse="true">
+        <!-- 0. FILE INFORMATION -->
+        <item order="0-1" id="langFileVersion">1.0.1</item>
+        <item order="0-2" id="creationDate">2025-08-31</item>
 
         <!-- 1. MULTIPLE SCREENS AND FOOTER -->
         <item order="1-1" id="btnHelp">Help</item>
@@ -172,11 +175,11 @@
         <item order="12-4" id="postsortInstructions">{{{h3}}}Please describe your thoughts about these statements in more detail.{{{/h3}}}</item>
         <item order="12-5" id="placeholder">Click here to add comment</item>
         <item order="12-6" id="postsortPlacedOn">Placed on</item>
-        <item order="12-6" id="postsortAgreement">Placed on Agree</item>
-        <item order="12-7" id="postsortDisagreement">Placed on Disagree</item>
-        <item order="12-8" id="postsortBackButtonText">Go Back</item>
-        <item order="12-9" id="postsortPreventNavModalHead">Navigation Disabled</item>
-        <item order="12-10" id="postsortPreventNavModalText">Please add comments to all of the cards before going to the next step.</item>
+        <item order="12-7" id="postsortAgreement">Placed on Agree</item>
+        <item order="12-8" id="postsortDisagreement">Placed on Disagree</item>
+        <item order="12-9" id="postsortBackButtonText">Go Back</item>
+        <item order="12-10" id="postsortPreventNavModalHead">Navigation Disabled</item>
+        <item order="12-11" id="postsortPreventNavModalText">Please add comments to all of the cards before going to the next step.</item>
 
 
         <!-- 13. MOBILE POSTSORT: comments - displayed if showStep3 = true -->

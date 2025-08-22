@@ -29,8 +29,8 @@ import MobileSortPage from "./pages/sort/MobileSort";
 import MobileSurveyPage from "./pages/survey/MobileSurvey";
 import MobilePostsortPage from "./pages/postsort/MobilePostsort";
 import MobileSubmitPage from "./pages/submit/MobileSubmit";
+import { satisfies } from "compare-versions";
 
-const getConfigObj = (state) => state.configObj;
 const getSetConfigObj = (state) => state.setConfigObj;
 const getSetLangObj = (state) => state.setLangObj;
 const getSetMapObj = (state) => state.setMapObj;
@@ -42,10 +42,11 @@ const getSetRequiredAnswersObj = (state) => state.setRequiredAnswersObj;
 const getSetDataLoaded = (state) => state.setDataLoaded;
 const getDisplayGoodbyeMessage = (state) => state.displayGoodbyeMessage;
 const getDisableRefreshCheck = (state) => state.disableRefreshCheck;
+const getConfigObj = (state) => state.configObj;
+const getLangObj = (state) => state.langObj;
+const getMapObj = (state) => state.mapObj;
 
 function App() {
-  const [isLoading, setLoading] = useState(true);
-  const configObj = useSettingsStore(getConfigObj);
   const setConfigObj = useSettingsStore(getSetConfigObj);
   const setLangObj = useSettingsStore(getSetLangObj);
   const setMapObj = useSettingsStore(getSetMapObj);
@@ -57,6 +58,11 @@ function App() {
   const setDataLoaded = useStore(getSetDataLoaded);
   const displayGoodbyeMessage = useStore(getDisplayGoodbyeMessage);
   const disableRefreshCheck = useStore(getDisableRefreshCheck);
+  const configObj = useSettingsStore(getConfigObj);
+  const langObj = useSettingsStore(getLangObj);
+  const mapObj = useSettingsStore(getMapObj);
+
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
     const unloadCallback = (event) => {
@@ -199,6 +205,28 @@ function App() {
 
   if (isLoading) {
     return <LoadingScreen />;
+  }
+
+  // CHECK VERSION NUMBERS
+  const templateVersion = "1.0.1";
+  const langFileVersion = langObj["langFileVersion"];
+  const configFileVersion = configObj["configFileVersion"];
+  const mapFileVersion = mapObj["mapFileVersion"][0];
+
+  if (!satisfies(langFileVersion, `>=${templateVersion}`)) {
+    alert(
+      "The language.xml file is out-of-date. Please import the file into the Quince Configurator to update it to the newest version, then add it to your project's settings folder and try again."
+    );
+  }
+  if (!satisfies(configFileVersion, `>=${templateVersion}`)) {
+    alert(
+      "The config.xml file is out-of-date. Please import the file into the Quince Configurator to update it to the newest version, then add it to your project's settings folder and try again."
+    );
+  }
+  if (!satisfies(mapFileVersion, `>=${templateVersion}`)) {
+    alert(
+      "The map.xml file is out-of-date. Please import the file into the Quince Configurator to update it to the newest version, then add it to your project's settings folder and try again."
+    );
   }
 
   if (configObj.useMobileMode === true || configObj.useMobileMode === "true") {

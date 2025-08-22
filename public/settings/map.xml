@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-   <map version="Quincy 1.0.0" htmlParse="false">
+   <map version="Quincy 1.0.1" htmlParse="false">
+   <!-- 0. FILE INFORMATION -->
+     <item order="0-1" id="mapFileVersion">1.0.1</item>
+     <item order="0-2" id="creationDate">2025-08-31</item>
+
+   <!-- GENERAL SETTINGS -->
      <column id="-4" colour="FFD5D5">2</column>
      <column id="-3" colour="FFD5D5">3</column>
      <column id="-2" colour="FFD5D5">4</column>
