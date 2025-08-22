@@ -11,7 +11,7 @@ import axios from "axios";
 import SubmitButtonEmail from "./SubmitButtonEmail";
 
 const getLangObj = (state) => state.langObj;
-const getDisplaySubmitFallback = (state) => state.displaySubmitFallback;
+// const getDisplaySubmitFallback = (state) => state.displaySubmitFallback;
 const getTransmittingData = (state) => state.transmittingData;
 const getSetTransmittingData = (state) => state.setTransmittingData;
 const getCheckInternetConnection = (state) => state.checkInternetConnection;
@@ -27,7 +27,7 @@ const getSetDisplayBelowButtonText = (state) => state.setDisplayBelowButtonText;
 const SubmitResultsButton = (props) => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
-  let displaySubmitFallback = useStore(getDisplaySubmitFallback);
+  // let displaySubmitFallback = useStore(getDisplaySubmitFallback);
   let transmittingData = useStore(getTransmittingData);
   const setTransmittingData = useStore(getSetTransmittingData);
   let checkInternetConnection = useStore(getCheckInternetConnection);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import ReactHtmlParser from "html-react-parser";
@@ -59,7 +59,7 @@ function PresortDNDImages(props) {
   const [dualPhotoArray, setDualPhotoArray] = useState([]);
   const [openDualImageModal, setOpenDualImageModal] = useState(false);
 
-  const handleOpenImageModal = (e, src) => {
+  const handleOpenImageModal = (e) => {
     if (e.detail === 2) {
       if (e.shiftKey) {
         dualPhotoArray.push(e.target.src);
@@ -372,7 +372,7 @@ function PresortDNDImages(props) {
       </Modal>
 
       <DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
-        {Object.entries(columns).map(([columnId, column], index) => {
+        {Object.entries(columns).map(([columnId, column]) => {
           return (
             <AllColWrapper key={columnId} id={`${columnId}Div`} className={`${columnId}DivImg`}>
               <ThreeColCardWrapper>

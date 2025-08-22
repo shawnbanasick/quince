@@ -145,7 +145,7 @@ const HighCards2Display = (props) => {
   localStorage.setItem("noResponseCheckArrayHC2", JSON.stringify(noResponseCheckArrayHC2));
 
   // enlarge images on double click
-  const handleOpenImageModal = (e, src) => {
+  const handleOpenImageModal = (e) => {
     if (e.detail === 2) {
       if (e.shiftKey) {
         postsortDualImageArray.push(e.target.src);

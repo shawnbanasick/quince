@@ -11,7 +11,7 @@ import axios from "axios";
 import MobileSubmitButtonEmail from "./MobileSubmitButtonEmail";
 
 const getLangObj = (state) => state.langObj;
-const getDisplaySubmitFallback = (state) => state.displaySubmitFallback;
+// const getDisplaySubmitFallback = (state) => state.displaySubmitFallback;
 const getTransmittingData = (state) => state.transmittingData;
 const getSetTransmittingData = (state) => state.setTransmittingData;
 const getCheckInternetConnection = (state) => state.checkInternetConnection;

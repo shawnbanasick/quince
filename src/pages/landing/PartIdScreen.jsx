@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import LogInSubmitButton from "./LogInSubmitButton";
 import ReactHtmlParser from "html-react-parser";
@@ -74,7 +74,7 @@ const LogInScreen = () => {
     setDisplayPartIdWarning,
   ]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = () => {
     let userPartIdOK = false;
 
     // get user input
