@@ -36,6 +36,7 @@ const MobileSortSwapModal = (props) => {
     return;
   }
 
+  // determine visibility from map.xml options
   let shouldDisplayNums;
   let displayNumbers = mapObj["useColLabelNums"][0];
   if (displayNumbers !== undefined || displayNumbers !== null) {
@@ -45,7 +46,6 @@ const MobileSortSwapModal = (props) => {
       shouldDisplayNums = true;
     }
   }
-
   let shouldDisplayText;
   let displayText = mapObj["useColLabelText"][0];
   if (displayText !== undefined || displayText !== null) {
@@ -55,7 +55,6 @@ const MobileSortSwapModal = (props) => {
       shouldDisplayText = true;
     }
   }
-
   let shouldDisplayEmojis;
   let displayEmoji = mapObj["useColLabelEmoji"][0];
   if (displayEmoji !== undefined || displayEmoji !== null) {
@@ -66,24 +65,23 @@ const MobileSortSwapModal = (props) => {
     }
   }
 
+  // get appropriate emojis
   let topCardEmoji = null;
   let bottomCardEmoji = null;
-
   if (targetArray.length === 2) {
+    // for order consistency
     targetArray.sort((a, b) => b.groupNumber - a.groupNumber);
     let topCard = targetArray[0];
     let bottomCard = targetArray[1];
-    console.log(topCard?.groupNumber);
     let topCardSortValue = topCard?.groupNumber;
     let bottomCardSortValue = bottomCard?.groupNumber;
+    // strip "+" for conversions
     topCardSortValue = topCardSortValue.replace("+", "");
     bottomCardSortValue = bottomCardSortValue.replace("+", "");
-    console.log(topCardSortValue, bottomCardSortValue);
-
+    // get index
     let topCardIndex = sortColHeaderNums.indexOf(topCardSortValue);
     let bottomCardIndex = sortColHeaderNums.indexOf(bottomCardSortValue);
-    console.log(topCardIndex, bottomCardIndex);
-
+    // use index to get emoji
     topCardEmoji = displayArray[topCardIndex];
     bottomCardEmoji = displayArray[bottomCardIndex];
   }
@@ -104,7 +102,6 @@ const MobileSortSwapModal = (props) => {
     props.handleStatementSwap(targetArray[0].index, targetArray[1].index);
     setShowSuccess(true);
     setTimeout(() => {
-      console.log("success");
       onCloseModal();
     }, 2000);
   };
