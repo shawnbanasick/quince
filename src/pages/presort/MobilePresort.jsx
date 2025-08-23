@@ -257,10 +257,7 @@ const MobilePresortPage = () => {
         localStorage.setItem("selectedPosItems", JSON.stringify(selectedPosItems));
         localStorage.setItem("selectedNegItems", JSON.stringify(selectedNegItems));
 
-        // console.log(JSON.stringify(presortArray2));
-
         if (presortArray2.length === 0) {
-          console.log("length zero branch entered");
           let sortRightArrays = JSON.parse(localStorage.getItem("sortRightArrays"));
           let sortLeftArrays = JSON.parse(localStorage.getItem("sortLeftArrays"));
           let newCols = JSON.parse(localStorage.getItem("newCols"));
@@ -279,7 +276,7 @@ const MobilePresortPage = () => {
             JSON.stringify(thinDisplayControllerArray)
           );
 
-          console.log(JSON.stringify(m_PresortResults));
+          // console.log(JSON.stringify(m_PresortResults));
 
           // *** update newCols ***
           newCols.statementList = m_PresortResults;

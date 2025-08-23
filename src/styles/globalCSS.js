@@ -752,6 +752,15 @@ footer {
   
 
 /***********************************
+  THINNING REFINE - CSS
+ *******************************************************************************/
+.custom-move-all-modal-height {
+      height: 300px; /* Or any desired height, e.g., 80vh for viewport height */
+      min-height: 20vh;
+    }
+
+
+/***********************************
   SORT CSS
  *******************************************************************************/
 .sortContainer {
@@ -885,6 +894,8 @@ footer {
   padding-top: 5px;
   min-height: 30px;
 }
+
+
 
 /***********************************
   IMAGE MODAL CSS

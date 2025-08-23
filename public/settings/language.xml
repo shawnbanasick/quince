@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
-   <language version="Quince 1.0.0" htmlParse="true">
+   <language version="Quince 1.0.1" htmlParse="true">
         <!-- 0. FILE INFORMATION -->
         <item order="0-1" id="langFileVersion">1.0.1</item>
         <item order="0-2" id="creationDate">2025-08-31</item>
@@ -128,10 +128,10 @@
         <item order="9-17" id="mobileThinPreventNavModalHead">Navigation Disabled</item>
         <item order="9-18" id="mobileThinPreventNavModalText">Please complete the refining process before navigating to the next page.</item>
         <item order="9-19" id="mobileThinProcessCompleteMessage">The refinement process is complete. {{{br/}}}{{{br/}}} Please click on the "Continue" button on the bottom right side to go to the next stage.</item>
-        
-        <!-- <item order="9-1" id="moveAllTopMobileText">Move all selected statements to the top of the list?</item>
-        <item order="9-1" id="mobileGuidanceModalRight1Header">Stage 2 of 5{{{br/}}} Refinement Process</item>
-        <item order="9-1" id="mobileGuidanceModalRight1Text">There are several steps in this Stage. {{{br/}}}{{{br/}}}Step 1. Please look at all of the statements that you evaluated {{{b}}}positively{{{/b}}} and select those that are {{{b}}}closest to your perspective{{{/b}}}.{{{br/}}}{{{br/}}}You may need to {{{b}}}scroll{{{/b}}} down to see all of the statements.</item> -->
+        <item order="9-20" id="moveAllTopMobileText">Move all selected statements to the top of the list?</item>
+        <item order="9-21" id="mobileGuidanceModalRight1Header">Stage 2 of 5{{{br/}}} Refinement Process</item>
+        <item order="9-22" id="mobileGuidanceModalRight1Text">There are several steps in this Stage. {{{br/}}}{{{br/}}}Step 1. Please look at all of the statements that you evaluated {{{b}}}positively{{{/b}}} and select those that are {{{b}}}closest to your perspective{{{/b}}}.{{{br/}}}{{{br/}}}You may need to {{{b}}}scroll{{{/b}}} down to see all of the statements.</item> -->
+
         <!-- <item id="moveBottomMobileText">Move this statement to the bottom of the list?</item> -->
         <!-- <item id="moveTopMobileTextAllTopInstruction">Move all selected (yellow-colored) statements to the top?</item> -->
 
