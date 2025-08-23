@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
-   <language version="Quincy 1.0.0" htmlParse="true">
+   <language version="Quince 1.0.0" htmlParse="true">
 
         <!-- 1. MULTIPLE SCREENS AND FOOTER -->
         <item order="1-1" id="btnHelp">Help</item>
@@ -42,7 +42,7 @@
         <item order="4-6"  id="btnHelpLanding">Help</item>
         
         <!-- 5. MOBILE WELCOME (LANDING) SCREEN -->
-        <item order="5-1" id="mobileWelcomeText">{{{h2}}}Quincy Demo Project - iPad Use in the Classroom.{{{/h2}}}{{{br/}}}{{{br/}}}{{{p}}}Thank you for helping with this research project!{{{/p}}}{{{br/}}}{{{br/}}}{{{br/}}} {{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/lMy4ARVEcCI?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
+        <item order="5-1" id="mobileWelcomeText">{{{h2}}}Quince Demo Project - iPad Use in the Classroom.{{{/h2}}}{{{br/}}}{{{br/}}}{{{p}}}Thank you for helping with this research project!{{{/p}}}{{{br/}}}{{{br/}}}{{{br/}}} {{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/lMy4ARVEcCI?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
 
         <!-- 6. PRE-SORT: rough sorting into three piles -->
         <item order="6-1" id="logInFirst">Please complete the log-in process first.</item>
@@ -203,7 +203,7 @@
         <item order="16-1" id="transferTextAbove">{{{h1}}}Ready to Submit{{{/h1}}}{{{br/}}}{{{br/}}} {{{h2}}}Please click the &quot;Submit Data&quot; button to transmit your results.{{{/h2}}}</item>
         <item order="16-1" id="transferTextBelow">Please wait for the confirmation message that indicates your data have been sent to the server successfully.</item>
         <item order="16-1" id="transferOkModalHeader">Success - The data have been sent to the server.</item>   
-        <item order="16-1" id="transferOkModalText">Thank you for using Quincy!{{{br/}}}{{{br/}}}You can now close your browser tab.</item>
+        <item order="16-1" id="transferOkModalText">Thank you for using Quince!{{{br/}}}{{{br/}}}You can now close your browser tab.</item>
         <item order="16-1" id="transferFailModalHeader">Connection to server failed</item>   
         <item order="16-1" id="transferFailModalText">Please try again in a few moments.</item>   
         <item order="16-1" id="fallbackMessage">Data transmission has failed. Please download the results and email them as an attachment to ken.q.tools@gmail.com. Thank you!</item>   
@@ -224,7 +224,7 @@
         <item order="18-7" id="copiedText">Copied!</item>  
         <item order="18-8" id="downloadResultsButtonText">Download Results</item>  
         <item order="18-9" id="emailBodyMessage">You don&apos;t have to add anything to this email. Please just click the SEND button.</item>
-        <item order="18-10" id="emailSubjectText">Quincy Q-sort Results</item>
+        <item order="18-10" id="emailSubjectText">Quince Q-sort Results</item>
         <!-- <item order="18-1" id="copyTextError">Error: Please try again.</item>   -->
 
 

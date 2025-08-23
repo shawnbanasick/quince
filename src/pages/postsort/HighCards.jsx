@@ -24,7 +24,7 @@ const getPostsortDualImageArray = (state) => state.postsortDualImageArray;
 const getSetPostsortDualImageArray = (state) => state.setPostsortDualImageArray;
 
 const HighCards = (props) => {
-  console.log("props", props);
+  // console.log("props", props);
   // HELPER FUNCTION
   const asyncLocalStorage = {
     async setItem(key, value) {
@@ -55,8 +55,13 @@ const HighCards = (props) => {
   const setPostsortDualImageArray = useStore(getSetPostsortDualImageArray);
   const { agreeObj, cardFontSize, width, height } = props;
   const highCards = columnStatements?.vCols[agreeObj.columnDisplay];
-  let { agreeText, placeholder, placedOn } = agreeObj;
+  let { placeholder, placedOn } = agreeObj;
   let columnDisplay = agreeObj.columnDisplay;
+
+  // IMAGES RELATED
+  let useImages = configObj.useImages;
+  if (useImages === "false") useImages = false;
+  if (useImages === "true") useImages = true;
 
   // get header text
   let columnLabel = "";
@@ -92,7 +97,6 @@ const HighCards = (props) => {
   let highlighting = true;
   let shouldDisplayNums;
   let displayNumbers = mapObj["useNumsPostsort"][0];
-  console.log(displayNumbers);
 
   if (displayNumbers !== undefined || displayNumbers !== null) {
     if (displayNumbers === false || displayNumbers === "false") {
@@ -104,7 +108,6 @@ const HighCards = (props) => {
 
   let shouldDisplayText;
   let displayText = mapObj["useHeaderLabelsPostsort"][0];
-  console.log(displayText);
 
   if (displayText !== undefined || displayText !== null) {
     if (displayText === false || displayText === "false") {
@@ -116,7 +119,6 @@ const HighCards = (props) => {
 
   let shouldDisplayEmojis;
   let displayEmoji = mapObj["useEmojiPostsort"][0];
-  console.log(displayEmoji);
   if (displayEmoji !== undefined || displayEmoji !== null) {
     if (displayEmoji === false || displayEmoji === "false") {
       shouldDisplayEmojis = false;
@@ -124,8 +126,6 @@ const HighCards = (props) => {
       shouldDisplayEmojis = true;
     }
   }
-
-  console.log(shouldDisplayEmojis, shouldDisplayText, shouldDisplayNums);
 
   let agreeTextElement = (
     <RowDiv>
@@ -146,6 +146,8 @@ const HighCards = (props) => {
 
   // on double click of card, enlarge image
   const handleOpenImageModal = (e) => {
+    console.log(e);
+    if (!e.target) return;
     if (e.detail === 2) {
       if (e.shiftKey) {
         postsortDualImageArray.push(e.target.src);
@@ -162,6 +164,7 @@ const HighCards = (props) => {
 
   // on leaving card comment section
   const handleChange = (event, itemId) => {
+    event.preventDefault();
     const results = JSON.parse(localStorage.getItem("resultsPostsort")) || {};
     let allCommentsObj = JSON.parse(localStorage.getItem("allCommentsObj")) || {};
 
@@ -271,15 +274,26 @@ const HighCards = (props) => {
           {agreeTextElement}{" "}
         </CardTag>
         <CardAndTextHolder>
-          <Card
-            cardFontSize={cardFontSize}
-            width={width}
-            height={height}
-            cardColor={item.cardColor}
-            onClick={(e) => handleOpenImageModal(e, item.element.props.src)}
-          >
-            {content}
-          </Card>
+          {useImages ? (
+            <Card
+              cardFontSize={cardFontSize}
+              width={width}
+              height={height}
+              cardColor={item.cardColor}
+              onClick={(e) => handleOpenImageModal(e, item.element.props.src)}
+            >
+              {content}
+            </Card>
+          ) : (
+            <Card
+              cardFontSize={cardFontSize}
+              width={width}
+              height={height}
+              cardColor={item.cardColor}
+            >
+              {content}
+            </Card>
+          )}
           <TagContainerDiv>
             <CommentArea
               bgColor={highlighting}
@@ -361,6 +375,7 @@ const Card = styled.div`
   font-size: ${(props) => `${props.cardFontSize}px`};
   display: flex;
   align-items: center;
+  user-select: none;
   justify-content: center;
   border: 2px solid darkslategray;
   background-color: #f6f6f6;
@@ -400,6 +415,8 @@ const HeaderText = styled.div`
   text-align: center;
   font-weight: bold;
   font-size: clamp(1rem, 1vw, 1.5rem);
+  user-select: none;
+
   text-align: center;
   line-height: 0.8rem;
 `;

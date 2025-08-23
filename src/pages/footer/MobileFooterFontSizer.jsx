@@ -23,19 +23,15 @@ const MobileFooterFontSizer = () => {
   const setMobilePostsortFontSize = useStore(getSetMobilePostsortFontSize);
 
   // *** LOCAL STATE *** //
-  let [m_FontSizeObject, setm_FontSizeObject] = useLocalStorage(
-    "m_FontSizeObject",
-    {
-      presort: 2,
-      thin: 2,
-      sort: 2,
-      postsort: 2,
-    }
-  );
+  let [m_FontSizeObject, setm_FontSizeObject] = useLocalStorage("m_FontSizeObject", {
+    presort: 2,
+    thin: 2,
+    sort: 2,
+    postsort: 2,
+  });
 
   // *** TEXT LOCALIZATION *** //
-  const mobileTextSize =
-    ReactHtmlParser(decodeHTML(langObj.mobileTextSize)) || "";
+  const mobileTextSize = ReactHtmlParser(decodeHTML(langObj.mobileTextSize)) || "";
 
   //*********************** */
   // *** EVENT HANDLERS ********* //
@@ -144,6 +140,7 @@ const SizeRightButton = styled.div`
   outline: 1px solid #36454f;
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
+  user-select: none;
   border: 0px;
   text-decoration: none;
   &:active {
@@ -167,6 +164,7 @@ const SizeLeftButton = styled.div`
   height: 26px;
   width: 30px;
   outline: 1px solid #36454f;
+  user-select: none;
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
   border: 0px;

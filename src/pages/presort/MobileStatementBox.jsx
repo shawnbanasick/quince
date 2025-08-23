@@ -30,11 +30,11 @@ const MobileStatementBox = (props) => {
 
 export default MobileStatementBox;
 
-MobileStatementBox.propTypes = {
-  backgroundColor: PropTypes.string.isRequired,
-  fontSize: PropTypes.number.isRequired,
-  statement: PropTypes.string,
-};
+// MobileStatementBox.propTypes = {
+//   backgroundColor: PropTypes.string.isRequired,
+//   fontSize: PropTypes.number.isRequired,
+//   statement: PropTypes.string,
+// };
 
 const Container = styled.div`
   display: flex;

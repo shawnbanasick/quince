@@ -112,6 +112,7 @@ const SizeButton = styled.button`
   border-radius: 3px;
   text-decoration: none;
   user-select: none;
+  user-select: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -128,4 +129,5 @@ const Container = styled.div`
 
 const SpanDiv = styled.div`
   font-size: 16px;
+  user-select: none;
 `;

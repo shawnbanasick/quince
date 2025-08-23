@@ -132,6 +132,7 @@ const SizeButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  user-select: none;
 `;
 
 const Container = styled.div`
@@ -144,4 +145,5 @@ const Container = styled.div`
 
 const SpanDiv = styled.div`
   font-size: 16px;
+  user-select: none;
 `;

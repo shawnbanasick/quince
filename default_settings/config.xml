@@ -6,10 +6,8 @@
    <!-- options: firebase, local, or sheets -->
    <item id="studyTitle">My_Q_project</item> 
    <item id="setupTarget">email</item>
-   <item id="steinApiUrl">https://api.steinhq.com/v1/storages/636742d5eced9b09e9a38cea</item>
-
    <item id="emailAddress">banasick@gmail.com</item>  
-   <item id="emailSubject">Quincy Q-sort Results</item>  
+   <item id="emailSubject">Quince Q-sort Results</item>  
 
    <item id="shuffleCards">true</item>
    <item id="headerBarColor">#337ab7</item>

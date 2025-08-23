@@ -159,6 +159,7 @@ const SizeRightButton = styled.div`
   outline: 1px solid #36454f;
   border-top-right-radius: 3px;
   border-bottom-right-radius: 3px;
+  user-select: none;
   border: 0px;
   text-decoration: none;
   &:active {
@@ -185,6 +186,7 @@ const SizeLeftButton = styled.div`
   border-top-left-radius: 3px;
   border-bottom-left-radius: 3px;
   border: 0px;
+  user-select: none;
   text-decoration: none;
   &:active {
     background: #286090;

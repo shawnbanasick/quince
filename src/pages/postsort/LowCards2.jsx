@@ -53,11 +53,15 @@ const LowCards2 = (props) => {
   const postsortDualImageArray = useStore(getPostsortDualImageArray);
   const setPostsortDualImageArray = useStore(getSetPostsortDualImageArray);
   const mapObj = useSettingsStore(getMapObject);
-
   const { height, width, cardFontSize, disagreeObj } = props;
   const lowCards2 = columnStatements.vCols[disagreeObj.columnDisplay2];
   let { placeholder, placedOn } = disagreeObj;
   const columnDisplay = disagreeObj.columnDisplay2;
+
+  // IMAGES RELATED
+  let useImages = configObj.useImages;
+  if (useImages === "false") useImages = false;
+  if (useImages === "true") useImages = true;
 
   // get header text
   let columnLabel = "";
@@ -92,7 +96,6 @@ const LowCards2 = (props) => {
 
   let shouldDisplayNums;
   let displayNumbers = mapObj["useNumsPostsort"][0];
-  console.log(displayNumbers);
 
   if (displayNumbers !== undefined || displayNumbers !== null) {
     if (displayNumbers === false || displayNumbers === "false") {
@@ -104,7 +107,6 @@ const LowCards2 = (props) => {
 
   let shouldDisplayText;
   let displayText = mapObj["useHeaderLabelsPostsort"][0];
-  console.log(displayText);
 
   if (displayText !== undefined || displayText !== null) {
     if (displayText === false || displayText === "false") {
@@ -116,7 +118,6 @@ const LowCards2 = (props) => {
 
   let shouldDisplayEmojis;
   let displayEmoji = mapObj["useEmojiPostsort"][0];
-  console.log(displayEmoji);
   if (displayEmoji !== undefined || displayEmoji !== null) {
     if (displayEmoji === false || displayEmoji === "false") {
       shouldDisplayEmojis = false;
@@ -267,14 +268,26 @@ const LowCards2 = (props) => {
           {disagreeTextElement}
         </CardTag>
         <CardAndTextHolder>
-          <Card
-            cardFontSize={cardFontSize}
-            width={width}
-            height={height}
-            onClick={(e) => handleOpenImageModal(e, item.element.props.src)}
-          >
-            {content}
-          </Card>
+          {useImages ? (
+            <Card
+              cardFontSize={cardFontSize}
+              width={width}
+              height={height}
+              cardColor={item.cardColor}
+              onClick={(e) => handleOpenImageModal(e, item.element.props.src)}
+            >
+              {content}
+            </Card>
+          ) : (
+            <Card
+              cardFontSize={cardFontSize}
+              width={width}
+              height={height}
+              cardColor={item.cardColor}
+            >
+              {content}
+            </Card>
+          )}
           <TagContainerDiv>
             <CommentArea
               bgColor={highlighting}
@@ -352,6 +365,7 @@ const Card = styled.div`
   border-radius: 5px;
   font-size: ${(props) => `${props.cardFontSize}px`};
   display: flex;
+  user-select: none;
   align-items: center;
   justify-content: center;
   border: 2px solid black;

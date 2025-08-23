@@ -186,6 +186,7 @@ const SortTitleBar = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  user-select: none;
   color: white;
   font-weight: bold;
   font-size: 28px;
@@ -199,6 +200,7 @@ const PostsortInstructions = styled.div`
   align-self: center;
   margin-top: 30px;
   text-align: center;
+  user-select: none;
   color: black;
   font-size: 2vh;
   font-weight: normal;
