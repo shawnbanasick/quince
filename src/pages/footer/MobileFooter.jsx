@@ -67,6 +67,9 @@ const StyledFooter = () => {
   if (currentPage === "landing") {
     nextButtonWidth = 60;
     nextButtonText = ReactHtmlParser(decodeHTML(langObj.btnNextLanding)) || "";
+  } else if (currentPage === "consent") {
+    nextButtonWidth = 180;
+    nextButtonText = ReactHtmlParser(decodeHTML(langObj.btnNextConsent)) || "";
   } else {
     nextButtonText = ReactHtmlParser(decodeHTML(langObj.btnNext)) || "";
   }
