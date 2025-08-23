@@ -165,6 +165,7 @@
         <item order="11-5" id="mobileSortScrollBottomModalText">Please scroll to the bottom and review the ranking of all the statements before going to the next stage.</item>
         <item order="11-6" id="mobileSortSwapModalHead">Swap Statement Rankings?</item>
         <item order="11-7" id="mobileSortSwapModalConfirmButton">Swap</item>
+        <item order="11-8" id="mobileSortSwapModalSuccessMessage">The positions of the statements were successfully swapped.</item>
         <!-- <item order="11-1" id="mobileSortSwapModalText">Click "Confirm" to swap.</item> -->
         
 
