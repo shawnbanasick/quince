@@ -27,8 +27,6 @@ const DebouncedTextarea = ({ onChange, delay = 300, ...props }) => {
 
   const handleChange = (e) => {
     setValue(e.target.value);
-    console.log(e.target.dataset);
-    // e.target.dataset.id = props.statementId;
   };
 
   return (
@@ -57,7 +55,6 @@ const InternalTextArea = styled.textarea`
   }};
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
-  field-sizing: content;
   background-color: ${(props) =>
     props.value.length > 0
       ? "whitesmoke"

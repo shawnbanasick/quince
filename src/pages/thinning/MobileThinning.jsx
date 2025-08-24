@@ -513,7 +513,7 @@ const MobileThinning = () => {
         </>
       ) : (
         <FinishedMessage>
-          <p>{mobileThinProcessCompleteMessage}</p>
+          <div>{mobileThinProcessCompleteMessage}</div>
         </FinishedMessage>
       )}
     </MainContainer>

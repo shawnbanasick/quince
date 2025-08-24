@@ -173,10 +173,7 @@ const LandingPage = () => {
 
   // SORT card height
   let maxColCards = Math.max(...qSortPattern);
-  console.log("qsort", maxColCards);
-
   let height = (window.innerHeight - 150) / maxColCards;
-  console.log(height);
   localStorage.setItem("cardHeightSort", height);
   setCardHeightSort(height);
 

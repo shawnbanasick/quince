@@ -1,9 +1,6 @@
 import remove from "lodash/remove";
-import displayDebugStateNums from "./displayDebugStateNums";
 
 const mobileMoveSelectedPosCards = (selectedPosItems, newCols2) => {
-  //   console.log("move", selectedPosItems);
-  //   let newCols2 = JSON.parse(localStorage.getItem("newCols"));
   selectedPosItems.forEach((obj) => {
     let objId = obj.id;
     let targetcol = obj.targetcol;
@@ -14,10 +11,6 @@ const mobileMoveSelectedPosCards = (selectedPosItems, newCols2) => {
       }
     });
   });
-  //   localStorage.setItem("newCols", JSON.stringify(newCols2));
-
-  let displayObject2 = displayDebugStateNums(newCols2);
-  console.log("debug newCols", JSON.stringify(displayObject2));
 
   return newCols2;
 };

@@ -229,7 +229,7 @@
 
 
         <!-- 19. LINKING -->
-        <item order="19-1" id="linkedProjectFallbackMessage">Please click the button to begin the next Q sort</item>   
+        <item order="19-1" id="linkedProjectMessage">Please click the button to begin the next Q sort</item>   
          <item order="19-2" id="linkedProjectBtnMessage">Begin Next Q sort</item>   
 
         <!-- 20. LOCAL DATA COLLECTION -->  

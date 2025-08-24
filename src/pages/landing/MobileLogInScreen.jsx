@@ -178,7 +178,7 @@ const LogInScreen = () => {
         <BottomContainer>
           <TextSpan1>{accessInputText}</TextSpan1>
           <StyledInputDiv>
-            <StyledInput onChange={handleAccess} type="password" autoCapitalize="none" />
+            <StyledInput onChange={handleAccess} type="text" autoCapitalize="none" />
             {displayAccessCodeWarning && <WarningText>{accessCodeWarning}</WarningText>}
           </StyledInputDiv>
         </BottomContainer>

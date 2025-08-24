@@ -8,7 +8,6 @@ const getLangObj = (state) => state.langObj;
 const LogInSubmitButton = (props) => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
-  console.log(props);
   const loginSubmitButtonText = ReactHtmlParser(decodeHTML(langObj.loginSubmitButtonText)) || "";
 
   return (

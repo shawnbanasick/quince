@@ -102,8 +102,7 @@ const SubmitPage = () => {
   const transferTextAbove = ReactHtmlParser(decodeHTML(langObj.transferTextAbove)) || "";
   const transferTextBelow = ReactHtmlParser(decodeHTML(langObj.transferTextBelow)) || "";
   const goodbyeMessage = ReactHtmlParser(decodeHTML(langObj.goodbyeMessage)) || "";
-  const linkedProjectFallbackMessage =
-    ReactHtmlParser(decodeHTML(langObj.linkedProjectFallbackMessage)) || "";
+  const linkedProjectMessage = ReactHtmlParser(decodeHTML(langObj.linkedProjectMessage)) || "";
   const linkedProjectBtnMessage = decodeHTML(langObj.linkedProjectBtnMessage) || "";
   const pageHeader = ReactHtmlParser(decodeHTML(langObj.transferHead)) || "";
 
@@ -292,7 +291,7 @@ const SubmitPage = () => {
     if (configObj.linkToSecondProject === true) {
       return (
         <GoodbyeDiv>
-          {linkedProjectFallbackMessage}
+          {linkedProjectMessage}
           <a
             id="secondProjectLink"
             href={`${configObj.secondProjectUrl}/#/?usercode=${urlUsercode}`}

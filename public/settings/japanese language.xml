@@ -238,7 +238,7 @@
     <item order="18-10" id="emailSubjectText">クインシー Q-ソート 結果</item>
 
     <!-- 19. LINKING -->
-    <item order="19-1" id="linkedProjectFallbackMessage">次のQソートを開始するにはボタンをクリックしてください</item>
+    <item order="19-1" id="linkedProjectMessage">次のQソートを開始するにはボタンをクリックしてください</item>
     <item order="19-2" id="linkedProjectBtnMessage">次のQソートを開始</item>
 
     <!-- 20. LOCAL DATA COLLECTION -->  

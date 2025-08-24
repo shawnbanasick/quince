@@ -15,8 +15,6 @@ export const useSortLogic = (mapObj, displayArray) => {
     ...JSON.parse(localStorage.getItem("m_FinalThinCols")),
   ]);
 
-  console.log(displayArray);
-
   const partitionArray = useMemo(() => {
     const lengths = [...mapObj.qSortPattern].reverse();
     const result = [];
