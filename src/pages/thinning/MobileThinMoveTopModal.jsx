@@ -219,7 +219,7 @@ const CloseIconContainer = styled.div`
   z-index: 10;
 `;
 
-const CloseIcon = styled.button`
+const CloseIcon = styled.div`
   background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
   color: white;
   border: none;

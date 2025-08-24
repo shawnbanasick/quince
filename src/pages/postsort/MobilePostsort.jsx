@@ -362,6 +362,7 @@ const MobilePostsort = () => {
         trigger={triggerPreventNavModal}
         setTrigger={setTriggerPreventNavModal}
         showArrow={false}
+        height={"150px"}
       />
 
       <MobileModal
@@ -370,6 +371,7 @@ const MobilePostsort = () => {
         trigger={triggerHelpModal}
         setTrigger={setTriggerHelpModal}
         showArrow={false}
+        height={"150px"}
       />
       <InnerContainer
         viewSize={

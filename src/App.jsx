@@ -63,6 +63,9 @@ function App() {
   const mapObj = useSettingsStore(getMapObj);
 
   const [isLoading, setLoading] = useState(true);
+  const [hasShownMapXmlWarning, setHasShownMapXmlWarning] = useState(false);
+  const [hasShownConfigXmlWarning, setHasShownConfigXmlWarning] = useState(false);
+  const [hasShownLanguageXmlWarning, setHasShownLanguageXmlWarning] = useState(false);
 
   useEffect(() => {
     const unloadCallback = (event) => {
@@ -208,25 +211,38 @@ function App() {
   }
 
   // CHECK VERSION NUMBERS
-  const templateVersion = "1.0.1";
-  const langFileVersion = langObj["langFileVersion"];
-  const configFileVersion = configObj["configFileVersion"];
-  const mapFileVersion = mapObj["mapFileVersion"][0];
+  const baseTemplateVersion = "1.0.0";
+  const maxTemplateVersion = "1.1.0";
+  const langFileVersion = langObj["langFileVersion"] || "";
+  const configFileVersion = configObj["configFileVersion"] || "";
+  const mapFileVersion = mapObj["mapFileVersion"][0] || "";
 
-  if (!satisfies(langFileVersion, `>=${templateVersion}`)) {
+  if (
+    !satisfies(langFileVersion, `>=${baseTemplateVersion} <${maxTemplateVersion}`) &&
+    hasShownLanguageXmlWarning === false
+  ) {
     alert(
       "The language.xml file is out-of-date. Please import the file into the Quince Configurator to update it to the newest version, then add it to your project's settings folder and try again."
     );
+    setHasShownLanguageXmlWarning(true);
   }
-  if (!satisfies(configFileVersion, `>=${templateVersion}`)) {
+  if (
+    !satisfies(configFileVersion, `>=${baseTemplateVersion} <${maxTemplateVersion}`) &&
+    hasShownConfigXmlWarning === false
+  ) {
     alert(
       "The config.xml file is out-of-date. Please import the file into the Quince Configurator to update it to the newest version, then add it to your project's settings folder and try again."
     );
+    setHasShownConfigXmlWarning(true);
   }
-  if (!satisfies(mapFileVersion, `>=${templateVersion}`)) {
+  if (
+    !satisfies(mapFileVersion, `>=${baseTemplateVersion} <${maxTemplateVersion}`) &&
+    hasShownMapXmlWarning === false
+  ) {
     alert(
       "The map.xml file is out-of-date. Please import the file into the Quince Configurator to update it to the newest version, then add it to your project's settings folder and try again."
     );
+    setHasShownMapXmlWarning(true);
   }
 
   if (configObj.useMobileMode === true || configObj.useMobileMode === "true") {

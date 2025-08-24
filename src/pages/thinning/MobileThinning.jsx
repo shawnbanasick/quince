@@ -66,8 +66,6 @@ const MobileThinning = () => {
   const triggerGuidanceModal = useStore(getTriggerGuidanceModal);
   const setTriggerGuidanceModal = useStore(getSetTriggerGuidanceModal);
 
-  console.log(triggerPreventNavModal, "triggerPreventNavModal");
-
   // *************************** //
   // *** TEXT LOCALIZATION ***** //
   // *************************** //
@@ -445,6 +443,7 @@ const MobileThinning = () => {
         trigger={triggerGuidanceModal}
         setTrigger={setTriggerGuidanceModal}
         showArrow={false}
+        height={"250px"}
       />
       <MobileModal
         head={modalRef.current.header}
@@ -452,6 +451,7 @@ const MobileThinning = () => {
         trigger={triggerHelpModal}
         setTrigger={setTriggerHelpModal}
         showArrow={true}
+        height={"450px"}
       />
       <MobileModal
         head={scrollBottomModalHead}
@@ -459,6 +459,7 @@ const MobileThinning = () => {
         trigger={triggerScrollBottomModal}
         setTrigger={setTriggerScrollBottomModal}
         showArrow={false}
+        height={"150px"}
       />
       <MobileModal
         head={preventNavModalHead}
@@ -466,6 +467,7 @@ const MobileThinning = () => {
         trigger={triggerPreventNavModal}
         setTrigger={setTriggerPreventNavModal}
         showArrow={false}
+        height={"150px"}
       />
       <SortTitleBar background={configObj.headerBarColor}>
         {conditionsOfInstruction}

@@ -100,7 +100,7 @@
         <item order="8-11" id="initialInstructionPartNeg2">Next, continue to select the statements that are {{{mark}}}DIFFER THE MOST{{{/mark}}} from your perspective.</item>
         <item order="8-12" id="finalInstructions">Refinement process complete. Click on the "Continue" button on the bottom right side to go to the next stage.</item>
         <item order="8-13" id="thinningPreventNavModalHead">Navigation Disabled</item>
-        <item order="8-14" id="thinningPreventNavModalText">Please finish the refining process before going to the next step.</item>
+        <item order="8-14" id="thinningPreventNavModalText">Please finish refining your evaluations before going to the next step.</item>
         <!-- <item id="agreeMostText">Next, repeat the process with the remaining statements, but this time please select the cards that you agree with the most.</item>
         <item order="8-1" id="thinningConfirmModalHead">Incomplete Selection</item>
         <item order="8-1" id="thinningConfirmModalText">Please select the required number of statements.</item>

@@ -225,6 +225,7 @@ const MobileSurvey = () => {
         head={preventNavHead}
         text={preventNavText}
         showArrow={false}
+        height={"150px"}
       />
 
       <MobileModal
@@ -233,6 +234,7 @@ const MobileSurvey = () => {
         head={helpModalHead}
         text={helpModalText}
         showArrow={false}
+        height={"250px"}
       />
 
       <Container

@@ -352,6 +352,7 @@ const MobilePresortPage = () => {
           trigger={triggerHelpModal}
           setTrigger={setTriggerHelpModal}
           showArrow={true}
+          height={"450px"}
         />
         <MobilePresortRedoModal clickFunction={handleRedoClick} statement={redoCardId} />
         {/* <MobilePresortFinishedModal /> */}
@@ -361,6 +362,7 @@ const MobilePresortPage = () => {
           trigger={triggerPreventNavModal}
           setTrigger={setTriggerPreventNavModal}
           showArrow={false}
+          height={"150px"}
         />
 
         <MobileModal
@@ -369,6 +371,7 @@ const MobilePresortPage = () => {
           trigger={triggerFinishedModal}
           setTrigger={setTriggerFinishedModal}
           showArrow={false}
+          height={"300px"}
         />
       </ModalDiv>
       <SortTitleBar background={configObj.headerBarColor}>

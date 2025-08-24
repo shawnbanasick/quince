@@ -1,25 +1,23 @@
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 import ReactModal from "react-modal";
 import styled from "styled-components";
 import useStore from "../globalState/useStore";
-import PulsingDownTriangle from "./PulsingDownTriangle";
 import debounce from "lodash/debounce";
+import ScrollableContainer from "./ScrollableContainer";
 
-// const getTriggerModal = (state) => state.triggerMobilePresortHelpModal;
-// const getSetTriggerModal = (state) => state.setTriggerMobilePresortHelpModal;
 const getSetHasScrolledToBottom = (state) => state.setM_hasScrolledBottom;
-const getHasScrolledToBottom = (state) => state.m_hasScrolledBottom;
 
 const MobileModal = (props) => {
   // STATE
   const triggerModal = props.trigger; // useStore(getTriggerModal);
   const setTriggerModal = props.setTrigger; // useStore(getSetTriggerModal);
-  const hasScrolledToBottom = useStore(getHasScrolledToBottom);
   const setHasScrolledToBottom = useStore(getSetHasScrolledToBottom);
+  const contentRef = useRef(null);
 
   // LANGUAGE
-  const presortHelpModalHead = props.head;
-  const presortHelpModalText = props.text;
+  const modalHead = props.head;
+  const modalText = props.text;
+  const modalHeight = props.height;
 
   let threshold = 50;
   // ignore the warning about inlining the function
@@ -39,6 +37,7 @@ const MobileModal = (props) => {
 
   const onCloseModal = () => {
     setTriggerModal(false);
+    setHasScrolledToBottom(false);
   };
 
   const customStyles = {
@@ -58,6 +57,9 @@ const MobileModal = (props) => {
     },
   };
 
+  // console.log(isOverflow);
+  // hasOverflow = true;
+
   return (
     <Container>
       <ReactModal
@@ -66,21 +68,19 @@ const MobileModal = (props) => {
         onClose={onCloseModal}
         style={customStyles}
         overlayClassName="Overlay"
-        // className="ModalContentFade"
         ariaHideApp={false}
       >
         <CloseDiv>
           <CloseButton onClick={onCloseModal}>X</CloseButton>
         </CloseDiv>
         <ModalHeader>
-          {presortHelpModalHead}
+          {modalHead}
           <hr />
         </ModalHeader>
-        <ContentContainer>
-          <ModalContent onScroll={handleScroll}>{presortHelpModalText}</ModalContent>
-          <OverlayTriangle>
-            <PulsingDownTriangle atBottom={hasScrolledToBottom} showArrow={props.showArrow} />
-          </OverlayTriangle>
+        <ContentContainer ref={contentRef}>
+          <ScrollableContainer height={modalHeight}>
+            <ModalContent onScroll={handleScroll}>{modalText}</ModalContent>
+          </ScrollableContainer>
         </ContentContainer>
       </ReactModal>
     </Container>

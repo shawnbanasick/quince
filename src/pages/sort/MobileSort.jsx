@@ -130,6 +130,7 @@ const MobileSort = () => {
         trigger={triggerHelpModal}
         setTrigger={setTriggerHelpModal}
         showArrow={true}
+        height={"450px"}
       />
 
       <MobileModal
@@ -138,6 +139,7 @@ const MobileSort = () => {
         trigger={triggerScrollBottomModal}
         setTrigger={setTriggerScrollBottomModal}
         showArrow={false}
+        height={"150px"}
       />
 
       <MobileSortSwapModal
