@@ -16,9 +16,13 @@ import calcThinDisplayControllerArray from "./calcThinDisplayControllerArray";
 import MobileModal from "../../utilities/MobileModal";
 import MobilePresortRedoModal from "./MobilePresortRedoModal";
 import HelpSymbol from "../../assets/helpSymbol.svg?react";
+import EmojiN3 from "../../assets/emojiN3.svg?react";
+import Emoji0 from "../../assets/emoji0.svg?react";
+import Emoji3 from "../../assets/emoji3.svg?react";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
+const getMapObj = (state) => state.mapObj;
 const getStatementsObj = (state) => state.statementsObj;
 const getIsLoggedIn = (state) => state.isLoggedIn;
 const getSetCurrentPage = (state) => state.setCurrentPage;
@@ -38,6 +42,7 @@ const MobilePresortPage = () => {
   // GLOBAL STATE
   const langObj = useSettingsStore(getLangObj);
   const configObj = useSettingsStore(getConfigObj);
+  const mapObj = useSettingsStore(getMapObj);
   const statementsObj = useSettingsStore(getStatementsObj);
   const isLoggedIn = useSettingsStore(getIsLoggedIn);
   const setCurrentPage = useStore(getSetCurrentPage);
@@ -55,6 +60,9 @@ const MobilePresortPage = () => {
     state.setTriggerMobilePresortPreventNavModal;
   const triggerFinishedModal = useStore(getTriggerFinishedModal);
   const setTriggerFinishedModal = useStore(getSetTriggerFinishedModal);
+
+  // Emoji display
+  const useColLabelEmojiPresort = mapObj.useColLabelEmojiPresort;
 
   // ***********************
   // *** TEXT LOCALIZATION *****************
@@ -340,6 +348,79 @@ const MobilePresortPage = () => {
   let totalStatements = columnStatements.statementList.length;
   let displayStatements = JSON.parse(localStorage.getItem("m_PresortDisplayStatements"));
 
+  console.log(useColLabelEmojiPresort[0]);
+
+  const MainButtonRow =
+    useColLabelEmojiPresort[0] === "true" ? (
+      <ButtonRow>
+        <MobileValueButton
+          id={`-2`}
+          value={-2}
+          color={`#FBD5D5`}
+          onClick={handleClickNegative}
+          child={
+            <EmojiDiv>
+              {" "}
+              <EmojiN3 />{" "}
+            </EmojiDiv>
+          }
+        />
+        <MobileValueButton
+          id={`0`}
+          value={0}
+          color={`#F3F4F6`}
+          onClick={handleClickNeutral}
+          child={
+            <EmojiDiv>
+              {" "}
+              <Emoji0 />{" "}
+            </EmojiDiv>
+          }
+        />
+
+        <MobileValueButton
+          id={`2`}
+          value={2}
+          color={`#BCF0DA`}
+          onClick={handleClickPositive}
+          child={
+            <EmojiDiv>
+              {" "}
+              <Emoji3 />{" "}
+            </EmojiDiv>
+          }
+        />
+      </ButtonRow>
+    ) : (
+      <ButtonRow>
+        <MobileValueButton
+          id={`-2`}
+          value={-2}
+          // text={`-`}
+          color={`#FBD5D5`}
+          child={<div>-</div>}
+          onClick={handleClickNegative}
+        />
+        <MobileValueButton
+          id={`0`}
+          value={0}
+          // text={`?`}
+          child={<div>?</div>}
+          color={`#F3F4F6`}
+          onClick={handleClickNeutral}
+        />
+
+        <MobileValueButton
+          id={`2`}
+          value={2}
+          child={<div>+</div>}
+          // text={`+`}
+          color={`#BCF0DA`}
+          onClick={handleClickPositive}
+        />
+      </ButtonRow>
+    );
+
   // **************************
   // *** ELEMENTS ******************
   // **************************
@@ -393,7 +474,8 @@ const MobilePresortPage = () => {
             <CountDiv>{`${statementCount} / ${totalStatements}`}</CountDiv>
             <AssignDiv>{assignRight}</AssignDiv>
           </ButtonRowLabel>
-          <ButtonRow>
+          {MainButtonRow}
+          {/* <ButtonRow>
             <MobileValueButton
               id={`-2`}
               value={-2}
@@ -416,7 +498,7 @@ const MobilePresortPage = () => {
               color={`#BCF0DA`}
               onClick={handleClickPositive}
             />
-          </ButtonRow>
+          </ButtonRow> */}
           <RowText>{completedLabel}</RowText>
 
           <MobilePreviousAssignmentBox statements={m_PresortResults} onClick={handleRedo} />
@@ -582,4 +664,17 @@ const ModalDiv = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
+`;
+
+const EmojiDiv = styled.div`
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
 `;

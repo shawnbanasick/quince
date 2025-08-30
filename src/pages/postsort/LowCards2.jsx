@@ -117,7 +117,7 @@ const LowCards2 = (props) => {
   }
 
   let shouldDisplayEmojis;
-  let displayEmoji = mapObj["useEmojiPostsort"][0];
+  let displayEmoji = mapObj["useColLabelEmojiPostsort"][0];
   if (displayEmoji !== undefined || displayEmoji !== null) {
     if (displayEmoji === false || displayEmoji === "false") {
       shouldDisplayEmojis = false;

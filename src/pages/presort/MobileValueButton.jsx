@@ -7,8 +7,10 @@ const MobileValueButton = (props) => {
       value={props.value}
       text={props.text}
       onTouchStart={props.onClick}
+      child={props.child}
     >
-      <h1>{props.text}</h1>
+      {props.child}
+      {/* <h1>{props.text}</h1> */}
     </Container>
   );
 };
@@ -20,8 +22,8 @@ const Container = styled.div`
   background-color: ${(props) => props.color};
   width: 80vw;
   height: 8vw;
-  font-size: 1.6vh;
-  font-weight: normal;
+  font-size: 6vw;
+  font-weight: bold;
   padding-top: 2px;
   padding-bottom: 1px;
   padding-right: 0px;

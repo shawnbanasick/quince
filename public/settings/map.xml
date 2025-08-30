@@ -25,8 +25,8 @@
      <item id="useColLabelText">true</item>
      <item id="useColLabelEmoji">true</item>
      <item id="emojiArrayType">emoji4Array</item>
-     <item id="useEmojiPresort">true</item>
-     <item id="useEmojiPostsort">true</item>
+     <item id="useColLabelEmojiPresort">true</item>
+     <item id="useColLabelEmojiPostsort">true</item>
      <item id="useHeaderLabelsPostsort">true</item>
      <item id="useNumsPostsort">false</item>
    </map>

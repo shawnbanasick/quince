@@ -13,6 +13,7 @@ import Emoji3 from "../../assets/emoji3.svg?react";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
+const getMapObj = (state) => state.mapObj;
 const getStatementsObj = (state) => state.statementsObj;
 const getColumnStatements = (state) => state.columnStatements;
 const getPreSortedStateNumInit = (state) => state.presortSortedStatementsNumInitial;
@@ -28,6 +29,7 @@ function PresortDND(props) {
   // STATE
   const langObj = useSettingsStore(getLangObj);
   const configObj = useSettingsStore(getConfigObj);
+  const mapObj = useSettingsStore(getMapObj);
   const statementsObj = useSettingsStore(getStatementsObj);
   const columnStatements = useSettingsStore(getColumnStatements);
   const presortSortedStatementsNumInitial = useStore(getPreSortedStateNumInit);
@@ -44,6 +46,8 @@ function PresortDND(props) {
   const btnAgreement = ReactHtmlParser(decodeHTML(langObj.presortAgreement)) || "";
   const btnNeutral = ReactHtmlParser(decodeHTML(langObj.presortNeutral)) || "";
   const onPageInstructions = ReactHtmlParser(decodeHTML(langObj.presortOnPageInstructions)) || "";
+
+  const displayEmoji = mapObj.useColLabelEmojiPresort;
 
   // initialize local state
   let [presortSortedStatementsNum, setPresortSortedStatementsNum] = useState(
@@ -376,13 +380,17 @@ function PresortDND(props) {
       </CompletionRatioDiv>
       <ColumnNamesNeg id="negColumnHeader">
         <div id="negHeader">
-          <EmojiDiv>
-            <EmojiN3 />
-          </EmojiDiv>
+          {displayEmoji ? (
+            <EmojiDiv>
+              <EmojiN3 />
+            </EmojiDiv>
+          ) : null}
           {columns.neg.name}
-          <EmojiDiv>
-            <EmojiN3 />
-          </EmojiDiv>
+          {displayEmoji ? (
+            <EmojiDiv>
+              <EmojiN3 />
+            </EmojiDiv>
+          ) : null}
         </div>
         <ButtonPressDiv>
           <div>{langObj["press1"]}</div>
@@ -390,13 +398,17 @@ function PresortDND(props) {
       </ColumnNamesNeg>
       <ColumnNamesNeu id="neutralColumnHeader">
         <div id="neuHeader">
-          <EmojiDiv>
-            <Emoji0 />
-          </EmojiDiv>
+          {displayEmoji ? (
+            <EmojiDiv>
+              <Emoji0 />
+            </EmojiDiv>
+          ) : null}
           {columns.neutral.name}
-          <EmojiDiv>
-            <Emoji0 />
-          </EmojiDiv>
+          {displayEmoji ? (
+            <EmojiDiv>
+              <Emoji0 />
+            </EmojiDiv>
+          ) : null}
         </div>
         <ButtonPressDiv>
           <div>{langObj["press2"]}</div>
@@ -404,13 +416,17 @@ function PresortDND(props) {
       </ColumnNamesNeu>
       <ColumnNamesPos id="posColumnHeader">
         <div id="posHeader">
-          <EmojiDiv>
-            <Emoji3 />
-          </EmojiDiv>
+          {displayEmoji ? (
+            <EmojiDiv>
+              <Emoji3 />
+            </EmojiDiv>
+          ) : null}
           {columns.pos.name}
-          <EmojiDiv>
-            <Emoji3 />
-          </EmojiDiv>
+          {displayEmoji ? (
+            <EmojiDiv>
+              <Emoji3 />
+            </EmojiDiv>
+          ) : null}
         </div>
         <ButtonPressDiv>
           <div>{langObj["press3"]}</div>
