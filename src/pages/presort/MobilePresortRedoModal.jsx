@@ -8,17 +8,25 @@ import MobileValueButton from "./MobileValueButton";
 import MobileStatementBox from "./MobileStatementBox";
 import { useState } from "react";
 import PropTypes from "prop-types";
+import EmojiN3 from "../../assets/emojiN3.svg?react";
+import Emoji0 from "../../assets/emoji0.svg?react";
+import Emoji3 from "../../assets/emoji3.svg?react";
 
 const getLangObj = (state) => state.langObj;
+const getMapObj = (state) => state.mapObj;
 const getTriggerMobilePresortRedoModal = (state) => state.triggerMobilePresortRedoModal;
 const getSetTriggerMobilePresortRedoModal = (state) => state.setTriggerMobilePresortRedoModal;
 
 const MobilePresortRedoModal = (props) => {
   // *** STATE
   const langObj = useSettingsStore(getLangObj);
+  const mapObj = useSettingsStore(getMapObj);
   const triggerMobilePresortRedoModal = useStore(getTriggerMobilePresortRedoModal);
   const setTriggerMobilePresortRedoModal = useStore(getSetTriggerMobilePresortRedoModal);
   const moveTopMobileHead = ReactHtmlParser(decodeHTML(langObj.mobilePresortRedoModalHead)) || "";
+
+  // Emoji display
+  const useColLabelEmojiPresort = mapObj.useColLabelEmojiPresort;
 
   // *** LANGUAGE TRANSLATION *** //
   let moveTopMobileText = "";
@@ -51,6 +59,77 @@ const MobilePresortRedoModal = (props) => {
     setCharacteristics({ backgroundColor: "#e5e5e5", value: 0 });
     setTriggerMobilePresortRedoModal(false);
   };
+
+  const MainButtonRow =
+    useColLabelEmojiPresort[0] === "true" ? (
+      <ButtonRow>
+        <MobileValueButton
+          id={`-2`}
+          value={-2}
+          color={`#FBD5D5`}
+          onClick={clickNegative}
+          child={
+            <EmojiDiv>
+              {" "}
+              <EmojiN3 />{" "}
+            </EmojiDiv>
+          }
+        />
+        <MobileValueButton
+          id={`0`}
+          value={0}
+          color={`#F3F4F6`}
+          onClick={clickUndecided}
+          child={
+            <EmojiDiv>
+              {" "}
+              <Emoji0 />{" "}
+            </EmojiDiv>
+          }
+        />
+
+        <MobileValueButton
+          id={`2`}
+          value={2}
+          color={`#BCF0DA`}
+          onClick={clickPositive}
+          child={
+            <EmojiDiv>
+              {" "}
+              <Emoji3 />{" "}
+            </EmojiDiv>
+          }
+        />
+      </ButtonRow>
+    ) : (
+      <ButtonRow>
+        <MobileValueButton
+          id={`-2`}
+          value={-2}
+          // text={`-`}
+          color={`#FBD5D5`}
+          child={<div>-</div>}
+          onClick={clickNegative}
+        />
+        <MobileValueButton
+          id={`0`}
+          value={0}
+          // text={`?`}
+          child={<div>?</div>}
+          color={`#F3F4F6`}
+          onClick={clickUndecided}
+        />
+
+        <MobileValueButton
+          id={`2`}
+          value={2}
+          child={<div>+</div>}
+          // text={`+`}
+          color={`#BCF0DA`}
+          onClick={clickPositive}
+        />
+      </ButtonRow>
+    );
 
   const customStyles = {
     content: {
@@ -94,30 +173,7 @@ const MobilePresortRedoModal = (props) => {
         <AssignDiv>{assignLeft}</AssignDiv>
         <AssignDiv>{assignRight}</AssignDiv>
       </ButtonRowLabel>
-      <ButtonRow>
-        <MobileValueButton
-          id={`-2`}
-          value={-2}
-          text={`-`}
-          color={`#FBD5D5`}
-          onClick={clickNegative}
-        />
-        <MobileValueButton
-          id={`0`}
-          value={0}
-          text={`?`}
-          color={`#F3F4F6`}
-          onClick={clickUndecided}
-        />
-
-        <MobileValueButton
-          id={`2`}
-          value={2}
-          text={`+`}
-          color={`#BCF0DA`}
-          onClick={clickPositive}
-        />
-      </ButtonRow>
+      {MainButtonRow}
       <ButtonContainer>
         <ModalButton onClick={onCloseModal}>{cancelButtonText}</ModalButton>
         <ModalButton
@@ -241,4 +297,17 @@ const CloseDiv = styled.div`
   justify-content: flex-end;
   width: 100%;
   margin-top: 0px;
+`;
+
+const EmojiDiv = styled.div`
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
 `;

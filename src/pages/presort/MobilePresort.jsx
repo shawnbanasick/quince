@@ -348,8 +348,6 @@ const MobilePresortPage = () => {
   let totalStatements = columnStatements.statementList.length;
   let displayStatements = JSON.parse(localStorage.getItem("m_PresortDisplayStatements"));
 
-  console.log(useColLabelEmojiPresort[0]);
-
   const MainButtonRow =
     useColLabelEmojiPresort[0] === "true" ? (
       <ButtonRow>
@@ -475,32 +473,7 @@ const MobilePresortPage = () => {
             <AssignDiv>{assignRight}</AssignDiv>
           </ButtonRowLabel>
           {MainButtonRow}
-          {/* <ButtonRow>
-            <MobileValueButton
-              id={`-2`}
-              value={-2}
-              text={`-`}
-              color={`#FBD5D5`}
-              onClick={handleClickNegative}
-            />
-            <MobileValueButton
-              id={`0`}
-              value={0}
-              text={`?`}
-              color={`#F3F4F6`}
-              onClick={handleClickNeutral}
-            />
-
-            <MobileValueButton
-              id={`2`}
-              value={2}
-              text={`+`}
-              color={`#BCF0DA`}
-              onClick={handleClickPositive}
-            />
-          </ButtonRow> */}
           <RowText>{completedLabel}</RowText>
-
           <MobilePreviousAssignmentBox statements={m_PresortResults} onClick={handleRedo} />
           <BoxSizeMessage>{expandViewMessage}</BoxSizeMessage>
         </>
@@ -509,8 +482,6 @@ const MobilePresortPage = () => {
           <p>{mobilePresortProcessCompleteMessage}</p>
         </FinishedMessage>
       )}
-
-      {/* <ModalContainer></ModalContainer> */}
 
       {/* <PromptUnload />
       <PresortModal />
