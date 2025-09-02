@@ -21,12 +21,12 @@
      <item id="columnHeadersColorsArray">#F98080,#F8B4B4,#FBD5D5,#FDE8E8,#F3F4F6,#DEF7EC,#BCF0DA,#84E1BC,#31C48D</item>
      <item id="columnColorsArray">#F98080,#F8B4B4,#FBD5D5,#FDE8E8,#F3F4F6,#DEF7EC,#BCF0DA,#84E1BC,#31C48D</item>
      <item id="mobileHeadersText">Very Strongly Disagree, Strongly Disagree, Disagree, Disagree Somewhat, Neutral, Agree Somewhat, Agree, Strongly Agree, Very Strongly Agree</item>
+     <item id="emojiArrayType">emoji4Array</item>
+     <item id="useColLabelEmojiPresort">false</item>
      <item id="useColLabelNums">false</item>
      <item id="useColLabelText">true</item>
      <item id="useColLabelEmoji">true</item>
-     <item id="emojiArrayType">emoji4Array</item>
-     <item id="useColLabelEmojiPresort">false</item>
      <item id="useColLabelEmojiPostsort">true</item>
-     <item id="useHeaderLabelsPostsort">true</item>
-     <item id="useNumsPostsort">false</item>
+     <item id="useColLabelTextPostsort">true</item>
+     <item id="useColLabelNumsPostsort">false</item>
    </map>

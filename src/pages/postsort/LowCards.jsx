@@ -70,7 +70,7 @@ const LowCards = (props) => {
   }
 
   let columnNum = "";
-  if (mapObj["useNumsPostsort"]) {
+  if (mapObj["useColLabelNumsPostsort"]) {
     let headersNumArray = [...mapObj["qSortHeaderNumbers"]];
     columnNum = `${placedOn} ${headersNumArray[0]}`;
   }
@@ -94,7 +94,7 @@ const LowCards = (props) => {
   const backgroundColor = backgroundColor1[0];
 
   let shouldDisplayNums;
-  let displayNumbers = mapObj["useNumsPostsort"][0];
+  let displayNumbers = mapObj["useColLabelNumsPostsort"][0];
 
   if (displayNumbers !== undefined || displayNumbers !== null) {
     if (displayNumbers === false || displayNumbers === "false") {
@@ -105,7 +105,7 @@ const LowCards = (props) => {
   }
 
   let shouldDisplayText;
-  let displayText = mapObj["useHeaderLabelsPostsort"][0];
+  let displayText = mapObj["useColLabelTextPostsort"][0];
 
   if (displayText !== undefined || displayText !== null) {
     if (displayText === false || displayText === "false") {

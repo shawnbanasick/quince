@@ -67,7 +67,7 @@ const MobilePostsort = () => {
   let headerNumsArray = [...mapObj["qSortHeaderNumbers"]];
 
   let shouldDisplayNums;
-  let displayNumbers = mapObj["useNumsPostsort"][0];
+  let displayNumbers = mapObj["useColLabelNumsPostsort"][0];
   if (displayNumbers !== undefined || displayNumbers !== null) {
     if (displayNumbers === false || displayNumbers === "false") {
       shouldDisplayNums = false;
@@ -77,7 +77,7 @@ const MobilePostsort = () => {
   }
 
   let shouldDisplayText;
-  let displayText = mapObj["useHeaderLabelsPostsort"][0];
+  let displayText = mapObj["useColLabelTextPostsort"][0];
   if (displayText !== undefined || displayText !== null) {
     if (displayText === false || displayText === "false") {
       shouldDisplayText = false;
