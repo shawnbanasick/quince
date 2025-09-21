@@ -217,32 +217,37 @@ function App() {
   const configFileVersion = configObj["configFileVersion"] || "";
   const mapFileVersion = mapObj["mapFileVersion"][0] || "";
 
-  if (
-    !satisfies(langFileVersion, `>=${baseTemplateVersion} <${maxTemplateVersion}`) &&
-    hasShownLanguageXmlWarning === false
-  ) {
-    alert(
-      "The language.xml file is out-of-date. Please import the file into the Quince Configurator to update it to the newest version, then add it to your project's settings folder and try again."
-    );
-    setHasShownLanguageXmlWarning(true);
-  }
-  if (
-    !satisfies(configFileVersion, `>=${baseTemplateVersion} <${maxTemplateVersion}`) &&
-    hasShownConfigXmlWarning === false
-  ) {
-    alert(
-      "The config.xml file is out-of-date. Please import the file into the Quince Configurator to update it to the newest version, then add it to your project's settings folder and try again."
-    );
-    setHasShownConfigXmlWarning(true);
-  }
-  if (
-    !satisfies(mapFileVersion, `>=${baseTemplateVersion} <${maxTemplateVersion}`) &&
-    hasShownMapXmlWarning === false
-  ) {
-    alert(
-      "The map.xml file is out-of-date. Please import the file into the Quince Configurator to update it to the newest version, then add it to your project's settings folder and try again."
-    );
-    setHasShownMapXmlWarning(true);
+  try {
+    if (
+      !satisfies(langFileVersion, `>=${baseTemplateVersion} <${maxTemplateVersion}`) &&
+      hasShownLanguageXmlWarning === false
+    ) {
+      alert(
+        "The language.xml file is out-of-date. Please import the file into the Quince Configurator to update it to the newest version, then add it to your project's settings folder and try again."
+      );
+      setHasShownLanguageXmlWarning(true);
+    }
+    if (
+      !satisfies(configFileVersion, `>=${baseTemplateVersion} <${maxTemplateVersion}`) &&
+      hasShownConfigXmlWarning === false
+    ) {
+      alert(
+        "The config.xml file is out-of-date. Please import the file into the Quince Configurator to update it to the newest version, then add it to your project's settings folder and try again."
+      );
+      setHasShownConfigXmlWarning(true);
+    }
+    if (
+      !satisfies(mapFileVersion, `>=${baseTemplateVersion} <${maxTemplateVersion}`) &&
+      hasShownMapXmlWarning === false
+    ) {
+      alert(
+        "The map.xml file is out-of-date. Please import the file into the Quince Configurator to update it to the newest version, then add it to your project's settings folder and try again."
+      );
+      setHasShownMapXmlWarning(true);
+    }
+  } catch (error) {
+    console.log("There was an error determining the settings file versions ");
+    console.log(error);
   }
 
   if (configObj.useMobileMode === true || configObj.useMobileMode === "true") {

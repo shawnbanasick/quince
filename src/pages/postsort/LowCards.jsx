@@ -64,8 +64,8 @@ const LowCards = (props) => {
 
   // get header text
   let columnLabel = "";
-  if (mapObj["mobileHeadersText"]) {
-    let headersTextArray = [...mapObj["mobileHeadersText"]];
+  if (mapObj["colTextLabelsArray"]) {
+    let headersTextArray = [...mapObj["colTextLabelsArray"]];
     columnLabel = headersTextArray[0];
   }
 

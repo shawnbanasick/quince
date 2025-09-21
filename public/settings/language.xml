@@ -38,7 +38,7 @@
 
         <!-- 4. WELCOME (LANDING) SCREEN -->
         <item order="4-1" id="landingHead">University Research Project</item>
-        <item order="4-2"  id="welcomeText">{{{h2}}}Qunicy Demo Project - iPad Use in the Classroom.{{{/h2}}}{{{br/}}}{{{br/}}}{{{p}}}Thank you for helping with this research project{{{/p}}}{{{br/}}}{{{br/}}}{{{br/}}} {{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/lMy4ARVEcCI?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
+        <item order="4-2"  id="welcomeText">{{{h2}}}Qunice Demo Project - iPad Use in the Classroom.{{{/h2}}}{{{br/}}}{{{br/}}}{{{p}}}Thank you for helping with this research project{{{/p}}}{{{br/}}}{{{br/}}}{{{br/}}} {{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/lMy4ARVEcCI?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
         <item order="4-3"  id="landingHelpModalHead">Welcome!</item>
         <item order="4-4"  id="landingHelpModalText">Thank you for participating in this University Research Project. Please click the &quot;{{{b}}}Continue{{{/b}}}&quot; button at the bottom right side of the screen to go to the next step.</item>
         <item order="4-5"  id="btnNextLanding">Start</item>
@@ -83,8 +83,7 @@
         <item order="7-11" id="mobilePresortFinishedModalText">The evaluation process is complete. {{{br/}}}{{{br/}}} Please {{{b}}}review the statements{{{/b}}} to confirm your evaluations.  {{{br /}}}{{{br /}}}If you want to make a change, tap the "redo" icon to the left of the statement.{{{br /}}}{{{br /}}}When you are satisfied with all of your evaluations, tap the {{{b}}}"Continue" button{{{/b}}} on the bottom right.</item>
         <item order="7-12" id="mobilePresortPreventNavModalHead">Navigation Disabled</item>
         <item order="7-13" id="mobilePresortPreventNavModalText">Please finish the evaluations before going to the next stage.</item>
-        <item order="7-??" id="mobilePresortRedoModalText">Click on the appropriate icon</item>
-        <item order="7-??" id="mobilePresortProcessCompleteMessage">The evaluation process is complete. {{{br/}}}{{{br/}}} Please click on the "Continue" button on the bottom right side to go to the next stage.</item>
+        <item order="7-14" id="mobilePresortProcessCompleteMessage">The evaluation process is complete. {{{br/}}}{{{br/}}} Please click on the "Continue" button on the bottom right side to go to the next stage.</item>
     
         <!-- 8. THINNING:  -->
         <item order="8-1" id="thinningHelpModalHead">Refine Evaluations</item>
@@ -230,7 +229,7 @@
         <item order="18-7" id="copiedText">Copied!</item>  
         <item order="18-8" id="downloadResultsButtonText">Download Results</item>  
         <item order="18-9" id="emailBodyMessage">You don&apos;t have to add anything to this email. Please just click the SEND button.</item>
-        <item order="18-10" id="結果のダウンロード">Quince Q-sort Results</item>
+        <!-- <item order="18-10" id="結果のダウンロード">Quince Q-sort Results</item> -->
         <!-- <item order="19-1" id="copyTextError">Error: Please try again.</item>   -->
 
 

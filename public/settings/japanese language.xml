@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 
-<language version="Qunicy 1.0.0" htmlParse="true">
+<language version="Qunice 1.0.0" htmlParse="true">
 
     <!-- 1. MULTI-PURPOSE MODALS -->
     <item order="1-1" id="btnHelp">ヘルプ</item>

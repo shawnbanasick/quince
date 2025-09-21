@@ -79,7 +79,7 @@ const SortColGuides = (props) => {
 
   const qSortHeaderNumbers = [...mapObj.qSortHeaderNumbers];
   const columnHeadersColorsArray = [...mapObj.columnHeadersColorsArray];
-  const textHeaders = [...mapObj.mobileHeadersText];
+  const textHeaders = [...mapObj.colTextLabelsArray];
 
   let shouldDisplayNums;
   let displayNumbers = mapObj["useColLabelNums"][0];

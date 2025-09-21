@@ -27,7 +27,7 @@ const getMapObj = (state) => state.mapObj;
 const getConfigObj = (state) => state.configObj;
 const getMobileSortFontSize = (state) => state.mobileSortFontSize;
 const getMobileSortViewSize = (state) => state.mobileSortViewSize;
-const getSetTriggerMobileSortSwapModal = (state) => state.setTriggerMobileSortSwapModal;
+// const getSetTriggerMobileSortSwapModal = (state) => state.setTriggerMobileSortSwapModal;
 const getLangObj = (state) => state.langObj;
 const getSetTriggerMobileSortHelpModal = (state) => state.setTriggerMobileSortHelpModal;
 const getSetHasScrolledToBottomSort = (state) => state.setHasScrolledToBottomSort;
@@ -59,7 +59,7 @@ const MobileSort = () => {
   const textLocalization = useTextLocalization(langObj);
   const {
     sortArray1,
-    setSortArray1,
+    // setSortArray1,
     targetArray,
     partitionArray,
     characteristicsArray,

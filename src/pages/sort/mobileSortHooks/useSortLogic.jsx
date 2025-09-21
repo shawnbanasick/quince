@@ -41,7 +41,7 @@ export const useSortLogic = (mapObj, displayArray) => {
 
   const characteristicsArray = useMemo(() => {
     const colorArraySource = [...mapObj.columnHeadersColorsArray].reverse();
-    const headersText = [...mapObj.mobileHeadersText].reverse();
+    const headersText = [...mapObj.colTextLabelsArray].reverse();
     const qSortPattern = [...mapObj.qSortPattern].reverse();
     const tempArray = [];
 
@@ -62,7 +62,7 @@ export const useSortLogic = (mapObj, displayArray) => {
   const mobileColHeaders = useMemo(() => {
     const qSortHeaderNumbers = [...mapObj.qSortHeaderNumbers];
     const columnHeadersColorsArray = [...mapObj.columnHeadersColorsArray];
-    const textHeaders = [...mapObj.mobileHeadersText];
+    const textHeaders = [...mapObj.colTextLabelsArray];
 
     const shouldDisplayNums =
       mapObj.useColLabelNums?.[0] !== false && mapObj.useColLabelNums?.[0] !== "false";

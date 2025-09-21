@@ -18,7 +18,7 @@
    <item id="emailSubjectLine">Quince Sort Results</item>  
 
    <!-- SECOND PROJECT LINKING -->
-   <item id="linkToSecondProject">true</item> 
+   <item id="linkToSecondProject">false</item> 
    <item id="secondProjectUrl"></item> 
 
    <!-- IMAGE OPTIONS  (imageFormat: 169 or 43)-->

@@ -206,6 +206,8 @@ const ModalHeader = styled.div`
   line-height: 1.42;
   padding: 20px 0px 10px 0px;
   margin-bottom: 20px;
+  padding-left: 5px;
+  padding-right: 5px;
   color: ${(props) => {
     return props.theme.mobileText;
   }};

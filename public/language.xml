@@ -35,7 +35,7 @@
 
         <!-- 4. WELCOME (LANDING) SCREEN -->
         <item order="4-1" id="landingHead">University Research Project</item>
-        <item order="4-2"  id="welcomeText">{{{h2}}}Qunicy Demo Project - iPad Use in the Classroom.{{{/h2}}}{{{br/}}}{{{br/}}}{{{p}}}Thank you for helping with this research project{{{/p}}}{{{br/}}}{{{br/}}}{{{br/}}} {{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/lMy4ARVEcCI?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
+        <item order="4-2"  id="welcomeText">{{{h2}}}Quince Demo Project - iPad Use in the Classroom.{{{/h2}}}{{{br/}}}{{{br/}}}{{{p}}}Thank you for helping with this research project{{{/p}}}{{{br/}}}{{{br/}}}{{{br/}}} {{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/lMy4ARVEcCI?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
         <item order="4-3"  id="landingHelpModalHead">Welcome!</item>
         <item order="4-4"  id="landingHelpModalText">Thank you for participating in this University Research Project. Please click the &quot;{{{b}}}Continue{{{/b}}}&quot; button at the bottom right side of the screen to go to the next step.</item>
         <item order="4-5"  id="btnNextLanding">Start</item>

@@ -10,6 +10,7 @@ const ColumnHeader = ({
   value,
   textHeader,
 }) => {
+  console.log(textHeader);
   return (
     <ColorBarDiv color={color}>
       <ContentWrapper>
