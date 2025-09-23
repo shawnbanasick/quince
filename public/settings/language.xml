@@ -38,14 +38,14 @@
 
         <!-- 4. WELCOME (LANDING) SCREEN -->
         <item order="4-1" id="landingHead">University Research Project</item>
-        <item order="4-2"  id="welcomeText">{{{h2}}}Qunice Demo Project - iPad Use in the Classroom.{{{/h2}}}{{{br/}}}{{{br/}}}{{{p}}}Thank you for helping with this research project{{{/p}}}{{{br/}}}{{{br/}}}{{{br/}}} {{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/lMy4ARVEcCI?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
+        <item order="4-2"  id="welcomeText">{{{h2}}}Qunice Demo Project - iPad Use in the Classroom.{{{/h2}}}{{{br/}}}{{{br/}}}{{{p}}}Thank you for helping with this research project{{{/p}}}{{{br/}}}{{{br/}}}{{{br/}}} </item>
         <item order="4-3"  id="landingHelpModalHead">Welcome!</item>
         <item order="4-4"  id="landingHelpModalText">Thank you for participating in this University Research Project. Please click the &quot;{{{b}}}Continue{{{/b}}}&quot; button at the bottom right side of the screen to go to the next step.</item>
         <item order="4-5"  id="btnNextLanding">Start</item>
         <item order="4-6"  id="btnHelpLanding">Help</item>
         
         <!-- 5. MOBILE WELCOME (LANDING) SCREEN -->
-        <item order="5-1" id="mobileWelcomeText">{{{h2}}}Quince Demo Project - iPad Use in the Classroom.{{{/h2}}}{{{br/}}}{{{br/}}}{{{p}}}Thank you for helping with this research project!{{{/p}}}{{{br/}}}{{{br/}}}{{{br/}}} {{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/lMy4ARVEcCI?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
+        <item order="5-1" id="mobileWelcomeText">{{{h2}}}Quince Demo Project - iPad Use in the Classroom.{{{/h2}}}{{{br/}}}{{{br/}}}{{{p}}}Thank you for helping with this research project!{{{/p}}}{{{br/}}}{{{br/}}}{{{br/}}} </item>
 
         <!-- 6. PRE-SORT: rough sorting into three piles -->
         <item order="6-1" id="logInFirst">Please complete the log-in process first.</item>
@@ -59,7 +59,7 @@
         <item order="6-6" id="presortStatements">Statements</item>
         <item order="6-7" id="presortOnPageInstructions">{{{div style=&quot;font-size: 24px&quot;}}}Click and drag on the cards or press the &quot;1&quot;, &quot;2&quot;, or &quot;3&quot; keys to sort the statements.{{{/div}}}</item>
         <item order="6-8" id="presortModalHead">Step 1 of 4</item>
-        <item order="6-9" id="presortModalText">Read the following statements carefully and split them up into three piles: a pile for statements you tend to disagree with, a pile for cards you tend to agree with, and a pile for the rest. Changes can be made later.{{{br/}}}{{{br/}}}If you want to read this instruction a second time, click the help-button at the bottom left corner.{{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/vtnLuKzpcKQ?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
+        <item order="6-9" id="presortModalText">Read the following statements carefully and split them up into three piles: a pile for statements you tend to disagree with, a pile for cards you tend to agree with, and a pile for the rest. Changes can be made later.{{{br/}}}{{{br/}}}If you want to read this instruction a second time, click the help-button at the bottom left corner.{{{br/}}}{{{br/}}}</item>
         <item order="6-10" id="presortPreventNavModalHead">Navigation Disabled</item>
         <item order="6-11" id="presortPreventNavModalText">Please finish the preliminary sorting before going to the next step.</item>
         <item order="6-12" id="presortFinishedModalHead">Preliminary Sorting Complete</item>
@@ -97,7 +97,7 @@
         <item order="8-9" id="initialInstructionPart3">Another set of statements will appear on the screen after you click the "Submit" button.</item>
         <item order="8-10" id="initialInstructionPartNeg1">Below are the statements you rated positively in the previous step. Now, pick statements that {{{mark}}}{{{b}}}DIFFER THE MOST FROM YOUR PERSPECTIVE{{{/b}}}{{{/mark}}}.</item>
         <item order="8-11" id="initialInstructionPartNeg2">Next, continue to select the statements that are {{{mark}}}DIFFER THE MOST{{{/mark}}} from your perspective.</item>
-        <item order="8-12" id="finalInstructions">Refinement process complete. Click on the "Continue" button on the bottom right side to go to the next stage.</item>
+        <item order="8-12" id="finalInstructions">Refinement process complete. {{{br /}}}{{{br /}}}The remaining statements have been automatically allocated. In the next stage, please confirm the placements of ALL statements. {{{br /}}}{{{br /}}}Click on the "Continue" button on the bottom right side to begin the next stage.</item>
         <item order="8-13" id="thinningPreventNavModalHead">Navigation Disabled</item>
         <item order="8-14" id="thinningPreventNavModalText">Please finish refining your evaluations before going to the next step.</item>
         <!-- <item id="agreeMostText">Next, repeat the process with the remaining statements, but this time please select the cards that you agree with the most.</item>
@@ -135,12 +135,12 @@
 
         <!-- 10. SORT: sorting -->
         <item order="10-1" id="sortHelpModalHead">Step 3 of 5</item>
-        <item order="10-2" id="sortHelpModalText">In this step, please click and drag the statement cards to the appropriate column based on your perspective and the researcher&apos;s instructions at the top of the page. {{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/iRxC9Vv3dLo?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
+        <item order="10-2" id="sortHelpModalText">In this step, please click and drag the statement cards to the appropriate column based on your perspective and the researcher&apos;s instructions at the top of the page. {{{br/}}}{{{br/}}}To change the position of a statement, click and drag it to the preferred column.{{{br/}}}{{{br/}}}The number of statements for each column is limited. If a column background color changes to orange, too many statements are in that column. Please move statements to one of the neighboring columns until the column color returns to normal. {{{br/}}}{{{br/}}}You can adjust the statements' text size and the size of the statement boxes by clicking on the "+" and "-" buttons on the bottom of the page.</item>
         <item order="10-3" id="sortAgreement">Agree</item>
         <item order="10-4" id="sortDisagreement">Disagree</item>
         <item order="10-5" id="condOfInst">Sort the cards according to your experience with the iPads this semester</item>
         <item order="10-6" id="sortOverloadedColumnModalHead">Navigation Disabled</item>
-        <item order="10-7" id="sortOverloadedColumnModalText">One of the columns has too many cards (it will be outlined in orange and have a dashed border). Please adjust the placement of the cards so that all columns have the correct number.</item>
+        <item order="10-7" id="sortOverloadedColumnModalText">One of the columns has too many statements (it will be outlined in orange and have a dashed border). Please adjust the placement of the statements so that all columns have the correct number.</item>
 
         <!-- <item order="10-1" id="sortingCompleteModalHead">Sorting Complete</item>
         <item order="10-1" id="sortingCompleteModalText">You have completed the initial sorting. Please take a moment to confirm your placement of the cards.{{{br/}}}{{{br/}}}When you are satisfied with their placement, please click on the {{{b}}}blue &quot;Continue&quot; button{{{/b}}} at the bottom right-side of your screen to go to the next step.</item>
@@ -168,7 +168,7 @@
 
         <!-- 12. POSTSORT: comments - only displayed if selected in config.xml -->
         <item order="12-1" id="postsortModalHead">Step 4 of 5</item>
-        <item order="12-2" id="postsortModalText">You can use the buttons at the bottom of the page to change the font size or card height.{{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/EFNlSiaEVVg?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/h3}}}{{{/center}}}</item>
+        <item order="12-2" id="postsortModalText">You can use the "+" and "-" buttons at the bottom of the page to change the statement font size or statement box height.{{{br/}}}{{{br/}}}</item>
         <item order="12-3" id="postsortHeader">Post-Sort Comments</item>
         <item order="12-4" id="postsortInstructions">{{{h3}}}Please describe your thoughts about these statements in more detail.{{{/h3}}}</item>
         <item order="12-5" id="placeholder">Click here to add comment</item>
@@ -191,7 +191,7 @@
 
         <!-- 14. SURVEY: Additional questions, displayed if showStep4 == true -->
         <item order="14-1" id="surveyModalHead">Step 5 of 5</item>
-        <item order="14-2" id="surveyModalText">Finally, please answer the following questions regarding your background. The questions marked with an &quot;*&quot; in their title are required.{{{br/}}}{{{br/}}}{{{center}}}{{{iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/68MHzgLn1zg?rel=0&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot; allowfullscreen}}}{{{/iframe}}}{{{/center}}}</item>
+        <item order="14-2" id="surveyModalText">Finally, please answer the following questions regarding your background. The questions marked with an &quot;*&quot; in their title are required.{{{br/}}}{{{br/}}}</item>
         <item order="14-3" id="surveyHeader">Post-Ranking Questionnaire</item>
         <item order="14-4" id="surveyPreventNavModalHead">Navigation Disabled</item>
         <item order="14-5" id="surveyPreventNavModalText">Please answer the required questions (outlined in yellow) before going to the next step.</item>
