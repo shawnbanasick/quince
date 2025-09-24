@@ -656,6 +656,7 @@ const HeadersContainer = styled.div`
   min-width: 300px;
   height: 50px;
   gap: 55px;
+  user-select: none;
 `;
 
 const HelpContainer = styled.div`
