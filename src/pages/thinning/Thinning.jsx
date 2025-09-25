@@ -42,6 +42,8 @@ const Thinning = () => {
   const cardFontSizeThin = useStore(getCardFontSizeThin);
   const cardHeightThin = useStore(getCardHeightThin);
 
+  console.log("font", cardFontSizeThin);
+
   // Get language object values
   let initialInstructionPart1 = ReactHtmlParser(decodeHTML(langObj.initialInstructionPart1)) || "";
   let initialInstructionPartNeg1 =
@@ -441,7 +443,7 @@ const Card = styled.div`
   cursor: pointer;
   user-select: none;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  font-size: clamp(0.875rem, ${(props) => (props.fontSize || 14) / 16}rem + 0.2vw, 1.125rem);
+  font-size: ${(props) => props.fontSize || 14}px;
   font-weight: 500;
   color: #1f2937;
   line-height: 1.4;
