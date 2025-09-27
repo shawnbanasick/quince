@@ -6,7 +6,8 @@ const calculateDragResults = (
   sortGridResults
 ) => {
   try {
-    let isSortingFinished = false;
+    // let isSortingFinished = false;
+    let isSortingFinished = true;
     let triggerSortingFinishedModal = false;
 
     if (outcome.destination !== null) {
@@ -23,43 +24,45 @@ const calculateDragResults = (
 
       // create results string
       const testForCompleteArray = Object.keys(sortGridResults);
-      let catchNan = false;
+      // let catchNan = false;
+
+      console.log("not entered");
+
+      console.log(testForCompleteArray.length, totalStatements);
 
       // test if finished
       if (testForCompleteArray.length === totalStatements) {
-        let resultsText = "";
-        for (let i = 0; i < totalStatements; i++) {
-          let key = `s${i + 1}`;
-          let newValue = sortGridResults[key];
-          if (isNaN(newValue)) {
-            catchNan = true;
-          }
-          resultsText += `${newValue}|`;
-          console.log(resultsText);
-        } // loop end
-
-        if (catchNan === true) {
-          // card in footer - sort not complete
-          isSortingFinished = false;
-        } else {
-          // if sort is complete
-          // process string to remove trailing bar
-          isSortingFinished = true;
-
-          if (resultsText.charAt(resultsText.length - 1) === "|") {
-            resultsText = resultsText.substring(0, resultsText.length - 1);
-          }
-
-          console.log(resultsText);
-
-          results.sort = resultsText;
-
-          if (sortFinishedModalHasBeenShown === false) {
-            sortFinishedModalHasBeenShown = true;
-            triggerSortingFinishedModal = true;
-          }
-        }
+        // console.log("entered");
+        // let resultsText = "";
+        // for (let i = 0; i < totalStatements; i++) {
+        //   let key = `s${i + 1}`;
+        //   let newValue = sortGridResults[key];
+        //   if (isNaN(newValue)) {
+        //     catchNan = true;
+        //   }
+        //   resultsText += `${newValue}|`;
+        //   console.log(resultsText);
+        // } // loop end
+        // if (catchNan === true) {
+        //   // card in footer - sort not complete
+        //   isSortingFinished = false;
+        // } else {
+        //   // if sort is complete
+        //   // process string to remove trailing bar
+        //   isSortingFinished = true;
+        //   if (resultsText.charAt(resultsText.length - 1) === "|") {
+        //     resultsText = resultsText.substring(0, resultsText.length - 1);
+        //   }
+        //   console.log(resultsText);
+        //   results.sort = resultsText;
+        //   if (sortFinishedModalHasBeenShown === false) {
+        //     sortFinishedModalHasBeenShown = true;
+        //     triggerSortingFinishedModal = true;
+        //   }
+        // }
       }
+
+      // console.log(isSortingFinished);
 
       const returnObj = {};
       returnObj.isSortingFinished = isSortingFinished;

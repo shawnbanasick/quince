@@ -134,7 +134,7 @@ const Sort = () => {
      after render and reset the margin
     */
     const sortGridMarginTop = +JSON.parse(localStorage.getItem("sortGridMarginTop"));
-    let height = document.getElementById("sortTitleBarContainer").clientHeight;
+    let height = document.getElementById("sortTitleBarContainer").clientHeight + 20;
 
     height = +JSON.stringify(height);
 
@@ -211,6 +211,7 @@ const SortTitleBarContainer = styled.div`
   width: 100vw;
   position: fixed;
   top: 0;
+
   z-index: 999;
 `;
 

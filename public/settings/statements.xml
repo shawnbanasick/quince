@@ -1,37 +1,74 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-   <statements version="6.0.0" htmlParse="false">
-     <statement id="1">1. I think the iPads helped to make a good learning environment for this class</statement>
-     <statement id="2">2. I learned concepts more easily in this class because we used iPads during the class</statement>
-     <statement id="3">3. I learned more from my classmates in this class than in my other classes because of the iPads</statement>
-     <statement id="4">4. The iPad helped me to learn things in this class that I would not have learned otherwise</statement>
-     <statement id="5">5. Using the iPad made it easier for me to make connections between the concepts used in the class</statement>
-     <statement id="6">6. Using iPads matches well with my preferred method of learning</statement>
-     <statement id="7">7. I feel using the iPads motivated me to work harder in this class</statement>
-     <statement id="8">8. I think that the iPad skills that I learned in this class will help me in other classes</statement>
-     <statement id="9">9. Using the iPad helped me to focus on the class concepts</statement>
-     <statement id="10">10. Using the iPad helped me to remember concepts from previous class sessions</statement>
-     <statement id="11">11. I participated more in this class than my other classes because of the iPads</statement>
-     <statement id="12">12. Using the iPads with Socrative made it easier for me to express my opinions on the course concepts</statement>
-     <statement id="13">13. It was interesting to use the iPads and Socrative to see the opinions of other students</statement>
-     <statement id="14">14. Using the iPads to give feedback on student presentations made them more interesting</statement>
-     <statement id="15">15. The Kahoot quizzes using iPads helped me to learn the course concepts</statement>
-     <statement id="16">16. Using the iPads in class made it more difficult for me to speak in English during class</statement>
-     <statement id="17">17. I wanted to use the iPad to access social media applications (LINE or Facebook) during class</statement>
-     <statement id="18">18. Using the iPads in this class wasted valuable class time</statement>
-     <statement id="19">19. It was difficult for me to understand how to use the iPad apps for this class</statement>
-     <statement id="20">20. Using the iPad in this class made the course concepts more confusing</statement>
-     <statement id="21">21. It was difficult to communicate my ideas using the iPad</statement>
-     <statement id="22">22. The iPad-related material was not well integrated with the other class material</statement>
-     <statement id="23">23. Having my opinions displayed in the screen in front of the class made me more reluctant to express my opinions</statement>
-     <statement id="24">24. I became bored while using the iPad during class</statement>
-     <statement id="25">25. I felt uncomfortable when using the iPad because I am not as skilled with technology as other students seem to be</statement>
-     <statement id="26">26. The iPad made it more difficult for me to concentrate on the course concepts</statement>
-     <statement id="27">27. Using the iPad made it more difficult to speak in English with the Professor</statement>
-     <statement id="28">28. Using the iPad made it more difficult to speak in English with other students</statement>
-     <statement id="29">29. I lost some confidence in my ability to speak English during class because of the use of iPads</statement>
-     <statement id="30">30. Using iPads during class was inconvenient</statement>
-     <statement id="31">31. Use of the iPads didn’t improve the learning environment</statement>
-     <statement id="32">32. I feel more comfortable using technology after taking this class</statement>
-     <statement id="33">33. I wish more of my classes would use iPads</statement>
+   <statements version="Quince 1.0.0" htmlParse="false">;
+
+    <!-- 0. FILE INFORMATION -->
+    <info order="0-1" id="statementsFileVersion">1.0.0</info>
+    <info order="0-2" id="iterationDate">2025-08-31</info>
+    <info order="0-3" id="studyTitle">Quince Test 1 - 9-27</info> 
+    <info order="0-4" id="creationDate">2025-9-27@12:30</info> 
+
+    <!-- 1. STATEMENTS -->
+     <statement id="1">statement1</statement>
+     <statement id="2">statement2</statement>
+     <statement id="3">statement3</statement>
+     <statement id="4">statement4</statement>
+     <statement id="5">statement5</statement>
+     <statement id="6">statement6</statement>
+     <statement id="7">statement7</statement>
+     <statement id="8">statement8</statement>
+     <statement id="9">statement9</statement>
+     <statement id="10">statement10</statement>
+     <statement id="11">statement11</statement>
+     <statement id="12">statement12</statement>
+     <statement id="13">statement13</statement>
+     <statement id="14">statement14</statement>
+     <statement id="15">statement15</statement>
+     <statement id="16">statement16</statement>
+     <statement id="17">statement17</statement>
+     <statement id="18">statement18</statement>
+     <statement id="19">statement19</statement>
+     <statement id="20">statement20</statement>
+     <statement id="21">statement21</statement>
+     <statement id="22">statement22</statement>
+     <statement id="23">statement23</statement>
+     <statement id="24">statement24</statement>
+     <statement id="25">statement25</statement>
+     <statement id="26">statement26</statement>
+     <statement id="27">statement27</statement>
+     <statement id="28">statement28</statement>
+     <statement id="29">statement29</statement>
+     <statement id="30">statement30</statement>
+     <statement id="31">statement31</statement>
+     <statement id="32">statement32</statement>
+     <statement id="33">statement33</statement>
+     <statement id="34">statement34</statement>
+     <statement id="35">statement35</statement>
+     <statement id="36">statement36</statement>
+     <statement id="37">statement37</statement>
+     <statement id="38">statement38</statement>
+     <statement id="39">statement39</statement>
+     <statement id="40">statement40</statement>
+     <statement id="41">statement41</statement>
+     <statement id="42">statement42</statement>
+     <statement id="43">statement43</statement>
+     <statement id="44">statement44</statement>
+     <statement id="45">statement45</statement>
+     <statement id="46">statement46</statement>
+     <statement id="47">statement47</statement>
+     <statement id="48">statement48</statement>
+     <statement id="49">statement49</statement>
+     <statement id="50">statement50</statement>
+     <statement id="51">statement51</statement>
+     <statement id="52">statement52</statement>
+     <statement id="53">statement53</statement>
+     <statement id="54">statement54</statement>
+     <statement id="55">statement55</statement>
+     <statement id="56">statement56</statement>
+     <statement id="57">statement57</statement>
+     <statement id="58">statement58</statement>
+     <statement id="59">statement59</statement>
+     <statement id="60">statement60</statement>
+     <statement id="61">statement61</statement>
+     <statement id="62">statement62</statement>
    </statements>

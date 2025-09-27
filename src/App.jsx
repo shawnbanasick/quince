@@ -215,7 +215,7 @@ function App() {
   const maxTemplateVersion = "1.1.0";
   const langFileVersion = langObj["langFileVersion"] || "";
   const configFileVersion = configObj["configFileVersion"] || "";
-  const mapFileVersion = mapObj["mapFileVersion"][0] || "";
+  const mapFileVersion = mapObj["mapFileVersion"] || "";
 
   try {
     if (

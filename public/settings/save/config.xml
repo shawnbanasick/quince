@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+   <config version="Quince 1.0.1" htmlParse="false">
+   <!-- 0. FILE INFORMATION -->
+   <item order="0-1" id="configFileVersion">1.0.1</item>
+   <item order="0-2" id="iterationDate">2025-08-31</item>
+
+   <!-- GENERAL SETTINGS -->
+   <!-- "setupTarget" options: baserow or local -->
+   <item id="studyTitle">Demo Project</item> 
+   <item id="creationDate">2025-7-27@10:54</item> 
+   <item id="setupTarget">baserow</item>
+   <item id="baserowToken">9mai4vZoWKfizfMebLLwHYXXg2FvBgzt</item>
+   <item id="baserowDatabaseIdNumber">542139</item>
+
+   <!-- EMAIL -->
+   <item id="emailAddress">ken.q.tools@gmail.com</item>  
+   <item id="emailSubjectLine">Quince Sort Results</item>  
+
+   <!-- SECOND PROJECT LINKING -->
+   <item id="linkToSecondProject">false</item> 
+   <item id="secondProjectUrl"></item> 
+
+   <!-- IMAGE OPTIONS  (imageFormat: 169 or 43)-->
+   <item id="useImages">false</item>
+   <item id="numImages">30</item>
+   <item id="imageFileType">jpg</item>
+   <item id="imageFormat">postSortImageModal169</item>
+
+   <!-- OTHER GENERAL OPTIONS -->
+   <item id="shuffleCards">true</item>
+   <item id="headerBarColor">#337ab7</item>
+   <item id="devMode">false</item> 
+   <item id="showConsentPage">true</item> 
+   <item id="showConsentPageHelpModal">true</item> 
+   <item id="useThinProcess">true</item> 
+   <item id="useMobileMode">true</item> 
+
+   <!-- ACCESS -->
+   <!-- options: anonymous, partId-access, partId, access -->
+   <item id="initialScreen">anonymous</item>
+   <item id="accessCode">demo</item>
+
+   <!-- LEGACY DEFAULTS (do not change these)-->
+   <item id="setDefaultFontSize">true</item>
+   <item id="defaultFontSize">25</item>
+   <item id="displayNeutralObjects">false</item>
+
+   
+   <!-- PRESORT -->
+   <!-- default colors #2a2a2a, #ccffcc, #e0e0e0, #ffe0f0 -->
+   <item id="greenCardColor">#E1E1E1</item>
+   <item id="yellowCardColor">#E1E1E1</item>
+   <item id="pinkCardColor">#E1E1E1</item>
+   <item id="defaultFontColor">#2a2a2a</item>
+
+   <item id="setDefaultFontSizePresort">true</item>
+   <item id="defaultFontSizePresort">22</item>
+   <item id="traceSorts">true</item>
+  
+   <!-- THINNING -->
+   <item id="thinGuidanceModalMaxIterations">2</item>
+
+   <!-- SORT -->
+   <item id="allowUnforcedSorts">false</item>
+   <item id="warnOverloadedColumn">true</item>
+   <item id="condOfInstFontSize">20</item>
+
+   <item id="setMinCardHeightSort">true</item>
+   <item id="minCardHeightSort">120</item>
+   <item id="setDefaultFontSizeSort">true</item>
+   <item id="defaultFontSizeSort">12</item>
+   
+   <item id="sortDirection">positive</item> 
+
+   <!-- POSTSORT -->
+   <item id="showPostsort">true</item>
+   <item id="showSecondPosColumn">false</item>
+   <item id="showSecondNegColumn">false</item>
+   <item id="showBackButton">true</item>
+   <item id="postsortCommentsRequired">true</item>
+
+   <item id="setDefaultFontSizePostsort">true</item>
+   <item id="defaultFontSizePostsort">16</item>
+   <item id="setMinCardHeightPostsort">true</item>
+   <item id="minCardHeightPostsort">120</item>
+
+
+   <!-- SURVEY - Survey Questions -->
+   <item id="showSurvey">true</item>
+
+   <item id="survey">
+       <input type="information"></input>
+       <note bg="goldenrod">All fields marked with an * are {{{b}}}required.{{{/b}}}</note>
+   </item>
+
+   <item id="survey">
+        <input type="text" required="false" limited="false" limitLength="100" restricted="false"></input>
+        <label>1. Have you had classes with me before?</label>
+        <note>If yes, please {{{i}}}list them here{{{/i}}}. (limit = 100 characters)</note>
+   </item>
+
+   <item id="survey">
+        <input type="textarea" required="false"></input>
+        <label>2. Describe your experience using the iPads in this class</label>
+        <placeholder>input comment here</placeholder>
+   </item>
+
+   <item id="survey">
+        <input type="radio" required="false">Freshman;;;Sophomore;;;Junior;;;Senior</input>
+        <label>3. Year</label>
+        <note>Please select your year</note>
+   </item>
+
+   <item id="survey">
+        <input type="select" required="false">Global Studies;;;Linguistics;;;English Literature</input>
+        <label>4. What is your program focus?</label>
+   </item>
+
+   <item id="survey">
+        <input type="checkbox" required="true">Lecture;;;Group Discussion;;;Active Learning</input>
+        <label>5. What kind of class do you prefer?*</label>
+   </item>
+
+   <item id="survey">
+        <input type="rating2" required="false" scale="Yes;;;No">I have used an iPad in class before.;;; I have used a notebook computer in class before.;;;I have used Moodle before.;;;I have used Quizlet before;;;</input>
+        <label>6. Please respond to {{{mark}}}all{{{/mark}}} of the following statements</label>
+   </item>
+
+   <item id="survey">
+        <input type="rating5" required="false" scale="1;;;2;;;3;;;4;;;5">How would you rate the use of iPads in this class?;;;How would you rate this class overall?;;;How was your interaction with {{{u}}}other students?{{{/u}}};;;How was access to the computer lab?</input>
+        <label>7. {{{i}}}Please{{{/i}}} answer the following questions</label>
+   </item>
+
+   <item id="survey">
+        <input type="rating10" required="false" scale="1;;;2;;;3;;;4;;;5;;;6;;;7;;;8;;;9;;;10">How would you rate the use of the {{{b}}}Socrative{{{/b}}} website in this class?;;;How would you rate the use of the {{{b}}}Quizlet{{{/b}}} website in this class?;;;How would you rate the use of Moodle in this class?;;;How would you rate the use of Edmodo in this class?;;;</input>
+        <label>8. {{{u}}}Please answer all of the following questions{{{/u}}}</label>
+   </item>
+
+
+
+  </config>

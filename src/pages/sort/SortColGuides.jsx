@@ -64,17 +64,19 @@ const SortColGuides = (props) => {
   ];
 
   let displayArray = [];
-  if (mapObj["emojiArrayType"][0] === "emoji5Array") {
-    displayArray = [...emoji5Array];
-  }
-  if (mapObj["emojiArrayType"][0] === "emoji4Array") {
-    displayArray = [...emoji4Array];
-  }
-  if (mapObj["emojiArrayType"][0] === "emoji3Array") {
-    displayArray = [...emoji3Array];
-  }
-  if (mapObj["emojiArrayType"][0] === "emoji2Array") {
-    displayArray = [...emoji2Array];
+  if (mapObj["emojiArrayType"]) {
+    if (mapObj["emojiArrayType"][0] === "emoji5Array") {
+      displayArray = [...emoji5Array];
+    }
+    if (mapObj["emojiArrayType"][0] === "emoji4Array") {
+      displayArray = [...emoji4Array];
+    }
+    if (mapObj["emojiArrayType"][0] === "emoji3Array") {
+      displayArray = [...emoji3Array];
+    }
+    if (mapObj["emojiArrayType"][0] === "emoji2Array") {
+      displayArray = [...emoji2Array];
+    }
   }
 
   const qSortHeaderNumbers = [...mapObj.qSortHeaderNumbers];
@@ -163,7 +165,7 @@ const ColorBarDiv = styled.div`
   /* width: calc(99.1vw / ${(props) => props.count}); */
   border-right: 1px solid lightgray;
   border-left: 1px solid lightgray;
-  height: 28px;
+  height: 50px;
   border-bottom: 1.5px solid black;
 `;
 
@@ -206,7 +208,7 @@ const HeaderText = styled.div`
   text-align: center;
   font-size: 0.75vw;
   text-align: center;
-  line-height: 0.8rem;
+  line-height: 0.95rem;
 `;
 
 const TextDiv = styled.div`

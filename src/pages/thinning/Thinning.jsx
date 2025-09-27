@@ -42,8 +42,6 @@ const Thinning = () => {
   const cardFontSizeThin = useStore(getCardFontSizeThin);
   const cardHeightThin = useStore(getCardHeightThin);
 
-  console.log("font", cardFontSizeThin);
-
   // Get language object values
   let initialInstructionPart1 = ReactHtmlParser(decodeHTML(langObj.initialInstructionPart1)) || "";
   let initialInstructionPartNeg1 =

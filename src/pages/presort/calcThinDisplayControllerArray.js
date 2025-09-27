@@ -18,7 +18,7 @@ const calcThinDisplayControllerArray = (
       if (+sortRightArrays?.[i]?.[1] < remainingPosCount) {
         tempObject = {
           targetCol: sortRightArrays?.[i]?.[0],
-          maxNum: sortRightArrays?.[i]?.[1],
+          maxNum: +sortRightArrays?.[i]?.[1],
           side: "right",
           iteration: i + 1,
         };
@@ -29,7 +29,7 @@ const calcThinDisplayControllerArray = (
       if (+sortLeftArrays?.[i]?.[1] < remainingNegCount) {
         tempObject2 = {
           targetCol: sortLeftArrays?.[i]?.[0],
-          maxNum: sortLeftArrays?.[i]?.[1],
+          maxNum: +sortLeftArrays?.[i]?.[1],
           side: "left",
           iteration: i + 1,
         };

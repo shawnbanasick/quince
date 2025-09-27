@@ -5,6 +5,11 @@ const processConfigXMLData = (dataObject) => {
   const configObj = {};
   let surveyQuestionArray;
 
+  // let info = dataObject.config.info;
+  let versionObject = data.find((data) => data.attributes.id === "configFileVersion");
+  let version = versionObject.elements[0].text;
+  configObj.mapFileVersion = version;
+
   let surveyData = [];
   for (let i = 0; i < data.length; i++) {
     let value;
