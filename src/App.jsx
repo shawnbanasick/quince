@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import LandingPage from "./pages/landing/Landing";
 import PostsortPage from "./pages/postsort/Postsort";
@@ -6,6 +6,7 @@ import PresortPage from "./pages/presort/Presort";
 import SortPage from "./pages/sort/Sort";
 import SubmitPage from "./pages/submit/Submit";
 import SurveyPage from "./pages/survey/Survey";
+import ThinningPage from "./pages/thinning/Thinning";
 import NoPageFound from "./utilities/NoPageFound";
 import axios from "axios";
 import processConfigXMLData from "./utilities/processConfigXMLData";
@@ -20,11 +21,16 @@ import cloneDeep from "lodash/cloneDeep";
 import shuffle from "lodash/shuffle";
 import convert from "xml-js";
 import ConsentPage from "./pages/consent/Consent";
-// import detectMobileBrowser from "./utilities/detectMobileBrowser";
+import detectMobileBrowser from "./utilities/detectMobileBrowser";
 import MobileFooter from "./pages/footer/MobileFooter";
-// import MobilePresortPage from "./pages/presort/MobilePresort";
+import MobilePresortPage from "./pages/presort/MobilePresort";
+import MobileThinningPage from "./pages/thinning/MobileThinning";
+import MobileSortPage from "./pages/sort/MobileSort";
+import MobileSurveyPage from "./pages/survey/MobileSurvey";
+import MobilePostsortPage from "./pages/postsort/MobilePostsort";
+import MobileSubmitPage from "./pages/submit/MobileSubmit";
+import { satisfies } from "compare-versions";
 
-const getConfigObj = (state) => state.configObj;
 const getSetConfigObj = (state) => state.setConfigObj;
 const getSetLangObj = (state) => state.setLangObj;
 const getSetMapObj = (state) => state.setMapObj;
@@ -36,27 +42,30 @@ const getSetRequiredAnswersObj = (state) => state.setRequiredAnswersObj;
 const getSetDataLoaded = (state) => state.setDataLoaded;
 const getDisplayGoodbyeMessage = (state) => state.displayGoodbyeMessage;
 const getDisableRefreshCheck = (state) => state.disableRefreshCheck;
-const getCurrentPage = (state) => state.currentPage;
+const getConfigObj = (state) => state.configObj;
+const getLangObj = (state) => state.langObj;
+const getMapObj = (state) => state.mapObj;
 
 function App() {
-  // STATE
-  const [isLoading, setLoading] = useState(true);
-  const configObj = useSettingsStore(getConfigObj);
-
   const setConfigObj = useSettingsStore(getSetConfigObj);
   const setLangObj = useSettingsStore(getSetLangObj);
   const setMapObj = useSettingsStore(getSetMapObj);
   const setStatementsObj = useSettingsStore(getSetStatementsObj);
   const setColumnStatements = useSettingsStore(getSetColumnStatements);
-  const setResetColumnStatements = useSettingsStore(
-    getSetResetColumnStatements
-  );
+  const setResetColumnStatements = useSettingsStore(getSetResetColumnStatements);
   const setSurveyQuestionObjArray = useSettingsStore(getSetSurveyQuesObjArray);
   const setRequiredAnswersObj = useSettingsStore(getSetRequiredAnswersObj);
   const setDataLoaded = useStore(getSetDataLoaded);
   const displayGoodbyeMessage = useStore(getDisplayGoodbyeMessage);
   const disableRefreshCheck = useStore(getDisableRefreshCheck);
-  const currentPage = useStore(getCurrentPage);
+  const configObj = useSettingsStore(getConfigObj);
+  const langObj = useSettingsStore(getLangObj);
+  const mapObj = useSettingsStore(getMapObj);
+
+  const [isLoading, setLoading] = useState(true);
+  const [hasShownMapXmlWarning, setHasShownMapXmlWarning] = useState(false);
+  const [hasShownConfigXmlWarning, setHasShownConfigXmlWarning] = useState(false);
+  const [hasShownLanguageXmlWarning, setHasShownLanguageXmlWarning] = useState(false);
 
   useEffect(() => {
     const unloadCallback = (event) => {
@@ -80,28 +89,6 @@ function App() {
     }
   }, [displayGoodbyeMessage, disableRefreshCheck]);
 
-  // useEffect(() => {
-  //   const unloadEvent = (event) => {
-  //     const e = event || window.event;
-  //     e.preventDefault();
-  //     if (e) {
-  //       e.returnValue = "";
-  //     }
-  //     return "";
-  //   };
-
-  //   if (displayGoodbyeMessage) {
-  //       // reset localStorage
-  //       let submitted = localStorage.getItem("submitted");
-  //       if (currentPage === "submit" && submitted === "true") {
-  //         let urlUsercode = localStorage.getItem("urlUsercode");
-  //         localStorage.clear();
-  //         localStorage.setItem("urlUsercode", urlUsercode);
-  //       } else {
-  //         window
-  //       }
-  //     }
-
   useEffect(() => {
     let shuffleCards;
     let vColsObj;
@@ -109,7 +96,7 @@ function App() {
 
     (async () => {
       await axios
-        .get("./settings/language.xml", {
+        .get(`./settings/language.xml`, {
           "Content-Type": "application/xml; charset=utf-8",
         })
         .then(function (response) {
@@ -142,9 +129,7 @@ function App() {
               item.backgroundColor = "white";
               item.element = (
                 <img
-                  src={`/settings/images/image${i + 1}.${
-                    info.configObj.imageFileType
-                  }`}
+                  src={`/settings/images/image${i + 1}.${info.configObj.imageFileType}`}
                   alt={`image${i + 1}`}
                   className="dragObject"
                 />
@@ -194,17 +179,11 @@ function App() {
         .then(function (response) {
           const options = { compact: true, ignoreComment: true, spaces: 4 };
           const statementsData = convert.xml2js(response.data, options);
-          const statementsObj = processStatementsXMLData(
-            statementsData,
-            shuffleCards,
-            vColsObj
-          );
+          const statementsObj = processStatementsXMLData(statementsData, shuffleCards, vColsObj);
           // add for images setup
           statementsObj.columnStatements.imagesList = imagesArray;
           setColumnStatements(statementsObj.columnStatements);
-          const resetColumnStatements = cloneDeep(
-            statementsObj.columnStatements
-          );
+          const resetColumnStatements = cloneDeep(statementsObj.columnStatements);
           setResetColumnStatements(resetColumnStatements);
           setStatementsObj(statementsObj);
         })
@@ -231,22 +210,86 @@ function App() {
     return <LoadingScreen />;
   }
 
+  // CHECK VERSION NUMBERS
+  const baseTemplateVersion = "1.0.0";
+  const maxTemplateVersion = "1.1.0";
+  const langFileVersion = langObj["langFileVersion"] || "";
+  const configFileVersion = configObj["configFileVersion"] || "";
+  const mapFileVersion = mapObj["mapFileVersion"] || "";
+
+  try {
+    if (
+      !satisfies(langFileVersion, `>=${baseTemplateVersion} <${maxTemplateVersion}`) &&
+      hasShownLanguageXmlWarning === false
+    ) {
+      alert(
+        "The language.xml file is out-of-date. Please import the file into the Quince Configurator to update it to the newest version, then add it to your project's settings folder and try again."
+      );
+      setHasShownLanguageXmlWarning(true);
+    }
+    if (
+      !satisfies(configFileVersion, `>=${baseTemplateVersion} <${maxTemplateVersion}`) &&
+      hasShownConfigXmlWarning === false
+    ) {
+      alert(
+        "The config.xml file is out-of-date. Please import the file into the Quince Configurator to update it to the newest version, then add it to your project's settings folder and try again."
+      );
+      setHasShownConfigXmlWarning(true);
+    }
+    if (
+      !satisfies(mapFileVersion, `>=${baseTemplateVersion} <${maxTemplateVersion}`) &&
+      hasShownMapXmlWarning === false
+    ) {
+      alert(
+        "The map.xml file is out-of-date. Please import the file into the Quince Configurator to update it to the newest version, then add it to your project's settings folder and try again."
+      );
+      setHasShownMapXmlWarning(true);
+    }
+  } catch (error) {
+    console.log("There was an error determining the settings file versions ");
+    console.log(error);
+  }
+
   if (configObj.useMobileMode === true || configObj.useMobileMode === "true") {
-    let isMobile = false; // let isMobile = detectMobileBrowser();
+    let isMobile = detectMobileBrowser();
     if (isMobile) {
       console.log("Mobile Mode");
+
+      if (configObj.showConsentPage === true || configObj.showConsentPage === "true") {
+        return (
+          <div className="App">
+            <Router>
+              <Switch>
+                <Route exact path="/" component={ConsentPage} />
+                <Route exact path="/presort" component={MobilePresortPage} />
+                <Route exact path="/thin" component={MobileThinningPage} />
+                <Route exact path="/sort" component={MobileSortPage} />
+                <Route exact path="/postsort" component={MobilePostsortPage} />
+                <Route exact path="/survey" component={MobileSurveyPage} />
+                <Route exact path="/submit" component={MobileSubmitPage} />
+                <Route exact path="/landing" component={LandingPage} />
+                <Route component={NoPageFound} />
+              </Switch>
+              <Suspense>
+                <MobileFooter />
+              </Suspense>
+            </Router>
+          </div>
+        );
+      }
+
       return (
         <div className="App">
           <Router>
             <Switch>
-              {/*<Route exact path="/presort" component={MobilePresortPage} />
-
-               <Route exact path="/presort" component={PresortPage} />
-              <Route exact path="/sort" component={SortPage} />
-          <Route exact path="/postsort" component={PostsortPage} />
-          <Route exact path="/survey" component={SurveyPage} />
-          <Route exact path="/submit" component={SubmitPage} /> */}
               <Route exact path="/" component={LandingPage} />
+              <Route exact path="/presort" component={MobilePresortPage} />
+              <Route exact path="/thin" component={MobileThinningPage} />
+              {/* <Route exact path="/presort" component={PresortPage} /> */}
+              <Route exact path="/sort" component={MobileSortPage} />
+              <Route exact path="/postsort" component={MobilePostsortPage} />
+              <Route exact path="/survey" component={MobileSurveyPage} />
+              <Route exact path="/submit" component={MobileSubmitPage} />
               <Route component={NoPageFound} />
             </Switch>
             <Suspense>
@@ -258,16 +301,15 @@ function App() {
     }
   }
 
-  if (
-    configObj.showConsentPage === true ||
-    configObj.showConsentPage === "true"
-  ) {
+  if (configObj.showConsentPage === true || configObj.showConsentPage === "true") {
+    // routing for desktop, with consent page, no thin process
     return (
       <div className="App">
         <Router>
           <Switch>
             <Route exact path="/" component={ConsentPage} />
             <Route exact path="/presort" component={PresortPage} />
+            <Route exact path="/thin" component={ThinningPage} />
             <Route exact path="/sort" component={SortPage} />
             <Route exact path="/postsort" component={PostsortPage} />
             <Route exact path="/survey" component={SurveyPage} />
@@ -281,26 +323,28 @@ function App() {
         </Router>
       </div>
     );
-  } else {
-    return (
-      <div className="App">
-        <Router>
-          <Switch>
-            <Route exact path="/" component={LandingPage} />
-            <Route exact path="/presort" component={PresortPage} />
-            <Route exact path="/sort" component={SortPage} />
-            <Route exact path="/postsort" component={PostsortPage} />
-            <Route exact path="/survey" component={SurveyPage} />
-            <Route exact path="/submit" component={SubmitPage} />
-            <Route component={NoPageFound} />
-          </Switch>
-          <Suspense>
-            <StyledFooter />
-          </Suspense>
-        </Router>
-      </div>
-    );
   }
+
+  // default routing for desktop, no consent page, no thin process
+  return (
+    <div className="App">
+      <Router>
+        <Switch>
+          <Route exact path="/" component={LandingPage} />
+          <Route exact path="/presort" component={PresortPage} />
+          <Route exact path="/thin" component={ThinningPage} />
+          <Route exact path="/sort" component={SortPage} />
+          <Route exact path="/postsort" component={PostsortPage} />
+          <Route exact path="/survey" component={SurveyPage} />
+          <Route exact path="/submit" component={SubmitPage} />
+          <Route component={NoPageFound} />
+        </Switch>
+        <Suspense>
+          <StyledFooter />
+        </Suspense>
+      </Router>
+    </div>
+  );
 }
 
 export default App;

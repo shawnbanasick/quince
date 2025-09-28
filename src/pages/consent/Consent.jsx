@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import styled from "styled-components";
 import calculateTimeOnPage from "../../utilities/calculateTimeOnPage";
 import decodeHTML from "../../utilities/decodeHTML";
@@ -18,8 +18,8 @@ const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetDisplayNextButton = (state) => state.setDisplayNextButton;
 const getSetUrlUsercode = (state) => state.setUrlUsercode;
 
-const PostSort = () => {
-  const ElementRef = useRef(null);
+const ConsentPage = () => {
+  // const ElementRef = useRef(null);
 
   // GLOBAL STATE
   const langObj = useSettingsStore(getLangObj);
@@ -29,13 +29,13 @@ const PostSort = () => {
   const setDisplayNextButton = useStore(getSetDisplayNextButton);
   const setUrlUsercode = useStore(getSetUrlUsercode);
 
-  setDisplayNextButton(true);
-
   const headerBarColor = configObj.headerBarColor;
   const consentText = ReactHtmlParser(decodeHTML(langObj.consentText)) || "";
 
+  const startTimeRef = useRef(null);
   useEffect(() => {
-    let startTime = Date.now();
+    setDisplayNextButton(true);
+    startTimeRef.current = Date.now();
     const setStateAsync = async () => {
       await setCurrentPage("consent");
       localStorage.setItem("currentPage", "consent");
@@ -43,9 +43,9 @@ const PostSort = () => {
     };
     setStateAsync();
     return () => {
-      calculateTimeOnPage(startTime, "consentPage", "consentPage");
+      calculateTimeOnPage(startTimeRef.current, "consentPage", "consentPage");
     };
-  }, [setCurrentPage, setProgressScore]);
+  }, [setCurrentPage, setProgressScore, setDisplayNextButton]);
 
   useEffect(() => {
     // set participant Id if set in URL
@@ -54,11 +54,7 @@ const PostSort = () => {
     if (urlString === undefined || urlString === null) {
       let urlName = localStorage.getItem("urlUsercode");
       // if nothing in local storage, set to "not_set"
-      if (
-        urlName === null ||
-        urlName === undefined ||
-        urlName === "undefined"
-      ) {
+      if (urlName === null || urlName === undefined || urlName === "undefined") {
         console.log("no url usercode in storage");
         setUrlUsercode("not_set");
         localStorage.setItem("urlUsercode", "not_set");
@@ -81,25 +77,24 @@ const PostSort = () => {
     }
   }, [setUrlUsercode, configObj]);
 
-  const titleText =
-    ReactHtmlParser(decodeHTML(langObj.consentTitleBarText)) || "";
+  const titleText = ReactHtmlParser(decodeHTML(langObj.consentTitleBarText)) || "";
 
   return (
-    <div>
+    <>
       <ConsentModal />
       <PromptUnload />
       <SortTitleBar background={headerBarColor}>{titleText}</SortTitleBar>
       <ContainerDiv>
         <div>{consentText}</div>
       </ContainerDiv>
-    </div>
+    </>
   );
 };
 
-export default PostSort;
+export default ConsentPage;
 
 const SortTitleBar = styled.div`
-  width: 100vw;
+  width: 100%;
   padding-left: 1.5vw;
   padding-right: 1.5vw;
   padding-top: 5px;
@@ -118,13 +113,20 @@ const SortTitleBar = styled.div`
 const ContainerDiv = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
-  padding: 5vw;
+  padding-left: 5vw;
+  padding-right: 5vw;
+  padding-bottom: 90px;
   margin-bottom: 70px;
-  padding-top: 50px;
   transition: 0.3s ease all;
-  margin-top: 50px;
+  margin-top: 70px;
+  overflow-y: auto;
+  width: 98vw;
+  font-size: 1.2em;
+  height: calc(100vh - 80px);
+  /* border: 3px solid red; */
+  -webkit-overflow-scrolling: touch;
 
   img {
     margin-top: 20px;

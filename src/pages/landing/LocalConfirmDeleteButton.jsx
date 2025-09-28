@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import React from "react";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
 import useStore from "../../globalState/useStore";
@@ -20,8 +19,7 @@ const LogInSubmitButton = (props) => {
   const setLocalStoredQsorts = useLocalPersist(getSetLocalStoredQsorts);
   const localStoredQsorts = useLocalPersist(getLocalStoredQsorts);
 
-  const localDeleteButtonText =
-    ReactHtmlParser(decodeHTML(langObj.localDeleteButtonText)) || "";
+  const localDeleteButtonText = ReactHtmlParser(decodeHTML(langObj.localDeleteButtonText)) || "";
 
   const clearLocalStorage = () => {
     console.log("deleted localStorage");

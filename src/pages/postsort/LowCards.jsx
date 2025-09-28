@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
@@ -7,19 +7,21 @@ import useStore from "../../globalState/useStore";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import { Modal } from "react-responsive-modal";
 import useLocalStorage from "../../utilities/useLocalStorage";
+import EmojiN2 from "../../assets/emojiN2.svg?react";
+import EmojiN3 from "../../assets/emojiN3.svg?react";
+import EmojiN5 from "../../assets/emojiN5.svg?react";
 
 /* eslint react/prop-types: 0 */
 
 // format example ===> {high: ["column4"], middle: ["column0"], low: ["columnN4"]}
 
 const getPostsortCommentCheckObj = (state) => state.postsortCommentCheckObj;
-const getSetPostsortCommentCheckObj = (state) =>
-  state.setPostsortCommentCheckObj;
+const getSetPostsortCommentCheckObj = (state) => state.setPostsortCommentCheckObj;
 const getConfigObj = (state) => state.configObj;
-const getShowPostsortCommentHighlighting = (state) =>
-  state.showPostsortCommentHighlighting;
+const getShowPostsortCommentHighlighting = (state) => state.showPostsortCommentHighlighting;
 const getPostsortDualImageArray = (state) => state.postsortDualImageArray;
 const getSetPostsortDualImageArray = (state) => state.setPostsortDualImageArray;
+const getMapObject = (state) => state.mapObj;
 
 const LowCards = (props) => {
   // HELPER FUNCTION
@@ -46,16 +48,99 @@ const LowCards = (props) => {
   const postsortCommentCheckObj = useStore(getPostsortCommentCheckObj);
   const setPostsortCommentCheckObj = useStore(getSetPostsortCommentCheckObj);
   const configObj = useSettingsStore(getConfigObj);
-  const showPostsortCommentHighlighting = useStore(
-    getShowPostsortCommentHighlighting
-  );
+  const showPostsortCommentHighlighting = useStore(getShowPostsortCommentHighlighting);
   const postsortDualImageArray = useStore(getPostsortDualImageArray);
   const setPostsortDualImageArray = useStore(getSetPostsortDualImageArray);
-
+  const mapObj = useSettingsStore(getMapObject);
   const { height, width, cardFontSize, disagreeObj } = props;
   const lowCards = columnStatements.vCols[disagreeObj.columnDisplay];
-  const { disagreeText, placeholder } = disagreeObj;
+  let { placeholder, placedOn } = disagreeObj;
   let columnDisplay = disagreeObj.columnDisplay;
+
+  // IMAGES RELATED
+  let useImages = configObj.useImages;
+  if (useImages === "false") useImages = false;
+  if (useImages === "true") useImages = true;
+
+  // get header text
+  let columnLabel = "";
+  if (mapObj["colTextLabelsArray"]) {
+    let headersTextArray = [...mapObj["colTextLabelsArray"]];
+    columnLabel = headersTextArray[0];
+  }
+
+  let columnNum = "";
+  if (mapObj["useColLabelNumsPostsort"]) {
+    let headersNumArray = [...mapObj["qSortHeaderNumbers"]];
+    columnNum = `${placedOn} ${headersNumArray[0]}`;
+  }
+
+  const getEmoji = (selector) => {
+    if (selector[0] === "emoji5Array") {
+      return <EmojiN5 key="emojiN5" />;
+    }
+    if (selector[0] === "emoji4Array") {
+      return <EmojiN5 key="emojiN5" />;
+    }
+    if (selector[0] === "emoji3Array") {
+      return <EmojiN3 key="emojiN3" />;
+    }
+    if (selector[0] === "emoji2Array") {
+      return <EmojiN2 key="emojiN2" />;
+    }
+  };
+
+  const backgroundColor1 = [...mapObj["columnHeadersColorsArray"]];
+  const backgroundColor = backgroundColor1[0];
+
+  let shouldDisplayNums;
+  let displayNumbers = mapObj["useColLabelNumsPostsort"][0];
+
+  if (displayNumbers !== undefined || displayNumbers !== null) {
+    if (displayNumbers === false || displayNumbers === "false") {
+      shouldDisplayNums = false;
+    } else {
+      shouldDisplayNums = true;
+    }
+  }
+
+  let shouldDisplayText;
+  let displayText = mapObj["useColLabelTextPostsort"][0];
+
+  if (displayText !== undefined || displayText !== null) {
+    if (displayText === false || displayText === "false") {
+      shouldDisplayText = false;
+    } else {
+      shouldDisplayText = true;
+    }
+  }
+
+  let shouldDisplayEmojis;
+  let displayEmoji = mapObj["useColLabelEmojiPostsort"][0];
+  if (displayEmoji !== undefined || displayEmoji !== null) {
+    if (displayEmoji === false || displayEmoji === "false") {
+      shouldDisplayEmojis = false;
+    } else {
+      shouldDisplayEmojis = true;
+    }
+  }
+
+  let disagreeTextElement = (
+    <RowDiv>
+      {shouldDisplayEmojis && <EmojiDiv>{getEmoji(mapObj["emojiArrayType"])}</EmojiDiv>}
+      {/* {agreeText} */}
+      {shouldDisplayText && <HeaderText>{columnLabel}</HeaderText>}
+      {shouldDisplayNums && <HeaderNumber>{columnNum}</HeaderNumber>}
+      {shouldDisplayEmojis && <EmojiDiv>{getEmoji(mapObj["emojiArrayType"])}</EmojiDiv>}
+    </RowDiv>
+  );
+
+  let noResponseCheckArrayLC1 = [];
+  props.lowCards.forEach((item, index) => {
+    let idString = `${columnDisplay}_${index}: ${item.id}`;
+    noResponseCheckArrayLC1.push(idString);
+  });
+  localStorage.setItem("noResponseCheckArrayLC1", JSON.stringify(noResponseCheckArrayLC1));
 
   // on double click of card, enlarge image
   const handleOpenImageModal = (e, src) => {
@@ -76,8 +161,7 @@ const LowCards = (props) => {
   // on change, get text and add comment to card object
   const onChange = (event, itemId) => {
     const results = JSON.parse(localStorage.getItem("resultsPostsort")) || {};
-    let allCommentsObj =
-      JSON.parse(localStorage.getItem("allCommentsObj")) || {};
+    let allCommentsObj = JSON.parse(localStorage.getItem("allCommentsObj")) || {};
 
     // set comment check object for Results formatting on Submit page
     let commentLength = event.target.value.length;
@@ -108,19 +192,17 @@ const LowCards = (props) => {
           el.comment = sanitizeString(comment);
           // assign to comments object
 
-          results[identifier] = `(${el.id}) ${comment}`;
+          results[identifier] = `(${el.id}): ${comment}`;
           // setup persistence for comments
-          allCommentsObj[identifier] = `(${el.id}) ${comment}`;
-          allCommentsObj[
-            `textArea-${columnDisplay}_${itemId + 1}`
-          ] = `${comment}`;
+          allCommentsObj[identifier] = `(${el.id}): ${comment}`;
+          allCommentsObj[`textArea-${columnDisplay}_${itemId + 1}`] = `${comment}`;
           setRequiredCommentsObject((requiredCommentsObject) => {
             return { ...requiredCommentsObject, [`lc-${itemId}`]: true };
           });
         } else {
           el.comment = "";
-          results[identifier] = "";
-          allCommentsObj[identifier] = "";
+          results[identifier] = `(${el.id}): no response`;
+          allCommentsObj[identifier] = `(${el.id}): no response`;
           allCommentsObj[`textArea-${columnDisplay}_${itemId + 1}`] = "";
           setRequiredCommentsObject((requiredCommentsObject) => {
             return { ...requiredCommentsObject, [`lc-${itemId}`]: false };
@@ -136,10 +218,8 @@ const LowCards = (props) => {
   // MAP cards to DOM
   return lowCards.map((item, index) => {
     let content = ReactHtmlParser(`<div>${decodeHTML(item.statement)}</div>`);
-    let allCommentsObj =
-      JSON.parse(localStorage.getItem("allCommentsObj")) || {};
-    let cardComment =
-      allCommentsObj[`textArea-${columnDisplay}_${+index + 1}`] || "";
+    let allCommentsObj = JSON.parse(localStorage.getItem("allCommentsObj")) || {};
+    let cardComment = allCommentsObj[`textArea-${columnDisplay}_${+index + 1}`] || "";
 
     if (configObj.useImages === true) {
       content = ReactHtmlParser(
@@ -179,12 +259,7 @@ const LowCards = (props) => {
           }}
           classNames={{ overlay: "dualImageOverlay", modal: "dualImageModal" }}
         >
-          <img
-            src={postsortDualImageArray[0]}
-            width="49.5%"
-            height="auto"
-            alt="modalImage"
-          />
+          <img src={postsortDualImageArray[0]} width="49.5%" height="auto" alt="modalImage" />
           <img
             src={postsortDualImageArray[1]}
             width="49.5%"
@@ -193,16 +268,30 @@ const LowCards = (props) => {
             alt="modalImage2"
           />
         </Modal>
-        <CardTag cardFontSize={cardFontSize}>{disagreeText}</CardTag>
+        <CardTag cardFontSize={cardFontSize} backgroundColor={backgroundColor}>
+          {disagreeTextElement}
+        </CardTag>
         <CardAndTextHolder>
-          <Card
-            cardFontSize={cardFontSize}
-            width={width}
-            height={height}
-            onClick={(e) => handleOpenImageModal(e, item.element.props.src)}
-          >
-            {content}
-          </Card>
+          {useImages ? (
+            <Card
+              cardFontSize={cardFontSize}
+              width={width}
+              height={height}
+              cardColor={item.cardColor}
+              onClick={(e) => handleOpenImageModal(e, item.element.props.src)}
+            >
+              {content}
+            </Card>
+          ) : (
+            <Card
+              cardFontSize={cardFontSize}
+              width={width}
+              height={height}
+              cardColor={item.cardColor}
+            >
+              {content}
+            </Card>
+          )}
           <TagContainerDiv>
             <CommentArea
               bgColor={highlighting}
@@ -239,7 +328,7 @@ const CardTag = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  background: lightpink;
+  background: ${(props) => `${props.backgroundColor}`};
   color: black;
   text-align: center;
   font-size: ${(props) => `${props.cardFontSize}px`};
@@ -256,8 +345,7 @@ const CardAndTextHolder = styled.div`
 const CommentArea = styled.textarea`
   padding: 10px;
   margin-top: 2px;
-  background-color: ${(props) =>
-    props.bgColor ? "whitesmoke" : "rgba(253, 224, 71, .5)"};
+  background-color: ${(props) => (props.bgColor ? "whitesmoke" : "rgba(253, 224, 71, .5)")};
   height: ${(props) => `${props.height}px;`};
   font-size: ${(props) => `${props.cardFontSize}px`};
   width: calc(100% - 6px);
@@ -284,6 +372,7 @@ const Card = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  user-select: none;
   border: 2px solid black;
   background-color: #f6f6f6;
   text-align: center;
@@ -293,4 +382,45 @@ const Card = styled.div`
     max-width: 100%;
     max-height: 100%;
   }
+`;
+
+const EmojiDiv = styled.div`
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+`;
+
+const RowDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+`;
+
+const HeaderText = styled.div`
+  display: flex;
+  padding-top: 3px;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-weight: bold;
+  text-align: center;
+  /* font-size: 1vw; */
+  font-size: clamp(1rem, 1vw, 1.5rem);
+  text-align: center;
+  line-height: 0.8rem;
+`;
+
+const HeaderNumber = styled.span`
+  font-weight: bold;
+  padding-top: 3px;
+
+  font-size: clamp(1rem, 1vw, 1.5rem);
+  /* font-size: 16px; */
+  line-height: 1;
 `;

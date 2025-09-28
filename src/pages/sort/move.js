@@ -38,12 +38,11 @@ const move = (
   // for sort complete checking
   const columnLengthCheckArray = [];
   for (let i = 0; i < qSortHeaders.length; i++) {
-    const currentColumnLength =
-      columnStatements.vCols[`column${qSortHeaders[i]}`];
+    const currentColumnLength = columnStatements.vCols[`column${qSortHeaders[i]}`];
     columnLengthCheckArray.push(currentColumnLength.length);
   }
   // sort mutates, so clone
-  const qSortPatternClone = [...qSortPattern];
+  const qSortPatternClone = [...qSortPattern].map((x) => +x);
   const overloadArrayCheck = [...columnLengthCheckArray];
   const match = isEqual(columnLengthCheckArray, qSortPatternClone);
 

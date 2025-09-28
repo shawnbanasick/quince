@@ -6,6 +6,10 @@ const processMapXMLData = (dataObject) => {
   const vColsObj = {};
   const colInfoArray = [];
 
+  let info = dataObject.map.info;
+  let versionObject = info.find((infoItem) => infoItem._attributes.id === "mapFileVersion");
+  mapObj.mapFileVersion = versionObject._text;
+
   // COLUMN LOOP -> get card counts per column
   for (let i = 0; i < data.column.length; i++) {
     let keyVal;
@@ -26,18 +30,45 @@ const processMapXMLData = (dataObject) => {
     colInfoArray.push(tempObj);
   }
 
-  // ITEM LOOP -> get color arrays and q sort pattern
+  // ITEMS VALUES ---> get color arrays and q sort pattern, etc...
+  const itemsArray = dataObject.map.item;
+
+  // qSortPattern
+  let qSortPattern = [];
+  const qSortPatternObject = itemsArray.find(
+    (itemsArray) => itemsArray._attributes.id === "qSortPattern"
+  );
+  const qSortPatternText = qSortPatternObject._text;
+  qSortPattern = qSortPatternText.split(",").map((x) => +x);
+  mapObj.qSortPattern = qSortPattern;
+
+  // qSortHeaderNumbers
+  // qSortHeaders
+  // columnHeadersColorsArray
+  // columnColorsArray
+  // colTextLabelsArray
+  // emojiArrayType
+  // useColLabelEmojiPresort
+  // useColLabelNums
+  // useColLabelText
+  // useColLabelEmoji
+  // useColLabelEmojiPostsort
+  // useColLabelTextPostsort
+  // useColLabelNumsPostsort
+
   for (let j = 0; j < data.item.length; j++) {
     let splitArray = [];
     let value = data.item[j]._text;
     let key = data.item[j]._attributes.id;
     // numerical array ==> convert to integers
-    if (key === "qSortPattern") {
-      splitArray = value.split(",").map((x) => +x);
-    } else {
+    if (value === undefined || value === null) {
+      value = "";
+    } else if (value.includes(",")) {
       splitArray = value.split(",");
+      mapObj[key] = splitArray;
+    } else {
+      mapObj[key] = [value];
     }
-    mapObj[key] = splitArray;
   }
 
   // create converter object for postsort

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import LowCards from "./LowCards";
 import LowCards2 from "./LowCards2";
 import HighCards from "./HighCards";
@@ -39,12 +39,8 @@ const PostSort = () => {
 
   // PERSISTENT STATE
   const columnStatements = JSON.parse(localStorage.getItem("columnStatements"));
-  let cardFontSizePersist = +JSON.parse(
-    localStorage.getItem("fontSizePostsort")
-  );
-  let cardHeightPersist = +JSON.parse(
-    localStorage.getItem("cardHeightPostsort")
-  );
+  let cardFontSizePersist = +JSON.parse(localStorage.getItem("fontSizePostsort"));
+  let cardHeightPersist = +JSON.parse(localStorage.getItem("cardHeightPostsort"));
 
   if (cardFontSizePersist) {
     cardFontSizePostsort = cardFontSizePersist;
@@ -58,16 +54,16 @@ const PostSort = () => {
   setDisplayNextButton(true);
 
   const headerBarColor = configObj.headerBarColor;
-  const postsortInstructions =
-    ReactHtmlParser(decodeHTML(langObj.postsortInstructions)) || "";
+  const postsortInstructions = ReactHtmlParser(decodeHTML(langObj.postsortInstructions)) || "";
 
   useEffect(() => {
     const Elementcount = ElementRef.current.childNodes.length;
     localStorage.setItem("postsortCommentCardCount", Elementcount - 1);
   });
 
+  const startTimeRef = useRef(null);
   useEffect(() => {
-    let startTime = Date.now();
+    startTimeRef.current = Date.now();
     const setStateAsync = async () => {
       await setCurrentPage("postsort");
       localStorage.setItem("currentPage", "postsort");
@@ -75,7 +71,7 @@ const PostSort = () => {
     };
     setStateAsync();
     return () => {
-      calculateTimeOnPage(startTime, "postsortPage", "postsortPage");
+      calculateTimeOnPage(startTimeRef.current, "postsortPage", "postsortPage");
     };
   }, [setCurrentPage, setProgressScore]);
 
@@ -84,8 +80,8 @@ const PostSort = () => {
 
   const titleText = ReactHtmlParser(decodeHTML(langObj.postsortHeader)) || "";
   const agree = ReactHtmlParser(decodeHTML(langObj.postsortAgreement)) || "";
-  const disagree =
-    ReactHtmlParser(decodeHTML(langObj.postsortDisagreement)) || "";
+  const placedOn = ReactHtmlParser(decodeHTML(langObj.postsortPlacedOn)) || "";
+  const disagree = ReactHtmlParser(decodeHTML(langObj.postsortDisagreement)) || "";
   const placeholder = langObj.placeholder;
 
   const keys = Object.keys(mapObj.postsortConvertObj);
@@ -107,6 +103,7 @@ const PostSort = () => {
   agreeObj.columnDisplay2 = [postsortAgreeColDisp2];
   agreeObj.displaySecondColumn = showSecondPosColumn;
   agreeObj.placeholder = placeholder;
+  agreeObj.placedOn = placedOn;
 
   const disagreeObj = {};
   disagreeObj.disagreeText = disagree;
@@ -114,6 +111,7 @@ const PostSort = () => {
   disagreeObj.columnDisplay2 = [postsortDisagreeColDisp2];
   disagreeObj.displaySecondColumn = showSecondNegColumn;
   disagreeObj.placeholder = placeholder;
+  disagreeObj.placedOn = placedOn;
 
   const highCards = columnStatements?.vCols[agreeObj.columnDisplay];
   const highCards2 = columnStatements?.vCols[agreeObj.columnDisplay2];
@@ -188,6 +186,7 @@ const SortTitleBar = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  user-select: none;
   color: white;
   font-weight: bold;
   font-size: 28px;
@@ -201,6 +200,7 @@ const PostsortInstructions = styled.div`
   align-self: center;
   margin-top: 30px;
   text-align: center;
+  user-select: none;
   color: black;
   font-size: 2vh;
   font-weight: normal;

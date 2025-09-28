@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import SurveyTextElement from "./SurveyTextElement";
 import SurveyTextAreaElement from "./SurveyTextAreaElement";
@@ -58,12 +58,16 @@ const SurveyPage = () => {
     setRequiredAnswersObj(requiredAnswersObj);
   }, [setRequiredAnswersObj, requiredAnswersObj]);
 
+  const startTimeRef = useRef(null);
   useEffect(() => {
-    let startTime = Date.now();
-    setCurrentPage("survey");
-    localStorage.setItem("currentPage", "survey");
+    startTimeRef.current = Date.now();
+    const setStateAsync = async () => {
+      await setCurrentPage("survey");
+      localStorage.setItem("currentPage", "survey");
+    };
+    setStateAsync();
     return () => {
-      calculateTimeOnPage(startTime, "surveyPage", "surveyPage");
+      calculateTimeOnPage(startTimeRef.current, "surveyPage", "surveyPage");
     };
   }, [setCurrentPage]);
 
@@ -71,14 +75,10 @@ const SurveyPage = () => {
     if (!surveyQuestionObjects) {
       return <NoQuestionsDiv>No questions added.</NoQuestionsDiv>;
     } else {
-      const QuestionList = surveyQuestionObjects.map((object, index) => {
+      const QuestionList = surveyQuestionObjects.map((object) => {
         if (object.type === "text") {
           return (
-            <SurveyTextElement
-              key={uuid()}
-              check={checkRequiredQuestionsComplete}
-              opts={object}
-            />
+            <SurveyTextElement key={uuid()} check={checkRequiredQuestionsComplete} opts={object} />
           );
         }
         if (object.type === "textarea") {
@@ -92,11 +92,7 @@ const SurveyPage = () => {
         }
         if (object.type === "radio") {
           return (
-            <SurveyRadioElement
-              key={uuid()}
-              check={checkRequiredQuestionsComplete}
-              opts={object}
-            />
+            <SurveyRadioElement key={uuid()} check={checkRequiredQuestionsComplete} opts={object} />
           );
         }
         if (object.type === "select") {

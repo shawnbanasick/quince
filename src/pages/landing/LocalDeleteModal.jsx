@@ -1,4 +1,3 @@
-import React from "react";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 import styled from "styled-components";
@@ -18,22 +17,15 @@ const LocalDeleteModal = () => {
   const triggerLocalDeleteModal = useStore(getTriggerLocalDeleteModal);
   const setLocalDeleteModal = useStore(getSetLocalDeleteModal);
 
-  const localDeleteModalHead =
-    ReactHtmlParser(decodeHTML(langObj.localDeleteModalHead)) || "";
-  const localDeleteModalText =
-    ReactHtmlParser(decodeHTML(langObj.localDeleteModalText)) || "";
+  const localDeleteModalHead = ReactHtmlParser(decodeHTML(langObj.localDeleteModalHead)) || "";
+  const localDeleteModalText = ReactHtmlParser(decodeHTML(langObj.localDeleteModalText)) || "";
 
   const onCloseModal = () => {
     setLocalDeleteModal(false);
   };
 
   return (
-    <Modal
-      className="customModal"
-      open={triggerLocalDeleteModal}
-      onClose={onCloseModal}
-      center
-    >
+    <Modal className="customModal" open={triggerLocalDeleteModal} onClose={onCloseModal} center>
       <ModalHeader>{localDeleteModalHead}</ModalHeader>
       <hr />
       <ModalContent>{localDeleteModalText}</ModalContent>

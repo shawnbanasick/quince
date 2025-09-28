@@ -1,4 +1,4 @@
-const createPresortSlice = (set, get) => ({
+const createPresortSlice = (set) => ({
   triggerPresortModal: true,
   presortNoReturn: false,
   presortPosCards: [],
@@ -10,14 +10,37 @@ const createPresortSlice = (set, get) => ({
   triggerPresortFinishedModal: false,
   triggerPresortPreventNavModal: false,
   results: {},
-  mobilePresortResults: [],
+  m_PresortResults: [],
   triggerMobilePresortFinishedModal: false,
+  mobilePresortFontSize: 2,
+  mobilePresortViewSize: 42,
+  triggerMobilePresortRedoModal: false,
+  triggerMobilePresortHelpModal: true,
+  triggerMobilePresortPreventNavModal: false,
 
+  setTriggerMobilePresortPreventNavModal: (bool) => {
+    set(() => ({ triggerMobilePresortPreventNavModal: bool }));
+  },
+  setTriggerMobilePresortHelpModal: (bool) => {
+    set(() => ({ triggerMobilePresortHelpModal: bool }));
+  },
+  setTriggerMobilePresortRedoModal: (bool) => {
+    set(() => ({ triggerMobilePresortRedoModal: bool }));
+  },
+  setm_PresortStatementCount: (value) => {
+    set(() => ({ m_PresortStatementCount: value }));
+  },
+  setMobilePresortViewSize: (value) => {
+    set(() => ({ mobilePresortViewSize: value }));
+  },
+  setMobilePresortFontSize: (value) => {
+    set(() => ({ mobilePresortFontSize: value }));
+  },
   setTriggerMobilePresortFinishedModal: (bool) => {
     set(() => ({ triggerMobilePresortFinishedModal: bool }));
   },
-  setMobilePresortResults: (inputValue) => {
-    set(() => ({ mobilePresortResults: inputValue }));
+  setm_PresortResults: (inputValue) => {
+    set(() => ({ m_PresortResults: inputValue }));
   },
   setPresortNoReturn: (inputValue) => {
     set(() => ({ presortNoReturn: inputValue }));

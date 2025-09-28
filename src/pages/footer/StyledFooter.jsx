@@ -46,9 +46,7 @@ const StyledFooter = () => {
   }
 
   let logoHtml = ReactHtmlParser(
-    decodeHTML(
-      `{{{center}}}{{{img src="./logo/logo.png" height="40" width="250" /}}}{{{/center}}}`
-    )
+    decodeHTML(`{{{center}}}{{{img src="./logo/logo.png" height="40" width="250" /}}}{{{/center}}}`)
   );
 
   let nextButtonText;
@@ -64,14 +62,8 @@ const StyledFooter = () => {
     const usercode = localUsercode;
     const projectName = configObj.studyTitle;
     const today = new Date();
-    const date =
-      today.getFullYear() +
-      "-" +
-      (today.getMonth() + 1) +
-      "-" +
-      today.getDate();
-    const time =
-      today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    const date = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+    const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     const dateTime = date + " " + time;
 
     logoHtml = `${usercode} - ${projectName} - ${dateTime}`;
@@ -81,16 +73,17 @@ const StyledFooter = () => {
   const showSurvey = configObj.showSurvey;
   const useImages = configObj.useImages;
   const showConsent = configObj.showConsentPage;
+  const showThinning = configObj.useThinProcess;
   let showProgressBar = true;
 
   const totalProgressScore = calcProgressScore(
-    currentPage,
-    additionalProgress,
-    additionalProgressSort,
-    showPostsort,
-    showSurvey,
-    additionalProgress,
-    additionalProgressSort
+    currentPage
+    // additionalProgress,
+    // additionalProgressSort,
+    // showPostsort,
+    // showSurvey,
+    // additionalProgress,
+    // additionalProgressSort
   );
 
   if (currentPage === "consent") {
@@ -165,24 +158,15 @@ const StyledFooter = () => {
     </React.Fragment>
   );
 
-  const nextPage = getNextPage(
-    currentPage,
-    showPostsort,
-    showSurvey,
-    showConsent
-  );
+  const nextPage = getNextPage(currentPage, showPostsort, showSurvey, showConsent, showThinning);
 
   return (
     <StyledFooterDiv>
       <LogoContainer>{logoHtml}</LogoContainer>
       <CenterDiv>{CenterContent}</CenterDiv>
       <ButtonDiv>
-        {showBackButton && (
-          <PostsortBackButton to={"/sort"}>{backButtonText}</PostsortBackButton>
-        )}
-        {displayNextButton && (
-          <NextButton to={nextPage}>{nextButtonText}</NextButton>
-        )}
+        {showBackButton && <PostsortBackButton to={"/sort"}>{backButtonText}</PostsortBackButton>}
+        {displayNextButton && <NextButton to={nextPage}>{nextButtonText}</NextButton>}
       </ButtonDiv>
     </StyledFooterDiv>
   );

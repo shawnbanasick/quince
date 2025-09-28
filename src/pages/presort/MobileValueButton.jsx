@@ -7,8 +7,10 @@ const MobileValueButton = (props) => {
       value={props.value}
       text={props.text}
       onTouchStart={props.onClick}
+      child={props.child}
     >
-      <h1>{props.text}</h1>
+      {props.child}
+      {/* <h1>{props.text}</h1> */}
     </Container>
   );
 };
@@ -18,20 +20,25 @@ export default MobileValueButton;
 const Container = styled.div`
   display: flex;
   background-color: ${(props) => props.color};
-  width: 20vw;
+  width: 80vw;
   height: 8vw;
-  font-size: 1.7vh;
-  font-weight: normal;
-  padding-bottom: 2px;
+  font-size: 6vw;
+  font-weight: bold;
+  padding-top: 2px;
+  padding-bottom: 1px;
   padding-right: 0px;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  outline: 1px solid darkgray;
-  border-radius: 5px;
+  outline: 1px solid #36454f;
+  border-radius: 1.5px;
   user-select: none;
   &:active {
-    background-color: orange;
-    outline: 3px solid darkgray;
+    /* background-color: #36454f; */
+    opacity: 0.5;
+    outline: 1px solid #36454f;
   }
 `;

@@ -18,8 +18,7 @@ const getSetDisplayLandingContent = (state) => state.setDisplayLandingContent;
 const getSetPartId = (state) => state.setPartId;
 const getSetDisplayNextButton = (state) => state.setDisplayNextButton;
 const getSetIsLoggedIn = (state) => state.setIsLoggedIn;
-const getSetDisplayAccessCodeWarning = (state) =>
-  state.setDisplayAccessCodeWarning;
+const getSetDisplayAccessCodeWarning = (state) => state.setDisplayAccessCodeWarning;
 const getSetDisplayPartIdWarning = (state) => state.setDisplayPartIdWarning;
 
 const LogInScreen = () => {
@@ -39,18 +38,12 @@ const LogInScreen = () => {
   const setDisplayAccessCodeWarning = useStore(getSetDisplayAccessCodeWarning);
   const setDisplayPartIdWarning = useStore(getSetDisplayPartIdWarning);
 
-  const welcomeText =
-    ReactHtmlParser(decodeHTML(langObj.loginWelcomeText)) || "";
-  const loginHeaderText =
-    ReactHtmlParser(decodeHTML(langObj.loginHeaderText)) || "";
-  const loginPartIdText =
-    ReactHtmlParser(decodeHTML(langObj.loginPartIdText)) || "";
-  const partIdWarning =
-    ReactHtmlParser(decodeHTML(langObj.partIdWarning)) || "";
-  const accessCodeWarning =
-    ReactHtmlParser(decodeHTML(langObj.accessCodeWarning)) || "";
-  const accessInputText =
-    ReactHtmlParser(decodeHTML(langObj.accessInputText)) || "";
+  const welcomeText = ReactHtmlParser(decodeHTML(langObj.loginWelcomeText)) || "";
+  const loginHeaderText = ReactHtmlParser(decodeHTML(langObj.loginHeaderText)) || "";
+  const loginPartIdText = ReactHtmlParser(decodeHTML(langObj.loginPartIdText)) || "";
+  const partIdWarning = ReactHtmlParser(decodeHTML(langObj.partIdWarning)) || "";
+  const accessCodeWarning = ReactHtmlParser(decodeHTML(langObj.accessCodeWarning)) || "";
+  const accessInputText = ReactHtmlParser(decodeHTML(langObj.accessInputText)) || "";
 
   const handleInput = (e) => {
     setUserInputPartId(e.target.value);
@@ -61,6 +54,8 @@ const LogInScreen = () => {
   };
 
   useEffect(() => {
+    setDisplayNextButton(false);
+
     const handleKeyUpStart = (event) => {
       if (event.key === "Enter") {
         try {
@@ -178,20 +173,18 @@ const LogInScreen = () => {
         <div>
           <h3>{loginPartIdText}</h3>
           <StyledInputDiv>
-            <StyledInput onChange={handleInput} type="text" autoFocus />
+            <StyledInput onChange={handleInput} type="text" autoFocus autoCapitalize="none" />
             {displayPartIdWarning && <WarningText>{partIdWarning}</WarningText>}
           </StyledInputDiv>
         </div>
         <div>
           <h3>{accessInputText}</h3>
           <StyledInputDiv>
-            <StyledInput onChange={handleAccess} type="text" />
-            {displayAccessCodeWarning && (
-              <WarningText>{accessCodeWarning}</WarningText>
-            )}
+            <StyledInput onChange={handleAccess} type="text" autoCapitalize="none" />
+            {displayAccessCodeWarning && <WarningText>{accessCodeWarning}</WarningText>}
           </StyledInputDiv>
         </div>
-        <LogInSubmitButton onClick={handleSubmit} />
+        <LogInSubmitButton onClick={handleSubmit} size={"1.5em"} width={"200px"} height={"50px"} />
       </Container>
       <WarningText>{}</WarningText>
     </React.Fragment>

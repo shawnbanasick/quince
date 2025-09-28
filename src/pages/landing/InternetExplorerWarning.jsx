@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
@@ -10,10 +9,8 @@ const LogInScreen = () => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
 
-  const ieWarningHeaderText =
-    ReactHtmlParser(decodeHTML(langObj.ieWarningHeaderText)) || "";
-  const ieWarningText =
-    ReactHtmlParser(decodeHTML(langObj.ieWarningText)) || "";
+  const ieWarningHeaderText = ReactHtmlParser(decodeHTML(langObj.ieWarningHeaderText)) || "";
+  const ieWarningText = ReactHtmlParser(decodeHTML(langObj.ieWarningText)) || "";
 
   return (
     <Container>

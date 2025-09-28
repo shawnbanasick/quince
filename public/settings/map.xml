@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-   <map version="6.0.0" htmlParse="false">
+   <map version="Quince 1.0.0" htmlParse="false">;
+
+    <!-- 0. FILE INFORMATION -->
+      <info order="0-1" id="mapFileVersion">1.0.0</info>
+      <info order="0-2" id="iterationDate">2025-08-31</info>
+      <info order="0-3" id="studyTitle">Demo Project</info> 
+      <info order="0-4" id="creationDate">2025-9-28@12:59</info> 
+    
+     <!-- 1. Q SORT GRID DESIGN AND COLORS -->
      <column id="-4" colour="FFD5D5">2</column>
      <column id="-3" colour="FFD5D5">3</column>
      <column id="-2" colour="FFD5D5">4</column>
@@ -13,6 +21,17 @@
      <item id="qSortHeaderNumbers">-4,-3,-2,-1,0,1,2,3,4</item>
      <item id="qSortHeaders">N4,N3,N2,N1,0,1,2,3,4</item>
      <item id="qSortPattern">2,3,4,5,5,5,4,3,2</item>
-     <item id="columnHeadersColorsArray">#F98080,#F8B4B4,#FBD5D5,#FDE8E8,#F3F4F6,#DEF7EC,#BCF0DA,#84E1BC,#31C48D</item>
-     <item id="columnColorsArray">whitesmoke,whitesmoke,whitesmoke,whitesmoke,whitesmoke,whitesmoke,whitesmoke,whitesmoke,whitesmoke</item>
+     <item id="columnHeadersColorsArray">#ff7676,#ff8989,#ffb1b1,#ffc4c4,#F3F4F6,#c4ffc4,#b1ffb1,#89ff89,#3bff3b</item>
+     <item id="columnColorsArray">#ff7676,#ff8989,#ffb1b1,#ffc4c4,#F3F4F6,#c4ffc4,#b1ffb1,#89ff89,#3bff3b</item>
+
+     <!-- 2. COLUMN LABELS --> 
+     <item id="colTextLabelsArray">Very Strongly Disagree, Strongly Disagree, Disagree, Disagree Somewhat, Neutral, Agree Somewhat, Agree, Strongly Agree, Very Strongly Agree</item>
+     <item id="emojiArrayType">emoji4Array</item>
+     <item id="useColLabelEmojiPresort">true</item>
+     <item id="useColLabelNums">true</item>
+     <item id="useColLabelText">true</item>
+     <item id="useColLabelEmoji">false</item>
+     <item id="useColLabelEmojiPostsort">true</item>
+     <item id="useColLabelTextPostsort">true</item>
+     <item id="useColLabelNumsPostsort">false</item>
    </map>

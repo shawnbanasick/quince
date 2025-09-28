@@ -1,4 +1,3 @@
-import React from "react";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 import styled from "styled-components";
@@ -11,28 +10,21 @@ const getLangObj = (state) => state.langObj;
 const getTriggerConsentModal = (state) => state.triggerConsentModal;
 const getSetTriggerConsentModal = (state) => state.setTriggerConsentModal;
 
-const LandingModal = () => {
+const ConsentModal = () => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
   const triggerConsentModal = useStore(getTriggerConsentModal);
   const setTriggerConsentModal = useStore(getSetTriggerConsentModal);
 
-  const consentHelpModalHead =
-    ReactHtmlParser(decodeHTML(langObj.consentHelpModalHead)) || "";
-  const consentHelpModalText =
-    ReactHtmlParser(decodeHTML(langObj.consentHelpModalText)) || "";
+  const consentHelpModalHead = ReactHtmlParser(decodeHTML(langObj.consentHelpModalHead)) || "";
+  const consentHelpModalText = ReactHtmlParser(decodeHTML(langObj.consentHelpModalText)) || "";
 
   const onCloseModal = () => {
     setTriggerConsentModal(false);
   };
 
   return (
-    <Modal
-      className="customModal"
-      open={triggerConsentModal}
-      onClose={onCloseModal}
-      center
-    >
+    <Modal className="customModal" open={triggerConsentModal} onClose={onCloseModal} center>
       <ModalHeader>{consentHelpModalHead}</ModalHeader>
       <hr />
       <ModalContent>{consentHelpModalText}</ModalContent>
@@ -40,7 +32,7 @@ const LandingModal = () => {
   );
 };
 
-export default LandingModal;
+export default ConsentModal;
 
 const ModalHeader = styled.div`
   font-size: 24px;

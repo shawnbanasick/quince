@@ -1,12 +1,28 @@
-const createPostsortSlice = (set, get) => ({
+const createPostsortSlice = (set) => ({
   resultsPostsort: {},
   statementCommentsObj: {},
   triggerPostsortModal: true,
   postsortCommentCheckObj: {},
   showPostsortCommentHighlighting: false,
   triggerPostsortPreventNavModal: false,
+  triggerMobilePostsortPreventNavModal: false,
   postsortDualImageArray: [],
+  mobilePostsortFontSize: 2,
+  mobilePostsortViewSize: 72,
+  triggerMobilePostsortHelpModal: true,
 
+  setTriggerMobilePostsortHelpModal: (inputValue) => {
+    set(() => ({ triggerMobilePostsortHelpModal: inputValue }));
+  },
+  setTriggerMobilePostsortPreventNavModal: (inputValue) => {
+    set(() => ({ triggerMobilePostsortPreventNavModal: inputValue }));
+  },
+  setMobilePostsortViewSize: (inputValue) => {
+    set(() => ({ mobilePostsortViewSize: inputValue }));
+  },
+  setMobilePostsortFontSize: (inputValue) => {
+    set(() => ({ mobilePostsortFontSize: inputValue }));
+  },
   setPostsortDualImageArray: (inputValue) => {
     set(() => ({ postsortDualImageArray: inputValue }));
   },

@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import React from "react";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
 import useSettingsStore from "../../globalState/useSettingsStore";
@@ -10,8 +9,7 @@ const LogInSubmitButton = (props) => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
 
-  const localDeleteButtonText =
-    ReactHtmlParser(decodeHTML(langObj.localDeleteButtonText)) || "";
+  const localDeleteButtonText = ReactHtmlParser(decodeHTML(langObj.localDeleteButtonText)) || "";
 
   return (
     <StyledSubmitButton tabindex="0" type="submit" onClick={props.onClick}>
@@ -36,8 +34,7 @@ const StyledSubmitButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme, active }) =>
-    active ? theme.secondary : theme.primary};
+  background-color: ${({ theme, active }) => (active ? theme.secondary : theme.primary)};
 
   &:hover {
     background-color: ${({ theme }) => theme.secondary};

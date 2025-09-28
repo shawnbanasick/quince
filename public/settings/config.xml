@@ -1,159 +1,139 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-   <config version="7.0.0" htmlParse="false">
+   <config version="Quince 1.0.0" htmlParse="false">
 
-   <!-- GENERAL SETTINGS -->
-   <!-- "setupTarget" options: netlify, firebase, local, email, or sheets -->
-   <item id="studyTitle">Demo Project</item> 
-   <item id="databaseOptions">Include_Google_Options</item>
-   <item id="setupTarget">firebase</item>
-   <!-- STEIN -->
-   <item id="steinApiUrl"></item>
-   <!-- EMAIL -->
-   <item id="emailAddress"></item>  
-   <item id="emailSubject">EQ Web Sort Results</item>  
-   <!-- SECOND PROJECT LINKING -->
-   <item id="linkToSecondProject">false</item> 
-   <item id="secondProjectUrl">http://</item> 
-   <!-- IMAGE OPTIONS  (imageFormat: 169 or 43)-->
-   <item id="useImages">false</item>
-   <item id="numImages">30</item>
-   <item id="imageFileType">jpg</item>
-   <item id="imageFormat">postSortImageModal169</item>
-
-   <!-- OTHER GENERAL OPTIONS -->
-   <item id="shuffleCards">false</item>
-   <item id="headerBarColor">#337ab7</item>
+   <!-- HIDDEN OPTIONS - DO NOT DELETE OR CHANGE -->
    <item id="devMode">false</item> 
-   <item id="showConsentPage">false</item> 
-   <item id="showConsentPageHelpModal">true</item> 
-
-
-
-   <!-- ACCESS -->
-   <!-- options: anonymous, partId-access, partId, access -->
-   <item id="initialScreen">anonymous</item>
-   <item id="accessCode">demo</item>
-
-   <!-- LEGACY DEFAULTS (do not change these)-->
+   <item id="traceSorts">true</item> 
+   <item id="thinGuidanceModalMaxIterations">2</item>
    <item id="setDefaultFontSize">true</item>
-   <item id="defaultFontSize">25</item>
-   <item id="displayNeutralObjects">false</item>
-
-   
-   <!-- PRESORT -->
-   <!-- default colors #2a2a2a, #ccffcc, #e0e0e0, #ffe0f0 -->
-   <item id="greenCardColor">#ccffcc</item>
-   <item id="yellowCardColor">#e0e0e0</item>
-   <item id="pinkCardColor">#ffe0e0</item>
-   <item id="defaultFontColor">#2a2a2a</item>
-
    <item id="setDefaultFontSizePresort">true</item>
-   <item id="defaultFontSizePresort">22</item>
-   <item id="traceSorts">true</item>
-  
-
-   <!-- SORT -->
-   <item id="allowUnforcedSorts">false</item>
-   <item id="warnOverloadedColumn">true</item>
-   <item id="condOfInstFontSize">20</item>
-
-   <item id="setMinCardHeightSort">true</item>
-   <item id="minCardHeightSort">120</item>
    <item id="setDefaultFontSizeSort">true</item>
-   <item id="defaultFontSizeSort">16</item>
-   
+   <item id="setDefaultFontSizePostsort">true</item>
+   <item id="setMinCardHeightPostsort">true</item>
+   <item id="useThinProcess">true</item> 
+   <item id="useMobileMode">true</item> 
+   <item id="emailSubjectLine">Quince Sort Results</item>  
+   <item id="setupTarget">baserow</item>
+   <item id="greenCardColor">#E1E1E1</item>
+   <item id="yellowCardColor">#E1E1E1</item>
+   <item id="pinkCardColor">#E1E1E1</item>
    <item id="sortDirection">positive</item> 
 
-   <!-- POSTSORT -->
-   <item id="showPostsort">true</item>
-   <item id="showSecondPosColumn">false</item>
-   <item id="showSecondNegColumn">false</item>
-   <item id="showBackButton">true</item>
-   <item id="postsortCommentsRequired">true</item>
+   <!-- 0. FILE INFORMATION -->
+   <info order="0-a" id="configFileVersion">1.0.0</info>
+   <info order="0-b" id="iterationDate">2025-08-31</info>
+   <info order="1--" id="creationDate">2025-9-28@12:57</info> 
 
-   <item id="setDefaultFontSizePostsort">true</item>
-   <item id="defaultFontSizePostsort">16</item>
-   <item id="setMinCardHeightPostsort">true</item>
-   <item id="minCardHeightPostsort">120</item>
+   <!-- 1. STUDY TITLE -->
+   <item order="1-a" id="studyTitle">Demo Project</item> 
 
 
-   <!-- SURVEY - Survey Questions -->
-   <item id="showSurvey">true</item>
+   <!-- 2. DATABASE SETUP -->
+   <!-- "setupTarget" options: baserow or local -->
+   <item order="2-a" id="baserowToken">9mai4vZoWKfizfMebLLwHYXXg2FvBgzt</item>
+   <item order="2-b" id="baserowDatabaseIdNumber">542139</item>
+   <item order="2-c" id="emailAddress">ken.q.tools@gmail.com</item>
+
+   <!-- 3. SECOND PROJECT LINKING -->
+   <item order="3-a" id="linkToSecondProject">false</item> 
+   <item order="3-b" id="secondProjectUrl"></item> 
+
+   <!-- 4. STATEMENT OR IMAGE SORT  (imageFormat: 169 or 43)-->
+   <item order="4-a" id="useImages">false</item>
+   <item order="4-b" id="numImages">30</item>
+   <item order="4-c" id="imageFileType">jpg</item>
+   <item order="4-d" id="imageFormat">postSortImageModal169</item>
+
+   <!-- 5. CONSENT PAGE OPTIONS -->
+   <item order="5-a" id="showConsentPage">true</item>
+   <item order="5-b" id="showConsentPageHelpModal">true</item>
+   
+   <!-- 6. PROJECT ACCESS OPTIONS -->
+   <!-- options: anonymous, partId-access, partId, access -->
+   <item order="6-a" id="initialScreen">anonymous</item>
+   <item order="6-b" id="accessCode">demo</item>
+   
+   <!-- 7. COLOR SETTINGS  -->
+   <!-- defaults = #2a2a2a (font), #ccffcc (right), #e0e0e0 (center), #ffe0f0 (left) -->
+   <item order="7-a" id="headerBarColor">#337ab7</item>
+   <item order="7-b" id="defaultFontColor">#2a2a2a</item>
+   
+   <!-- 8. PRESORT OPTIONS -->
+   <item order="8-a" id="shuffleCards">true</item>
+   <item order="8-b" id="defaultFontSizePresort">22</item>
+
+   <!-- 9. SORT OPTIONS -->
+   <item order="9-a" id="condOfInstFontSize">20</item>
+   <item order="9-b" id="allowUnforcedSorts">false</item>
+   <item order="9-c" id="warnOverloadedColumn">true</item>
+   <item order="9-d" id="defaultFontSizeSort">16</item>
+   <item order="9-e" id="minCardHeightSort">120</item>
+
+   <!-- 10. POSTSORT OPTIONS -->
+   <item order="10-a" id="showPostsort">true</item>
+   <item order="10-b" id="showSecondPosColumn">false</item>
+   <item order="10-c" id="showSecondNegColumn">false</item>
+   <item order="10-d" id="showBackButton">true</item>
+   <item order="10-e" id="postsortCommentsRequired">true</item>
+   <item order="10-f" id="defaultFontSizePostsort">16</item>
+   <item order="10-g" id="minCardHeightPostsort">120</item>
+
+   <!-- 11. SURVEY - Survey Questions -->
+   <item order="11-a" id="showSurvey">true</item>
 
    <item id="survey">
        <input type="information"></input>
-       <note bg="rgba(253, 224, 71, .5)">All questions marked with an * are {{{b}}}required.{{{/b}}}</note>
+       <note bg="goldenrod">All fields marked with an * are {{{b}}}required.{{{/b}}}</note>
    </item>
 
    <item id="survey">
-        <input type="text" required="false" limited="true" limitLength="100" restricted="false"></input>
+        <input type="text" required="false" limited="false" limitLength="99999" restricted="false"></input>
         <label>1. Have you had classes with me before?</label>
         <note>If yes, please {{{i}}}list them here{{{/i}}}. (limit = 100 characters)</note>
-        <placeholder>input comment here</placeholder>
    </item>
 
    <item id="survey">
         <input type="textarea" required="false"></input>
         <label>2. Describe your experience using the iPads in this class</label>
-        <note>Write as much as you want - no character limit</note>
+        <note></note>
         <placeholder>input comment here</placeholder>
    </item>
 
    <item id="survey">
-        <input type="radio" required="false">Spring 2025;;;Fall 2025;;;Spring 2026;;;After Spring 2025</input>
-        <label>3. When is your expected graduation date?</label>
-        <note>Based on your current course load</note>
+        <input type="radio" required="false">Freshman;;;Sophomore;;;Junior;;;Senior</input>
+        <label>3. Year</label>
+        <note>Please select your year</note>
    </item>
 
    <item id="survey">
         <input type="select" required="false">Global Studies;;;Linguistics;;;English Literature</input>
         <label>4. What is your program focus?</label>
-        <note>You can select more than one option</note>
+        <note></note>
    </item>
 
    <item id="survey">
-        <input type="checkbox" required="false">Lecture;;;Group Discussion;;;Active Learning</input>
-        <label>5. What kind of class do you prefer?</label>
-        <note>You can select more than one option</note>
+        <input type="checkbox" required="true">Lecture;;;Group Discussion;;;Active Learning</input>
+        <label>5. What kind of class do you prefer?*</label>
+        <note></note>
    </item>
 
    <item id="survey">
-        <input type="likert" required="true" scale="Strongly Disagree;;;Disagree;;;Neutral;;;Agree;;;Strongly Agree">.</input>
-        <label>6. The iPads helped to create an effective learning environment.*</label>
-   </item>
-
-   <item id="survey">
-        <input type="likert" required="true" scale="Very Unimportant;;;Unimportant;;;Neutral;;;Important;;;Very Important">.</input>
-        <label>7. How important is it to have an iPad for each class session?*</label>
-   </item>
-
-   <item id="survey">
-        <input type="likert" required="true" scale="Very Unconcerned;;;Unconcerned;;;Neutral;;;Concerned;;;Very Concerned">.</input>
-        <label>8. How concerned are you about the amount of time that you spend looking at screens?* (TV, smartphone, computer, iPad, etc.)</label>
-   </item>
-
-   <item id="survey">
-        <input type="likert" required="true" scale="Never;;;Rarely;;;Occasionally;;;Frequently;;;Very Frequently">.</input>
-        <label>9. How often do you use an iPad in your daily life?*</label>
-   </item>
-
-   <item id="survey">
-        <input type="rating2" required="false" scale="Yes;;;No">I have used an iPad in class {{{b}}}before{{{/b}}}.;;; I have used a notebook computer in class before.;;;I have used Moodle before.;;;I have used Quizlet before;;;</input>
-        <label>10. Please respond to the following {{{u}}}statements{{{/u}}}</label>
-        <note>Please answer all of the ratings</note>
+        <input type="rating2" required="false" scale="Yes;;;No">I have used an iPad in class before.;;; I have used a notebook computer in class before.;;;I have used Moodle before.;;;I have used Quizlet before;;;</input>
+        <label>6. Please respond to {{{mark}}}all{{{/mark}}} of the following statements</label>
+        <note></note>
    </item>
 
    <item id="survey">
         <input type="rating5" required="false" scale="1;;;2;;;3;;;4;;;5">How would you rate the use of iPads in this class?;;;How would you rate this class overall?;;;How was your interaction with {{{u}}}other students?{{{/u}}};;;How was access to the computer lab?</input>
-        <label>11. {{{i}}}Please{{{/i}}} rate the following statements</label>
-        <note>Please answer all of the ratings</note>
+        <label>7. {{{i}}}Please{{{/i}}} answer the following questions</label>
+        <note></note>
    </item>
 
    <item id="survey">
-        <input type="rating10" required="false" scale="1;;;2;;;3;;;4;;;5;;;6;;;7;;;8;;;9;;;10">How would you rate the use of the Socrative website in this class?;;;How would you rate the use of the {{{b}}}Quizlet{{{/b}}} website in this class?;;;How would you rate the use of Moodle in this class?;;;How would you rate the use of Edmodo in this class?;;;</input>
-        <label>12. {{{u}}}Please{{{/u}}} rate the following statements</label>
-        <note>Please answer all of the ratings</note>
+        <input type="rating10" required="false" scale="1;;;2;;;3;;;4;;;5;;;6;;;7;;;8;;;9;;;10">How would you rate the use of the {{{b}}}Socrative{{{/b}}} website in this class?;;;How would you rate the use of the {{{b}}}Quizlet{{{/b}}} website in this class?;;;How would you rate the use of Moodle in this class?;;;How would you rate the use of Edmodo in this class?;;;</input>
+        <label>8. {{{u}}}Please answer all of the following questions{{{/u}}}</label>
+        <note></note>
    </item>
 
 

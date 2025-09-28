@@ -1,62 +1,61 @@
 import styled from "styled-components";
-import React from "react";
 import { withRouter } from "react-router";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
-import convertObjectToResults from "../sort/convertObjectToResults";
 import getObjectValues from "lodash/values";
 
 const getConfigObj = (state) => state.configObj;
 const getPresortFinished = (state) => state.presortFinished;
-const getSetTrigPrePrevNavModal = (state) =>
-  state.setTriggerPresortPreventNavModal;
+const getSetTrigMobilePrePrevNavModal = (state) => state.setTriggerMobilePresortPreventNavModal;
 const getCurrentPage = (state) => state.currentPage;
-const getSetCheckReqQuesCompl = (state) =>
-  state.setCheckRequiredQuestionsComplete;
-const getSetTrigSurvPrevNavModal = (state) =>
-  state.setTriggerSurveyPreventNavModal;
-const getIsSortingFinished = (state) => state.isSortingFinished;
-const getHasOverloadedColumn = (state) => state.hasOverloadedColumn;
-const getSetTrigSortPrevNavModal = (state) =>
-  state.setTriggerSortPreventNavModal;
-const getSetTrigSortOverColMod = (state) =>
-  state.setTriggerSortOverloadedColumnModal;
-const getColumnStatements = (state) => state.columnStatements;
-const getSetResults = (state) => state.setResults;
-const getSetShowPostsortCommentHighlighting = (state) =>
-  state.setShowPostsortCommentHighlighting;
-const getSetTriggerPostsortPreventNavModal = (state) =>
-  state.setTriggerPostsortPreventNavModal;
+const getSetCheckReqQuesCompl = (state) => state.setCheckRequiredQuestionsComplete;
+const getSetTrigSurvPrevNavModal = (state) => state.setTriggerSurveyPreventNavModal;
+const getSetShowPostsortCommentHighlighting = (state) => state.setShowPostsortCommentHighlighting;
+const getSetTriggerMobilePostsortPreventNavModal = (state) =>
+  state.setTriggerMobilePostsortPreventNavModal;
+const getSetTriggerMobileThinPreventNavModal = (state) => state.setTriggerMobileThinPreventNavModal;
+const getHasScrolledToBottomSort = (state) => state.hasScrolledToBottomSort;
+const getSetTriggerMobileSortScrollBottomModal = (state) =>
+  state.setTriggerMobileSortScrollBottomModal;
+
+// const getColumnStatements = (state) => state.columnStatements;
+// const getIsSortingFinished = (state) => state.isSortingFinished;
+// const getHasOverloadedColumn = (state) => state.hasOverloadedColumn;
+// const getSetTrigSortPrevNavModal = (state) =>
+//   state.setTriggerSortPreventNavModal;
+// const getSetTrigSortOverColMod = (state) =>
+//   state.setTriggerSortOverloadedColumnModal;
+// const getSetResults = (state) => state.setResults;
 
 const LinkButton = (props) => {
   let goToNextPage;
 
   // GLOBAL STATE
+  // const isSortingFinished = useStore(getIsSortingFinished);
+  // const hasOverloadedColumn = useStore(getHasOverloadedColumn);
+  // const setTriggerSortPreventNavModal = useStore(getSetTrigSortPrevNavModal);
+  // const setTriggerSortOverloadedColModal = useStore(getSetTrigSortOverColMod);
+  // const setResults = useStore(getSetResults);
+  // const columnStatements = useSettingsStore(getColumnStatements);
   const configObj = useSettingsStore(getConfigObj);
   const presortFinished = useStore(getPresortFinished);
-  const setTriggerPresortPreventNavModal = useStore(getSetTrigPrePrevNavModal);
+  const setTriggerPresortPreventNavModal = useStore(getSetTrigMobilePrePrevNavModal);
   const currentPage = useStore(getCurrentPage);
   const setCheckRequiredQuestionsComplete = useStore(getSetCheckReqQuesCompl);
   const setTriggerSurveyPreventNavModal = useStore(getSetTrigSurvPrevNavModal);
-  const isSortingFinished = useStore(getIsSortingFinished);
-  const hasOverloadedColumn = useStore(getHasOverloadedColumn);
-  const setTriggerSortPreventNavModal = useStore(getSetTrigSortPrevNavModal);
-  const setTriggerSortOverloadedColModal = useStore(getSetTrigSortOverColMod);
-  const columnStatements = useSettingsStore(getColumnStatements);
-  const setResults = useStore(getSetResults);
-  const setShowPostsortCommentHighlighting = useStore(
-    getSetShowPostsortCommentHighlighting
+  const setShowPostsortCommentHighlighting = useStore(getSetShowPostsortCommentHighlighting);
+  const setTriggerMobilePostsortPreventNavModal = useStore(
+    getSetTriggerMobilePostsortPreventNavModal
   );
-  const setTriggerPostsortPreventNavModal = useStore(
-    getSetTriggerPostsortPreventNavModal
-  );
+  const setTriggerMobileThinPreventNavModal = useStore(getSetTriggerMobileThinPreventNavModal);
+  const hasScrolledToBottomSort = useStore(getHasScrolledToBottomSort);
+  const setTriggerMobileSortScrollBottomModal = useStore(getSetTriggerMobileSortScrollBottomModal);
 
   const allowUnforcedSorts = configObj.allowUnforcedSorts;
   const postsortCommentsRequired = configObj.postsortCommentsRequired;
 
   // PERSISTENT STATE
-  const sortColumns = JSON.parse(localStorage.getItem("sortColumns")) || [];
-
+  // const sortColumns = JSON.parse(localStorage.getItem("sortColumns")) || [];
   const {
     history,
     location,
@@ -68,22 +67,38 @@ const LinkButton = (props) => {
     ...rest
   } = props;
 
-  const checkForNextPageConditions = (
-    allowUnforcedSorts,
-    isPresortFinished
-  ) => {
-    // *** ReCalc Results ***
-    let sortResults1 = convertObjectToResults(columnStatements);
+  const checkForNextPageConditions = () => {
+    let isPresortFinished = localStorage.getItem("m_PresortFinished");
 
     if (currentPage === "presort") {
-      if (isPresortFinished === false) {
+      if (isPresortFinished === "true" || isPresortFinished === true) {
+        setTriggerPresortPreventNavModal(false);
+        localStorage.setItem("m_PresortDisplayStatements", JSON.stringify({ display: false }));
+        return true;
+      } else {
         setTriggerPresortPreventNavModal(true);
+        return false;
+      }
+    }
+
+    if (currentPage === "thin") {
+      const isThinFinished = localStorage.getItem("m_ThinningFinished");
+      if (isThinFinished === "true") {
+        return true;
+      } else {
+        setTriggerMobileThinPreventNavModal(true);
+        return false;
+      }
+    }
+
+    if (currentPage === "sort") {
+      if (hasScrolledToBottomSort === false) {
+        setTriggerMobileSortScrollBottomModal(true);
         return false;
       } else {
         return true;
       }
-    }
-    if (currentPage === "sort") {
+      /*
       if (isSortingFinished === false) {
         // check to see if finished, but had sorting registration error
         if (sortColumns?.imagesList?.length === 0) {
@@ -130,45 +145,23 @@ const LinkButton = (props) => {
           }
         }
       }
+        */
     }
 
     if (currentPage === "postsort") {
-      let postsortCommentCardCount = +localStorage.getItem(
-        "postsortCommentCardCount"
-      );
-      const required1 =
-        getObjectValues(
-          JSON.parse(localStorage.getItem("HC-requiredCommentsObj"))
-        ) || [];
-      const required2 =
-        getObjectValues(
-          JSON.parse(localStorage.getItem("HC2-requiredCommentsObj"))
-        ) || [];
-      const required3 =
-        getObjectValues(
-          JSON.parse(localStorage.getItem("LC-requiredCommentsObj"))
-        ) || [];
-      const required4 =
-        getObjectValues(
-          JSON.parse(localStorage.getItem("LC2-requiredCommentsObj"))
-        ) || [];
+      let mobilePosResponses = JSON.parse(localStorage.getItem("m_PosRequiredStatesObj"));
+      let mobileNegResponses = JSON.parse(localStorage.getItem("m_NegRequiredStatesObj"));
 
-      const checkArray2 = [
-        ...required1,
-        ...required2,
-        ...required3,
-        ...required4,
-      ];
-
-      if (
-        checkArray2.includes("false") ||
-        checkArray2.includes(false) ||
-        checkArray2.length < postsortCommentCardCount
-      ) {
+      const combinedResponses = {
+        ...mobilePosResponses,
+        ...mobileNegResponses,
+      };
+      const objValues = Object.values(combinedResponses);
+      if (objValues.includes("")) {
         // answers required in configObj
         if (postsortCommentsRequired === true) {
           setShowPostsortCommentHighlighting(true);
-          setTriggerPostsortPreventNavModal(true);
+          setTriggerMobilePostsortPreventNavModal(true);
           return false;
         }
         return true;
@@ -195,19 +188,13 @@ const LinkButton = (props) => {
     return true;
   };
 
-  //   console.log(props.width, nextButtonWidth);
-
   return (
     <NextButton
       {...rest} // `children` is just another prop!
       width={props.width}
       onClick={(event) => {
-        console.log("clicked");
         onClick && onClick(event);
-        goToNextPage = checkForNextPageConditions(
-          allowUnforcedSorts,
-          presortFinished
-        );
+        goToNextPage = checkForNextPageConditions(allowUnforcedSorts, presortFinished);
         if (goToNextPage) {
           history.push(to);
         }
@@ -219,6 +206,8 @@ const LinkButton = (props) => {
 export default withRouter(LinkButton);
 
 const NextButton = styled.button`
+  display: flex;
+  justify-content: center;
   border-color: #2e6da4;
   color: white;
   font-size: 1.5vh;
@@ -227,20 +216,18 @@ const NextButton = styled.button`
   border-radius: 3px;
   text-decoration: none;
   width: ${(props) => `${props.width}px;`};
-  justify-self: right;
-  margin-right: 35px;
-  display: flex;
+  height: 28px;
+  /* margin-right: 2vw; */
   align-items: center;
   user-select: none;
-  justify-content: center;
-  background-color: ${({ theme, active }) =>
-    active ? theme.secondary : theme.primary};
 
-  &:hover {
+  background-color: ${({ theme, active }) => (active ? theme.secondary : theme.primary)};
+
+  /* &:hover {
     background-color: ${({ theme }) => theme.secondary};
   }
 
   &:focus {
     background-color: ${({ theme }) => theme.focus};
-  }
+  } */
 `;

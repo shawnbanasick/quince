@@ -1,38 +1,38 @@
 const calcProgressScore = (
-  currentPage,
-  additionalProgress1,
-  additionalProgressSort,
-  showPostsort,
-  showSurvey,
-  additionalProgressState,
-  additionalProgressStateSort
+  currentPage
+  // additionalProgress1,
+  // additionalProgressSort,
+  // showPostsort,
+  // showSurvey,
+  // additionalProgressState,
+  // additionalProgressStateSort
 ) => {
-  let adjustmentValue1 = 20;
-  let adjustmentValue2 = 50;
-  let adjustmentValue3 = 80;
-  if (showPostsort === false && showSurvey === true) {
-    adjustmentValue1 = 30;
-    adjustmentValue2 = 60;
-  }
-  if (showPostsort === true && showSurvey === false) {
-    adjustmentValue1 = 30;
-    adjustmentValue2 = 60;
-    adjustmentValue3 = 90;
-  }
-  if (showPostsort === false && showSurvey === false) {
-    adjustmentValue1 = 30;
-    adjustmentValue2 = 60;
-  }
+  // let adjustmentValue1 = 20;
+  // let adjustmentValue2 = 50;
+  // let adjustmentValue3 = 80;
+  // if (showPostsort === false && showSurvey === true) {
+  //   adjustmentValue1 = 30;
+  //   adjustmentValue2 = 60;
+  // }
+  // if (showPostsort === true && showSurvey === false) {
+  //   adjustmentValue1 = 30;
+  //   adjustmentValue2 = 60;
+  //   adjustmentValue3 = 90;
+  // }
+  // if (showPostsort === false && showSurvey === false) {
+  //   adjustmentValue1 = 30;
+  //   adjustmentValue2 = 60;
+  // }
 
   let totalProgressScore;
-  let additionalProgress = 0;
-  if (additionalProgress1 !== +additionalProgressState) {
-    additionalProgress = +additionalProgressState;
-  }
+  // let additionalProgress = 0;
+  // if (additionalProgress1 !== +additionalProgressState) {
+  // additionalProgress = +additionalProgressState;
+  // }
 
-  if (additionalProgressSort !== +additionalProgressStateSort) {
-    additionalProgressSort = +additionalProgressStateSort;
-  }
+  // if (additionalProgressSort !== +additionalProgressStateSort) {
+  //   additionalProgressSort = +additionalProgressStateSort;
+  // }
 
   if (currentPage === "landing") {
     totalProgressScore = 10;
@@ -43,15 +43,23 @@ const calcProgressScore = (
     return totalProgressScore;
   }
   if (currentPage === "presort") {
-    totalProgressScore = +additionalProgress + adjustmentValue1;
+    // totalProgressScore = +additionalProgress + adjustmentValue1;
+    totalProgressScore = 20;
+    return totalProgressScore;
+  }
+  if (currentPage === "thin") {
+    // totalProgressScore = +additionalProgress + adjustmentValue1;
+    totalProgressScore = 40;
     return totalProgressScore;
   }
   if (currentPage === "sort") {
-    totalProgressScore = +additionalProgressSort + adjustmentValue2;
+    // totalProgressScore = +additionalProgressSort + adjustmentValue2;
+    totalProgressScore = 60;
     return totalProgressScore;
   }
   if (currentPage === "postsort") {
-    totalProgressScore = adjustmentValue3;
+    // totalProgressScore = adjustmentValue3;
+    totalProgressScore = 80;
     return totalProgressScore;
   }
   if (currentPage === "survey") {

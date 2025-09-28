@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import SortGrid from "./SortGrid";
 import SortGridImages from "./SortGridImages";
 import styled from "styled-components";
@@ -16,9 +16,9 @@ import PromptUnload from "../../utilities/PromptUnload";
 
 function debounce(fn, ms) {
   let timer;
-  return (_) => {
+  return () => {
     clearTimeout(timer);
-    timer = setTimeout((_) => {
+    timer = setTimeout(() => {
       timer = null;
       fn.apply(this, arguments);
     }, ms);
@@ -42,7 +42,6 @@ const Sort = () => {
   const mapObj = useSettingsStore(getMapObj);
   const configObj = useSettingsStore(getConfigObj);
   const imageSort = configObj.useImages;
-
   let cardFontSize = useStore(getCardFontSizeSort);
   const topMargin = useStore(getTopMargin);
   const setPresortNoReturn = useStore(getSetPresortNoReturn);
@@ -52,6 +51,7 @@ const Sort = () => {
   // const setCardFontSize = useStore(getSetCardFontSize);
   const qSortPattern = [...mapObj.qSortPattern];
   let cardHeight = useStore(getCardHeightSort);
+
   const cardHeightPersist = +localStorage.getItem("cardHeightSort");
   const cardFontSizePersist = +localStorage.getItem("fontSizeSort");
 
@@ -77,10 +77,8 @@ const Sort = () => {
   const headerBarColor = configObj.headerBarColor;
   const fontColor = configObj.defaultFontColor;
 
-  const sortDisagreement =
-    ReactHtmlParser(decodeHTML(langObj.sortDisagreement)) || "";
-  const sortAgreement =
-    ReactHtmlParser(decodeHTML(langObj.sortAgreement)) || "";
+  const sortDisagreement = ReactHtmlParser(decodeHTML(langObj.sortDisagreement)) || "";
+  const sortAgreement = ReactHtmlParser(decodeHTML(langObj.sortAgreement)) || "";
   const condOfInst = ReactHtmlParser(decodeHTML(langObj.condOfInst)) || "";
 
   const qlength = qSortPattern.length;
@@ -111,8 +109,8 @@ const Sort = () => {
 
   // page resize
   useEffect(() => {
-    const columnWidth =
-      (dimensions.width - visibleWidthAdjust) / qSortPattern.length;
+    // const columnWidth = (dimensions.width - visibleWidthAdjust) / qSortPattern.length;
+    const columnWidth = dimensions.width / qSortPattern.length;
     setColumnWidth(columnWidth);
 
     const debouncedHandleResize = debounce(function handleResize() {
@@ -124,7 +122,7 @@ const Sort = () => {
 
     window.addEventListener("resize", debouncedHandleResize);
 
-    return (_) => {
+    return () => {
       window.removeEventListener("resize", debouncedHandleResize);
     };
   }, [dimensions, qSortPattern.length, visibleWidthAdjust]);
@@ -135,10 +133,8 @@ const Sort = () => {
      "conditions of instruction" section - so, I grab the height of titleBar 
      after render and reset the margin
     */
-    const sortGridMarginTop = +JSON.parse(
-      localStorage.getItem("sortGridMarginTop")
-    );
-    let height = document.getElementById("sortTitleBarContainer").clientHeight;
+    const sortGridMarginTop = +JSON.parse(localStorage.getItem("sortGridMarginTop"));
+    let height = document.getElementById("sortTitleBarContainer").clientHeight + 20;
 
     height = +JSON.stringify(height);
 
@@ -152,16 +148,17 @@ const Sort = () => {
     }, 50);
   });
 
+  const startTimeRef = useRef(null);
   useEffect(() => {
-    let startTime = Date.now();
+    startTimeRef.current = Date.now();
     const setStateAsync = async () => {
       await setPresortNoReturn(true);
-      localStorage.setItem("currentPage", "sort");
       await setCurrentPage("sort");
+      localStorage.setItem("currentPage", "sort");
     };
     setStateAsync();
     return () => {
-      calculateTimeOnPage(startTime, "sortPage", "sortPage");
+      calculateTimeOnPage(startTimeRef.current, "sortPage", "sortPage");
     };
   }, [setPresortNoReturn, setCurrentPage]);
 
@@ -175,9 +172,7 @@ const Sort = () => {
       <SortTitleBarContainer id="sortTitleBarContainer">
         <SortTitleBar id="sortTitleBar" background={headerBarColor}>
           <Disagree>{sortDisagreement}</Disagree>
-          <CondOfInst fontSize={configObj.condOfInstFontSize}>
-            {condOfInst}
-          </CondOfInst>
+          <CondOfInst fontSize={configObj.condOfInstFontSize}>{condOfInst}</CondOfInst>
           <Agree>{sortAgreement}</Agree>
         </SortTitleBar>
         <SortColGuides columnWidth={columnWidth} />
@@ -216,6 +211,7 @@ const SortTitleBarContainer = styled.div`
   width: 100vw;
   position: fixed;
   top: 0;
+
   z-index: 999;
 `;
 
@@ -261,4 +257,5 @@ const Disagree = styled.div`
 const SortGridContainer = styled.div`
   margin-top: ${(props) => `${props.marginTop}px`};
   margin-bottom: 250px;
+  /* background-color: #83cafe; */
 `;

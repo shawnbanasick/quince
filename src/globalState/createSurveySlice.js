@@ -1,11 +1,19 @@
-const createSurveySlice = (set, get) => ({
+const createSurveySlice = (set) => ({
   triggerSurveyModal: true,
   resultsSurvey: {},
   triggerSurveyPreventNavModal: false,
   checkRequiredQuestionsComplete: false,
   requiredAnswersObj: {},
   answersStorage: {},
+  triggerMobileSurveyHelpModal: true,
+  mobileSurveyViewSize: 72,
 
+  setMobileSurveyViewSize: (inputValue) => {
+    set(() => ({ mobileSurveyViewSize: inputValue }));
+  },
+  setTriggerMobileSurveyHelpModal: (inputValue) => {
+    set(() => ({ triggerMobileSurveyHelpModal: inputValue }));
+  },
   setAnswersStorage: (inputValue) => {
     set(() => ({ answersStorage: inputValue }));
   },

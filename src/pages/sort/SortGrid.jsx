@@ -1,17 +1,17 @@
-import React from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import styled from "styled-components";
+import { DragDropContext } from "react-beautiful-dnd";
 import move from "./move";
 import reorder from "./reorder";
 import SortColumn from "./SortColumn";
-import getListStyleHori from "./getListStyleHori";
-import getItemStyleHori from "./getItemStyleHori";
 import calculateDragResults from "./calculateDragResults";
-import ReactHtmlParser from "html-react-parser";
-import decodeHTML from "../../utilities/decodeHTML";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 import useLocalStorage from "../../utilities/useLocalStorage";
+// import getListStyleHori from "./getListStyleHori";
+// import getItemStyleHori from "./getItemStyleHori";
+// import ReactHtmlParser from "html-react-parser";
+// import decodeHTML from "../../utilities/decodeHTML";
+// import React from "react";
+// import styled from "styled-components";
 
 /* eslint react/prop-types: 0 */
 
@@ -22,13 +22,11 @@ const getSetIsSortingCards = (state) => state.setIsSortingCards;
 const getSetSortCompleted = (state) => state.setSortCompleted;
 const getSetProgScoreAddSort = (state) => state.setProgressScoreAdditionalSort;
 const getResults = (state) => state.results;
-const getSortFinModalHasBeenShown = (state) =>
-  state.sortFinishedModalHasBeenShown;
+const getSortFinModalHasBeenShown = (state) => state.sortFinishedModalHasBeenShown;
 const getSortGridResults = (state) => state.sortGridResults;
 const getSetIsSortingFinished = (state) => state.setIsSortingFinished;
 const getSetResults = (state) => state.setResults;
-const getSetTriggerSortingFinModal = (state) =>
-  state.setTriggerSortingFinishedModal;
+const getSetTriggerSortingFinModal = (state) => state.setTriggerSortingFinishedModal;
 const getSetSortGridResults = (state) => state.setSortGridResults;
 
 const SortGrid = (props) => {
@@ -58,9 +56,7 @@ const SortGrid = (props) => {
   const qSortPattern = [...mapObj.qSortPattern];
   const cardHeight = props.cardHeight;
 
-  let presortColumnStatements = JSON.parse(
-    localStorage.getItem("columnStatements")
-  );
+  let presortColumnStatements = JSON.parse(localStorage.getItem("columnStatements"));
 
   if (presortColumnStatements === null) {
     presortColumnStatements = [];
@@ -74,8 +70,8 @@ const SortGrid = (props) => {
   );
 
   // layout settings
-  let columnWidth = props.columnWidth;
-  const totalStatements = +configObj.totalStatements;
+  // let columnWidth = props.columnWidth;
+  const totalStatements = +statementsObj.totalStatements;
   const sortCharacterisiticsPrep = {};
   sortCharacterisiticsPrep.qSortPattern = [...mapObj.qSortPattern];
   sortCharacterisiticsPrep.qSortHeaders = [...mapObj.qSortHeaders];
@@ -84,12 +80,6 @@ const SortGrid = (props) => {
 
   const sortCharacteristics = sortCharacterisiticsPrep;
   const allowUnforcedSorts = configObj.allowUnforcedSorts;
-
-  // get sort direction
-  let sortDirection = "rtl";
-  if (configObj.sortDirection === "negative") {
-    sortDirection = "ltr";
-  }
 
   // fire move and re-order functions
   const onDragEnd = (result) => {
@@ -147,8 +137,7 @@ const SortGrid = (props) => {
         if (destination.droppableId === "statements") {
           destinationListArray = columnStatements.statementList;
         } else {
-          destinationListArray =
-            columnStatements.vCols[destination.droppableId];
+          destinationListArray = columnStatements.vCols[destination.droppableId];
         }
         const droppableSource = source;
         const droppableDestination = destination;
@@ -167,9 +156,7 @@ const SortGrid = (props) => {
 
         // global state updates
         setColumnStatements(columnStatements);
-        const hasShownSortFinModal = localStorage.getItem(
-          "hasShownSortFinModal"
-        );
+        const hasShownSortFinModal = localStorage.getItem("hasShownSortFinModal");
 
         if (columnStatements.statementList.length === 0) {
           setIsSortingCards(false);
@@ -203,14 +190,8 @@ const SortGrid = (props) => {
   const cardFontSize = props.cardFontSize;
   const fontColor = props.fontColor;
 
-  // just the hori container size, not card size
-  let horiCardMinHeight = 50;
-
-  // pull data from STATE
-  const statements = columnStatements.statementList;
-
   // setup grid columns
-  const columns = qSortHeaders.map((value, index, highlightedColHeader) => {
+  const columns = qSortHeaders.map((value, index) => {
     const columnId = `column${qSortHeaders[index]}`;
     const sortValue = qSortHeaderNumbers[index];
     const columnColor = columnColorsArray[index];
@@ -238,108 +219,14 @@ const SortGrid = (props) => {
     );
   }); // end map of sort columns
 
-  const InnerList = React.memo((props) => {
-    const items = props.statements.map((item, index) => {
-      const statementHtml = ReactHtmlParser(
-        `<div>${decodeHTML(item.statement)}</div>`
-      );
-      return (
-        <Draggable
-          key={item.id}
-          draggableId={item.id}
-          index={index}
-          sortValue={item.sortValue}
-          cardColor={item.cardColor}
-          className="droppableCards"
-        >
-          {(provided, snapshot) => (
-            <>
-              <div
-                ref={provided.innerRef}
-                className={`${item.cardColor}`}
-                {...provided.draggableProps}
-                {...provided.dragHandleProps}
-                style={getItemStyleHori(
-                  snapshot.isDragging,
-                  provided.draggableProps.style,
-                  `${item.sortValue}`,
-                  `${item.cardColor}`,
-                  columnWidth,
-                  cardHeight,
-                  cardFontSize,
-                  greenCardColor,
-                  yellowCardColor,
-                  pinkCardColor,
-                  fontColor
-                )}
-              >
-                <span style={{ direction: "ltr" }}>{statementHtml}</span>
-              </div>
-            </>
-          )}
-        </Draggable>
-      );
-    });
-    /*
-    let finalItem = <div key={"placeholder"}>{props.provided.placeholder}</div>;
-    items.unshift(finalItem);
-    */
-    return items;
-  });
-
-  // returning main content => horizontal feeder
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="rootDiv">
-        {columns}
-        <SortFooterDiv id="SortFooterDiv">
-          <CardSlider id="CardSlider">
-            <Droppable
-              id="Droppable"
-              droppableId="statements"
-              direction="horizontal"
-            >
-              {(provided, snapshot) => (
-                <HorizontalFeederDiv
-                  id="HorizontalFeederDiv"
-                  ref={provided.innerRef}
-                  style={getListStyleHori(
-                    snapshot.isDraggingOver,
-                    horiCardMinHeight,
-                    sortDirection
-                  )}
-                >
-                  <InnerList statements={statements} provided={provided} />
-                  <div style={{ width: `0px` }}>{provided.placeholder}</div>
-                </HorizontalFeederDiv>
-              )}
-            </Droppable>
-          </CardSlider>
-        </SortFooterDiv>
-      </div>
+      <div className="rootDiv">{columns}</div>
     </DragDropContext>
   );
 };
 
 export default SortGrid;
-
-const SortFooterDiv = styled.div`
-  background: #e4e4e4;
-  padding-right: 10px;
-  position: fixed;
-  left: 0px;
-  bottom: 50px;
-  width: 100vw;
-  height: ${(props) => `${+props.cardHeight + 20}px;`};
-`;
-
-const CardSlider = styled.div`
-  display: flex;
-  width: 100vw;
-  overflow: hidden;
-`;
-
-const HorizontalFeederDiv = styled.div``;
 
 /* DO NOT DELETE - important
 "columnColorsArray": [

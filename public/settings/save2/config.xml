@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+   <config version="Quince 1.0.0" htmlParse="false">
+
+   <!-- HIDDEN OPTIONS - DO NOT DELETE OR CHANGE -->
+   <item id="devMode">false</item> 
+   <item id="traceSorts">true</item> 
+   <item id="thinGuidanceModalMaxIterations">2</item>
+   <item id="setDefaultFontSize">true</item>
+   <item id="setDefaultFontSizePresort">true</item>
+   <item id="setDefaultFontSizeSort">true</item>
+   <item id="setDefaultFontSizePostsort">true</item>
+   <item id="setMinCardHeightPostsort">true</item>
+   <item id="useThinProcess">true</item> 
+   <item id="useMobileMode">true</item> 
+   <item id="emailSubjectLine">Quince Sort Results</item>  
+   <item id="setupTarget">baserow</item>
+   <item id="greenCardColor">#E1E1E1</item>
+   <item id="yellowCardColor">#E1E1E1</item>
+   <item id="pinkCardColor">#E1E1E1</item>
+   <item id="sortDirection">positive</item> 
+
+   <!-- 0. FILE INFORMATION -->
+   <info order="0-a" id="configFileVersion">1.0.0</info>
+   <info order="0-b" id="iterationDate">2025-08-31</info>
+   <info order="1--" id="creationDate">2025-9-28@7:26</info> 
+
+   <!-- 1. STUDY TITLE -->
+   <item order="1-a" id="studyTitle">Quince Test 2</item> 
+
+
+   <!-- 2. DATABASE SETUP -->
+   <!-- "setupTarget" options: baserow or local -->
+   <item order="2-a" id="baserowToken">9mai4vZoWKfizfMebLLwHYXXg2FvBgzt</item>
+   <item order="2-b" id="baserowDatabaseIdNumber">639734</item>
+   <item order="2-c" id="emailAddress">banasick@gmail.com</item>
+
+   <!-- 3. SECOND PROJECT LINKING -->
+   <item order="3-a" id="linkToSecondProject">false</item> 
+   <item order="3-b" id="secondProjectUrl"></item> 
+
+   <!-- 4. STATEMENT OR IMAGE SORT  (imageFormat: 169 or 43)-->
+   <item order="4-a" id="useImages">false</item>
+   <item order="4-b" id="numImages">30</item>
+   <item order="4-c" id="imageFileType">jpg</item>
+   <item order="4-d" id="imageFormat">postSortImageModal169</item>
+
+   <!-- 5. CONSENT PAGE OPTIONS -->
+   <item order="5-a" id="showConsentPage">true</item>
+   <item order="5-b" id="showConsentPageHelpModal">true</item>
+   
+   <!-- 6. PROJECT ACCESS OPTIONS -->
+   <!-- options: anonymous, partId-access, partId, access -->
+   <item order="6-a" id="initialScreen">partId</item>
+   <item order="6-b" id="accessCode"></item>
+   
+   <!-- 7. COLOR SETTINGS  -->
+   <!-- defaults = #2a2a2a (font), #ccffcc (right), #e0e0e0 (center), #ffe0f0 (left) -->
+   <item order="7-a" id="headerBarColor">#337ab7</item>
+   <item order="7-b" id="defaultFontColor">#2a2a2a</item>
+   
+   <!-- 8. PRESORT OPTIONS -->
+   <item order="8-a" id="shuffleCards">true</item>
+   <item order="8-b" id="defaultFontSizePresort">22</item>
+
+   <!-- 9. SORT OPTIONS -->
+   <item order="9-a" id="condOfInstFontSize">20</item>
+   <item order="9-b" id="allowUnforcedSorts">false</item>
+   <item order="9-c" id="warnOverloadedColumn">true</item>
+   <item order="9-d" id="defaultFontSizeSort">16</item>
+   <item order="9-e" id="minCardHeightSort">120</item>
+
+   <!-- 10. POSTSORT OPTIONS -->
+   <item order="10-a" id="showPostsort">true</item>
+   <item order="10-b" id="showSecondPosColumn">false</item>
+   <item order="10-c" id="showSecondNegColumn">false</item>
+   <item order="10-d" id="showBackButton">true</item>
+   <item order="10-e" id="postsortCommentsRequired">true</item>
+   <item order="10-f" id="defaultFontSizePostsort">16</item>
+   <item order="10-g" id="minCardHeightPostsort">120</item>
+
+   <!-- 11. SURVEY - Survey Questions -->
+   <item order="11-a" id="showSurvey">false</item>
+
+
+       
+  </config>

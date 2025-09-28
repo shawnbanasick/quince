@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
@@ -11,6 +10,8 @@ const getSetCardHeightSort = (state) => state.setCardHeightSort;
 const getCardHeightPostsort = (state) => state.cardHeightPostsort;
 const getSetCardHeightPostsort = (state) => state.setCardHeightPostsort;
 const getCurrentPage = (state) => state.currentPage;
+const getSetCardHeightThin = (state) => state.setCardHeightThin;
+const getCardHeightThin = (state) => state.cardHeightThin;
 
 const CardHeightSizer = () => {
   // STATE
@@ -20,10 +21,16 @@ const CardHeightSizer = () => {
   const cardHeightPersistSort = localStorage.getItem("cardHeightSort");
   let cardHeightPostsort = useStore(getCardHeightPostsort);
   const cardHeightPersistPostsort = localStorage.getItem("cardHeightPostsort");
-
   const currentPage = useStore(getCurrentPage);
   const setCardHeightSort = useStore(getSetCardHeightSort);
   const setCardHeightPostsort = useStore(getSetCardHeightPostsort);
+  const setCardHeightThin = useStore(getSetCardHeightThin);
+  let cardHeightThin = useStore(getCardHeightThin);
+  let cardHeightPersistThin = localStorage.getItem("cardHeightThin");
+
+  if (cardHeightPersistThin) {
+    cardHeightThin = cardHeightPersistThin;
+  }
 
   if (cardHeightPersistSort) {
     cardHeightSort = cardHeightPersistSort;
@@ -33,10 +40,15 @@ const CardHeightSizer = () => {
     cardHeightPostsort = cardHeightPersistPostsort;
   }
 
-  const cardHeightText =
-    ReactHtmlParser(decodeHTML(langObj.cardHeightText)) || "";
+  const cardHeightText = ReactHtmlParser(decodeHTML(langObj.cardHeightText)) || "";
 
   const increaseHeight = () => {
+    if (currentPage === "thin") {
+      const currentSize = +cardHeightThin;
+      const newSize = currentSize + 5;
+      localStorage.setItem("cardHeightThin", JSON.stringify(newSize));
+      setCardHeightThin(newSize);
+    }
     if (currentPage === "sort") {
       const currentSize = +cardHeightSort;
       const newSize = currentSize + 2;
@@ -51,6 +63,12 @@ const CardHeightSizer = () => {
     }
   };
   const decreaseHeight = () => {
+    if (currentPage === "thin") {
+      const currentSize = +cardHeightThin;
+      const newSize = currentSize - 5;
+      localStorage.setItem("cardHeightThin", JSON.stringify(newSize));
+      setCardHeightThin(newSize);
+    }
     if (currentPage === "sort") {
       const currentSize = +cardHeightSort;
       const newSize = currentSize - 2;
@@ -94,6 +112,7 @@ const SizeButton = styled.button`
   border-radius: 3px;
   text-decoration: none;
   user-select: none;
+  user-select: none;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -110,4 +129,5 @@ const Container = styled.div`
 
 const SpanDiv = styled.div`
   font-size: 16px;
+  user-select: none;
 `;

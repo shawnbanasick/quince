@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import React from "react";
 import { withRouter } from "react-router";
 
 const BackButton = (props) => {
@@ -42,8 +41,7 @@ const NextButton = styled.button`
   align-items: center;
   user-select: none;
   justify-content: center;
-  background-color: ${({ theme, active }) =>
-    active ? theme.secondary : theme.primary};
+  background-color: ${({ theme, active }) => (active ? theme.secondary : theme.primary)};
 
   &:hover {
     background-color: ${({ theme }) => theme.secondary};

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
 import ReactHtmlParser from "html-react-parser";
@@ -6,45 +6,48 @@ import decodeHTML from "../../utilities/decodeHTML";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 import useLocalStorage from "../../utilities/useLocalStorage";
+import calcThinDisplayControllerArray from "./calcThinDisplayControllerArray";
+import EmojiN3 from "../../assets/emojiN3.svg?react";
+import Emoji0 from "../../assets/emoji0.svg?react";
+import Emoji3 from "../../assets/emoji3.svg?react";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
+const getMapObj = (state) => state.mapObj;
 const getStatementsObj = (state) => state.statementsObj;
 const getColumnStatements = (state) => state.columnStatements;
-const getPreSortedStateNumInit = (state) =>
-  state.presortSortedStatementsNumInitial;
-// const getSetColumnStatements = (state) => state.setColumnStatements;
+const getPreSortedStateNumInit = (state) => state.presortSortedStatementsNumInitial;
 const getSetPresortFinished = (state) => state.setPresortFinished;
-const getSetTrigPresortFinModal = (state) =>
-  state.setTriggerPresortFinishedModal;
+const getSetTrigPresortFinModal = (state) => state.setTriggerPresortFinishedModal;
 const getResults = (state) => state.results;
 const getSetResults = (state) => state.setResults;
-const getSetProgressScoreAdditional = (state) =>
-  state.setProgressScoreAdditional;
+const getSetProgressScoreAdditional = (state) => state.setProgressScoreAdditional;
+const getSetPosSorted = (state) => state.setPosSorted;
+const getSetNegSorted = (state) => state.setNegSorted;
 
 function PresortDND(props) {
   // STATE
   const langObj = useSettingsStore(getLangObj);
   const configObj = useSettingsStore(getConfigObj);
+  const mapObj = useSettingsStore(getMapObj);
   const statementsObj = useSettingsStore(getStatementsObj);
   const columnStatements = useSettingsStore(getColumnStatements);
   const presortSortedStatementsNumInitial = useStore(getPreSortedStateNumInit);
-  // const setColumnStatements = useSettingsStore(getSetColumnStatements);
   const setPresortFinished = useStore(getSetPresortFinished);
   const setTriggerPresortFinishedModal = useStore(getSetTrigPresortFinModal);
   const results = useStore(getResults);
   const setResults = useStore(getSetResults);
   const setProgressScoreAdditional = useStore(getSetProgressScoreAdditional);
+  const setPosSorted = useStore(getSetPosSorted);
+  const setNegSorted = useStore(getSetNegSorted);
 
-  const statementsName =
-    ReactHtmlParser(decodeHTML(langObj.presortStatements)) || "";
-  const btnDisagreement =
-    ReactHtmlParser(decodeHTML(langObj.presortDisagreement)) || "";
-  const btnAgreement =
-    ReactHtmlParser(decodeHTML(langObj.presortAgreement)) || "";
+  const statementsName = ReactHtmlParser(decodeHTML(langObj.presortStatements)) || "";
+  const btnDisagreement = ReactHtmlParser(decodeHTML(langObj.presortDisagreement)) || "";
+  const btnAgreement = ReactHtmlParser(decodeHTML(langObj.presortAgreement)) || "";
   const btnNeutral = ReactHtmlParser(decodeHTML(langObj.presortNeutral)) || "";
-  const onPageInstructions =
-    ReactHtmlParser(decodeHTML(langObj.presortOnPageInstructions)) || "";
+  const onPageInstructions = ReactHtmlParser(decodeHTML(langObj.presortOnPageInstructions)) || "";
+
+  const displayEmoji = mapObj.useColLabelEmojiPresort;
 
   // initialize local state
   let [presortSortedStatementsNum, setPresortSortedStatementsNum] = useState(
@@ -55,7 +58,8 @@ function PresortDND(props) {
   let defaultFontColor = configObj.defaultFontColor;
   let statementsLength = columnStatements.statementList.length;
 
-  const cardHeight = 210;
+  const cardHeight = 180;
+  // const cardHeight = "19.8vh";
 
   const [columns, setColumns] = useLocalStorage("columns", {
     cards: {
@@ -110,6 +114,7 @@ function PresortDND(props) {
             statementsArray[i].yellowChecked = false;
             statementsArray[i].greenChecked = false;
             statementsArray[i].sortValue = pinkArraySortValue;
+            statementsArray[i].psValue = -2;
           }
           if (destinationId === "neutral") {
             statementsArray[i].divColor = "isUncertainStatement";
@@ -117,6 +122,7 @@ function PresortDND(props) {
             statementsArray[i].pinkChecked = false;
             statementsArray[i].yellowChecked = true;
             statementsArray[i].greenChecked = false;
+            statementsArray[i].psValue = 0;
             statementsArray[i].sortValue = 222;
           }
           if (destinationId === "pos") {
@@ -126,6 +132,7 @@ function PresortDND(props) {
             statementsArray[i].yellowChecked = false;
             statementsArray[i].greenChecked = true;
             statementsArray[i].sortValue = greenArraySortValue;
+            statementsArray[i].psValue = 2;
           }
         }
       }
@@ -137,11 +144,7 @@ function PresortDND(props) {
 
       // save to memory
       columnStatements.statementList = [...statementsArray];
-      //setColumnStatements(columnStatements);
-      localStorage.setItem(
-        "columnStatements",
-        JSON.stringify(columnStatements)
-      );
+      localStorage.setItem("columnStatements", JSON.stringify(columnStatements));
 
       // when dropped on different droppable
       if (source.droppableId !== destination.droppableId) {
@@ -181,8 +184,7 @@ function PresortDND(props) {
           // calc remaining statements
           let sortedStatements;
           if (sourceColumn.id === "cards") {
-            sortedStatements =
-              statementsObj.totalStatements - sourceColumn.items.length + 1;
+            sortedStatements = statementsObj.totalStatements - sourceColumn.items.length + 1;
             setPresortSortedStatementsNum(sortedStatements);
             const ratio = sortedStatements / statementsObj.totalStatements;
             const completedPercent = (ratio * 30).toFixed();
@@ -220,7 +222,7 @@ function PresortDND(props) {
       greenArraySortValue,
       pinkArraySortValue,
     ]
-  ); // END DRAG-END
+  );
 
   useEffect(() => {
     const handleKeyUp = (event) => {
@@ -255,10 +257,9 @@ function PresortDND(props) {
 
         onDragEnd(results, columns, setColumns);
       }
-    }; // end keyup
+    };
 
     window.addEventListener("keyup", handleKeyUp);
-
     return () => window.removeEventListener("keyup", handleKeyUp);
   }, [onDragEnd, setColumns, columns]);
 
@@ -300,15 +301,75 @@ function PresortDND(props) {
     if (columns.cards.items.length === 0) {
       setPresortFinished(true);
       setTriggerPresortFinishedModal(true);
+
+      console.log("setting posSorted and negSorted triggered by presortNoReturn");
+
+      let presortColumnStatements = JSON.parse(localStorage.getItem("columnStatements"));
+      localStorage.setItem("newCols", JSON.stringify(presortColumnStatements));
+
+      let posSorted2 = [];
+      let negSorted2 = [];
+      let sortingList = [];
+      if (presortColumnStatements !== null) {
+        console.log("setting posSorted and negSorted");
+        sortingList = [...presortColumnStatements.statementList];
+        sortingList.forEach((item) => {
+          item.selected = false;
+          item.selectedPos = false;
+          item.selectedNeg = false;
+          return item;
+        });
+
+        posSorted2 = sortingList.filter((item) => item.sortValue === 111);
+        setPosSorted(posSorted2);
+        localStorage.setItem("posSorted", JSON.stringify([...posSorted2]));
+        negSorted2 = sortingList.filter((item) => item.sortValue === 333);
+        setNegSorted(negSorted2);
+        localStorage.setItem("negSorted", JSON.stringify([...negSorted2]));
+
+        let sortRightArrays = JSON.parse(localStorage.getItem("sortRightArrays"));
+        let sortLeftArrays = JSON.parse(localStorage.getItem("sortLeftArrays"));
+        let remainingPosCount = posSorted2.length;
+        let remainingNegCount = negSorted2.length;
+
+        let thinDisplayControllerArray = calcThinDisplayControllerArray(
+          remainingPosCount,
+          remainingNegCount,
+          sortRightArrays,
+          sortLeftArrays
+        );
+
+        localStorage.setItem(
+          "thinDisplayControllerArray",
+          JSON.stringify(thinDisplayControllerArray)
+        );
+      }
     }
   }, [
     columns.cards.items.length,
     setPresortFinished,
     setTriggerPresortFinishedModal,
+    setPosSorted,
+    setNegSorted,
   ]);
 
-  // RENDER COMPONENT
+  // Helper function to get column background
+  const getColumnBackground = (columnId, isDraggingOver) => {
+    switch (columnId) {
+      case "cards":
+        return isDraggingOver ? "#e6f3ff" : "#f8fafc";
+      case "neg":
+        return isDraggingOver ? "#fef7f7" : "#fee2e2";
+      case "neutral":
+        return isDraggingOver ? "#fefdf8" : "#fef3c7";
+      case "pos":
+        return isDraggingOver ? "#f7fef7" : "#dcfce7";
+      default:
+        return "#ffffff";
+    }
+  };
 
+  // RENDER COMPONENT
   return (
     <PresortGrid id="statementsGrid">
       <ImageEnlargeInstructionsDiv id="imageEnlargeInstructionsDiv">
@@ -317,44 +378,77 @@ function PresortDND(props) {
       <CompletionRatioDiv id="completionRatio">
         {presortSortedStatementsNum}/{statementsLength}
       </CompletionRatioDiv>
-      <ColumnNamesNeg id="negDivImg">
-        <div>{columns.neg.name}</div>
+      <ColumnNamesNeg id="negColumnHeader">
+        <div id="negHeader">
+          {displayEmoji ? (
+            <EmojiDiv>
+              <EmojiN3 />
+            </EmojiDiv>
+          ) : null}
+          {columns.neg.name}
+          {displayEmoji ? (
+            <EmojiDiv>
+              <EmojiN3 />
+            </EmojiDiv>
+          ) : null}
+        </div>
+        <ButtonPressDiv>
+          <div>{langObj["press1"]}</div>
+        </ButtonPressDiv>
       </ColumnNamesNeg>
-      <ColumnNamesNeu id="negDivImg">
-        <div>{columns.neutral.name}</div>
+      <ColumnNamesNeu id="neutralColumnHeader">
+        <div id="neuHeader">
+          {displayEmoji ? (
+            <EmojiDiv>
+              <Emoji0 />
+            </EmojiDiv>
+          ) : null}
+          {columns.neutral.name}
+          {displayEmoji ? (
+            <EmojiDiv>
+              <Emoji0 />
+            </EmojiDiv>
+          ) : null}
+        </div>
+        <ButtonPressDiv>
+          <div>{langObj["press2"]}</div>
+        </ButtonPressDiv>
       </ColumnNamesNeu>
-      <ColumnNamesPos id="negDivImg">
-        <div>{columns.pos.name}</div>
+      <ColumnNamesPos id="posColumnHeader">
+        <div id="posHeader">
+          {displayEmoji ? (
+            <EmojiDiv>
+              <Emoji3 />
+            </EmojiDiv>
+          ) : null}
+          {columns.pos.name}
+          {displayEmoji ? (
+            <EmojiDiv>
+              <Emoji3 />
+            </EmojiDiv>
+          ) : null}
+        </div>
+        <ButtonPressDiv>
+          <div>{langObj["press3"]}</div>
+        </ButtonPressDiv>
       </ColumnNamesPos>
-      <DragDropContext
-        onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
-      >
-        {Object.entries(columns).map(([columnId, column], index) => {
+      <DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
+        {Object.entries(columns).map(([columnId, column]) => {
           return (
-            <AllColWrapper
-              key={columnId}
-              id={`${columnId}Div`}
-              className={`${columnId}Div`}
-            >
+            <AllColWrapper key={columnId} id={`${columnId}Div`} className={`${columnId}Div`}>
               <ThreeColCardWrapper>
-                <Droppable
-                  droppableId={columnId}
-                  className={columnId}
-                  key={columnId}
-                >
+                <Droppable droppableId={columnId} className={columnId} key={columnId}>
                   {(provided, snapshot) => {
                     return (
-                      <div
+                      <DroppableZone
                         {...provided.droppableProps}
                         ref={provided.innerRef}
                         id={columnId}
                         className={columnId}
+                        columnType={columnId}
+                        isDraggingOver={snapshot.isDraggingOver}
                         style={{
-                          background: snapshot.isDraggingOver
-                            ? "lightblue"
-                            : "white",
-                          padding: 4,
-                          width: "100%",
+                          background: getColumnBackground(columnId, snapshot.isDraggingOver),
                         }}
                       >
                         {column.items.map((item, index) => {
@@ -401,7 +495,7 @@ function PresortDND(props) {
                           );
                         })}
                         {provided.placeholder}
-                      </div>
+                      </DroppableZone>
                     );
                   }}
                 </Droppable>
@@ -415,8 +509,11 @@ function PresortDND(props) {
 }
 
 export default PresortDND;
+
+// Styled Components with enhanced backgrounds
 const ColumnNamesNeg = styled.div`
   display: flex;
+  flex-direction: column;
   grid-column-start: 2;
   grid-row-start: 2;
   justify-content: center;
@@ -424,20 +521,26 @@ const ColumnNamesNeg = styled.div`
   font-size: 20px;
   font-weight: bold;
 
-  div {
+  #negHeader {
     display: flex;
-    outline: 1px solid #a8a8a8;
+    gap: 10px;
+    outline: 1px solid #fca5a5;
     justify-content: center;
     align-items: center;
-    background-color: rgba(255, 182, 193, 0.4);
-    min-width: 50%;
-    padding: 2px;
-    border-radius: 5px;
+    /* background: linear-gradient(135deg, #fecaca, #f87171); */
+    background: #fee2e2;
+    color: #7f1d1d;
+    min-width: 60%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
   }
 `;
 
 const ColumnNamesNeu = styled.div`
   display: flex;
+  flex-direction: column;
+
   align-self: center;
   grid-column-start: 3;
   grid-row-start: 2;
@@ -446,20 +549,25 @@ const ColumnNamesNeu = styled.div`
   font-size: 20px;
   font-weight: bold;
 
-  div {
+  #neuHeader {
     display: flex;
+    gap: 10px;
     justify-content: center;
     align-items: center;
-    outline: 1px solid #a8a8a8;
-    background-color: lightgray;
-    min-width: 50%;
-    padding: 2px;
-    border-radius: 5px;
+    outline: 1px solid #fbbf24;
+    /* background: linear-gradient(135deg, #fde68a, #fbbf24); */
+    background: #fef3c7;
+    color: #78350f;
+    min-width: 60%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(245, 158, 11, 0.2);
   }
 `;
 
 const ColumnNamesPos = styled.div`
   display: flex;
+  flex-direction: column;
   grid-column-start: 4;
   grid-row-start: 2;
   justify-content: center;
@@ -467,15 +575,19 @@ const ColumnNamesPos = styled.div`
   font-size: 20px;
   font-weight: bold;
 
-  div {
+  #posHeader {
     display: flex;
+    gap: 10px;
     justify-content: center;
     align-items: center;
-    background-color: rgba(199, 246, 199, 0.6);
-    min-width: 50%;
-    padding: 2px;
-    border-radius: 5px;
-    outline: 1px solid #a8a8a8;
+    /* background: linear-gradient(135deg, #bbf7d0, #34d399); */
+    background: #dcfce7;
+    color: #064e3b;
+    min-width: 60%;
+    padding: 8px 12px;
+    border-radius: 8px;
+    outline: 1px solid #34d399;
+    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
   }
 `;
 
@@ -484,13 +596,46 @@ const PresortGrid = styled.div`
   margin-top: 25px;
   margin-bottom: 55px;
   display: grid;
-  height: calc(100vh-100px);
-  grid-template-rows: 34h 25px 40vh;
+  min-height: calc(100vh-100px);
+  grid-template-rows: 30vh 85px 58vh;
   grid-template-columns: 0.25fr 1.5fr 1.5fr 1.5fr 0.25fr;
   row-gap: 3px;
   column-gap: 15px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+`;
+
+const DroppableZone = styled.div`
+  padding: 12px;
+  width: 100%;
+  min-height: 400px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  position: relative;
+
+  ${(props) =>
+    props.columnType === "cards" &&
+    `
+    box-shadow: inset 0 0 20px rgba(59, 130, 246, 0.05);
+  `}
+
+  ${(props) =>
+    props.columnType === "neg" &&
+    `
+    box-shadow: inset 0 0 20px rgba(239, 68, 68, 0.05);
+  `}
+  
+  ${(props) =>
+    props.columnType === "neutral" &&
+    `
+    box-shadow: inset 0 0 20px rgba(245, 158, 11, 0.05);
+  `}
+  
+  ${(props) =>
+    props.columnType === "pos" &&
+    `
+    box-shadow: inset 0 0 20px rgba(16, 185, 129, 0.05);
+  `}
 `;
 
 const DroppableContainer = styled.div`
@@ -499,9 +644,16 @@ const DroppableContainer = styled.div`
   align-items: center;
   justify-content: center;
   text-align: center;
-  border-radius: 2px;
+  border-radius: 8px;
   width: 27.8vw;
-  border: 1px solid #a8a8a8;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-1px);
+  }
 `;
 
 const ThreeColCardWrapper = styled.div`
@@ -522,6 +674,10 @@ const CompletionRatioDiv = styled.div`
   font-weight: bold;
   padding-left: 3px;
   padding-right: 3px;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 `;
 
 const ImageEnlargeInstructionsDiv = styled.div`
@@ -529,15 +685,50 @@ const ImageEnlargeInstructionsDiv = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 5px;
+  margin-top: 70px;
   font-size: 16px;
-  padding-left: 3px;
-  padding-right: 3px;
+  padding: 16px 20px;
   width: 100%;
+  height: 100px;
+  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  border-radius: 12px;
+  border-left: 4px solid #0ea5e9;
+  color: #0c4a6e;
+  box-shadow: 0 2px 4px rgba(14, 165, 233, 0.1);
 `;
 
 const AllColWrapper = styled.div`
   margin: 4px;
-  display: "flex";
-  flex-direction: "column";
+  display: flex;
+  flex-direction: column;
   width: 100%;
+`;
+
+const ButtonPressDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  padding-top: 2px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  font-size: 12px;
+  border: 1px solid darkgray;
+  width: 150px;
+  text-align: center;
+  height: 20px;
+`;
+
+const EmojiDiv = styled.div`
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
 `;

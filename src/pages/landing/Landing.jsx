@@ -1,10 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import styled, { keyframes } from "styled-components";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
 import calculateTimeOnPage from "../../utilities/calculateTimeOnPage";
 import LandingModal from "../landing/LandingModal";
 import LogInScreen from "./LogInScreen";
+import MobileLogInScreen from "./MobileLogInScreen";
+import MobilePartIdScreen from "./MobilePartIdScreen";
+import MobileAccessCodeScreen from "./MobileAccessCodeScreen";
 import PartIdScreen from "./PartIdScreen";
 import AccessCodeScreen from "./AccessCodeScreen";
 import checkForIeBrowser from "./checkForIeBrowser";
@@ -13,7 +16,13 @@ import parseParams from "./parseParams";
 import LocalStart from "./LocalStart";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
-// import detectMobileBrowser from "../../utilities/detectMobileBrowser";
+import setMaxIterations from "../thinning/setMaxIterations";
+import createRightLeftArrays from "../thinning/createRightLeftArrays";
+import createColumnData from "../thinning/createColumnData";
+import detectMobileBrowser from "../../utilities/detectMobileBrowser";
+import useScreenOrientation from "../../utilities/useScreenOrientation";
+import shuffle from "lodash/shuffle";
+import { v4 as uuid } from "uuid";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
@@ -24,12 +33,13 @@ const getSetUrlUsercode = (state) => state.setUrlUsercode;
 const getDisplayLandingContent = (state) => state.displayLandingContent;
 const getSetDisplayNextButton = (state) => state.setDisplayNextButton;
 const getMapObject = (state) => state.mapObj;
-const getSetPostsortCommentCheckObj = (state) =>
-  state.setPostsortCommentCheckObj;
+const getSetPostsortCommentCheckObj = (state) => state.setPostsortCommentCheckObj;
 const getSetCardFontSizeSort = (state) => state.setCardFontSizeSort;
 const getSetCardFontSizePostsort = (state) => state.setCardFontSizePostsort;
 const getSetMinCardHeightSort = (state) => state.setMinCardHeightSort;
+const getSetCardHeightSort = (state) => state.setCardHeightSort;
 const getSetMinCardHeightPostsort = (state) => state.setMinCardHeightPostsort;
+const getStatementsObj = (state) => state.statementsObj;
 
 const LandingPage = () => {
   // STATE
@@ -44,49 +54,27 @@ const LandingPage = () => {
   const setDisplayNextButton = useStore(getSetDisplayNextButton);
   const setPostsortCommentCheckObj = useStore(getSetPostsortCommentCheckObj);
   const headerBarColor = configObj.headerBarColor;
-  const landingHead = ReactHtmlParser(decodeHTML(langObj.landingHead)) || "";
-  const welcomeTextHtml =
-    ReactHtmlParser(decodeHTML(langObj.welcomeText)) || "";
   const setCardFontSizeSort = useStore(getSetCardFontSizeSort);
   const setCardFontSizePostsort = useStore(getSetCardFontSizePostsort);
   const setMinCardHeightSort = useStore(getSetMinCardHeightSort);
+  const setCardHeightSort = useStore(getSetCardHeightSort);
   const setMinCardHeightPostsort = useStore(getSetMinCardHeightPostsort);
-  // const mobileWelcomeTextHtml =
-  //   ReactHtmlParser(decodeHTML(langObj?.mobileWelcomeText)) || "";
-  // calc time on page
-  useEffect(() => {
-    const startTime = Date.now();
-    setProgressScore(10);
-    setCurrentPage("landing");
-    localStorage.setItem("currentPage", "landing");
-    return () => {
-      // will persist in localStorage
-      calculateTimeOnPage(startTime, "landingPage", "landingPage");
-    };
-  }, [setCurrentPage, setProgressScore]);
 
-  let archive;
-  if (localStorage.getItem("resultsSurveyArchive" !== undefined)) {
-    archive = JSON.parse(localStorage.getItem("resultsSurveyArchive"));
-  }
+  // ******************************
+  // *** TEXT LOCALIZATION  ****************
+  // ******************************
+  const landingHead = ReactHtmlParser(decodeHTML(langObj.landingHead)) || "";
+  const welcomeTextHtml = ReactHtmlParser(decodeHTML(langObj.welcomeText)) || "";
+  const statementsObj = useSettingsStore(getStatementsObj);
+  const mobileWelcomeTextHtml = ReactHtmlParser(decodeHTML(langObj?.mobileWelcomeText)) || "";
+  const screenOrientationText = ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
 
-  let surveyResults;
-  if (localStorage.getItem("resultsSurvey" !== undefined)) {
-    surveyResults = JSON.parse(localStorage.getItem("resultsSurvey"));
-  }
-
-  if (
-    (surveyResults && configObj.showSurvey === "true") ||
-    configObj.showSurvey === true
-  ) {
-    console.log(archive);
-    console.log(configObj.requiredAnswersObj);
-  }
-
+  //****************************************** */
+  // *** LOCAL STATE ***********************************
+  //****************************************** */
   const isLandingReload = localStorage.getItem("currentPage");
-  if (isLandingReload === "landing") {
-    // localStorage.clear();
 
+  if (isLandingReload === "landing") {
     // clear local storage if previous sorts exist
     localStorage.removeItem("columns");
     localStorage.removeItem("sortColumns");
@@ -97,10 +85,13 @@ const LandingPage = () => {
     localStorage.removeItem("HC2-requiredCommentsObj");
     localStorage.removeItem("LC2-requiredCommentsObj");
     localStorage.removeItem("cumulativelandingPageDuration");
+    localStorage.removeItem("cumulativepostsortPageDuration");
     localStorage.removeItem("cumulativepresortPageDuration");
     localStorage.removeItem("cumulativesortPageDuration");
-    localStorage.removeItem("cumulativepostsortPageDuration");
+    localStorage.removeItem("cumulativethinningPageDuration");
     localStorage.removeItem("cumulativesurveyPageDuration");
+    localStorage.removeItem("cumulativethinPageDuration");
+    localStorage.removeItem("cumulativesubmitPageDuration");
     localStorage.removeItem("lastAccesslandingPage");
     localStorage.removeItem("lastAccesspresortPage");
     localStorage.removeItem("lastAccesssortPage");
@@ -108,6 +99,7 @@ const LandingPage = () => {
     localStorage.removeItem("lastAccesssurveyPage");
     localStorage.removeItem("timeOnlandingPage");
     localStorage.removeItem("timeOnpresortPage");
+    localStorage.removeItem("timeOnthinningPage");
     localStorage.removeItem("timeOnsortPage");
     localStorage.removeItem("timeOnpostsortPage");
     localStorage.removeItem("timeOnsurveyPage");
@@ -117,12 +109,55 @@ const LandingPage = () => {
     localStorage.removeItem("resultsSurvey");
     localStorage.removeItem("postsortCommentCardCount");
     localStorage.removeItem("allCommentsObj");
+    localStorage.removeItem("newCols");
+    localStorage.removeItem("posSortedLocal");
+    localStorage.removeItem("negSortedLocal");
+    localStorage.removeItem("currentLeftIteration");
+    localStorage.removeItem("currentRightIteration");
+    localStorage.removeItem("isNotReload");
+    localStorage.removeItem("posSorted");
+    localStorage.removeItem("negSorted");
+    localStorage.removeItem("selectedPosItems");
+    localStorage.removeItem("selectedNegItems");
+    localStorage.removeItem("m_PresortStatementCount");
+    localStorage.removeItem("presortArray2");
+    localStorage.removeItem("thinDisplayControllerArray");
+    localStorage.removeItem("mobilePresortFontSize");
+    localStorage.removeItem("m_SortArray1");
+    localStorage.removeItem("selectedPosItems");
+    localStorage.removeItem("selectedNegItems");
+    localStorage.removeItem("columnStatements");
+    localStorage.removeItem("m_FontSizeObject");
+    localStorage.removeItem("m_ViewSizeObject");
+    localStorage.removeItem("m_FinalThinCols");
+    localStorage.removeItem("m_NegRequiredStatesObj");
+    localStorage.removeItem("m_PosRequiredStatesObj");
+    localStorage.removeItem("CumulativeTimelandingPage");
+    localStorage.removeItem("CumulativeTimepresortPage");
+    localStorage.removeItem("CumulativeTimethinningPage");
+    localStorage.removeItem("CumulativeTimesortPage");
+    localStorage.removeItem("CumulativeTimepostsortPage");
+    localStorage.removeItem("CumulativeTimesurveyPage");
+    localStorage.removeItem("m_ThinDisplayStatements");
+    localStorage.removeItem("m_HasDisplayedFirstThinModal");
+    localStorage.removeItem("m_PostSortResultsObj");
+    localStorage.removeItem("m_PresortResults");
+    localStorage.removeItem("m_SortCharacteristicsArray");
+    localStorage.removeItem("m_ThinningFinished");
+    localStorage.removeItem("m_PresortFinished");
+
+    localStorage.removeItem("randomId");
+    localStorage.removeItem("m_ThinScrollBottom");
+    localStorage.removeItem("m_ViewedBottomSort");
+    localStorage.removeItem("m_NeedsToScroll");
+
+    for (let i = 0; i < statementsObj.totalStatements; i++) {
+      let key = `m_PostsortComment(s${i + 1})`;
+      localStorage.removeItem(key);
+    }
 
     if (configObj.requiredAnswersObj !== undefined) {
-      localStorage.setItem(
-        "resultsSurvey",
-        JSON.stringify(configObj.requiredAnswersObj)
-      );
+      localStorage.setItem("resultsSurvey", JSON.stringify(configObj.requiredAnswersObj));
 
       let keys = Object.keys(configObj.requiredAnswersObj);
       keys.forEach((key, index) => {
@@ -133,7 +168,84 @@ const LandingPage = () => {
     }
   }
 
+  const headers = useMemo(() => [...mapObj.qSortHeaders], [mapObj.qSortHeaders]);
+  const qSortPattern = useMemo(() => [...mapObj.qSortPattern], [mapObj.qSortPattern]);
+
+  // SORT card height
+  let maxColCards = Math.max(...qSortPattern);
+  let height = (window.innerHeight - 150) / maxColCards;
+  localStorage.setItem("cardHeightSort", height);
+  setCardHeightSort(height);
+
+  // ************************
+  // *** set defaults *********************
+  // ************************
+  localStorage.setItem(
+    "m_FontSizeObject",
+    JSON.stringify({
+      presort: 2,
+      thin: 2,
+      sort: 2,
+      postsort: 2,
+    })
+  );
+  localStorage.setItem(
+    "m_ViewSizeObject",
+    JSON.stringify({
+      presort: 42,
+      thin: 68,
+      sort: 72,
+      postsort: 72,
+      survey: 72,
+    })
+  );
+
+  localStorage.setItem("m_ThinDisplayStatements", JSON.stringify({ display: true }));
+  localStorage.setItem("m_PresortDisplayStatements", JSON.stringify({ display: true }));
+  localStorage.setItem("randomId", uuid().substring(0, 12));
+  localStorage.setItem("m_FinalThinCols", JSON.stringify([]));
+
+  // set newCols to local storage
+  let columnStatements = statementsObj.columnStatements;
+  localStorage.setItem("newCols", JSON.stringify(columnStatements));
+
+  // *** USE HOOKS *********************
+  let isMobile = detectMobileBrowser();
+
+  let screenOrientation = useScreenOrientation();
+
+  //   calc time on page
+  const startTimeRef = useRef(null);
   useEffect(() => {
+    startTimeRef.current = Date.now();
+    setProgressScore(10);
+    setCurrentPage("landing");
+    localStorage.setItem("currentPage", "landing");
+    return () => {
+      // will persist in localStorage
+      calculateTimeOnPage(startTimeRef.current, "landingPage", "landingPage");
+    };
+  }, [setCurrentPage, setProgressScore]);
+
+  useEffect(() => {
+    // set thinning iteration counts
+    localStorage.setItem("currentLeftIteration", 0);
+    localStorage.setItem("currentRightIteration", 0);
+    localStorage.setItem("isNotReload", "true");
+    localStorage.setItem("thinningSide", "rightSide");
+    localStorage.setItem("m_PresortResults", "");
+
+    const maxIterations = setMaxIterations(qSortPattern);
+
+    // **** LOCAL STATE ***** //
+    let finalSortColData = createColumnData(headers, qSortPattern);
+    localStorage.setItem("finalSortColData", JSON.stringify(finalSortColData));
+    let rightLeftArrays = createRightLeftArrays([...finalSortColData], maxIterations);
+    let sortRightArrays = [...rightLeftArrays[1]];
+    let sortLeftArrays = [...rightLeftArrays[0]];
+    localStorage.setItem("sortRightArrays", JSON.stringify(sortRightArrays));
+    localStorage.setItem("sortLeftArrays", JSON.stringify(sortLeftArrays));
+
     // display "Next" button if anonymous log in
     if (configObj.initialScreen === "anonymous") {
       setDisplayNextButton(true);
@@ -148,18 +260,11 @@ const LandingPage = () => {
     }
 
     // SORT font
-    if (
-      configObj.setDefaultFontSizeSort === "true" ||
-      configObj.setDefaultFontSizeSort === true
-    ) {
+    if (configObj.setDefaultFontSizeSort === "true" || configObj.setDefaultFontSizeSort === true) {
       localStorage.setItem("fontSizeSort", configObj.defaultFontSizeSort);
     }
 
-    // SORT card height
-    if (
-      configObj.setMinCardHeightSort === "true" ||
-      configObj.setMinCardHeightSort === true
-    ) {
+    if (configObj.setMinCardHeightSort === "true" || configObj.setMinCardHeightSort === true) {
       localStorage.setItem("cardHeightSort", configObj.minCardHeightSort);
     }
 
@@ -169,10 +274,7 @@ const LandingPage = () => {
       configObj.setDefaultFontSizePostsort === true
     ) {
       setCardFontSizePostsort(configObj.defaultFontSizePostsort);
-      localStorage.setItem(
-        "fontSizePostsort",
-        configObj.defaultFontSizePostsort
-      );
+      localStorage.setItem("fontSizePostsort", configObj.defaultFontSizePostsort);
     }
 
     // POSTSORT card height
@@ -181,10 +283,7 @@ const LandingPage = () => {
       configObj.setMinCardHeightPostsort === true
     ) {
       setMinCardHeightPostsort(configObj.minCardHeightPostsort);
-      localStorage.setItem(
-        "cardHeightPostsort",
-        configObj.minCardHeightPostsort
-      );
+      localStorage.setItem("cardHeightPostsort", configObj.minCardHeightPostsort);
     }
 
     // set participant Id if set in URL
@@ -193,11 +292,7 @@ const LandingPage = () => {
     if (urlString === undefined || urlString === null) {
       let urlName = localStorage.getItem("urlUsercode");
       // if nothing in local storage, set to "not_set"
-      if (
-        urlName === null ||
-        urlName === undefined ||
-        urlName === "undefined"
-      ) {
+      if (urlName === null || urlName === undefined || urlName === "undefined") {
         console.log("no url usercode in storage");
         setUrlUsercode("not_set");
         localStorage.setItem("urlUsercode", "not_set");
@@ -219,17 +314,19 @@ const LandingPage = () => {
       localStorage.setItem("urlUsercode", codeName);
     }
   }, [
-    setUrlUsercode,
-    configObj.initialScreen,
-    configObj.setDefaultFontSize,
-    configObj.defaultFontSize,
-    setDisplayNextButton,
+    configObj,
     mapObj,
+    setDisplayNextButton,
+    setUrlUsercode,
     setCardFontSizeSort,
     setCardFontSizePostsort,
     setMinCardHeightSort,
     setMinCardHeightPostsort,
-    configObj,
+    headers,
+    qSortPattern,
+    statementsObj,
+    maxColCards,
+    setCardHeightSort,
   ]);
 
   // setup postsort comments object
@@ -274,6 +371,19 @@ const LandingPage = () => {
   let displayPartIdScreen = false;
   let displayAccessCodeScreen = false;
 
+  // **********************************************
+  // ************ EARLY RETURNS **************************
+  // **********************************************
+  if (isMobile) {
+    if (screenOrientation === "landscape-primary") {
+      return (
+        <OrientationDiv>
+          <h1>{screenOrientationText}</h1>
+        </OrientationDiv>
+      );
+    }
+  }
+
   if (configObj.setupTarget === "local") {
     return (
       <>
@@ -290,10 +400,7 @@ const LandingPage = () => {
     if (initialScreenSetting === "anonymous") {
       displayLandingContent = true;
     }
-    if (
-      initialScreenSetting === "partId-access" &&
-      displayLandingContent === false
-    ) {
+    if (initialScreenSetting === "partId-access" && displayLandingContent === false) {
       displayLogInScreen = true;
     }
     if (initialScreenSetting === "partId" && displayLandingContent === false) {
@@ -312,39 +419,43 @@ const LandingPage = () => {
       displayPartIdScreen = false;
     }
 
-    // if (
-    //   configObj.useMobileMode === true ||
-    //   configObj.useMobileMode === "true"
-    // ) {
-    //   let isMobile = detectMobileBrowser();
+    if (configObj.useMobileMode === true || configObj.useMobileMode === "true") {
+      // let array2 = shuffle(statementsObj?.columnStatements?.statementList);
 
-    //   if (isMobile) {
-    //     return (
-    //       <React.Fragment>
-    //         {dataLoaded && (
-    //           <React.Fragment>
-    //             <MobileSortTitleBar background={headerBarColor}>
-    //               {landingHead}
-    //             </MobileSortTitleBar>
-    //             <MobileContainerDiv>
-    //               <MobileContentDiv>
-    //                 <div>{mobileWelcomeTextHtml}</div>
-    //               </MobileContentDiv>
-    //             </MobileContainerDiv>
-    //           </React.Fragment>
-    //         )}
-    //       </React.Fragment>
-    //     );
-    //   }
-    // }
+      localStorage.setItem(
+        "presortArray",
+        JSON.stringify(shuffle(statementsObj?.columnStatements?.statementList))
+      );
+
+      if (isMobile) {
+        console.log("Mobile detected");
+        return (
+          <React.Fragment>
+            {dataLoaded && (
+              <React.Fragment>
+                <MobileSortTitleBar background={headerBarColor}>{landingHead}</MobileSortTitleBar>
+                <MobileContainerDiv>
+                  {displayLogInScreen && <MobileLogInScreen />}
+                  {displayPartIdScreen && <MobilePartIdScreen />}
+                  {displayAccessCodeScreen && <MobileAccessCodeScreen />}
+                  {displayLandingContent && (
+                    <MobileContentDiv>
+                      <div>{mobileWelcomeTextHtml}</div>
+                    </MobileContentDiv>
+                  )}
+                </MobileContainerDiv>
+              </React.Fragment>
+            )}
+          </React.Fragment>
+        );
+      }
+    }
 
     return (
       <React.Fragment>
         {dataLoaded && (
           <React.Fragment>
-            <SortTitleBar background={headerBarColor}>
-              {landingHead}
-            </SortTitleBar>
+            <SortTitleBar background={headerBarColor}>{landingHead}</SortTitleBar>
             <LandingModal />
             <ContainerDiv>
               {isIeBrowser && <InternetExplorerWarning />}
@@ -414,7 +525,11 @@ const MobileContainerDiv = styled.div`
   margin-bottom: 70px;
   padding-top: 50px;
   transition: 0.3s ease all;
-  margin-top: 50px;
+  margin-top: 20px;
+  /* border: 2px solid red; */
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
 
   img {
     margin-top: 20px;
@@ -439,13 +554,23 @@ const ContentDiv = styled.div`
 
 const MobileContentDiv = styled.div`
   display: flex;
-  width: 75vw;
-  font-size: 3.1vh;
+  flex-wrap: wrap;
+  width: 90vw;
+  height: 100%;
+  font-size: 4.1vw;
   visibility: ${(props) => (props.view ? "hidden" : "visible")};
   animation: ${(props) => (props.view ? fadeOut : fadeIn)} 0.5s linear;
   transition: visibility 0.5s linear;
   justify-content: center;
   align-items: center;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
+
+  iframe {
+    width: 84vw;
+    height: 47.2vw;
+  }
 `;
 
 const SortTitleBar = styled.div`
@@ -480,4 +605,15 @@ const MobileSortTitleBar = styled.div`
   font-size: 18px;
   position: fixed;
   top: 0;
+`;
+
+const OrientationDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
+  width: 100vw;
+  height: 100vh;
 `;

@@ -1,4 +1,4 @@
-const createStatementsSettingsSlice = (set, get) => ({
+const createStatementsSettingsSlice = (set) => ({
   statementsObj: {},
   columnStatements: {},
   resetColumnStatements: {},

@@ -1,0 +1,63 @@
+<svg width="400" height="150" viewBox="0 0 400 150" xmlns="http://www.w3.org/2000/svg" style="background-color: #ececec;">
+  <!-- Background -->
+  <rect width="400" height="150" fill="#ececec"/>
+  <!-- Background -->
+  <rect width="400" height="150" fill="#ececec"/>
+  
+  <defs>
+    <!-- Primary gradient -->
+    <linearGradient id="primaryGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1E40AF;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Accent gradient -->
+    <linearGradient id="accentGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#06B6D4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0891B2;stop-opacity:1" />
+    </linearGradient>
+    
+    <!-- Drop shadow -->
+    <filter id="dropshadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="rgba(0,0,0,0.15)"/>
+    </filter>
+  </defs>
+  
+  <!-- Main Logo -->
+  <g transform="translate(50, 50)">
+    
+    <!-- Q formed by arranged squares/cards -->
+    <g transform="translate(0, 10)">
+      <!-- Top row -->
+      <rect x="5" y="0" width="8" height="8" rx="1.5" fill="url(#primaryGradient)" filter="url(#dropshadow)"/>
+      <rect x="15" y="0" width="8" height="8" rx="1.5" fill="url(#primaryGradient)" filter="url(#dropshadow)"/>
+      <rect x="25" y="0" width="8" height="8" rx="1.5" fill="url(#primaryGradient)" filter="url(#dropshadow)"/>
+      
+      <!-- Second row -->
+      <rect x="0" y="10" width="8" height="8" rx="1.5" fill="url(#primaryGradient)" filter="url(#dropshadow)"/>
+      <rect x="30" y="10" width="8" height="8" rx="1.5" fill="url(#primaryGradient)" filter="url(#dropshadow)"/>
+      
+      <!-- Third row -->
+      <rect x="0" y="20" width="8" height="8" rx="1.5" fill="url(#primaryGradient)" filter="url(#dropshadow)"/>
+      <rect x="30" y="20" width="8" height="8" rx="1.5" fill="url(#primaryGradient)" filter="url(#dropshadow)"/>
+      
+      <!-- Fourth row -->
+      <rect x="0" y="30" width="8" height="8" rx="1.5" fill="url(#primaryGradient)" filter="url(#dropshadow)"/>
+      <rect x="30" y="30" width="8" height="8" rx="1.5" fill="url(#primaryGradient)" filter="url(#dropshadow)"/>
+      
+      <!-- Bottom row -->
+      <rect x="5" y="40" width="8" height="8" rx="1.5" fill="url(#primaryGradient)" filter="url(#dropshadow)"/>
+      <rect x="15" y="40" width="8" height="8" rx="1.5" fill="url(#primaryGradient)" filter="url(#dropshadow)"/>
+      <rect x="25" y="40" width="8" height="8" rx="1.5" fill="url(#primaryGradient)" filter="url(#dropshadow)"/>
+      
+      <!-- Q tail (diagonal accent squares) -->
+      <rect x="23" y="28" width="8" height="8" rx="1.5" fill="url(#accentGradient)" filter="url(#dropshadow)"/>
+      <rect x="33" y="38" width="8" height="8" rx="1.5" fill="url(#accentGradient)" filter="url(#dropshadow)"/>
+    </g>
+    
+    <!-- Brand name -->
+    <text x="60" y="58" font-family="Arial, sans-serif" font-size="42" font-weight="700" fill="url(#primaryGradient)">
+      Quincy
+    </text>
+  </g>
+</svg>

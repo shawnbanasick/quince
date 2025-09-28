@@ -1,202 +1,207 @@
-import React from "react";
 import styled from "styled-components";
 import MobileNextButton from "./MobileNextButton";
-import FooterFontSizer from "./FooterFontSizer";
-import CardHeightSizer from "./CardHeightSizer";
-import ProgressBar from "@ramonak/react-progress-bar";
+import MobileFooterFontSizer from "./MobileFooterFontSizer";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
-import calcProgressScore from "./calcProgressScore";
-import HelpButton from "./HelpButton";
 import getNextPage from "./getNextPage";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
-import PostsortBackButton from "./PostsortBackButton";
+import MobileFooterViewSizer from "./MobileFooterViewSizer";
+import useScreenOrientation from "../../utilities/useScreenOrientation";
+// import CardHeightSizer from "./CardHeightSizer";
+// import ProgressBar from "@ramonak/react-progress-bar";
+// import calcProgressScore from "./calcProgressScore";
+// import MobileHelpButton from "./MobileHelpButton";
+import MobileSurveyBackButton from "./MobileSurveyBackButton";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
-const getDisplayNextButton = (state) => state.displayNextButton;
 const getCurrentPage = (state) => state.currentPage;
-const getAdditionalProgress = (state) => state.progressScoreAdditional;
-const getAdditionalProgressSort = (state) => state.progressScoreAdditionalSort;
 const getLocalUsercode = (state) => state.localUsercode;
+const getDisplayNextButton = (state) => state.displayNextButton;
+// const getAdditionalProgress = (state) => state.progressScoreAdditional;
+// const getAdditionalProgressSort = (state) => state.progressScoreAdditionalSort;
+// const getDisplayMobileHelpButton = (state) => state.displayMobileHelpButton;
+// const getSetDisplayMobileHelpButton = (state) =>
+//   state.setDisplayMobileHelpButton;
 
 const StyledFooter = () => {
-  console.log("MobileFooter.jsx");
   // STATE
   const langObj = useSettingsStore(getLangObj);
   const configObj = useSettingsStore(getConfigObj);
-  let displayNextButton = useStore(getDisplayNextButton);
   const currentPage = useStore(getCurrentPage);
-  const additionalProgress = useStore(getAdditionalProgress);
-  const additionalProgressSort = useStore(getAdditionalProgressSort);
   const localUsercode = useStore(getLocalUsercode);
+  // const additionalProgress = useStore(getAdditionalProgress);
+  // const additionalProgressSort = useStore(getAdditionalProgressSort);
+  let displayNextButtonGlobal = useStore(getDisplayNextButton);
+  // let displayMobileHelpButton = useStore(getDisplayMobileHelpButton);
+  // const setDisplayMobileHelpButton = useStore(getSetDisplayMobileHelpButton);
 
-  let showAdjustmentContainer = true;
-  let showCardHeightSizer = true;
-  let displayHelpButton = true;
+  // let showProgressBar = false;
+  // let showCardHeightSizer = true;
+  // let showAdjustmentContainer = true;
+  // let backButtonText = langObj.postsortBackButtonText;
+  // let showBackButton;
   let showFooterFontSizer = true;
-  let showProgressBar = false;
   let showLogo = false;
+  let showFooterViewSizer = true;
+  let displayNextButton = false;
+  let nextButtonWidth = 60;
+  let nextButtonText = "";
 
-  let showBackButton;
-  let backButtonText = langObj.postsortBackButtonText;
+  const showPostsort = configObj.showPostsort;
+  const showSurvey = configObj.showSurvey;
+  const showConsent = configObj.showConsentPage;
+  const showThinning = configObj.useThinProcess;
+  // const useImages = configObj.useImages;
 
-  if (currentPage === "postsort" && configObj.showBackButton) {
-    showBackButton = true;
-  } else {
-    showBackButton = false;
-  }
+  // *** HOOKS ***
+  let screenOrientation = useScreenOrientation();
 
+  // *** LOGO ***
   let logoHtml = ReactHtmlParser(
-    decodeHTML(
-      `{{{center}}}{{{img src="./logo/logo.png" height="20" width="125" /}}}{{{/center}}}`
-    )
+    decodeHTML(`{{{center}}}{{{img src="./logo/logo.png" height="20" width="125" /}}}{{{/center}}}`)
   );
 
-  let nextButtonWidth = 100;
-  let nextButtonText = "";
+  // *** TEXT LOCALIZATION ***
   if (currentPage === "landing") {
-    nextButtonWidth = 150;
-    nextButtonText = ReactHtmlParser(decodeHTML(langObj.landingNext)) || "";
+    nextButtonWidth = 60;
+    nextButtonText = ReactHtmlParser(decodeHTML(langObj.btnNextLanding)) || "";
+  } else if (currentPage === "consent") {
+    nextButtonWidth = 180;
+    nextButtonText = ReactHtmlParser(decodeHTML(langObj.btnNextConsent)) || "";
   } else {
     nextButtonText = ReactHtmlParser(decodeHTML(langObj.btnNext)) || "";
   }
 
+  let backButtonText = ReactHtmlParser(decodeHTML(langObj.postsortBackButtonText)) || "";
+
+  // if (currentPage === "postsort" && configObj.showBackButton) {
+  //   // showBackButton = false;
+  // } else {
+  //   // showBackButton = false;
+  // }
+
+  // *** LOCAL DATA COLLECTION SETUP ***
   if (currentPage === "sort" && configObj.setupTarget === "local") {
     const usercode = localUsercode;
     const projectName = configObj.studyTitle;
     const today = new Date();
-    const date =
-      today.getFullYear() +
-      "-" +
-      (today.getMonth() + 1) +
-      "-" +
-      today.getDate();
-    const time =
-      today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    const date = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
+    const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     const dateTime = date + " " + time;
-
     logoHtml = `${usercode} - ${projectName} - ${dateTime}`;
   }
 
-  const showPostsort = configObj.showPostsort;
-  const showSurvey = configObj.showSurvey;
-  const useImages = configObj.useImages;
-  const showConsent = configObj.showConsentPage;
-
-  const totalProgressScore = calcProgressScore(
-    currentPage,
-    additionalProgress,
-    additionalProgressSort,
-    showPostsort,
-    showSurvey,
-    additionalProgress,
-    additionalProgressSort
-  );
-
-  if (currentPage === "submit") {
-    displayNextButton = false;
-  }
-
-  if (configObj.setupTarget === "local" && currentPage === "landing") {
-    displayNextButton = false;
-    displayHelpButton = false;
-  }
-  if (currentPage === "submit") {
-    displayHelpButton = false;
-  }
-
-  if (currentPage === "presort") {
-    if (configObj.useImages === true) {
-      showAdjustmentContainer = false;
-      showCardHeightSizer = false;
-    } else {
-      showAdjustmentContainer = true;
-      showCardHeightSizer = false;
-    }
-  }
-
-  if (currentPage === "sort") {
-    if (useImages === true) {
-      showAdjustmentContainer = true;
-      showCardHeightSizer = true;
-      showFooterFontSizer = false;
-    } else {
-      showAdjustmentContainer = true;
-      showCardHeightSizer = true;
-      showFooterFontSizer = true;
-    }
-  }
-
-  if (
-    currentPage === "landing" ||
-    currentPage === "survey" ||
-    currentPage === "submit"
-  ) {
-    showAdjustmentContainer = false;
-  }
-  displayHelpButton = false;
-
-  if (currentPage === "landing") {
-    showProgressBar = false;
+  // Display LOGO
+  if (currentPage === "submit" || currentPage === "landing" || currentPage === "consent") {
     showLogo = true;
   }
 
-  let CenterContent = (
-    <React.Fragment>
-      {displayHelpButton && <HelpButton />}
-      {showAdjustmentContainer && (
-        <AdjustmentsContainer>
-          {showFooterFontSizer && <FooterFontSizer />}
-          {showCardHeightSizer && <CardHeightSizer />}
-        </AdjustmentsContainer>
-      )}
-      {showProgressBar && (
-        <ProgressBarDiv>
-          <ProgressBar
-            completed={totalProgressScore}
-            width={"100px"}
-            bgColor="#337ab7"
-            labelColor="#f0f0f0"
-            baseBgColor="lightgray"
-          />
-        </ProgressBarDiv>
-      )}
-    </React.Fragment>
-  );
-
-  const nextPage = getNextPage(
-    currentPage,
-    showPostsort,
-    showSurvey,
-    showConsent
-  );
-
-  let showFooter = true;
-  if (currentPage === "presort") {
-    showFooter = false;
+  // Display NEXT button
+  if (
+    currentPage === "landing" ||
+    currentPage === "consent" ||
+    currentPage === "thin" ||
+    currentPage === "postsort" ||
+    currentPage === "survey" ||
+    currentPage === "sort" ||
+    currentPage === "presort"
+  ) {
+    displayNextButton = true;
   }
 
-  if (showFooter === false) {
+  // Display BACK button
+  let showBackButton = false;
+  if (currentPage === "survey") {
+    showBackButton = true;
+  }
+
+  // Local data collection setup
+  if (configObj.setupTarget === "local" && currentPage === "landing") {
+    displayNextButton = false;
+  }
+
+  if (currentPage === "landing") {
+    displayNextButton = displayNextButtonGlobal;
+  }
+
+  // Image sort adjustments
+  // if (currentPage === "presort") {
+  //   if (configObj.useImages === true) {
+  //     // showAdjustmentContainer = false;
+  //     // showCardHeightSizer = false;
+  //   } else {
+  //     // showAdjustmentContainer = true;
+  //     // showCardHeightSizer = false;
+  //   }
+  // }
+
+  // Image sort adjustments
+  if (currentPage === "submit" || currentPage === "landing" || currentPage === "consent") {
+    showFooterFontSizer = false;
+    showFooterViewSizer = false;
+    // if (useImages === true) {
+    //   showAdjustmentContainer = true;
+    //   // showCardHeightSizer = true;
+    //   showFooterFontSizer = false;
+    // } else {
+    //   showAdjustmentContainer = false;
+    //   // showCardHeightSizer = true;
+    //   showFooterFontSizer = true;
+    // }
+    // showAdjustmentContainer = true;
+  }
+
+  if (currentPage === "survey") {
+    showFooterFontSizer = false;
+    showFooterViewSizer = true;
+    // showAdjustmentContainer = false;
+  }
+
+  // font size and view adjustments display
+  if (currentPage === "landing" || currentPage === "survey" || currentPage === "submit") {
+    // showAdjustmentContainer = false;
+  }
+
+  if (currentPage === "postsort") {
+    showLogo = false;
+    // showAdjustmentContainer = true;
+  }
+
+  // let CenterContent = (
+  //   <React.Fragment>
+  //     {showAdjustmentContainer && (
+  //       <AdjustmentsContainer>
+  //         {showFooterFontSizer && <MobileFooterFontSizer />}
+  //         {showFooterViewSizer && <MobileFooterViewSizer />}
+  //       </AdjustmentsContainer>
+  //     )}
+  //   </React.Fragment>
+  // );
+
+  const nextPage = getNextPage(currentPage, showPostsort, showSurvey, showConsent, showThinning);
+
+  // ************************
+  // *** EARLY RETURN ***********
+  // ************************
+  if (screenOrientation === "landscape-primary") {
     return null;
   }
-  console.log(currentPage, showPostsort, showSurvey, nextPage, showFooter);
 
   return (
     <StyledFooterDiv>
       {showLogo && <LogoContainer>{logoHtml}</LogoContainer>}
-      <CenterDiv>{CenterContent}</CenterDiv>
-      <ButtonDiv>
-        {showBackButton && (
-          <PostsortBackButton to={"/sort"}>{backButtonText}</PostsortBackButton>
-        )}
-        {displayNextButton && (
-          <MobileNextButton width={nextButtonWidth} to={nextPage}>
-            {nextButtonText}
-          </MobileNextButton>
-        )}
-      </ButtonDiv>
+      {showBackButton && (
+        <MobileSurveyBackButton to={"/postsort"}>{backButtonText}</MobileSurveyBackButton>
+      )}
+      {showFooterFontSizer && <MobileFooterFontSizer />}
+      {showFooterViewSizer && <MobileFooterViewSizer />}
+      {displayNextButton && (
+        <MobileNextButton width={nextButtonWidth} to={nextPage}>
+          {nextButtonText}
+        </MobileNextButton>
+      )}
     </StyledFooterDiv>
   );
 };
@@ -204,28 +209,26 @@ const StyledFooter = () => {
 export default StyledFooter;
 
 const StyledFooterDiv = styled.footer`
+  display: flex;
+  flex-direction: row;
   position: fixed;
   bottom: 0px;
   left: 0px;
   border-top: 1px solid lightgray;
-
-  display: flex;
-  flex-direction: row;
   justify-content: space-between;
+  padding: 5px;
   align-items: center;
 `;
 
-const AdjustmentsContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  padding-left: 15px;
-`;
-
-const ProgressBarDiv = styled.div`
-  align-self: center;
-  justify-self: center;
-  margin-left: 25px;
-`;
+// const AdjustmentsContainer = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   /* justify-content: space-between; */
+//   /* gap: 10px; */
+//   margin-left: 2vw;
+//   width: 100%;
+//   outline: 1px solid red;
+// `;
 
 const LogoContainer = styled.div`
   padding-top: 5px;
@@ -236,14 +239,14 @@ const LogoContainer = styled.div`
   text-align: center;
 `;
 
-const CenterDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-`;
+// const CenterDiv = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: center;
+// `;
 
-const ButtonDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-`;
+// const ButtonDiv = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   justify-content: space-between;
+// `;

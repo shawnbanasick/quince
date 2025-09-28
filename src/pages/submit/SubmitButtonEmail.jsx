@@ -1,7 +1,5 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
-import SubmitSuccessModal from "./SubmitSuccessModal";
-import SubmitFailureModal from "./SubmitFailureModal";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
 import useSettingsStore from "../../globalState/useSettingsStore";
@@ -10,37 +8,49 @@ import CopyToClipboardButton from "./CopyToClipboardButton";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
-const getDisplaySubmitFallback = (state) => state.displaySubmitFallback;
-const getTransmittingData = (state) => state.transmittingData;
-const getSetTransmittingData = (state) => state.setTransmittingData;
-// const getCheckInternetConnection = (state) => state.checkInternetConnection;
-const getSetCheckInternetConnection = (state) =>
-  state.setCheckInternetConnection;
 const getSetDisableRefreshCheck = (state) => state.setDisableRefreshCheck;
 
 const SubmitResultsButton = (props) => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
   const configObj = useSettingsStore(getConfigObj);
-  let displaySubmitFallback = useStore(getDisplaySubmitFallback);
-  let transmittingData = useStore(getTransmittingData);
-  const setTransmittingData = useStore(getSetTransmittingData);
-  const setCheckInternetConnection = useStore(getSetCheckInternetConnection);
   const setDisableRefreshCheck = useStore(getSetDisableRefreshCheck);
-  const [showEmailButtons, setShowEmailButtons] = useState(false);
+
+  const defaultEmailClientFailText =
+    ReactHtmlParser(decodeHTML(langObj.defaultEmailClientFail)) || "";
+  const databaseFailText = ReactHtmlParser(decodeHTML(langObj.submitFailMessage)) || "";
+
+  // Local State for email button visibility
+  const [belowButtonMessage, setBelowButtonMessage] = useState(databaseFailText);
+  const [showCopyButtons, setShowCopyButtons] = useState(false);
 
   const rawData = props.results;
   const emailAddress = configObj.emailAddress;
-  const btnTransferText =
-    ReactHtmlParser(decodeHTML(langObj.btnTransferEmail)) || "";
-  const defaultEmailClientFailText =
-    ReactHtmlParser(decodeHTML(langObj.defaultEmailClientFail)) || "";
+  const btnTransferText = ReactHtmlParser(decodeHTML(langObj.btnTransferEmail)) || "";
+
+  const handleClickDownload = (e) => {
+    console.log("Download button clicked");
+    e.preventDefault();
+    const formattedResultsTxt = Object.entries(props.results)
+      .map(([key, value]) => `${key}: ${value}`)
+      .join("\n");
+    const blob = new Blob([formattedResultsTxt], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "my_Q-sort_results.txt";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    // setShowCopyButtons(false);
+  };
 
   const handleClick = (e) => {
     e.preventDefault();
-    setTransmittingData(true);
-    setCheckInternetConnection(false);
-
+    // setTransmittingData(true);
+    // setCheckInternetConnection(false);
+    setBelowButtonMessage(defaultEmailClientFailText);
     // create results object for transmission - * is a delimiter
     let formattedResultsTxt = "";
     for (const [key, value] of Object.entries(props.results)) {
@@ -49,10 +59,10 @@ const SubmitResultsButton = (props) => {
     console.log("formattedResults: " + formattedResultsTxt);
 
     // check for internet connection
-    setTimeout(() => {
-      setTransmittingData(false);
-      setCheckInternetConnection(true);
-    }, 200);
+    // setTimeout(() => {
+    //   setTransmittingData(false);
+    //   setCheckInternetConnection(true);
+    // }, 200);
 
     console.log(JSON.stringify(formattedResultsTxt, null, 2));
 
@@ -60,13 +70,15 @@ const SubmitResultsButton = (props) => {
     if (navigator.userAgent.toLowerCase().indexOf("chrome") > -1) {
       // Do Chrome-related actions  -  %0D%0A is a line break
       window.open(
-        `mailto:${configObj.emailAddress}?subject=${configObj.emailSubject}&body=${langObj.emailMessage1} %0D%0A%0D%0AMy Results:%0D%0A${formattedResultsTxt}`
+        `mailto:${configObj.emailAddress}?subject=${langObj.emailSubjectText}&body=${langObj.emailBodyMessage} %0D%0A%0D%0AMy Results:%0D%0A${formattedResultsTxt}`
       );
-      setShowEmailButtons(true);
+      // setShowEmailButtons(true);
+      setShowCopyButtons(true);
     } else {
       // Do non-Chrome-related actions   -  %0D%0A is a line break
-      window.location.href = `mailto:${configObj.emailAddress}?subject=${configObj.emailSubject}&body=${langObj.emailMessage1} %0D%0A%0D%0AMy Results:%0D%0A${formattedResultsTxt}`;
-      setShowEmailButtons(true);
+      window.location.href = `mailto:${configObj.emailAddress}?subject=${langObj.emailSubjectText}&body=${langObj.emailBodyMessage} %0D%0A%0D%0AMy Results:%0D%0A${formattedResultsTxt}`;
+      // setShowEmailButtons(true);
+      setShowCopyButtons(true);
     }
   };
 
@@ -77,51 +89,44 @@ const SubmitResultsButton = (props) => {
 
   console.log("urlUsercode: ", props.results.urlUsercode);
 
-  if (displaySubmitFallback === true) {
-    return (
-      <React.Fragment>
-        <SubmitSuccessModal />
-
-        <DisabledButton tabindex="0">{btnTransferText}</DisabledButton>
-      </React.Fragment>
-    );
-  }
-
   return (
-    <React.Fragment>
-      <SubmitSuccessModal />
-      <SubmitFailureModal />
+    <PageContainer>
       <ContainerDiv>
-        <StyledButton tabindex="0" onClick={(e) => handleClick(e)}>
+        <StyledEmailButton tabindex="0" onClick={(e) => handleClick(e)}>
           {btnTransferText}
-        </StyledButton>
-
-        {transmittingData ? <TransmittingSpin /> : null}
+        </StyledEmailButton>
+        <ContentDiv>{belowButtonMessage}</ContentDiv>
       </ContainerDiv>
-      {showEmailButtons ? (
+      {showCopyButtons ? (
         <EmailButtonDiv>
-          <ContentDiv>{defaultEmailClientFailText}</ContentDiv>
-          <CopyToClipboardButton
-            type={"email"}
-            content={emailAddress}
-            text={langObj.clipboardEmail}
-          />
-          <CopyToClipboardButton
-            type={"results"}
-            content={rawData}
-            text={langObj.clipboardResults}
-          />
+          <ButtonContainer>
+            <CopyToClipboardButton
+              type={"email"}
+              content={emailAddress}
+              text={langObj.clipboardEmail}
+            />
+            <CopyToClipboardButton
+              type={"results"}
+              content={rawData}
+              text={langObj.clipboardResults}
+            />
+            <DownloadContainer>
+              <DownloadResultsButton onClick={(e) => handleClickDownload(e)}>
+                {langObj.downloadResultsButtonText}
+              </DownloadResultsButton>
+            </DownloadContainer>
+          </ButtonContainer>
         </EmailButtonDiv>
       ) : (
         <SpacerDiv />
       )}
-    </React.Fragment>
+    </PageContainer>
   );
 };
 export default SubmitResultsButton;
 
-const StyledButton = styled.button`
-  grid-area: b;
+const StyledEmailButton = styled.button`
+  display: flex;
   border-color: #2e6da4;
   color: white;
   font-size: 1.2em;
@@ -131,77 +136,24 @@ const StyledButton = styled.button`
   text-decoration: none;
   width: auto;
   height: 50px;
-  justify-self: right;
-  margin-right: 35px;
-  display: flex;
   align-items: center;
   justify-content: center;
   margin-top: 30px;
-  margin-bottom: 20px;
-  background-color: ${({ theme, active }) =>
-    active ? theme.secondary : theme.primary};
-
+  background-color: ${({ theme, active }) => (active ? theme.secondary : theme.primary)};
   &:hover {
     background-color: ${({ theme }) => theme.secondary};
   }
-
   &:focus {
     background-color: ${({ theme }) => theme.focus};
   }
 `;
 
 const ContainerDiv = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 10px;
-  align-items: center;
-  grid-template-areas: "a b c";
-`;
-
-const DisabledButton = styled.button`
-  border-color: lightgray;
-  color: white;
-  font-size: 1.2em;
-  font-weight: bold;
-  padding: 0.25em 1em;
-  border-radius: 3px;
-  text-decoration: none;
-  width: 200px;
-  height: 50px;
-  justify-self: right;
-  margin-right: 35px;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   justify-content: center;
-  margin-top: 30px;
-  margin-bottom: 20px;
-  background-color: lightgray;
-`;
-
-const TransmittingSpin = styled.div`
-  grid-area: c;
-  font-size: 1.2em;
-  font-weight: bold;
-  margin-top: 0.7em;
-
-  width: 50px;
-  height: 50px;
-  border: 5px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top-color: #337ab7;
-  animation: spin 1s ease-in-out infinite;
-  -webkit-animation: spin 1s ease-in-out infinite;
-
-  @keyframes spin {
-    to {
-      -webkit-transform: rotate(360deg);
-    }
-  }
-  @-webkit-keyframes spin {
-    to {
-      -webkit-transform: rotate(360deg);
-    }
-  }
+  gap: 20px;
+  align-items: center;
 `;
 
 const ContentDiv = styled.div`
@@ -212,8 +164,6 @@ const ContentDiv = styled.div`
   line-height: 1.2em;
   width: 65vw;
   font-size: 1.35em;
-  margin-top: 25px;
-  padding: 5px;
   align-self: center;
 `;
 
@@ -227,4 +177,53 @@ const EmailButtonDiv = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  /* flex-wrap: wrap; */
+  height: 180px;
+  gap: 30px;
+  justify-content: center;
+  align-items: center;
+`;
+
+const DownloadResultsButton = styled.button`
+  border-color: #2e6da4;
+  color: white;
+  font-size: 1.2em;
+  font-weight: bold;
+  padding: 0.25em 1em;
+  border-radius: 3px;
+  text-decoration: none;
+  width: 220px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 50px;
+  background-color: ${({ theme }) => theme.primary};
+  &:hover {
+    background-color: ${({ theme }) => theme.secondary};
+  }
+`;
+
+const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+`;
+
+const DownloadContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  /* border: 1px solid #2e6da4; */
 `;

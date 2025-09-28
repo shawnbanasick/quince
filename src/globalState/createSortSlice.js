@@ -1,4 +1,4 @@
-const createSortSlice = (set, get) => ({
+const createSortSlice = (set) => ({
   cardHeightSort: 120,
   cardHeightPostsort: 120,
   columnWidth: 100,
@@ -19,7 +19,31 @@ const createSortSlice = (set, get) => ({
   sortGridResults: {},
   bypassSort: false,
   bypassPresort: false,
+  mobileSortFontSize: 2,
+  mobileSortViewSize: 42,
+  triggerMobileSortSwapModal: false,
+  triggerMobileSortHelpModal: true,
+  triggerMobileSortScrollBottomModal: false,
+  hasScrolledToBottomSort: false,
 
+  setHasScrolledToBottomSort: (inputValue) => {
+    set(() => ({ hasScrolledToBottomSort: inputValue }));
+  },
+  setTriggerMobileSortScrollBottomModal: (inputValue) => {
+    set(() => ({ triggerMobileSortScrollBottomModal: inputValue }));
+  },
+  setTriggerMobileSortHelpModal: (inputValue) => {
+    set(() => ({ triggerMobileSortHelpModal: inputValue }));
+  },
+  setTriggerMobileSortSwapModal: (inputValue) => {
+    set(() => ({ triggerMobileSortSwapModal: inputValue }));
+  },
+  setMobileSortViewSize: (inputValue) => {
+    set(() => ({ mobileSortViewSize: inputValue }));
+  },
+  setMobileSortFontSize: (inputValue) => {
+    set(() => ({ mobileSortFontSize: inputValue }));
+  },
   setBypassPresort: (inputValue) => {
     set(() => ({ bypassPresort: inputValue }));
   },

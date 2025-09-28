@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import LogInSubmitButton from "./LogInSubmitButton";
 import useSettingsStore from "../../globalState/useSettingsStore";
@@ -14,8 +14,7 @@ const getSetDisplayLandingContent = (state) => state.setDisplayLandingContent;
 const getSetDisplayNextButton = (state) => state.setDisplayNextButton;
 const getSetIsLoggedIn = (state) => state.setIsLoggedIn;
 const getSetUserInputAccessCode = (state) => state.setUserInputAccessCode;
-const getSetDisplayAccessCodeWarning = (state) =>
-  state.setDisplayAccessCodeWarning;
+const getSetDisplayAccessCodeWarning = (state) => state.setDisplayAccessCodeWarning;
 
 const LogInScreen = () => {
   // STATE
@@ -30,18 +29,17 @@ const LogInScreen = () => {
   const setDisplayAccessCodeWarning = useStore(getSetDisplayAccessCodeWarning);
 
   // Language
-  const loginHeaderText =
-    ReactHtmlParser(decodeHTML(langObj.loginHeaderText)) || "";
-  const accessInputText =
-    ReactHtmlParser(decodeHTML(langObj.accessInputText)) || "";
-  const accessCodeWarning =
-    ReactHtmlParser(decodeHTML(langObj.accessCodeWarning)) || "";
+  const loginHeaderText = ReactHtmlParser(decodeHTML(langObj.loginHeaderText)) || "";
+  const accessInputText = ReactHtmlParser(decodeHTML(langObj.accessInputText)) || "";
+  const accessCodeWarning = ReactHtmlParser(decodeHTML(langObj.accessCodeWarning)) || "";
 
   const handleAccess = (e) => {
     setUserInputAccessCode(e.target.value);
   };
 
   useEffect(() => {
+    setDisplayNextButton(false);
+
     const handleKeyUpStart = (event) => {
       if (event.key === "Enter") {
         let userAccessOK = false;
@@ -77,7 +75,7 @@ const LogInScreen = () => {
     userInputAccessCode,
   ]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = () => {
     let userAccessOK = false;
     const projectAccessCode = configObj.accessCode;
 
@@ -109,13 +107,11 @@ const LogInScreen = () => {
         <h3>{accessInputText}</h3>
         <StyledInputDiv>
           <StyledInput onChange={handleAccess} type="text" autoFocus />
-          {displayAccessCodeWarning && (
-            <WarningText>{accessCodeWarning}</WarningText>
-          )}
+          {displayAccessCodeWarning && <WarningText>{accessCodeWarning}</WarningText>}
         </StyledInputDiv>
       </div>
 
-      <LogInSubmitButton onClick={handleSubmit} />
+      <LogInSubmitButton onClick={handleSubmit} size={"1.5em"} width={"200px"} height={"50px"} />
     </Container>
   );
 };

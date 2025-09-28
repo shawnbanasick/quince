@@ -7,8 +7,11 @@ import createSortSlice from "./createSortSlice";
 import createPostsortSlice from "./createPostsortSlice";
 import createSubmitSlice from "./createSubmitSlice";
 import createSurveySlice from "./createSurveySlice";
+import createThinningSlice from "./createThinningSlice";
+import createModalSlice from "./createModalSlice";
 
 const useStore = create((set, get) => ({
+  ...createThinningSlice(set, get),
   ...createFooterSlice(set, get),
   ...createLocalPanelSlice(set, get),
   ...createLandingSlice(set, get),
@@ -17,6 +20,7 @@ const useStore = create((set, get) => ({
   ...createPostsortSlice(set, get),
   ...createSubmitSlice(set, get),
   ...createSurveySlice(set, get),
+  ...createModalSlice(set, get),
 }));
 
 export default useStore;

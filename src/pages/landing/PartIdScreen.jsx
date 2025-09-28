@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import LogInSubmitButton from "./LogInSubmitButton";
 import ReactHtmlParser from "html-react-parser";
@@ -28,12 +28,9 @@ const LogInScreen = () => {
   const setIsLoggedIn = useStore(getSetIsLoggedIn);
   const setDisplayPartIdWarning = useStore(getSetDisplayPartIdWarning);
 
-  const loginHeaderText =
-    ReactHtmlParser(decodeHTML(langObj.loginHeaderText)) || "";
-  const loginPartIdText =
-    ReactHtmlParser(decodeHTML(langObj.loginPartIdText)) || "";
-  const partIdWarning =
-    ReactHtmlParser(decodeHTML(langObj.partIdWarning)) || "";
+  const loginHeaderText = ReactHtmlParser(decodeHTML(langObj.loginHeaderText)) || "";
+  const loginPartIdText = ReactHtmlParser(decodeHTML(langObj.loginPartIdText)) || "";
+  const partIdWarning = ReactHtmlParser(decodeHTML(langObj.partIdWarning)) || "";
 
   const handleInput = (e) => {
     setUserInputPartId(e.target.value);
@@ -77,7 +74,7 @@ const LogInScreen = () => {
     setDisplayPartIdWarning,
   ]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = () => {
     let userPartIdOK = false;
 
     // get user input
@@ -113,7 +110,7 @@ const LogInScreen = () => {
         </StyledInputDiv>
       </div>
 
-      <LogInSubmitButton onClick={handleSubmit} />
+      <LogInSubmitButton onClick={handleSubmit} size={"1.5em"} width={"200px"} height={"50px"} />
     </Container>
   );
 };

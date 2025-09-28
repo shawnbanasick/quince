@@ -1,4 +1,3 @@
-import React from "react";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 import styled from "styled-components";
@@ -17,10 +16,8 @@ const PresortFinishedModal = () => {
   const triggerModal = useStore(getTriggerModal);
   const setTriggerModal = useStore(getSetTriggerModal);
 
-  const loginHelpModalHead =
-    ReactHtmlParser(decodeHTML(langObj.presortFinishedModalHead)) || "";
-  const loginHelpModalText =
-    ReactHtmlParser(decodeHTML(langObj.presortFinishedModalText)) || "";
+  const loginHelpModalHead = ReactHtmlParser(decodeHTML(langObj.presortFinishedModalHead)) || "";
+  const loginHelpModalText = ReactHtmlParser(decodeHTML(langObj.presortFinishedModalText)) || "";
 
   // const onOpenModal = () => setOpen(true);
   const onCloseModal = () => {
@@ -28,12 +25,7 @@ const PresortFinishedModal = () => {
   };
 
   return (
-    <Modal
-      className="customModal"
-      open={triggerModal}
-      onClose={onCloseModal}
-      center
-    >
+    <Modal className="customModal" open={triggerModal} onClose={onCloseModal} center>
       <ModalHeader>{loginHelpModalHead}</ModalHeader>
       <hr />
       <ModalContent>{loginHelpModalText}</ModalContent>
@@ -55,6 +47,8 @@ const ModalHeader = styled.div`
 
 const ModalContent = styled.div`
   margin-top: 15px;
+  font-size: calc(12px + 0.9vw);
+  padding: 15px;
 `;
 
 // react-responsive-modal-overlay

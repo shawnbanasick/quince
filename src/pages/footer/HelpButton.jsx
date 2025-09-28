@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import React from "react";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
 import useSettingsStore from "../../globalState/useSettingsStore";
@@ -15,6 +14,7 @@ const getSetTriggerPostsortModal = (state) => state.setTriggerPostsortModal;
 const getSetTriggerSurveyModal = (state) => state.setTriggerSurveyModal;
 const getSetTriggerSubmitModal = (state) => state.setTriggerSubmitModal;
 const getSetTriggerConsentModal = (state) => state.setTriggerConsentModal;
+const getSetTriggerThinHelpModal = (state) => state.setTriggerThinHelpModal;
 
 const HelpButton = () => {
   // STATE
@@ -28,6 +28,7 @@ const HelpButton = () => {
   const setTriggerSurveyModal = useStore(getSetTriggerSurveyModal);
   const setTriggerSubmitModal = useStore(getSetTriggerSubmitModal);
   const setTriggerConsentModal = useStore(getSetTriggerConsentModal);
+  const setTriggerThinHelpModal = useStore(getSetTriggerThinHelpModal);
 
   let buttonText = ReactHtmlParser(decodeHTML(langObj.btnHelp)) || "";
   if (currentPage === "landing") {
@@ -47,6 +48,9 @@ const HelpButton = () => {
     }
     if (currentPage === "presort") {
       setTriggerPresortModal(true);
+    }
+    if (currentPage === "thin") {
+      setTriggerThinHelpModal(true);
     }
     if (currentPage === "sort") {
       setTriggerSortModal(true);
@@ -96,8 +100,7 @@ const StyledHelpButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme, active }) =>
-    active ? theme.secondary : theme.primary};
+  background-color: ${({ theme, active }) => (active ? theme.secondary : theme.primary)};
 
   &:hover {
     background-color: ${({ theme }) => theme.secondary};

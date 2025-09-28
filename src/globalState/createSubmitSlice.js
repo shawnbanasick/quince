@@ -1,4 +1,4 @@
-const createSubmitSlice = (set, get) => ({
+const createSubmitSlice = (set) => ({
   disableRefreshCheck: false,
   displaySubmitFallback: false,
   displayGoodbyeMessage: false,
@@ -8,7 +8,11 @@ const createSubmitSlice = (set, get) => ({
   submitFailNumber: 0,
   transmittingData: false,
   checkInternetConnection: false,
+  displayBelowButtonText: false,
 
+  setDisplayBelowButtonText: (input) => {
+    set(() => ({ displayBelowButtonText: input }));
+  },
   setDisableRefreshCheck: (input) => {
     set(() => ({ disableRefreshCheck: input }));
   },

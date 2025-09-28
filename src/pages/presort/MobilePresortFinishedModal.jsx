@@ -1,4 +1,3 @@
-import React from "react";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 import styled from "styled-components";
@@ -9,8 +8,7 @@ import useStore from "../../globalState/useStore";
 
 const getLangObj = (state) => state.langObj;
 const getTriggerModal = (state) => state.triggerMobilePresortFinishedModal;
-const getSetTriggerModal = (state) =>
-  state.setTriggerMobilePresortFinishedModal;
+const getSetTriggerModal = (state) => state.setTriggerMobilePresortFinishedModal;
 
 const PresortFinishedModal = () => {
   // STATE
@@ -19,9 +17,9 @@ const PresortFinishedModal = () => {
   const setTriggerModal = useStore(getSetTriggerModal);
 
   const loginHelpModalHead =
-    ReactHtmlParser(decodeHTML(langObj.presortFinishedModalHead)) || "";
+    ReactHtmlParser(decodeHTML(langObj.mobilePresortFinishedModalHead)) || "";
   const loginHelpModalText =
-    ReactHtmlParser(decodeHTML(langObj.presortFinishedModalText)) || "";
+    ReactHtmlParser(decodeHTML(langObj.mobilePresortFinishedModalText)) || "";
 
   // const onOpenModal = () => setOpen(true);
   const onCloseModal = () => {
@@ -50,6 +48,9 @@ const ModalHeader = styled.div`
   font-size: 24px;
   line-height: 1.42;
   padding: 10px 0px 10px 0px;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
 
   hr {
     color: black;
@@ -58,6 +59,9 @@ const ModalHeader = styled.div`
 
 const ModalContent = styled.div`
   margin-top: 15px;
+  color: ${(props) => {
+    return props.theme.mobileText;
+  }};
 `;
 
 // react-responsive-modal-overlay

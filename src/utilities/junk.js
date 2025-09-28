@@ -41,7 +41,7 @@ const data = [
       attributes: {
         type: "text",
         required: "true",
-        maxlength: "4",
+        limitLength: "4",
         restricted: "0-9",
       },
     },

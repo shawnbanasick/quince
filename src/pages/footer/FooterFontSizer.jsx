@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
@@ -14,6 +13,8 @@ const getSetCardFontSizePresort = (state) => state.setCardFontSizePresort;
 const getCardFontSizePostsort = (state) => state.cardFontSizePostsort;
 const getSetCardFontSizePostsort = (state) => state.setCardFontSizePostsort;
 const getCurrentPage = (state) => state.currentPage;
+const getSetCardFontSizeThin = (state) => state.setCardFontSizeThin;
+const getCardFontSizeThin = (state) => state.cardFontSizeThin;
 
 const FooterFontSizer = () => {
   // GLOBAL STATE
@@ -30,6 +31,8 @@ const FooterFontSizer = () => {
   const cardFontSizePresortPersist = +localStorage.getItem("fontSizePresort");
   const setCardFontSizePostsort = useStore(getSetCardFontSizePostsort);
   const setCardFontSizePresort = useStore(getSetCardFontSizePresort);
+  const setCardFontSizeThin = useStore(getSetCardFontSizeThin);
+  const cardFontSizeThin = useStore(getCardFontSizeThin);
 
   if (cardFontSizePresortPersist && currentPage === "presort") {
     cardFontSizePresort = cardFontSizePresortPersist;
@@ -50,6 +53,12 @@ const FooterFontSizer = () => {
       localStorage.setItem("fontSizePresort", JSON.stringify(newSize));
       setCardFontSizePresort(newSize);
     }
+    if (currentPage === "thin") {
+      const currentSize = cardFontSizeThin;
+      const newSize = currentSize + 1;
+      localStorage.setItem("fontSizeThin", JSON.stringify(newSize));
+      setCardFontSizeThin(newSize);
+    }
     if (currentPage === "sort") {
       const currentSize = cardFontSizeSort;
       const newSize = currentSize + 1;
@@ -64,11 +73,18 @@ const FooterFontSizer = () => {
     }
   };
   const decreaseFontSize = () => {
+    console.log("decreaseFontSize");
     if (currentPage === "presort") {
       const currentSize = cardFontSizePresort;
       const newSize = currentSize - 1;
       localStorage.setItem("fontSizePresort", JSON.stringify(newSize));
       setCardFontSizePresort(newSize);
+    }
+    if (currentPage === "thin") {
+      const currentSize = cardFontSizeThin;
+      const newSize = currentSize - 1;
+      localStorage.setItem("fontSizeThin", JSON.stringify(newSize));
+      setCardFontSizeThin(newSize);
     }
     if (currentPage === "sort") {
       const currentSize = cardFontSizeSort;
@@ -116,6 +132,7 @@ const SizeButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  user-select: none;
 `;
 
 const Container = styled.div`
@@ -128,4 +145,5 @@ const Container = styled.div`
 
 const SpanDiv = styled.div`
   font-size: 16px;
+  user-select: none;
 `;

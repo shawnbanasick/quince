@@ -1,7 +1,7 @@
 import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
-    *{
+* {
         margin: 0;
         padding: 0;
         outline:0;
@@ -11,6 +11,15 @@ export default createGlobalStyle`
     #root{
         margin:0 auto;
     }
+:root                  { box-sizing: border-box; }
+*, *::before, *::after { box-sizing: inherit; }
+
+:root, body {
+  margin: 0;
+  padding: 0;
+  border: initial;
+}
+
 
     /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 
@@ -28,7 +37,7 @@ html {
   overflow: -moz-scrollbars-vertical; 
   overflow-y: scroll;
   -ms-touch-action: manipulation;
-touch-action: manipulation;
+  touch-action: manipulation;
 }
 
 
@@ -41,10 +50,12 @@ touch-action: manipulation;
  */
 
 body {
-  margin: 0;
-  height:calc(100vh-50px);
-  overscroll-behavior: none;
-  overflow: hidden;
+  margin: 0; 
+   height:calc(100vh-50px); 
+  /* overscroll-behavior: none; */
+   /* overflow: hidden;
+   width: 100vw;
+  height: 100vh; */
 }
 
 /**
@@ -400,12 +411,84 @@ footer {
   }
 
 
+  .Overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+  }
+/* Overlay fade */
+.OverlayFade {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: rgba(0,0,0,0.5);
+}
 
-  .react-responsive-modal-modal {
+.OverlayFade.ReactModal__Overlay--after-open {
+  opacity: 1;
+}
+
+.OverlayFade.ReactModal__Overlay--before-close {
+  opacity: 0;
+}
+
+/* Modal content fade */
+.ModalContentFade {
+  opacity: 0;
+  transform: scale(0.98);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.ModalContentFade.ReactModal__Content--after-open {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.ModalContentFade.ReactModal__Content--before-close {
+  opacity: 0;
+  transform: scale(0.98);
+}
+
+.react-responsive-modal-modal {
   background: white;
   max-width: 700px;
-  width: 100%;
+  width: 90vw;
+  height: auto;
+  max-height: 80vh;
   padding: 15px;
+  border-radius: 10px;
+  padding-bottom: 20px;
+  overflow-y: auto;
+  /* overscroll-behavior: contain; */
+  -webkit-overflow-scrolling:touch;
+}
+
+@media (max-width: 768px) {
+  .react-responsive-modal-container {
+    position: fixed;
+    max-width: 100vw;
+    height: 100vh;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    overflow: scroll;
+    height: -webkit-fill-available;
+    -webkit-overflow-scrolling: touch;
+}
+}
+
+@media (max-width: 768px) {
+  .react-responsive-modal-modal {
+    width: 90vw;
+    padding: 8px;
+    min-height: 70vh;
+    padding-bottom: 20px;
+    /* overflow-y: auto;   */
+    /* -webkit-overflow-scrolling:touch; */
+    /* Add or override other styles for mobile here */
+  }
 
 }
 
@@ -413,12 +496,12 @@ footer {
     grid-column-start: 3;
     overflow: hidden;
     align-self: end;
-    margin-top: 20px;
+    height: 275x;
   }
   
   #cards{
-    max-height: 215px;
-    min-height:150px;
+    max-height: 200px;
+    min-height:140px;
     overflow: hidden;
   }
   
@@ -433,13 +516,14 @@ footer {
     grid-row-start: 3;
     grid-column-start: 2;
     overflow-y: auto;
-    background-color: white;
+    background-color: #fee2e2;
     min-height: 300px;
-    height: 58vh;
-    padding-top: 5px;
+    height: 56vh;
+    padding-top: 0px;
     border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
-    border: 1px solid #aeaeae;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+    border: 1px solid lightgray;
 
     ::-webkit-scrollbar {
       // Width of vertical scroll bar
@@ -459,11 +543,13 @@ footer {
     grid-row-start: 3;
     grid-column-start: 3;
     overflow-y: auto;
-    background-color: white;
+    background-color: #fef3c7;
     min-height: 300px;
-    height: 58vh;
-    padding-top: 5px;
-    border: 1px solid #aeaeae;
+    height: 56vh;
+    padding-top: 0px;
+    border: 1px solid lightgray;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
 
     ::-webkit-scrollbar {
       // Width of vertical scroll bar
@@ -483,12 +569,13 @@ footer {
     grid-row-start: 3;
     grid-column-start: 4;
     overflow-y: auto;
-    background-color: white;
-    height: 58vh;
-    padding-top: 5px;
-    border-top-right-radius: 3px;
+    background-color: #dcfce7;
+    height: 56vh;
+    padding-top: 0px;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
     border-bottom-right-radius: 3px;
-    border: 1px solid #aeaeae;
+    border: 1px solid lightgray;
 
     ::-webkit-scrollbar {
       // Width of vertical scroll bar
@@ -665,6 +752,15 @@ footer {
   
 
 /***********************************
+  THINNING REFINE - CSS
+ *******************************************************************************/
+.custom-move-all-modal-height {
+      height: 300px; /* Or any desired height, e.g., 80vh for viewport height */
+      min-height: 20vh;
+    }
+
+
+/***********************************
   SORT CSS
  *******************************************************************************/
 .sortContainer {
@@ -678,7 +774,7 @@ footer {
 }
 
 .rootDiv {
-  background-color: white;
+  background-color: whitesmoke;
   /* background-color: #6a9bc3; */
   padding: 0px, 0px, 10px, 10px;
   min-height: 100vh;
@@ -798,6 +894,8 @@ footer {
   padding-top: 5px;
   min-height: 30px;
 }
+
+
 
 /***********************************
   IMAGE MODAL CSS

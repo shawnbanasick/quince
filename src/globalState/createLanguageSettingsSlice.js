@@ -1,4 +1,4 @@
-const createLanguageSettingsSlice = (set, get) => ({
+const createLanguageSettingsSlice = (set) => ({
   langObj: {},
 
   setLangObj: (langObjInput) => {

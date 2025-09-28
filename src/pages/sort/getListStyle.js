@@ -1,14 +1,7 @@
 import useStore from "../../globalState/useStore";
 
 // card and column styling
-const getListStyle = (
-  isDraggingOver,
-  props,
-  forcedSorts,
-  columnWidth,
-  columnColor,
-  cardHeight
-) => {
+const getListStyle = (isDraggingOver, props, forcedSorts, columnWidth, columnColor) => {
   // forcedSorts is "warnOverloadedColumn" in configObj
   let isUnderMaxCards;
   if (forcedSorts === true) {
@@ -23,20 +16,18 @@ const getListStyle = (
   }
 
   return {
-    background: isDraggingOver
-      ? "lightblue"
-      : isUnderMaxCards
-      ? columnColor
-      : "orange",
-    padding: `3px 0.5px 0px 3.5px`,
-
-    minWidth: columnWidth + 13,
+    background: isDraggingOver ? "lightblue" : isUnderMaxCards ? columnColor : "#F4BB44",
+    maxWidth: columnWidth,
     marginTop: 0,
     marginRight: 0,
-    minHeight: props.minHeight - 10,
+    marginBottom: 0,
+    paddingBottom: 0,
+    minHeight: props.minHeight - 12,
     borderRadius: `2px`,
-    outline: isUnderMaxCards ? "1px solid #d8d8d8" : "2px dashed black",
-    outlineOffset: "-1px",
+    borderTop: "0px solid lightgray",
+    borderRight: isUnderMaxCards ? "1px solid lightgray" : "3px dashed black",
+    borderLeft: isUnderMaxCards ? "1px solid lightgray" : "3px dashed black",
+    borderBottom: isUnderMaxCards ? "1px solid whitesmoke" : "3px dashed black",
   };
 };
 

@@ -10,6 +10,8 @@ const theme = {
   primary: "#337ab7",
   secondary: "#285f8f",
   focus: "#63a0d4",
+  mobileText: "#36454f",
+  mobileBorder: "#36454f",
 };
 
 createRoot(document.getElementById("root")).render(

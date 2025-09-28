@@ -13,7 +13,7 @@ const SubmitResultsButton = (props) => {
 
   const downloadButtonText =
     ReactHtmlParser(decodeHTML(langObj.btnDownload)) || "";
-  const randomId = uuid().substring(0, 12);
+  const randomId = localStorage.getItem("randomId");
 
   const resultsWithId = {};
   resultsWithId[randomId] = props.results;
