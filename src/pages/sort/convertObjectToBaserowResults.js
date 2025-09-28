@@ -48,8 +48,6 @@ const convertObjectToBaserowResults = (columnStatements) => {
     return a.statement - b.statement;
   });
 
-  console.log("sortArray", JSON.stringify(sortArray));
-
   // accumulate text string
   let resultsText = "";
   let presortTraceText = "";

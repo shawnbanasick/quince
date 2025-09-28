@@ -26,10 +26,6 @@ const calculateDragResults = (
       const testForCompleteArray = Object.keys(sortGridResults);
       // let catchNan = false;
 
-      console.log("not entered");
-
-      console.log(testForCompleteArray.length, totalStatements);
-
       // test if finished
       if (testForCompleteArray.length === totalStatements) {
         // console.log("entered");

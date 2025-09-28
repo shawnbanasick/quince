@@ -6,8 +6,6 @@ import sanitizeString from "../../utilities/sanitizeString";
 import useLocalStorage from "../../utilities/useLocalStorage";
 
 const SurveyTextElement = (props) => {
-  console.log("SurveyTextElement props:", props);
-
   // HELPER FUNCTION
   const asyncLocalStorage = {
     async setItem(name, value) {

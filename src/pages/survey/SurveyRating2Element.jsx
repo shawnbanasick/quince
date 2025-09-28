@@ -39,7 +39,6 @@ const SurveyRatings2Element = (props) => {
     questionId,
     Array.from({ length: rows }, () => Array.from({ length: 2 }, () => false))
   );
-  console.log(checkedState);
 
   // LOCAL STATE
   const [formatOptions, setFormatOptions] = useState({
@@ -70,22 +69,17 @@ const SurveyRatings2Element = (props) => {
         return row;
       }
     });
-    console.log(newCheckedState);
     setCheckedState(newCheckedState);
     // record if answered or not
     let arrayLen2 = checkedState.length;
     let flattenedCheckedState2 = flatten([...newCheckedState]);
-    console.log(flattenedCheckedState2);
     let count2 = countBy(flattenedCheckedState2);
-    console.log(count2);
     // number of true values (has been answered)
     let objTestValue2 = count2[true] || 0;
 
     // construct the text string
     let textString = "";
-    console.log("333", newCheckedState);
     newCheckedState.forEach((item, index) => {
-      console.log(item);
       // let name = `itemNum${props.opts.itemNum}-${index + 1}`;
       let value = item[0] ? "1" : "2";
       let hasAnswered = item.includes(true);
@@ -102,7 +96,6 @@ const SurveyRatings2Element = (props) => {
     resultsSurvey[`itemNum${props.opts.itemNum}`] = textString;
 
     // check for required - no answers
-    console.log("333", objTestValue2, arrayLen2);
     if (objTestValue2 !== arrayLen2) {
       if (props.opts.required === true || props.opts.required === "true") {
         resultsSurvey[`itemNum${props.opts.itemNum}`] = "no-*?*-response";

@@ -12,11 +12,7 @@ const addNoResultToPostsortResults = (resultsPostsort, mapObj, configObj) => {
   const lowCardVal = qSortHeaderNumbers[0];
   const lowCard2Num = +qSortPattern[1];
   const lowCard2Val = qSortHeaderNumbers[1];
-  // const maxValue = Math.max(...qSortPattern);
-  // const neuCardNum = maxValue;
-  // const neuCardVal = 0;
 
-  console.log(JSON.stringify(resultsPostsort, null, 2));
   let noResponseCheckArrayHC1 = JSON.parse(localStorage.getItem("noResponseCheckArrayHC1")) || [];
   let noResponseCheckArrayHC2 = JSON.parse(localStorage.getItem("noResponseCheckArrayHC2")) || [];
   let noResponseCheckArrayLC1 = JSON.parse(localStorage.getItem("noResponseCheckArrayLC1")) || [];
@@ -29,8 +25,6 @@ const addNoResultToPostsortResults = (resultsPostsort, mapObj, configObj) => {
     ...noResponseCheckArrayHC1,
   ];
 
-  console.log("zzz", combinedArray2);
-
   let combinedObject = {};
   combinedArray2.forEach((item) => {
     let item2 = item.split(":");
@@ -38,8 +32,6 @@ const addNoResultToPostsortResults = (resultsPostsort, mapObj, configObj) => {
     let stateNum = item2[1].trim();
     combinedObject[id2] = stateNum;
   });
-
-  console.log("zzz", JSON.stringify(combinedObject));
 
   // check for high card answers
   const length = highCardNum;

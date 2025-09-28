@@ -69,9 +69,6 @@ const SortGrid = (props) => {
     presortColumnStatements
   );
 
-  // console.log(JSON.stringify(configObj, null, 2));
-  console.log(JSON.stringify(sortGridResults));
-
   // layout settings
   // let columnWidth = props.columnWidth;
   const totalStatements = +statementsObj.totalStatements;
@@ -87,7 +84,6 @@ const SortGrid = (props) => {
   // fire move and re-order functions
   const onDragEnd = (result) => {
     try {
-      console.log(JSON.stringify(result, null, 2));
       /*
     example result object:
     result {"draggableId":"s1","type":"DEFAULT",
