@@ -23,17 +23,16 @@
    <!-- 0. FILE INFORMATION -->
    <info order="0-a" id="configFileVersion">1.0.0</info>
    <info order="0-b" id="iterationDate">2025-08-31</info>
-   <info order="1--" id="creationDate">2025-9-28@12:57</info> 
+   <info order="1--" id="creationDate">2025-9-27@12:30</info> 
 
    <!-- 1. STUDY TITLE -->
-   <item order="1-a" id="studyTitle">Demo Project</item> 
-
+   <item order="1-a" id="studyTitle">Quince Test 1</item> 
 
    <!-- 2. DATABASE SETUP -->
    <!-- "setupTarget" options: baserow or local -->
    <item order="2-a" id="baserowToken">9mai4vZoWKfizfMebLLwHYXXg2FvBgzt</item>
-   <item order="2-b" id="baserowDatabaseIdNumber">542139</item>
-   <item order="2-c" id="emailAddress">ken.q.tools@gmail.com</item>
+   <item order="2-b" id="baserowDatabaseIdNumber">639734</item>
+   <item order="2-c" id="emailAddress">banasick@gmail.com</item>
 
    <!-- 3. SECOND PROJECT LINKING -->
    <item order="3-a" id="linkToSecondProject">false</item> 
@@ -51,8 +50,8 @@
    
    <!-- 6. PROJECT ACCESS OPTIONS -->
    <!-- options: anonymous, partId-access, partId, access -->
-   <item order="6-a" id="initialScreen">anonymous</item>
-   <item order="6-b" id="accessCode">demo</item>
+   <item order="6-a" id="initialScreen">partId</item>
+   <item order="6-b" id="accessCode"></item>
    
    <!-- 7. COLOR SETTINGS  -->
    <!-- defaults = #2a2a2a (font), #ccffcc (right), #e0e0e0 (center), #ffe0f0 (left) -->
@@ -80,61 +79,7 @@
    <item order="10-g" id="minCardHeightPostsort">120</item>
 
    <!-- 11. SURVEY - Survey Questions -->
-   <item order="11-a" id="showSurvey">true</item>
-
-   <item id="survey">
-       <input type="information"></input>
-       <note bg="goldenrod">All fields marked with an * are {{{b}}}required.{{{/b}}}</note>
-   </item>
-
-   <item id="survey">
-        <input type="text" required="false" limited="false" limitLength="99999" restricted="false"></input>
-        <label>1. Have you had classes with me before?</label>
-        <note>If yes, please {{{i}}}list them here{{{/i}}}. (limit = 100 characters)</note>
-   </item>
-
-   <item id="survey">
-        <input type="textarea" required="false"></input>
-        <label>2. Describe your experience using the iPads in this class</label>
-        <note></note>
-        <placeholder>input comment here</placeholder>
-   </item>
-
-   <item id="survey">
-        <input type="radio" required="false">Freshman;;;Sophomore;;;Junior;;;Senior</input>
-        <label>3. Year</label>
-        <note>Please select your year</note>
-   </item>
-
-   <item id="survey">
-        <input type="select" required="false">Global Studies;;;Linguistics;;;English Literature</input>
-        <label>4. What is your program focus?</label>
-        <note></note>
-   </item>
-
-   <item id="survey">
-        <input type="checkbox" required="true">Lecture;;;Group Discussion;;;Active Learning</input>
-        <label>5. What kind of class do you prefer?*</label>
-        <note></note>
-   </item>
-
-   <item id="survey">
-        <input type="rating2" required="false" scale="Yes;;;No">I have used an iPad in class before.;;; I have used a notebook computer in class before.;;;I have used Moodle before.;;;I have used Quizlet before;;;</input>
-        <label>6. Please respond to {{{mark}}}all{{{/mark}}} of the following statements</label>
-        <note></note>
-   </item>
-
-   <item id="survey">
-        <input type="rating5" required="false" scale="1;;;2;;;3;;;4;;;5">How would you rate the use of iPads in this class?;;;How would you rate this class overall?;;;How was your interaction with {{{u}}}other students?{{{/u}}};;;How was access to the computer lab?</input>
-        <label>7. {{{i}}}Please{{{/i}}} answer the following questions</label>
-        <note></note>
-   </item>
-
-   <item id="survey">
-        <input type="rating10" required="false" scale="1;;;2;;;3;;;4;;;5;;;6;;;7;;;8;;;9;;;10">How would you rate the use of the {{{b}}}Socrative{{{/b}}} website in this class?;;;How would you rate the use of the {{{b}}}Quizlet{{{/b}}} website in this class?;;;How would you rate the use of Moodle in this class?;;;How would you rate the use of Edmodo in this class?;;;</input>
-        <label>8. {{{u}}}Please answer all of the following questions{{{/u}}}</label>
-        <note></note>
-   </item>
+   <item order="11-a" id="showSurvey">false</item>
 
 
        

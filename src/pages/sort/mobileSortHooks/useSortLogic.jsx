@@ -16,15 +16,17 @@ export const useSortLogic = (mapObj, displayArray) => {
   ]);
 
   const partitionArray = useMemo(() => {
-    const lengths = [...mapObj.qSortPattern].reverse();
+    const lengths = [...mapObj.qSortPattern].reverse().map((x) => +x);
     const result = [];
     let index = 0;
     let tempArray = [...sortArray1];
 
-    for (const length of lengths) {
+    // for (const length of lengths) {
+    lengths.forEach((length) => {
       result.push(tempArray.slice(index, index + length));
       index += length;
-    }
+    });
+
     return result;
   }, [mapObj, sortArray1]);
 
@@ -42,7 +44,7 @@ export const useSortLogic = (mapObj, displayArray) => {
   const characteristicsArray = useMemo(() => {
     const colorArraySource = [...mapObj.columnHeadersColorsArray].reverse();
     const headersText = [...mapObj.colTextLabelsArray].reverse();
-    const qSortPattern = [...mapObj.qSortPattern].reverse();
+    const qSortPattern = [...mapObj.qSortPattern].map((x) => +x);
     const tempArray = [];
 
     qSortPattern.forEach((item, index) => {

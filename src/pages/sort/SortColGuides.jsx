@@ -217,6 +217,6 @@ const TextDiv = styled.div`
   align-items: center;
   flex-wrap: wrap;
   /* outline: 1px solid blue; */
-  width: 60%;
+  width: 96%;
   /* max-width: 80%; */
 `;

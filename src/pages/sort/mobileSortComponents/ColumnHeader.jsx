@@ -6,11 +6,10 @@ const ColumnHeader = ({
   shouldDisplayEmojis,
   shouldDisplayNums,
   shouldDisplayText,
-  emoji,
+  emoji = null,
   value,
   textHeader,
 }) => {
-  console.log(textHeader);
   return (
     <ColorBarDiv color={color}>
       <ContentWrapper>
@@ -47,7 +46,7 @@ const ContentWrapper = styled.div`
   padding-left: 2px;
 `;
 
-const HeaderNumber = styled.span`
+const HeaderNumber = styled.div`
   font-weight: bold;
   font-size: 16px;
   line-height: 1;
@@ -75,6 +74,7 @@ const HeaderText = styled.div`
 const TextDiv = styled.div`
   display: flex;
   justify-content: center;
+  gap: 5px;
   align-items: center;
   flex-wrap: wrap;
   width: 100%;

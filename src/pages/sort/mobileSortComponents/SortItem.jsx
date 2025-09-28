@@ -46,6 +46,7 @@ const ItemContainer = styled.div`
   min-height: 10vh;
   flex-direction: row;
   user-select: none;
+  width: 96%;
 `;
 
 const InternalDiv = styled.div`

@@ -646,6 +646,7 @@ const ItemContainer = styled.div`
   align-items: stretch;
   min-height: 10vh;
   flex-direction: row;
+  width: 96%;
 `;
 
 const HeadersContainer = styled.div`
