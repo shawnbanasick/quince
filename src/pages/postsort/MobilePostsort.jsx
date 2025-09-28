@@ -504,12 +504,13 @@ const BoxSizeMessage = styled.div`
   font-weight: bold;
   margin-top: 10px;
   width: 80vw;
+  user-select: none;
 `;
 
-const HeaderDivPos = styled.div`
-  height: 16px;
-  margin-bottom: 4px;
-`;
+// const HeaderDivPos = styled.div`
+//   height: 16px;
+//   margin-bottom: 4px;
+// `;
 
 const HeaderCardStatement = styled.div`
   background-color: lightgray;

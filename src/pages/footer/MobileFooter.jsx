@@ -218,6 +218,7 @@ const StyledFooterDiv = styled.footer`
   justify-content: space-between;
   padding: 5px;
   align-items: center;
+  user-select: none;
 `;
 
 // const AdjustmentsContainer = styled.div`

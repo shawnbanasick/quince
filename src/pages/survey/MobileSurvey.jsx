@@ -328,6 +328,7 @@ const BoxSizeMessage = styled.div`
   font-weight: bold;
   margin-top: 10px;
   width: 80vw;
+  user-select: none;
 `;
 
 const MainContainer = styled.div`
