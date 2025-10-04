@@ -53,11 +53,11 @@
         <item order= "6-1" id="logInFirst">Please complete the log-in process first.</item>
         <item order= "6-2" id="titleBarText">Preliminary Sorting</item>
         <item order= "6-3" id="presortAgreement">Agree</item>
-         <item order= "6-3b" id="press1">(press 1)</item>
+        <item order= "6-3b" id="press1">(press 1)</item>
         <item order= "6-4" id="presortNeutral">No Strong Feelings</item>
-         <item order= "6-4b" id="press2">(press 2)</item>
+        <item order= "6-4b" id="press2">(press 2)</item>
         <item order= "6-5" id="presortDisagreement">Disagree</item>
-         <item order= "6-5b" id="press3">(press 3)</item>
+        <item order= "6-5b" id="press3">(press 3)</item>
         <item order= "6-6" id="presortStatements">Statements</item>
         <item order= "6-7" id="presortOnPageInstructions">{{{div style=&quot;font-size: 24px&quot;}}}Click and drag on the cards or press the &quot;1&quot;, &quot;2&quot;, or &quot;3&quot; keys to sort the statements.{{{/div}}}</item>
         <item order= "6-8" id="presortModalHead">Step 1 of 4</item>
@@ -105,7 +105,7 @@
         <item order="9-1" id="mobileThinHelpModalHead">Step 2 of 5{{{br/}}}Refinement Process</item>
         <item order="9-2" id="mobileThinHelpModalText">During this stage you will be asked to refine the evaluations you made in the previous step. {{{br/}}}{{{br/}}}Please {{{b}}}review the statements{{{/b}}} carefully. {{{br/}}}{{{br/}}}First, you will be asked to select those that are {{{b}}}most similar{{{/b}}} to your perspective. {{{br/}}}{{{br/}}}Then, you will be asked to select those that {{{b}}}differ the most{{{/b}}} from your perspective.{{{br/}}}{{{br/}}}To {{{b}}}select a statement{{{/b}}}, tap on the statement container. The color of the statement will change to yellow.{{{br/}}}{{{br/}}}When you have selected the {{{b}}}correct number{{{/b}}} of statements, the color of the {{{b}}}&quot;Submit&quot;{{{/b}}} button will change to {{{b}}}blue{{{/b}}}. Click on the Submit button to move to the next step.{{{br/}}}{{{br/}}}You may need to {{{b}}}scroll down{{{/b}}} to view all of the statements before you tap the Submit button.{{{br/}}}{{{br/}}}To make it easier to compare the statements, you can {{{b}}}reorder{{{/b}}} them by tapping on the up and down arrows located on the right or left sides of the statement.{{{br/}}}{{{br/}}}{{{center}}}{{{br /}}}{{{img src=&quot;https://github.com/shawnbanasick/quince/blob/development/src/assets/upDownArrows.svg?raw=true&quot; width=&quot;250&quot;/}}}{{{/center}}}{{{br /}}}{{{br /}}} You can also {{{b}}}move a group of selected statements{{{/b}}} to the top of the list by {{{b}}}long pressing{{{/b}}} (about 1 second) on the arrows to the {{{b}}}right side{{{/b}}} of the statements.{{{br /}}}{{{br /}}}{{{center}}}{{{br /}}}{{{img src=&quot;https://github.com/shawnbanasick/quince/blob/development/src/assets/longPressArrow.svg?raw=true&quot; width=&quot;250&quot;/}}}{{{/center}}}{{{br /}}}{{{br /}}} If you want to see these instructions again, tap the &quot;?&quot; button at the top of the main page.{{{br /}}}{{{br /}}}{{{center}}}{{{img src=&quot;https://github.com/shawnbanasick/quince/blob/development/src/assets/helpSymbol.png?raw=true&quot; width=&quot;30&quot;/}}}</item>
         <item order="9-3" id="mobileThinConditionsOfInstruction">Refine Your Evaluations</item>
-          <item order="9-4" id="mobileThinSelectedText">Selected</item>
+        <item order="9-4" id="mobileThinSelectedText">Selected</item>
         <item order="9-5" id="mobileThinSubmitButtonText">Submit</item>
         <item order="9-6" id="mobileGuidanceModalLeft1Header">Stage 2 of 5{{{br/}}} Refinement Process</item>
         <item order="9-7" id="mobileGuidanceModalLeft1Text">Step 2. Next, please look at all of the statements that you evaluated negatively and {{{b}}}select{{{/b}}} those that {{{b}}}differ the most{{{/b}}} from your perspective.{{{br/}}}{{{br/}}}You may need to {{{b}}}scroll down{{{/b}}} to see all of the statements.</item>
@@ -150,13 +150,13 @@
        <item order="12-2" id="postsortModalText">You can use the &quot;+&quot; and &quot;-&quot; buttons at the bottom of the page to change the statement font size or statement box height.{{{br/}}}{{{br/}}}</item>
        <item order="12-3" id="postsortHeader">Post-Sort Comments</item>
        <item order="12-4" id="postsortInstructions">{{{h3}}}Please describe your thoughts about these statements in more detail.{{{/h3}}}</item>
-        <item order="12-5" id="placeholder">Click here to add comment</item>
-        <item order="12-6" id="placedOn">Placed on</item>
-        <item order="12-7" id="postsortAgreement">Placed on Agree</item>
-        <item order="12-8" id="postsortDisagreement">Placed on Disagree</item>
-        <item order="12-9" id="postsortBackButtonText">Go Back</item>
-        <item order="12-10" id="postsortPreventNavModalHead">Navigation Disabled</item>
-        <item order="12-11" id="postsortPreventNavModalText">Please add comments to all of the cards before going to the next step.</item>
+       <item order="12-5" id="placeholder">Click here to add comment</item>
+       <item order="12-6" id="placedOn">Placed on</item>
+       <item order="12-7" id="postsortAgreement">Placed on Agree</item>
+       <item order="12-8" id="postsortDisagreement">Placed on Disagree</item>
+       <item order="12-9" id="postsortBackButtonText">Go Back</item>
+       <item order="12-10" id="postsortPreventNavModalHead">Navigation Disabled</item>
+       <item order="12-11" id="postsortPreventNavModalText">Please add comments to all of the cards before going to the next step.</item>
 
 
        <!-- 13. MOBILE POSTSORT: comments - only displayed if showStep3 = TRUE in config.xml -->
@@ -207,7 +207,7 @@
 
         <!-- 19. LINKING -->
         <item order="19-1" id="linkedProjectMessage">Please click the button to begin the next Q sort</item>   
-         <item order="19-2" id="linkedProjectBtnMessage">Begin Next Q sort</item>   
+        <item order="19-2" id="linkedProjectBtnMessage">Begin Next Q sort</item>   
 
         <!-- 20. LOCAL DATA COLLECTION -->  
         <item order="20-1" id="localHeader">Offline Q-sort Control Panel</item>

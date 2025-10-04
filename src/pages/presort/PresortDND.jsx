@@ -369,6 +369,8 @@ function PresortDND(props) {
     }
   };
 
+  // TODO - move CSS from globalCSS file to styled components
+
   // RENDER COMPONENT
   return (
     <PresortGrid id="statementsGrid">
@@ -592,8 +594,8 @@ const ColumnNamesPos = styled.div`
 `;
 
 const PresortGrid = styled.div`
-  padding-top: 10px;
-  margin-top: 25px;
+  padding-top: 0px;
+  margin-top: 0px;
   margin-bottom: 55px;
   display: grid;
   min-height: calc(100vh-100px);
@@ -668,8 +670,8 @@ const ThreeColCardWrapper = styled.div`
 const CompletionRatioDiv = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
-  margin-bottom: 5px;
+  align-items: end;
+  padding-bottom: 60px;
   font-size: 60px;
   font-weight: bold;
   padding-left: 3px;
@@ -684,12 +686,14 @@ const ImageEnlargeInstructionsDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 5px;
-  margin-top: 70px;
+  align-self: end;
+  margin-bottom: 16px;
   font-size: 16px;
-  padding: 16px 20px;
+  padding: 10px;
+  padding-bottom: 15px;
   width: 100%;
-  height: 100px;
+  /* height: 19.8vh; */
+  height: 180px;
   background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
   border-radius: 12px;
   border-left: 4px solid #0ea5e9;
