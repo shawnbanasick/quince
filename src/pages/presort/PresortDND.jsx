@@ -694,11 +694,11 @@ const ImageEnlargeInstructionsDiv = styled.div`
   width: 100%;
   /* height: 19.8vh; */
   height: 180px;
-  background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+  /* background: linear-gradient(135deg, #f0f9ff, #e0f2fe); */
   border-radius: 12px;
-  border-left: 4px solid #0ea5e9;
+  // border-left: 4px solid #0ea5e9;
   color: #0c4a6e;
-  box-shadow: 0 2px 4px rgba(14, 165, 233, 0.1);
+  /* box-shadow: 0 2px 4px rgba(14, 165, 233, 0.1); */
 `;
 
 const AllColWrapper = styled.div`
