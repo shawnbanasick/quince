@@ -6,11 +6,28 @@ import decodeHTML from "../../utilities/decodeHTML";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 
-const getLangObj = (state) => state.langObj;
-const getTriggerConsentModal = (state) => state.triggerConsentModal;
-const getSetTriggerConsentModal = (state) => state.setTriggerConsentModal;
+// Type definitions for store selectors
+interface SettingsState {
+  langObj: {
+    consentHelpModalHead?: string;
+    consentHelpModalText?: string;
+  };
+}
 
-const ConsentModal = () => {
+interface StoreState {
+  triggerConsentModal: boolean;
+  setTriggerConsentModal: (value: boolean) => void;
+}
+
+interface ConsentModalProps extends React.PropsWithChildren {
+  className: string;
+}
+
+const getLangObj = (state: SettingsState) => state.langObj;
+const getTriggerConsentModal = (state: StoreState) => state.triggerConsentModal;
+const getSetTriggerConsentModal = (state: StoreState) => state.setTriggerConsentModal;
+
+const ConsentModal: React.FC<ConsentModalProps> = () => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
   const triggerConsentModal = useStore(getTriggerConsentModal);
@@ -19,12 +36,17 @@ const ConsentModal = () => {
   const consentHelpModalHead = ReactHtmlParser(decodeHTML(langObj.consentHelpModalHead)) || "";
   const consentHelpModalText = ReactHtmlParser(decodeHTML(langObj.consentHelpModalText)) || "";
 
-  const onCloseModal = () => {
+  const onCloseModal = (): void => {
     setTriggerConsentModal(false);
   };
 
   return (
-    <Modal className="customModal" open={triggerConsentModal} onClose={onCloseModal} center>
+    <Modal
+      classNames={{ modal: "customModal" }}
+      open={triggerConsentModal}
+      onClose={onCloseModal}
+      center
+    >
       <ModalHeader>{consentHelpModalHead}</ModalHeader>
       <hr />
       <ModalContent>{consentHelpModalText}</ModalContent>
@@ -47,5 +69,3 @@ const ModalHeader = styled.div`
 const ModalContent = styled.div`
   margin-top: 15px;
 `;
-
-// react-responsive-modal-overlay
