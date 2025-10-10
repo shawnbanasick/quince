@@ -24,7 +24,13 @@ const ConsentModal = () => {
   };
 
   return (
-    <Modal className="customModal" open={triggerConsentModal} onClose={onCloseModal} center>
+    <Modal
+      className="customModal"
+      open={triggerConsentModal}
+      onClose={onCloseModal}
+      center
+      data-testid="consentModalDiv"
+    >
       <ModalHeader>{consentHelpModalHead}</ModalHeader>
       <hr />
       <ModalContent>{consentHelpModalText}</ModalContent>

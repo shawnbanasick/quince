@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
+import { render, screen, cleanup } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import MobileThinTopModal from "../MobileThinMoveTopModal";
 import useSettingsStore from "../../../globalState/useSettingsStore";
