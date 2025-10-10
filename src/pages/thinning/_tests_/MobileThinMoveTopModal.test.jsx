@@ -1,4 +1,3 @@
-/*
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
@@ -7,9 +6,9 @@ import useSettingsStore from "../../../globalState/useSettingsStore";
 import useStore from "../../../globalState/useStore";
 
 // Mock the external dependencies
-vi.mock("../../globalState/useSettingsStore");
-vi.mock("../../globalState/useStore");
-vi.mock("../../utilities/decodeHTML", () => ({
+vi.mock("../../../globalState/useSettingsStore");
+vi.mock("../../../globalState/useStore");
+vi.mock("../../../utilities/decodeHTML", () => ({
   default: (text) => text || "",
 }));
 vi.mock("html-react-parser", () => ({
@@ -55,45 +54,47 @@ describe("MobileThinTopModal", () => {
     it("renders the modal when triggered", () => {
       render(<MobileThinTopModal onClick={mockOnClick} />);
 
-      expect(screen.getByRole("dialog")).toBeInTheDocument();
-      expect(screen.getByText("Move to Top")).toBeInTheDocument();
-      expect(
-        screen.getByText("Are you sure you want to move all items to the top?")
-      ).toBeInTheDocument();
-      expect(screen.getByText("OK")).toBeInTheDocument();
-      expect(screen.getByText("Cancel")).toBeInTheDocument();
+      expect(screen.getByTestId("mobileThinMoveTopModalDiv")).toBeInTheDocument();
+      // expect(screen.getByRole("dialog")).toBeInTheDocument();
+      // expect(screen.getByText("Move to Top")).toBeInTheDocument();
+      // expect(
+      //   screen.getByText("Are you sure you want to move all items to the top?")
+      // ).toBeInTheDocument();
+      // expect(screen.getByText("OK")).toBeInTheDocument();
+      // expect(screen.getByText("Cancel")).toBeInTheDocument();
     });
 
-    it("does not render when modal is not triggered", () => {
-      useStore.mockImplementation((selector) => {
-        if (selector.name === "getTriggerMobileThinMoveTopModal") {
-          return false; // Modal is closed
-        }
-        if (selector.name === "getSetTriggerMobileThinMoveTopModal") {
-          return mockSetTriggerMobileThinMoveTopModal;
-        }
-        return null;
-      });
+    // it("does not render when modal is not triggered", () => {
+    //   useStore.mockImplementation((selector) => {
+    //     if (selector.name === "getTriggerMobileThinMoveTopModal") {
+    //       return false; // Modal is closed
+    //     }
+    //     if (selector.name === "getSetTriggerMobileThinMoveTopModal") {
+    //       return mockSetTriggerMobileThinMoveTopModal;
+    //     }
+    //     return null;
+    //   });
 
-      const { container } = render(<MobileThinTopModal onClick={mockOnClick} />);
-      expect(container.querySelector('[role="dialog"]')).not.toBeInTheDocument();
-    });
+    //   const { container } = render(<MobileThinTopModal onClick={mockOnClick} />);
+    //   expect(container.querySelector('[role="dialog"]')).not.toBeInTheDocument();
+    // });
 
-    it("renders with custom class names", () => {
-      render(<MobileThinTopModal onClick={mockOnClick} />);
+    // it("renders with custom class names", () => {
+    //   render(<MobileThinTopModal onClick={mockOnClick} />);
 
-      const modalElement = document.querySelector(".mobile-thin-modal");
-      expect(modalElement).toBeInTheDocument();
-    });
+    //   const modalElement = document.querySelector(".mobile-thin-modal");
+    //   expect(modalElement).toBeInTheDocument();
+    // });
 
-    it("displays the close button with proper accessibility attributes", () => {
-      render(<MobileThinTopModal onClick={mockOnClick} />);
+    // it("displays the close button with proper accessibility attributes", () => {
+    //   render(<MobileThinTopModal onClick={mockOnClick} />);
 
-      const closeButton = screen.getByLabelText("Close modal");
-      expect(closeButton).toBeInTheDocument();
-      expect(closeButton).toHaveTextContent("×");
-    });
+    //   const closeButton = screen.getByLabelText("Close modal");
+    //   expect(closeButton).toBeInTheDocument();
+    //   expect(closeButton).toHaveTextContent("×");
+    // });
   });
+  /*
 
   describe("User Interactions", () => {
     it("calls setTriggerMobileThinMoveTopModal(false) when close button is clicked", async () => {
@@ -269,5 +270,5 @@ describe("MobileThinTopModal", () => {
       expect(() => render(<MobileThinTopModal onClick={mockOnClick} />)).not.toThrow();
     });
   });
+  */
 });
-*/

@@ -73,7 +73,7 @@ const MobileThinTopModal = ({ onClick }) => {
         },
       }}
     >
-      <ModalContainer>
+      <ModalContainer data-testid="mobileThinMoveTopModalDiv">
         <ModalHeader>
           <HeaderText>{moveTopMobileHead}</HeaderText>
           <HeaderDivider />
