@@ -4,6 +4,7 @@
     "esModuleInterop": true, // Enable compatibility for default imports
     "forceConsistentCasingInFileNames": true,
     "strict": false,
+    "allowSyntheticDefaultImports": true,
 
     "target": "ES2020",
     "useDefineForClassFields": true,
@@ -13,12 +14,12 @@
     "noImplicitAny": false,
     "strictNullChecks": false,
     "noEmitOnError": false,
-
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
+    "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
+
+    /* Bundler mode */
+    "allowImportingTsExtensions": true,
     "noEmit": true,
     "jsx": "react-jsx",
 
