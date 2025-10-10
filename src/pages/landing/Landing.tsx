@@ -3,7 +3,7 @@ import styled, { keyframes } from "styled-components";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
 import calculateTimeOnPage from "../../utilities/calculateTimeOnPage";
-import LandingModal from "../landing/LandingModal";
+import LandingModal from "./LandingModal";
 import LogInScreen from "./LogInScreen";
 import MobileLogInScreen from "./MobileLogInScreen";
 import MobilePartIdScreen from "./MobilePartIdScreen";
@@ -24,24 +24,86 @@ import useScreenOrientation from "../../utilities/useScreenOrientation";
 import shuffle from "lodash/shuffle";
 import { v4 as uuid } from "uuid";
 
-const getLangObj = (state) => state.langObj;
-const getConfigObj = (state) => state.configObj;
-const getDataLoaded = (state) => state.dataLoaded;
-const getSetCurrentPage = (state) => state.setCurrentPage;
-const getSetProgressScore = (state) => state.setProgressScore;
-const getSetUrlUsercode = (state) => state.setUrlUsercode;
-const getDisplayLandingContent = (state) => state.displayLandingContent;
-const getSetDisplayNextButton = (state) => state.setDisplayNextButton;
-const getMapObject = (state) => state.mapObj;
-const getSetPostsortCommentCheckObj = (state) => state.setPostsortCommentCheckObj;
-const getSetCardFontSizeSort = (state) => state.setCardFontSizeSort;
-const getSetCardFontSizePostsort = (state) => state.setCardFontSizePostsort;
-const getSetMinCardHeightSort = (state) => state.setMinCardHeightSort;
-const getSetCardHeightSort = (state) => state.setCardHeightSort;
-const getSetMinCardHeightPostsort = (state) => state.setMinCardHeightPostsort;
-const getStatementsObj = (state) => state.statementsObj;
+// Type definitions
+interface LangObj {
+  landingHead?: string;
+  welcomeText?: string;
+  mobileWelcomeText?: string;
+  screenOrientationText?: string;
+}
 
-const LandingPage = () => {
+interface MapObj {
+  qSortHeaders: number[];
+  qSortPattern: { [key: string]: number };
+}
+
+interface StatementsObj {
+  totalStatements: number;
+  columnStatements: {
+    statementList: any[];
+  };
+}
+
+interface ConfigObj {
+  headerBarColor: string;
+  initialScreen: string;
+  setDefaultFontSizePresort?: string | boolean;
+  defaultFontSizePresort?: string;
+  setDefaultFontSizeSort?: string | boolean;
+  defaultFontSizeSort?: string;
+  setMinCardHeightSort?: string | boolean;
+  minCardHeightSort?: string;
+  setDefaultFontSizePostsort?: string | boolean;
+  defaultFontSizePostsort?: string;
+  setMinCardHeightPostsort?: string | boolean;
+  minCardHeightPostsort?: string;
+  requiredAnswersObj?: { [key: string]: any };
+  showSecondPosColumn?: string | boolean;
+  showSecondNegColumn?: string | boolean;
+  setupTarget?: string;
+  useMobileMode?: string | boolean;
+}
+
+interface SettingsState {
+  langObj: LangObj;
+  configObj: ConfigObj;
+  mapObj: MapObj;
+  statementsObj: StatementsObj;
+}
+
+interface StoreState {
+  dataLoaded: boolean;
+  setCurrentPage: (page: string) => void;
+  setProgressScore: (score: number) => void;
+  setUrlUsercode: (code: string) => void;
+  displayLandingContent: boolean;
+  setDisplayNextButton: (display: boolean) => void;
+  setPostsortCommentCheckObj: (obj: { [key: string]: boolean }) => void;
+  setCardFontSizeSort: (size: string) => void;
+  setCardFontSizePostsort: (size: string) => void;
+  setMinCardHeightSort: (height: string) => void;
+  setCardHeightSort: (height: number) => void;
+  setMinCardHeightPostsort: (height: string) => void;
+}
+
+const getLangObj = (state: SettingsState) => state.langObj;
+const getConfigObj = (state: SettingsState) => state.configObj;
+const getDataLoaded = (state: StoreState) => state.dataLoaded;
+const getSetCurrentPage = (state: StoreState) => state.setCurrentPage;
+const getSetProgressScore = (state: StoreState) => state.setProgressScore;
+const getSetUrlUsercode = (state: StoreState) => state.setUrlUsercode;
+const getDisplayLandingContent = (state: StoreState) => state.displayLandingContent;
+const getSetDisplayNextButton = (state: StoreState) => state.setDisplayNextButton;
+const getMapObject = (state: SettingsState) => state.mapObj;
+const getSetPostsortCommentCheckObj = (state: StoreState) => state.setPostsortCommentCheckObj;
+const getSetCardFontSizeSort = (state: StoreState) => state.setCardFontSizeSort;
+const getSetCardFontSizePostsort = (state: StoreState) => state.setCardFontSizePostsort;
+const getSetMinCardHeightSort = (state: StoreState) => state.setMinCardHeightSort;
+const getSetCardHeightSort = (state: StoreState) => state.setCardHeightSort;
+const getSetMinCardHeightPostsort = (state: StoreState) => state.setMinCardHeightPostsort;
+const getStatementsObj = (state: SettingsState) => state.statementsObj;
+
+const LandingPage: React.FC = () => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
   const configObj = useSettingsStore(getConfigObj);
@@ -174,7 +236,7 @@ const LandingPage = () => {
   // SORT card height
   let maxColCards = Math.max(...qSortPattern);
   let height = (window.innerHeight - 150) / maxColCards;
-  localStorage.setItem("cardHeightSort", height);
+  localStorage.setItem("cardHeightSort", height.toString());
   setCardHeightSort(height);
 
   // ************************
@@ -215,7 +277,7 @@ const LandingPage = () => {
   let screenOrientation = useScreenOrientation();
 
   //   calc time on page
-  const startTimeRef = useRef(null);
+  const startTimeRef = useRef<number | null>(null);
   useEffect(() => {
     startTimeRef.current = Date.now();
     setProgressScore(10);
@@ -229,8 +291,8 @@ const LandingPage = () => {
 
   useEffect(() => {
     // set thinning iteration counts
-    localStorage.setItem("currentLeftIteration", 0);
-    localStorage.setItem("currentRightIteration", 0);
+    localStorage.setItem("currentLeftIteration", "0");
+    localStorage.setItem("currentRightIteration", "0");
     localStorage.setItem("isNotReload", "true");
     localStorage.setItem("thinningSide", "rightSide");
     localStorage.setItem("m_PresortResults", "");
@@ -256,16 +318,16 @@ const LandingPage = () => {
       configObj.setDefaultFontSizePresort === "true" ||
       configObj.setDefaultFontSizePresort === true
     ) {
-      localStorage.setItem("fontSizePresort", configObj.defaultFontSizePresort);
+      localStorage.setItem("fontSizePresort", configObj.defaultFontSizePresort || "");
     }
 
     // SORT font
     if (configObj.setDefaultFontSizeSort === "true" || configObj.setDefaultFontSizeSort === true) {
-      localStorage.setItem("fontSizeSort", configObj.defaultFontSizeSort);
+      localStorage.setItem("fontSizeSort", configObj.defaultFontSizeSort || "");
     }
 
     if (configObj.setMinCardHeightSort === "true" || configObj.setMinCardHeightSort === true) {
-      localStorage.setItem("cardHeightSort", configObj.minCardHeightSort);
+      localStorage.setItem("cardHeightSort", configObj.minCardHeightSort || "");
     }
 
     // POSTSORT font
@@ -273,8 +335,8 @@ const LandingPage = () => {
       configObj.setDefaultFontSizePostsort === "true" ||
       configObj.setDefaultFontSizePostsort === true
     ) {
-      setCardFontSizePostsort(configObj.defaultFontSizePostsort);
-      localStorage.setItem("fontSizePostsort", configObj.defaultFontSizePostsort);
+      setCardFontSizePostsort(configObj.defaultFontSizePostsort || "");
+      localStorage.setItem("fontSizePostsort", configObj.defaultFontSizePostsort || "");
     }
 
     // POSTSORT card height
@@ -282,8 +344,8 @@ const LandingPage = () => {
       configObj.setMinCardHeightPostsort === "true" ||
       configObj.setMinCardHeightPostsort === true
     ) {
-      setMinCardHeightPostsort(configObj.minCardHeightPostsort);
-      localStorage.setItem("cardHeightPostsort", configObj.minCardHeightPostsort);
+      setMinCardHeightPostsort(configObj.minCardHeightPostsort || "");
+      localStorage.setItem("cardHeightPostsort", configObj.minCardHeightPostsort || "");
     }
 
     // set participant Id if set in URL
@@ -332,8 +394,8 @@ const LandingPage = () => {
   // setup postsort comments object
   useEffect(() => {
     let objectKeys = Object.keys(mapObj.qSortPattern);
-    let mostPos = Math.max(...objectKeys);
-    let mostNeg = Math.min(...objectKeys);
+    let mostPos = Math.max(...objectKeys.map(Number));
+    let mostNeg = Math.min(...objectKeys.map(Number));
     let MostPos2 = mostPos - 1;
     let MostNeg2 = mostNeg + 1;
     let highVal = mapObj.qSortPattern[mostPos];
@@ -342,7 +404,7 @@ const LandingPage = () => {
     let lowVal2 = mapObj.qSortPattern[MostNeg2];
     let showSecondMostPos = configObj.showSecondPosColumn;
     let showSecondMostNeg = configObj.showSecondNegColumn;
-    const postsortCommentCheckObj = {};
+    const postsortCommentCheckObj: { [key: string]: boolean } = {};
     for (let i = 0; i < highVal; i++) {
       let key = `hc-${i}`;
       postsortCommentCheckObj[key] = false;
@@ -541,7 +603,11 @@ const MobileContainerDiv = styled.div`
   }
 `;
 
-const ContentDiv = styled.div`
+interface ContentDivProps {
+  view?: boolean;
+}
+
+const ContentDiv = styled.div<ContentDivProps>`
   display: flex;
   width: 75vw;
   font-size: 1.25em;
@@ -552,7 +618,7 @@ const ContentDiv = styled.div`
   align-items: center;
 `;
 
-const MobileContentDiv = styled.div`
+const MobileContentDiv = styled.div<ContentDivProps>`
   display: flex;
   flex-wrap: wrap;
   width: 90vw;
@@ -573,7 +639,11 @@ const MobileContentDiv = styled.div`
   }
 `;
 
-const SortTitleBar = styled.div`
+interface TitleBarProps {
+  background: string;
+}
+
+const SortTitleBar = styled.div<TitleBarProps>`
   width: 100vw;
   padding-left: 1.5vw;
   padding-right: 1.5vw;
@@ -590,7 +660,7 @@ const SortTitleBar = styled.div`
   top: 0;
 `;
 
-const MobileSortTitleBar = styled.div`
+const MobileSortTitleBar = styled.div<TitleBarProps>`
   width: 100vw;
   padding-left: 1.5vw;
   padding-right: 1.5vw;
