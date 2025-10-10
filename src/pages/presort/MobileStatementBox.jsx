@@ -22,7 +22,11 @@ const MobileStatementBox = (props) => {
   }
 
   return (
-    <Container color={props.backgroundColor} fontSize={mobilePresortFontSize}>
+    <Container
+      data-testid="MobileStatementBoxDiv"
+      color={props.backgroundColor}
+      fontSize={mobilePresortFontSize}
+    >
       {statement}
     </Container>
   );
@@ -30,11 +34,11 @@ const MobileStatementBox = (props) => {
 
 export default MobileStatementBox;
 
-// MobileStatementBox.propTypes = {
-//   backgroundColor: PropTypes.string.isRequired,
-//   fontSize: PropTypes.number.isRequired,
-//   statement: PropTypes.string,
-// };
+MobileStatementBox.propTypes = {
+  backgroundColor: PropTypes.string.isRequired,
+  fontSize: PropTypes.number.isRequired,
+  statement: PropTypes.string,
+};
 
 const Container = styled.div`
   display: flex;

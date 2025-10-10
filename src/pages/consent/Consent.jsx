@@ -8,6 +8,7 @@ import useStore from "../../globalState/useStore";
 import PromptUnload from "../../utilities/PromptUnload";
 import ConsentModal from "./ConsentModal";
 import parseParams from "../landing/parseParams";
+import { ConsentTitleBar } from "./ConsentTitleBar";
 
 /* eslint react/prop-types: 0 */
 
@@ -28,8 +29,6 @@ const ConsentPage = () => {
   const setCurrentPage = useStore(getSetCurrentPage);
   const setDisplayNextButton = useStore(getSetDisplayNextButton);
   const setUrlUsercode = useStore(getSetUrlUsercode);
-
-  const headerBarColor = configObj.headerBarColor;
   const consentText = ReactHtmlParser(decodeHTML(langObj.consentText)) || "";
 
   const startTimeRef = useRef(null);
@@ -77,14 +76,12 @@ const ConsentPage = () => {
     }
   }, [setUrlUsercode, configObj]);
 
-  const titleText = ReactHtmlParser(decodeHTML(langObj.consentTitleBarText)) || "";
-
   return (
     <>
       <ConsentModal />
       <PromptUnload />
-      <SortTitleBar background={headerBarColor}>{titleText}</SortTitleBar>
-      <ContainerDiv>
+      <ConsentTitleBar />
+      <ContainerDiv data-testid="ConsentPageDiv">
         <div>{consentText}</div>
       </ContainerDiv>
     </>
@@ -92,23 +89,6 @@ const ConsentPage = () => {
 };
 
 export default ConsentPage;
-
-const SortTitleBar = styled.div`
-  width: 100%;
-  padding-left: 1.5vw;
-  padding-right: 1.5vw;
-  padding-top: 5px;
-  min-height: 50px;
-  background-color: ${(props) => props.background};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-weight: bold;
-  font-size: 28px;
-  position: fixed;
-  top: 0;
-`;
 
 const ContainerDiv = styled.div`
   display: flex;
