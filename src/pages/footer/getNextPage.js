@@ -1,15 +1,4 @@
-const getNextPage = (
-  currentPage,
-  showPostsort,
-  showSurvey,
-  showConsent,
-  showThinning
-) => {
-  // if (showPostsort === true && showSurvey === true) {
-
-  // console.log("currentPage: ", currentPage);
-  // console.log("showThinning: ", showThinning);
-
+const getNextPage = (currentPage, showPostsort, showSurvey, showConsent, showThinning) => {
   if (currentPage === "consent") {
     if (showConsent === true) {
       return `/landing`;

@@ -79,7 +79,7 @@ const HelpButton = () => {
   }
 
   return (
-    <StyledHelpButton tabindex="0" onClick={handleOnClick}>
+    <StyledHelpButton data-testid="helpButtonDiv" tabindex="0" onClick={handleOnClick}>
       {buttonText}
     </StyledHelpButton>
   );
@@ -110,11 +110,3 @@ const StyledHelpButton = styled.button`
     background-color: ${({ theme }) => theme.focus};
   }
 `;
-
-/*
-
-  &:hover {
-    opacity: 1;
-    box-shadow: inset 0 0 0 4px #666, 0 0 1px transparent;
-  }
-  */

@@ -65,31 +65,40 @@ const CardHeightSizer = () => {
   const decreaseHeight = () => {
     if (currentPage === "thin") {
       const currentSize = +cardHeightThin;
-      const newSize = currentSize - 5;
+      let newSize = currentSize - 5;
+      if (newSize < 10) {
+        newSize = 10;
+      }
       localStorage.setItem("cardHeightThin", JSON.stringify(newSize));
       setCardHeightThin(newSize);
     }
     if (currentPage === "sort") {
       const currentSize = +cardHeightSort;
-      const newSize = currentSize - 2;
+      let newSize = currentSize - 2;
+      if (newSize < 10) {
+        newSize = 10;
+      }
       localStorage.setItem("cardHeightSort", JSON.stringify(newSize));
       setCardHeightSort(newSize);
     }
     if (currentPage === "postsort") {
       const currentSize = +cardHeightPostsort;
-      const newSize = currentSize - 2;
+      let newSize = currentSize - 2;
+      if (newSize < 10) {
+        newSize = 10;
+      }
       localStorage.setItem("cardHeightPostsort", JSON.stringify(newSize));
       setCardHeightPostsort(newSize);
     }
   };
 
   return (
-    <Container>
+    <Container data-testid="CardHeightSizerDiv">
       <SpanDiv>{cardHeightText}</SpanDiv>
-      <SizeButton padBottom={"0.4em"} onClick={decreaseHeight}>
+      <SizeButton data-testid="cardHeightSizerNeg" padBottom={"0.4em"} onClick={decreaseHeight}>
         -
       </SizeButton>
-      <SizeButton padBottom={"0.25em"} onClick={increaseHeight}>
+      <SizeButton data-testid="cardHeightSizerPlus" padBottom={"0.25em"} onClick={increaseHeight}>
         +
       </SizeButton>
     </Container>

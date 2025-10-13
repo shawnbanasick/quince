@@ -8,10 +8,6 @@ import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 import MobileFooterViewSizer from "./MobileFooterViewSizer";
 import useScreenOrientation from "../../utilities/useScreenOrientation";
-// import CardHeightSizer from "./CardHeightSizer";
-// import ProgressBar from "@ramonak/react-progress-bar";
-// import calcProgressScore from "./calcProgressScore";
-// import MobileHelpButton from "./MobileHelpButton";
 import MobileSurveyBackButton from "./MobileSurveyBackButton";
 
 const getLangObj = (state) => state.langObj;
@@ -19,11 +15,6 @@ const getConfigObj = (state) => state.configObj;
 const getCurrentPage = (state) => state.currentPage;
 const getLocalUsercode = (state) => state.localUsercode;
 const getDisplayNextButton = (state) => state.displayNextButton;
-// const getAdditionalProgress = (state) => state.progressScoreAdditional;
-// const getAdditionalProgressSort = (state) => state.progressScoreAdditionalSort;
-// const getDisplayMobileHelpButton = (state) => state.displayMobileHelpButton;
-// const getSetDisplayMobileHelpButton = (state) =>
-//   state.setDisplayMobileHelpButton;
 
 const StyledFooter = () => {
   // STATE
@@ -31,17 +22,7 @@ const StyledFooter = () => {
   const configObj = useSettingsStore(getConfigObj);
   const currentPage = useStore(getCurrentPage);
   const localUsercode = useStore(getLocalUsercode);
-  // const additionalProgress = useStore(getAdditionalProgress);
-  // const additionalProgressSort = useStore(getAdditionalProgressSort);
   let displayNextButtonGlobal = useStore(getDisplayNextButton);
-  // let displayMobileHelpButton = useStore(getDisplayMobileHelpButton);
-  // const setDisplayMobileHelpButton = useStore(getSetDisplayMobileHelpButton);
-
-  // let showProgressBar = false;
-  // let showCardHeightSizer = true;
-  // let showAdjustmentContainer = true;
-  // let backButtonText = langObj.postsortBackButtonText;
-  // let showBackButton;
   let showFooterFontSizer = true;
   let showLogo = false;
   let showFooterViewSizer = true;
@@ -53,7 +34,6 @@ const StyledFooter = () => {
   const showSurvey = configObj.showSurvey;
   const showConsent = configObj.showConsentPage;
   const showThinning = configObj.useThinProcess;
-  // const useImages = configObj.useImages;
 
   // *** HOOKS ***
   let screenOrientation = useScreenOrientation();
@@ -75,12 +55,6 @@ const StyledFooter = () => {
   }
 
   let backButtonText = ReactHtmlParser(decodeHTML(langObj.postsortBackButtonText)) || "";
-
-  // if (currentPage === "postsort" && configObj.showBackButton) {
-  //   // showBackButton = false;
-  // } else {
-  //   // showBackButton = false;
-  // }
 
   // *** LOCAL DATA COLLECTION SETUP ***
   if (currentPage === "sort" && configObj.setupTarget === "local") {
@@ -127,58 +101,19 @@ const StyledFooter = () => {
   }
 
   // Image sort adjustments
-  // if (currentPage === "presort") {
-  //   if (configObj.useImages === true) {
-  //     // showAdjustmentContainer = false;
-  //     // showCardHeightSizer = false;
-  //   } else {
-  //     // showAdjustmentContainer = true;
-  //     // showCardHeightSizer = false;
-  //   }
-  // }
-
-  // Image sort adjustments
   if (currentPage === "submit" || currentPage === "landing" || currentPage === "consent") {
     showFooterFontSizer = false;
     showFooterViewSizer = false;
-    // if (useImages === true) {
-    //   showAdjustmentContainer = true;
-    //   // showCardHeightSizer = true;
-    //   showFooterFontSizer = false;
-    // } else {
-    //   showAdjustmentContainer = false;
-    //   // showCardHeightSizer = true;
-    //   showFooterFontSizer = true;
-    // }
-    // showAdjustmentContainer = true;
   }
 
   if (currentPage === "survey") {
     showFooterFontSizer = false;
     showFooterViewSizer = true;
-    // showAdjustmentContainer = false;
-  }
-
-  // font size and view adjustments display
-  if (currentPage === "landing" || currentPage === "survey" || currentPage === "submit") {
-    // showAdjustmentContainer = false;
   }
 
   if (currentPage === "postsort") {
     showLogo = false;
-    // showAdjustmentContainer = true;
   }
-
-  // let CenterContent = (
-  //   <React.Fragment>
-  //     {showAdjustmentContainer && (
-  //       <AdjustmentsContainer>
-  //         {showFooterFontSizer && <MobileFooterFontSizer />}
-  //         {showFooterViewSizer && <MobileFooterViewSizer />}
-  //       </AdjustmentsContainer>
-  //     )}
-  //   </React.Fragment>
-  // );
 
   const nextPage = getNextPage(currentPage, showPostsort, showSurvey, showConsent, showThinning);
 
@@ -190,7 +125,7 @@ const StyledFooter = () => {
   }
 
   return (
-    <StyledFooterDiv>
+    <StyledFooterDiv data-testid="mobileFooterDiv">
       {showLogo && <LogoContainer>{logoHtml}</LogoContainer>}
       {showBackButton && (
         <MobileSurveyBackButton to={"/postsort"}>{backButtonText}</MobileSurveyBackButton>
@@ -198,7 +133,11 @@ const StyledFooter = () => {
       {showFooterFontSizer && <MobileFooterFontSizer />}
       {showFooterViewSizer && <MobileFooterViewSizer />}
       {displayNextButton && (
-        <MobileNextButton width={nextButtonWidth} to={nextPage}>
+        <MobileNextButton
+          data-testid="mobileFooterNextButton"
+          width={nextButtonWidth}
+          to={nextPage}
+        >
           {nextButtonText}
         </MobileNextButton>
       )}
@@ -221,16 +160,6 @@ const StyledFooterDiv = styled.footer`
   user-select: none;
 `;
 
-// const AdjustmentsContainer = styled.div`
-//   display: flex;
-//   flex-direction: row;
-//   /* justify-content: space-between; */
-//   /* gap: 10px; */
-//   margin-left: 2vw;
-//   width: 100%;
-//   outline: 1px solid red;
-// `;
-
 const LogoContainer = styled.div`
   padding-top: 5px;
   padding-left: 5px;
@@ -239,15 +168,3 @@ const LogoContainer = styled.div`
   align-self: center;
   text-align: center;
 `;
-
-// const CenterDiv = styled.div`
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: center;
-// `;
-
-// const ButtonDiv = styled.div`
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: space-between;
-// `;

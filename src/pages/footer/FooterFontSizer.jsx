@@ -76,37 +76,49 @@ const FooterFontSizer = () => {
     console.log("decreaseFontSize");
     if (currentPage === "presort") {
       const currentSize = cardFontSizePresort;
-      const newSize = currentSize - 1;
+      let newSize = currentSize - 1;
+      if (newSize < 1) {
+        newSize = 1;
+      }
       localStorage.setItem("fontSizePresort", JSON.stringify(newSize));
       setCardFontSizePresort(newSize);
     }
     if (currentPage === "thin") {
       const currentSize = cardFontSizeThin;
-      const newSize = currentSize - 1;
+      let newSize = currentSize - 1;
+      if (newSize < 1) {
+        newSize = 1;
+      }
       localStorage.setItem("fontSizeThin", JSON.stringify(newSize));
       setCardFontSizeThin(newSize);
     }
     if (currentPage === "sort") {
       const currentSize = cardFontSizeSort;
-      const newSize = currentSize - 1;
+      let newSize = currentSize - 1;
+      if (newSize < 1) {
+        newSize = 1;
+      }
       localStorage.setItem("fontSizeSort", JSON.stringify(newSize));
       setCardFontSizeSort(newSize);
     }
     if (currentPage === "postsort") {
       const currentSize = cardFontSizePostsort;
-      const newSize = currentSize - 1;
+      let newSize = currentSize - 1;
+      if (newSize < 1) {
+        newSize = 1;
+      }
       localStorage.setItem("fontSizePostsort", JSON.stringify(newSize));
       setCardFontSizePostsort(newSize);
     }
   };
 
   return (
-    <Container>
+    <Container data-testid="FooterFontSizerDiv">
       <SpanDiv>{fontSizeText}</SpanDiv>
-      <SizeButton padBottom={"0.4em"} onClick={decreaseFontSize}>
+      <SizeButton data-testid="FooterFontSizerNeg" padBottom={"0.4em"} onClick={decreaseFontSize}>
         -
       </SizeButton>
-      <SizeButton padBottom={"0.25em"} onClick={increaseFontSize}>
+      <SizeButton data-testid="FooterFontSizerPos" padBottom={"0.25em"} onClick={increaseFontSize}>
         +
       </SizeButton>
     </Container>
