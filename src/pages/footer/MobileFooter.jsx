@@ -16,7 +16,7 @@ const getCurrentPage = (state) => state.currentPage;
 const getLocalUsercode = (state) => state.localUsercode;
 const getDisplayNextButton = (state) => state.displayNextButton;
 
-const StyledFooter = () => {
+const MobileStyledFooter = () => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
   const configObj = useSettingsStore(getConfigObj);
@@ -126,12 +126,12 @@ const StyledFooter = () => {
 
   return (
     <StyledFooterDiv data-testid="mobileFooterDiv">
-      {showLogo && <LogoContainer>{logoHtml}</LogoContainer>}
+      {showLogo && <LogoContainer data-testid="logoDiv">{logoHtml}</LogoContainer>}
       {showBackButton && (
         <MobileSurveyBackButton to={"/postsort"}>{backButtonText}</MobileSurveyBackButton>
       )}
-      {showFooterFontSizer && <MobileFooterFontSizer />}
-      {showFooterViewSizer && <MobileFooterViewSizer />}
+      {showFooterFontSizer && <MobileFooterFontSizer data-testid="mobileFooterFontSizerComp" />}
+      {showFooterViewSizer && <MobileFooterViewSizer data-testid="mobileFooterViewSizerComp" />}
       {displayNextButton && (
         <MobileNextButton
           data-testid="mobileFooterNextButton"
@@ -145,7 +145,7 @@ const StyledFooter = () => {
   );
 };
 
-export default StyledFooter;
+export default MobileStyledFooter;
 
 const StyledFooterDiv = styled.footer`
   display: flex;

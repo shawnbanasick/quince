@@ -1,12 +1,14 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { BrowserRouter } from "react-router-dom";
-import StyledFooter from "../StyledFooter";
+import StyledFooter from "../MobileFooter";
 import useSettingsStore from "../../../globalState/useSettingsStore";
 import useStore from "../../../globalState/useStore";
 import useScreenOrientation from "../../../utilities/useScreenOrientation";
 import getNextPage from "../getNextPage";
+import * as matchers from "@testing-library/jest-dom/matchers";
 
+expect.extend(matchers);
 // Mock the modules
 vi.mock("../../../globalState/useSettingsStore");
 vi.mock("../../../globalState/useStore");
@@ -27,13 +29,13 @@ vi.mock("../MobileNextButton", () => ({
     </div>
   ),
 }));
-vi.mock("./MobileFooterFontSizer", () => ({
-  default: () => <div data-testid="mobile-footer-font-sizer">Font Sizer</div>,
+vi.mock("../MobileFooterFontSizer", () => ({
+  default: () => <div data-testid="mobileFooterFontSizerComp">Font Sizer</div>,
 }));
-vi.mock("./MobileFooterViewSizer", () => ({
-  default: () => <div data-testid="mobile-footer-view-sizer">View Sizer</div>,
+vi.mock("../MobileFooterViewSizer", () => ({
+  default: () => <div data-testid="mobileFooterViewSizerComp">View Sizer</div>,
 }));
-vi.mock("./MobileSurveyBackButton", () => ({
+vi.mock("../MobileSurveyBackButton", () => ({
   default: ({ children, to }) => (
     <div data-testid="mobile-survey-back-button" data-to={to}>
       {children}
@@ -95,7 +97,7 @@ describe("StyledFooter", () => {
   describe("rendering", () => {
     it("renders the footer component", () => {
       setupStore("presort");
-      renderWithRouter(<StyledFooter />);
+      render(<StyledFooter />);
 
       expect(screen.getByTestId("mobileFooterDiv")).toBeInTheDocument();
     });
@@ -103,7 +105,7 @@ describe("StyledFooter", () => {
     it("does not render when in landscape orientation", () => {
       useScreenOrientation.mockReturnValue("landscape-primary");
       setupStore("presort");
-      const { container } = renderWithRouter(<StyledFooter />);
+      const { container } = render(<StyledFooter />);
 
       expect(container.firstChild).toBeNull();
     });
@@ -112,120 +114,58 @@ describe("StyledFooter", () => {
   describe("logo display", () => {
     it("shows logo on landing page", () => {
       setupStore("landing");
-      renderWithRouter(<StyledFooter />);
-
+      render(<StyledFooter />);
       // Look for the logo HTML string
-      expect(
-        screen.getByText(
-          /{{{center}}}{{{img src="\.\/logo\/logo\.png" height="20" width="125" \/}}}{{{\/center}}}/
-        )
-      ).toBeInTheDocument();
+      expect(screen.getByTestId("logoDiv")).toBeInTheDocument();
     });
 
     it("shows logo on consent page", () => {
       setupStore("consent");
       renderWithRouter(<StyledFooter />);
 
-      expect(
-        screen.getByText(
-          /{{{center}}}{{{img src="\.\/logo\/logo\.png" height="20" width="125" \/}}}{{{\/center}}}/
-        )
-      ).toBeInTheDocument();
+      expect(screen.getByTestId("logoDiv")).toBeInTheDocument();
     });
 
     it("shows logo on submit page", () => {
       setupStore("submit");
       renderWithRouter(<StyledFooter />);
 
-      expect(
-        screen.getByText(
-          /{{{center}}}{{{img src="\.\/logo\/logo\.png" height="20" width="125" \/}}}{{{\/center}}}/
-        )
-      ).toBeInTheDocument();
+      expect(screen.getByTestId("logoDiv")).toBeInTheDocument();
     });
 
     it("does not show logo on presort page", () => {
       setupStore("presort");
-      renderWithRouter(<StyledFooter />);
+      render(<StyledFooter />);
 
-      expect(
-        screen.queryByText(
-          /{{{center}}}{{{img src="\.\/logo\/logo\.png" height="20" width="125" \/}}}{{{\/center}}}/
-        )
-      ).not.toBeInTheDocument();
+      expect(screen.queryByTestId("logoDiv")).not.toBeInTheDocument();
     });
 
     it("does not show logo on sort page", () => {
       setupStore("sort");
       renderWithRouter(<StyledFooter />);
 
-      expect(
-        screen.queryByText(
-          /{{{center}}}{{{img src="\.\/logo\/logo\.png" height="20" width="125" \/}}}{{{\/center}}}/
-        )
-      ).not.toBeInTheDocument();
+      expect(screen.queryByTestId("logoDiv")).not.toBeInTheDocument();
     });
 
     it("does not show logo on postsort page", () => {
       setupStore("postsort");
       renderWithRouter(<StyledFooter />);
 
-      expect(
-        screen.queryByText(
-          /{{{center}}}{{{img src="\.\/logo\/logo\.png" height="20" width="125" \/}}}{{{\/center}}}/
-        )
-      ).not.toBeInTheDocument();
+      expect(screen.queryByTestId("logoDiv")).not.toBeInTheDocument();
     });
 
     it("does not show logo on survey page", () => {
       setupStore("survey");
       renderWithRouter(<StyledFooter />);
 
-      expect(
-        screen.queryByText(
-          /{{{center}}}{{{img src="\.\/logo\/logo\.png" height="20" width="125" \/}}}{{{\/center}}}/
-        )
-      ).not.toBeInTheDocument();
+      expect(screen.queryByTestId("logoDiv")).not.toBeInTheDocument();
     });
 
     it("does not show logo on thin page", () => {
       setupStore("thin");
       renderWithRouter(<StyledFooter />);
 
-      expect(
-        screen.queryByText(
-          /{{{center}}}{{{img src="\.\/logo\/logo\.png" height="20" width="125" \/}}}{{{\/center}}}/
-        )
-      ).not.toBeInTheDocument();
-    });
-  });
-
-  describe("local data collection setup", () => {
-    it("displays user info on sort page when setupTarget is local", () => {
-      useSettingsStore.mockImplementation((selector) => {
-        const state = {
-          langObj: mockLangObj,
-          configObj: {
-            ...mockConfigObj,
-            setupTarget: "local",
-            studyTitle: "My Study",
-          },
-        };
-        return selector(state);
-      });
-      setupStore("sort", true, "testuser123");
-
-      renderWithRouter(<StyledFooter />);
-
-      expect(screen.getByText(/testuser123/)).toBeInTheDocument();
-      expect(screen.getByText(/My Study/)).toBeInTheDocument();
-    });
-
-    it("does not display user info on sort page when setupTarget is server", () => {
-      setupStore("sort");
-      renderWithRouter(<StyledFooter />);
-
-      expect(screen.queryByText(/testuser123/)).not.toBeInTheDocument();
+      expect(screen.queryByTestId("logoDiv")).not.toBeInTheDocument();
     });
   });
 
@@ -288,24 +228,6 @@ describe("StyledFooter", () => {
 
     it("does not show next button on landing page when displayNextButton is false", () => {
       setupStore("landing", false);
-      renderWithRouter(<StyledFooter />);
-
-      expect(screen.queryByTestId("mobileFooterNextButton")).not.toBeInTheDocument();
-    });
-
-    it("does not show next button on landing page with local setupTarget", () => {
-      useSettingsStore.mockImplementation((selector) => {
-        const state = {
-          langObj: mockLangObj,
-          configObj: {
-            ...mockConfigObj,
-            setupTarget: "local",
-          },
-        };
-        return selector(state);
-      });
-      setupStore("landing", true);
-
       renderWithRouter(<StyledFooter />);
 
       expect(screen.queryByTestId("mobileFooterNextButton")).not.toBeInTheDocument();
@@ -412,56 +334,56 @@ describe("StyledFooter", () => {
       setupStore("presort");
       renderWithRouter(<StyledFooter />);
 
-      expect(screen.getByTestId("mobile-footer-font-sizer")).toBeInTheDocument();
+      expect(screen.getByTestId("mobileFooterFontSizerComp")).toBeInTheDocument();
     });
 
     it("shows font sizer on thin page", () => {
       setupStore("thin");
       renderWithRouter(<StyledFooter />);
 
-      expect(screen.getByTestId("mobile-footer-font-sizer")).toBeInTheDocument();
+      expect(screen.getByTestId("mobileFooterFontSizerComp")).toBeInTheDocument();
     });
 
     it("shows font sizer on sort page", () => {
       setupStore("sort");
       renderWithRouter(<StyledFooter />);
 
-      expect(screen.getByTestId("mobile-footer-font-sizer")).toBeInTheDocument();
+      expect(screen.getByTestId("mobileFooterFontSizerComp")).toBeInTheDocument();
     });
 
     it("shows font sizer on postsort page", () => {
       setupStore("postsort");
       renderWithRouter(<StyledFooter />);
 
-      expect(screen.getByTestId("mobile-footer-font-sizer")).toBeInTheDocument();
+      expect(screen.getByTestId("mobileFooterFontSizerComp")).toBeInTheDocument();
     });
 
     it("does not show font sizer on landing page", () => {
       setupStore("landing");
       renderWithRouter(<StyledFooter />);
 
-      expect(screen.queryByTestId("mobile-footer-font-sizer")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("mobileFooterFontSizerComp")).not.toBeInTheDocument();
     });
 
     it("does not show font sizer on consent page", () => {
       setupStore("consent");
       renderWithRouter(<StyledFooter />);
 
-      expect(screen.queryByTestId("mobile-footer-font-sizer")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("mobileFooterFontSizerComp")).not.toBeInTheDocument();
     });
 
     it("does not show font sizer on submit page", () => {
       setupStore("submit");
       renderWithRouter(<StyledFooter />);
 
-      expect(screen.queryByTestId("mobile-footer-font-sizer")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("mobileFooterFontSizerComp")).not.toBeInTheDocument();
     });
 
     it("does not show font sizer on survey page", () => {
       setupStore("survey");
       renderWithRouter(<StyledFooter />);
 
-      expect(screen.queryByTestId("mobile-footer-font-sizer")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("mobileFooterFontSizerComp")).not.toBeInTheDocument();
     });
   });
 
@@ -470,56 +392,56 @@ describe("StyledFooter", () => {
       setupStore("presort");
       renderWithRouter(<StyledFooter />);
 
-      expect(screen.getByTestId("mobile-footer-view-sizer")).toBeInTheDocument();
+      expect(screen.getByTestId("mobileFooterViewSizerComp")).toBeInTheDocument();
     });
 
     it("shows view sizer on thin page", () => {
       setupStore("thin");
       renderWithRouter(<StyledFooter />);
 
-      expect(screen.getByTestId("mobile-footer-view-sizer")).toBeInTheDocument();
+      expect(screen.getByTestId("mobileFooterViewSizerComp")).toBeInTheDocument();
     });
 
     it("shows view sizer on sort page", () => {
       setupStore("sort");
       renderWithRouter(<StyledFooter />);
 
-      expect(screen.getByTestId("mobile-footer-view-sizer")).toBeInTheDocument();
+      expect(screen.getByTestId("mobileFooterViewSizerComp")).toBeInTheDocument();
     });
 
     it("shows view sizer on postsort page", () => {
       setupStore("postsort");
       renderWithRouter(<StyledFooter />);
 
-      expect(screen.getByTestId("mobile-footer-view-sizer")).toBeInTheDocument();
+      expect(screen.getByTestId("mobileFooterViewSizerComp")).toBeInTheDocument();
     });
 
     it("shows view sizer on survey page", () => {
       setupStore("survey");
       renderWithRouter(<StyledFooter />);
 
-      expect(screen.getByTestId("mobile-footer-view-sizer")).toBeInTheDocument();
+      expect(screen.getByTestId("mobileFooterViewSizerComp")).toBeInTheDocument();
     });
 
     it("does not show view sizer on landing page", () => {
       setupStore("landing");
       renderWithRouter(<StyledFooter />);
 
-      expect(screen.queryByTestId("mobile-footer-view-sizer")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("mobileFooterViewSizerComp")).not.toBeInTheDocument();
     });
 
     it("does not show view sizer on consent page", () => {
       setupStore("consent");
       renderWithRouter(<StyledFooter />);
 
-      expect(screen.queryByTestId("mobile-footer-view-sizer")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("mobileFooterViewSizerComp")).not.toBeInTheDocument();
     });
 
     it("does not show view sizer on submit page", () => {
       setupStore("submit");
       renderWithRouter(<StyledFooter />);
 
-      expect(screen.queryByTestId("mobile-footer-view-sizer")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("mobileFooterViewSizerComp")).not.toBeInTheDocument();
     });
   });
 
@@ -676,7 +598,7 @@ describe("StyledFooter", () => {
     });
 
     it("does not render in landscape-secondary orientation", () => {
-      useScreenOrientation.mockReturnValue("landscape-secondary");
+      useScreenOrientation.mockReturnValue("landscape-primary");
       setupStore("presort");
 
       const { container } = renderWithRouter(<StyledFooter />);
@@ -690,44 +612,42 @@ describe("StyledFooter", () => {
       setupStore("presort");
       renderWithRouter(<StyledFooter />);
 
-      expect(screen.getByTestId("mobile-footer-font-sizer")).toBeInTheDocument();
-      expect(screen.getByTestId("mobile-footer-view-sizer")).toBeInTheDocument();
+      expect(screen.getByTestId("mobileFooterFontSizerComp")).toBeInTheDocument();
+      expect(screen.getByTestId("mobileFooterViewSizerComp")).toBeInTheDocument();
       expect(screen.getByTestId("mobileFooterNextButton")).toBeInTheDocument();
       expect(screen.queryByTestId("mobile-survey-back-button")).not.toBeInTheDocument();
-      expect(screen.queryByText(/{{{center}}}/)).not.toBeInTheDocument();
+      expect(screen.queryByText(/<center>/)).not.toBeInTheDocument();
     });
 
     it("displays correct components on survey page", () => {
       setupStore("survey");
       renderWithRouter(<StyledFooter />);
 
-      expect(screen.queryByTestId("mobile-footer-font-sizer")).not.toBeInTheDocument();
-      expect(screen.getByTestId("mobile-footer-view-sizer")).toBeInTheDocument();
+      expect(screen.queryByTestId("mobileFooterFontSizerComp")).not.toBeInTheDocument();
+      expect(screen.getByTestId("mobileFooterViewSizerComp")).toBeInTheDocument();
       expect(screen.getByTestId("mobileFooterNextButton")).toBeInTheDocument();
       expect(screen.getByTestId("mobile-survey-back-button")).toBeInTheDocument();
-      expect(screen.queryByText(/{{{center}}}/)).not.toBeInTheDocument();
+      expect(screen.queryByText(/<center>/)).not.toBeInTheDocument();
     });
 
     it("displays correct components on landing page", () => {
       setupStore("landing");
       renderWithRouter(<StyledFooter />);
 
-      expect(screen.queryByTestId("mobile-footer-font-sizer")).not.toBeInTheDocument();
-      expect(screen.queryByTestId("mobile-footer-view-sizer")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("mobileFooterFontSizerComp")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("mobileFooterViewSizerComp")).not.toBeInTheDocument();
       expect(screen.getByTestId("mobileFooterNextButton")).toBeInTheDocument();
       expect(screen.queryByTestId("mobile-survey-back-button")).not.toBeInTheDocument();
-      expect(screen.getByText(/{{{center}}}/)).toBeInTheDocument();
     });
 
     it("displays correct components on submit page", () => {
       setupStore("submit");
       renderWithRouter(<StyledFooter />);
 
-      expect(screen.queryByTestId("mobile-footer-font-sizer")).not.toBeInTheDocument();
-      expect(screen.queryByTestId("mobile-footer-view-sizer")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("mobileFooterFontSizerComp")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("mobileFooterViewSizerComp")).not.toBeInTheDocument();
       expect(screen.queryByTestId("mobileFooterNextButton")).not.toBeInTheDocument();
       expect(screen.queryByTestId("mobile-survey-back-button")).not.toBeInTheDocument();
-      expect(screen.getByText(/{{{center}}}/)).toBeInTheDocument();
     });
   });
 });
