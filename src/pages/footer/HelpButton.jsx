@@ -69,7 +69,7 @@ const HelpButton = () => {
   if (currentPage === "consent") {
     if (configObj.showConsentPageHelpModal === true) {
       return (
-        <StyledHelpButton tabindex="0" onClick={handleOnClick}>
+        <StyledHelpButton data-testid="helpButtonDiv" tabindex="0" onClick={handleOnClick}>
           {buttonText}
         </StyledHelpButton>
       );

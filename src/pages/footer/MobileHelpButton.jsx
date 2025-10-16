@@ -8,14 +8,13 @@ const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
 const getCurrentPage = (state) => state.currentPage;
 const getSetTriggerLandingModal = (state) => state.setTriggerLandingModal;
-const getSetTriggerPresortModal = (state) => state.setTriggerPresortModal;
+// const getSetTriggerPresortModal = (state) => state.setTriggerPresortModal;
 const getSetTriggerSortModal = (state) => state.setTriggerSortModal;
 const getSetTriggerPostsortModal = (state) => state.setTriggerPostsortModal;
 const getSetTriggerSurveyModal = (state) => state.setTriggerSurveyModal;
 const getSetTriggerSubmitModal = (state) => state.setTriggerSubmitModal;
 const getSetTriggerConsentModal = (state) => state.setTriggerConsentModal;
-const getSetTriggerMobilePresortHelpModal = (state) =>
-  state.setTriggerMobilePresortHelpModal;
+const getSetTriggerMobilePresortHelpModal = (state) => state.setTriggerMobilePresortHelpModal;
 
 const MobileHelpButton = () => {
   // STATE
@@ -28,9 +27,7 @@ const MobileHelpButton = () => {
   const setTriggerSurveyModal = useStore(getSetTriggerSurveyModal);
   const setTriggerSubmitModal = useStore(getSetTriggerSubmitModal);
   const setTriggerConsentModal = useStore(getSetTriggerConsentModal);
-  const setTriggerMobilePresortHelpModal = useStore(
-    getSetTriggerMobilePresortHelpModal
-  );
+  const setTriggerMobilePresortHelpModal = useStore(getSetTriggerMobilePresortHelpModal);
 
   let buttonText = ReactHtmlParser(decodeHTML(langObj.btnHelp)) || "";
   if (currentPage === "landing") {
@@ -69,7 +66,12 @@ const MobileHelpButton = () => {
   if (currentPage === "consent") {
     if (configObj.showConsentPageHelpModal === true) {
       return (
-        <StyledHelpButton tabindex="0" onClick={handleOnClick}>
+        <StyledHelpButton
+          data-testid="helpButton1"
+          tabindex="0"
+          aria-label="help button"
+          onClick={handleOnClick}
+        >
           {buttonText}
         </StyledHelpButton>
       );
@@ -79,7 +81,12 @@ const MobileHelpButton = () => {
   }
 
   return (
-    <StyledHelpButton tabindex="0" onClick={handleOnClick}>
+    <StyledHelpButton
+      data-testid="helpButton2"
+      tabindex="0"
+      aria-label="help button two"
+      onClick={handleOnClick}
+    >
       {buttonText}
     </StyledHelpButton>
   );
@@ -100,8 +107,7 @@ const StyledHelpButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${({ theme, active }) =>
-    active ? theme.secondary : theme.primary};
+  background-color: ${({ theme, active }) => (active ? theme.secondary : theme.primary)};
 
   &:hover {
     background-color: ${({ theme }) => theme.secondary};
