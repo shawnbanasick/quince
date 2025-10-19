@@ -17,8 +17,8 @@ const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
 const getDisplayNextButton = (state) => state.displayNextButton;
 const getCurrentPage = (state) => state.currentPage;
-const getAdditionalProgress = (state) => state.progressScoreAdditional;
-const getAdditionalProgressSort = (state) => state.progressScoreAdditionalSort;
+// const getAdditionalProgress = (state) => state.progressScoreAdditional;
+// const getAdditionalProgressSort = (state) => state.progressScoreAdditionalSort;
 const getLocalUsercode = (state) => state.localUsercode;
 
 const StyledFooter = () => {
@@ -27,8 +27,8 @@ const StyledFooter = () => {
   const configObj = useSettingsStore(getConfigObj);
   let displayNextButton = useStore(getDisplayNextButton);
   const currentPage = useStore(getCurrentPage);
-  const additionalProgress = useStore(getAdditionalProgress);
-  const additionalProgressSort = useStore(getAdditionalProgressSort);
+  // const additionalProgress = useStore(getAdditionalProgress);
+  // const additionalProgressSort = useStore(getAdditionalProgressSort);
   const localUsercode = useStore(getLocalUsercode);
 
   let showAdjustmentContainer = true;
@@ -140,8 +140,8 @@ const StyledFooter = () => {
       {displayHelpButton && <HelpButton />}
       {showAdjustmentContainer && (
         <AdjustmentsContainer>
-          {showFooterFontSizer && <FooterFontSizer />}
-          {showCardHeightSizer && <CardHeightSizer />}
+          {showFooterFontSizer && <FooterFontSizer data-testid="fontSizer" />}
+          {showCardHeightSizer && <CardHeightSizer data-testid="cardHeightSizer" />}
         </AdjustmentsContainer>
       )}
       <ProgressBarDiv>
@@ -166,7 +166,11 @@ const StyledFooter = () => {
       <CenterDiv>{CenterContent}</CenterDiv>
       <ButtonDiv>
         {showBackButton && <PostsortBackButton to={"/sort"}>{backButtonText}</PostsortBackButton>}
-        {displayNextButton && <NextButton to={nextPage}>{nextButtonText}</NextButton>}
+        {displayNextButton && (
+          <NextButton data-testid="nextButton" to={nextPage}>
+            {nextButtonText}
+          </NextButton>
+        )}
       </ButtonDiv>
     </StyledFooterDiv>
   );

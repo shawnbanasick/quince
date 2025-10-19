@@ -48,7 +48,13 @@ const NextButton = (props) => {
   const postsortCommentsRequired = configObj.postsortCommentsRequired;
 
   // PERSISTENT STATE
-  const sortColumns = JSON.parse(localStorage.getItem("sortColumns")) || [];
+  let sortColumns = [];
+  try {
+    sortColumns = JSON.parse(localStorage.getItem("sortColumns")) || [];
+  } catch (error) {
+    console.error("JSON parsing failed:", error.message);
+    return;
+  }
 
   const {
     history,

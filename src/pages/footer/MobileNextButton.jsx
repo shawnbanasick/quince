@@ -18,25 +18,10 @@ const getHasScrolledToBottomSort = (state) => state.hasScrolledToBottomSort;
 const getSetTriggerMobileSortScrollBottomModal = (state) =>
   state.setTriggerMobileSortScrollBottomModal;
 
-// const getColumnStatements = (state) => state.columnStatements;
-// const getIsSortingFinished = (state) => state.isSortingFinished;
-// const getHasOverloadedColumn = (state) => state.hasOverloadedColumn;
-// const getSetTrigSortPrevNavModal = (state) =>
-//   state.setTriggerSortPreventNavModal;
-// const getSetTrigSortOverColMod = (state) =>
-//   state.setTriggerSortOverloadedColumnModal;
-// const getSetResults = (state) => state.setResults;
-
-const LinkButton = (props) => {
+const MobileNextButton = (props) => {
   let goToNextPage;
 
   // GLOBAL STATE
-  // const isSortingFinished = useStore(getIsSortingFinished);
-  // const hasOverloadedColumn = useStore(getHasOverloadedColumn);
-  // const setTriggerSortPreventNavModal = useStore(getSetTrigSortPrevNavModal);
-  // const setTriggerSortOverloadedColModal = useStore(getSetTrigSortOverColMod);
-  // const setResults = useStore(getSetResults);
-  // const columnStatements = useSettingsStore(getColumnStatements);
   const configObj = useSettingsStore(getConfigObj);
   const presortFinished = useStore(getPresortFinished);
   const setTriggerPresortPreventNavModal = useStore(getSetTrigMobilePrePrevNavModal);
@@ -55,7 +40,6 @@ const LinkButton = (props) => {
   const postsortCommentsRequired = configObj.postsortCommentsRequired;
 
   // PERSISTENT STATE
-  // const sortColumns = JSON.parse(localStorage.getItem("sortColumns")) || [];
   const {
     history,
     location,
@@ -98,54 +82,6 @@ const LinkButton = (props) => {
       } else {
         return true;
       }
-      /*
-      if (isSortingFinished === false) {
-        // check to see if finished, but had sorting registration error
-        if (sortColumns?.imagesList?.length === 0) {
-          if (allowUnforcedSorts === true) {
-            // persist results to localStorage
-            setResults(sortResults1);
-            // localStorage.setItem("resultsSort", JSON.stringify(sortResults1));
-            setTriggerSortPreventNavModal(false);
-            return true;
-          } else {
-            // if forced sort -> allow nav only if no overloaded columns
-            if (hasOverloadedColumn === true) {
-              setTriggerSortPreventNavModal(false);
-              setTriggerSortOverloadedColModal(true);
-              return false;
-            } else {
-              setResults(sortResults1);
-              // persist results to localStorage
-              // localStorage.setItem("resultsSort", JSON.stringify(sortResults1));
-              setTriggerSortPreventNavModal(false);
-              return true;
-            }
-          }
-        } else {
-          // not finished sorting
-          setTriggerSortPreventNavModal(true);
-          return false;
-        }
-      } else {
-        // has finished sorting
-        if (allowUnforcedSorts === true) {
-          // unforced ok -> allow nav
-          setTriggerSortPreventNavModal(false);
-          return true;
-        } else {
-          // unforced not ok -> allow nav if no overloaded columns
-          if (hasOverloadedColumn === true) {
-            setTriggerSortPreventNavModal(false);
-            setTriggerSortOverloadedColModal(true);
-            return false;
-          } else {
-            setTriggerSortPreventNavModal(false);
-            return true;
-          }
-        }
-      }
-        */
     }
 
     if (currentPage === "postsort") {
@@ -203,7 +139,7 @@ const LinkButton = (props) => {
     />
   );
 };
-export default withRouter(LinkButton);
+export default withRouter(MobileNextButton);
 
 const NextButton = styled.button`
   display: flex;

@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import { withRouter } from "react-router";
 
-const BackButton = (props) => {
+const PostsortBackButton = (props) => {
   const {
     history,
-    location,
-    match,
-    staticContext,
+    // location,
+    // match,
+    // staticContext,
     to,
     onClick,
     // ⬆ filtering out props that `button` doesn’t know what to do with.
@@ -14,7 +14,7 @@ const BackButton = (props) => {
   } = props;
 
   return (
-    <NextButton
+    <BackButton
       {...rest} // `children` is just another prop!
       onClick={(event) => {
         onClick && onClick(event);
@@ -24,9 +24,9 @@ const BackButton = (props) => {
     />
   );
 };
-export default withRouter(BackButton);
+export default withRouter(PostsortBackButton);
 
-const NextButton = styled.button`
+const BackButton = styled.button`
   border-color: #2e6da4;
   color: white;
   font-size: 0.8em;
