@@ -25,7 +25,7 @@ vi.mock("./getNextPage", () => ({
 
 // Mock child components
 vi.mock("./NextButton", () => ({
-  default: vi.fn(({ children, to }) => <button data-testid="nextButton">{children}</button>),
+  default: vi.fn(({ children }) => <button data-testid="nextButton">{children}</button>),
 }));
 vi.mock("./FooterFontSizer", () => ({
   default: vi.fn(() => <div data-testid="fontSizer">Font Sizer</div>),

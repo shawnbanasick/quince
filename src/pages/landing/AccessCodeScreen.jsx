@@ -16,7 +16,7 @@ const getSetIsLoggedIn = (state) => state.setIsLoggedIn;
 const getSetUserInputAccessCode = (state) => state.setUserInputAccessCode;
 const getSetDisplayAccessCodeWarning = (state) => state.setDisplayAccessCodeWarning;
 
-const LogInScreen = () => {
+const AccessCodeScreen = () => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
   const configObj = useSettingsStore(getConfigObj);
@@ -106,17 +106,28 @@ const LogInScreen = () => {
       <div>
         <h3>{accessInputText}</h3>
         <StyledInputDiv>
-          <StyledInput onChange={handleAccess} type="text" autoFocus />
+          <StyledInput
+            onChange={handleAccess}
+            type="text"
+            autoFocus
+            data-testid="accessCodeInputDiv"
+          />
           {displayAccessCodeWarning && <WarningText>{accessCodeWarning}</WarningText>}
         </StyledInputDiv>
       </div>
 
-      <LogInSubmitButton onClick={handleSubmit} size={"1.5em"} width={"200px"} height={"50px"} />
+      <LogInSubmitButton
+        data-testid="submitButtonAccess"
+        onClick={handleSubmit}
+        size={"1.5em"}
+        width={"200px"}
+        height={"50px"}
+      />
     </Container>
   );
 };
 
-export default LogInScreen;
+export default AccessCodeScreen;
 
 const Container = styled.div`
   display: grid;

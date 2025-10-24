@@ -5,7 +5,7 @@ import useSettingsStore from "../../globalState/useSettingsStore";
 
 const getLangObj = (state) => state.langObj;
 
-const LogInScreen = () => {
+const InternetExplorerWarning = () => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
 
@@ -16,12 +16,12 @@ const LogInScreen = () => {
     <Container>
       <div>
         <center>
-          <h2>{ieWarningHeaderText}</h2>
+          <h2 data-testid="warningTextDiv">{ieWarningHeaderText}</h2>
           <StyledHr />
         </center>
       </div>
       <div>
-        <StyledInputDiv>
+        <StyledInputDiv data-testid="warningTextDiv2">
           <h3>{ieWarningText}</h3>
         </StyledInputDiv>
       </div>
@@ -29,7 +29,7 @@ const LogInScreen = () => {
   );
 };
 
-export default LogInScreen;
+export default InternetExplorerWarning;
 
 const Container = styled.div`
   //  display: grid;
