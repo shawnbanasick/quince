@@ -1,4 +1,4 @@
-# Quince
+# Quince &middot; <a href="https://doi.org/10.5281/zenodo.17438715"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.17438715.svg" alt="DOI"></a>
 
 Digital Q Sorting for Desktop and Mobile
 
