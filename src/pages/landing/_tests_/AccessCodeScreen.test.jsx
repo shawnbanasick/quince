@@ -54,18 +54,6 @@ describe("AccessCodeScreen", () => {
     mockSetUserInputAccessCode = vi.fn();
     mockSetDisplayAccessCodeWarning = vi.fn();
 
-    // Mock useSettingsStore
-    // useSettingsStore.mockReturnValue({
-    //   langObj: {
-    //     loginHeaderText: "Welcome",
-    //     accessInputText: "Enter Access Code",
-    //     accessCodeWarning: "Invalid access code",
-    //   },
-    //   configObj: {
-    //     accessCode: "SECRET123",
-    //   },
-    // });
-
     // Mock useStore
     useStore.mockImplementation((selector) => {
       const mockState = {
@@ -164,15 +152,6 @@ describe("AccessCodeScreen", () => {
       expect(mockSetUserInputAccessCode).toHaveBeenCalledTimes(3);
       expect(mockSetUserInputAccessCode).toHaveBeenLastCalledWith("TES");
     });
-
-    // it("should handle empty input", () => {
-    //   renderWithTheme(<LogInScreen />);
-
-    //   const input = screen.getByTestId("accessCodeInputDiv");
-    //   fireEvent.change(input, { target: { value: "" } });
-
-    //   expect(mockSetUserInputAccessCode).toHaveBeenCalledWith("");
-    // });
   });
 
   describe("Submit Button Click - Valid Access Code", () => {
@@ -549,27 +528,6 @@ describe("AccessCodeScreen", () => {
   });
 
   describe("Localization", () => {
-    // it("should display localized text from langObj", () => {
-    //   useSettingsStore.mockImplementation((selector) => {
-    //     const mockState = {
-    //       langObj: {
-    //         loginHeaderText: "Bienvenido",
-    //         accessInputText: "Ingrese el código de acceso",
-    //         accessCodeWarning: "Código de acceso inválido",
-    //       },
-    //       configObj: {
-    //         accessCode: "SECRET123",
-    //       },
-    //     };
-    //     return selector(mockState);
-    //   });
-
-    //   renderWithTheme(<LogInScreen />);
-
-    //   expect(screen.findByText("Bienvenido")).toBeInTheDocument();
-    //   expect(screen.findByText("Ingrese el código de acceso")).toBeInTheDocument();
-    // });
-
     it("should handle empty langObj values gracefully", () => {
       useSettingsStore.mockImplementation((selector) => {
         const mockState = {
@@ -614,70 +572,5 @@ describe("AccessCodeScreen", () => {
 
       expect(mockSetIsLoggedIn).not.toHaveBeenCalled();
     });
-
-    // it("should handle multiple submit attempts", () => {
-    //   useStore.mockImplementation((selector) => {
-    //     const mockState = {
-    //       displayAccessCodeWarning: false,
-    //       userInputAccessCode: "WRONG",
-    //       setDisplayLandingContent: mockSetDisplayLandingContent,
-    //       setDisplayNextButton: mockSetDisplayNextButton,
-    //       setIsLoggedIn: mockSetIsLoggedIn,
-    //       setUserInputAccessCode: mockSetUserInputAccessCode,
-    //       setDisplayAccessCodeWarning: mockSetDisplayAccessCodeWarning,
-    //     };
-    //     return selector(mockState);
-    //   });
-
-    //   renderWithTheme(<LogInScreen />);
-
-    //   const submitButton = screen.getByTestId("submitButtonAccess");
-    //   fireEvent.click(submitButton);
-    //   fireEvent.click(submitButton);
-    //   fireEvent.click(submitButton);
-
-    //   expect(mockSetDisplayAccessCodeWarning).toHaveBeenCalledTimes(3);
-    // });
-
-    // it("should handle rapid Enter key presses", () => {
-    //   useStore.mockImplementation((selector) => {
-    //     const mockState = {
-    //       displayAccessCodeWarning: false,
-    //       userInputAccessCode: "SECRET123",
-    //       setDisplayLandingContent: mockSetDisplayLandingContent,
-    //       setDisplayNextButton: mockSetDisplayNextButton,
-    //       setIsLoggedIn: mockSetIsLoggedIn,
-    //       setUserInputAccessCode: mockSetUserInputAccessCode,
-    //       setDisplayAccessCodeWarning: mockSetDisplayAccessCodeWarning,
-    //     };
-    //     return selector(mockState);
-    //   });
-
-    //   renderWithTheme(<LogInScreen />);
-
-    //   fireEvent.keyUp(window, { key: "Enter" });
-    //   fireEvent.keyUp(window, { key: "Enter" });
-
-    //   expect(mockSetIsLoggedIn).toHaveBeenCalledTimes(2);
-    // });
   });
-
-  //   describe("Submit Button Props", () => {
-  //     it("should pass correct props to LogInSubmitButton", async () => {
-  //       const LogInSubmitButton = await import("../LogInSubmitButton").default;
-
-  //       renderWithTheme(<LogInScreen />);
-
-  //       expect(LogInSubmitButton).toHaveBeenCalledWith(
-  //         expect.objectContaining({
-  //           "data-testid": "submitButtonAccess",
-  //           size: "1.5em",
-  //           width: "200px",
-  //           height: "50px",
-  //           onClick: expect.any(Function),
-  //         }),
-  //         expect.anything()
-  //       );
-  //     });
-  //   });
 });

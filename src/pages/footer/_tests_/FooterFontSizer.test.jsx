@@ -290,50 +290,6 @@ describe("FooterFontSizer", () => {
     });
   });
 
-  //   describe("multiple clicks", () => {
-  // it("handles multiple increase clicks on sort page", () => {
-  //   setupStore("sort", { sort: 16 });
-  //   render(<FooterFontSizer />);
-
-  //   const increaseButton = screen.getByTestId("FooterFontSizerPos");
-  //   fireEvent.click(increaseButton);
-  //   fireEvent.click(increaseButton);
-  //   fireEvent.click(increaseButton);
-
-  //   expect(mockSetCardFontSizeSort).toHaveBeenCalledTimes(3);
-  //   expect(mockSetCardFontSizeSort).toHaveBeenLastCalledWith(19);
-  // });
-
-  // it("handles multiple decrease clicks on presort page", () => {
-  //   setupStore("presort", { presort: 20 });
-  //   render(<FooterFontSizer />);
-
-  //   const decreaseButton = screen.getByTestId("FooterFontSizerNeg");
-  //   fireEvent.click(decreaseButton);
-  //   fireEvent.click(decreaseButton);
-
-  //   expect(mockSetCardFontSizePresort).toHaveBeenCalledTimes(2);
-  //   expect(mockSetCardFontSizePresort).toHaveBeenLastCalledWith(18);
-  // });
-
-  // it("handles alternating increase and decrease clicks", () => {
-  //   setupStore("sort", { sort: 16 });
-  //   render(<FooterFontSizer />);
-
-  //   const increaseButton = screen.getByTestId("FooterFontSizerPos");
-  //   const decreaseButton = screen.getByTestId("FooterFontSizerNeg");
-
-  //   fireEvent.click(increaseButton);
-  //   fireEvent.click(decreaseButton);
-  //   fireEvent.click(increaseButton);
-
-  //   expect(mockSetCardFontSizeSort).toHaveBeenCalledTimes(3);
-  //   expect(mockSetCardFontSizeSort).toHaveBeenNthCalledWith(1, 17);
-  //   expect(mockSetCardFontSizeSort).toHaveBeenNthCalledWith(2, 16);
-  //   expect(mockSetCardFontSizeSort).toHaveBeenNthCalledWith(3, 17);
-  // });
-  //   });
-
   describe("console.log behavior", () => {
     it("logs 'decreaseFontSize' when decrease button is clicked", () => {
       const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
@@ -349,16 +305,6 @@ describe("FooterFontSizer", () => {
   });
 
   describe("edge cases", () => {
-    // it("handles zero font size", () => {
-    //   setupStore("sort", { sort: 0 });
-    //   render(<FooterFontSizer />);
-
-    //   const decreaseButton = screen.getByTestId("FooterFontSizerNeg");
-    //   fireEvent.click(decreaseButton);
-
-    //   expect(mockSetCardFontSizeSort).toHaveBeenCalledWith(1);
-    // });
-
     it("handles very large font size", () => {
       setupStore("sort", { sort: 100 });
       render(<FooterFontSizer />);
@@ -483,32 +429,6 @@ describe("FooterFontSizer", () => {
     });
   });
 
-  //   describe("button styling", () => {
-  //     it("renders buttons with correct structure", () => {
-  //       setupStore("sort");
-  //       const { container } = render(<FooterFontSizer />);
-
-  //       const buttons = container.querySelectorAll("button");
-  //       expect(buttons).toHaveLength(2);
-  //     });
-
-  //     it("decrease button has correct padBottom prop", () => {
-  //       setupStore("sort");
-  //       const { container } = render(<FooterFontSizer />);
-
-  //       const decreaseButton = screen.getByTestId("FooterFontSizerNeg");
-  //       expect(decreaseButton).toHaveAttribute("padBottom", "0.4em");
-  //     });
-
-  //     it("increase button has correct padBottom prop", () => {
-  //       setupStore("sort");
-  //       const { container } = render(<FooterFontSizer />);
-
-  //       const increaseButton = screen.getByTestId("FooterFontSizerPos");
-  //       expect(increaseButton).toHaveAttribute("padBottom", "0.25em");
-  //     });
-  //   });
-
   describe("accessibility", () => {
     it("buttons are keyboard accessible", () => {
       setupStore("sort", { sort: 16 });
@@ -519,15 +439,6 @@ describe("FooterFontSizer", () => {
 
       expect(document.activeElement).toBe(increaseButton);
     });
-
-    // it("text is not selectable", () => {
-    //   setupStore("sort");
-    //   const { container } = render(<FooterFontSizer />);
-
-    //   const spanDiv = container.querySelector("div > div");
-    //   const styles = window.getComputedStyle(spanDiv);
-    //   expect(styles.userSelect).toBeTruthy();
-    // });
 
     it("both buttons can receive focus", () => {
       setupStore("sort");

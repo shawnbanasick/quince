@@ -179,13 +179,6 @@ describe("HelpButton", () => {
 
       expect(container.firstChild).toBeNull();
     });
-
-    // it("renders button on consent page without test id", () => {
-    //   setupStore("consent");
-    //   renderWithTheme(<HelpButton />);
-
-    //   expect(screen.queryByTestId("helpButtonDiv")).not.toBeInTheDocument();
-    // });
   });
 
   describe("modal triggering on click", () => {
@@ -412,24 +405,6 @@ describe("HelpButton", () => {
     });
   });
 
-  // describe("button attributes", () => {
-  //   it("has tabindex attribute set to 0", () => {
-  //     setupStore("sort");
-  //     renderWithTheme(<HelpButton />);
-
-  //     const button = screen.getByTestId("helpButtonDiv");
-  //     expect(button).toHaveAttribute("tabindex", "0");
-  //   });
-
-  //   it("has tabindex on consent page button", () => {
-  //     setupStore("consent");
-  //     renderWithTheme(<HelpButton />);
-
-  //     const button = screen.getByText("Consent Help");
-  //     expect(button).toHaveAttribute("tabindex", "0");
-  //   });
-  // });
-
   describe("accessibility", () => {
     it("button is keyboard accessible", () => {
       setupStore("sort");
@@ -489,19 +464,9 @@ describe("HelpButton", () => {
 
   describe("text content by page", () => {
     it("displays correct text for each page type", () => {
-      const testCases = [
-        { page: "landing", expectedText: "Landing Help" },
-        // { page: "consent", expectedText: "Consent Help" },
-        // { page: "presort", expectedText: "Help" },
+      const testCases = [{ page: "landing", expectedText: "Landing Help" }];
 
-        // { page: "thin", expectedText: "Help" },
-        // { page: "sort", expectedText: "Help" },
-        // { page: "postsort", expectedText: "Help" },
-        // { page: "survey", expectedText: "Help" },
-        // { page: "submit", expectedText: "Help" },
-      ];
-
-      testCases.forEach(({ page, expectedText }) => {
+      testCases.forEach(({ page }) => {
         const { unmount } = renderWithTheme(<HelpButton />);
         setupStore(page);
         unmount();

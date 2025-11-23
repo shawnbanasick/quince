@@ -282,50 +282,6 @@ describe("LandingModal", () => {
   });
 
   describe("Empty or Null Values", () => {
-    // it("should handle null header text", () => {
-    //   useSettingsStore.mockReturnValue({
-    //     langObj: {
-    //       landingHelpModalHead: null,
-    //       landingHelpModalText: "Content",
-    //     },
-    //   });
-
-    //   useStore.mockImplementation((selector) => {
-    //     const mockState = {
-    //       triggerLandingModal: true,
-    //       setTriggerLandingModal: mockSetTriggerLandingModal,
-    //     };
-    //     return selector(mockState);
-    //   });
-
-    //   renderWithTheme(<LandingModal />);
-
-    //   expect(screen.getByTestId("modal")).toBeInTheDocument();
-    //   expect(screen.getByText("Content")).toBeInTheDocument();
-    // });
-
-    // it("should handle null modal text", () => {
-    //   useSettingsStore.mockReturnValue({
-    //     langObj: {
-    //       landingHelpModalHead: "Header",
-    //       landingHelpModalText: null,
-    //     },
-    //   });
-
-    //   useStore.mockImplementation((selector) => {
-    //     const mockState = {
-    //       triggerLandingModal: true,
-    //       setTriggerLandingModal: mockSetTriggerLandingModal,
-    //     };
-    //     return selector(mockState);
-    //   });
-
-    //   renderWithTheme(<LandingModal />);
-
-    //   expect(screen.getByTestId("modal")).toBeInTheDocument();
-    //   expect(screen.getByText("Header")).toBeInTheDocument();
-    // });
-
     it("should handle empty string values", () => {
       useSettingsStore.mockReturnValue({
         langObj: {
@@ -534,19 +490,6 @@ describe("LandingModal", () => {
       expect(screen.getByText("User's Guide")).toBeInTheDocument();
       expect(screen.getByText("It's helpful")).toBeInTheDocument();
     });
-
-    // it("should handle line breaks in content", () => {
-    //   useSettingsStore.mockReturnValue({
-    //     langObj: {
-    //       landingHelpModalHead: "Help",
-    //       landingHelpModalText: "Line 1\nLine 2\nLine 3",
-    //     },
-    //   });
-
-    //   renderWithTheme(<LandingModal />);
-
-    //   expect(screen.getByText(/Line 1/)).toBeInTheDocument();
-    // });
   });
 
   describe("Modal State Transitions", () => {
@@ -607,41 +550,6 @@ describe("LandingModal", () => {
     });
   });
 
-  //   describe("Styled Components", () => {
-  //     beforeEach(() => {
-  //       useStore.mockImplementation((selector) => {
-  //         const mockState = {
-  //           triggerLandingModal: true,
-  //           setTriggerLandingModal: mockSetTriggerLandingModal,
-  //         };
-  //         return selector(mockState);
-  //       });
-  //     });
-
-  //     it("should render ModalHeader with correct styling structure", () => {
-  //       const { container } = renderWithTheme(<LandingModal />);
-
-  //       const header = container.querySelector('[class*="ModalHeader"]');
-  //       // Styled component should be present
-  //       expect(screen.getByText("Help - Landing Page")).toBeInTheDocument();
-  //     });
-
-  //     it("should render ModalContent with correct styling structure", () => {
-  //       const { container } = renderWithTheme(<LandingModal />);
-
-  //       // Styled component should be present
-  //       expect(
-  //         screen.getByText("This is helpful information about the landing page.")
-  //       ).toBeInTheDocument();
-  //     });
-
-  //     it("should render without theme provider (graceful degradation)", () => {
-  //       const { container } = render(<LandingModal />);
-
-  //       expect(screen.getByTestId("modal")).toBeInTheDocument();
-  //     });
-  //   });
-
   describe("Component Structure", () => {
     beforeEach(() => {
       useStore.mockImplementation((selector) => {
@@ -652,16 +560,6 @@ describe("LandingModal", () => {
         return selector(mockState);
       });
     });
-
-    // it("should have header before content", () => {
-    //   const { container } = renderWithTheme(<LandingModal />);
-
-    //   const allText = container.textContent;
-    //   const headerIndex = allText.indexOf("Help - Landing Page");
-    //   const contentIndex = allText.indexOf("This is helpful information");
-
-    //   expect(headerIndex).toBeLessThan(contentIndex);
-    // });
 
     it("should have hr element between header and content", () => {
       const { container } = renderWithTheme(<LandingModal />);
@@ -688,14 +586,6 @@ describe("LandingModal", () => {
       const closeButton = screen.getByTestId("close-button");
       expect(closeButton).toBeInTheDocument();
     });
-
-    // it("should have readable content", () => {
-    //   const { container } = renderWithTheme(<LandingModal />);
-
-    //   const text = container.textContent;
-    //   expect(text).toContain("Help - Landing Page");
-    //   expect(text).toContain("This is helpful information about the landing page.");
-    // });
   });
 
   describe("Edge Cases", () => {

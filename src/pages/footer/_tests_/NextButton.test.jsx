@@ -90,6 +90,9 @@ describe("NextButton", () => {
         allowUnforcedSorts: false,
         postsortCommentsRequired: false,
       },
+      mapObj: {
+        useColLabelEmojiPresort: ["true"],
+      },
       columnStatements: {},
     });
 
@@ -129,13 +132,6 @@ describe("NextButton", () => {
 
       expect(screen.getByRole("button", { name: "Next" })).toBeInTheDocument();
     });
-
-    // it("should render with correct tabindex attribute", () => {
-    //   renderWithProviders(<NextButton to="/next">Continue</NextButton>, history);
-
-    //   const button = screen.getByRole("button");
-    //   expect(button).toHaveAttribute("tabindex", "0");
-    // });
 
     it("should render with default to prop", () => {
       renderWithProviders(<NextButton>Next</NextButton>, history);
@@ -531,79 +527,6 @@ describe("NextButton", () => {
       expect(history.location.pathname).toBe("/survey");
     });
 
-    // it('should prevent navigation when comments required and some missing (string "false")', () => {
-    //   useSettingsStore.mockReturnValue({
-    //     configObj: {
-    //       allowUnforcedSorts: false,
-    //       postsortCommentsRequired: true,
-    //     },
-    //     columnStatements: {},
-    //   });
-
-    //   localStorage.setItem("HC-requiredCommentsObj", JSON.stringify({ card1: "false" }));
-    //   localStorage.setItem("HC2-requiredCommentsObj", JSON.stringify({ card2: "true" }));
-    //   localStorage.setItem("LC-requiredCommentsObj", JSON.stringify({ card3: "true" }));
-    //   localStorage.setItem("LC2-requiredCommentsObj", JSON.stringify({ card4: "true" }));
-
-    //   renderWithProviders(<NextButton to="/survey">Next</NextButton>, history);
-
-    //   const button = screen.getByRole("button");
-    //   fireEvent.click(button);
-
-    //   // expect(mockSetShowPostsortCommentHighlighting).toHaveBeenCalledWith(true);
-    //   // expect(mockSetTriggerPostsortPreventNavModal).toHaveBeenCalledWith(true);
-    //   // expect(history.location.pathname).toBe("/");
-    // });
-
-    // it("should prevent navigation when comments required and some missing (boolean false)", () => {
-    //   useSettingsStore.mockReturnValue({
-    //     configObj: {
-    //       allowUnforcedSorts: false,
-    //       postsortCommentsRequired: true,
-    //     },
-    //     columnStatements: {},
-    //   });
-
-    //   localStorage.setItem("HC-requiredCommentsObj", JSON.stringify({ card1: false }));
-    //   localStorage.setItem("HC2-requiredCommentsObj", JSON.stringify({ card2: true }));
-    //   localStorage.setItem("LC-requiredCommentsObj", JSON.stringify({ card3: true }));
-    //   localStorage.setItem("LC2-requiredCommentsObj", JSON.stringify({ card4: true }));
-
-    //   renderWithProviders(<NextButton to="/survey">Next</NextButton>, history);
-
-    //   const button = screen.getByRole("button");
-    //   fireEvent.click(button);
-
-    //   expect(mockSetShowPostsortCommentHighlighting).toHaveBeenCalledWith(true);
-    //   expect(mockSetTriggerPostsortPreventNavModal).toHaveBeenCalledWith(true);
-    //   expect(history.location.pathname).toBe("/");
-    // });
-
-    // it("should prevent navigation when comment count is less than expected", () => {
-    //   useSettingsStore.mockReturnValue({
-    //     configObj: {
-    //       allowUnforcedSorts: false,
-    //       postsortCommentsRequired: true,
-    //     },
-    //     columnStatements: {},
-    //   });
-
-    //   localStorage.setItem("postsortCommentCardCount", "5");
-    //   localStorage.setItem("HC-requiredCommentsObj", JSON.stringify({ card1: "true" }));
-    //   localStorage.setItem("HC2-requiredCommentsObj", JSON.stringify({ card2: "true" }));
-    //   localStorage.setItem("LC-requiredCommentsObj", JSON.stringify({ card3: "true" }));
-    //   localStorage.setItem("LC2-requiredCommentsObj", JSON.stringify({ card4: "true" }));
-
-    //   renderWithProviders(<NextButton to="/survey">Next</NextButton>, history);
-
-    //   const button = screen.getByRole("button");
-    //   fireEvent.click(button);
-
-    //   expect(mockSetShowPostsortCommentHighlighting).toHaveBeenCalledWith(true);
-    //   expect(mockSetTriggerPostsortPreventNavModal).toHaveBeenCalledWith(true);
-    //   expect(history.location.pathname).toBe("/");
-    // });
-
     it("should allow navigation when all comments complete", () => {
       useSettingsStore.mockReturnValue({
         configObj: {
@@ -790,37 +713,6 @@ describe("NextButton", () => {
 
       expect(history.location.pathname).toBe("/landing");
     });
-
-    // it("should handle invalid JSON in localStorage", () => {
-    //   useStore.mockImplementation((selector) => {
-    //     const mockState = {
-    //       presortFinished: false,
-    //       setTriggerPresortPreventNavModal: mockSetTriggerPresortPreventNavModal,
-    //       currentPage: "sort",
-    //       setCheckRequiredQuestionsComplete: mockSetCheckRequiredQuestionsComplete,
-    //       setTriggerSurveyPreventNavModal: mockSetTriggerSurveyPreventNavModal,
-    //       isSortingFinished: false,
-    //       hasOverloadedColumn: false,
-    //       setTriggerSortPreventNavModal: mockSetTriggerSortPreventNavModal,
-    //       setTriggerSortOverloadedColumnModal: mockSetTriggerSortOverloadedColModal,
-    //       setResults: mockSetResults,
-    //       setShowPostsortCommentHighlighting: mockSetShowPostsortCommentHighlighting,
-    //       setTriggerPostsortPreventNavModal: mockSetTriggerPostsortPreventNavModal,
-    //       isThinningFinished: false,
-    //       setTriggerThinningPreventNavModal: mockSetTriggerThinningPreventNavModal,
-    //     };
-    //     return selector(mockState);
-    //   });
-
-    //   localStorage.setItem("sortColumns", "invalid-json");
-
-    //   renderWithProviders(<NextButton to="/postsort">Next</NextButton>, history);
-
-    //   const button = screen.getByRole("button");
-
-    //   // Should handle parsing error gracefully
-    //   expect(() => fireEvent.click(button)).toThrow();
-    // });
   });
 
   describe("Config Object Properties", () => {
@@ -892,47 +784,6 @@ describe("NextButton", () => {
   });
 
   describe("Sort Results Conversion", () => {
-    // it("should call convertObjectToResults when checking sort page conditions", () => {
-    //   const convertObjectToResults = require("../../sort/convertObjectToResults").default;
-
-    //   useStore.mockImplementation((selector) => {
-    //     const mockState = {
-    //       presortFinished: false,
-    //       setTriggerPresortPreventNavModal: mockSetTriggerPresortPreventNavModal,
-    //       currentPage: "sort",
-    //       setCheckRequiredQuestionsComplete: mockSetCheckRequiredQuestionsComplete,
-    //       setTriggerSurveyPreventNavModal: mockSetTriggerSurveyPreventNavModal,
-    //       isSortingFinished: false,
-    //       hasOverloadedColumn: false,
-    //       setTriggerSortPreventNavModal: mockSetTriggerSortPreventNavModal,
-    //       setTriggerSortOverloadedColumnModal: mockSetTriggerSortOverloadedColModal,
-    //       setResults: mockSetResults,
-    //       setShowPostsortCommentHighlighting: mockSetShowPostsortCommentHighlighting,
-    //       setTriggerPostsortPreventNavModal: mockSetTriggerPostsortPreventNavModal,
-    //       isThinningFinished: false,
-    //       setTriggerThinningPreventNavModal: mockSetTriggerThinningPreventNavModal,
-    //     };
-    //     return selector(mockState);
-    //   });
-
-    //   useSettingsStore.mockReturnValue({
-    //     configObj: {
-    //       allowUnforcedSorts: true,
-    //       postsortCommentsRequired: false,
-    //     },
-    //     columnStatements: { column1: "statement1" },
-    //   });
-
-    //   localStorage.setItem("sortColumns", JSON.stringify({ imagesList: [] }));
-
-    //   renderWithProviders(<NextButton to="/postsort">Next</NextButton>, history);
-
-    //   const button = screen.getByRole("button");
-    //   fireEvent.click(button);
-
-    //   expect(convertObjectToResults).toHaveBeenCalledWith({ column1: "statement1" });
-    // });
-
     it("should set results when navigation is allowed on sort page", () => {
       useStore.mockImplementation((selector) => {
         const mockState = {
@@ -965,13 +816,6 @@ describe("NextButton", () => {
   });
 
   describe("Accessibility", () => {
-    // it("should have correct tabindex for keyboard navigation", () => {
-    //   renderWithProviders(<NextButton to="/next">Next</NextButton>, history);
-
-    //   const button = screen.getByRole("button");
-    //   expect(button).toHaveAttribute("tabindex", "0");
-    // });
-
     it("should be focusable", () => {
       renderWithProviders(<NextButton to="/next">Next</NextButton>, history);
 

@@ -92,82 +92,6 @@ describe("MobileHelpButton", () => {
 
       await expect(screen.getByTestId("helpButton2")).toBeInTheDocument();
     });
-
-    // it("should render with correct tabindex attribute", () => {
-    //   renderWithTheme(<MobileHelpButton />);
-
-    //   const button = screen.getByTestId("helpButton1");
-    //   expect(button).toHaveAttribute("tabindex", "0");
-    // });
-  });
-
-  /*
-  describe("Button Text by Page", () => {
-    it("should display landing help text when on landing page", () => {
-      renderWithTheme(<MobileHelpButton />);
-
-      expect(screen.getByText("Landing Help")).toBeInTheDocument();
-    });
-
-    it("should display consent help text when on consent page", () => {
-      useStore.mockImplementation((selector) => {
-        const mockState = {
-          currentPage: "consent",
-          setTriggerLandingModal: mockSetTriggerLandingModal,
-          setTriggerSortModal: mockSetTriggerSortModal,
-          setTriggerPostsortModal: mockSetTriggerPostsortModal,
-          setTriggerSurveyModal: mockSetTriggerSurveyModal,
-          setTriggerSubmitModal: mockSetTriggerSubmitModal,
-          setTriggerConsentModal: mockSetTriggerConsentModal,
-          setTriggerMobilePresortHelpModal: mockSetTriggerMobilePresortHelpModal,
-        };
-        return selector(mockState);
-      });
-
-      renderWithTheme(<MobileHelpButton />);
-
-      expect(screen.getByText("Consent Help")).toBeInTheDocument();
-    });
-
-    it("should display default help text when on presort page", () => {
-      useStore.mockImplementation((selector) => {
-        const mockState = {
-          currentPage: "presort",
-          setTriggerLandingModal: mockSetTriggerLandingModal,
-          setTriggerSortModal: mockSetTriggerSortModal,
-          setTriggerPostsortModal: mockSetTriggerPostsortModal,
-          setTriggerSurveyModal: mockSetTriggerSurveyModal,
-          setTriggerSubmitModal: mockSetTriggerSubmitModal,
-          setTriggerConsentModal: mockSetTriggerConsentModal,
-          setTriggerMobilePresortHelpModal: mockSetTriggerMobilePresortHelpModal,
-        };
-        return selector(mockState);
-      });
-
-      renderWithTheme(<MobileHelpButton />);
-
-      expect(screen.getByText("Help")).toBeInTheDocument();
-    });
-
-    it("should display default help text when on sort page", () => {
-      useStore.mockImplementation((selector) => {
-        const mockState = {
-          currentPage: "sort",
-          setTriggerLandingModal: mockSetTriggerLandingModal,
-          setTriggerSortModal: mockSetTriggerSortModal,
-          setTriggerPostsortModal: mockSetTriggerPostsortModal,
-          setTriggerSurveyModal: mockSetTriggerSurveyModal,
-          setTriggerSubmitModal: mockSetTriggerSubmitModal,
-          setTriggerConsentModal: mockSetTriggerConsentModal,
-          setTriggerMobilePresortHelpModal: mockSetTriggerMobilePresortHelpModal,
-        };
-        return selector(mockState);
-      });
-
-      renderWithTheme(<MobileHelpButton />);
-
-      expect(screen.getByText("Help")).toBeInTheDocument();
-    });
   });
 
   describe("Landing Page Modal Trigger", () => {
@@ -211,22 +135,6 @@ describe("MobileHelpButton", () => {
         };
         return selector(mockState);
       });
-    });
-
-    it("should trigger consent modal when clicked on consent page", () => {
-      renderWithTheme(<MobileHelpButton />);
-
-      const button = screen.getByRole("button");
-      fireEvent.click(button);
-
-      expect(mockSetTriggerConsentModal).toHaveBeenCalledWith(true);
-      expect(consoleLogSpy).toHaveBeenCalledWith("currentPage", "consent");
-    });
-
-    it("should render button when showConsentPageHelpModal is true", () => {
-      renderWithTheme(<MobileHelpButton />);
-
-      expect(screen.getByRole("button")).toBeInTheDocument();
     });
 
     it("should not render button when showConsentPageHelpModal is false", () => {
@@ -407,23 +315,6 @@ describe("MobileHelpButton", () => {
       const button = screen.getByRole("button");
       expect(button).toBeInTheDocument();
     });
-
-    it("should display localized text from langObj", () => {
-      useSettingsStore.mockReturnValue({
-        langObj: {
-          btnHelp: "Ayuda",
-          btnHelpLanding: "Ayuda de Inicio",
-          btnHelpConsent: "Ayuda de Consentimiento",
-        },
-        configObj: {
-          showConsentPageHelpModal: true,
-        },
-      });
-
-      renderWithTheme(<MobileHelpButton />);
-
-      expect(screen.getByText("Ayuda de Inicio")).toBeInTheDocument();
-    });
   });
 
   describe("Edge Cases", () => {
@@ -513,24 +404,6 @@ describe("MobileHelpButton", () => {
       expect(container.firstChild).toBeNull();
     });
 
-    it("should render when on consent page and showConsentPageHelpModal is true", () => {
-      useSettingsStore.mockReturnValue({
-        langObj: {
-          btnHelp: "Help",
-          btnHelpLanding: "Landing Help",
-          btnHelpConsent: "Consent Help",
-        },
-        configObj: {
-          showConsentPageHelpModal: true,
-        },
-      });
-
-      renderWithTheme(<MobileHelpButton />);
-
-      expect(screen.getByRole("button")).toBeInTheDocument();
-      expect(screen.getByText("Consent Help")).toBeInTheDocument();
-    });
-
     it("should always render on non-consent pages regardless of config", () => {
       useStore.mockImplementation((selector) => {
         const mockState = {
@@ -562,5 +435,4 @@ describe("MobileHelpButton", () => {
       expect(screen.getByRole("button")).toBeInTheDocument();
     });
   });
-  */
 });

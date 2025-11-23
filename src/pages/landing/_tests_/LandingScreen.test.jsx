@@ -39,17 +39,6 @@ describe("LoadingScreen", () => {
       expect(screen.getByText("Loading")).toBeInTheDocument();
     });
 
-    it("should display Loading text for desktop", () => {
-      const { container } = renderWithTheme(<LoadingScreen />);
-
-      const loadingText = screen.getByText("Loading");
-      expect(loadingText).toBeInTheDocument();
-
-      // Check it's using TextDiv (desktop version)
-      const styledDiv = container.querySelector('[class*="TextDiv"]');
-      expect(loadingText).toBeInTheDocument();
-    });
-
     it("should render the loading spinner container", () => {
       const { container } = renderWithTheme(<LoadingScreen />);
 

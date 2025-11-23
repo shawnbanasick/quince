@@ -356,6 +356,7 @@ const MobilePresortPage = () => {
           value={-2}
           color={`#FBD5D5`}
           onClick={handleClickNegative}
+          data-testid="value-button-neg1"
           child={
             <EmojiDiv>
               {" "}
@@ -368,6 +369,7 @@ const MobilePresortPage = () => {
           value={0}
           color={`#F3F4F6`}
           onClick={handleClickNeutral}
+          data-testid="value-button-neu1"
           child={
             <EmojiDiv>
               {" "}
@@ -381,6 +383,7 @@ const MobilePresortPage = () => {
           value={2}
           color={`#BCF0DA`}
           onClick={handleClickPositive}
+          data-testid="value-button-pos1"
           child={
             <EmojiDiv>
               {" "}
@@ -398,6 +401,7 @@ const MobilePresortPage = () => {
           color={`#FBD5D5`}
           child={<div>-</div>}
           onClick={handleClickNegative}
+          data-testid="value-button-neg2"
         />
         <MobileValueButton
           id={`0`}
@@ -406,6 +410,7 @@ const MobilePresortPage = () => {
           child={<div>?</div>}
           color={`#F3F4F6`}
           onClick={handleClickNeutral}
+          data-testid="value-button-neu2"
         />
 
         <MobileValueButton
@@ -415,6 +420,7 @@ const MobilePresortPage = () => {
           // text={`+`}
           color={`#BCF0DA`}
           onClick={handleClickPositive}
+          data-testid="value-button-pos2"
         />
       </ButtonRow>
     );

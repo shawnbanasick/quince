@@ -263,41 +263,6 @@ describe("CardHeightSizer", () => {
     });
   });
 
-  //   describe("multiple clicks", () => {
-  // it("handles multiple increase clicks on sort page", () => {
-  //   setupStore("sort", { sort: 100 });
-  //   render(<CardHeightSizer />);
-  //   const increaseButton = screen.getByTestId("cardHeightSizerPlus");
-  //   fireEvent.click(increaseButton);
-  //   fireEvent.click(increaseButton);
-  //   //   fireEvent.click(increaseButton);
-  //   expect(mockSetCardHeightSort).toHaveBeenCalledTimes(2);
-  //   expect(mockSetCardHeightSort).toHaveBeenLastCalledWith(104);
-  // });
-  // it("handles multiple decrease clicks on sort page", () => {
-  //   setupStore("sort", { sort: 100 });
-  //   render(<CardHeightSizer />);
-  //   const decreaseButton = screen.getByText("-");
-  //   fireEvent.click(decreaseButton);
-  //   fireEvent.click(decreaseButton);
-  //   expect(mockSetCardHeightSort).toHaveBeenCalledTimes(2);
-  //   expect(mockSetCardHeightSort).toHaveBeenLastCalledWith(96);
-  // });
-  //     it("handles alternating increase and decrease clicks", () => {
-  //       setupStore("sort", { sort: 100 });
-  //       render(<CardHeightSizer />);
-  //       const increaseButton = screen.getByText("+");
-  //       const decreaseButton = screen.getByText("-");
-  //       fireEvent.click(increaseButton);
-  //       fireEvent.click(decreaseButton);
-  //       fireEvent.click(increaseButton);
-  //       expect(mockSetCardHeightSort).toHaveBeenCalledTimes(3);
-  //       expect(mockSetCardHeightSort).toHaveBeenNthCalledWith(1, 102);
-  //       expect(mockSetCardHeightSort).toHaveBeenNthCalledWith(2, 100);
-  //       expect(mockSetCardHeightSort).toHaveBeenNthCalledWith(3, 102);
-  //     });
-  //   });
-
   describe("edge cases", () => {
     it("handles string values from localStorage", () => {
       localStorage.setItem("cardHeightSort", "100");
@@ -310,16 +275,6 @@ describe("CardHeightSizer", () => {
 
       expect(mockSetCardHeightSort).toHaveBeenCalledWith(102);
     });
-
-    // it("handles zero height", () => {
-    //   setupStore("sort", { sort: 0 });
-    //   render(<CardHeightSizer />);
-
-    //   const decreaseButton = screen.getByText("-");
-    //   fireEvent.click(decreaseButton);
-
-    //   expect(mockSetCardHeightSort).toHaveBeenCalledWith(-2);
-    // });
 
     it("does nothing when clicked on unknown page", () => {
       setupStore("unknown", { sort: 100 });
@@ -398,33 +353,6 @@ describe("CardHeightSizer", () => {
     });
   });
 
-  //   describe("button styling", () => {
-  //     it("renders buttons with correct structure", () => {
-  //       setupStore("sort");
-  //       const { container } = render(<CardHeightSizer />);
-
-  //       const buttons = container.querySelectorAll("button");
-  //       expect(buttons).toHaveLength(2);
-  //     });
-
-  //     it("decrease button has correct padBottom prop", () => {
-  //       setupStore("sort");
-  //       render(<CardHeightSizer />);
-
-  //       const decreaseButton = screen.getByTestId("cardHeightSizerNeg");
-  //       expect(decreaseButton).toHaveAttribute("padding-bottom", "0.4em");
-  //     });
-
-  //     it("increase button has correct padBottom prop", () => {
-  //       setupStore("sort");
-  //       const { container } = render(<CardHeightSizer />);
-
-  //       const buttons = container.querySelectorAll("button");
-  //       const increaseButton = buttons[1];
-  //       expect(increaseButton).toHaveAttribute("padBottom", "0.25em");
-  //     });
-  //   });
-
   describe("accessibility", () => {
     it("buttons are keyboard accessible", () => {
       setupStore("sort", { sort: 100 });
@@ -435,14 +363,5 @@ describe("CardHeightSizer", () => {
 
       expect(document.activeElement).toBe(increaseButton);
     });
-
-    // it("text is not selectable", () => {
-    //   setupStore("sort");
-    //   const { container } = render(<CardHeightSizer />);
-
-    //   const spanDiv = container.querySelector("div > div");
-    //   const styles = window.getComputedStyle(spanDiv);
-    //   expect(styles.userSelect).toBeTruthy();
-    // });
   });
 });

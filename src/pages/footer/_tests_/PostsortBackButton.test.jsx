@@ -451,21 +451,6 @@ describe("BackButton", () => {
       history.goBack();
       expect(history.location.state).toEqual({ fromPage: "thin" });
     });
-
-    // it("should support forward navigation after going back", () => {
-    //   history.push("/presort");
-    //   history.push("/sort");
-
-    //   renderWithProviders(<BackButton to="/presort">Back</BackButton>, history);
-
-    //   const button = screen.getByRole("button");
-    //   fireEvent.click(button);
-
-    //   expect(history.location.pathname).toBe("/presort");
-
-    //   history.goForward();
-    //   expect(history.location.pathname).toBe("/sort");
-    // });
   });
 
   describe("Edge Cases", () => {

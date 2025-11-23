@@ -110,13 +110,6 @@ describe("LinkButton", () => {
       expect(screen.getByRole("button", { name: "Next" })).toBeInTheDocument();
     });
 
-    // it("should render with correct tabindex attribute", () => {
-    //   renderWithProviders(<LinkButton to="/next">Continue</LinkButton>, history);
-
-    // //   const button = screen.getByRole("button");
-    // //   expect(button).toHaveAttribute("tabindex", "0");
-    // });
-
     it("should apply width prop to styled component", () => {
       renderWithProviders(
         <LinkButton to="/next" width={200}>
@@ -355,27 +348,6 @@ describe("LinkButton", () => {
 
       expect(history.location.pathname).toBe("/survey");
     });
-
-    // it("should prevent navigation when comments are required but not complete", () => {
-    //   useSettingsStore.mockReturnValue({
-    //     configObj: {
-    //       allowUnforcedSorts: false,
-    //       postsortCommentsRequired: true,
-    //     },
-    //   });
-
-    //   localStorage.setItem("m_PosRequiredStatesObj", JSON.stringify({ item1: "" }));
-    //   localStorage.setItem("m_NegRequiredStatesObj", JSON.stringify({ item2: "comment" }));
-
-    //   renderWithProviders(<LinkButton to="/survey">Next</LinkButton>, history);
-
-    //   const button = screen.getByRole("button");
-    //   fireEvent.click(button);
-
-    //   //   expect(mockSetShowPostsortCommentHighlighting).toHaveBeenCalledWith(true);
-    // //   expect(mockSetTriggerMobilePostsortPreventNavModal).toHaveBeenCalledWith(true);
-    //   expect(history.location.pathname).toBe("/");
-    // });
 
     it("should allow navigation when all required comments are complete", () => {
       useSettingsStore.mockReturnValue({

@@ -44,16 +44,6 @@ describe("MobileSurveyBackButton", () => {
       expect(screen.getByRole("button", { name: "Back" })).toBeInTheDocument();
     });
 
-    // it("should render with correct tabindex attribute", () => {
-    //   renderWithProviders(
-    //     <MobileSurveyBackButton to="/postsort">Back</MobileSurveyBackButton>,
-    //     history
-    //   );
-
-    //   const button = screen.getByRole("button");
-    //   expect(button).toHaveAttribute("tabindex", "0");
-    // });
-
     it("should render with different children content", () => {
       renderWithProviders(
         <MobileSurveyBackButton to="/postsort">Previous</MobileSurveyBackButton>,
@@ -193,24 +183,6 @@ describe("MobileSurveyBackButton", () => {
       expect(() => fireEvent.click(button)).not.toThrow();
       expect(history.location.pathname).toBe("/postsort");
     });
-
-    // it("should handle onClick that throws without breaking navigation", () => {
-    //   const handleClick = vi.fn(() => {
-    //     throw new Error("Test error");
-    //   });
-
-    //   renderWithProviders(
-    //     <MobileSurveyBackButton to="/postsort" onClick={handleClick}>
-    //       Back
-    //     </MobileSurveyBackButton>,
-    //     history
-    //   );
-
-    //   const button = screen.getByRole("button");
-
-    //   expect(() => fireEvent.click(button)).toThrow("Test error");
-    //   expect(handleClick).toHaveBeenCalledTimes(1);
-    // });
   });
 
   describe("Props Filtering", () => {
@@ -311,16 +283,6 @@ describe("MobileSurveyBackButton", () => {
   });
 
   describe("Keyboard Interaction", () => {
-    // it("should be keyboard accessible with tabindex", () => {
-    //   renderWithProviders(
-    //     <MobileSurveyBackButton to="/postsort">Back</MobileSurveyBackButton>,
-    //     history
-    //   );
-
-    //   const button = screen.getByRole("button");
-    //   expect(button).toHaveAttribute("tabindex", "0");
-    // });
-
     it("should navigate when Enter key is pressed", () => {
       renderWithProviders(
         <MobileSurveyBackButton to="/postsort">Back</MobileSurveyBackButton>,
