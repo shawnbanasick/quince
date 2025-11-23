@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 import ReactHtmlParser from "html-react-parser";
@@ -27,8 +27,14 @@ const SurveyRadioElement = (props) => {
     displayNoteText = false;
   }
 
+  // TODO - connect to configObj setup
+  const displayOtherInput = false;
+  const optionsLength = optsArray.length - 1;
+
   // PERSISTENT STATE
   let [selected, setSelected] = useLocalStorage(questionId, "");
+  let [otherDisabled, setOtherDisabled] = useState(true);
+  let [otherString, setOtherString] = useState("");
 
   // LOCAL STATE
   const [formatOptions, setFormatOptions] = useState({
@@ -57,9 +63,28 @@ const SurveyRadioElement = (props) => {
 
   const handleChange = (e) => {
     const resultsSurvey = JSON.parse(localStorage.getItem("resultsSurvey"));
-    resultsSurvey[`itemNum${props.opts.itemNum}`] = +e.target.value + 1;
+
+    if (otherString !== "" && +e.target.value === +optionsLength) {
+      resultsSurvey[`itemNum${props.opts.itemNum}`] = `${+e.target.value + 1}-${otherString}`;
+    } else {
+      resultsSurvey[`itemNum${props.opts.itemNum}`] = +e.target.value + 1;
+    }
+
+    if (+e.target.value === +optionsLength) {
+      setOtherDisabled(false);
+    } else {
+      setOtherDisabled(true);
+    }
+
     localStorage.setItem("resultsSurvey", JSON.stringify(resultsSurvey));
   }; // end handle change
+
+  const handleInputChange = (event) => {
+    const resultsSurvey = JSON.parse(localStorage.getItem("resultsSurvey"));
+    resultsSurvey[`itemNum${props.opts.itemNum}`] = `${+optionsLength + 1}-${event.target.value}`;
+    setOtherString(event.target.value);
+    localStorage.setItem("resultsSurvey", JSON.stringify(resultsSurvey));
+  };
 
   let setYellow = false;
   if (selected.length === 0) {
@@ -88,12 +113,7 @@ const SurveyRadioElement = (props) => {
   const RadioItems = () => {
     const radioList = optsArray.map((item, index) => (
       <div key={uuid()}>
-        <RadioInput
-          value={index}
-          checked={selected}
-          label={item}
-          setter={setSelected}
-        />
+        <RadioInput value={index} checked={selected} label={item} setter={setSelected} />
       </div>
     ));
     return <div>{radioList}</div>;
@@ -108,8 +128,14 @@ const SurveyRadioElement = (props) => {
         <NoteText>
           <div>{noteText}</div>
         </NoteText>
-        <RadioContainer onChange={(e) => handleChange(e)}>
-          <RadioItems />
+
+        <RadioContainer>
+          <div onChange={(e) => handleChange(e)}>
+            <RadioItems />
+          </div>
+          {displayOtherInput && (
+            <TextInput disabled={otherDisabled} onChange={(event) => handleInputChange(event)} />
+          )}
         </RadioContainer>
       </Container>
     );
@@ -121,6 +147,7 @@ const SurveyRadioElement = (props) => {
         </TitleBar>
         <RadioContainer onChange={(e) => handleChange(e)}>
           <RadioItems />
+          {displayOtherInput && <TextInput onChange={(event) => handleInputChange(event)} />}
         </RadioContainer>
       </Container>
     );
@@ -200,4 +227,19 @@ const NoteText = styled.div`
   background-color: whitesmoke;
   width: 100%;
   border-radius: 3px;
+`;
+
+const TextInput = styled.input`
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  vertical-align: center;
+  height: 50px;
+  font-size: 18px;
+  background-color: white;
+  width: 100%;
+  border-radius: 3px;
+  border: 2px solid lightgray;
+  padding-left: 5px;
+  padding-right: 5px;
 `;

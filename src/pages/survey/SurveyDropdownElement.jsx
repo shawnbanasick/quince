@@ -28,9 +28,7 @@ const SurveyDropdownElement = (props) => {
   let questionId = props.opts.id;
   const labelText = ReactHtmlParser(decodeHTML(props.opts.label)) || "";
   let originalOptions = props.opts.options.split(";;;") || [];
-  originalOptions = originalOptions.map((x) =>
-    ReactHtmlParser(decodeHTML(x.trim()))
-  );
+  originalOptions = originalOptions.map((x) => ReactHtmlParser(decodeHTML(x.trim())));
   const noteText = ReactHtmlParser(decodeHTML(props.opts.note)) || "";
   let displayNoteText = true;
   if (noteText.length < 1 || noteText === "") {
@@ -48,8 +46,7 @@ const SurveyDropdownElement = (props) => {
 
   // HANDLE ON CHANGE
   const handleOnChange = (e) => {
-    const resultsSurvey =
-      JSON.parse(localStorage.getItem("resultsSurvey")) || {};
+    const resultsSurvey = JSON.parse(localStorage.getItem("resultsSurvey")) || {};
     setSelected(e);
 
     let newArray = flatten(originalOptions);
@@ -57,7 +54,7 @@ const SurveyDropdownElement = (props) => {
     if (e.length !== 0) {
       let selected2 = "";
       for (let i = 0; i < e.length; i++) {
-        let label = e[i].value;
+        let label = e[i].value.trim();
         let id = newArray.indexOf(label);
         if (i === 0) {
           selected2 += id + 1;
