@@ -54,7 +54,7 @@ const SurveyDropdownElement = (props) => {
     if (e.length !== 0) {
       let selected2 = "";
       for (let i = 0; i < e.length; i++) {
-        let label = e[i].value;
+        let label = e[i].value.trim();
         let id = newArray.indexOf(label);
         if (i === 0) {
           selected2 += id + 1;
