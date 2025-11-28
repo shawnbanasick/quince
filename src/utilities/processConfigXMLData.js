@@ -1,5 +1,3 @@
-import get from "lodash/get";
-
 const processConfigXMLData = (dataObject) => {
   const data = dataObject.elements[0].elements;
   const configObj = {};
@@ -37,6 +35,7 @@ const processConfigXMLData = (dataObject) => {
           key === "qSortHeaders" ||
           key === "qSortPattern"
         ) {
+          console.log("input skip");
         } else {
           // for all others...
           // convert string values -  boolean or number
@@ -104,6 +103,7 @@ const processConfigXMLData = (dataObject) => {
         try {
           tempObj.note = surveyData[j][2]?.elements[0]?.text;
         } catch (error) {
+          console.log(error);
           tempObj.note = "";
         }
 
@@ -136,6 +136,7 @@ const processConfigXMLData = (dataObject) => {
         try {
           tempObj.placeholder = surveyData[j][3]?.elements[0]?.text;
         } catch (error) {
+          console.log(error);
           tempObj.placeholder = "";
         }
         tempObj.hasBeenAnswered = false;
@@ -173,6 +174,7 @@ const processConfigXMLData = (dataObject) => {
         try {
           tempObj.note = surveyData[j][2]?.elements[0]?.text;
         } catch (error) {
+          console.log(error);
           tempObj.note = "";
         }
 
@@ -209,6 +211,13 @@ const processConfigXMLData = (dataObject) => {
         }
 
         try {
+          tempObj.other = JSON.parse(surveyData[j][0]?.attributes?.other);
+        } catch (error) {
+          console.log(error);
+          tempObj.other = "false";
+        }
+
+        try {
           tempObj.label = surveyData[j][1]?.elements[0]?.text;
         } catch (error) {
           console.log(error);
@@ -230,7 +239,6 @@ const processConfigXMLData = (dataObject) => {
         }
 
         tempObj.hasBeenAnswered = false;
-
         surveyQuestionArray.push(tempObj);
       }
 
@@ -297,6 +305,13 @@ const processConfigXMLData = (dataObject) => {
         } catch (error) {
           console.log(error);
           tempObj.required = "false";
+        }
+
+        try {
+          tempObj.other = JSON.parse(surveyData[j][0]?.attributes?.other);
+        } catch (error) {
+          console.log(error);
+          tempObj.other = "false";
         }
 
         try {

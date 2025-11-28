@@ -27,14 +27,19 @@ const SurveyRadioElement = (props) => {
     displayNoteText = false;
   }
 
-  // TODO - connect to configObj setup
-  const displayOtherInput = false;
+  let displayOtherInput = props.opts.other;
+  if (displayOtherInput === "true" || displayOtherInput === true) {
+    displayOtherInput = true;
+  } else {
+    displayOtherInput = false;
+  }
+
   const optionsLength = optsArray.length - 1;
 
   // PERSISTENT STATE
   let [selected, setSelected] = useLocalStorage(questionId, "");
   let [otherDisabled, setOtherDisabled] = useState(true);
-  let [otherString, setOtherString] = useState("");
+  let [otherString, setOtherString] = useState("no input");
 
   // LOCAL STATE
   const [formatOptions, setFormatOptions] = useState({
@@ -64,8 +69,12 @@ const SurveyRadioElement = (props) => {
   const handleChange = (e) => {
     const resultsSurvey = JSON.parse(localStorage.getItem("resultsSurvey"));
 
-    if (otherString !== "" && +e.target.value === +optionsLength) {
-      resultsSurvey[`itemNum${props.opts.itemNum}`] = `${+e.target.value + 1}-${otherString}`;
+    if (+e.target.value === +optionsLength) {
+      if (otherString === "") {
+        resultsSurvey[`itemNum${props.opts.itemNum}`] = `${+e.target.value + 1}-no input`;
+      } else {
+        resultsSurvey[`itemNum${props.opts.itemNum}`] = `${+e.target.value + 1}-${otherString}`;
+      }
     } else {
       resultsSurvey[`itemNum${props.opts.itemNum}`] = +e.target.value + 1;
     }
@@ -81,8 +90,14 @@ const SurveyRadioElement = (props) => {
 
   const handleInputChange = (event) => {
     const resultsSurvey = JSON.parse(localStorage.getItem("resultsSurvey"));
-    resultsSurvey[`itemNum${props.opts.itemNum}`] = `${+optionsLength + 1}-${event.target.value}`;
-    setOtherString(event.target.value);
+    if (event.target.value === "") {
+      resultsSurvey[`itemNum${props.opts.itemNum}`] = `${+optionsLength + 1}-no input`;
+    } else {
+      resultsSurvey[`itemNum${props.opts.itemNum}`] = `${
+        +optionsLength + 1
+      }-${event.target.value.trim()}`;
+    }
+    setOtherString(event.target.value.trim());
     localStorage.setItem("resultsSurvey", JSON.stringify(resultsSurvey));
   };
 

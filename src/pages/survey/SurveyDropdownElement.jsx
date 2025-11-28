@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { MultiSelect } from "react-multi-select-component";
 import ReactHtmlParser from "html-react-parser";
