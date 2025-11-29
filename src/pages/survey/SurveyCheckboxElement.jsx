@@ -90,7 +90,7 @@ const SurveyCheckboxElement = (props) => {
 
     let selectedArray = selected.split(",");
 
-    if (+selectedArray[selectedArray.length - 1] === +optionsLength) {
+    if (+selectedArray[selectedArray.length - 1] === +optionsLength && displayOtherInput === true) {
       if (otherString !== "") {
         resultsSurvey[`itemNum${props.opts.itemNum}`] = `${selected}-${otherString}`;
       } else {

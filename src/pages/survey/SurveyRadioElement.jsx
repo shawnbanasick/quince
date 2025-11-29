@@ -69,7 +69,7 @@ const SurveyRadioElement = (props) => {
   const handleChange = (e) => {
     const resultsSurvey = JSON.parse(localStorage.getItem("resultsSurvey"));
 
-    if (+e.target.value === +optionsLength) {
+    if (+e.target.value === +optionsLength && displayOtherInput === true) {
       if (otherString === "") {
         resultsSurvey[`itemNum${props.opts.itemNum}`] = `${+e.target.value + 1}-no input`;
       } else {
