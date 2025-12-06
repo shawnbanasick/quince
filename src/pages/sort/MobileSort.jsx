@@ -104,7 +104,6 @@ const MobileSort = () => {
       const threshold = 100;
 
       if (distanceFromBottom <= threshold) {
-        console.log("at bottom");
         setHasScrolledToBottomSort(true);
       }
     }, 100),

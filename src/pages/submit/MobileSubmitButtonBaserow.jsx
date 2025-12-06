@@ -58,8 +58,6 @@ const SubmitResultsButton = (props) => {
       setDisplayBelowButtonText(false);
     }, 10000);
 
-    console.log(JSON.stringify(props.results, null, 2));
-
     let token = configObj.baserowToken;
     let databaseId = configObj.baserowDatabaseIdNumber;
 

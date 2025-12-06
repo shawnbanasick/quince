@@ -6,6 +6,7 @@ import decodeHTML from "../../utilities/decodeHTML";
 import useLocalStorage from "../../utilities/useLocalStorage";
 import flatten from "lodash/flatten";
 import countBy from "lodash/countBy";
+import sanitizeString from "../../utilities/sanitizeString";
 
 const SurveyCheckboxElement = (props) => {
   // HELPER FUNCTIONS
@@ -115,7 +116,7 @@ const SurveyCheckboxElement = (props) => {
     let inputString = "no input";
 
     if (event.target.value !== "") {
-      inputString = event.target.value.trim();
+      inputString = sanitizeString(event.target.value.trim());
       const newResult = `${selectedArray}-${inputString}`;
       resultsSurvey[`itemNum${props.opts.itemNum}`] = newResult;
     } else {
@@ -123,7 +124,7 @@ const SurveyCheckboxElement = (props) => {
       resultsSurvey[`itemNum${props.opts.itemNum}`] = newResult;
     }
 
-    setOtherString(() => event.target.value.trim());
+    setOtherString(() => sanitizeString(event.target.value.trim()));
 
     localStorage.setItem("resultsSurvey", JSON.stringify(resultsSurvey));
   };

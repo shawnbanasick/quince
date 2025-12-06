@@ -284,8 +284,6 @@ const MobilePresortPage = () => {
             JSON.stringify(thinDisplayControllerArray)
           );
 
-          // console.log(JSON.stringify(m_PresortResults));
-
           // *** update newCols ***
           newCols.statementList = m_PresortResults;
           localStorage.setItem("newCols", JSON.stringify(newCols));

@@ -20,8 +20,6 @@ const decodeHTML = (string) => {
       const stringText5 = stringText3.replace(replaceQuote, '"');
       const stringText6 = stringText5.replace(replaceAmp, "&");
 
-      // console.log("string2", `This is the 2nd ${stringText6}.`);
-
       return `<div>${stringText6}</div>`;
     } else {
       return string;

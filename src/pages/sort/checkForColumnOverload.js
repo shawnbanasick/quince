@@ -35,7 +35,6 @@ const checkForColumnOverload = (
   useStore.setState({ numSortedStatements: numSortedStatements });
 
   if (forcedSorts === false) {
-    console.log(numSortedStatements, totalStatements);
     if (numSortedStatements === totalStatements) {
       useStore.setState({ sortCompleted: true });
       useStore.setState({ isSortingCards: false });

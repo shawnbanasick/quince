@@ -12,6 +12,7 @@ import DebouncedTextarea from "./DebouncedTextArea";
 import useScreenOrientation from "../../utilities/useScreenOrientation";
 import MobileModal from "../../utilities/MobileModal";
 import { useEmojiArrays } from "../sort/mobileSortHooks/useEmojiArrays";
+import sanitizeString from "../../utilities/sanitizeString";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
@@ -232,13 +233,13 @@ const MobilePostsort = () => {
     const newValue = newValue3.replace("-", "N");
 
     if (event.target.side === "positive") {
-      resp[`column${newValue}:(${event.target.commentId})`] = event.target.value;
-      mobilePosResponses[event.target.statementId] = event.target.value;
+      resp[`column${newValue}:(${event.target.commentId})`] = sanitizeString(event.target.value);
+      mobilePosResponses[event.target.statementId] = sanitizeString(event.target.value);
       setMobilePosResponses(mobilePosResponses);
     }
     if (event.target.side === "negative") {
-      resp[`column${newValue}:(${event.target.commentId})`] = event.target.value;
-      mobileNegResponses[event.target.statementId] = event.target.value;
+      resp[`column${newValue}:(${event.target.commentId})`] = sanitizeString(event.target.value);
+      mobileNegResponses[event.target.statementId] = sanitizeString(event.target.value);
       setMobileNegResponses(mobileNegResponses);
     }
 

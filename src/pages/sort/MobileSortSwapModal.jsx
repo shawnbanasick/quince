@@ -98,7 +98,6 @@ const MobileSortSwapModal = (props) => {
   };
 
   const handleSwap = () => {
-    // console.log("Swapping");
     props.handleStatementSwap(targetArray[0].index, targetArray[1].index);
     setShowSuccess(true);
     setTimeout(() => {

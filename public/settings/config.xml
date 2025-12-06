@@ -23,17 +23,17 @@
    <!-- 0. FILE INFORMATION -->
    <info order="0-a" id="configFileVersion">1.0.0</info>
    <info order="0-b" id="iterationDate">2025-08-31</info>
-   <info order="1--" id="creationDate">2025-11-23@10:19</info> 
+   <info order="1--" id="creationDate">2025-9-28@12:57</info> 
 
    <!-- 1. STUDY TITLE -->
-   <item order="1-a" id="studyTitle">Creative Dehumanization Q-sort</item> 
+   <item order="1-a" id="studyTitle">Demo Project</item> 
 
 
    <!-- 2. DATABASE SETUP -->
    <!-- "setupTarget" options: baserow or local -->
-   <item order="2-a" id="baserowToken">Y7WGwfUP7zg5uLTxcvRK3zOp1LN6HZxM</item>
-   <item order="2-b" id="baserowDatabaseIdNumber">639734</item>
-   <item order="2-c" id="emailAddress">m.j.strachan@wustl.edu</item>
+   <item order="2-a" id="baserowToken">9mai4vZoWKfizfMebLLwHYXXg2FvBgzt</item>
+   <item order="2-b" id="baserowDatabaseIdNumber">542139</item>
+   <item order="2-c" id="emailAddress">ken.q.tools@gmail.com</item>
 
    <!-- 3. SECOND PROJECT LINKING -->
    <item order="3-a" id="linkToSecondProject">false</item> 
@@ -52,7 +52,7 @@
    <!-- 6. PROJECT ACCESS OPTIONS -->
    <!-- options: anonymous, partId-access, partId, access -->
    <item order="6-a" id="initialScreen">anonymous</item>
-   <item order="6-b" id="accessCode"></item>
+   <item order="6-b" id="accessCode">demo</item>
    
    <!-- 7. COLOR SETTINGS  -->
    <!-- defaults = #2a2a2a (font), #ccffcc (right), #e0e0e0 (center), #ffe0f0 (left) -->
@@ -75,7 +75,7 @@
    <item order="10-b" id="showSecondPosColumn">false</item>
    <item order="10-c" id="showSecondNegColumn">false</item>
    <item order="10-d" id="showBackButton">true</item>
-   <item order="10-e" id="postsortCommentsRequired">false</item>
+   <item order="10-e" id="postsortCommentsRequired">true</item>
    <item order="10-f" id="defaultFontSizePostsort">16</item>
    <item order="10-g" id="minCardHeightPostsort">120</item>
 
@@ -83,134 +83,57 @@
    <item order="11-a" id="showSurvey">true</item>
 
    <item id="survey">
-        <input type="text" required="false" limited="false" limitLength="99999" restricted="false"></input>
-        <label>1. Work Activities</label>
-        <note>Are there any other major work activities you have been doing that did not appear in the list we provided? If so, what are those activities?</note>
-   </item>
-
-   <item id="survey">
        <input type="information"></input>
-       <note bg="#2ccce4">{{{b}}}Step 3. Answer Questions{{{/b}}}{{{br/}}}Now, we would like to hear your story about your background and experiences as a social media content creator.</note>
-   </item>
-
-   <item id="survey">
-        <input type="text" required="true" limited="false" limitLength="99999" restricted="false"></input>
-        <label>3. Referral 1</label>
-        <note>First of all, we’d love to partner with more social media content creators for our research, but we’ve found it difficult to establish connections so far. Do you have any recommendations on {{{b}}}how to effectively reach and engage with creators?{{{/b}}}</note>
-   </item>
-
-   <item id="survey">
-        <input type="text" required="true" limited="false" limitLength="99999" restricted="false"></input>
-        <label>4. Your WHY</label>
-        <note>What inspired you to start creating content, and how did you begin?</note>
-   </item>
-
-   <item id="survey">
-        <input type="text" required="true" limited="false" limitLength="99999" restricted="false"></input>
-        <label>5. Effects</label>
-        <note>How would you say this type of work makes you feel about yourself, your life, and/or your social connections?</note>
-   </item>
-
-   <item id="survey">
-        <input type="text" required="true" limited="false" limitLength="99999" restricted="false"></input>
-        <label>6. Challenges</label>
-        <note>What are the toughest parts of being a content creator? What kinds of challenges or struggles come up most often for you?</note>
-   </item>
-
-   <item id="survey">
-        <input type="select" required="false">Bilibili;;; Bluesky;;; Discord;;; Facebook;;; Instagram;;; Kick;;; LinkedIn;;; OnlyFans;;; Pateron;;; Pinterest;;; Reddit;;; Rednote;;; Snapchat;;; Spotify;;; Substack;;; TikTok;;; Threads;;; Twitch;;; Tumblr;;; Twitter/X;;; Vimeo;;; Weibo;;; Youtube;;; Other (Please enter below)</input>
-        <label>7. Platforms</label>
-        <note>As a social media content creator, please select the social media {{{b}}}platforms{{{/b}}} where you create or publish content.</note>
-   </item>
-
-   <item id="survey">
-        <input type="select" required="false">Artwork / Illustrations / Graphics;;; Blogs / Written articles;;; Community posts / Discussion-based content;;; Livestreams;;; Long-form videos;;; Music or original audio;;; News / Commentary;;; Photos / Visual posts;;; Podcasts / Audio content;;; Product promotions / Sponsored content;;; Short-form videos</input>
-        <label>8. Content Type</label>
-        <note>As a social media content creator, please select the {{{b}}}types of content{{{/b}}} you typically create as a social media content creator.</note>
-   </item>
-
-   <item id="survey">
-        <input type="select" required="false">B2B (e.g., thought leadership, industry trends, business insights) ;;; Beauty &amp; Skincare (e.g., tutorials, GRWMs, product reviews, close-up skincare routines) ;;; Education (e.g., study hacks, micro-explainers, online course recommendations) ;;; E-commerce (e.g., live shopping, affiliate product promotions, creator-led launches) ;;; Entertainment (e.g., reaction content, media reviews, pop culture commentary) ;;; Fashion (e.g., outfit hauls, styling tips, fashion challenges, trend breakdowns) ;;; Finance (e.g., budgeting tips, investing basics, relatable money mindset content) ;;; Fitness, Health &amp; Wellness (e.g., workout routines, nutrition tips, habit building, progress tracking) ;;; Food (e.g., recipe videos, food hacks, restaurant reviews, cooking tutorials) ;;; Gaming (e.g., live streams, gameplay highlights, walkthroughs, lore explainers, AI-assisted commentary) ;;; Lifestyle (e.g., daily routines, vlogs, home decor &amp; personal style, aspirational life content) ;;; Marketing &amp; Business (e.g., digital marketing strategies, SEO tips, growth hacks, AI tools, solopreneurship) ;;; Music (e.g., independent releases, creator collabs, behind-the-scenes content) ;;; Parenting (e.g., family routines, kids’ product reviews, child development tips, relatable moments) ;;; Pet (e.g., pet care tips, cute animal content, pet product features) ;;; Real Estate (e.g., virtual home tours, home styling, neighborhood lifestyle guides) ;;; Technology (e.g., gadget reviews, product comparisons, tech tutorials, AI content) ;;; Travel (e.g., destination highlights, travel vlogs, hotel reviews, itinerary tips)</input>
-        <label>9. Genre</label>
-        <note>As a social media content creator, please select the {{{b}}}genres of content{{{/b}}} you typically create as a social media content creator.</note>
-   </item>
-
-   <item id="survey">
-        <input type="radio" required="false">Less than 10,000 ;;;10,000 - 50,000;;;50,000 - 250,000;;;250,000 - 1,000,000;;; More than 1,000,000</input>
-        <label>10. Followers</label>
-        <note>As a social media content creator, please provide an estimate of your {{{b}}}total follower count{{{/b}}} across all platforms.</note>
-   </item>
-
-   <item id="survey">
-        <input type="radio" required="false">0-8 hours;;;8-16 hours;;;16-24 hours;;;24-32 hours;;;32-40 hours;;;40-48 hours;;;48-56 hours;;; 56+ hours</input>
-        <label>11. Hours/ week</label>
-        <note>As a social media content creator, please provide an estimate of {{{b}}}how many hours per week{{{/b}}} you typically spend on activities related to your content creation work.</note>
-   </item>
-
-   <item id="survey">
-        <input type="select" required="true">I work independently (I handle everything myself);;; I occasionally collaborate with freelancers or contractors;;; I have a part-time helper or small team;;; I have a full-time content team supporting me</input>
-        <label>12. Creator Composition</label>
-        <note>As a social media content creator, please indicate how you operate your content creation work?</note>
-   </item>
-
-   <item id="survey">
-        <input type="select" required="true">Content Creation is my main source of income (FULL TIME work);;; Content Creation is a supplemental source of income (PART-TIME work);;; Content Creation is a source of discretionary income (paid HOBBY work);;; I do NOT make money from my content creation work (unpaid HOBBY)</input>
-        <label>13. Creation Work</label>
-        <note>As a social media content creator, please indicate the role of content creation in your income.</note>
-   </item>
-
-   <item id="survey">
-        <input type="select" required="true">American Indian/Native American or Alaskan Native;;;Asian/Asian-American;;;Black or African American;;;Latinx/Hispanic;;;Middle-Eastern;;; Native Hawaiian or Other Pacific Islander;;;White or Caucasian;;;Other;;;Prefer not to say</input>
-        <label>14. Race</label>
-        <note>Choose one or more races that you consider yourself to be.</note>
-   </item>
-
-   <item id="survey">
-        <input type="radio" required="true" other="true">Woman ;;; Man;;; Non-binary/non-conforming;;; Transgender;;; Not listed (please specify)</input>
-        <label>15. Gender</label>
-        <note>What is your gender identity?</note>
-   </item>
-
-   <item id="survey">
-        <input type="radio" required="true">Less than $10,000;;; $10,000 - $19,999;;; $20,000 - $29,999;;; $30,000 - $39,999;;; $40,000 - $49,999;;; $50,000 - $59,999;;; $60,000 - $69,999;;; $70,000 - $79,999;;; $80,000 - $89,999;;; $90,000 - $99,999;;; $100,000 - $109,999;;; $110,000 - $119,999;;; $120,000 - $129,999;;; $130,000 - $139,999;;; $140,000 - $149,999;;; $150,000 - $174,999;;; $175,000 - $199,999;;; over $200,000</input>
-        <label>16. Household Income</label>
-        <note>What is your total annual household income?</note>
-   </item>
-
-   <item id="survey">
-        <input type="radio" required="true">Alabama;;; Alaska;;; Arizona;;; Arkansas;;; California;;; Colorado;;; Connecticut;;; Delaware;;; Florida;;; Georgia;;; Hawaii;;; Idaho;;; Illinois;;; Indiana;;; Iowa;;; Kansas;;; Kentucky;;; Louisiana;;; Maine;;; Maryland;;; Massachusetts;;; Michigan;;; Minnesota;;; Mississippi;;; Missouri;;; Montana;;; Nebraska;;; Nevada;;; New Hampshire;;; New Jersey;;; New Mexico;;; New York;;; North Carolina;;; North Dakota;;; Ohio;;; Oklahoma;;; Oregon;;; Pennsylvania;;; Rhode Island;;; South Carolina;;; South Dakota;;; Tennessee;;; Texas;;; Utah;;; Vermont;;; Virginia;;; Washington;;; West Virginia;;; Wisconsin;;; Wyoming;;; Not Applicable</input>
-        <label>17. State of Residence</label>
-        <note>In which US state do you reside ?</note>
-   </item>
-
-   <item id="survey">
-        <input type="select" required="true">Less than high school degree;;;High school graduate (high school diploma or equivalent including GED);;;Some college but no degree;;;Associate degree in college (2-year);;;Bachelor&apos;s degree in college (4-year);;;Master&apos;s degree;;;Doctoral degree;;;Professional degree (JD, MD)</input>
-        <label>18. Education</label>
-        <note>What is the highest level of education you have completed?</note>
-   </item>
-
-   <item id="survey">
-        <input type="checkbox" required="true" other="true">Full-time employment;;; Part-time employment;;; Full-time student;;; Part-time student;;; Unemployed;;; Homemaker;;; Retired;;; Other (Please specify)</input>
-        <label>19. Employment Status</label>
-        <note>What is your current employment status? Check all that apply:</note>
-   </item>
-
-   <item id="survey">
-        <input type="radio" required="true">1-Not Seriously;;; 2;;; 3;;; 4;;; 5;;; 6;;; 7-Very Seriously</input>
-        <label></label>
-        <note>20. How seriously did you take this survey ?</note>
-   </item>
-
-   <item id="survey">
-        <input type="radio" required="true">Yes;;; No</input>
-        <label></label>
-        <note>21. Did you pay attention to the content of the survey?</note>
+       <note bg="goldenrod">All fields marked with an * are {{{b}}}required.{{{/b}}}</note>
    </item>
 
    <item id="survey">
         <input type="text" required="false" limited="false" limitLength="99999" restricted="false"></input>
-        <label>22. Prolific ID</label>
-        <note>Please provide your {{{b}}}{{{u}}}Prolific ID{{{/u}}}{{{/b}}} in the box below</note>
+        <label>1. Have you had classes with me before?</label>
+        <note>If yes, please {{{i}}}list them here{{{/i}}}. (limit = 100 characters)</note>
+   </item>
+
+   <item id="survey">
+        <input type="textarea" required="false"></input>
+        <label>2. Describe your experience using the iPads in this class</label>
+        <note></note>
+        <placeholder>input comment here</placeholder>
+   </item>
+
+   <item id="survey">
+        <input type="radio" required="false" other="true">Freshman;;;Sophomore;;;Junior;;;Senior;;;Other (Please specify below)</input>
+        <label>3. Year</label>
+        <note>Please select your year</note>
+   </item>
+
+   <item id="survey">
+        <input type="select" required="false">Global Studies;;;Linguistics;;;English Literature</input>
+        <label>4. What is your program focus?</label>
+        <note></note>
+   </item>
+
+   <item id="survey">
+        <input type="checkbox" required="true" other="true">Lecture;;;Group Discussion;;;Active Learning;;;Other (Please specify below)</input>
+        <label>5. What kind of class do you prefer?*</label>
+        <note></note>
+   </item>
+
+   <item id="survey">
+        <input type="rating2" required="false" scale="Yes;;;No">I have used an iPad in class before.;;; I have used a notebook computer in class before.;;;I have used Moodle before.;;;I have used Quizlet before;;;</input>
+        <label>6. Please respond to {{{mark}}}all{{{/mark}}} of the following statements</label>
+        <note></note>
+   </item>
+
+   <item id="survey">
+        <input type="rating5" required="false" scale="1;;;2;;;3;;;4;;;5">How would you rate the use of iPads in this class?;;;How would you rate this class overall?;;;How was your interaction with {{{u}}}other students?{{{/u}}};;;How was access to the computer lab?</input>
+        <label>7. {{{i}}}Please{{{/i}}} answer the following questions</label>
+        <note></note>
+   </item>
+
+   <item id="survey">
+        <input type="rating10" required="false" scale="1;;;2;;;3;;;4;;;5;;;6;;;7;;;8;;;9;;;10">How would you rate the use of the {{{b}}}Socrative{{{/b}}} website in this class?;;;How would you rate the use of the {{{b}}}Quizlet{{{/b}}} website in this class?;;;How would you rate the use of Moodle in this class?;;;How would you rate the use of Edmodo in this class?;;;</input>
+        <label>8. {{{u}}}Please answer all of the following questions{{{/u}}}</label>
+        <note></note>
    </item>
 
 

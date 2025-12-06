@@ -29,7 +29,6 @@ const SubmitResultsButton = (props) => {
   const btnTransferText = ReactHtmlParser(decodeHTML(langObj.btnTransferEmail)) || "";
 
   const handleClickDownload = (e) => {
-    console.log("Download button clicked");
     e.preventDefault();
     const formattedResultsTxt = Object.entries(props.results)
       .map(([key, value]) => `${key}: ${value}`)
@@ -56,7 +55,6 @@ const SubmitResultsButton = (props) => {
     for (const [key, value] of Object.entries(props.results)) {
       formattedResultsTxt = formattedResultsTxt + `${key}:| ${value} | `;
     }
-    console.log("formattedResults: " + formattedResultsTxt);
 
     // check for internet connection
     // setTimeout(() => {

@@ -42,8 +42,7 @@ const demoSortData = () => {
           greenChecked: false,
           sortValue: 333,
           backgroundColor: "#e0e0e0",
-          statement:
-            "18. Using the iPads in this class wasted valuable class time",
+          statement: "18. Using the iPads in this class wasted valuable class time",
           listIndex: 18,
         },
         {
@@ -56,8 +55,7 @@ const demoSortData = () => {
           greenChecked: false,
           sortValue: 333,
           backgroundColor: "#e0e0e0",
-          statement:
-            "21. It was difficult to communicate my ideas using the iPad",
+          statement: "21. It was difficult to communicate my ideas using the iPad",
           listIndex: 21,
         },
         {
@@ -86,8 +84,7 @@ const demoSortData = () => {
           greenChecked: false,
           sortValue: 333,
           backgroundColor: "#e0e0e0",
-          statement:
-            "15. The Kahoot quizzes using iPads helped me to learn the course concepts",
+          statement: "15. The Kahoot quizzes using iPads helped me to learn the course concepts",
           listIndex: 15,
         },
         {
@@ -128,8 +125,7 @@ const demoSortData = () => {
           greenChecked: false,
           sortValue: 333,
           backgroundColor: "#e0e0e0",
-          statement:
-            "31. Use of the iPads didn’t improve the learning environment",
+          statement: "31. Use of the iPads didn’t improve the learning environment",
           listIndex: 31,
         },
       ],
@@ -144,8 +140,7 @@ const demoSortData = () => {
           greenChecked: false,
           sortValue: 333,
           backgroundColor: "#e0e0e0",
-          statement:
-            "6. Using iPads matches well with my preferred method of learning",
+          statement: "6. Using iPads matches well with my preferred method of learning",
           listIndex: 6,
         },
         {
@@ -215,8 +210,7 @@ const demoSortData = () => {
           greenChecked: false,
           sortValue: 222,
           backgroundColor: "#e0e0e0",
-          statement:
-            "32. I feel more comfortable using technology after taking this classmates",
+          statement: "32. I feel more comfortable using technology after taking this classmates",
           listIndex: 32,
         },
         {
@@ -229,8 +223,7 @@ const demoSortData = () => {
           greenChecked: false,
           sortValue: 222,
           backgroundColor: "#e0e0e0",
-          statement:
-            "20. Using the iPad in this class made the course concepts more confusing",
+          statement: "20. Using the iPad in this class made the course concepts more confusing",
           listIndex: 20,
         },
         {
@@ -257,8 +250,7 @@ const demoSortData = () => {
           greenChecked: false,
           sortValue: 222,
           backgroundColor: "#e0e0e0",
-          statement:
-            "2. I learned concepts more easily in this class because we used the iPad",
+          statement: "2. I learned concepts more easily in this class because we used the iPad",
           listIndex: 2,
         },
         {
@@ -287,8 +279,7 @@ const demoSortData = () => {
           greenChecked: true,
           sortValue: 111,
           backgroundColor: "#e0e0e0",
-          statement:
-            "7. I feel using the iPads motivated me to work harder in this class",
+          statement: "7. I feel using the iPads motivated me to work harder in this class",
           listIndex: 7,
         },
         {
@@ -343,8 +334,7 @@ const demoSortData = () => {
           greenChecked: false,
           sortValue: 222,
           backgroundColor: "#e0e0e0",
-          statement:
-            "9. Using the iPad helped me to focus on the class concepts",
+          statement: "9. Using the iPad helped me to focus on the class concepts",
           listIndex: 9,
         },
       ],
@@ -483,7 +473,7 @@ const demoSortData = () => {
     imagesList: [],
   };
 
-  const returnObj = {};
+  // const returnObj = {};
   const sortArray = [];
   const sortValuesArray = [];
   const objKeys = Object.keys(data.vCols);
@@ -500,7 +490,6 @@ const demoSortData = () => {
       sortArray.push(item);
     });
   }
-  // console.log(JSON.stringify(sortValuesArray));
   localStorage.setItem("m_SortArray1", JSON.stringify(sortArray));
   localStorage.setItem("sortValuesArray1", JSON.stringify(sortValuesArray));
 

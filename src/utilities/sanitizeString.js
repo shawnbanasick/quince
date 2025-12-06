@@ -1,17 +1,17 @@
 const sanitizeString = (string) => {
   try {
-    let shouldDoReplace = string.includes("<");
-    let shouldDoReplace2 = string.includes(">");
+    let sanitized = String(string);
 
-    if (shouldDoReplace === true || shouldDoReplace2 === true) {
-      const replaceLeft = /</gi;
-      const replaceRight = />/gi;
-      const stringText2 = string.replace(replaceLeft, "&lt");
-      const stringText3 = stringText2.replace(replaceRight, "&gt");
-      return stringText3;
-    } else {
-      return string;
-    }
+    sanitized = sanitized
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#x27;")
+      .replace(/\//g, "&#x2F;")
+      // eslint-disable-next-line
+      .replace(/[\x00-\x09\x0B-\x0C\x0E-\x1F\x7F]/g, "");
+    return sanitized;
   } catch (error) {
     console.log("There was an error sanitizing User Input");
     console.error(error);

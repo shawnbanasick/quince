@@ -1,7 +1,5 @@
-import React from "react";
 import useStore from "../../globalState/useStore";
 
-// eslint-disable-next-line react/button-has-type
 /* eslint react/prop-types: 0 */
 
 const getSortCompleted = (state) => state.sortCompleted;
@@ -15,7 +13,6 @@ const SortCompletedMessageBox = (props) => {
   const setDisplaySort = useStore(getSetDisplaySort);
 
   const handleClick = () => {
-    console.log("clicked");
     setDisplayPostsort(true);
     setDisplaySort(false);
   };

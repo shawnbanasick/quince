@@ -1,13 +1,8 @@
-const calcPresortTranceAndSortResults = (
-  sortResults,
-  sortCharacteristicsArray
-) => {
+const calcPresortTranceAndSortResults = (sortResults, sortCharacteristicsArray) => {
   try {
     let formattedSortResults = "";
     let presortTraceText = "";
     let objectArray = [];
-
-    // console.log("sortResults", sortResults);
 
     sortResults.forEach((item, index) => {
       let tempObject = {};
@@ -29,24 +24,16 @@ const calcPresortTranceAndSortResults = (
       return a.statementNum - b.statementNum;
     });
 
-    // console.log("objectArray", JSON.stringify(objectArray));
-
     objectArray.forEach((item) => {
       formattedSortResults += `${item.sortValue}|`;
       presortTraceText += `${item.statementNum}*${item.presortVal}*${item.sortValue}|`;
     });
 
     if (formattedSortResults.charAt(formattedSortResults.length - 1) === "|") {
-      formattedSortResults = formattedSortResults.substring(
-        0,
-        formattedSortResults.length - 1
-      );
+      formattedSortResults = formattedSortResults.substring(0, formattedSortResults.length - 1);
     }
     if (presortTraceText.charAt(presortTraceText.length - 1) === "|") {
-      presortTraceText = presortTraceText.substring(
-        0,
-        presortTraceText.length - 1
-      );
+      presortTraceText = presortTraceText.substring(0, presortTraceText.length - 1);
     }
     return { sort: formattedSortResults, presortTrace: presortTraceText };
     // formattedSortResults += `${tempObject.sortValue}|`;

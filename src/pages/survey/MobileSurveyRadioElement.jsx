@@ -4,6 +4,7 @@ import { v4 as uuid } from "uuid";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
 import useLocalStorage from "../../utilities/useLocalStorage";
+import sanitizeString from "../../utilities/sanitizeString";
 
 const SurveyRadioElement = (props) => {
   // HELPER FUNCTION
@@ -94,11 +95,11 @@ const SurveyRadioElement = (props) => {
     if (event.target.value === "") {
       resultsSurvey[`itemNum${props.opts.itemNum}`] = `${+optionsLength + 1}-no input`;
     } else {
-      resultsSurvey[`itemNum${props.opts.itemNum}`] = `${
-        +optionsLength + 1
-      }-${event.target.value.trim()}`;
+      resultsSurvey[`itemNum${props.opts.itemNum}`] = `${+optionsLength + 1}-${sanitizeString(
+        event.target.value.trim()
+      )}`;
     }
-    setOtherString(event.target.value.trim());
+    setOtherString(sanitizeString(event.target.value.trim()));
     localStorage.setItem("resultsSurvey", JSON.stringify(resultsSurvey));
   };
 

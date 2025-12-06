@@ -24,7 +24,6 @@ const getPostsortDualImageArray = (state) => state.postsortDualImageArray;
 const getSetPostsortDualImageArray = (state) => state.setPostsortDualImageArray;
 
 const HighCards = (props) => {
-  // console.log("props", props);
   // HELPER FUNCTION
   const asyncLocalStorage = {
     async setItem(key, value) {
@@ -194,10 +193,10 @@ const HighCards = (props) => {
         if (comment.length > 0) {
           el.comment = sanitizeString(comment);
 
-          results[identifier] = `(${el.id}): ${comment}`;
+          results[identifier] = `(${el.id}): ${sanitizeString(comment)}`;
           // setup persistence for comments
-          allCommentsObj[identifier] = `(${el.id}): ${comment}`;
-          allCommentsObj[`textArea-${columnDisplay}_${itemId + 1}`] = `${comment}`;
+          allCommentsObj[identifier] = `(${el.id}): ${sanitizeString(comment)}`;
+          allCommentsObj[`textArea-${columnDisplay}_${itemId + 1}`] = `${sanitizeString(comment)}`;
           setRequiredCommentsObject((requiredCommentsObject) => {
             return { ...requiredCommentsObject, [`hc-${itemId}`]: true };
           });

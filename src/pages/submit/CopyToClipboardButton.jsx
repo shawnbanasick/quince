@@ -7,8 +7,6 @@ import useSettingsStore from "../../globalState/useSettingsStore";
 const getLangObj = (state) => state.langObj;
 
 const CopyToClipboardButton = (props) => {
-  console.log("incoming: " + JSON.stringify(props.content));
-
   // GLOBAL STATE
   const langObj = useSettingsStore(getLangObj);
   const copiedText = ReactHtmlParser(decodeHTML(langObj.copiedText)) || "";

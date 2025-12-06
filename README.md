@@ -1,4 +1,4 @@
-# Quince &middot; <a href="https://doi.org/10.5281/zenodo.17438715"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.17438715.svg" alt="DOI"></a>
+# Quince &middot; <a href="https://doi.org/10.5281/zenodo.17438714"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.17438715.svg" alt="DOI"></a>
 
 Digital Q Sorting for Desktop and Mobile
 
@@ -7,6 +7,10 @@ Digital Q Sorting for Desktop and Mobile
 Quince is software for digital Q sorting. It is the combination of two previous Q sorting projects - EQ Web Sort (Shawn Banasick) and POETQ (Stephen Jeffares). The software consists of two parts - a ZIP file that contains the **Quince Template files**, and the **Configurator** that you will use to modify the template's 'settings' files to meet the needs of your Q sort project. Almost all aspects of the Q sort can be customized in Quince. No computer programming skills are required to create a Quince project. Everything can be done by pointing/clicking or by dragging/dropping.
 
 Quince is open source software. The required online database service is free to use for projects with less than 1,000 participants. The only cost for a Quince project is the time you spend learning how to setup it up.
+
+## Getting Started
+
+To get started with a Quince project, follow the guidelines [here](https://quince-config.netlify.app/).
 
 ## Features
 

@@ -29,7 +29,6 @@ const SubmitResultsButton = (props) => {
   const btnTransferText = ReactHtmlParser(decodeHTML(langObj.btnTransferEmail)) || "";
 
   const handleClickDownload = (e) => {
-    console.log("Download button clicked");
     e.preventDefault();
     const formattedResultsTxt = Object.entries(props.results)
       .map(([key, value]) => `${key}: ${value}`)

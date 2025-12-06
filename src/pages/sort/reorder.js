@@ -1,12 +1,6 @@
 // to reorder within the same column
-const reorder = (
-  columnToBeReordered,
-  startIndex,
-  endIndex,
-  columnStatements
-) => {
+const reorder = (columnToBeReordered, startIndex, endIndex, columnStatements) => {
   try {
-    console.log("reorder");
     // no re-ordering of statements list / it's arranged by flexbox "order" css property
     if (columnToBeReordered === "statements") {
       return columnStatements;

@@ -23,8 +23,6 @@ const Headers = (props) => {
     }
   }
 
-  console.log(shouldDisplayNums);
-
   return (
     <div className="headersContainer">
       {qSortHeaderNumbers.map((headerItem, index) => (

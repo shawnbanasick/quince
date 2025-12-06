@@ -52,7 +52,6 @@ const calculateDragResultsImages = (
           }
 
           results.sort = resultsText;
-          console.log("resultsText", resultsText);
 
           localStorage.setItem("resultsSort", JSON.stringify(resultsText));
 
