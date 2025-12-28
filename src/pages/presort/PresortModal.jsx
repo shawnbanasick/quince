@@ -1,4 +1,3 @@
-import React from "react";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 import styled from "styled-components";
@@ -32,12 +31,7 @@ const PresortModal = () => {
   const modalText = ReactHtmlParser(decodeHTML(langObj.presortModalText)) || "";
 
   return (
-    <Modal
-      className="customModal"
-      open={triggerPresortModal}
-      onClose={onCloseModal}
-      center
-    >
+    <Modal className="customModal" open={triggerPresortModal} onClose={onCloseModal} center>
       <ModalHeader>{header}</ModalHeader>
       <hr />
       <ModalContent>{modalText}</ModalContent>

@@ -143,7 +143,7 @@ const MobilePresortRedoModal = (props) => {
       borderRadius: "10px",
       padding: "0px",
       paddingBottom: "10px",
-      width: "96vw",
+      width: "90vw",
       maxHeight: "60vh",
       overflowY: "scroll",
       WebkitOverflowScrolling: "touch",

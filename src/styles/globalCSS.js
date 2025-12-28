@@ -454,7 +454,7 @@ footer {
 .react-responsive-modal-modal {
   background: white;
   max-width: 700px;
-  width: 90vw;
+  width: 95vw;
   height: auto;
   max-height: 80vh;
   padding: 15px;
@@ -468,8 +468,8 @@ footer {
 @media (max-width: 768px) {
   .react-responsive-modal-container {
     position: fixed;
-    max-width: 100vw;
-    height: 100vh;
+    max-width: 100dvw;
+    height: 100dvh;
     top: 0px;
     left: 0px;
     bottom: 0px;
@@ -481,7 +481,7 @@ footer {
 
 @media (max-width: 768px) {
   .react-responsive-modal-modal {
-    width: 90vw;
+    width: 95vw;
     padding: 8px;
     min-height: 70vh;
     padding-bottom: 20px;

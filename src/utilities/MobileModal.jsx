@@ -40,6 +40,7 @@ const MobileModal = (props) => {
     setHasScrolledToBottom(false);
   };
 
+  // presort help modal css settings
   const customStyles = {
     content: {
       display: "flex",
@@ -49,7 +50,7 @@ const MobileModal = (props) => {
       backgroundColor: "#ffffff",
       borderRadius: "10px",
       padding: "0px",
-      width: "96vw",
+      // width: "90%",
       height: "fit-content",
       maxHeight: "80vh",
       paddingBottom: "10px",
@@ -105,7 +106,7 @@ const ModalHeader = styled.div`
 
 const ModalContent = styled.div`
   // inner
-  padding: 10px;
+  padding: 0px;
   padding-top: 15px;
   color: ${(props) => props.theme.mobileText};
   min-height: 8vh;
@@ -114,7 +115,7 @@ const ModalContent = styled.div`
 
 const ContentContainer = styled.div`
   // outer
-  width: 100%;
+  width: 90%;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -129,14 +130,14 @@ const Container = styled.div`
   position: relative;
 `;
 
-const OverlayTriangle = styled.div`
-  position: absolute;
-  left: 50%;
-  top: 96%; /* Adjust as needed */
-  transform: translate(-50%, -50%);
-  z-index: 2;
-  pointer-events: none; /* So clicks pass through */
-`;
+// const OverlayTriangle = styled.div`
+//   position: absolute;
+//   left: 50%;
+//   top: 96%; /* Adjust as needed */
+//   transform: translate(-50%, -50%);
+//   z-index: 2;
+//   pointer-events: none; /* So clicks pass through */
+// `;
 
 const CloseButton = styled.button`
   background-color: red;

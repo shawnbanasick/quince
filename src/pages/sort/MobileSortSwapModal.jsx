@@ -114,7 +114,7 @@ const MobileSortSwapModal = (props) => {
       backgroundColor: "#ffffff",
       borderRadius: "10px",
       padding: "0px",
-      width: "96vw",
+      width: "90vw",
       height: "fit-content",
       maxHeight: "80vh",
       paddingBottom: "10px",
