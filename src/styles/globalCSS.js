@@ -20,6 +20,11 @@ export default createGlobalStyle`
   border: initial;
 }
 
+.modal-open {
+    overflow: hidden;
+    /* Optional: prevents "jitter" if the scrollbar disappears */
+    padding-right: var(--scrollbar-width, 0px); 
+  }
 
     /*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
 
@@ -464,6 +469,12 @@ footer {
   /* overscroll-behavior: contain; */
   -webkit-overflow-scrolling:touch;
 }
+
+.modal-open {
+    overflow: hidden;
+    /* Optional: prevents "jitter" if the scrollbar disappears */
+    padding-right: var(--scrollbar-width, 0px); 
+  }
 
 @media (max-width: 768px) {
   .react-responsive-modal-container {

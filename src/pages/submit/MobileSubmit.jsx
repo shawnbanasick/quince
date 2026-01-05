@@ -260,9 +260,9 @@ const MobileSort = () => {
     } else {
       // *** goodbye message for a normal firebase project ***
       return (
-        <>
+        <GoodbyeDivContainer>
           <GoodbyeDiv>{goodbyeMessage}</GoodbyeDiv>
-        </>
+        </GoodbyeDivContainer>
       );
     }
   }
@@ -336,10 +336,16 @@ const BelowContentDiv = styled.div`
   align-self: center;
 `;
 
+const GoodbyeDivContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 const GoodbyeDiv = styled.div`
   display: flex;
   justify-self: center;
-  width: 76vw;
+  width: 80vw;
   height: calc(100vh - 50px);
   text-align: center;
   font-size: 22px;
