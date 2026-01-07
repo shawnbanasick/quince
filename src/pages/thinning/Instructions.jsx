@@ -14,11 +14,11 @@ const Instructions = (props) => {
 
   return (
     <InstructionsText>
-      {props.part1}
-      {` `}
-      {props.part2}
-      {` `}
-      {props.part3}
+      <TextSection>
+        {props.part1}
+        {props.part2}
+        {props.part3}
+      </TextSection>
       <RequiredStatementsText maxNum={props.maxNum} selectedNum={props.selectedNum}>
         {`${numStatementsToSelect}: ${props.maxNum}`}{" "}
       </RequiredStatementsText>
@@ -34,7 +34,7 @@ export default Instructions;
 const InstructionsText = styled.div`
   display: flex;
   flex-direction: column;
-  width: 60vw;
+  width: 54vw;
   justify-content: center;
   align-items: center;
   font-size: 1.6vw;
@@ -68,4 +68,17 @@ const CurrentlySelectedText = styled.span`
   font-style: italic;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
+`;
+
+const TextSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  width: 54vw;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.6vw;
+  font-weight: normal;
+  text-align: center;
+  color: black;
 `;

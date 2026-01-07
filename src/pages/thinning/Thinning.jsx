@@ -402,6 +402,7 @@ const CardsGrid = styled.div`
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 1rem;
   padding: 0;
+  margin-bottom: 100px;
 
   @media (max-width: 1200px) {
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
