@@ -64,10 +64,8 @@ const LowCards2 = (props) => {
   if (useImages === "false") useImages = false;
   if (useImages === "true") useImages = true;
 
-  // let minWordCountValue = configObj.minWordCountPostsort || 0;
-  // const minWordCountRequired = configObj.minWordCountPostsort || false;
-  let minWordCountValue = 20;
-  let minWordCountRequired = true;
+  let minWordCountValue = configObj.minWordCountValuePostsort || 0;
+  let minWordCountRequired = configObj.postsortCommentsRequired || false;
 
   // get header text
   let columnLabel = "";

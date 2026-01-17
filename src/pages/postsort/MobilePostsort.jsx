@@ -68,10 +68,8 @@ const MobilePostsort = () => {
   let negNumValues = [];
   let headerNumsArray = [...mapObj["qSortHeaderNumbers"]];
 
-  // let minWordCountValue = configObj.minWordCountPostsort || 0;
-  // const minWordCountRequired = configObj.minWordCountPostsort || false;
-  let minWordCountValue = 20;
-  let minWordCountRequired = true;
+  let minWordCountValue = configObj.minWordCountValuePostsort || 0;
+  let minWordCountRequired = configObj.postsortCommentsRequired || false;
 
   let minWordCountNumber;
   if (minWordCountRequired) {
