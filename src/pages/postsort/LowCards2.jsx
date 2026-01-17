@@ -10,6 +10,7 @@ import useLocalStorage from "../../utilities/useLocalStorage";
 import EmojiN1 from "../../assets/emojiN1.svg?react";
 import EmojiN2 from "../../assets/emojiN2.svg?react";
 import EmojiN3 from "../../assets/emojiN3.svg?react";
+import { minWordCount } from "./minWordCount";
 
 /* eslint react/prop-types: 0 */
 
@@ -62,6 +63,11 @@ const LowCards2 = (props) => {
   let useImages = configObj.useImages;
   if (useImages === "false") useImages = false;
   if (useImages === "true") useImages = true;
+
+  // let minWordCountValue = configObj.minWordCountPostsort || 0;
+  // const minWordCountRequired = configObj.minWordCountPostsort || false;
+  let minWordCountValue = 20;
+  let minWordCountRequired = true;
 
   // get header text
   let columnLabel = "";
@@ -185,24 +191,52 @@ const LowCards2 = (props) => {
         // remove new line and commas to make csv export easier
         const comment2 = comment3.replace(/\n/g, " ");
         const comment = comment2.replace(/,/g, " ").trim();
+        // strip any html tags
+        let cleanedComment = sanitizeString(comment);
+        el.comment = cleanedComment;
         // assign to main data object for confirmation / debugging
-        if (comment.length > 0) {
-          el.comment = sanitizeString(comment);
+        // input word count default value to 0
+        let inputWordCount = 0;
+        // if there is comment text
+        if (cleanedComment.length > 0) {
+          // check word count total of non-CJ words and CJ characters
+          const minWordCountObj = minWordCount(userEnteredText);
+          inputWordCount = minWordCountObj.totalWords;
 
-          results[identifier] = `(${el.id}): ${sanitizeString(comment)}`;
+          console.log(minWordCountObj);
+
           // setup persistence for comments
-          allCommentsObj[identifier] = `(${el.id}): ${sanitizeString(comment)}`;
-          allCommentsObj[`textArea-${columnDisplay}_${itemId + 1}`] = `${sanitizeString(comment)}`;
-          setRequiredCommentsObject((requiredCommentsObject) => {
-            return { ...requiredCommentsObject, [`lc2-${itemId}`]: true };
-          });
+          results[identifier] = `(${el.id}): ${cleanedComment}`;
+          allCommentsObj[identifier] = `(${el.id}): ${cleanedComment}`;
+          allCommentsObj[`textArea-${columnDisplay}_${itemId + 1}`] = `${cleanedComment}`;
+
+          // if min word count is required
+          if (minWordCountRequired) {
+            if (inputWordCount > minWordCountValue) {
+              // enough word = allow navigation
+              setRequiredCommentsObject((requiredCommentsObject) => {
+                return { ...requiredCommentsObject, [`lc-${itemId}`]: true };
+              });
+            } else {
+              // not enough words = prevent navigation
+              setRequiredCommentsObject((requiredCommentsObject) => {
+                return { ...requiredCommentsObject, [`lc-${itemId}`]: false };
+              });
+            }
+          } else {
+            // no min word count required = allow navigation because there is a response
+            setRequiredCommentsObject((requiredCommentsObject) => {
+              return { ...requiredCommentsObject, [`lc-${itemId}`]: true };
+            });
+          }
         } else {
+          // no response = prevent navigation
           el.comment = "";
           results[identifier] = `(${el.id}): no response`;
           allCommentsObj[identifier] = `(${el.id}): no response`;
           allCommentsObj[`textArea-${columnDisplay}_${itemId + 1}`] = "";
           setRequiredCommentsObject((requiredCommentsObject) => {
-            return { ...requiredCommentsObject, [`lc2-${itemId}`]: false };
+            return { ...requiredCommentsObject, [`lc-${itemId}`]: false };
           });
         }
       }

@@ -15,7 +15,7 @@ const debounce = (func, delay) => {
   };
 };
 
-const DebouncedTextarea = ({ onChange, delay = 300, ...props }) => {
+const DebouncedTextarea = ({ onChange, delay = 50, ...props }) => {
   const [value, setValue] = useLocalStorage(props.id, "");
 
   // Debounced onChange handler
@@ -35,6 +35,7 @@ const DebouncedTextarea = ({ onChange, delay = 300, ...props }) => {
       placeholder={props.placeholder}
       data-id={props.statementId}
       onChange={handleChange}
+      minWordCountNumber={props.minWordCountNumber}
       highlighting={props.highlight}
       {...props}
     />
@@ -56,9 +57,9 @@ const InternalTextArea = styled.textarea`
   border-bottom-right-radius: 3px;
   border-bottom-left-radius: 3px;
   background-color: ${(props) =>
-    props.value.length > 0
+    props.highlightObject[props.statementId] === true
       ? "whitesmoke"
       : props.required && props.highlighting
-      ? "rgba(253, 224, 71, .5)"
-      : "whitesmoke"};
+        ? "rgba(253, 224, 71, .5)"
+        : "whitesmoke"};
 `;

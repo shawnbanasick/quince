@@ -13,6 +13,7 @@ import useScreenOrientation from "../../utilities/useScreenOrientation";
 import MobileModal from "../../utilities/MobileModal";
 import { useEmojiArrays } from "../sort/mobileSortHooks/useEmojiArrays";
 import sanitizeString from "../../utilities/sanitizeString";
+import { minWordCount } from "./minWordCount";
 
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetProgressScore = (state) => state.setProgressScore;
@@ -66,6 +67,18 @@ const MobilePostsort = () => {
   let posNumValues = [];
   let negNumValues = [];
   let headerNumsArray = [...mapObj["qSortHeaderNumbers"]];
+
+  // let minWordCountValue = configObj.minWordCountPostsort || 0;
+  // const minWordCountRequired = configObj.minWordCountPostsort || false;
+  let minWordCountValue = 20;
+  let minWordCountRequired = true;
+
+  let minWordCountNumber;
+  if (minWordCountRequired) {
+    minWordCountNumber = minWordCountValue;
+  } else {
+    minWordCountNumber = 0;
+  }
 
   let shouldDisplayNums;
   let displayNumbers = mapObj["useColLabelNumsPostsort"][0];
@@ -192,6 +205,11 @@ const MobilePostsort = () => {
     cardsArray[3]
   );
 
+  const [minWordCountPostsortObject, setMinWordCountPostsortObject] = useLocalStorage(
+    "m_MinWordCountPostsortObject",
+    {}
+  );
+
   // ***************************
   // *** HOOKS *******************
   // ***************************
@@ -227,20 +245,37 @@ const MobilePostsort = () => {
     if (resultsPostsort === null || resultsPostsort === undefined) {
       resultsPostsort = {};
     }
+    let cleanedText = sanitizeString(event.target.value);
+    const minWordCountObj = minWordCount(cleanedText);
+    let inputWordCount = minWordCountObj.totalWords;
 
     const newValue2 = event.target.sortValue;
     const newValue3 = newValue2.replace("+", "");
     const newValue = newValue3.replace("-", "N");
 
     if (event.target.side === "positive") {
-      resp[`column${newValue}:(${event.target.commentId})`] = sanitizeString(event.target.value);
-      mobilePosResponses[event.target.statementId] = sanitizeString(event.target.value);
+      resp[`column${newValue}:(${event.target.commentId})`] = cleanedText;
+      mobilePosResponses[event.target.statementId] = cleanedText;
       setMobilePosResponses(mobilePosResponses);
+      if (inputWordCount < minWordCountNumber) {
+        minWordCountPostsortObject[event.target.statementId] = false;
+        setMinWordCountPostsortObject(minWordCountPostsortObject);
+      } else {
+        minWordCountPostsortObject[event.target.statementId] = true;
+        setMinWordCountPostsortObject(minWordCountPostsortObject);
+      }
     }
     if (event.target.side === "negative") {
-      resp[`column${newValue}:(${event.target.commentId})`] = sanitizeString(event.target.value);
-      mobileNegResponses[event.target.statementId] = sanitizeString(event.target.value);
+      resp[`column${newValue}:(${event.target.commentId})`] = cleanedText;
+      mobileNegResponses[event.target.statementId] = cleanedText;
       setMobileNegResponses(mobileNegResponses);
+      if (inputWordCount < minWordCountNumber) {
+        minWordCountPostsortObject[event.target.statementId] = false;
+        setMinWordCountPostsortObject(minWordCountPostsortObject);
+      } else {
+        minWordCountPostsortObject[event.target.statementId] = true;
+        setMinWordCountPostsortObject(minWordCountPostsortObject);
+      }
     }
 
     localStorage.setItem("m_PostSortResultsObj", JSON.stringify(resp));
@@ -303,7 +338,9 @@ const MobilePostsort = () => {
           onChange={handleTextareaChange}
           statementId={card.id}
           side="positive"
+          minWordCountNumber={minWordCountNumber}
           highlight={showPostsortCommentHighlighting}
+          highlightObject={minWordCountPostsortObject}
         />
       </div>
     );
@@ -342,7 +379,9 @@ const MobilePostsort = () => {
           commentId={card.id}
           side="negative"
           statementId={card.id}
+          minWordCountNumber={minWordCountNumber}
           highlight={showPostsortCommentHighlighting}
+          highlightObject={minWordCountPostsortObject}
         ></DebouncedTextarea>
       </div>
     );

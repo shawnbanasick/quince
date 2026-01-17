@@ -145,6 +145,7 @@ const LandingPage = () => {
     localStorage.removeItem("m_SortCharacteristicsArray");
     localStorage.removeItem("m_ThinningFinished");
     localStorage.removeItem("m_PresortFinished");
+    localStorage.removeItem("m_MinWordCountPostsortObject");
 
     localStorage.removeItem("randomId");
     localStorage.removeItem("m_ThinScrollBottom");

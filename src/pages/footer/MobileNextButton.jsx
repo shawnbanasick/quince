@@ -85,15 +85,12 @@ const MobileNextButton = (props) => {
     }
 
     if (currentPage === "postsort") {
-      let mobilePosResponses = JSON.parse(localStorage.getItem("m_PosRequiredStatesObj"));
-      let mobileNegResponses = JSON.parse(localStorage.getItem("m_NegRequiredStatesObj"));
+      let minWordCountPostsortObject = JSON.parse(
+        localStorage.getItem("m_MinWordCountPostsortObject")
+      );
 
-      const combinedResponses = {
-        ...mobilePosResponses,
-        ...mobileNegResponses,
-      };
-      const objValues = Object.values(combinedResponses);
-      if (objValues.includes("")) {
+      let minWordCountPostsortObjectValues = Object.values(minWordCountPostsortObject);
+      if (minWordCountPostsortObjectValues.includes(false)) {
         // answers required in configObj
         if (postsortCommentsRequired === true) {
           setShowPostsortCommentHighlighting(true);
