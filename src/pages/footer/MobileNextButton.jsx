@@ -30,7 +30,7 @@ const MobileNextButton = (props) => {
   const setTriggerSurveyPreventNavModal = useStore(getSetTrigSurvPrevNavModal);
   const setShowPostsortCommentHighlighting = useStore(getSetShowPostsortCommentHighlighting);
   const setTriggerMobilePostsortPreventNavModal = useStore(
-    getSetTriggerMobilePostsortPreventNavModal
+    getSetTriggerMobilePostsortPreventNavModal,
   );
   const setTriggerMobileThinPreventNavModal = useStore(getSetTriggerMobileThinPreventNavModal);
   const hasScrolledToBottomSort = useStore(getHasScrolledToBottomSort);
@@ -42,9 +42,9 @@ const MobileNextButton = (props) => {
   // PERSISTENT STATE
   const {
     history,
-    location,
-    match,
-    staticContext,
+    // location,
+    // match,
+    // staticContext,
     to,
     onClick,
     // ⬆ filtering out props that `button` doesn’t know what to do with.
@@ -86,7 +86,7 @@ const MobileNextButton = (props) => {
 
     if (currentPage === "postsort") {
       let minWordCountPostsortObject = JSON.parse(
-        localStorage.getItem("m_MinWordCountPostsortObject")
+        localStorage.getItem("m_MinWordCountPostsortObject"),
       );
 
       let minWordCountPostsortObjectValues = Object.values(minWordCountPostsortObject);

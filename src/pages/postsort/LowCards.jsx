@@ -42,7 +42,7 @@ const LowCards = (props) => {
   const columnStatements = JSON.parse(localStorage.getItem("sortColumns"));
   const [requiredCommentsObject, setRequiredCommentsObject] = useLocalStorage(
     "LC-requiredCommentsObj",
-    {}
+    {},
   );
 
   // GLOBAL STATE
@@ -64,7 +64,7 @@ const LowCards = (props) => {
   if (useImages === "true") useImages = true;
 
   let minWordCountValue = configObj.minWordCountValuePostsort || 0;
-  let minWordCountRequired = configObj.postsortCommentsRequired || false;
+  let minWordCountRequired = configObj.requireMinCommentLength || false;
 
   // get header text
   let columnLabel = "";
@@ -254,7 +254,7 @@ const LowCards = (props) => {
 
     if (configObj.useImages === true) {
       content = ReactHtmlParser(
-        `<img src="${item.element.props.src}" style="pointer-events: all" alt=${item.element.props.alt} />`
+        `<img src="${item.element.props.src}" style="pointer-events: all" alt=${item.element.props.alt} />`,
       );
     }
 

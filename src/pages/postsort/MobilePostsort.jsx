@@ -60,22 +60,67 @@ const MobilePostsort = () => {
   const preventNavText =
     ReactHtmlParser(decodeHTML(langObj.mobilePostsortPreventNavModalText)) || "";
 
-  let emojiArray = useEmojiArrays(mapObj);
-  let emojiDisplayArray = [...emojiArray.displayArray];
-  let posEmojiArray = [];
-  let negEmojiArray = [];
-  let posNumValues = [];
-  let negNumValues = [];
-  let headerNumsArray = [...mapObj["qSortHeaderNumbers"]];
+  const emojiArray = useEmojiArrays(mapObj);
+  const headerNumsArray = useMemo(() => [...mapObj["qSortHeaderNumbers"]], [mapObj]);
+  const emojiDisplayArray = useMemo(() => [...emojiArray.displayArray], [emojiArray]);
+
+  const { posEmojiArray, negEmojiArray, posNumValues, negNumValues } = useMemo(() => {
+    const posEmojiArray = [];
+    const negEmojiArray = [];
+    const posNumValues = [];
+    const negNumValues = [];
+
+    const qSortPattern = [...mapObj.qSortPattern];
+    const showSecondPosColumn = configObj.showSecondPosColumn;
+    const showSecondNegColumn = configObj.showSecondNegColumn;
+
+    // most positive and negative values
+    let posStatementsNum = qSortPattern[0];
+    let negStatementsNum = qSortPattern[qSortPattern.length - 1];
+
+    // 2nd most positive and negative values
+    const posStatementsNum2 = qSortPattern[1];
+    const negStatementsNum2 = qSortPattern[qSortPattern.length - 2];
+
+    const mostPosEmoji = emojiDisplayArray[emojiDisplayArray.length - 1];
+    const nextMostPosEmoji = emojiDisplayArray[emojiDisplayArray.length - 2];
+    const mostNegEmoji = emojiDisplayArray[0];
+    const nextMostNegEmoji = emojiDisplayArray[1];
+
+    for (let i = 0; i < posStatementsNum; i++) {
+      posEmojiArray.push(mostPosEmoji);
+      posNumValues.push(headerNumsArray[headerNumsArray.length - 1].toString());
+    }
+    for (let j = 0; j < negStatementsNum; j++) {
+      negEmojiArray.push(mostNegEmoji);
+      negNumValues.push(headerNumsArray[0].toString());
+    }
+
+    // check setup
+    if (showSecondPosColumn === true || showSecondPosColumn === "true") {
+      for (let i = 0; i < posStatementsNum2; i++) {
+        posEmojiArray.push(nextMostPosEmoji);
+        posNumValues.push(headerNumsArray[headerNumsArray.length - 2].toString());
+      }
+    }
+    if (showSecondNegColumn === true || showSecondNegColumn === "true") {
+      for (let j = 0; j < negStatementsNum2; j++) {
+        negEmojiArray.unshift(nextMostNegEmoji);
+        negNumValues.unshift(headerNumsArray[1].toString());
+      }
+    }
+
+    return { posEmojiArray, negEmojiArray, posNumValues, negNumValues };
+  }, [mapObj, configObj, emojiDisplayArray, headerNumsArray]);
 
   let minWordCountValue = configObj.minWordCountValuePostsort || 0;
-  let minWordCountRequired = configObj.postsortCommentsRequired || false;
+  let minWordCountRequired = configObj.requireMinCommentLength || false;
 
   let minWordCountNumber;
   if (minWordCountRequired) {
     minWordCountNumber = minWordCountValue;
   } else {
-    minWordCountNumber = 0;
+    minWordCountNumber = 1.5;
   }
 
   let shouldDisplayNums;
@@ -112,7 +157,7 @@ const MobilePostsort = () => {
   // *** INITIALIZATION *******************
   // ***************************
   const cardsArray = useMemo(() => {
-    let postSortResultsObj = {};
+    const postSortResultsObj = {};
     // ranking of all statements
     const cards2 = JSON.parse(localStorage.getItem("m_SortArray1")) || [];
     const cards = [...cards2];
@@ -130,41 +175,20 @@ const MobilePostsort = () => {
     const posStatementsNum2 = qSortPattern[1];
     const negStatementsNum2 = qSortPattern[qSortPattern.length - 2];
 
-    let mostPosEmoji = emojiDisplayArray[emojiDisplayArray.length - 1];
-    let nextMostPosEmoji = emojiDisplayArray[emojiDisplayArray.length - 2];
-    let mostNegEmoji = emojiDisplayArray[0];
-    let nextMostNegEmoji = emojiDisplayArray[1];
-    for (let i = 0; i < posStatementsNum; i++) {
-      posEmojiArray.push(mostPosEmoji);
-      posNumValues.push(headerNumsArray[headerNumsArray.length - 1].toString());
-    }
-    for (let j = 0; j < negStatementsNum; j++) {
-      negEmojiArray.push(mostNegEmoji);
-      negNumValues.push(headerNumsArray[0].toString());
-    }
-
     // check setup
     if (showSecondPosColumn === true || showSecondPosColumn === "true") {
       posStatementsNum = +posStatementsNum + +posStatementsNum2;
-      for (let i = 0; i < posStatementsNum2; i++) {
-        posEmojiArray.push(nextMostPosEmoji);
-        posNumValues.push(headerNumsArray[headerNumsArray.length - 2].toString());
-      }
     }
     if (showSecondNegColumn === true || showSecondNegColumn === "true") {
       negStatementsNum = +negStatementsNum + +negStatementsNum2;
-      for (let j = 0; j < negStatementsNum2; j++) {
-        negEmojiArray.unshift(nextMostNegEmoji);
-        negNumValues.unshift(headerNumsArray[1].toString());
-      }
     }
 
     const posStatements = cards.slice(0, posStatementsNum);
-    let negStatements = cards.slice(-negStatementsNum);
-    let negStatementsCharacteristics = sortCharacteristicsArray.slice(-negStatementsNum);
+    const negStatements = cards.slice(-negStatementsNum);
+    const negStatementsCharacteristics = sortCharacteristicsArray.slice(-negStatementsNum);
 
-    let posResponsesObject = {};
-    let negResponsesObject = {};
+    const posResponsesObject = {};
+    const negResponsesObject = {};
     posStatements.forEach((statement, index) => {
       statement.sortValue = sortCharacteristicsArray[index].value;
       statement.header = sortCharacteristicsArray[index].header;
@@ -181,31 +205,31 @@ const MobilePostsort = () => {
     localStorage.setItem("m_PostSortResultsObj", JSON.stringify(postSortResultsObj));
 
     return [posStatements, negStatements, posResponsesObject, negResponsesObject];
-  }, [mapObj.qSortPattern, configObj, emojiDisplayArray, posEmojiArray, negEmojiArray]);
+  }, [mapObj.qSortPattern, configObj]);
 
   // ***************************
   // *** STATE *******************
   // ***************************
   const persistedMobilePostsortFontSize = JSON.parse(
-    localStorage.getItem("m_FontSizeObject")
+    localStorage.getItem("m_FontSizeObject"),
   ).postsort;
   const persistedMobilePostsortViewSize = JSON.parse(
-    localStorage.getItem("m_ViewSizeObject")
+    localStorage.getItem("m_ViewSizeObject"),
   ).postsort;
   const mobilePostsortViewSize = useStore(getMobilePostsortViewSize);
 
   const [mobilePosResponses, setMobilePosResponses] = useLocalStorage(
     "m_PosRequiredStatesObj",
-    cardsArray[2]
+    cardsArray[2],
   );
   const [mobileNegResponses, setMobileNegResponses] = useLocalStorage(
     "m_NegRequiredStatesObj",
-    cardsArray[3]
+    cardsArray[3],
   );
 
   const [minWordCountPostsortObject, setMinWordCountPostsortObject] = useLocalStorage(
     "m_MinWordCountPostsortObject",
-    {}
+    {},
   );
 
   // ***************************
@@ -255,9 +279,15 @@ const MobilePostsort = () => {
       resp[`column${newValue}:(${event.target.commentId})`] = cleanedText;
       mobilePosResponses[event.target.statementId] = cleanedText;
       setMobilePosResponses(mobilePosResponses);
-      if (inputWordCount < minWordCountNumber) {
-        minWordCountPostsortObject[event.target.statementId] = false;
-        setMinWordCountPostsortObject(minWordCountPostsortObject);
+
+      if (required) {
+        if (inputWordCount < minWordCountNumber) {
+          minWordCountPostsortObject[event.target.statementId] = false;
+          setMinWordCountPostsortObject(minWordCountPostsortObject);
+        } else {
+          minWordCountPostsortObject[event.target.statementId] = true;
+          setMinWordCountPostsortObject(minWordCountPostsortObject);
+        }
       } else {
         minWordCountPostsortObject[event.target.statementId] = true;
         setMinWordCountPostsortObject(minWordCountPostsortObject);
@@ -267,9 +297,15 @@ const MobilePostsort = () => {
       resp[`column${newValue}:(${event.target.commentId})`] = cleanedText;
       mobileNegResponses[event.target.statementId] = cleanedText;
       setMobileNegResponses(mobileNegResponses);
-      if (inputWordCount < minWordCountNumber) {
-        minWordCountPostsortObject[event.target.statementId] = false;
-        setMinWordCountPostsortObject(minWordCountPostsortObject);
+
+      if (required) {
+        if (inputWordCount < minWordCountNumber) {
+          minWordCountPostsortObject[event.target.statementId] = false;
+          setMinWordCountPostsortObject(minWordCountPostsortObject);
+        } else {
+          minWordCountPostsortObject[event.target.statementId] = true;
+          setMinWordCountPostsortObject(minWordCountPostsortObject);
+        }
       } else {
         minWordCountPostsortObject[event.target.statementId] = true;
         setMinWordCountPostsortObject(minWordCountPostsortObject);

@@ -76,9 +76,10 @@
    <item order="10-c" id="showSecondNegColumn">false</item>
    <item order="10-d" id="showBackButton">true</item>
    <item order="10-e" id="postsortCommentsRequired">true</item>
-   <item order="10-f" id="minWordCountValuePostsort">20</item>
-   <item order="10-g" id="defaultFontSizePostsort">16</item>
-   <item order="10-h" id="minCardHeightPostsort">120</item>
+   <item order="10-f" id="requireMinCommentLength">true</item>
+   <item order="10-g" id="minWordCountValuePostsort">30</item>
+   <item order="10-h" id="defaultFontSizePostsort">16</item>
+   <item order="10-i" id="minCardHeightPostsort">120</item>
 
    <!-- 11. SURVEY - Survey Questions -->
    <item order="11-a" id="showSurvey">true</item>

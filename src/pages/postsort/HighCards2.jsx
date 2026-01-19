@@ -44,7 +44,7 @@ const HighCards2Display = (props) => {
 
   const [requiredCommentsObject, setRequiredCommentsObject] = useLocalStorage(
     "HC2-requiredCommentsObj",
-    {}
+    {},
   );
   // GLOBAL STATE
   const postsortCommentCheckObj = useStore(getPostsortCommentCheckObj);
@@ -65,7 +65,7 @@ const HighCards2Display = (props) => {
   if (useImages === "true") useImages = true;
 
   let minWordCountValue = configObj.minWordCountValuePostsort || 0;
-  let minWordCountRequired = configObj.postsortCommentsRequired || false;
+  let minWordCountRequired = configObj.requireMinCommentLength || false;
 
   // get header text
   let columnLabel = "";
@@ -252,7 +252,7 @@ const HighCards2Display = (props) => {
 
     if (configObj.useImages === true) {
       content = ReactHtmlParser(
-        `<img src="${item.element.props.src}" style="pointer-events: all" alt=${item.element.props.alt} />`
+        `<img src="${item.element.props.src}" style="pointer-events: all" alt=${item.element.props.alt} />`,
       );
     }
 
