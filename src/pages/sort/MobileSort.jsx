@@ -1,17 +1,12 @@
-// MobileSort.jsx
 import { useEffect, useRef, useCallback } from "react";
 import styled from "styled-components";
 import useStore from "../../globalState/useStore";
 import calculateTimeOnPage from "../../utilities/calculateTimeOnPage";
 import useSettingsStore from "../../globalState/useSettingsStore";
-// import useLocalStorage from "../../utilities/useLocalStorage";
 import MobileSortSwapModal from "./MobileSortSwapModal";
-// import ReactHtmlParser from "html-react-parser";
-// import decodeHTML from "../../utilities/decodeHTML";
 import useScreenOrientation from "../../utilities/useScreenOrientation";
 import debounce from "lodash/debounce";
 import MobileModal from "../../utilities/MobileModal";
-
 import SortTitleBar from "./mobileSortComponents/SortTitleBar";
 import SortStatementsContainer from "./mobileSortComponents/SortStatementContainer";
 import OrientationMessage from "./mobileSortComponents/OrientationMessage";
@@ -69,7 +64,7 @@ const MobileSort = () => {
     clearSelected,
     handleOnClickUp,
     handleOnClickDown,
-  } = useSortLogic(mapObj, displayArray);
+  } = useSortLogic(mapObj, displayArray, configObj);
 
   const persistedMobileSortFontSize = JSON.parse(localStorage.getItem("m_FontSizeObject")).sort;
   const persistedMobileSortViewSize = JSON.parse(localStorage.getItem("m_ViewSizeObject")).sort;
@@ -107,7 +102,7 @@ const MobileSort = () => {
         setHasScrolledToBottomSort(true);
       }
     }, 100),
-    [setHasScrolledToBottomSort]
+    [setHasScrolledToBottomSort],
   );
 
   // Early return for landscape orientation

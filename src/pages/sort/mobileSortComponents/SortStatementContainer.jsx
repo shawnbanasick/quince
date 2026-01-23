@@ -7,7 +7,7 @@ const SortStatementsContainer = ({
   partitionArray,
   characteristicsArray,
   mobileColHeaders,
-  sortArray1,
+  // sortArray1,
   mobileSortFontSize,
   mobileSortViewSize,
   persistedMobileSortFontSize,
@@ -41,7 +41,7 @@ const SortStatementsContainer = ({
         onCardSelected={onCardSelected}
         onClickUp={onClickUp}
         onClickDown={onClickDown}
-      />
+      />,
     );
   });
 

@@ -1,4 +1,3 @@
-// hooks/useSortLogic.js
 import { useMemo, useRef } from "react";
 import { v4 as uuid } from "uuid";
 import useStore from "../../../globalState/useStore";
@@ -7,16 +6,30 @@ import ColumnHeader from "../mobileSortComponents/ColumnHeader";
 
 const getSetTriggerMobileSortSwapModal = (state) => state.setTriggerMobileSortSwapModal;
 
-export const useSortLogic = (mapObj, displayArray) => {
+export const useSortLogic = (mapObj, displayArray, configObj) => {
   const setTriggerMobileSortSwapModal = useStore(getSetTriggerMobileSortSwapModal);
   const targetArray = useRef([]);
+  const isUnforcedSorting = configObj.allowUnforcedSorts;
 
   const [sortArray1, setSortArray1] = useLocalStorage("m_SortArray1", [
     ...JSON.parse(localStorage.getItem("m_FinalThinCols")),
   ]);
 
+  const [unforcedPattern, setUnforcedPattern] = useLocalStorage("m_UnforcedPattern", [
+    ...mapObj.qSortPattern.reverse().map((x) => +x),
+  ]);
+
+  const sortingPattern = useMemo(() => {
+    if (isUnforcedSorting) {
+      return [...unforcedPattern];
+    } else {
+      return [...mapObj.qSortPattern].reverse().map((x) => +x);
+    }
+  }, [isUnforcedSorting, unforcedPattern, mapObj]);
+
+  // calculate mobile column sizes aftere setSortArray runs
   const partitionArray = useMemo(() => {
-    const lengths = [...mapObj.qSortPattern].reverse().map((x) => +x);
+    const lengths = [...sortingPattern];
     const result = [];
     let index = 0;
     let tempArray = [...sortArray1];
@@ -28,7 +41,7 @@ export const useSortLogic = (mapObj, displayArray) => {
     });
 
     return result;
-  }, [mapObj, sortArray1]);
+  }, [sortingPattern, sortArray1]);
 
   const valuesArraySource = useMemo(() => {
     let array3 = [...mapObj.qSortHeaderNumbers].reverse();
@@ -44,7 +57,7 @@ export const useSortLogic = (mapObj, displayArray) => {
   const characteristicsArray = useMemo(() => {
     const colorArraySource = [...mapObj.columnHeadersColorsArray].reverse();
     const headersText = [...mapObj.colTextLabelsArray].reverse();
-    const qSortPattern = [...mapObj.qSortPattern].map((x) => +x);
+    const qSortPattern = [...sortingPattern];
     const tempArray = [];
 
     qSortPattern.forEach((item, index) => {
@@ -59,7 +72,7 @@ export const useSortLogic = (mapObj, displayArray) => {
 
     localStorage.setItem("m_SortCharacteristicsArray", JSON.stringify(tempArray));
     return tempArray;
-  }, [mapObj, valuesArraySource]);
+  }, [mapObj, valuesArraySource, sortingPattern]);
 
   const mobileColHeaders = useMemo(() => {
     const qSortHeaderNumbers = [...mapObj.qSortHeaderNumbers];
@@ -148,28 +161,56 @@ export const useSortLogic = (mapObj, displayArray) => {
     if (clickedItemIndex === 0) {
       return; // Element is already at the start
     }
+    const arrayIndexValue = partitionArray.findIndex((innerArray) => {
+      return innerArray.some((obj) => obj.id === e.target.id);
+    });
+    const statementIndexValue = partitionArray[arrayIndexValue].findIndex(
+      (item) => item.id === e.target.id,
+    );
 
-    const temp = sortArray1[clickedItemIndex];
-    sortArray1[clickedItemIndex] = sortArray1[clickedItemIndex - 1];
-    sortArray1[clickedItemIndex - 1] = temp;
+    if (isUnforcedSorting && statementIndexValue === 0) {
+      unforcedPattern[arrayIndexValue - 1] = unforcedPattern[arrayIndexValue - 1] + 1;
+      unforcedPattern[arrayIndexValue] = unforcedPattern[arrayIndexValue] - 1;
+      setUnforcedPattern([...unforcedPattern]);
+    } else {
+      // forced sorts = swap position
+      const temp = sortArray1[clickedItemIndex];
+      sortArray1[clickedItemIndex] = sortArray1[clickedItemIndex - 1];
+      sortArray1[clickedItemIndex - 1] = temp;
+    }
     setSortArray1([...sortArray1]);
   };
 
   const handleOnClickDown = (e) => {
     let clickedItemIndex = sortArray1.findIndex((item) => item.id === e.target.id);
+    // early return if at bottom of list
     if (clickedItemIndex >= sortArray1.length - 1) {
       return; // Element is already at the end
     }
+    const arrayIndexValue = partitionArray.findIndex((innerArray) => {
+      return innerArray.some((obj) => obj.id === e.target.id);
+    });
 
-    const temp = sortArray1[clickedItemIndex];
-    sortArray1[clickedItemIndex] = sortArray1[clickedItemIndex + 1];
-    sortArray1[clickedItemIndex + 1] = temp;
+    const statementIndexValue = partitionArray[arrayIndexValue].findIndex(
+      (item) => item.id === e.target.id,
+    );
+
+    if (isUnforcedSorting && statementIndexValue === partitionArray[arrayIndexValue].length - 1) {
+      unforcedPattern[arrayIndexValue + 1] = unforcedPattern[arrayIndexValue + 1] + 1;
+      unforcedPattern[arrayIndexValue] = unforcedPattern[arrayIndexValue] - 1;
+      setUnforcedPattern([...unforcedPattern]);
+    } else {
+      // forced sorts = swap positions
+      const temp = sortArray1[clickedItemIndex];
+      sortArray1[clickedItemIndex] = sortArray1[clickedItemIndex + 1];
+      sortArray1[clickedItemIndex + 1] = temp;
+    }
     setSortArray1([...sortArray1]);
   };
 
   return {
     sortArray1,
-    setSortArray1,
+    // setSortArray1,
     targetArray,
     partitionArray,
     characteristicsArray,

@@ -146,6 +146,7 @@ const LandingPage = () => {
     localStorage.removeItem("m_ThinningFinished");
     localStorage.removeItem("m_PresortFinished");
     localStorage.removeItem("m_MinWordCountPostsortObject");
+    localStorage.removeItem("m_UnforcedPattern");
 
     localStorage.removeItem("randomId");
     localStorage.removeItem("m_ThinScrollBottom");
@@ -188,7 +189,7 @@ const LandingPage = () => {
       thin: 2,
       sort: 2,
       postsort: 2,
-    })
+    }),
   );
   localStorage.setItem(
     "m_ViewSizeObject",
@@ -198,7 +199,7 @@ const LandingPage = () => {
       sort: 72,
       postsort: 72,
       survey: 72,
-    })
+    }),
   );
 
   localStorage.setItem("m_ThinDisplayStatements", JSON.stringify({ display: true }));
@@ -425,7 +426,7 @@ const LandingPage = () => {
 
       localStorage.setItem(
         "presortArray",
-        JSON.stringify(shuffle(statementsObj?.columnStatements?.statementList))
+        JSON.stringify(shuffle(statementsObj?.columnStatements?.statementList)),
       );
 
       if (isMobile) {

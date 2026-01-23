@@ -65,7 +65,7 @@
 
    <!-- 9. SORT OPTIONS -->
    <item order="9-a" id="condOfInstFontSize">20</item>
-   <item order="9-b" id="allowUnforcedSorts">false</item>
+   <item order="9-b" id="allowUnforcedSorts">true</item>
    <item order="9-c" id="warnOverloadedColumn">true</item>
    <item order="9-d" id="defaultFontSizeSort">16</item>
    <item order="9-e" id="minCardHeightSort">120</item>
@@ -75,8 +75,8 @@
    <item order="10-b" id="showSecondPosColumn">false</item>
    <item order="10-c" id="showSecondNegColumn">false</item>
    <item order="10-d" id="showBackButton">true</item>
-   <item order="10-e" id="postsortCommentsRequired">true</item>
-   <item order="10-f" id="requireMinCommentLength">true</item>
+   <item order="10-e" id="postsortCommentsRequired">false</item>
+   <item order="10-f" id="requireMinCommentLength">false</item>
    <item order="10-g" id="minWordCountValuePostsort">30</item>
    <item order="10-h" id="defaultFontSizePostsort">16</item>
    <item order="10-i" id="minCardHeightPostsort">120</item>

@@ -77,16 +77,16 @@ const Thinning = () => {
 
   let [selectedNegItems, setSelectedNegItems] = useLocalStorage(
     "selectedNegItems",
-    JSON.parse(localStorage.getItem("negSorted"))
+    JSON.parse(localStorage.getItem("negSorted")),
   );
   let [selectedPosItems, setSelectedPosItems] = useLocalStorage(
     "selectedPosItems",
-    JSON.parse(localStorage.getItem("posSorted"))
+    JSON.parse(localStorage.getItem("posSorted")),
   );
 
   let [displayControllerArray, setDisplayControllerArray] = useLocalStorage(
     "thinDisplayControllerArray",
-    JSON.parse(localStorage.getItem("thinDisplayControllerArray"))
+    JSON.parse(localStorage.getItem("thinDisplayControllerArray")),
   );
 
   let instructionsRef = useRef({ part1: "", part2: "", part3: "" });
@@ -322,7 +322,7 @@ const HeaderTitle = styled.h1`
 `;
 
 const MainContent = styled.main`
-  padding-top: 80px; /* Account for fixed header */
+  padding-top: 60px; /* Account for fixed header */
   min-height: 100vh;
   background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
 
@@ -349,7 +349,9 @@ const InstructionsSection = styled.section`
   background: white;
   border-radius: 16px;
   padding: 2rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
   border: 1px solid rgba(226, 232, 240, 0.8);
   display: flex;
   flex-direction: column;
