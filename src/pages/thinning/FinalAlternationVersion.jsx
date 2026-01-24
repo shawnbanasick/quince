@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useMemo } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import calculateTimeOnPage from "../../utilities/calculateTimeOnPage";
 import decodeHTML from "../../utilities/decodeHTML";
@@ -9,9 +9,9 @@ import PromptUnload from "../../utilities/PromptUnload";
 import finishThinningSorts from "./finishThinningSorts";
 import ConfirmationModal from "./ConfirmationModal";
 import ThinningPreventNavModal from "./ThinningPreventNavModal";
-import createColumnData from "./createColumnData";
-import setMaxIterations from "./setMaxIterations";
-import createRightLeftArrays from "./createRightLeftArrays";
+// import createColumnData from "./createColumnData";
+// import setMaxIterations from "./setMaxIterations";
+// import createRightLeftArrays from "./createRightLeftArrays";
 import Boxes from "./Boxes";
 import Instructions from "./Instructions";
 import moveSelectedNegCards from "./moveSelectedNegCards";
@@ -21,13 +21,13 @@ import uniq from "lodash/uniq";
 /* eslint react/prop-types: 0 */
 
 const getLangObj = (state) => state.langObj;
-const getMapObj = (state) => state.mapObj;
+// const getMapObj = (state) => state.mapObj; // not used
 const getConfigObj = (state) => state.configObj;
 const getSetProgressScore = (state) => state.setProgressScore;
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetDisplayNextButton = (state) => state.setDisplayNextButton;
-const getSetThinningSide = (state) => state.setThinningSide;
-const getThinningSide = (state) => state.thinningSide;
+// const getSetThinningSide = (state) => state.setThinningSide;
+// const getThinningSide = (state) => state.thinningSide;
 const getShowConfirmButton = (state) => state.showConfirmButton;
 const getSetShowConfirmButton = (state) => state.setShowConfirmButton;
 const getSetPreviousColInfo = (state) => state.setPreviousColInfo;
@@ -67,14 +67,10 @@ const Thinning = () => {
   const setIsTargetArrayFilled = useStore(getSetIsTargetArrayFilled);
 
   // Get language object values
-  let initialInstructionPart1 =
-    ReactHtmlParser(decodeHTML(langObj.initialInstructionPart1)) || "";
-  let initialInstructionPart3 =
-    ReactHtmlParser(decodeHTML(langObj.initialInstructionPart3)) || "";
-  let agreeLeastText =
-    ReactHtmlParser(decodeHTML(langObj.agreeLeastText)) || "";
-  let finalInstructionText =
-    ReactHtmlParser(decodeHTML(langObj.finalInstructions)) || "";
+  let initialInstructionPart1 = ReactHtmlParser(decodeHTML(langObj.initialInstructionPart1)) || "";
+  let initialInstructionPart3 = ReactHtmlParser(decodeHTML(langObj.initialInstructionPart3)) || "";
+  let agreeLeastText = ReactHtmlParser(decodeHTML(langObj.agreeLeastText)) || "";
+  let finalInstructionText = ReactHtmlParser(decodeHTML(langObj.finalInstructions)) || "";
   let agreeMostText = ReactHtmlParser(decodeHTML(langObj.agreeMostText)) || "";
 
   let showFinish = false;
@@ -143,18 +139,13 @@ const Thinning = () => {
         }
       }
 
-      if (
-        +posSorted.length <= +colInfo?.[1] &&
-        +negSorted.length <= +colInfoLeft?.[1]
-      ) {
+      if (+posSorted.length <= +colInfo?.[1] && +negSorted.length <= +colInfoLeft?.[1]) {
         // if insufficient cards on BOTH left and right, go directly to finish screen
         setShowConfirmButton(false);
         setInstructionObjEnd((instructions) => ({
           ...instructions,
           setDisplay: "right",
-          instructionsText: (
-            <FinalInstructions>{finalInstructionText}</FinalInstructions>
-          ),
+          instructionsText: <FinalInstructions>{finalInstructionText}</FinalInstructions>,
         }));
         let newCols = JSON.parse(localStorage.getItem("newCols"));
         let completedCols = finishThinningSorts(newCols, finalSortColData);
@@ -188,10 +179,7 @@ const Thinning = () => {
         if (+negSorted.length <= +colInfoLeft?.[1] && isNotReload === "true") {
           setTargetArray([]);
           sortRightArrays.shift();
-          localStorage.setItem(
-            "sortRightArrays",
-            JSON.stringify(sortRightArrays)
-          );
+          localStorage.setItem("sortRightArrays", JSON.stringify(sortRightArrays));
         }
         localStorage.setItem("isNotReload", "false");
         initialized.current = true;
@@ -221,10 +209,7 @@ const Thinning = () => {
         if (isNotReload === "true") {
           setTargetArray([]);
           sortLeftArrays.shift();
-          localStorage.setItem(
-            "sortLeftArrays",
-            JSON.stringify(sortLeftArrays)
-          );
+          localStorage.setItem("sortLeftArrays", JSON.stringify(sortLeftArrays));
         }
         localStorage.setItem("isNotReload", "false");
         initialized.current = true;
@@ -353,9 +338,7 @@ const Thinning = () => {
     }
 
     // *** filter out selected POSITIVEitems
-    let selectedPosItems = posSorted.filter(
-      (item) => item.selectedPos === true
-    );
+    let selectedPosItems = posSorted.filter((item) => item.selectedPos === true);
 
     // nextPosSet is posSorted without the selected items
     let nextPosSet = posSorted.filter((item) => item.selected === false);
@@ -447,9 +430,7 @@ const Thinning = () => {
       setInstructionObjEnd((instructions) => ({
         ...instructions,
         setDisplay: "right",
-        instructionsText: (
-          <FinalInstructions>{finalInstructionText}</FinalInstructions>
-        ),
+        instructionsText: <FinalInstructions>{finalInstructionText}</FinalInstructions>,
       }));
       let newCols = JSON.parse(localStorage.getItem("newCols"));
       let completedCols = finishThinningSorts(newCols, finalSortColData);
@@ -468,9 +449,7 @@ const Thinning = () => {
       setInstructionObjEnd((instructions) => ({
         ...instructions,
         setDisplay: "left",
-        instructionsText: (
-          <FinalInstructions>{finalInstructionText}</FinalInstructions>
-        ),
+        instructionsText: <FinalInstructions>{finalInstructionText}</FinalInstructions>,
       }));
       let newCols = JSON.parse(localStorage.getItem("newCols"));
       let completedCols = finishThinningSorts(newCols, finalSortColData);
@@ -573,8 +552,7 @@ const Thinning = () => {
 
     // Display 3
     if (
-      (nextNegSet.length >= nextColInfoLeft?.[1] &&
-        thinningSide === "rightSide") ||
+      (nextNegSet.length >= nextColInfoLeft?.[1] && thinningSide === "rightSide") ||
       (nextColInfoLeft === undefined && thinningSide === "rightSide")
     ) {
       if (isLeftSideFinished === true) {
@@ -655,9 +633,7 @@ const Thinning = () => {
           <PromptUnload />
           <ConfirmationModal />
           <ThinningPreventNavModal />
-          <SortTitleBar background={configObj.headerBarColor}>
-            Refine Your Preferences
-          </SortTitleBar>
+          <SortTitleBar background={configObj.headerBarColor}>Refine Your Preferences</SortTitleBar>
           <ContainerDiv>
             <InstructionsDiv>
               <Instructions
@@ -668,9 +644,7 @@ const Thinning = () => {
                 agree={instructionText.agree}
                 maxNum={instructionText.maxNum}
               />
-              {showConfirmButton && (
-                <ConfirmButton onClick={handleConfirm}>Submit</ConfirmButton>
-              )}
+              {showConfirmButton && <ConfirmButton onClick={handleConfirm}>Submit</ConfirmButton>}
             </InstructionsDiv>
             <BoxesDiv>
               <Boxes
@@ -688,13 +662,9 @@ const Thinning = () => {
       {showEnd && (
         <div>
           <PromptUnload />
-          <SortTitleBar background={configObj.headerBarColor}>
-            Refine Your Preferences
-          </SortTitleBar>
+          <SortTitleBar background={configObj.headerBarColor}>Refine Your Preferences</SortTitleBar>
           <ContainerDiv>
-            <InstructionsDiv>
-              {instructionObjEnd.instructionsText}
-            </InstructionsDiv>
+            <InstructionsDiv>{instructionObjEnd.instructionsText}</InstructionsDiv>
           </ContainerDiv>
         </div>
       )}

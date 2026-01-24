@@ -1,16 +1,16 @@
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 import styled from "styled-components";
-import useSettingsStore from "../../globalState/useSettingsStore";
+// import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 
-const getLangObj = (state) => state.langObj;
+// const getLangObj = (state) => state.langObj;
 const getTriggerModal = (state) => state.triggerMobileThinGuidanceModal;
 const getSetTriggerModal = (state) => state.setTriggerMobileThinGuidanceModal;
 
 const MobileThinGuidanceModal = (props) => {
   // STATE
-  const langObj = useSettingsStore(getLangObj);
+  // const langObj = useSettingsStore(getLangObj);
   const triggerModal = useStore(getTriggerModal);
   const setTriggerModal = useStore(getSetTriggerModal);
 
