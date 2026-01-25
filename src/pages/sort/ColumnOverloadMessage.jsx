@@ -1,10 +1,9 @@
-import React from "react";
 import useStore from "../../globalState/useStore";
 
 const getColumnOverload = (state) => state.columnOverload;
 const getOverloadedColumn = (state) => state.overloadedColumn;
 
-const ColumnOverloadMessage = (props) => {
+const ColumnOverloadMessage = () => {
   const columnOverload = useStore(getColumnOverload);
   const overloadedColumn = useStore(getOverloadedColumn);
 

@@ -3,7 +3,7 @@ const convertObjectToBaserowResults = (columnStatements) => {
   // resultsPresort is an object with keys posStateNums, neuStateNums, negStateNums
   // traceSorts (get all presort column values) is an object with keys of sortResults, sortResultsPresort, sortResultsTrace
 
-  if (columnStatements.length === 0 || columnStatements === undefined) {
+  if (columnStatements?.length === 0 || columnStatements === undefined) {
     return;
   }
 

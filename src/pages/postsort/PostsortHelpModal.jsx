@@ -1,4 +1,3 @@
-import React from "react";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 import styled from "styled-components";
@@ -17,10 +16,8 @@ const PostsortHelpModal = () => {
   const triggerPostsortModal = useStore(getTriggerPostsortModal);
   const setTriggerPostsortModal = useStore(getSetTriggerPostsortModal);
 
-  const postsortHelpModalHead =
-    ReactHtmlParser(decodeHTML(langObj.postsortModalHead)) || "";
-  const postsortHelpModalText =
-    ReactHtmlParser(decodeHTML(langObj.postsortModalText)) || "";
+  const postsortHelpModalHead = ReactHtmlParser(decodeHTML(langObj.postsortModalHead)) || "";
+  const postsortHelpModalText = ReactHtmlParser(decodeHTML(langObj.postsortModalText)) || "";
 
   // const onOpenModal = () => setOpen(true);
   const onCloseModal = () => {
@@ -28,12 +25,7 @@ const PostsortHelpModal = () => {
   };
 
   return (
-    <Modal
-      className="customModal"
-      open={triggerPostsortModal}
-      onClose={onCloseModal}
-      center
-    >
+    <Modal className="customModal" open={triggerPostsortModal} onClose={onCloseModal} center>
       <ModalHeader>{postsortHelpModalHead}</ModalHeader>
       <hr />
       <ModalContent>{postsortHelpModalText}</ModalContent>

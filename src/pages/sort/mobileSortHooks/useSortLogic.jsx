@@ -11,8 +11,9 @@ export const useSortLogic = (mapObj, displayArray, configObj) => {
   const targetArray = useRef([]);
   const isUnforcedSorting = configObj.allowUnforcedSorts;
 
+  // copy array to initial state??
   const [sortArray1, setSortArray1] = useLocalStorage("m_SortArray1", [
-    ...JSON.parse(localStorage.getItem("m_FinalThinCols")),
+    JSON.parse(localStorage.getItem("m_FinalThinCols")),
   ]);
 
   const [unforcedPattern, setUnforcedPattern] = useLocalStorage("m_UnforcedPattern", [

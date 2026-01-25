@@ -1,4 +1,3 @@
-import React from "react";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 import styled from "styled-components";
@@ -9,8 +8,7 @@ import useStore from "../../globalState/useStore";
 
 const getLangObj = (state) => state.langObj;
 const getTriggerModalOpen = (state) => state.triggerSortOverloadedColumnModal;
-const getSetTrigOverColModal = (state) =>
-  state.setTriggerSortOverloadedColumnModal;
+const getSetTrigOverColModal = (state) => state.setTriggerSortOverloadedColumnModal;
 
 const OverloadedColumnModal = () => {
   // STATE
@@ -18,10 +16,8 @@ const OverloadedColumnModal = () => {
   const triggerModalOpen = useStore(getTriggerModalOpen);
   const setTriggerSortOverloadedColumnModal = useStore(getSetTrigOverColModal);
 
-  const modalHead =
-    ReactHtmlParser(decodeHTML(langObj.sortOverloadedColumnModalHead)) || "";
-  const modalText =
-    ReactHtmlParser(decodeHTML(langObj.sortOverloadedColumnModalText)) || "";
+  const modalHead = ReactHtmlParser(decodeHTML(langObj.sortOverloadedColumnModalHead)) || "";
+  const modalText = ReactHtmlParser(decodeHTML(langObj.sortOverloadedColumnModalText)) || "";
 
   // const onOpenModal = () => setOpen(true);
   const onCloseModal = () => {
@@ -29,12 +25,7 @@ const OverloadedColumnModal = () => {
   };
 
   return (
-    <Modal
-      className="customModal"
-      open={triggerModalOpen}
-      onClose={onCloseModal}
-      center
-    >
+    <Modal className="customModal" open={triggerModalOpen} onClose={onCloseModal} center>
       <ModalHeader>{modalHead}</ModalHeader>
       <hr />
       <ModalContent>{modalText}</ModalContent>
