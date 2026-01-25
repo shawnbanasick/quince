@@ -1,0 +1,19 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`getPostSortCardStyleHigh > should match the full snapshot for regression testing 1`] = `
+{
+  "alignItems": "center",
+  "background": "#f6f6f6",
+  "border": "2px solid black",
+  "borderRadius": "5px",
+  "display": "flex",
+  "fontSize": "14px",
+  "height": "150px",
+  "lineHeight": "1em",
+  "margin": "5px 5px 5px 5px",
+  "maxWidth": "300px",
+  "padding": "0 2px 0 2px",
+  "textAlign": "center",
+  "userSelect": "none",
+}
+`;

@@ -1,0 +1,16 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`getListStyleHori > should match the snapshot for consistent styling 1`] = `
+{
+  "background": "lightblue",
+  "direction": "ltr",
+  "display": "flex",
+  "flexDirection": "row",
+  "flexWrap": "nowrap",
+  "minHeight": "150px",
+  "overflowX": "scroll",
+  "paddingRight": "20px",
+  "scrollBehavior": "smooth",
+  "width": "100vw",
+}
+`;
