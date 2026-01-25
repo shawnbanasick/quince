@@ -1,4 +1,3 @@
-import React from "react";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 import styled from "styled-components";
@@ -26,12 +25,7 @@ const SortHelpModal = () => {
   };
 
   return (
-    <Modal
-      className="customModal"
-      open={triggerSortModal}
-      onClose={onCloseModal}
-      center
-    >
+    <Modal className="customModal" open={triggerSortModal} onClose={onCloseModal} center>
       <ModalHeader>{helpModalHead}</ModalHeader>
       <hr />
       <ModalContent>{helpModalText}</ModalContent>
