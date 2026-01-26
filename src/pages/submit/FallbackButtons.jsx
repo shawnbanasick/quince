@@ -1,18 +1,15 @@
-import React from "react";
 import styled from "styled-components";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
-import { v4 as uuid } from "uuid";
 import useSettingsStore from "../../globalState/useSettingsStore";
 
 const getLangObj = (state) => state.langObj;
 
-const SubmitResultsButton = (props) => {
+const FallbackButtons = (props) => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
 
-  const downloadButtonText =
-    ReactHtmlParser(decodeHTML(langObj.btnDownload)) || "";
+  const downloadButtonText = ReactHtmlParser(decodeHTML(langObj.btnDownload)) || "";
   const randomId = localStorage.getItem("randomId");
 
   const resultsWithId = {};
@@ -20,7 +17,7 @@ const SubmitResultsButton = (props) => {
 
   const finalResults = JSON.stringify(resultsWithId);
 
-  const handleClick = (e) => {
+  const handleClick = () => {
     function download(content, fileName, contentType) {
       var a = document.createElement("a");
       var file = new Blob([content], { type: contentType });
@@ -35,13 +32,13 @@ const SubmitResultsButton = (props) => {
 
   return (
     <ButtonContainer>
-      <StyledButton tabindex="0" onClick={(e) => handleClick(e)}>
+      <StyledButton tabindex="0" onClick={handleClick}>
         {downloadButtonText}
       </StyledButton>
     </ButtonContainer>
   );
 };
-export default SubmitResultsButton;
+export default FallbackButtons;
 
 const StyledButton = styled.button`
   border-color: #2e6da4;
@@ -62,8 +59,7 @@ const StyledButton = styled.button`
 
   margin-top: 30px;
   margin-bottom: 20px;
-  background-color: ${({ theme, active }) =>
-    active ? theme.secondary : theme.primary};
+  background-color: ${({ theme, active }) => (active ? theme.secondary : theme.primary)};
 
   &:hover {
     background-color: ${({ theme }) => theme.secondary};

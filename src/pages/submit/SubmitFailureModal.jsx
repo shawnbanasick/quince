@@ -1,4 +1,3 @@
-import React from "react";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 import styled from "styled-components";
@@ -17,11 +16,9 @@ const SubmitFailureModal = () => {
   const triggerModalOpen = useStore(getTriggerModalOpen);
   const setTriggerTransmissionFailModal = useStore(getSetTrigTransFailMod);
 
-  const modalHead =
-    ReactHtmlParser(decodeHTML(langObj.transferFailModalHeader)) || "";
+  const modalHead = ReactHtmlParser(decodeHTML(langObj.transferFailModalHeader)) || "";
 
-  const modalText =
-    ReactHtmlParser(decodeHTML(langObj.transferFailModalText)) || "";
+  const modalText = ReactHtmlParser(decodeHTML(langObj.transferFailModalText)) || "";
 
   // const onOpenModal = () => setOpen(true);
   const onCloseModal = () => {
@@ -29,12 +26,7 @@ const SubmitFailureModal = () => {
   };
 
   return (
-    <Modal
-      className="customModal"
-      open={triggerModalOpen}
-      onClose={onCloseModal}
-      center
-    >
+    <Modal className="customModal" open={triggerModalOpen} onClose={onCloseModal} center>
       <ModalHeader>{modalHead}</ModalHeader>
       <hr />
       <ModalContent>{modalText}</ModalContent>

@@ -11,32 +11,24 @@ import axios from "axios";
 import SubmitButtonEmail from "./SubmitButtonEmail";
 
 const getLangObj = (state) => state.langObj;
-// const getDisplaySubmitFallback = (state) => state.displaySubmitFallback;
 const getTransmittingData = (state) => state.transmittingData;
 const getSetTransmittingData = (state) => state.setTransmittingData;
 const getCheckInternetConnection = (state) => state.checkInternetConnection;
 const getSetCheckInternetConnection = (state) => state.setCheckInternetConnection;
 const getConfigObj = (state) => state.configObj;
-// const getSubmitFailNumber = (state) => state.submitFailNumber;
-// const getSetTrigTranFailMod = (state) => state.setTriggerTransmissionFailModal;
 const getSetTrigTransOKModal = (state) => state.setTriggerTransmissionOKModal;
-// const getSetDisplaySubmitFallback = (state) => state.setDisplaySubmitFallback;
 const getSetDisplayGoodbyeMessage = (state) => state.setDisplayGoodbyeMessage;
 const getSetDisplayBelowButtonText = (state) => state.setDisplayBelowButtonText;
 
 const SubmitResultsButton = (props) => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
-  // let displaySubmitFallback = useStore(getDisplaySubmitFallback);
   let transmittingData = useStore(getTransmittingData);
   const setTransmittingData = useStore(getSetTransmittingData);
   let checkInternetConnection = useStore(getCheckInternetConnection);
   const setCheckInternetConnection = useStore(getSetCheckInternetConnection);
   const configObj = useSettingsStore(getConfigObj);
-  // let submitFailNumber = useStore(getSubmitFailNumber);
-  // const setTriggerTransmissionFailModal = useStore(getSetTrigTranFailMod);
   const setTriggerTransmissionOKModal = useStore(getSetTrigTransOKModal);
-  // const setDisplaySubmitFallback = useStore(getSetDisplaySubmitFallback);
   const setDisplayGoodbyeMessage = useStore(getSetDisplayGoodbyeMessage);
   const checkInternetMessage = ReactHtmlParser(decodeHTML(langObj.checkInternetMessage)) || "";
   const setDisplayBelowButtonText = useStore(getSetDisplayBelowButtonText);

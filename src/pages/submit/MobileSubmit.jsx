@@ -19,7 +19,7 @@ const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
 const getDisplayGoodbyeMessage = (state) => state.displayGoodbyeMessage;
 
-const MobileSort = () => {
+const MobileSubmit = () => {
   const setCurrentPage = useStore(getSetCurrentPage);
   const setProgressScore = useStore(getSetProgressScore);
   const langObj = useSettingsStore(getLangObj);
@@ -158,7 +158,7 @@ const MobileSort = () => {
       const resultsPostsort = JSON.parse(localStorage.getItem("resultsPostsort")) || {};
 
       const sortedResultsPostsort = Object.fromEntries(
-        Object.entries(resultsPostsort).sort(([keyA], [keyB]) => keyA.localeCompare(keyB))
+        Object.entries(resultsPostsort).sort(([keyA], [keyB]) => keyA.localeCompare(keyB)),
       );
 
       const keys = Object.keys(sortedResultsPostsort);
@@ -212,7 +212,7 @@ const MobileSort = () => {
       baserowSortResults = mobileConvertObjectToBaserowResults(
         // all results
         [...sortResults],
-        [...m_SortCharacteristicsArray]
+        [...m_SortCharacteristicsArray],
       );
     }
   } catch (error) {
@@ -279,7 +279,7 @@ const MobileSort = () => {
   );
 };
 
-export default MobileSort;
+export default MobileSubmit;
 
 const MainContainer = styled.div`
   display: flex;

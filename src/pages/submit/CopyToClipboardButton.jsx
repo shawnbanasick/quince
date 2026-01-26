@@ -38,7 +38,7 @@ const CopyToClipboardButton = (props) => {
     }
   }
 
-  const handleClick = (e) => {
+  const handleClick = () => {
     copyToClipboard(props.content).then(() => {
       console.log("copied to clipboard");
     });

@@ -1,4 +1,3 @@
-import React from "react";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 import styled from "styled-components";
@@ -16,20 +15,13 @@ const LocalSubmitSuccessModal = () => {
   const langObj = useSettingsStore(getLangObj);
   const triggerModalOpen = useStore(getTrigLclSubmitSucMdl);
 
-  const modalHead =
-    ReactHtmlParser(decodeHTML(langObj.localSubmitSuccessModalHeader)) || "";
-  const modalText =
-    ReactHtmlParser(decodeHTML(langObj.localSubmitSuccessModalText)) || "";
+  const modalHead = ReactHtmlParser(decodeHTML(langObj.localSubmitSuccessModalHeader)) || "";
+  const modalText = ReactHtmlParser(decodeHTML(langObj.localSubmitSuccessModalText)) || "";
 
   const onCloseModal = () => {};
 
   return (
-    <Modal
-      className="customModal"
-      open={triggerModalOpen}
-      onClose={onCloseModal}
-      center
-    >
+    <Modal className="customModal" open={triggerModalOpen} onClose={onCloseModal} center>
       <ModalHeader>{modalHead}</ModalHeader>
       <hr />
       <ModalContent>{modalText}</ModalContent>

@@ -1,4 +1,3 @@
-import React from "react";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 import styled from "styled-components";
@@ -19,25 +18,16 @@ const SubmitSuccessModal = () => {
   const setTriggerTransmissionOKModal = useStore(getSetTriggerTransOKMod);
   const setDisplayGoodbyeMessage = useStore(getSetDisplayGoodbyeMessage);
 
-  const modalHead =
-    ReactHtmlParser(decodeHTML(langObj.transferOkModalHeader)) || "";
-  const modalText =
-    ReactHtmlParser(decodeHTML(langObj.transferOkModalText)) || "";
+  const modalHead = ReactHtmlParser(decodeHTML(langObj.transferOkModalHeader)) || "";
+  const modalText = ReactHtmlParser(decodeHTML(langObj.transferOkModalText)) || "";
 
-  // const onOpenModal = () => setOpen(true);
   const onCloseModal = () => {
     setTriggerTransmissionOKModal(false);
     setDisplayGoodbyeMessage(true);
-    //document.getElementById("secondProjectLink").click();
   };
 
   return (
-    <Modal
-      className="customModal"
-      open={triggerModalOpen}
-      onClose={onCloseModal}
-      center
-    >
+    <Modal className="customModal" open={triggerModalOpen} onClose={onCloseModal} center>
       <ModalHeader>{modalHead}</ModalHeader>
       <hr />
       <ModalContent>{modalText}</ModalContent>

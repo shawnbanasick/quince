@@ -25,13 +25,6 @@ const createBaserowObject = () => {
     baserowObject["r18"] = `(neu): ${resultsPresort?.neuStateNums || []}`;
     baserowObject["r19"] = `(neg): ${resultsPresort?.negStateNums || []}`;
 
-    // presortObject["npos"] = numPos;
-    // presortObject["posStateNums"] = resultsPresort?.posStateNums || [];
-    // presortObject["nneu"] = numNeu;
-    // presortObject["neuStateNums"] = resultsPresort?.neuStateNums || [];
-    // presortObject["nneg"] = numNeg;
-    // presortObject["negStateNums"] = resultsPresort?.negStateNums || [];
-
     return baserowObject;
   } catch (error) {
     console.log(error);
