@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import getListStyle from "../getListStyle"; // Adjust path as needed
+import getListStyle from "../getListStyle";
 import useStore from "../../../globalState/useStore";
 
 // Mock the zustand store

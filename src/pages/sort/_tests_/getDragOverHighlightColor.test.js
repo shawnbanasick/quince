@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import getDragOverHighlightColor from "../getDragOverHighlightColor"; // Adjust path as needed
+import getDragOverHighlightColor from "../getDragOverHighlightColor";
 
 describe("getDragOverHighlightColor", () => {
   const mockHeaderColors = ["red", "blue", "green"];

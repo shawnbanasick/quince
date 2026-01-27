@@ -1,0 +1,16 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`NoPageFound Component > matches the snapshot 1`] = `
+<DocumentFragment>
+  <div>
+     
+    <h1>
+      404
+    </h1>
+     
+    <p>
+      Page doesn't exist
+    </p>
+  </div>
+</DocumentFragment>
+`;

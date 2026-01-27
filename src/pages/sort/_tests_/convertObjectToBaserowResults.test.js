@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import convertObjectToBaserowResults from "../convertObjectToBaserowResults"; // Adjust path as needed
+import convertObjectToBaserowResults from "../convertObjectToBaserowResults";
 
 describe("convertObjectToBaserowResults", () => {
   it("should return undefined if input is empty or undefined", () => {

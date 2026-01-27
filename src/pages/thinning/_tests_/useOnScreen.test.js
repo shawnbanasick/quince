@@ -1,8 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { renderHook, act } from "@testing-library/react";
-import useOnScreen from "../useOnScreen"; // adjust path as needed
+import useOnScreen from "../useOnScreen";
 
-// 1. Mock the IntersectionObserver
 const mockObserve = vi.fn();
 const mockDisconnect = vi.fn();
 

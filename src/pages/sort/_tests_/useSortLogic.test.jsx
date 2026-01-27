@@ -1,6 +1,6 @@
 import { renderHook, act } from "@testing-library/react";
 import { vi, describe, it, expect, beforeEach } from "vitest";
-import { useSortLogic } from "../mobileSortHooks/useSortLogic"; // adjust path
+import { useSortLogic } from "../mobileSortHooks/useSortLogic";
 import useStore from "../../../globalState/useStore";
 import useLocalStorage from "../../../utilities/useLocalStorage";
 

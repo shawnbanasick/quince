@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import getListStyleHori from "../getListStyleHori"; // Adjust path as needed
+import getListStyleHori from "../getListStyleHori";
 
 describe("getListStyleHori", () => {
   it("should return the correct background color when isDraggingOver is true", () => {

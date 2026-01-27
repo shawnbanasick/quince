@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import getItemStyleHoriImages from "../getItemStyleHoriImages"; // Adjust path as needed
+import getItemStyleHoriImages from "../getItemStyleHoriImages";
 
 describe("getItemStyleHoriImages", () => {
   const defaultArgs = [

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import headersDivStyle from "../headersDivStyle"; // Adjust path as needed
+import headersDivStyle from "../headersDivStyle";
 
 describe("headersDivStyle", () => {
   const mockQSortHeaders = [10, 20, 30, 40];

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import move from "../move"; // Adjust path as needed
+import move from "../move";
 import useStore from "../../../globalState/useStore";
 
 // Mock the external dependencies

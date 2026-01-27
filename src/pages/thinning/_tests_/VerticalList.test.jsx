@@ -1,9 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, fireEvent } from "@testing-library/react";
-import VerticalList from "../VerticalList"; // Adjust path as needed
+import VerticalList from "../VerticalList";
 
-// Mocking the dnd library to simplify the DOM structure for unit testing
-// This avoids issues with JSDOM not supporting complex drag events
 vi.mock("@hello-pangea/dnd", () => ({
   DragDropContext: ({ children }) => <div>{children}</div>,
   Droppable: ({ children }) =>

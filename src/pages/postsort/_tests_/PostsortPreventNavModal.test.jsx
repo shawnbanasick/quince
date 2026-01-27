@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import PostsortPreventNavModal from "../PostsortPreventNavModal"; // Adjust path
+import PostsortPreventNavModal from "../PostsortPreventNavModal";
 import useSettingsStore from "../../../globalState/useSettingsStore";
 import useStore from "../../../globalState/useStore";
 

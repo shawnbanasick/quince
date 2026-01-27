@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import reorder from "../reorder"; // adjust path as needed
+import reorder from "../reorder";
 
 describe("reorder utility", () => {
   let mockColumnStatements;

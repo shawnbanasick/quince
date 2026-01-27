@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { minWordCount } from "../minWordCount"; // Adjust path as needed
+import { minWordCount } from "../minWordCount";
 
 describe("minWordCount", () => {
   it("should return zeros for an empty string", () => {
