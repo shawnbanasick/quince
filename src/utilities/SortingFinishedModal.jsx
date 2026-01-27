@@ -1,4 +1,3 @@
-import React from "react";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 import styled from "styled-components";
@@ -17,10 +16,8 @@ const SortingFinishedModal = () => {
   const triggerSortingFinishedModal = useStore(getTriggerSortFinishedMod);
   const setTriggerSortingFinishedModal = useStore(getSetTrigSortFinishMod);
 
-  const helpModalHead =
-    ReactHtmlParser(decodeHTML(langObj.sortingCompleteModalHead)) || "";
-  const helpModalText =
-    ReactHtmlParser(decodeHTML(langObj.sortingCompleteModalText)) || "";
+  const helpModalHead = ReactHtmlParser(decodeHTML(langObj.sortingCompleteModalHead)) || "";
+  const helpModalText = ReactHtmlParser(decodeHTML(langObj.sortingCompleteModalText)) || "";
 
   // const onOpenModal = () => setOpen(true);
   const onCloseModal = () => {
@@ -28,12 +25,7 @@ const SortingFinishedModal = () => {
   };
 
   return (
-    <Modal
-      className="customModal"
-      open={triggerSortingFinishedModal}
-      onClose={onCloseModal}
-      center
-    >
+    <Modal className="customModal" open={triggerSortingFinishedModal} onClose={onCloseModal} center>
       <ModalHeader>{helpModalHead}</ModalHeader>
       <hr />
       <ModalContent>{helpModalText}</ModalContent>

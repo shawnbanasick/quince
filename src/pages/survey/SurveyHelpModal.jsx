@@ -1,4 +1,3 @@
-import React from "react";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 import styled from "styled-components";
@@ -17,10 +16,8 @@ const SurveyHelpModal = () => {
   const triggerSurveyModal = useStore(getTriggerSurveyModal);
   const setTriggerSurveyModal = useStore(getSetTriggerSurveyModal);
 
-  const helpModalHead =
-    ReactHtmlParser(decodeHTML(langObj.surveyModalHead)) || "";
-  const helpModalText =
-    ReactHtmlParser(decodeHTML(langObj.surveyModalText)) || "";
+  const helpModalHead = ReactHtmlParser(decodeHTML(langObj.surveyModalHead)) || "";
+  const helpModalText = ReactHtmlParser(decodeHTML(langObj.surveyModalText)) || "";
 
   // const onOpenModal = () => setOpen(true);
   const onCloseModal = () => {
@@ -28,12 +25,7 @@ const SurveyHelpModal = () => {
   };
 
   return (
-    <Modal
-      className="customModal"
-      open={triggerSurveyModal}
-      onClose={onCloseModal}
-      center
-    >
+    <Modal className="customModal" open={triggerSurveyModal} onClose={onCloseModal} center>
       <ModalHeader>{helpModalHead}</ModalHeader>
       <hr />
       <ModalContent>{helpModalText}</ModalContent>

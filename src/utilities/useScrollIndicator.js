@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 // Custom hook to detect scrollable content
 const useScrollIndicator = (elementRef) => {

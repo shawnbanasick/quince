@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
@@ -75,12 +75,7 @@ const SurveyTextAreaElement = (props) => {
         border: "none",
       });
     }
-  }, [
-    checkRequiredQuestionsComplete,
-    userText,
-    userTextLen,
-    props.opts.required,
-  ]);
+  }, [checkRequiredQuestionsComplete, userText, userTextLen, props.opts.required]);
 
   if (displayNoteText) {
     return (
@@ -89,11 +84,7 @@ const SurveyTextAreaElement = (props) => {
           <div>{labelText}</div>
         </TitleBar>
         <NoteText>{noteText}</NoteText>
-        <TextAreaInput
-          value={userText}
-          placeholder={placeholder}
-          onChange={handleOnChange}
-        />
+        <TextAreaInput value={userText} placeholder={placeholder} onChange={handleOnChange} />
       </Container>
     );
   } else {
@@ -102,11 +93,7 @@ const SurveyTextAreaElement = (props) => {
         <TitleBar>
           <div>{labelText}</div>
         </TitleBar>
-        <TextAreaInput
-          value={userText}
-          placeholder={placeholder}
-          onChange={handleOnChange}
-        />
+        <TextAreaInput value={userText} placeholder={placeholder} onChange={handleOnChange} />
       </Container>
     );
   }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 import ReactHtmlParser from "html-react-parser";
@@ -7,7 +7,7 @@ import useLocalStorage from "../../utilities/useLocalStorage";
 import flatten from "lodash/flatten";
 import countBy from "lodash/countBy";
 
-const SurveyRatings10Element = (props) => {
+const MobileSurveyRatings10Element = (props) => {
   // HELPER FUNCTIONS
   // filter to remove empty strings if present
   const getOptionsArray = (options) => {
@@ -33,7 +33,7 @@ const SurveyRatings10Element = (props) => {
   // PERSISTENT STATE
   const [checkedState, setCheckedState] = useLocalStorage(
     questionId,
-    Array.from({ length: rows }, () => Array.from({ length: 10 }, () => false))
+    Array.from({ length: rows }, () => Array.from({ length: 10 }, () => false)),
   );
 
   // LOCAL STATE
@@ -43,7 +43,7 @@ const SurveyRatings10Element = (props) => {
   });
 
   // *** HANDLE CHANGE ***
-  const handleChange = (selectedRow, column, e) => {
+  const handleChange = (selectedRow, column) => {
     const resultsSurvey = JSON.parse(localStorage.getItem("resultsSurvey"));
     const newArray = [];
     const newCheckedState = checkedState.map(function (row, index) {
@@ -279,7 +279,7 @@ const SurveyRatings10Element = (props) => {
   }
 };
 
-export default SurveyRatings10Element;
+export default MobileSurveyRatings10Element;
 
 const Container = styled.div`
   width: 90%;

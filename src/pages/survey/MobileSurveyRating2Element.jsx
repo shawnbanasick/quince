@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { v4 as uuid } from "uuid";
 import ReactHtmlParser from "html-react-parser";
@@ -36,7 +36,7 @@ const SurveyRatings2Element = (props) => {
   // PERSISTENT STATE
   let [checkedState, setCheckedState] = useLocalStorage(
     questionId,
-    Array.from({ length: rows }, () => Array.from({ length: 2 }, () => false))
+    Array.from({ length: rows }, () => Array.from({ length: 2 }, () => false)),
   );
 
   // LOCAL STATE
@@ -48,7 +48,7 @@ const SurveyRatings2Element = (props) => {
   const scaleArray = getOptionsArray(props.opts.scale);
 
   // ****** ON CHANGE  *******
-  const handleChange = (selectedRow, column, e) => {
+  const handleChange = (selectedRow, column) => {
     const resultsSurvey = JSON.parse(localStorage.getItem("resultsSurvey"));
     // update local state with radio selected
     const newArray = [];

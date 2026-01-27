@@ -1,11 +1,9 @@
-import React from "react";
 import styled from "styled-components";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
 import FallbackButtons from "./FallbackButtons";
 import useSettingsStore from "../../globalState/useSettingsStore";
 
-// eslint-disable-next-line react/button-has-type
 /* eslint react/prop-types: 0 */
 
 /* const handleClick = () => {
@@ -18,8 +16,7 @@ const SubmitFallback = (props) => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
 
-  const fallbackMessage =
-    ReactHtmlParser(decodeHTML(langObj.fallbackMessage)) || "";
+  const fallbackMessage = ReactHtmlParser(decodeHTML(langObj.fallbackMessage)) || "";
 
   return (
     <div>

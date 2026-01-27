@@ -1,4 +1,3 @@
-import React from "react";
 import "react-responsive-modal/styles.css";
 import { Modal } from "react-responsive-modal";
 import styled from "styled-components";
@@ -9,8 +8,7 @@ import useStore from "../../globalState/useStore";
 
 const getLangObj = (state) => state.langObj;
 const getTriggerModalOpen = (state) => state.triggerSurveyPreventNavModal;
-const getSetTrigSurvPrevNavModal = (state) =>
-  state.setTriggerSurveyPreventNavModal;
+const getSetTrigSurvPrevNavModal = (state) => state.setTriggerSurveyPreventNavModal;
 
 const AnswerAllSurveyQuestionsModal = () => {
   // STATE
@@ -18,23 +16,15 @@ const AnswerAllSurveyQuestionsModal = () => {
   const triggerModalOpen = useStore(getTriggerModalOpen);
   const setTriggerSurveyPreventNavModal = useStore(getSetTrigSurvPrevNavModal);
 
-  const modalHead =
-    ReactHtmlParser(decodeHTML(langObj.surveyPreventNavModalHead)) || "";
-  const modalText =
-    ReactHtmlParser(decodeHTML(langObj.surveyPreventNavModalText)) || "";
+  const modalHead = ReactHtmlParser(decodeHTML(langObj.surveyPreventNavModalHead)) || "";
+  const modalText = ReactHtmlParser(decodeHTML(langObj.surveyPreventNavModalText)) || "";
 
-  // const onOpenModal = () => setOpen(true);
   const onCloseModal = () => {
     setTriggerSurveyPreventNavModal(false);
   };
 
   return (
-    <Modal
-      className="customModal"
-      open={triggerModalOpen}
-      onClose={onCloseModal}
-      center
-    >
+    <Modal className="customModal" open={triggerModalOpen} onClose={onCloseModal} center>
       <ModalHeader>{modalHead}</ModalHeader>
       <hr />
       <ModalContent>{modalText}</ModalContent>
@@ -57,5 +47,3 @@ const ModalHeader = styled.div`
 const ModalContent = styled.div`
   margin-top: 15px;
 `;
-
-// react-responsive-modal-overlay

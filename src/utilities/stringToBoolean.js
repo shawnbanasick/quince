@@ -8,3 +8,5 @@ const stringToBoolean = (str) => {
     return !!str;
   }
 };
+
+export default stringToBoolean;
