@@ -47,11 +47,16 @@ function PresortDND(props) {
   const btnNeutral = ReactHtmlParser(decodeHTML(langObj.presortNeutral)) || "";
   const onPageInstructions = ReactHtmlParser(decodeHTML(langObj.presortOnPageInstructions)) || "";
 
-  const displayEmoji = mapObj.useColLabelEmojiPresort;
+  let displayEmoji = mapObj.useColLabelEmojiPresort[0];
+  if (displayEmoji === false || displayEmoji === "false") {
+    displayEmoji = false;
+  } else {
+    displayEmoji = true;
+  }
 
   // initialize local state
   let [presortSortedStatementsNum, setPresortSortedStatementsNum] = useState(
-    presortSortedStatementsNumInitial
+    presortSortedStatementsNumInitial,
   );
 
   const cardFontSize = `${props.cardFontSize}px`;
@@ -221,7 +226,7 @@ function PresortDND(props) {
       setProgressScoreAdditional,
       greenArraySortValue,
       pinkArraySortValue,
-    ]
+    ],
   );
 
   useEffect(() => {
@@ -336,12 +341,12 @@ function PresortDND(props) {
           remainingPosCount,
           remainingNegCount,
           sortRightArrays,
-          sortLeftArrays
+          sortLeftArrays,
         );
 
         localStorage.setItem(
           "thinDisplayControllerArray",
-          JSON.stringify(thinDisplayControllerArray)
+          JSON.stringify(thinDisplayControllerArray),
         );
       }
     }
@@ -371,6 +376,7 @@ function PresortDND(props) {
 
   // TODO - move CSS from globalCSS file to styled components
 
+  console.log("displayEmoji", displayEmoji);
   // RENDER COMPONENT
   return (
     <PresortGrid id="statementsGrid">
@@ -455,7 +461,7 @@ function PresortDND(props) {
                       >
                         {column.items.map((item, index) => {
                           const statementHtml = ReactHtmlParser(
-                            `<div>${decodeHTML(item.statement)}</div>`
+                            `<div>${decodeHTML(item.statement)}</div>`,
                           );
                           return (
                             <Draggable
