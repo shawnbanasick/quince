@@ -28,8 +28,6 @@ const MobileSubmit = () => {
   let sortResults = JSON.parse(localStorage.getItem("m_SortArray1"));
   const displayGoodbyeMessage = useStore(getDisplayGoodbyeMessage);
 
-  // console.log(JSON.stringify(sortResults, null, 2));
-
   const [timeData, setTimeData] = useState({
     consent: "00:00:00",
     landing: "00:00:00",
