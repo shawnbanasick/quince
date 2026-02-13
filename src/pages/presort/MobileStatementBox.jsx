@@ -25,7 +25,7 @@ const MobileStatementBox = (props) => {
     <Container
       data-testid="MobileStatementBoxDiv"
       color={props.backgroundColor}
-      fontSize={mobilePresortFontSize}
+      fontSize={+mobilePresortFontSize}
     >
       {statement}
     </Container>

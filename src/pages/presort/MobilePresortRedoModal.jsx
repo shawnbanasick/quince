@@ -16,6 +16,7 @@ const getLangObj = (state) => state.langObj;
 const getMapObj = (state) => state.mapObj;
 const getTriggerMobilePresortRedoModal = (state) => state.triggerMobilePresortRedoModal;
 const getSetTriggerMobilePresortRedoModal = (state) => state.setTriggerMobilePresortRedoModal;
+const getMobilePresortFontSize = (state) => state.mobilePresortFontSize;
 
 const MobilePresortRedoModal = (props) => {
   // *** STATE
@@ -24,6 +25,7 @@ const MobilePresortRedoModal = (props) => {
   const triggerMobilePresortRedoModal = useStore(getTriggerMobilePresortRedoModal);
   const setTriggerMobilePresortRedoModal = useStore(getSetTriggerMobilePresortRedoModal);
   const moveTopMobileHead = ReactHtmlParser(decodeHTML(langObj.mobilePresortRedoModalHead)) || "";
+  const mobilePresortFontSize = useStore(getMobilePresortFontSize);
 
   // Emoji display
   const useColLabelEmojiPresort = mapObj.useColLabelEmojiPresort;
@@ -168,6 +170,7 @@ const MobilePresortRedoModal = (props) => {
       <MobileStatementBox
         backgroundColor={characteristics.backgroundColor}
         statement={props.statement.current.statement}
+        fontSize={+mobilePresortFontSize}
       />
       <ButtonRowLabel>
         <AssignDiv>{assignLeft}</AssignDiv>
@@ -178,7 +181,7 @@ const MobilePresortRedoModal = (props) => {
         <ModalButton onClick={onCloseModal}>{cancelButtonText}</ModalButton>
         <ModalButton
           onClick={() => {
-            props.clickFunction(characteristics.value), onCloseModal();
+            (props.clickFunction(characteristics.value), onCloseModal());
           }}
         >
           {okButtonText}

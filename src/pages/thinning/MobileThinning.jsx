@@ -107,15 +107,15 @@ const MobileThinning = () => {
 
   let [selectedNegItems, setSelectedNegItems] = useLocalStorage(
     "selectedNegItems",
-    JSON.parse(localStorage.getItem("selectedNegItems"))
+    JSON.parse(localStorage.getItem("selectedNegItems")),
   );
   let [selectedPosItems, setSelectedPosItems] = useLocalStorage(
     "selectedPosItems",
-    JSON.parse(localStorage.getItem("selectedPosItems"))
+    JSON.parse(localStorage.getItem("selectedPosItems")),
   );
   let [displayControllerArray, setDisplayControllerArray] = useLocalStorage(
     "thinDisplayControllerArray",
-    JSON.parse(localStorage.getItem("thinDisplayControllerArray"))
+    JSON.parse(localStorage.getItem("thinDisplayControllerArray")),
   );
   const [hasScrolledBottom, setHasScrolledBottom] = useState(false);
 
@@ -141,6 +141,12 @@ const MobileThinning = () => {
     };
   }, [setCurrentPage, setProgressScore]);
 
+  useEffect(() => {
+    if (divRef.current) {
+      divRef.current.scrollTop = 0;
+    }
+  }, []);
+
   // *** LONG PRESS HOOK
   const attrs = useLongPress(
     (event) => {
@@ -157,7 +163,7 @@ const MobileThinning = () => {
       // onFinish: () => {},
       // onCancel: () => {},
       threshold: 1000,
-    }
+    },
   );
 
   let threshold = 150;
@@ -173,7 +179,7 @@ const MobileThinning = () => {
         setHasScrolledBottom(true);
       }
     }, 100), // Debounce delay in milliseconds
-    [threshold]
+    [threshold],
   );
 
   // *******************************************************

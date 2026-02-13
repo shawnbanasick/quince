@@ -11,9 +11,9 @@ export const useSortLogic = (mapObj, displayArray, configObj) => {
   const targetArray = useRef([]);
   const isUnforcedSorting = configObj.allowUnforcedSorts;
 
-  // copy array to initial state??
+  // copy final thin array to sort array
   const [sortArray1, setSortArray1] = useLocalStorage("m_SortArray1", [
-    JSON.parse(localStorage.getItem("m_FinalThinCols")),
+    ...JSON.parse(localStorage.getItem("m_FinalThinCols")),
   ]);
 
   const [unforcedPattern, setUnforcedPattern] = useLocalStorage("m_UnforcedPattern", [
@@ -34,13 +34,11 @@ export const useSortLogic = (mapObj, displayArray, configObj) => {
     const result = [];
     let index = 0;
     let tempArray = [...sortArray1];
-
     // for (const length of lengths) {
     lengths.forEach((length) => {
       result.push(tempArray.slice(index, index + length));
       index += length;
     });
-
     return result;
   }, [sortingPattern, sortArray1]);
 
@@ -70,7 +68,6 @@ export const useSortLogic = (mapObj, displayArray, configObj) => {
         tempArray.push({ ...tempObj });
       }
     });
-
     localStorage.setItem("m_SortCharacteristicsArray", JSON.stringify(tempArray));
     return tempArray;
   }, [mapObj, valuesArraySource, sortingPattern]);
@@ -168,7 +165,6 @@ export const useSortLogic = (mapObj, displayArray, configObj) => {
     const statementIndexValue = partitionArray[arrayIndexValue].findIndex(
       (item) => item.id === e.target.id,
     );
-
     if (isUnforcedSorting && statementIndexValue === 0) {
       unforcedPattern[arrayIndexValue - 1] = unforcedPattern[arrayIndexValue - 1] + 1;
       unforcedPattern[arrayIndexValue] = unforcedPattern[arrayIndexValue] - 1;
@@ -191,11 +187,9 @@ export const useSortLogic = (mapObj, displayArray, configObj) => {
     const arrayIndexValue = partitionArray.findIndex((innerArray) => {
       return innerArray.some((obj) => obj.id === e.target.id);
     });
-
     const statementIndexValue = partitionArray[arrayIndexValue].findIndex(
       (item) => item.id === e.target.id,
     );
-
     if (isUnforcedSorting && statementIndexValue === partitionArray[arrayIndexValue].length - 1) {
       unforcedPattern[arrayIndexValue + 1] = unforcedPattern[arrayIndexValue + 1] + 1;
       unforcedPattern[arrayIndexValue] = unforcedPattern[arrayIndexValue] - 1;

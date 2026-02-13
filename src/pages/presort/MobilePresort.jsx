@@ -486,7 +486,7 @@ const MobilePresortPage = () => {
       {displayStatements.display ? (
         <>
           <MobileStatementBox
-            fontSize={mobilePresortFontSize}
+            fontSize={+mobilePresortFontSize}
             statement={presortArray2?.[0]?.statement}
             backgroundColor={"#e5e5e5"}
           />

@@ -52,6 +52,7 @@ const MobileSort = () => {
   // Custom hooks
   const { displayArray } = useEmojiArrays(mapObj);
   const textLocalization = useTextLocalization(langObj);
+
   const {
     sortArray1,
     // setSortArray1,

@@ -9,10 +9,10 @@ const getMobilePresortViewSize = (state) => state.mobilePresortViewSize;
 const MobilePreviousAssignmentBox = (props) => {
   let mobilePresortFontSize = useStore(getMobilePresortFontSize);
   const persistedMobilePresortFontSize = JSON.parse(
-    localStorage.getItem("m_FontSizeObject")
+    localStorage.getItem("m_FontSizeObject"),
   ).presort;
   const persistedMobilePresortViewSize = JSON.parse(
-    localStorage.getItem("m_ViewSizeObject")
+    localStorage.getItem("m_ViewSizeObject"),
   ).presort;
   const mobilePresortViewSize = useStore(getMobilePresortViewSize);
 
@@ -22,17 +22,13 @@ const MobilePreviousAssignmentBox = (props) => {
         key={uuid()}
         fontSize={
           mobilePresortFontSize === +persistedMobilePresortFontSize
-            ? mobilePresortFontSize
-            : persistedMobilePresortFontSize
+            ? +mobilePresortFontSize
+            : +persistedMobilePresortFontSize
         }
         color={item.color}
       >
         <div>
-          <ArrowContainer
-            data-id={item.id}
-            data-statement={item.statement}
-            onClick={props.onClick}
-          >
+          <ArrowContainer data-id={item.id} data-statement={item.statement} onClick={props.onClick}>
             <RedoArrow
               style={{
                 float: "left",
