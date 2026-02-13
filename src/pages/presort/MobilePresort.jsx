@@ -16,9 +16,17 @@ import calcThinDisplayControllerArray from "./calcThinDisplayControllerArray";
 import MobileModal from "../../utilities/MobileModal";
 import MobilePresortRedoModal from "./MobilePresortRedoModal";
 import HelpSymbol from "../../assets/helpSymbol.svg?react";
+import EmojiN5 from "../../assets/emojiN5.svg?react";
+import EmojiN4 from "../../assets/emojiN4.svg?react";
 import EmojiN3 from "../../assets/emojiN3.svg?react";
+import EmojiN2 from "../../assets/emojiN2.svg?react";
+import EmojiN1 from "../../assets/emojiN1.svg?react";
 import Emoji0 from "../../assets/emoji0.svg?react";
+import Emoji1 from "../../assets/emoji1.svg?react";
+import Emoji2 from "../../assets/emoji2.svg?react";
 import Emoji3 from "../../assets/emoji3.svg?react";
+import Emoji4 from "../../assets/emoji4.svg?react";
+import Emoji5 from "../../assets/emoji5.svg?react";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
@@ -63,6 +71,20 @@ const MobilePresortPage = () => {
 
   // Emoji display
   const useColLabelEmojiPresort = mapObj.useColLabelEmojiPresort;
+
+  const emojiArray = [
+    <EmojiN5 key="emojiN5" />,
+    <EmojiN4 key="emojiN4" />,
+    <EmojiN3 key="emojiN3" />,
+    <EmojiN2 key="emojiN2" />,
+    <EmojiN1 key="emojiN1" />,
+    <Emoji0 key="emoji0" />,
+    <Emoji1 key="emoji1" />,
+    <Emoji2 key="emoji2" />,
+    <Emoji3 key="emoji3" />,
+    <Emoji4 key="emoji4" />,
+    <Emoji5 key="emoji5" />,
+  ];
 
   // ***********************
   // *** TEXT LOCALIZATION *****************
@@ -165,7 +187,7 @@ const MobilePresortPage = () => {
   const handleRedoClick = (value) => {
     setTriggerMobilePresortRedoModal(false);
     let selectedStatementObject = m_PresortResults.find(
-      (item) => item.id === redoCardId.current.id
+      (item) => item.id === redoCardId.current.id,
     );
     selectedStatementObject.psValue = value;
     selectedStatementObject.color = mobileCardColor(value);
@@ -213,7 +235,7 @@ const MobilePresortPage = () => {
       remainingPosCount,
       remainingNegCount,
       sortRightArrays,
-      sortLeftArrays
+      sortLeftArrays,
     );
   };
 
@@ -276,12 +298,12 @@ const MobilePresortPage = () => {
             remainingPosCount,
             remainingNegCount,
             sortRightArrays,
-            sortLeftArrays
+            sortLeftArrays,
           );
 
           localStorage.setItem(
             "thinDisplayControllerArray",
-            JSON.stringify(thinDisplayControllerArray)
+            JSON.stringify(thinDisplayControllerArray),
           );
 
           // *** update newCols ***
@@ -357,8 +379,7 @@ const MobilePresortPage = () => {
           data-testid="value-button-neg1"
           child={
             <EmojiDiv>
-              {" "}
-              <EmojiN3 />{" "}
+              <EmojiDiv>{emojiArray[+mapObj.presortEmojiNegativeIndex]}</EmojiDiv>
             </EmojiDiv>
           }
         />
@@ -370,8 +391,7 @@ const MobilePresortPage = () => {
           data-testid="value-button-neu1"
           child={
             <EmojiDiv>
-              {" "}
-              <Emoji0 />{" "}
+              <EmojiDiv>{emojiArray[+mapObj.presortEmojiNeutralIndex]}</EmojiDiv>
             </EmojiDiv>
           }
         />
@@ -384,8 +404,7 @@ const MobilePresortPage = () => {
           data-testid="value-button-pos1"
           child={
             <EmojiDiv>
-              {" "}
-              <Emoji3 />{" "}
+              <EmojiDiv>{emojiArray[+mapObj.presortEmojiPositiveIndex]}</EmojiDiv>
             </EmojiDiv>
           }
         />
@@ -512,6 +531,7 @@ const SortTitleBar = styled.div`
   background-color: ${(props) => props.background};
   justify-content: space-between;
   align-items: center;
+  text-align: center;
   color: white;
   font-weight: bold;
   font-size: 4.5vw;

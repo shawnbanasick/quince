@@ -30,6 +30,7 @@ import MobileSurveyPage from "./pages/survey/MobileSurvey";
 import MobilePostsortPage from "./pages/postsort/MobilePostsort";
 import MobileSubmitPage from "./pages/submit/MobileSubmit";
 import { satisfies } from "compare-versions";
+import MobileAccessDenied from "./utilities/MobileAccessDenied";
 
 const getSetConfigObj = (state) => state.setConfigObj;
 const getSetLangObj = (state) => state.setLangObj;
@@ -223,7 +224,7 @@ function App() {
       hasShownLanguageXmlWarning === false
     ) {
       alert(
-        "The language.xml file is out-of-date. Please import the file into the Quince Configurator to update it to the newest version, then add it to your project's settings folder and try again."
+        "The language.xml file is out-of-date. Please import the file into the Quince Configurator to update it to the newest version, then add it to your project's settings folder and try again.",
       );
       setHasShownLanguageXmlWarning(true);
     }
@@ -232,7 +233,7 @@ function App() {
       hasShownConfigXmlWarning === false
     ) {
       alert(
-        "The config.xml file is out-of-date. Please import the file into the Quince Configurator to update it to the newest version, then add it to your project's settings folder and try again."
+        "The config.xml file is out-of-date. Please import the file into the Quince Configurator to update it to the newest version, then add it to your project's settings folder and try again.",
       );
       setHasShownConfigXmlWarning(true);
     }
@@ -241,7 +242,7 @@ function App() {
       hasShownMapXmlWarning === false
     ) {
       alert(
-        "The map.xml file is out-of-date. Please import the file into the Quince Configurator to update it to the newest version, then add it to your project's settings folder and try again."
+        "The map.xml file is out-of-date. Please import the file into the Quince Configurator to update it to the newest version, then add it to your project's settings folder and try again.",
       );
       setHasShownMapXmlWarning(true);
     }
@@ -254,6 +255,18 @@ function App() {
     let isMobile = detectMobileBrowser();
     if (isMobile) {
       console.log("Mobile Mode");
+
+      if (configObj.preventMobileAccess === true || configObj.preventMobileAcess === "true") {
+        return (
+          <div className="App">
+            <Router>
+              <Switch>
+                <Route exact path="/" component={MobileAccessDenied} />
+              </Switch>
+            </Router>
+          </div>
+        );
+      }
 
       if (configObj.showConsentPage === true || configObj.showConsentPage === "true") {
         return (

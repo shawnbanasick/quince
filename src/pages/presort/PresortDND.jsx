@@ -7,9 +7,17 @@ import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 import useLocalStorage from "../../utilities/useLocalStorage";
 import calcThinDisplayControllerArray from "./calcThinDisplayControllerArray";
+import EmojiN5 from "../../assets/emojiN5.svg?react";
+import EmojiN4 from "../../assets/emojiN4.svg?react";
 import EmojiN3 from "../../assets/emojiN3.svg?react";
+import EmojiN2 from "../../assets/emojiN2.svg?react";
+import EmojiN1 from "../../assets/emojiN1.svg?react";
 import Emoji0 from "../../assets/emoji0.svg?react";
+import Emoji1 from "../../assets/emoji1.svg?react";
+import Emoji2 from "../../assets/emoji2.svg?react";
 import Emoji3 from "../../assets/emoji3.svg?react";
+import Emoji4 from "../../assets/emoji4.svg?react";
+import Emoji5 from "../../assets/emoji5.svg?react";
 
 const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
@@ -46,6 +54,20 @@ function PresortDND(props) {
   const btnAgreement = ReactHtmlParser(decodeHTML(langObj.presortAgreement)) || "";
   const btnNeutral = ReactHtmlParser(decodeHTML(langObj.presortNeutral)) || "";
   const onPageInstructions = ReactHtmlParser(decodeHTML(langObj.presortOnPageInstructions)) || "";
+
+  const emojiArray = [
+    <EmojiN5 key="emojiN5" />,
+    <EmojiN4 key="emojiN4" />,
+    <EmojiN3 key="emojiN3" />,
+    <EmojiN2 key="emojiN2" />,
+    <EmojiN1 key="emojiN1" />,
+    <Emoji0 key="emoji0" />,
+    <Emoji1 key="emoji1" />,
+    <Emoji2 key="emoji2" />,
+    <Emoji3 key="emoji3" />,
+    <Emoji4 key="emoji4" />,
+    <Emoji5 key="emoji5" />,
+  ];
 
   let displayEmoji = mapObj.useColLabelEmojiPresort[0];
   if (displayEmoji === false || displayEmoji === "false") {
@@ -307,8 +329,6 @@ function PresortDND(props) {
       setPresortFinished(true);
       setTriggerPresortFinishedModal(true);
 
-      console.log("setting posSorted and negSorted triggered by presortNoReturn");
-
       let presortColumnStatements = JSON.parse(localStorage.getItem("columnStatements"));
       localStorage.setItem("newCols", JSON.stringify(presortColumnStatements));
 
@@ -316,7 +336,6 @@ function PresortDND(props) {
       let negSorted2 = [];
       let sortingList = [];
       if (presortColumnStatements !== null) {
-        console.log("setting posSorted and negSorted");
         sortingList = [...presortColumnStatements.statementList];
         sortingList.forEach((item) => {
           item.selected = false;
@@ -376,7 +395,6 @@ function PresortDND(props) {
 
   // TODO - move CSS from globalCSS file to styled components
 
-  console.log("displayEmoji", displayEmoji);
   // RENDER COMPONENT
   return (
     <PresortGrid id="statementsGrid">
@@ -389,15 +407,11 @@ function PresortDND(props) {
       <ColumnNamesNeg id="negColumnHeader">
         <div id="negHeader">
           {displayEmoji ? (
-            <EmojiDiv>
-              <EmojiN3 />
-            </EmojiDiv>
+            <EmojiDiv>{emojiArray[+mapObj.presortEmojiNegativeIndex]}</EmojiDiv>
           ) : null}
           {columns.neg.name}
           {displayEmoji ? (
-            <EmojiDiv>
-              <EmojiN3 />
-            </EmojiDiv>
+            <EmojiDiv>{emojiArray[+mapObj.presortEmojiNegativeIndex]}</EmojiDiv>
           ) : null}
         </div>
         <ButtonPressDiv>
@@ -407,15 +421,11 @@ function PresortDND(props) {
       <ColumnNamesNeu id="neutralColumnHeader">
         <div id="neuHeader">
           {displayEmoji ? (
-            <EmojiDiv>
-              <Emoji0 />
-            </EmojiDiv>
+            <EmojiDiv>{emojiArray[+mapObj.presortEmojiNeutralIndex]}</EmojiDiv>
           ) : null}
           {columns.neutral.name}
           {displayEmoji ? (
-            <EmojiDiv>
-              <Emoji0 />
-            </EmojiDiv>
+            <EmojiDiv>{emojiArray[+mapObj.presortEmojiNeutralIndex]}</EmojiDiv>
           ) : null}
         </div>
         <ButtonPressDiv>
@@ -425,15 +435,11 @@ function PresortDND(props) {
       <ColumnNamesPos id="posColumnHeader">
         <div id="posHeader">
           {displayEmoji ? (
-            <EmojiDiv>
-              <Emoji3 />
-            </EmojiDiv>
+            <EmojiDiv>{emojiArray[+mapObj.presortEmojiPositiveIndex]}</EmojiDiv>
           ) : null}
           {columns.pos.name}
           {displayEmoji ? (
-            <EmojiDiv>
-              <Emoji3 />
-            </EmojiDiv>
+            <EmojiDiv>{emojiArray[+mapObj.presortEmojiPositiveIndex]}</EmojiDiv>
           ) : null}
         </div>
         <ButtonPressDiv>
