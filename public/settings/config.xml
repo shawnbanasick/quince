@@ -67,7 +67,7 @@
 
    <!-- 10. SORT OPTIONS -->
    <item order="10-a" id="condOfInstFontSize">20</item>
-   <item order="10-b" id="allowUnforcedSorts">true</item>
+   <item order="10-b" id="allowUnforcedSorts">false</item>
    <item order="10-c" id="warnOverloadedColumn">true</item>
    <item order="10-d" id="defaultFontSizeSort">16</item>
    <item order="10-e" id="minCardHeightSort">120</item>
