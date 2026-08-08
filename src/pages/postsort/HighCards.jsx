@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { getInvalidPostsortKeys } from "../../utilities/getInvalidPostsortKeys";
 import styled from "styled-components";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
@@ -6,21 +7,21 @@ import sanitizeString from "../../utilities/sanitizeString";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 import { Modal } from "react-responsive-modal";
-import useLocalStorage from "../../utilities/useLocalStorage";
 import Emoji2 from "../../assets/emoji2.svg?react";
 import Emoji3 from "../../assets/emoji3.svg?react";
 import Emoji5 from "../../assets/emoji5.svg?react";
-import { minWordCount } from "./minWordCount";
 
 /* eslint react/prop-types: 0 */
 
 // format example ===> {high: ["column4"], middle: ["column0"], low: ["columnN4"]}
 
 const getPostsortCommentCheckObj = (state) => state.postsortCommentCheckObj;
-const getSetPostsortCommentCheckObj = (state) => state.setPostsortCommentCheckObj;
+const getSetPostsortCommentCheckObj = (state) =>
+  state.setPostsortCommentCheckObj;
 const getConfigObj = (state) => state.configObj;
 const getMapObject = (state) => state.mapObj;
-const getShowPostsortCommentHighlighting = (state) => state.showPostsortCommentHighlighting;
+const getShowPostsortCommentHighlighting = (state) =>
+  state.showPostsortCommentHighlighting;
 const getPostsortDualImageArray = (state) => state.postsortDualImageArray;
 const getSetPostsortDualImageArray = (state) => state.setPostsortDualImageArray;
 
@@ -40,17 +41,15 @@ const HighCards = (props) => {
 
   // PERSISTED STATE
   const columnStatements = JSON.parse(localStorage.getItem("sortColumns"));
-  const [requiredCommentsObject, setRequiredCommentsObject] = useLocalStorage(
-    "HC-requiredCommentsObj",
-    {},
-  );
 
   // GLOBAL STATE
   const postsortCommentCheckObj = useStore(getPostsortCommentCheckObj);
   const setPostsortCommentCheckObj = useStore(getSetPostsortCommentCheckObj);
   const configObj = useSettingsStore(getConfigObj);
   const mapObj = useSettingsStore(getMapObject);
-  const showPostsortCommentHighlighting = useStore(getShowPostsortCommentHighlighting);
+  const showPostsortCommentHighlighting = useStore(
+    getShowPostsortCommentHighlighting,
+  );
   const postsortDualImageArray = useStore(getPostsortDualImageArray);
   const setPostsortDualImageArray = useStore(getSetPostsortDualImageArray);
   const { agreeObj, cardFontSize, width, height } = props;
@@ -130,13 +129,34 @@ const HighCards = (props) => {
     }
   }
 
+  const [invalidKeysForThisColumn, setInvalidKeysForThisColumn] = useState(
+    () => {
+      if (!showPostsortCommentHighlighting) return new Set();
+      const allCommentsObj =
+        JSON.parse(localStorage.getItem("allCommentsObj")) || {};
+      const keys = highCards.map(
+        (_, i) => `textArea-${columnDisplay}_${i + 1}`,
+      );
+      return new Set(
+        getInvalidPostsortKeys(keys, allCommentsObj, {
+          minWordCountRequired,
+          minWordCountValue,
+        }),
+      );
+    },
+  );
+
   let agreeTextElement = (
     <RowDiv>
-      {shouldDisplayEmojis && <EmojiDiv>{getEmoji(mapObj["emojiArrayType"])}</EmojiDiv>}
+      {shouldDisplayEmojis && (
+        <EmojiDiv>{getEmoji(mapObj["emojiArrayType"])}</EmojiDiv>
+      )}
       {/* {agreeText} */}
       {shouldDisplayText && <HeaderText>{columnLabel}</HeaderText>}
       {shouldDisplayNums && <HeaderNumber>{columnNum}</HeaderNumber>}
-      {shouldDisplayEmojis && <EmojiDiv>{getEmoji(mapObj["emojiArrayType"])}</EmojiDiv>}
+      {shouldDisplayEmojis && (
+        <EmojiDiv>{getEmoji(mapObj["emojiArrayType"])}</EmojiDiv>
+      )}
     </RowDiv>
   );
 
@@ -145,7 +165,10 @@ const HighCards = (props) => {
     let idString = `${columnDisplay}_${index}: ${item.id}`;
     noResponseCheckArrayHC1.push(idString);
   });
-  localStorage.setItem("noResponseCheckArrayHC1", JSON.stringify(noResponseCheckArrayHC1));
+  localStorage.setItem(
+    "noResponseCheckArrayHC1",
+    JSON.stringify(noResponseCheckArrayHC1),
+  );
 
   // on double click of card, enlarge image
   const handleOpenImageModal = (e) => {
@@ -169,7 +192,8 @@ const HighCards = (props) => {
   const handleChange = (event, itemId) => {
     event.preventDefault();
     const results = JSON.parse(localStorage.getItem("resultsPostsort")) || {};
-    let allCommentsObj = JSON.parse(localStorage.getItem("allCommentsObj")) || {};
+    let allCommentsObj =
+      JSON.parse(localStorage.getItem("allCommentsObj")) || {};
 
     // set comment check object for Results formatting on Submit page
     let commentLength = event.target.value.length;
@@ -197,51 +221,39 @@ const HighCards = (props) => {
         let cleanedComment = sanitizeString(comment);
         el.comment = cleanedComment;
         // input word count default value to 0
-        let inputWordCount = 0;
+        // let inputWordCount = 0;
         // if there is comment text
         if (cleanedComment.length > 0) {
-          // check word count total of non-CJ words and CJ characters
-          const minWordCountObj = minWordCount(userEnteredText);
-          inputWordCount = minWordCountObj.totalWords;
-
-          console.log(minWordCountObj);
-
           // setup persistence for comments
           results[identifier] = `(${el.id}): ${cleanedComment}`;
           allCommentsObj[identifier] = `(${el.id}): ${cleanedComment}`;
-          allCommentsObj[`textArea-${columnDisplay}_${itemId + 1}`] = `${cleanedComment}`;
-
-          // if min word count is required
-          if (minWordCountRequired) {
-            if (inputWordCount > minWordCountValue) {
-              // enough word = allow navigation
-              setRequiredCommentsObject((requiredCommentsObject) => {
-                return { ...requiredCommentsObject, [`hc-${itemId}`]: true };
-              });
-            } else {
-              // not enough words = prevent navigation
-              setRequiredCommentsObject((requiredCommentsObject) => {
-                return { ...requiredCommentsObject, [`hc-${itemId}`]: false };
-              });
-            }
-          } else {
-            // no min word count required = allow navigation because there is a response
-            setRequiredCommentsObject((requiredCommentsObject) => {
-              return { ...requiredCommentsObject, [`hc-${itemId}`]: true };
-            });
-          }
+          allCommentsObj[`textArea-${columnDisplay}_${itemId + 1}`] =
+            `${cleanedComment}`;
         } else {
           // no response = prevent navigation
           el.comment = "";
           results[identifier] = `(${el.id}): no response`;
           allCommentsObj[identifier] = `(${el.id}): no response`;
           allCommentsObj[`textArea-${columnDisplay}_${itemId + 1}`] = "";
-          setRequiredCommentsObject((requiredCommentsObject) => {
-            return { ...requiredCommentsObject, [`hc-${itemId}`]: false };
-          });
         }
       }
       return el;
+    });
+    const key = `textArea-${columnDisplay}_${itemId + 1}`;
+    const isInvalid =
+      getInvalidPostsortKeys([key], allCommentsObj, {
+        minWordCountRequired,
+        minWordCountValue,
+      }).length > 0;
+
+    setInvalidKeysForThisColumn((prev) => {
+      const next = new Set(prev);
+      if (isInvalid) {
+        next.add(key);
+      } else {
+        next.delete(key);
+      }
+      return next;
     });
     // send to storage in case of accidental page reload on mobile
     asyncLocalStorage.setItem("allCommentsObj", JSON.stringify(allCommentsObj));
@@ -251,7 +263,8 @@ const HighCards = (props) => {
   // MAP cards to DOM
   return highCards.map((item, index) => {
     let content = ReactHtmlParser(`<div>${decodeHTML(item.statement)}</div>`);
-    let allCommentsObj = JSON.parse(localStorage.getItem("allCommentsObj")) || {};
+    let allCommentsObj =
+      JSON.parse(localStorage.getItem("allCommentsObj")) || {};
     let cardComment = allCommentsObj[`textArea-${columnDisplay}_${+index + 1}`];
 
     if (configObj.useImages === true) {
@@ -266,7 +279,9 @@ const HighCards = (props) => {
     ) {
       // if comments are required, highlight if no comment
       if (showPostsortCommentHighlighting === true) {
-        highlighting = requiredCommentsObject[`hc-${index}`];
+        highlighting = !invalidKeysForThisColumn.has(
+          `textArea-${columnDisplay}_${index + 1}`,
+        );
       }
     }
 
@@ -292,7 +307,12 @@ const HighCards = (props) => {
           }}
           classNames={{ overlay: "dualImageOverlay", modal: "dualImageModal" }}
         >
-          <img src={postsortDualImageArray[0]} width="49.5%" height="auto" alt="modalImage" />
+          <img
+            src={postsortDualImageArray[0]}
+            width="49.5%"
+            height="auto"
+            alt="modalImage"
+          />
           <img
             src={postsortDualImageArray[1]}
             width="49.5%"
@@ -380,7 +400,8 @@ const CardAndTextHolder = styled.div`
 const CommentArea = styled.textarea`
   padding: 10px;
   margin-top: 2px;
-  background-color: ${(props) => (props.bgColor ? "whitesmoke" : "rgba(253, 224, 71, .5)")};
+  background-color: ${(props) =>
+    props.bgColor ? "whitesmoke" : "rgba(253, 224, 71, .5)"};
   height: ${(props) => `${props.height}px;`};
   font-size: ${(props) => `${props.cardFontSize}px`};
   width: calc(100% - 6px);

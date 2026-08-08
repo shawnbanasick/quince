@@ -5,23 +5,32 @@ import useStore from "../../globalState/useStore";
 import convertObjectToResults from "../sort/convertObjectToResults";
 import getObjectValues from "lodash/values";
 import PropTypes from "prop-types";
+import { getInvalidPostsortKeys } from "../../utilities/getInvalidPostsortKeys";
 
 const getConfigObj = (state) => state.configObj;
 const getPresortFinished = (state) => state.presortFinished;
-const getSetTrigPrePrevNavModal = (state) => state.setTriggerPresortPreventNavModal;
+const getSetTrigPrePrevNavModal = (state) =>
+  state.setTriggerPresortPreventNavModal;
 const getCurrentPage = (state) => state.currentPage;
-const getSetCheckReqQuesCompl = (state) => state.setCheckRequiredQuestionsComplete;
-const getSetTrigSurvPrevNavModal = (state) => state.setTriggerSurveyPreventNavModal;
+const getSetCheckReqQuesCompl = (state) =>
+  state.setCheckRequiredQuestionsComplete;
+const getSetTrigSurvPrevNavModal = (state) =>
+  state.setTriggerSurveyPreventNavModal;
 const getIsSortingFinished = (state) => state.isSortingFinished;
 const getHasOverloadedColumn = (state) => state.hasOverloadedColumn;
-const getSetTrigSortPrevNavModal = (state) => state.setTriggerSortPreventNavModal;
-const getSetTrigSortOverColMod = (state) => state.setTriggerSortOverloadedColumnModal;
+const getSetTrigSortPrevNavModal = (state) =>
+  state.setTriggerSortPreventNavModal;
+const getSetTrigSortOverColMod = (state) =>
+  state.setTriggerSortOverloadedColumnModal;
 const getColumnStatements = (state) => state.columnStatements;
 const getSetResults = (state) => state.setResults;
-const getSetShowPostsortCommentHighlighting = (state) => state.setShowPostsortCommentHighlighting;
-const getSetTriggerPostsortPreventNavModal = (state) => state.setTriggerPostsortPreventNavModal;
+const getSetShowPostsortCommentHighlighting = (state) =>
+  state.setShowPostsortCommentHighlighting;
+const getSetTriggerPostsortPreventNavModal = (state) =>
+  state.setTriggerPostsortPreventNavModal;
 const getIsThinningFinished = (state) => state.isThinningFinished;
-const getSetTriggerThinningPreventNavModal = (state) => state.setTriggerThinningPreventNavModal;
+const getSetTriggerThinningPreventNavModal = (state) =>
+  state.setTriggerThinningPreventNavModal;
 
 const NextButton = (props) => {
   let goToNextPage;
@@ -39,10 +48,16 @@ const NextButton = (props) => {
   const setTriggerSortOverloadedColModal = useStore(getSetTrigSortOverColMod);
   const columnStatements = useSettingsStore(getColumnStatements);
   const setResults = useStore(getSetResults);
-  const setShowPostsortCommentHighlighting = useStore(getSetShowPostsortCommentHighlighting);
-  const setTriggerPostsortPreventNavModal = useStore(getSetTriggerPostsortPreventNavModal);
+  const setShowPostsortCommentHighlighting = useStore(
+    getSetShowPostsortCommentHighlighting,
+  );
+  const setTriggerPostsortPreventNavModal = useStore(
+    getSetTriggerPostsortPreventNavModal,
+  );
   const isThinningFinished = useStore(getIsThinningFinished);
-  const setTriggerThinningPreventNavModal = useStore(getSetTriggerThinningPreventNavModal);
+  const setTriggerThinningPreventNavModal = useStore(
+    getSetTriggerThinningPreventNavModal,
+  );
 
   const allowUnforcedSorts = configObj.allowUnforcedSorts;
   const postsortCommentsRequired = configObj.postsortCommentsRequired;
@@ -67,7 +82,10 @@ const NextButton = (props) => {
     ...rest
   } = props;
 
-  const checkForNextPageConditions = (allowUnforcedSorts, isPresortFinished) => {
+  const checkForNextPageConditions = (
+    allowUnforcedSorts,
+    isPresortFinished,
+  ) => {
     // *** ReCalc Results ***
     let sortResults1 = convertObjectToResults(columnStatements);
 
@@ -140,33 +158,40 @@ const NextButton = (props) => {
     }
 
     if (currentPage === "postsort") {
-      let postsortCommentCardCount = +localStorage.getItem("postsortCommentCardCount");
-      const required1 =
-        getObjectValues(JSON.parse(localStorage.getItem("HC-requiredCommentsObj"))) || [];
-      const required2 =
-        getObjectValues(JSON.parse(localStorage.getItem("HC2-requiredCommentsObj"))) || [];
-      const required3 =
-        getObjectValues(JSON.parse(localStorage.getItem("LC-requiredCommentsObj"))) || [];
-      const required4 =
-        getObjectValues(JSON.parse(localStorage.getItem("LC2-requiredCommentsObj"))) || [];
+      const commentsRequired =
+        postsortCommentsRequired === true ||
+        postsortCommentsRequired === "true";
 
-      const checkArray2 = [...required1, ...required2, ...required3, ...required4];
+      if (commentsRequired) {
+        const allCommentsObj =
+          JSON.parse(localStorage.getItem("allCommentsObj")) || {};
 
-      if (
-        checkArray2.includes("false") ||
-        checkArray2.includes(false) ||
-        checkArray2.length < postsortCommentCardCount
-      ) {
-        // answers required in configObj
-        if (postsortCommentsRequired === true) {
+        const vCols =
+          JSON.parse(localStorage.getItem("columnStatements"))?.vCols || {};
+
+        const minWordCountRequired =
+          configObj.requireMinCommentLength === true ||
+          configObj.requireMinCommentLength === "true";
+        const minWordCountValue = configObj.minWordCountValuePostsort || 0;
+
+        // build the full set of expected keys across every card group in columnStatements
+        const allKeys = Object.entries(vCols).flatMap(
+          ([columnDisplay, cards]) =>
+            cards.map((_, i) => `textArea-${columnDisplay}_${i + 1}`),
+        );
+
+        const invalidKeys = getInvalidPostsortKeys(allKeys, allCommentsObj, {
+          minWordCountRequired,
+          minWordCountValue,
+        });
+
+        if (invalidKeys.length > 0) {
           setShowPostsortCommentHighlighting(true);
           setTriggerPostsortPreventNavModal(true);
           return false;
         }
-        return true;
-      } else {
-        return true;
       }
+      return true;
     }
 
     if (currentPage === "survey") {
@@ -192,7 +217,10 @@ const NextButton = (props) => {
       {...rest} // `children` is just another prop!
       onClick={(event) => {
         onClick && onClick(event);
-        goToNextPage = checkForNextPageConditions(allowUnforcedSorts, presortFinished);
+        goToNextPage = checkForNextPageConditions(
+          allowUnforcedSorts,
+          presortFinished,
+        );
         if (goToNextPage) {
           history.push(to);
         }
@@ -234,7 +262,8 @@ const GoNextButton = styled.button`
   align-items: center;
   user-select: none;
   justify-content: center;
-  background-color: ${({ theme, active }) => (active ? theme.secondary : theme.primary)};
+  background-color: ${({ theme, active }) =>
+    active ? theme.secondary : theme.primary};
 
   &:hover {
     background-color: ${({ theme }) => theme.secondary};

@@ -25,7 +25,7 @@
      <item id="columnColorsArray">#ff7676,#ff8989,#ffb1b1,#ffc4c4,#F3F4F6,#c4ffc4,#b1ffb1,#89ff89,#3bff3b</item>
 
      <!-- 2. COLUMN LABELS --> 
-     <item id="colTextLabelsArray">Very Strongly Disagree, Strongly Disagree, Disagree, Disagree Somewhat, Neutral, Agree Somewhat, Agree, Strongly Agree, Very Strongly Agree</item>
+     <item id="colTextLabelsArray">Very Strongly Disagree, Strongly Disagree, Disagree, Disagree Somewhat, Neutral, Agree Somewhat, Agree, Strongly Agree, Very Strongly Agree 2</item>
      <item id="emojiArrayType">emoji4Array</item>
      <item id="mobileHeadersDefaultLabels">labels9</item>
      <item id="useColLabelEmojiPresort">false</item>
