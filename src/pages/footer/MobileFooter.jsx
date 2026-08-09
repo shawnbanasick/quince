@@ -40,7 +40,9 @@ const MobileStyledFooter = () => {
 
   // *** LOGO ***
   let logoHtml = ReactHtmlParser(
-    decodeHTML(`{{{center}}}{{{img src="./logo/logo.png" height="20" width="125" /}}}{{{/center}}}`)
+    decodeHTML(
+      `{{{center}}}{{{img src="./logo/logo.png" height="20" width="125" /}}}{{{/center}}}`,
+    ),
   );
 
   // *** TEXT LOCALIZATION ***
@@ -54,21 +56,32 @@ const MobileStyledFooter = () => {
     nextButtonText = ReactHtmlParser(decodeHTML(langObj.btnNext)) || "";
   }
 
-  let backButtonText = ReactHtmlParser(decodeHTML(langObj.postsortBackButtonText)) || "";
+  let backButtonText =
+    ReactHtmlParser(decodeHTML(langObj.postsortBackButtonText)) || "";
 
   // *** LOCAL DATA COLLECTION SETUP ***
   if (currentPage === "sort" && configObj.setupTarget === "local") {
     const usercode = localUsercode;
     const projectName = configObj.studyTitle;
     const today = new Date();
-    const date = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
-    const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    const date =
+      today.getFullYear() +
+      "-" +
+      (today.getMonth() + 1) +
+      "-" +
+      today.getDate();
+    const time =
+      today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     const dateTime = date + " " + time;
     logoHtml = `${usercode} - ${projectName} - ${dateTime}`;
   }
 
   // Display LOGO
-  if (currentPage === "submit" || currentPage === "landing" || currentPage === "consent") {
+  if (
+    currentPage === "submit" ||
+    currentPage === "landing" ||
+    currentPage === "consent"
+  ) {
     showLogo = true;
   }
 
@@ -101,7 +114,11 @@ const MobileStyledFooter = () => {
   }
 
   // Image sort adjustments
-  if (currentPage === "submit" || currentPage === "landing" || currentPage === "consent") {
+  if (
+    currentPage === "submit" ||
+    currentPage === "landing" ||
+    currentPage === "consent"
+  ) {
     showFooterFontSizer = false;
     showFooterViewSizer = false;
   }
@@ -115,7 +132,13 @@ const MobileStyledFooter = () => {
     showLogo = false;
   }
 
-  const nextPage = getNextPage(currentPage, showPostsort, showSurvey, showConsent, showThinning);
+  const nextPage = getNextPage(
+    currentPage,
+    showPostsort,
+    showSurvey,
+    showConsent,
+    showThinning,
+  );
 
   // ************************
   // *** EARLY RETURN ***********
@@ -126,12 +149,20 @@ const MobileStyledFooter = () => {
 
   return (
     <StyledFooterDiv data-testid="mobileFooterDiv">
-      {showLogo && <LogoContainer data-testid="logoDiv">{logoHtml}</LogoContainer>}
-      {showBackButton && (
-        <MobileSurveyBackButton to={"/postsort"}>{backButtonText}</MobileSurveyBackButton>
+      {showLogo && (
+        <LogoContainer data-testid="logoDiv">{logoHtml}</LogoContainer>
       )}
-      {showFooterFontSizer && <MobileFooterFontSizer data-testid="mobileFooterFontSizerComp" />}
-      {showFooterViewSizer && <MobileFooterViewSizer data-testid="mobileFooterViewSizerComp" />}
+      {showBackButton && (
+        <MobileSurveyBackButton to={"/postsort"}>
+          {backButtonText}
+        </MobileSurveyBackButton>
+      )}
+      {showFooterFontSizer && (
+        <MobileFooterFontSizer data-testid="mobileFooterFontSizerComp" />
+      )}
+      {showFooterViewSizer && (
+        <MobileFooterViewSizer data-testid="mobileFooterViewSizerComp" />
+      )}
       {displayNextButton && (
         <MobileNextButton
           data-testid="mobileFooterNextButton"
@@ -153,6 +184,9 @@ const StyledFooterDiv = styled.footer`
   position: fixed;
   bottom: 0px;
   left: 0px;
+  width: 98%;
+  height: 35px;
+  box-sizing: border-box;
   border-top: 1px solid lightgray;
   justify-content: space-between;
   padding: 5px;
