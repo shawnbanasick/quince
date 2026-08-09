@@ -1,25 +1,42 @@
-import useStore from "../globalState/useStore";
+import { toArray, getText, getAttr } from "../utilities/xmlHelpers";
 
 const processLanguageXMLData = (dataObject) => {
-  try {
-    const data = dataObject.language.item;
+  // No try/catch here on purpose: let parsing errors propagate to the
+  // caller (App.js), which already handles load failures with a proper
+  // error screen. Swallowing the error here would leave langObj undefined
+  // and cause a harder-to-diagnose crash later.
 
-    let info = dataObject.language.info;
+  const langObj = {};
 
-    const langObj = {};
-    let versionObject = info.find((infoItem) => infoItem._attributes.id === "languageFileVersion");
-    let version = versionObject._text;
-    langObj.langFileVersion = version;
-
-    for (let i = 0; i < data.length; i++) {
-      langObj[data[i]._attributes.id] = data[i]._text;
-      useStore.setState({ [data[i]._attributes.id]: data[i]._text });
-    }
-    return langObj;
-  } catch (error) {
-    console.log("there was a language import error");
-    console.log(error);
+  // --- language file version ---
+  const infoArray = toArray(dataObject?.language?.info);
+  const versionObject = infoArray.find(
+    (infoItem) => getAttr(infoItem, "id") === "languageFileVersion",
+  );
+  if (!versionObject) {
+    console.warn(
+      'processLanguageXMLData: no <info id="languageFileVersion"> element found in language.xml',
+    );
   }
+  langObj.langFileVersion = getText(versionObject);
+
+  // --- language strings ---
+  const items = toArray(dataObject?.language?.item);
+  for (let i = 0; i < items.length; i++) {
+    const itemEl = items[i];
+    const key = getAttr(itemEl, "id");
+
+    if (!key) {
+      console.warn(
+        `processLanguageXMLData: item at position ${i} is missing an "id" attribute`,
+      );
+      continue;
+    }
+
+    langObj[key] = getText(itemEl);
+  }
+
+  return langObj;
 };
 
 export default processLanguageXMLData;

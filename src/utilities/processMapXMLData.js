@@ -1,4 +1,4 @@
-import useStore from "../globalState/useStore";
+import { toArray, getText, getAttr } from "../utilities/xmlHelpers";
 
 const processMapXMLData = (dataObject) => {
   const mapObj = {};
@@ -6,85 +6,101 @@ const processMapXMLData = (dataObject) => {
   const vColsObj = {};
   const colInfoArray = [];
 
-  let info = dataObject.map.info;
-  let versionObject = info.find((infoItem) => infoItem._attributes.id === "mapFileVersion");
-  mapObj.mapFileVersion = versionObject._text;
+  // --- map file version ---
+  const infoArray = toArray(dataObject?.map?.info);
+  const versionObject = infoArray.find(
+    (infoItem) => getAttr(infoItem, "id") === "mapFileVersion",
+  );
+  if (!versionObject) {
+    console.warn(
+      'processMapXMLData: no <info id="mapFileVersion"> element found in map.xml',
+    );
+  }
+  mapObj.mapFileVersion = getText(versionObject);
 
   // COLUMN LOOP -> get card counts per column
-  for (let i = 0; i < data.column.length; i++) {
-    let keyVal;
-    let label = data.column[i]._attributes.id;
-    let labelInt = parseInt(label, 10);
-    if (labelInt < 0) {
-      keyVal = `columnN${Math.abs(labelInt)}`;
-      vColsObj[keyVal] = [];
-    } else {
-      keyVal = `column${labelInt}`;
-      vColsObj[keyVal] = [];
+  const columns = toArray(data.column);
+  for (let i = 0; i < columns.length; i++) {
+    const columnEl = columns[i];
+    const label = getAttr(columnEl, "id");
+    const labelInt = parseInt(label, 10);
+
+    if (Number.isNaN(labelInt)) {
+      console.warn(
+        `processMapXMLData: column at position ${i} has a non-numeric or missing "id" attribute`,
+      );
     }
-    let tempObj = {};
-    tempObj.colNum = i + 1;
-    tempObj.label = label;
-    tempObj.colour = `#${data.column[i]._attributes.colour}`;
-    tempObj.numCards = data.column[i]._text;
-    colInfoArray.push(tempObj);
+
+    const keyVal =
+      labelInt < 0 ? `columnN${Math.abs(labelInt)}` : `column${labelInt}`;
+    vColsObj[keyVal] = [];
+
+    colInfoArray.push({
+      colNum: i + 1,
+      label,
+      colour: `#${getAttr(columnEl, "colour")}`,
+      numCards: getText(columnEl),
+    });
   }
+  mapObj.colInfoArray = colInfoArray;
 
   // ITEMS VALUES ---> get color arrays and q sort pattern, etc...
-  const itemsArray = dataObject.map.item;
+  const items = toArray(dataObject?.map?.item);
 
   // qSortPattern
-  let qSortPattern = [];
-  const qSortPatternObject = itemsArray.find(
-    (itemsArray) => itemsArray._attributes.id === "qSortPattern"
+  const qSortPatternObject = items.find(
+    (item) => getAttr(item, "id") === "qSortPattern",
   );
-  const qSortPatternText = qSortPatternObject._text;
-  qSortPattern = qSortPatternText.split(",").map((x) => +x);
-  mapObj.qSortPattern = qSortPattern;
+  if (!qSortPatternObject) {
+    console.warn(
+      'processMapXMLData: no <item id="qSortPattern"> element found in map.xml',
+    );
+  }
+  const qSortPatternText = getText(qSortPatternObject);
+  mapObj.qSortPattern = qSortPatternText
+    ? qSortPatternText.split(",").map((x) => +x)
+    : [];
 
-  // qSortHeaderNumbers
-  // qSortHeaders
-  // columnHeadersColorsArray
-  // columnColorsArray
-  // colTextLabelsArray
-  // emojiArrayType
-  // useColLabelEmojiPresort
-  // useColLabelNums
-  // useColLabelText
-  // useColLabelEmoji
-  // useColLabelEmojiPostsort
-  // useColLabelTextPostsort
-  // useColLabelNumsPostsort
+  for (let j = 0; j < items.length; j++) {
+    const itemEl = items[j];
+    const key = getAttr(itemEl, "id");
+    const value = getText(itemEl, "");
 
-  for (let j = 0; j < data.item.length; j++) {
-    let splitArray = [];
-    let value = data.item[j]._text;
-    let key = data.item[j]._attributes.id;
-    // numerical array ==> convert to integers
-    if (value === undefined || value === null) {
-      value = "";
-    } else if (value.includes(",")) {
-      splitArray = value.split(",");
-      mapObj[key] = splitArray;
-    } else {
-      mapObj[key] = [value];
+    if (!key) {
+      console.warn(
+        `processMapXMLData: item at position ${j} is missing an "id" attribute`,
+      );
+      continue;
     }
+
+    mapObj[key] = value.includes(",") ? value.split(",") : [value];
   }
 
   // create converter object for postsort
   const postsortConvertObj = {};
-  const headerNumbers = [...mapObj.qSortHeaders];
+  const headerNumbers = mapObj.qSortHeaders ?? [];
+  const headerValues = mapObj.qSortHeaderNumbers ?? [];
+
+  if (!mapObj.qSortHeaders || !mapObj.qSortHeaderNumbers) {
+    console.warn(
+      "processMapXMLData: qSortHeaders or qSortHeaderNumbers missing — postsortConvertObj may be incomplete",
+    );
+  } else if (headerNumbers.length !== headerValues.length) {
+    console.warn(
+      "processMapXMLData: qSortHeaders and qSortHeaderNumbers have different lengths",
+    );
+  }
+
   for (let j = 0; j < headerNumbers.length; j++) {
-    let key = `column${headerNumbers[j]}`;
-    postsortConvertObj[key] = mapObj.qSortHeaderNumbers[j];
+    const key = `column${headerNumbers[j]}`;
+    postsortConvertObj[key] = headerValues[j];
   }
   mapObj.postsortConvertObj = postsortConvertObj;
 
-  useStore.setState({ vColsObj: vColsObj });
-  const returnObj = {};
-  returnObj.vColsObj = vColsObj;
-  returnObj.mapObj = mapObj;
-  return returnObj;
+  return {
+    vColsObj,
+    mapObj,
+  };
 };
 
 export default processMapXMLData;

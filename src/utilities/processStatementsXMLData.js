@@ -1,42 +1,68 @@
 import shuffle from "lodash/shuffle";
+import { toArray } from "../utilities/xmlHelpers";
 
 // prep column setup array
 const processStatementsXMLData = (dataObject, shuffleCards, vColsObj) => {
-  const data = dataObject.statements.statement;
-  let statementsArray = [];
+  const data = toArray(dataObject?.statements?.statement);
 
-  for (let i = 0; i < data.length; i++) {
-    let tempObj = {};
-    tempObj.id = `s${data[i]._attributes.id}`;
-    tempObj.statementNum = data[i]._attributes.id;
-    tempObj.divColor = "isUncertainStatement";
-    tempObj.cardColor = "yellowSortCard";
-    tempObj.pinkChecked = false;
-    tempObj.yellowChecked = true;
-    tempObj.greenChecked = false;
-    tempObj.sortValue = 222;
-    tempObj.backgroundColor = "#e0e0e0";
-    tempObj.statement = data[i]._text.trim();
-    statementsArray.push(tempObj);
+  if (data.length === 0) {
+    console.warn(
+      "processStatementsXMLData: no <statement> elements found in statements.xml",
+    );
   }
+
+  const seenIds = new Set();
+
+  let statementsArray = data.map((statementEl, i) => {
+    const rawId = statementEl?._attributes?.id;
+    const text = statementEl?._text?.trim() ?? "";
+
+    if (rawId === undefined) {
+      console.warn(
+        `processStatementsXMLData: statement at position ${i} is missing an "id" attribute`,
+      );
+    }
+    if (text === "") {
+      console.warn(
+        `processStatementsXMLData: statement id="${rawId}" has no text content`,
+      );
+    }
+    if (seenIds.has(rawId)) {
+      console.warn(
+        `processStatementsXMLData: duplicate statement id "${rawId}" found`,
+      );
+    }
+    seenIds.add(rawId);
+
+    return {
+      id: `s${rawId}`,
+      statementNum: rawId,
+      divColor: "isUncertainStatement",
+      cardColor: "yellowSortCard",
+      pinkChecked: false,
+      yellowChecked: true,
+      greenChecked: false,
+      sortValue: 222,
+      backgroundColor: "#e0e0e0",
+      statement: text,
+    };
+  });
 
   if (shuffleCards === true) {
-    const shuffledCards = shuffle(statementsArray);
-    statementsArray = [...shuffledCards];
+    statementsArray = shuffle(statementsArray);
   }
 
-  let totalStatements = statementsArray.length;
+  const columnStatements = {
+    vCols: vColsObj,
+    statementList: statementsArray,
+  };
 
-  const columnStatements = {};
+  localStorage.setItem("hasBeenLoaded", "true");
 
-  columnStatements.vCols = vColsObj;
-  columnStatements.statementList = statementsArray;
-
-  localStorage.setItem("hasBeenLoaded", true);
-  const returnObj = {};
-  returnObj.columnStatements = columnStatements;
-  returnObj.totalStatements = totalStatements;
-  return returnObj;
+  return {
+    columnStatements,
+    totalStatements: statementsArray.length,
+  };
 };
 
 export default processStatementsXMLData;

@@ -3,7 +3,7 @@
    <map version="1.0.7" htmlParse="false">;
 
     <!-- 0. FILE INFORMATION -->
-      <info order="0-1" id="mapFileVersion">1.0.0</info>
+      <info order="0-1" id="mapFileVersion">1.0.8</info>
       <info order="0-2" id="iterationDate">2025-08-31</info>
       <info order="0-3" id="studyTitle">Demo Project</info> 
       <info order="0-4" id="creationDate">2026-2-13@11:55</info> 
@@ -25,7 +25,7 @@
      <item id="columnColorsArray">#ff7676,#ff8989,#ffb1b1,#ffc4c4,#F3F4F6,#c4ffc4,#b1ffb1,#89ff89,#3bff3b</item>
 
      <!-- 2. COLUMN LABELS --> 
-     <item id="colTextLabelsArray">Very Strongly Disagree, Strongly Disagree, Disagree, Disagree Somewhat, Neutral, Agree Somewhat, Agree, Strongly Agree, Very Strongly Agree 2</item>
+     <item id="colTextLabelsArray">Very Strongly Disagree, Strongly Disagree, Disagree, Disagree Somewhat, Neutral, Agree Somewhat, Agree, Strongly Agree, Very Strongly Agree</item>
      <item id="emojiArrayType">emoji4Array</item>
      <item id="mobileHeadersDefaultLabels">labels9</item>
      <item id="useColLabelEmojiPresort">false</item>

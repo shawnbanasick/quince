@@ -31,6 +31,7 @@ import MobilePostsortPage from "./pages/postsort/MobilePostsort";
 import MobileSubmitPage from "./pages/submit/MobileSubmit";
 import { satisfies } from "compare-versions";
 import MobileAccessDenied from "./utilities/MobileAccessDenied";
+import OutOfDateWarningBanner from "./OutOfDate";
 
 const getSetConfigObj = (state) => state.setConfigObj;
 const getSetLangObj = (state) => state.setLangObj;
@@ -41,8 +42,8 @@ const getSetResetColumnStatements = (state) => state.setResetColumnStatements;
 const getSetSurveyQuesObjArray = (state) => state.setSurveyQuestionObjArray;
 const getSetRequiredAnswersObj = (state) => state.setRequiredAnswersObj;
 const getSetDataLoaded = (state) => state.setDataLoaded;
-const getDisplayGoodbyeMessage = (state) => state.displayGoodbyeMessage;
-const getDisableRefreshCheck = (state) => state.disableRefreshCheck;
+// const getDisplayGoodbyeMessage = (state) => state.displayGoodbyeMessage;
+// const getDisableRefreshCheck = (state) => state.disableRefreshCheck;
 const getConfigObj = (state) => state.configObj;
 const getLangObj = (state) => state.langObj;
 const getMapObj = (state) => state.mapObj;
@@ -53,147 +54,135 @@ function App() {
   const setMapObj = useSettingsStore(getSetMapObj);
   const setStatementsObj = useSettingsStore(getSetStatementsObj);
   const setColumnStatements = useSettingsStore(getSetColumnStatements);
-  const setResetColumnStatements = useSettingsStore(getSetResetColumnStatements);
+  const setResetColumnStatements = useSettingsStore(
+    getSetResetColumnStatements,
+  );
   const setSurveyQuestionObjArray = useSettingsStore(getSetSurveyQuesObjArray);
   const setRequiredAnswersObj = useSettingsStore(getSetRequiredAnswersObj);
   const setDataLoaded = useStore(getSetDataLoaded);
-  const displayGoodbyeMessage = useStore(getDisplayGoodbyeMessage);
-  const disableRefreshCheck = useStore(getDisableRefreshCheck);
+  // const displayGoodbyeMessage = useStore(getDisplayGoodbyeMessage);
+  // const disableRefreshCheck = useStore(getDisableRefreshCheck);
   const configObj = useSettingsStore(getConfigObj);
   const langObj = useSettingsStore(getLangObj);
   const mapObj = useSettingsStore(getMapObj);
 
   const [isLoading, setLoading] = useState(true);
-  const [hasShownMapXmlWarning, setHasShownMapXmlWarning] = useState(false);
-  const [hasShownConfigXmlWarning, setHasShownConfigXmlWarning] = useState(false);
-  const [hasShownLanguageXmlWarning, setHasShownLanguageXmlWarning] = useState(false);
+  const [loadError, setLoadError] = useState(null);
+  const [outOfDateFiles, setOutOfDateFiles] = useState([]);
 
-  useEffect(() => {
-    const unloadCallback = (event) => {
-      const e = event || window.event;
-      e.preventDefault();
-      if (e) {
-        e.returnValue = "";
-      }
-      return "";
-    };
-
-    if (displayGoodbyeMessage || disableRefreshCheck) {
-      window.removeEventListener("beforeunload", unloadCallback);
-    } else {
-      window.addEventListener("beforeunload", unloadCallback);
-
-      return () => {
-        //cleanup function
-        window.removeEventListener("beforeunload", unloadCallback);
-      };
+  // small helper so each fetch reports which file failed
+  const fetchXml = async (path) => {
+    try {
+      const response = await axios.get(path, {
+        "Content-Type": "application/xml; charset=utf-8",
+      });
+      return response.data;
+    } catch (error) {
+      throw new Error(`Failed to load ${path}: ${error.message}`);
     }
-  }, [displayGoodbyeMessage, disableRefreshCheck]);
+  };
 
   useEffect(() => {
-    let shuffleCards;
-    let vColsObj;
-    let imagesArray = [];
-
     (async () => {
-      await axios
-        .get(`./settings/language.xml`, {
-          "Content-Type": "application/xml; charset=utf-8",
-        })
-        .then(function (response) {
-          const options = { compact: true, ignoreComment: true, spaces: 4 };
-          const languageData = convert.xml2js(response.data, options);
-          let langObj = processLanguageXMLData(languageData);
-          setLangObj(langObj);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      try {
+        // language, config, and map don't depend on each other — fetch in parallel
+        const [languageXml, configXml, mapXml] = await Promise.all([
+          fetchXml("./settings/language.xml"),
+          fetchXml("./settings/config.xml"),
+          fetchXml("./settings/map.xml"),
+        ]);
 
-      await axios
-        .get("./settings/config.xml", {
-          "Content-Type": "application/xml; charset=utf-8",
-        })
-        .then(function (response) {
-          const options = { compact: false, ignoreComment: true, spaces: 2 };
-          const configData = convert.xml2js(response.data, options);
-          let info = processConfigXMLData(configData);
-          shuffleCards = info.shuffleCards;
+        // --- language ---
+        const languageOptions = {
+          compact: true,
+          ignoreComment: true,
+          spaces: 4,
+        };
+        const languageData = convert.xml2js(languageXml, languageOptions);
+        const langObj = processLanguageXMLData(languageData);
+        setLangObj(langObj);
 
-          setConfigObj(info.configObj);
-          setSurveyQuestionObjArray(info.surveyQuestionObjArray);
-          setRequiredAnswersObj(info.requiredAnswersObj);
+        // --- config ---
+        const configOptions = {
+          compact: false,
+          ignoreComment: true,
+          spaces: 2,
+        };
+        const configData = convert.xml2js(configXml, configOptions);
+        const configInfo = processConfigXMLData(configData);
+        const {
+          shuffleCards,
+          configObj,
+          surveyQuestionObjArray,
+          requiredAnswersObj,
+        } = configInfo;
 
-          if (info.configObj.useImages === true) {
-            for (let i = 0; i < info.configObj.numImages; i++) {
-              let item = {};
-              item.backgroundColor = "white";
-              item.element = (
+        setConfigObj(configObj);
+        setSurveyQuestionObjArray(surveyQuestionObjArray);
+        setRequiredAnswersObj(requiredAnswersObj);
+
+        let imagesArray = [];
+        if (configObj.useImages === true) {
+          for (let i = 0; i < configObj.numImages; i++) {
+            imagesArray.push({
+              backgroundColor: "white",
+              element: (
                 <img
-                  src={`/settings/images/image${i + 1}.${info.configObj.imageFileType}`}
+                  src={`/settings/images/image${i + 1}.${configObj.imageFileType}`}
                   alt={`image${i + 1}`}
                   className="dragObject"
                 />
-              );
-              item.cardColor = "yellowSortCard";
-              item.divColor = "isUncertainStatement";
-              item.pinkChecked = false;
-              item.yellowChecked = true;
-              item.greenChecked = false;
-              item.sortValue = 222;
-              item.id = `image${i + 1}`;
-              item.statement = `image${i + 1}`;
-              item.statementNum = `${i + 1}`;
-
-              imagesArray.push(item);
-            }
-
-            if (info.configObj.shuffleCards === true) {
-              const shuffledCards = shuffle(imagesArray);
-              imagesArray = [...shuffledCards];
-            }
+              ),
+              cardColor: "yellowSortCard",
+              divColor: "isUncertainStatement",
+              pinkChecked: false,
+              yellowChecked: true,
+              greenChecked: false,
+              sortValue: 222,
+              id: `image${i + 1}`,
+              statement: `image${i + 1}`,
+              statementNum: `${i + 1}`,
+            });
           }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
 
-      await axios
-        .get("./settings/map.xml", {
-          "Content-Type": "application/xml; charset=utf-8",
-        })
-        .then(function (response) {
-          const options = { compact: true, ignoreComment: true, spaces: 4 };
-          const mapData = convert.xml2js(response.data, options);
-          let data = processMapXMLData(mapData);
-          vColsObj = data.vColsObj;
-          setMapObj(data.mapObj);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+          if (configObj.shuffleCards === true) {
+            imagesArray = shuffle(imagesArray);
+          }
+        }
 
-      await axios
-        .get("./settings/statements.xml", {
-          "Content-Type": "application/xml; charset=utf-8",
-        })
-        .then(function (response) {
-          const options = { compact: true, ignoreComment: true, spaces: 4 };
-          const statementsData = convert.xml2js(response.data, options);
-          const statementsObj = processStatementsXMLData(statementsData, shuffleCards, vColsObj);
-          // add for images setup
-          statementsObj.columnStatements.imagesList = imagesArray;
-          setColumnStatements(statementsObj.columnStatements);
-          const resetColumnStatements = cloneDeep(statementsObj.columnStatements);
-          setResetColumnStatements(resetColumnStatements);
-          setStatementsObj(statementsObj);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+        // --- map ---
+        const mapOptions = { compact: true, ignoreComment: true, spaces: 4 };
+        const mapData = convert.xml2js(mapXml, mapOptions);
+        const { vColsObj, mapObj } = processMapXMLData(mapData);
 
-      await setDataLoaded(true);
-      await setLoading(false);
+        setMapObj(mapObj);
+
+        // --- statements (depends on shuffleCards + vColsObj, so fetch after) ---
+        const statementsXml = await fetchXml("./settings/statements.xml");
+        const statementsOptions = {
+          compact: true,
+          ignoreComment: true,
+          spaces: 4,
+        };
+        const statementsData = convert.xml2js(statementsXml, statementsOptions);
+        const statementsObj = processStatementsXMLData(
+          statementsData,
+          shuffleCards,
+          vColsObj,
+        );
+
+        statementsObj.columnStatements.imagesList = imagesArray;
+        setColumnStatements(statementsObj.columnStatements);
+        setResetColumnStatements(cloneDeep(statementsObj.columnStatements));
+        setStatementsObj(statementsObj);
+
+        setDataLoaded(true);
+      } catch (error) {
+        console.error("Failed to load settings files:", error);
+        setLoadError(error);
+      } finally {
+        setLoading(false);
+      }
     })();
   }, [
     setConfigObj,
@@ -207,48 +196,59 @@ function App() {
     setResetColumnStatements,
   ]);
 
+  // CHECK VERSION NUMBERS
+  const baseTemplateVersion = "1.0.8";
+  const maxTemplateVersion = "1.0.10";
+
+  const versionChecks = [
+    {
+      key: "language",
+      label: "language.xml",
+      version: langObj["langFileVersion"] || "",
+    },
+    {
+      key: "config",
+      label: "config.xml",
+      version: configObj["configFileVersion"] || "",
+    },
+    { key: "map", label: "map.xml", version: mapObj["mapFileVersion"] || "" },
+  ];
+
+  useEffect(() => {
+    if (isLoading) return;
+
+    const stale = versionChecks.filter(({ version }) => {
+      try {
+        return !satisfies(
+          version,
+          `>=${baseTemplateVersion} <${maxTemplateVersion}`,
+        );
+      } catch (error) {
+        console.error("Error checking version:", error);
+        return true; // treat unparseable/missing version as out-of-date
+      }
+    });
+
+    if (stale.length > 0) {
+      setOutOfDateFiles(stale);
+    }
+  }, [isLoading]); // eslint-disable-line react-hooks/exhaustive-deps
+
   if (isLoading) {
     return <LoadingScreen />;
   }
 
-  // CHECK VERSION NUMBERS
-  const baseTemplateVersion = "1.0.0";
-  const maxTemplateVersion = "1.1.0";
-  const langFileVersion = langObj["langFileVersion"] || "";
-  const configFileVersion = configObj["configFileVersion"] || "";
-  const mapFileVersion = mapObj["mapFileVersion"] || "";
-
-  try {
-    if (
-      !satisfies(langFileVersion, `>=${baseTemplateVersion} <${maxTemplateVersion}`) &&
-      hasShownLanguageXmlWarning === false
-    ) {
-      alert(
-        "The language.xml file is out-of-date. Please import the file into the Quince Configurator to update it to the newest version, then add it to your project's settings folder and try again.",
-      );
-      setHasShownLanguageXmlWarning(true);
-    }
-    if (
-      !satisfies(configFileVersion, `>=${baseTemplateVersion} <${maxTemplateVersion}`) &&
-      hasShownConfigXmlWarning === false
-    ) {
-      alert(
-        "The config.xml file is out-of-date. Please import the file into the Quince Configurator to update it to the newest version, then add it to your project's settings folder and try again.",
-      );
-      setHasShownConfigXmlWarning(true);
-    }
-    if (
-      !satisfies(mapFileVersion, `>=${baseTemplateVersion} <${maxTemplateVersion}`) &&
-      hasShownMapXmlWarning === false
-    ) {
-      alert(
-        "The map.xml file is out-of-date. Please import the file into the Quince Configurator to update it to the newest version, then add it to your project's settings folder and try again.",
-      );
-      setHasShownMapXmlWarning(true);
-    }
-  } catch (error) {
-    console.log("There was an error determining the settings file versions ");
-    console.log(error);
+  if (loadError) {
+    return (
+      <div className="App">
+        <h1>Unable to load configuration</h1>
+        <p>{loadError.message}</p>
+        <p>
+          Please check that your settings files are present and correctly
+          formatted, then reload the page.
+        </p>
+      </div>
+    );
   }
 
   if (configObj.useMobileMode === true || configObj.useMobileMode === "true") {
@@ -256,7 +256,10 @@ function App() {
     if (isMobile) {
       console.log("Mobile Mode");
 
-      if (configObj.preventMobileAccess === true || configObj.preventMobileAcess === "true") {
+      if (
+        configObj.preventMobileAccess === true ||
+        configObj.preventMobileAcess === "true"
+      ) {
         return (
           <div className="App">
             <Router>
@@ -268,9 +271,16 @@ function App() {
         );
       }
 
-      if (configObj.showConsentPage === true || configObj.showConsentPage === "true") {
+      if (
+        configObj.showConsentPage === true ||
+        configObj.showConsentPage === "true"
+      ) {
         return (
           <div className="App">
+            <OutOfDateWarningBanner
+              files={outOfDateFiles}
+              onDismiss={() => setOutOfDateFiles([])}
+            />
             <Router>
               <Switch>
                 <Route exact path="/" component={ConsentPage} />
@@ -293,12 +303,15 @@ function App() {
 
       return (
         <div className="App">
+          <OutOfDateWarningBanner
+            files={outOfDateFiles}
+            onDismiss={() => setOutOfDateFiles([])}
+          />
           <Router>
             <Switch>
               <Route exact path="/" component={LandingPage} />
               <Route exact path="/presort" component={MobilePresortPage} />
               <Route exact path="/thin" component={MobileThinningPage} />
-              {/* <Route exact path="/presort" component={PresortPage} /> */}
               <Route exact path="/sort" component={MobileSortPage} />
               <Route exact path="/postsort" component={MobilePostsortPage} />
               <Route exact path="/survey" component={MobileSurveyPage} />
@@ -314,10 +327,17 @@ function App() {
     }
   }
 
-  if (configObj.showConsentPage === true || configObj.showConsentPage === "true") {
+  if (
+    configObj.showConsentPage === true ||
+    configObj.showConsentPage === "true"
+  ) {
     // routing for desktop, with consent page, no thin process
     return (
       <div className="App">
+        <OutOfDateWarningBanner
+          files={outOfDateFiles}
+          onDismiss={() => setOutOfDateFiles([])}
+        />
         <Router>
           <Switch>
             <Route exact path="/" component={ConsentPage} />
@@ -341,6 +361,10 @@ function App() {
   // default routing for desktop, no consent page, no thin process
   return (
     <div className="App">
+      <OutOfDateWarningBanner
+        files={outOfDateFiles}
+        onDismiss={() => setOutOfDateFiles([])}
+      />
       <Router>
         <Switch>
           <Route exact path="/" component={LandingPage} />
@@ -353,6 +377,11 @@ function App() {
           <Route component={NoPageFound} />
         </Switch>
         <Suspense>
+          <OutOfDateWarningBanner
+            files={outOfDateFiles}
+            onDismiss={() => setOutOfDateFiles([])}
+          />
+
           <StyledFooter />
         </Suspense>
       </Router>

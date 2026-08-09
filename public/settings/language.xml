@@ -3,7 +3,7 @@
    <language version="1.0.7" htmlParse="true">;
 
         <!-- 0. FILE INFORMATION -->
-        <info order="0-1" id="languageFileVersion">1.0.0</info>
+        <info order="0-1" id="languageFileVersion">1.0.8</info>
         <info order="0-2" id="iterationDate">2025-08-31</info>
         <info order="0-3" id="studyTitle">Demo Project</info> 
         <info order="0-4" id="creationDate">2026-2-13@11:55</info> 

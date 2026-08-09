@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-   <config version="1.0.7" htmlParse="false">
+   <config version="1.0.8" htmlParse="false">
 
    <!-- HIDDEN OPTIONS - DO NOT DELETE OR CHANGE -->
    <item id="devMode">false</item> 
@@ -21,7 +21,7 @@
    <item id="sortDirection">positive</item> 
 
    <!-- 0. FILE INFORMATION -->
-   <info order="0-a" id="configFileVersion">1.0.0</info>
+   <info order="0-a" id="configFileVersion">1.0.9</info>
    <info order="0-b" id="iterationDate">2025-08-31</info>
    <info order="1--" id="creationDate">2026-2-13@11:53</info> 
 
