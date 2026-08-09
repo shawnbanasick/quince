@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import { withRouter } from "react-router";
+import { withRouter } from "react-router-dom";
 
 const MobileSurveyBackButton = (props) => {
   const {
     history,
-    location,
-    match,
-    staticContext,
+    // location,
+    // match,
+    // staticContext,
     to,
     onClick,
     // ⬆ filtering out props that `button` doesn’t know what to do with.
@@ -42,7 +42,8 @@ const NextButton = styled.button`
   align-items: center;
   user-select: none;
   justify-content: center;
-  background-color: ${({ theme, active }) => (active ? theme.secondary : theme.primary)};
+  background-color: ${({ theme, active }) =>
+    active ? theme.secondary : theme.primary};
 
   &:hover {
     background-color: ${({ theme }) => theme.secondary};

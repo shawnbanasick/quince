@@ -1,19 +1,24 @@
 import styled from "styled-components";
-import { withRouter } from "react-router";
+import { withRouter } from "react-router-dom";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 import getObjectValues from "lodash/values";
 
 const getConfigObj = (state) => state.configObj;
 const getPresortFinished = (state) => state.presortFinished;
-const getSetTrigMobilePrePrevNavModal = (state) => state.setTriggerMobilePresortPreventNavModal;
+const getSetTrigMobilePrePrevNavModal = (state) =>
+  state.setTriggerMobilePresortPreventNavModal;
 const getCurrentPage = (state) => state.currentPage;
-const getSetCheckReqQuesCompl = (state) => state.setCheckRequiredQuestionsComplete;
-const getSetTrigSurvPrevNavModal = (state) => state.setTriggerSurveyPreventNavModal;
-const getSetShowPostsortCommentHighlighting = (state) => state.setShowPostsortCommentHighlighting;
+const getSetCheckReqQuesCompl = (state) =>
+  state.setCheckRequiredQuestionsComplete;
+const getSetTrigSurvPrevNavModal = (state) =>
+  state.setTriggerSurveyPreventNavModal;
+const getSetShowPostsortCommentHighlighting = (state) =>
+  state.setShowPostsortCommentHighlighting;
 const getSetTriggerMobilePostsortPreventNavModal = (state) =>
   state.setTriggerMobilePostsortPreventNavModal;
-const getSetTriggerMobileThinPreventNavModal = (state) => state.setTriggerMobileThinPreventNavModal;
+const getSetTriggerMobileThinPreventNavModal = (state) =>
+  state.setTriggerMobileThinPreventNavModal;
 const getHasScrolledToBottomSort = (state) => state.hasScrolledToBottomSort;
 const getSetTriggerMobileSortScrollBottomModal = (state) =>
   state.setTriggerMobileSortScrollBottomModal;
@@ -24,17 +29,25 @@ const MobileNextButton = (props) => {
   // GLOBAL STATE
   const configObj = useSettingsStore(getConfigObj);
   const presortFinished = useStore(getPresortFinished);
-  const setTriggerPresortPreventNavModal = useStore(getSetTrigMobilePrePrevNavModal);
+  const setTriggerPresortPreventNavModal = useStore(
+    getSetTrigMobilePrePrevNavModal,
+  );
   const currentPage = useStore(getCurrentPage);
   const setCheckRequiredQuestionsComplete = useStore(getSetCheckReqQuesCompl);
   const setTriggerSurveyPreventNavModal = useStore(getSetTrigSurvPrevNavModal);
-  const setShowPostsortCommentHighlighting = useStore(getSetShowPostsortCommentHighlighting);
+  const setShowPostsortCommentHighlighting = useStore(
+    getSetShowPostsortCommentHighlighting,
+  );
   const setTriggerMobilePostsortPreventNavModal = useStore(
     getSetTriggerMobilePostsortPreventNavModal,
   );
-  const setTriggerMobileThinPreventNavModal = useStore(getSetTriggerMobileThinPreventNavModal);
+  const setTriggerMobileThinPreventNavModal = useStore(
+    getSetTriggerMobileThinPreventNavModal,
+  );
   const hasScrolledToBottomSort = useStore(getHasScrolledToBottomSort);
-  const setTriggerMobileSortScrollBottomModal = useStore(getSetTriggerMobileSortScrollBottomModal);
+  const setTriggerMobileSortScrollBottomModal = useStore(
+    getSetTriggerMobileSortScrollBottomModal,
+  );
 
   const allowUnforcedSorts = configObj.allowUnforcedSorts;
   const postsortCommentsRequired = configObj.postsortCommentsRequired;
@@ -57,7 +70,10 @@ const MobileNextButton = (props) => {
     if (currentPage === "presort") {
       if (isPresortFinished === "true" || isPresortFinished === true) {
         setTriggerPresortPreventNavModal(false);
-        localStorage.setItem("m_PresortDisplayStatements", JSON.stringify({ display: false }));
+        localStorage.setItem(
+          "m_PresortDisplayStatements",
+          JSON.stringify({ display: false }),
+        );
         return true;
       } else {
         setTriggerPresortPreventNavModal(true);
@@ -89,7 +105,9 @@ const MobileNextButton = (props) => {
         localStorage.getItem("m_MinWordCountPostsortObject"),
       );
 
-      let minWordCountPostsortObjectValues = Object.values(minWordCountPostsortObject);
+      let minWordCountPostsortObjectValues = Object.values(
+        minWordCountPostsortObject,
+      );
       if (minWordCountPostsortObjectValues.includes(false)) {
         // answers required in configObj
         if (postsortCommentsRequired === true) {
@@ -127,7 +145,10 @@ const MobileNextButton = (props) => {
       width={props.width}
       onClick={(event) => {
         onClick && onClick(event);
-        goToNextPage = checkForNextPageConditions(allowUnforcedSorts, presortFinished);
+        goToNextPage = checkForNextPageConditions(
+          allowUnforcedSorts,
+          presortFinished,
+        );
         if (goToNextPage) {
           history.push(to);
         }
@@ -154,7 +175,8 @@ const NextButton = styled.button`
   align-items: center;
   user-select: none;
 
-  background-color: ${({ theme, active }) => (active ? theme.secondary : theme.primary)};
+  background-color: ${({ theme, active }) =>
+    active ? theme.secondary : theme.primary};
 
   /* &:hover {
     background-color: ${({ theme }) => theme.secondary};

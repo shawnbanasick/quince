@@ -17,7 +17,7 @@ const renderWithProviders = (component, history = createMemoryHistory()) => {
   return render(
     <Router history={history}>
       <ThemeProvider theme={mockTheme}>{component}</ThemeProvider>
-    </Router>
+    </Router>,
   );
 };
 
@@ -38,7 +38,7 @@ describe("MobileSurveyBackButton", () => {
     it("should render the button with children text", () => {
       renderWithProviders(
         <MobileSurveyBackButton to="/postsort">Back</MobileSurveyBackButton>,
-        history
+        history,
       );
 
       expect(screen.getByRole("button", { name: "Back" })).toBeInTheDocument();
@@ -46,11 +46,15 @@ describe("MobileSurveyBackButton", () => {
 
     it("should render with different children content", () => {
       renderWithProviders(
-        <MobileSurveyBackButton to="/postsort">Previous</MobileSurveyBackButton>,
-        history
+        <MobileSurveyBackButton to="/postsort">
+          Previous
+        </MobileSurveyBackButton>,
+        history,
       );
 
-      expect(screen.getByRole("button", { name: "Previous" })).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: "Previous" }),
+      ).toBeInTheDocument();
     });
 
     it("should render with JSX children", () => {
@@ -58,7 +62,7 @@ describe("MobileSurveyBackButton", () => {
         <MobileSurveyBackButton to="/postsort">
           <span>← Go Back</span>
         </MobileSurveyBackButton>,
-        history
+        history,
       );
 
       expect(screen.getByText("← Go Back")).toBeInTheDocument();
@@ -69,7 +73,7 @@ describe("MobileSurveyBackButton", () => {
     it("should navigate to the specified route when clicked", () => {
       renderWithProviders(
         <MobileSurveyBackButton to="/postsort">Back</MobileSurveyBackButton>,
-        history
+        history,
       );
 
       const button = screen.getByRole("button");
@@ -80,8 +84,10 @@ describe("MobileSurveyBackButton", () => {
 
     it('should navigate to different routes based on "to" prop', () => {
       renderWithProviders(
-        <MobileSurveyBackButton to="/sort">Back to Sort</MobileSurveyBackButton>,
-        history
+        <MobileSurveyBackButton to="/sort">
+          Back to Sort
+        </MobileSurveyBackButton>,
+        history,
       );
 
       const button = screen.getByRole("button");
@@ -93,7 +99,7 @@ describe("MobileSurveyBackButton", () => {
     it("should navigate to root route", () => {
       renderWithProviders(
         <MobileSurveyBackButton to="/">Back to Home</MobileSurveyBackButton>,
-        history
+        history,
       );
 
       const button = screen.getByRole("button");
@@ -104,8 +110,10 @@ describe("MobileSurveyBackButton", () => {
 
     it("should handle navigation with query parameters", () => {
       renderWithProviders(
-        <MobileSurveyBackButton to="/postsort?step=2">Back</MobileSurveyBackButton>,
-        history
+        <MobileSurveyBackButton to="/postsort?step=2">
+          Back
+        </MobileSurveyBackButton>,
+        history,
       );
 
       const button = screen.getByRole("button");
@@ -124,7 +132,7 @@ describe("MobileSurveyBackButton", () => {
         <MobileSurveyBackButton to="/postsort" onClick={handleClick}>
           Back
         </MobileSurveyBackButton>,
-        history
+        history,
       );
 
       const button = screen.getByRole("button");
@@ -140,7 +148,7 @@ describe("MobileSurveyBackButton", () => {
         <MobileSurveyBackButton to="/postsort" onClick={handleClick}>
           Back
         </MobileSurveyBackButton>,
-        history
+        history,
       );
 
       const button = screen.getByRole("button");
@@ -160,7 +168,7 @@ describe("MobileSurveyBackButton", () => {
         <MobileSurveyBackButton to="/postsort" onClick={handleClick}>
           Back
         </MobileSurveyBackButton>,
-        history
+        history,
       );
 
       const button = screen.getByRole("button");
@@ -175,7 +183,7 @@ describe("MobileSurveyBackButton", () => {
     it("should still navigate when onClick handler is not provided", () => {
       renderWithProviders(
         <MobileSurveyBackButton to="/postsort">Back</MobileSurveyBackButton>,
-        history
+        history,
       );
 
       const button = screen.getByRole("button");
@@ -189,7 +197,7 @@ describe("MobileSurveyBackButton", () => {
     it("should filter out router props from button element", () => {
       const { container } = renderWithProviders(
         <MobileSurveyBackButton to="/postsort">Back</MobileSurveyBackButton>,
-        history
+        history,
       );
 
       const button = container.querySelector("button");
@@ -212,7 +220,7 @@ describe("MobileSurveyBackButton", () => {
         >
           Back
         </MobileSurveyBackButton>,
-        history
+        history,
       );
 
       const button = screen.getByTestId("back-button");
@@ -225,7 +233,7 @@ describe("MobileSurveyBackButton", () => {
         <MobileSurveyBackButton to="/postsort" className="custom-class">
           Back
         </MobileSurveyBackButton>,
-        history
+        history,
       );
 
       const button = screen.getByRole("button");
@@ -234,10 +242,14 @@ describe("MobileSurveyBackButton", () => {
 
     it("should pass through data attributes", () => {
       renderWithProviders(
-        <MobileSurveyBackButton to="/postsort" data-tracking="back-button" data-step="survey">
+        <MobileSurveyBackButton
+          to="/postsort"
+          data-tracking="back-button"
+          data-step="survey"
+        >
           Back
         </MobileSurveyBackButton>,
-        history
+        history,
       );
 
       const button = screen.getByRole("button");
@@ -250,7 +262,7 @@ describe("MobileSurveyBackButton", () => {
     it("should handle multiple rapid clicks", () => {
       renderWithProviders(
         <MobileSurveyBackButton to="/postsort">Back</MobileSurveyBackButton>,
-        history
+        history,
       );
 
       const button = screen.getByRole("button");
@@ -270,7 +282,7 @@ describe("MobileSurveyBackButton", () => {
         <MobileSurveyBackButton to="/postsort" onClick={handleClick}>
           Back
         </MobileSurveyBackButton>,
-        history
+        history,
       );
 
       const button = screen.getByRole("button");
@@ -286,7 +298,7 @@ describe("MobileSurveyBackButton", () => {
     it("should navigate when Enter key is pressed", () => {
       renderWithProviders(
         <MobileSurveyBackButton to="/postsort">Back</MobileSurveyBackButton>,
-        history
+        history,
       );
 
       const button = screen.getByRole("button");
@@ -300,7 +312,7 @@ describe("MobileSurveyBackButton", () => {
     it("should be focusable", () => {
       renderWithProviders(
         <MobileSurveyBackButton to="/postsort">Back</MobileSurveyBackButton>,
-        history
+        history,
       );
 
       const button = screen.getByRole("button");
@@ -314,7 +326,7 @@ describe("MobileSurveyBackButton", () => {
     it("should render with theme colors", () => {
       renderWithProviders(
         <MobileSurveyBackButton to="/postsort">Back</MobileSurveyBackButton>,
-        history
+        history,
       );
 
       const button = screen.getByRole("button");
@@ -327,7 +339,7 @@ describe("MobileSurveyBackButton", () => {
       const { container } = render(
         <Router history={history}>
           <MobileSurveyBackButton to="/postsort">Back</MobileSurveyBackButton>
-        </Router>
+        </Router>,
       );
 
       const button = container.querySelector("button");
@@ -339,7 +351,7 @@ describe("MobileSurveyBackButton", () => {
     it("should handle empty children", () => {
       renderWithProviders(
         <MobileSurveyBackButton to="/postsort"></MobileSurveyBackButton>,
-        history
+        history,
       );
 
       const button = screen.getByRole("button");
@@ -349,8 +361,10 @@ describe("MobileSurveyBackButton", () => {
 
     it("should handle complex route paths", () => {
       renderWithProviders(
-        <MobileSurveyBackButton to="/admin/survey/results">Back</MobileSurveyBackButton>,
-        history
+        <MobileSurveyBackButton to="/admin/survey/results">
+          Back
+        </MobileSurveyBackButton>,
+        history,
       );
 
       const button = screen.getByRole("button");
@@ -361,8 +375,10 @@ describe("MobileSurveyBackButton", () => {
 
     it("should handle route with hash", () => {
       renderWithProviders(
-        <MobileSurveyBackButton to="/postsort#section-2">Back</MobileSurveyBackButton>,
-        history
+        <MobileSurveyBackButton to="/postsort#section-2">
+          Back
+        </MobileSurveyBackButton>,
+        history,
       );
 
       const button = screen.getByRole("button");
@@ -377,7 +393,7 @@ describe("MobileSurveyBackButton", () => {
         <MobileSurveyBackButton to="/postsort" disabled>
           Back
         </MobileSurveyBackButton>,
-        history
+        history,
       );
 
       const button = screen.getByRole("button");
@@ -396,7 +412,7 @@ describe("MobileSurveyBackButton", () => {
 
       renderWithProviders(
         <MobileSurveyBackButton to="/postsort">Back</MobileSurveyBackButton>,
-        history
+        history,
       );
 
       const button = screen.getByRole("button");
@@ -410,7 +426,7 @@ describe("MobileSurveyBackButton", () => {
 
       renderWithProviders(
         <MobileSurveyBackButton to="/postsort">Back</MobileSurveyBackButton>,
-        history
+        history,
       );
 
       const button = screen.getByRole("button");
@@ -427,7 +443,7 @@ describe("MobileSurveyBackButton", () => {
 
       renderWithProviders(
         <MobileSurveyBackButton to="/postsort">Back</MobileSurveyBackButton>,
-        history
+        history,
       );
 
       const button = screen.getByRole("button");
@@ -444,7 +460,7 @@ describe("MobileSurveyBackButton", () => {
     it("should be announced as a button to screen readers", () => {
       renderWithProviders(
         <MobileSurveyBackButton to="/postsort">Back</MobileSurveyBackButton>,
-        history
+        history,
       );
 
       const button = screen.getByRole("button");
@@ -453,22 +469,30 @@ describe("MobileSurveyBackButton", () => {
 
     it("should support aria-label for better accessibility", () => {
       renderWithProviders(
-        <MobileSurveyBackButton to="/postsort" aria-label="Go back to previous page">
+        <MobileSurveyBackButton
+          to="/postsort"
+          aria-label="Go back to previous page"
+        >
           Back
         </MobileSurveyBackButton>,
-        history
+        history,
       );
 
-      const button = screen.getByRole("button", { name: "Go back to previous page" });
+      const button = screen.getByRole("button", {
+        name: "Go back to previous page",
+      });
       expect(button).toBeInTheDocument();
     });
 
     it("should support aria-describedby", () => {
       renderWithProviders(
-        <MobileSurveyBackButton to="/postsort" aria-describedby="back-description">
+        <MobileSurveyBackButton
+          to="/postsort"
+          aria-describedby="back-description"
+        >
           Back
         </MobileSurveyBackButton>,
-        history
+        history,
       );
 
       const button = screen.getByRole("button");

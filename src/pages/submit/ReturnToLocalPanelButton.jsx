@@ -3,7 +3,7 @@ import styled from "styled-components";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
 import useSettingsStore from "../../globalState/useSettingsStore";
-import { withRouter } from "react-router";
+import { withRouter } from "react-router-dom";
 import useStore from "../../globalState/useStore";
 import cloneDeep from "lodash/cloneDeep";
 

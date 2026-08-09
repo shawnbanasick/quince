@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { withRouter } from "react-router";
+import { withRouter } from "react-router-dom";
 
 const PostsortBackButton = (props) => {
   const {
@@ -41,7 +41,8 @@ const BackButton = styled.button`
   align-items: center;
   user-select: none;
   justify-content: center;
-  background-color: ${({ theme, active }) => (active ? theme.secondary : theme.primary)};
+  background-color: ${({ theme, active }) =>
+    active ? theme.secondary : theme.primary};
 
   &:hover {
     background-color: ${({ theme }) => theme.secondary};

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { withRouter } from "react-router";
+import { withRouter } from "react-router-dom";
 import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 import convertObjectToResults from "../sort/convertObjectToResults";
