@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Droppable,
+  Draggable,
+} from "@atlaskit/pragmatic-drag-and-drop-react-beautiful-dnd-migration";
 import styled from "styled-components";
 import move from "./move";
 import reorder from "./reorder";
@@ -53,7 +57,7 @@ const SortGridImages = (props) => {
   const qSortPattern = [...mapObj.qSortPattern];
 
   let presortColumnStatements = JSON.parse(
-    localStorage.getItem("columnStatements")
+    localStorage.getItem("columnStatements"),
   );
 
   if (presortColumnStatements === null) {
@@ -69,7 +73,7 @@ const SortGridImages = (props) => {
   // PERSISTENT STATE
   const [columnStatements, setColumnStatements] = useLocalStorage(
     "sortColumns",
-    presortColumnStatements
+    presortColumnStatements,
   );
 
   let columnWidth = props.columnWidth;
@@ -120,7 +124,7 @@ const SortGridImages = (props) => {
         totalStatements,
         results,
         sortFinishedModalHasBeenShown,
-        sortGridResults
+        sortGridResults,
       );
 
       setIsSortingFinished(manageDragResults.sortFinished);
@@ -141,7 +145,7 @@ const SortGridImages = (props) => {
           source.droppableId,
           source.index,
           destination.index,
-          columnStatements
+          columnStatements,
         );
 
         setColumnStatements(newCols);
@@ -175,13 +179,13 @@ const SortGridImages = (props) => {
           totalStatements,
           sortCharacteristics,
           allowUnforcedSorts,
-          qSortHeaderNumbers
+          qSortHeaderNumbers,
         );
 
         // global state updates
         setColumnStatements(columnStatements);
         const hasShownSortFinModal = localStorage.getItem(
-          "hasShownSortFinModal"
+          "hasShownSortFinModal",
         );
 
         if (columnStatements.imagesList.length === 0) {
@@ -282,7 +286,7 @@ const SortGridImages = (props) => {
                   greenCardColor,
                   yellowCardColor,
                   pinkCardColor,
-                  fontColor
+                  fontColor,
                 )}
               >
                 <img
@@ -360,7 +364,7 @@ const SortGridImages = (props) => {
                     style={getListStyleHori(
                       snapshot.isDraggingOver,
                       horiCardMinHeight,
-                      sortDirection
+                      sortDirection,
                     )}
                   >
                     <InnerList

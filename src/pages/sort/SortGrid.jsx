@@ -1,4 +1,4 @@
-import { DragDropContext } from "react-beautiful-dnd";
+import { DragDropContext } from "@atlaskit/pragmatic-drag-and-drop-react-beautiful-dnd-migration";
 import move from "./move";
 import reorder from "./reorder";
 import SortColumn from "./SortColumn";
@@ -22,11 +22,13 @@ const getSetIsSortingCards = (state) => state.setIsSortingCards;
 const getSetSortCompleted = (state) => state.setSortCompleted;
 const getSetProgScoreAddSort = (state) => state.setProgressScoreAdditionalSort;
 const getResults = (state) => state.results;
-const getSortFinModalHasBeenShown = (state) => state.sortFinishedModalHasBeenShown;
+const getSortFinModalHasBeenShown = (state) =>
+  state.sortFinishedModalHasBeenShown;
 const getSortGridResults = (state) => state.sortGridResults;
 const getSetIsSortingFinished = (state) => state.setIsSortingFinished;
 const getSetResults = (state) => state.setResults;
-const getSetTriggerSortingFinModal = (state) => state.setTriggerSortingFinishedModal;
+const getSetTriggerSortingFinModal = (state) =>
+  state.setTriggerSortingFinishedModal;
 const getSetSortGridResults = (state) => state.setSortGridResults;
 
 const SortGrid = (props) => {
@@ -56,7 +58,9 @@ const SortGrid = (props) => {
   const qSortPattern = [...mapObj.qSortPattern];
   const cardHeight = props.cardHeight;
 
-  let presortColumnStatements = JSON.parse(localStorage.getItem("columnStatements"));
+  let presortColumnStatements = JSON.parse(
+    localStorage.getItem("columnStatements"),
+  );
 
   if (presortColumnStatements === null) {
     presortColumnStatements = [];
@@ -66,7 +70,7 @@ const SortGrid = (props) => {
   // PERSISTENT STATE
   const [columnStatements, setColumnStatements] = useLocalStorage(
     "sortColumns",
-    presortColumnStatements
+    presortColumnStatements,
   );
 
   // layout settings
@@ -97,7 +101,7 @@ const SortGrid = (props) => {
         totalStatements,
         results,
         sortFinishedModalHasBeenShown,
-        sortGridResults
+        sortGridResults,
       );
 
       setIsSortingFinished(manageDragResults.sortFinished);
@@ -118,7 +122,7 @@ const SortGrid = (props) => {
           source.droppableId,
           source.index,
           destination.index,
-          columnStatements
+          columnStatements,
         );
 
         setColumnStatements(newCols);
@@ -137,7 +141,8 @@ const SortGrid = (props) => {
         if (destination.droppableId === "statements") {
           destinationListArray = columnStatements.statementList;
         } else {
-          destinationListArray = columnStatements.vCols[destination.droppableId];
+          destinationListArray =
+            columnStatements.vCols[destination.droppableId];
         }
         const droppableSource = source;
         const droppableDestination = destination;
@@ -151,12 +156,14 @@ const SortGrid = (props) => {
           totalStatements,
           sortCharacteristics,
           allowUnforcedSorts,
-          qSortHeaderNumbers
+          qSortHeaderNumbers,
         );
 
         // global state updates
         setColumnStatements(columnStatements);
-        const hasShownSortFinModal = localStorage.getItem("hasShownSortFinModal");
+        const hasShownSortFinModal = localStorage.getItem(
+          "hasShownSortFinModal",
+        );
 
         if (columnStatements.statementList.length === 0) {
           setIsSortingCards(false);

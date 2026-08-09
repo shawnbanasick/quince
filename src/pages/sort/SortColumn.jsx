@@ -1,5 +1,8 @@
 import React from "react";
-import { Droppable, Draggable } from "react-beautiful-dnd";
+import {
+  Droppable,
+  Draggable,
+} from "@atlaskit/pragmatic-drag-and-drop-react-beautiful-dnd-migration";
 import styled from "styled-components";
 import getItemStyle from "./getItemStyle";
 import getListStyle from "./getListStyle";
@@ -45,11 +48,13 @@ const SortColumn = (props) => {
                 forcedSorts,
                 columnWidth,
                 columnColor,
-                cardHeight
+                cardHeight,
               )}
             >
               {columnStatementsArray.map((item, index) => {
-                const statementHtml = ReactHtmlParser(`<div>${decodeHTML(item.statement)}</div>`);
+                const statementHtml = ReactHtmlParser(
+                  `<div>${decodeHTML(item.statement)}</div>`,
+                );
                 return (
                   <Draggable
                     key={item.id}
@@ -73,7 +78,7 @@ const SortColumn = (props) => {
                           greenCardColor,
                           yellowCardColor,
                           pinkCardColor,
-                          fontColor
+                          fontColor,
                         )}
                       >
                         {statementHtml}

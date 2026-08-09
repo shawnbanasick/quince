@@ -1,5 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+} from "@atlaskit/pragmatic-drag-and-drop-react-beautiful-dnd-migration";
 import styled from "styled-components";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
@@ -24,12 +28,15 @@ const getConfigObj = (state) => state.configObj;
 const getMapObj = (state) => state.mapObj;
 const getStatementsObj = (state) => state.statementsObj;
 const getColumnStatements = (state) => state.columnStatements;
-const getPreSortedStateNumInit = (state) => state.presortSortedStatementsNumInitial;
+const getPreSortedStateNumInit = (state) =>
+  state.presortSortedStatementsNumInitial;
 const getSetPresortFinished = (state) => state.setPresortFinished;
-const getSetTrigPresortFinModal = (state) => state.setTriggerPresortFinishedModal;
+const getSetTrigPresortFinModal = (state) =>
+  state.setTriggerPresortFinishedModal;
 const getResults = (state) => state.results;
 const getSetResults = (state) => state.setResults;
-const getSetProgressScoreAdditional = (state) => state.setProgressScoreAdditional;
+const getSetProgressScoreAdditional = (state) =>
+  state.setProgressScoreAdditional;
 const getSetPosSorted = (state) => state.setPosSorted;
 const getSetNegSorted = (state) => state.setNegSorted;
 
@@ -49,11 +56,15 @@ function PresortDND(props) {
   const setPosSorted = useStore(getSetPosSorted);
   const setNegSorted = useStore(getSetNegSorted);
 
-  const statementsName = ReactHtmlParser(decodeHTML(langObj.presortStatements)) || "";
-  const btnDisagreement = ReactHtmlParser(decodeHTML(langObj.presortDisagreement)) || "";
-  const btnAgreement = ReactHtmlParser(decodeHTML(langObj.presortAgreement)) || "";
+  const statementsName =
+    ReactHtmlParser(decodeHTML(langObj.presortStatements)) || "";
+  const btnDisagreement =
+    ReactHtmlParser(decodeHTML(langObj.presortDisagreement)) || "";
+  const btnAgreement =
+    ReactHtmlParser(decodeHTML(langObj.presortAgreement)) || "";
   const btnNeutral = ReactHtmlParser(decodeHTML(langObj.presortNeutral)) || "";
-  const onPageInstructions = ReactHtmlParser(decodeHTML(langObj.presortOnPageInstructions)) || "";
+  const onPageInstructions =
+    ReactHtmlParser(decodeHTML(langObj.presortOnPageInstructions)) || "";
 
   const emojiArray = [
     <EmojiN5 key="emojiN5" />,
@@ -171,7 +182,10 @@ function PresortDND(props) {
 
       // save to memory
       columnStatements.statementList = [...statementsArray];
-      localStorage.setItem("columnStatements", JSON.stringify(columnStatements));
+      localStorage.setItem(
+        "columnStatements",
+        JSON.stringify(columnStatements),
+      );
 
       // when dropped on different droppable
       if (source.droppableId !== destination.droppableId) {
@@ -211,7 +225,8 @@ function PresortDND(props) {
           // calc remaining statements
           let sortedStatements;
           if (sourceColumn.id === "cards") {
-            sortedStatements = statementsObj.totalStatements - sourceColumn.items.length + 1;
+            sortedStatements =
+              statementsObj.totalStatements - sourceColumn.items.length + 1;
             setPresortSortedStatementsNum(sortedStatements);
             const ratio = sortedStatements / statementsObj.totalStatements;
             const completedPercent = (ratio * 30).toFixed();
@@ -329,7 +344,9 @@ function PresortDND(props) {
       setPresortFinished(true);
       setTriggerPresortFinishedModal(true);
 
-      let presortColumnStatements = JSON.parse(localStorage.getItem("columnStatements"));
+      let presortColumnStatements = JSON.parse(
+        localStorage.getItem("columnStatements"),
+      );
       localStorage.setItem("newCols", JSON.stringify(presortColumnStatements));
 
       let posSorted2 = [];
@@ -351,7 +368,9 @@ function PresortDND(props) {
         setNegSorted(negSorted2);
         localStorage.setItem("negSorted", JSON.stringify([...negSorted2]));
 
-        let sortRightArrays = JSON.parse(localStorage.getItem("sortRightArrays"));
+        let sortRightArrays = JSON.parse(
+          localStorage.getItem("sortRightArrays"),
+        );
         let sortLeftArrays = JSON.parse(localStorage.getItem("sortLeftArrays"));
         let remainingPosCount = posSorted2.length;
         let remainingNegCount = negSorted2.length;
@@ -446,12 +465,22 @@ function PresortDND(props) {
           <div>{langObj["press3"]}</div>
         </ButtonPressDiv>
       </ColumnNamesPos>
-      <DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
+      <DragDropContext
+        onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
+      >
         {Object.entries(columns).map(([columnId, column]) => {
           return (
-            <AllColWrapper key={columnId} id={`${columnId}Div`} className={`${columnId}Div`}>
+            <AllColWrapper
+              key={columnId}
+              id={`${columnId}Div`}
+              className={`${columnId}Div`}
+            >
               <ThreeColCardWrapper>
-                <Droppable droppableId={columnId} className={columnId} key={columnId}>
+                <Droppable
+                  droppableId={columnId}
+                  className={columnId}
+                  key={columnId}
+                >
                   {(provided, snapshot) => {
                     return (
                       <DroppableZone
@@ -462,7 +491,10 @@ function PresortDND(props) {
                         columnType={columnId}
                         isDraggingOver={snapshot.isDraggingOver}
                         style={{
-                          background: getColumnBackground(columnId, snapshot.isDraggingOver),
+                          background: getColumnBackground(
+                            columnId,
+                            snapshot.isDraggingOver,
+                          ),
                         }}
                       >
                         {column.items.map((item, index) => {

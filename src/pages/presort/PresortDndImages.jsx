@@ -1,5 +1,9 @@
 import { useState, useEffect, useCallback } from "react";
-import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+} from "@atlaskit/pragmatic-drag-and-drop-react-beautiful-dnd-migration";
 import styled from "styled-components";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
@@ -14,10 +18,12 @@ const getStatementsObj = (state) => state.statementsObj;
 const getColumnStatements = (state) => state.columnStatements;
 // const getSetColumnStatements = (state) => state.setColumnStatements;
 const getSetPresortFinished = (state) => state.setPresortFinished;
-const getSetTrigPresortFinModal = (state) => state.setTriggerPresortFinishedModal;
+const getSetTrigPresortFinModal = (state) =>
+  state.setTriggerPresortFinishedModal;
 const getResults = (state) => state.results;
 const getSetResults = (state) => state.setResults;
-const getSetProgressScoreAdditional = (state) => state.setProgressScoreAdditional;
+const getSetProgressScoreAdditional = (state) =>
+  state.setProgressScoreAdditional;
 
 /*
  *
@@ -43,17 +49,19 @@ function PresortDNDImages(props) {
   if (configObj.imageFormat === "postSortImageModal43") {
     imageWidth = "20vw";
   }
-  const statementsName = ReactHtmlParser(decodeHTML(langObj.presortStatements)) || "";
-  const btnDisagreement = ReactHtmlParser(decodeHTML(langObj.presortDisagreement)) || "";
-  const btnAgreement = ReactHtmlParser(decodeHTML(langObj.presortAgreement)) || "";
+  const statementsName =
+    ReactHtmlParser(decodeHTML(langObj.presortStatements)) || "";
+  const btnDisagreement =
+    ReactHtmlParser(decodeHTML(langObj.presortDisagreement)) || "";
+  const btnAgreement =
+    ReactHtmlParser(decodeHTML(langObj.presortAgreement)) || "";
   const btnNeutral = ReactHtmlParser(decodeHTML(langObj.presortNeutral)) || "";
-  const enlargeText = ReactHtmlParser(decodeHTML(langObj.presortImageSortInstructions)) || "";
+  const enlargeText =
+    ReactHtmlParser(decodeHTML(langObj.presortImageSortInstructions)) || "";
 
   // initialize local state
-  let [presortSortedStatementsNum, setPresortSortedStatementsNum] = useLocalStorage(
-    "presortSortedCards",
-    0
-  );
+  let [presortSortedStatementsNum, setPresortSortedStatementsNum] =
+    useLocalStorage("presortSortedCards", 0);
   const [openImageModal, setOpenImageModal] = useState(false);
   const [imageSource, setImageSource] = useState("");
   const [dualPhotoArray, setDualPhotoArray] = useState([]);
@@ -159,7 +167,10 @@ function PresortDNDImages(props) {
       // save to memory
       columnStatements.imagesList = [...imagesArray];
       // setColumnStatements(columnStatements);
-      localStorage.setItem("columnStatements", JSON.stringify(columnStatements));
+      localStorage.setItem(
+        "columnStatements",
+        JSON.stringify(columnStatements),
+      );
 
       // when dropped on different droppable
       if (source.droppableId !== destination.droppableId) {
@@ -238,7 +249,7 @@ function PresortDNDImages(props) {
       greenArraySortValue,
       pinkArraySortValue,
       setPresortSortedStatementsNum,
-    ]
+    ],
   ); // END DRAG-END
 
   useEffect(() => {
@@ -320,7 +331,11 @@ function PresortDNDImages(props) {
       setPresortFinished(true);
       setTriggerPresortFinishedModal(true);
     }
-  }, [columns.cards.items.length, setPresortFinished, setTriggerPresortFinishedModal]);
+  }, [
+    columns.cards.items.length,
+    setPresortFinished,
+    setTriggerPresortFinishedModal,
+  ]);
 
   // RENDER COMPONENT
   return (
@@ -361,7 +376,12 @@ function PresortDNDImages(props) {
         }}
         classNames={{ overlay: "dualImageOverlay", modal: "dualImageModal" }}
       >
-        <img src={dualPhotoArray[0]} width="49.5%" height="auto" alt="modalImage" />
+        <img
+          src={dualPhotoArray[0]}
+          width="49.5%"
+          height="auto"
+          alt="modalImage"
+        />
         <img
           src={dualPhotoArray[1]}
           width="49.5%"
@@ -371,12 +391,22 @@ function PresortDNDImages(props) {
         />
       </Modal>
 
-      <DragDropContext onDragEnd={(result) => onDragEnd(result, columns, setColumns)}>
+      <DragDropContext
+        onDragEnd={(result) => onDragEnd(result, columns, setColumns)}
+      >
         {Object.entries(columns).map(([columnId, column]) => {
           return (
-            <AllColWrapper key={columnId} id={`${columnId}Div`} className={`${columnId}DivImg`}>
+            <AllColWrapper
+              key={columnId}
+              id={`${columnId}Div`}
+              className={`${columnId}DivImg`}
+            >
               <ThreeColCardWrapper>
-                <Droppable droppableId={columnId} className={columnId} key={columnId}>
+                <Droppable
+                  droppableId={columnId}
+                  className={columnId}
+                  key={columnId}
+                >
                   {(provided, snapshot) => {
                     return (
                       <div
@@ -385,7 +415,9 @@ function PresortDNDImages(props) {
                         id={columnId}
                         className={columnId}
                         style={{
-                          background: snapshot.isDraggingOver ? "lightblue" : "white",
+                          background: snapshot.isDraggingOver
+                            ? "lightblue"
+                            : "white",
                           padding: 4,
                           width: "100%",
                           height: "auto",
@@ -423,7 +455,12 @@ function PresortDNDImages(props) {
                                       color: defaultFontColor,
                                       ...provided.draggableProps.style,
                                     }}
-                                    onClick={(e) => handleOpenImageModal(e, item.element.props.src)}
+                                    onClick={(e) =>
+                                      handleOpenImageModal(
+                                        e,
+                                        item.element.props.src,
+                                      )
+                                    }
                                   >
                                     <img
                                       src={item.element.props.src}
