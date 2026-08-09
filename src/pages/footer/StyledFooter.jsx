@@ -3,7 +3,6 @@ import styled from "styled-components";
 import NextButton from "./NextButton";
 import FooterFontSizer from "./FooterFontSizer";
 import CardHeightSizer from "./CardHeightSizer";
-import ProgressBar from "@ramonak/react-progress-bar";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
 import calcProgressScore from "./calcProgressScore";
@@ -46,7 +45,9 @@ const StyledFooter = () => {
   }
 
   let logoHtml = ReactHtmlParser(
-    decodeHTML(`{{{center}}}{{{img src="./logo/logo.png" height="40" width="250" /}}}{{{/center}}}`)
+    decodeHTML(
+      `{{{center}}}{{{img src="./logo/logo.png" height="40" width="250" /}}}{{{/center}}}`,
+    ),
   );
 
   let nextButtonText;
@@ -62,8 +63,14 @@ const StyledFooter = () => {
     const usercode = localUsercode;
     const projectName = configObj.studyTitle;
     const today = new Date();
-    const date = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
-    const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    const date =
+      today.getFullYear() +
+      "-" +
+      (today.getMonth() + 1) +
+      "-" +
+      today.getDate();
+    const time =
+      today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     const dateTime = date + " " + time;
 
     logoHtml = `${usercode} - ${projectName} - ${dateTime}`;
@@ -77,7 +84,7 @@ const StyledFooter = () => {
   let showProgressBar = true;
 
   const totalProgressScore = calcProgressScore(
-    currentPage
+    currentPage,
     // additionalProgress,
     // additionalProgressSort,
     // showPostsort,
@@ -141,31 +148,64 @@ const StyledFooter = () => {
       {showAdjustmentContainer && (
         <AdjustmentsContainer>
           {showFooterFontSizer && <FooterFontSizer data-testid="fontSizer" />}
-          {showCardHeightSizer && <CardHeightSizer data-testid="cardHeightSizer" />}
+          {showCardHeightSizer && (
+            <CardHeightSizer data-testid="cardHeightSizer" />
+          )}
         </AdjustmentsContainer>
       )}
       <ProgressBarDiv>
         {showProgressBar && (
-          <ProgressBar
-            completed={totalProgressScore}
-            width={"100px"}
-            bgColor="#337ab7"
-            labelColor="#f0f0f0"
-            baseBgColor="lightgray"
-          />
+          <div style={{ position: "relative", width: "100px", height: "25px" }}>
+            {/* The progress bar (colors and borders are now handled cleanly by styled-components above) */}
+            <progress
+              value={totalProgressScore}
+              max="100"
+              style={{
+                width: "100%",
+                height: "100%",
+                display: "block",
+                overflow: "hidden",
+                outline: "2px solid #ccc",
+              }}
+            />
+
+            {/* Centered % Text */}
+            <span
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                fontSize: "13px",
+                fontWeight: "bold",
+                color: totalProgressScore > 50 ? "#ffffff" : "#333333",
+                pointerEvents: "none",
+              }}
+            >
+              {totalProgressScore}%
+            </span>
+          </div>
         )}
       </ProgressBarDiv>
     </React.Fragment>
   );
 
-  const nextPage = getNextPage(currentPage, showPostsort, showSurvey, showConsent, showThinning);
+  const nextPage = getNextPage(
+    currentPage,
+    showPostsort,
+    showSurvey,
+    showConsent,
+    showThinning,
+  );
 
   return (
     <StyledFooterDiv>
       <LogoContainer>{logoHtml}</LogoContainer>
       <CenterDiv>{CenterContent}</CenterDiv>
       <ButtonDiv>
-        {showBackButton && <PostsortBackButton to={"/sort"}>{backButtonText}</PostsortBackButton>}
+        {showBackButton && (
+          <PostsortBackButton to={"/sort"}>{backButtonText}</PostsortBackButton>
+        )}
         {displayNextButton && (
           <NextButton data-testid="nextButton" to={nextPage}>
             {nextButtonText}
@@ -199,6 +239,36 @@ const ProgressBarDiv = styled.div`
   align-self: center;
   justify-self: center;
   margin-left: 25px;
+
+  /* Force cross-browser styles down into the child progress element */
+  progress {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+  }
+
+  /* 1. Sets the background container track color (the unfilled space) */
+  progress::-webkit-progress-bar {
+    background-color: #e0e0de;
+    border-radius: 8px;
+  }
+  progress {
+    background-color: #e0e0de;
+    border-radius: 8px;
+  }
+
+  /* 2. Forces the fill color to #337ab7 on Webkit (Chrome, Safari, Edge) */
+  progress::-webkit-progress-value {
+    background-color: #337ab7 !important;
+    border-radius: 8px;
+  }
+
+  /* 3. Forces the fill color to #337ab7 on Mozilla Firefox */
+  progress::-moz-progress-bar {
+    background-color: #337ab7 !important;
+    border-radius: 8px;
+  }
 `;
 
 const LogoContainer = styled.div`
