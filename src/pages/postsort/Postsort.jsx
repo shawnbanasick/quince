@@ -12,6 +12,7 @@ import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 import PromptUnload from "../../utilities/PromptUnload";
 import PostsortPreventNavModal from "./PostsortPreventNavModal";
+import getPostsortRequiredColumns from "../../utilities/getPostsortRequiredColumns";
 
 /* eslint react/prop-types: 0 */
 
@@ -39,8 +40,12 @@ const PostSort = () => {
 
   // PERSISTENT STATE
   const columnStatements = JSON.parse(localStorage.getItem("columnStatements"));
-  let cardFontSizePersist = +JSON.parse(localStorage.getItem("fontSizePostsort"));
-  let cardHeightPersist = +JSON.parse(localStorage.getItem("cardHeightPostsort"));
+  let cardFontSizePersist = +JSON.parse(
+    localStorage.getItem("fontSizePostsort"),
+  );
+  let cardHeightPersist = +JSON.parse(
+    localStorage.getItem("cardHeightPostsort"),
+  );
 
   if (cardFontSizePersist) {
     cardFontSizePostsort = cardFontSizePersist;
@@ -54,7 +59,8 @@ const PostSort = () => {
   setDisplayNextButton(true);
 
   const headerBarColor = configObj.headerBarColor;
-  const postsortInstructions = ReactHtmlParser(decodeHTML(langObj.postsortInstructions)) || "";
+  const postsortInstructions =
+    ReactHtmlParser(decodeHTML(langObj.postsortInstructions)) || "";
 
   useEffect(() => {
     const Elementcount = ElementRef.current.childNodes.length;
@@ -81,14 +87,12 @@ const PostSort = () => {
   const titleText = ReactHtmlParser(decodeHTML(langObj.postsortHeader)) || "";
   const agree = ReactHtmlParser(decodeHTML(langObj.postsortAgreement)) || "";
   const placedOn = ReactHtmlParser(decodeHTML(langObj.postsortPlacedOn)) || "";
-  const disagree = ReactHtmlParser(decodeHTML(langObj.postsortDisagreement)) || "";
+  const disagree =
+    ReactHtmlParser(decodeHTML(langObj.postsortDisagreement)) || "";
   const placeholder = langObj.placeholder;
 
-  const keys = Object.keys(mapObj.postsortConvertObj);
-  const agreeColDisp1 = keys.pop();
-  const agreeColDisp2 = keys.pop();
-  const disagreeColDisp1 = keys.shift();
-  const disagreeColDisp2 = keys.shift();
+  const { agreeColDisp1, agreeColDisp2, disagreeColDisp1, disagreeColDisp2 } =
+    getPostsortRequiredColumns(mapObj, configObj);
 
   const postsortAgreeColDisp1 = agreeColDisp1;
   const postsortAgreeColDisp2 = agreeColDisp2;
@@ -115,7 +119,6 @@ const PostSort = () => {
 
   const highCards = columnStatements?.vCols[agreeObj.columnDisplay];
   const highCards2 = columnStatements?.vCols[agreeObj.columnDisplay2];
-  // const neutralCards = columnStatements.vCols[neutralObj.columnDisplay];
   const lowCards = columnStatements?.vCols[disagreeObj.columnDisplay];
   const lowCards2 = columnStatements?.vCols[disagreeObj.columnDisplay2];
 

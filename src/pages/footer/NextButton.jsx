@@ -6,8 +6,10 @@ import convertObjectToResults from "../sort/convertObjectToResults";
 import getObjectValues from "lodash/values";
 import PropTypes from "prop-types";
 import { getInvalidPostsortKeys } from "../../utilities/getInvalidPostsortKeys";
+import getPostsortRequiredColumns from "../../utilities/getPostsortRequiredColumns";
 
 const getConfigObj = (state) => state.configObj;
+const getMapObj = (state) => state.mapObj;
 const getPresortFinished = (state) => state.presortFinished;
 const getSetTrigPrePrevNavModal = (state) =>
   state.setTriggerPresortPreventNavModal;
@@ -37,6 +39,7 @@ const NextButton = (props) => {
 
   // GLOBAL STATE
   const configObj = useSettingsStore(getConfigObj);
+  const mapObj = useSettingsStore(getMapObj);
   const presortFinished = useStore(getPresortFinished);
   const setTriggerPresortPreventNavModal = useStore(getSetTrigPrePrevNavModal);
   const currentPage = useStore(getCurrentPage);
@@ -174,11 +177,17 @@ const NextButton = (props) => {
           configObj.requireMinCommentLength === "true";
         const minWordCountValue = configObj.minWordCountValuePostsort || 0;
 
-        // build the full set of expected keys across every card group in columnStatements
-        const allKeys = Object.entries(vCols).flatMap(
-          ([columnDisplay, cards]) =>
-            cards.map((_, i) => `textArea-${columnDisplay}_${i + 1}`),
+        const { requiredColumns } = getPostsortRequiredColumns(
+          mapObj,
+          configObj,
         );
+        const requiredColumnsSet = new Set(requiredColumns);
+
+        const allKeys = Object.entries(vCols)
+          .filter(([columnDisplay]) => requiredColumnsSet.has(columnDisplay))
+          .flatMap(([columnDisplay, cards]) =>
+            cards.map((_, i) => `textArea-${columnDisplay}_${i + 1}`),
+          );
 
         const invalidKeys = getInvalidPostsortKeys(allKeys, allCommentsObj, {
           minWordCountRequired,

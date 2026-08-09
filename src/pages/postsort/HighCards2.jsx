@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getInvalidPostsortKeys } from "../../utilities/getInvalidPostsortKeys";
 import styled from "styled-components";
 import ReactHtmlParser from "html-react-parser";
@@ -58,6 +58,10 @@ const HighCards2Display = (props) => {
   let { placeholder, placedOn } = agreeObj;
   let columnDisplay = agreeObj.columnDisplay2;
 
+  const [invalidKeysForThisColumn, setInvalidKeysForThisColumn] = useState(
+    () => new Set(),
+  );
+
   // IMAGES RELATED
   let useImages = configObj.useImages;
   if (useImages === "false") useImages = false;
@@ -65,6 +69,34 @@ const HighCards2Display = (props) => {
 
   let minWordCountValue = configObj.minWordCountValuePostsort || 0;
   let minWordCountRequired = configObj.requireMinCommentLength || false;
+
+  const highCardsLength = highCards2?.length ?? 0;
+
+  useEffect(() => {
+    if (!showPostsortCommentHighlighting) return;
+
+    const allCommentsObj =
+      JSON.parse(localStorage.getItem("allCommentsObj")) || {};
+    const keys = Array.from(
+      { length: highCardsLength },
+      (_, i) => `textArea-${columnDisplay}_${i + 1}`,
+    );
+
+    setInvalidKeysForThisColumn(
+      new Set(
+        getInvalidPostsortKeys(keys, allCommentsObj, {
+          minWordCountRequired,
+          minWordCountValue,
+        }),
+      ),
+    );
+  }, [
+    showPostsortCommentHighlighting,
+    highCardsLength,
+    columnDisplay,
+    minWordCountRequired,
+    minWordCountValue,
+  ]);
 
   // get header text
   let columnLabel = "";
@@ -129,23 +161,6 @@ const HighCards2Display = (props) => {
       shouldDisplayEmojis = true;
     }
   }
-
-  const [invalidKeysForThisColumn, setInvalidKeysForThisColumn] = useState(
-    () => {
-      if (!showPostsortCommentHighlighting) return new Set();
-      const allCommentsObj =
-        JSON.parse(localStorage.getItem("allCommentsObj")) || {};
-      const keys = highCards2.map(
-        (_, i) => `textArea-${columnDisplay}_${i + 1}`,
-      );
-      return new Set(
-        getInvalidPostsortKeys(keys, allCommentsObj, {
-          minWordCountRequired,
-          minWordCountValue,
-        }),
-      );
-    },
-  );
 
   let agreeTextElement = (
     <RowDiv>
