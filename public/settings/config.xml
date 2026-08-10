@@ -74,8 +74,8 @@
 
    <!-- 11. POSTSORT OPTIONS -->
    <item order="11-a" id="showPostsort">true</item>
-   <item order="11-b" id="showSecondPosColumn">true</item>
-   <item order="11-c" id="showSecondNegColumn">true</item>
+   <item order="11-b" id="showSecondPosColumn">false</item>
+   <item order="11-c" id="showSecondNegColumn">false</item>
    <item order="11-d" id="showBackButton">true</item>
    <item order="11-e" id="postsortCommentsRequired">true</item>
    <item order="10-f" id="requireMinCommentLength">true</item>

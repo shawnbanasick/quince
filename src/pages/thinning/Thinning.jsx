@@ -13,7 +13,6 @@ import Instructions from "./Instructions";
 import moveSelectedNegCards from "./moveSelectedNegCards";
 import moveSelectedPosCards from "./moveSelectedPosCards";
 import useLocalStorage from "../../utilities/useLocalStorage";
-import { v4 as uuid } from "uuid";
 import ThinHelpModal from "./ThinHelpModal";
 
 /* eslint react/prop-types: 0 */
@@ -43,16 +42,21 @@ const Thinning = () => {
   const cardHeightThin = useStore(getCardHeightThin);
 
   // Get language object values
-  let initialInstructionPart1 = ReactHtmlParser(decodeHTML(langObj.initialInstructionPart1)) || "";
+  let initialInstructionPart1 =
+    ReactHtmlParser(decodeHTML(langObj.initialInstructionPart1)) || "";
   let initialInstructionPartNeg1 =
     ReactHtmlParser(decodeHTML(langObj.initialInstructionPartNeg1)) || "";
   let initialInstructionPartNeg2 =
     ReactHtmlParser(decodeHTML(langObj.initialInstructionPartNeg2)) || "";
-  let initialInstructionPart2 = ReactHtmlParser(decodeHTML(langObj.initialInstructionPart2)) || "";
-  let initialInstructionPart3 = ReactHtmlParser(decodeHTML(langObj.initialInstructionPart3)) || "";
+  let initialInstructionPart2 =
+    ReactHtmlParser(decodeHTML(langObj.initialInstructionPart2)) || "";
+  let initialInstructionPart3 =
+    ReactHtmlParser(decodeHTML(langObj.initialInstructionPart3)) || "";
   let thinPageTitle = ReactHtmlParser(decodeHTML(langObj.thinPageTitle)) || "";
-  let thinPageSubmitButton = ReactHtmlParser(decodeHTML(langObj.thinPageSubmitButton)) || "";
-  let finalInstructions = ReactHtmlParser(decodeHTML(langObj.finalInstructions)) || "";
+  let thinPageSubmitButton =
+    ReactHtmlParser(decodeHTML(langObj.thinPageSubmitButton)) || "";
+  let finalInstructions =
+    ReactHtmlParser(decodeHTML(langObj.finalInstructions)) || "";
 
   useEffect(() => {
     const handleBeforeUnload = (event) => {
@@ -75,13 +79,15 @@ const Thinning = () => {
 
   let showMain = true;
 
+  // FIX: fall back to [] instead of null so [...selectedPosItems] never
+  // crashes on a first-ever visit when the localStorage key doesn't exist yet.
   let [selectedNegItems, setSelectedNegItems] = useLocalStorage(
     "selectedNegItems",
-    JSON.parse(localStorage.getItem("negSorted")),
+    JSON.parse(localStorage.getItem("negSorted")) || [],
   );
   let [selectedPosItems, setSelectedPosItems] = useLocalStorage(
     "selectedPosItems",
-    JSON.parse(localStorage.getItem("posSorted")),
+    JSON.parse(localStorage.getItem("posSorted")) || [],
   );
 
   let [displayControllerArray, setDisplayControllerArray] = useLocalStorage(
@@ -151,42 +157,64 @@ const Thinning = () => {
   // ********************************************************
 
   // todo *** HANDLE BOX CLICK ***
+  // FIX: avoid mutating items already sitting in state; build a new array
+  // of new objects instead so referential-equality checks (memo, etc.)
+  // keep working and the update is easier to reason about.
   const handleClick = (e) => {
     let targetcol = e.target.getAttribute("data-targetcol");
+    let clickedId = e.target.dataset.id;
 
-    cards.forEach((item) => {
-      if (item.id === e.target.dataset.id) {
-        item.targetcol = targetcol;
-        item.selected = !item.selected;
-      }
-    });
+    let updatedCards = cards.map((item) =>
+      item.id === clickedId
+        ? { ...item, targetcol, selected: !item.selected }
+        : item,
+    );
+
     if (displayControllerArray[0]?.side === "right") {
-      setSelectedPosItems([...cards]);
+      setSelectedPosItems(updatedCards);
     }
     if (displayControllerArray[0]?.side === "left") {
-      setSelectedNegItems([...cards]);
+      setSelectedNegItems(updatedCards);
     }
   };
 
   const handleConfirm = () => {
     if (displayControllerArray[0]?.side === "right") {
-      let currentSelectedPosItems = selectedPosItems.filter((item) => item.selected === true);
-      let nextSelectedPosItemsSet = selectedPosItems.filter((item) => item.selected !== true);
-      localStorage.setItem("posSorted", JSON.stringify(nextSelectedPosItemsSet));
+      let currentSelectedPosItems = selectedPosItems.filter(
+        (item) => item.selected === true,
+      );
+      let nextSelectedPosItemsSet = selectedPosItems.filter(
+        (item) => item.selected !== true,
+      );
+      localStorage.setItem(
+        "posSorted",
+        JSON.stringify(nextSelectedPosItemsSet),
+      );
       moveSelectedPosCards(currentSelectedPosItems);
-      displayControllerArray.shift();
-      setDisplayControllerArray([...displayControllerArray]);
-      setSelectedPosItems([...nextSelectedPosItemsSet]);
+      let nextDisplayControllerArray = displayControllerArray.slice(1);
+      setDisplayControllerArray(nextDisplayControllerArray);
+      setSelectedPosItems(nextSelectedPosItemsSet);
       return;
     }
 
     if (displayControllerArray[0]?.side === "left") {
-      let currentSelectedNegItems = selectedNegItems.filter((item) => item.selected === true);
-      let nextSelectedNegItemsSet = selectedNegItems.filter((item) => item.selected !== true);
+      let currentSelectedNegItems = selectedNegItems.filter(
+        (item) => item.selected === true,
+      );
+      let nextSelectedNegItemsSet = selectedNegItems.filter(
+        (item) => item.selected !== true,
+      );
+      // FIX: this branch was missing the localStorage write its "right"
+      // counterpart has, so "negSorted" went stale on disk after every
+      // confirm. Keep both sides in sync.
+      localStorage.setItem(
+        "negSorted",
+        JSON.stringify(nextSelectedNegItemsSet),
+      );
       moveSelectedNegCards(currentSelectedNegItems);
-      displayControllerArray.shift();
-      setDisplayControllerArray([...displayControllerArray]);
-      setSelectedNegItems([...nextSelectedNegItemsSet]);
+      let nextDisplayControllerArray = displayControllerArray.slice(1);
+      setDisplayControllerArray(nextDisplayControllerArray);
+      setSelectedNegItems(nextSelectedNegItemsSet);
       return;
     }
   };
@@ -194,6 +222,16 @@ const Thinning = () => {
   setDisplayNextButton(true);
 
   let selectedStatementsNum = 0;
+
+  // FIX: maxNum comes from the sort plan and can be larger than the number
+  // of cards actually left to assign at this step (e.g. asked for 4, but
+  // only 3 statements remain). Without clamping, selectedStatementsNum can
+  // never reach maxNum and the user gets permanently stuck. requiredNum is
+  // the real number they need to select right now: whichever is smaller.
+  let requiredNum = Math.min(
+    displayControllerArray[0]?.maxNum ?? 0,
+    (cards || []).length,
+  );
 
   // set TIME-ON-PAGE records
   const startTimeRef = useRef(null);
@@ -215,17 +253,20 @@ const Thinning = () => {
       selectedStatementsNum = selectedStatementsNum + 1;
     }
     return (
+      // FIX: key was uuid() (a new random id every render), which forced
+      // React to unmount/remount every card on every render instead of
+      // reconciling them. Use the item's own stable id instead.
       <Card
         onClick={handleClick}
         id={item.id}
-        key={uuid()}
+        key={item.id}
         side={displayControllerArray[0]?.side}
         fontSize={cardFontSizeThin}
         cardHeight={cardHeightThin}
         color={item.color}
         selected={item.selected}
         data-targetcol={displayControllerArray[0]?.targetCol}
-        data-max={displayControllerArray[0]?.maxNum}
+        data-max={requiredNum}
         data-selected={item.selected}
         data-id={item.id}
       >
@@ -251,13 +292,13 @@ const Thinning = () => {
                 part1={instructionsRef.current.part1}
                 part2={instructionsRef.current.part2}
                 part3={instructionsRef.current.part3}
-                maxNum={displayControllerArray[0]?.maxNum}
+                maxNum={requiredNum}
                 selectedNum={selectedStatementsNum}
               />
               <ActionButton
                 onClick={handleConfirm}
-                disabled={selectedStatementsNum !== displayControllerArray[0]?.maxNum}
-                isActive={selectedStatementsNum === displayControllerArray[0]?.maxNum}
+                disabled={selectedStatementsNum !== requiredNum}
+                isActive={selectedStatementsNum === requiredNum}
               >
                 {thinPageSubmitButton}
               </ActionButton>
@@ -289,7 +330,34 @@ const Thinning = () => {
 
 export default Thinning;
 
-// Styled Components with Improved CSS
+// ============================================================
+// Styled Components
+//
+// Theme: a small `sideTheme` map replaces the repeated inline
+// ternaries for side/selected colors, so each visual state is
+// defined once instead of being re-derived in four different
+// CSS properties.
+// ============================================================
+
+const sideTheme = {
+  right: {
+    accent: "#16a34a",
+    accentSoft: "#22c55e",
+    bg: "linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%)",
+  },
+  left: {
+    accent: "#dc2626",
+    accentSoft: "#f97316",
+    bg: "linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%)",
+  },
+  neutral: {
+    accent: "#94a3b8",
+    accentSoft: "#cbd5e1",
+    bg: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
+  },
+};
+
+const getTheme = (side) => sideTheme[side] || sideTheme.neutral;
 
 const Header = styled.header`
   position: fixed;
@@ -368,7 +436,7 @@ const InstructionsSection = styled.section`
 const ActionButton = styled.button`
   background: ${(props) =>
     props.isActive
-      ? "linear-gradient(135deg, #3b82f6 0%, #1e40af 100%)"
+      ? "linear-gradient(135deg, #367ab7 0%, #367ab7 100%)"
       : "linear-gradient(135deg, #e5e7eb 0%, #d1d5db 100%)"};
   color: ${(props) => (props.isActive ? "white" : "#6b7280")};
   border: none;
@@ -380,16 +448,22 @@ const ActionButton = styled.button`
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   min-width: 140px;
   box-shadow: ${(props) =>
-    props.isActive ? "0 4px 14px 0 rgba(59, 130, 246, 0.25)" : "0 2px 4px 0 rgba(0, 0, 0, 0.05)"};
+    props.isActive
+      ? "0 4px 14px 0 rgba(79, 70, 229, 0.3)"
+      : "0 2px 4px 0 rgba(0, 0, 0, 0.05)"};
 
   &:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: ${(props) =>
-      props.isActive ? "0 8px 25px 0 rgba(59, 130, 246, 0.35)" : "0 4px 12px 0 rgba(0, 0, 0, 0.1)"};
+      props.isActive
+        ? "0 8px 25px 0 rgba(79, 70, 229, 0.4)"
+        : "0 4px 12px 0 rgba(0, 0, 0, 0.1)"};
   }
 
+  /* FIX: give :active a distinct, "pressed" feel instead of repeating
+     the same translateY(-2px) used on :hover. */
   &:active:not(:disabled) {
-    transform: translateY(0);
+    transform: translateY(0) scale(0.97);
   }
 
   @media (max-width: 768px) {
@@ -422,18 +496,10 @@ const CardsGrid = styled.div`
 `;
 
 const Card = styled.div`
-  background: ${(props) => {
-    if (props.selected) return "rgb(249, 249, 0)";
-    if (props.side === "right") return "linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%)";
-    if (props.side === "left") return "linear-gradient(135deg, #fee2e2 0%, #fecaca 100%)";
-    return "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)";
-  }};
-  border: ${(props) => {
-    if (props.selected) return "4px solid darkgray";
-    if (props.side === "right") return "1px solid #22c55e";
-    if (props.side === "left") return "1px solid #ef6944";
-    return "#e2e8f0";
-  }};
+  background: ${(props) =>
+    props.selected ? "#fef9c3" : getTheme(props.side).bg};
+  border: 2px solid
+    ${(props) => (props.selected ? "#eab308" : getTheme(props.side).accentSoft)};
   border-radius: 12px;
   padding: 1rem;
   height: ${(props) => Math.max(props.cardHeight || 120, 120)}px;
@@ -451,34 +517,21 @@ const Card = styled.div`
   overflow: hidden;
   position: relative;
 
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: ${(props) => {
-      if (props.selected && props.side === "right") return "rgba(34, 197, 94, 0.05)";
-      if (props.selected && props.side === "left") return "rgba(239, 68, 68, 0.05)";
-      return "transparent";
-    }};
-    border-radius: 10px;
-    transition: all 0.2s ease;
-  }
+  /* Selected state reads as a colored ring + soft fill rather than a
+     flat saturated yellow block, so it stays legible against the
+     pastel side colors instead of clashing with them. */
+  box-shadow: ${(props) =>
+    props.selected ? "0 0 0 2px rgba(234, 179, 8, 0.35)" : "none"};
 
   &:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-    border-color: ${(props) => {
-      if (props.selected && props.side === "right") return "#16a34a";
-      if (props.selected && props.side === "left") return "#dc2626";
-      return "#94a3b8";
-    }};
+    border-color: ${(props) =>
+      props.selected ? "#ca8a04" : getTheme(props.side).accent};
   }
 
   &:active {
-    transform: translateY(-2px);
+    transform: translateY(0) scale(0.98);
   }
 
   @media (max-width: 768px) {
