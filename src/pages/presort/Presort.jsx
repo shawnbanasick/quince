@@ -44,8 +44,21 @@ const PresortPage = () => {
     cardFontSize = cardFontSizePersist;
   }
 
-  // set next button display
-  setDisplayNextButton(true);
+  // early return if log-in required and not logged in
+  // (checked before the "next button" effect so those screens never show it)
+  const requiresLogin =
+    configObj.initialScreen !== "anonymous" && isLoggedIn === false;
+
+  // FIX: previously this ran unconditionally during render, which is a React
+  // anti-pattern (can cause extra re-renders / double-invoke issues under
+  // Strict Mode) and fired even on the PleaseLogInFirst / PresortIsComplete
+  // early-return screens where the "next" button shouldn't show. Moved into
+  // an effect and gated on the same conditions as the early returns below.
+  useEffect(() => {
+    if (!requiresLogin && !presortNoReturn) {
+      setDisplayNextButton(true);
+    }
+  }, [requiresLogin, presortNoReturn, setDisplayNextButton]);
 
   const startTimeRef = useRef(null);
   useEffect(() => {

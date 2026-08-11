@@ -27,7 +27,7 @@ const createPresortObject = () => {
     return presortObject;
   } catch (error) {
     console.log(error);
-    return;
+    return {};
   }
 };
 

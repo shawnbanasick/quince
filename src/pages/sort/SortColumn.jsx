@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Droppable,
   Draggable,
@@ -11,6 +11,22 @@ import decodeHTML from "../../utilities/decodeHTML";
 import useStore from "../../globalState/useStore";
 
 /* eslint react/prop-types: 0 */
+
+// Syncs "which column is being dragged over" into global state.
+// Isolated in its own component so the setState calls happen in an
+// effect (after commit) instead of during SortColumn's render.
+const DragOverSync = ({ isDraggingOver, columnId, sortValue }) => {
+  useEffect(() => {
+    if (isDraggingOver) {
+      useStore.setState({
+        draggingOverColumnId: columnId,
+        currentSortValue: sortValue,
+      });
+    }
+  }, [isDraggingOver, columnId, sortValue]);
+
+  return null;
+};
 
 const SortColumn = (props) => {
   const {
@@ -28,69 +44,68 @@ const SortColumn = (props) => {
     fontColor,
   } = props;
 
-  // had to push column sort value to state because didn't want to edit dnd library result object
-  // was't able to just pass it as a prop
   return (
     <SortColumnsDiv id="sortColumnsDiv">
       <Droppable id="ColDroppable" droppableId={columnId} direction="vertical">
-        {(provided, snapshot) => {
-          if (snapshot.isDraggingOver) {
-            useStore.setState({ draggingOverColumnId: columnId });
-            useStore.setState({ currentSortValue: sortValue });
-          }
-          return (
-            <DroppableColDiv
-              id="DroppableColDiv"
-              ref={provided.innerRef}
-              style={getListStyle(
-                snapshot.isDraggingOver,
-                props,
-                forcedSorts,
-                columnWidth,
-                columnColor,
-                cardHeight,
-              )}
-            >
-              {columnStatementsArray.map((item, index) => {
-                const statementHtml = ReactHtmlParser(
-                  `<div>${decodeHTML(item.statement)}</div>`,
-                );
-                return (
-                  <Draggable
-                    key={item.id}
-                    draggableId={item.id}
-                    cardColor={item.cardColor}
-                    index={index}
-                  >
-                    {(provided, snapshot) => (
-                      <StatementDiv
-                        id="StatementDiv"
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={getItemStyle(
-                          snapshot.isDragging,
-                          provided.draggableProps.style,
-                          columnWidth,
-                          cardHeight,
-                          cardFontSize,
-                          `${item.cardColor}`,
-                          greenCardColor,
-                          yellowCardColor,
-                          pinkCardColor,
-                          fontColor,
-                        )}
-                      >
-                        {statementHtml}
-                      </StatementDiv>
-                    )}
-                  </Draggable>
-                );
-              })}
-              {provided.placeholder}
-            </DroppableColDiv>
-          );
-        }}
+        {(provided, snapshot) => (
+          <DroppableColDiv
+            id="DroppableColDiv"
+            ref={provided.innerRef}
+            style={getListStyle(
+              snapshot.isDraggingOver,
+              props,
+              forcedSorts,
+              columnWidth,
+              columnColor,
+              cardHeight,
+            )}
+          >
+            <DragOverSync
+              isDraggingOver={snapshot.isDraggingOver}
+              columnId={columnId}
+              sortValue={sortValue}
+            />
+            {columnStatementsArray.map((item, index) => {
+              const statementHtml = ReactHtmlParser(
+                `<div>${decodeHTML(item.statement)}</div>`,
+              );
+              return (
+                <Draggable
+                  key={item.id}
+                  draggableId={item.id}
+                  cardColor={item.cardColor}
+                  index={index}
+                >
+                  {(provided, snapshot) => (
+                    <StatementDiv
+                      id="StatementDiv"
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      cardHeight={cardHeight}
+                      fontSize={cardFontSize}
+                      style={getItemStyle(
+                        snapshot.isDragging,
+                        provided.draggableProps.style,
+                        columnWidth,
+                        cardHeight,
+                        cardFontSize,
+                        `${item.cardColor}`,
+                        greenCardColor,
+                        yellowCardColor,
+                        pinkCardColor,
+                        fontColor,
+                      )}
+                    >
+                      {statementHtml}
+                    </StatementDiv>
+                  )}
+                </Draggable>
+              );
+            })}
+            {provided.placeholder}
+          </DroppableColDiv>
+        )}
       </Droppable>
     </SortColumnsDiv>
   );

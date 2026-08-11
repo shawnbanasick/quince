@@ -449,14 +449,14 @@ const ActionButton = styled.button`
   min-width: 140px;
   box-shadow: ${(props) =>
     props.isActive
-      ? "0 4px 14px 0 rgba(79, 70, 229, 0.3)"
+      ? "0 4px 14px 0 rgba(54,122,183,1, 0.3)"
       : "0 2px 4px 0 rgba(0, 0, 0, 0.05)"};
 
   &:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: ${(props) =>
       props.isActive
-        ? "0 8px 25px 0 rgba(79, 70, 229, 0.4)"
+        ? "0 8px 25px 0 rgba(54,122,183,1, 0.4)"
         : "0 4px 12px 0 rgba(0, 0, 0, 0.1)"};
   }
 

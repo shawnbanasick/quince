@@ -310,11 +310,14 @@ function PresortDND(props) {
     let neutralText = "";
     let negText = "";
 
-    columns.pos.items.forEach((item) => {
-      if (columns.pos.items[0]) {
+    // FIX: previously re-checked `columns.pos.items[0]` on every iteration
+    // inside the forEach instead of once before the loop (inconsistent with
+    // the neg/neutral blocks below, and wasteful).
+    if (columns.pos.items[0]) {
+      columns.pos.items.forEach((item) => {
         posText += item.statementNum + ",";
-      }
-    });
+      });
+    }
 
     if (columns.neutral.items[0]) {
       columns.neutral.items.forEach((item) => {
@@ -328,16 +331,24 @@ function PresortDND(props) {
       });
     }
 
-    let projectResultsObj = results;
-    projectResultsObj.npos = columns.pos.items.length;
-    projectResultsObj.posStateNums = posText;
-    projectResultsObj.nneu = columns.neutral.items.length;
-    projectResultsObj.neuStateNums = neutralText;
-    projectResultsObj.nneg = columns.neg.items.length;
-    projectResultsObj.negStateNums = negText;
+    // FIX: previously mutated the existing `results` object in place and
+    // then called setResults with that SAME reference. Store consumers that
+    // rely on reference/shallow-equality checks (common with Zustand
+    // selectors) would never detect this as a change. Now builds a new
+    // object so setResults gets a fresh reference.
+    const projectResultsObj = {
+      ...results,
+      npos: columns.pos.items.length,
+      posStateNums: posText,
+      nneu: columns.neutral.items.length,
+      neuStateNums: neutralText,
+      nneg: columns.neg.items.length,
+      negStateNums: negText,
+    };
     setResults(projectResultsObj);
     localStorage.setItem("resultsPresort", JSON.stringify(projectResultsObj));
-  }, [columns, results, setResults]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [columns]);
 
   useEffect(() => {
     if (columns.cards.items.length === 0) {
@@ -361,10 +372,22 @@ function PresortDND(props) {
           return item;
         });
 
-        posSorted2 = sortingList.filter((item) => item.sortValue === 111);
+        // FIX: previously hardcoded sortValue === 111 / 333 here, but which
+        // value means "positive" vs "negative" flips depending on
+        // configObj.sortDirection (see pinkArraySortValue /
+        // greenArraySortValue above). That mismatch meant posSorted/negSorted
+        // (and everything derived from them, like
+        // thinDisplayControllerArray) came out swapped whenever
+        // sortDirection === "negative". Now uses the same direction-aware
+        // values as onDragEnd.
+        posSorted2 = sortingList.filter(
+          (item) => item.sortValue === greenArraySortValue,
+        );
         setPosSorted(posSorted2);
         localStorage.setItem("posSorted", JSON.stringify([...posSorted2]));
-        negSorted2 = sortingList.filter((item) => item.sortValue === 333);
+        negSorted2 = sortingList.filter(
+          (item) => item.sortValue === pinkArraySortValue,
+        );
         setNegSorted(negSorted2);
         localStorage.setItem("negSorted", JSON.stringify([...negSorted2]));
 
@@ -394,6 +417,8 @@ function PresortDND(props) {
     setTriggerPresortFinishedModal,
     setPosSorted,
     setNegSorted,
+    greenArraySortValue,
+    pinkArraySortValue,
   ]);
 
   // Helper function to get column background
@@ -526,9 +551,10 @@ function PresortDND(props) {
                                       filter: snapshot.isDragging
                                         ? "brightness(0.85)"
                                         : "brightness(1.00)",
-                                      backgroundColor: snapshot.isDragging
-                                        ? item.backgroundColor
-                                        : item.backgroundColor,
+                                      boxShadow: snapshot.isDragging
+                                        ? "0 8px 16px rgba(0, 0, 0, 0.2)"
+                                        : "0 2px 4px rgba(0, 0, 0, 0.1)",
+                                      backgroundColor: item.backgroundColor,
                                       color: defaultFontColor,
                                       ...provided.draggableProps.style,
                                     }}
@@ -685,7 +711,6 @@ const DroppableZone = styled.div`
 `;
 
 const DroppableContainer = styled.div`
-  background-color: "#83cafe";
   display: flex;
   align-items: center;
   justify-content: center;
@@ -694,7 +719,13 @@ const DroppableContainer = styled.div`
   width: 27.8vw;
   border: 1px solid rgba(0, 0, 0, 0.1);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s ease;
+  /* Explicit properties (rather than "all") so only the visual cues we
+     actually change ease in/out; layout properties like width/height are
+     left alone, and it's slightly cheaper for the browser to animate. */
+  transition:
+    box-shadow 0.2s ease,
+    filter 0.2s ease,
+    background-color 0.2s ease;
 
   &:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);

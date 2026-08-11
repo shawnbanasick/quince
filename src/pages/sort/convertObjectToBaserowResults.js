@@ -1,9 +1,12 @@
-const convertObjectToBaserowResults = (columnStatements) => {
+const convertObjectToBaserowResults = (columnStatements, resultsPresort) => {
   // columnStatements is an object with a key of vCols = sort results
   // resultsPresort is an object with keys posStateNums, neuStateNums, negStateNums
-  // traceSorts (get all presort column values) is an object with keys of sortResults, sortResultsPresort, sortResultsTrace
 
-  if (columnStatements?.length === 0 || columnStatements === undefined) {
+  if (
+    !columnStatements ||
+    !columnStatements.vCols ||
+    Object.keys(columnStatements.vCols).length === 0
+  ) {
     return;
   }
 
@@ -11,10 +14,28 @@ const convertObjectToBaserowResults = (columnStatements) => {
 
   const sortArray = [];
 
+  let posStateNums = [];
+  let neuStateNums = [];
+  let negStateNums = [];
+
+  if (resultsPresort) {
+    posStateNums = (resultsPresort?.posStateNums ?? "")
+      .toString()
+      .split(",")
+      .filter(Boolean);
+    neuStateNums = (resultsPresort?.neuStateNums ?? "")
+      .toString()
+      .split(",")
+      .filter(Boolean);
+    negStateNums = (resultsPresort?.negStateNums ?? "")
+      .toString()
+      .split(",")
+      .filter(Boolean);
+  }
+
   for (let i = 0; i < columnSortValues.length; i++) {
     // iterate through each column sort value
     let tempArray1 = columnStatements?.vCols[columnSortValues[i]];
-    let presortVal;
     // convert column key to column sort value
     let sortValue1 = columnSortValues[i];
     const replaceColumn = /column/gi;
@@ -26,18 +47,41 @@ const convertObjectToBaserowResults = (columnStatements) => {
     // push statement sort values into array
     for (let j = 0; j < tempArray1.length; j++) {
       let tempObject = {};
+
       let statementNum = parseInt(tempArray1[j].statementNum, 10);
+      let statementNum2 = tempArray1[j].statementNum.toString();
+
       tempObject.statement = statementNum;
       tempObject.sortValue = sortValue;
-      if (tempArray1[j].psValue > 0) {
-        presortVal = "p";
+
+      let presortVal;
+
+      if (resultsPresort) {
+        // prefer explicit presort lookup arrays when resultsPresort was provided
+        if (posStateNums.includes(statementNum2)) {
+          presortVal = "p";
+        } else if (neuStateNums.includes(statementNum2)) {
+          presortVal = "u";
+        } else if (negStateNums.includes(statementNum2)) {
+          presortVal = "n";
+        } else {
+          presortVal = "error";
+        }
+      } else {
+        // fallback to original psValue-on-vCols-entry behavior
+        const psValue = Number(tempArray1[j].psValue);
+
+        if (psValue > 0) {
+          presortVal = "p";
+        } else if (psValue === 0) {
+          presortVal = "u";
+        } else if (psValue < 0) {
+          presortVal = "n";
+        } else {
+          presortVal = "error"; // or whatever is appropriate
+        }
       }
-      if (tempArray1[j].psValue === 0) {
-        presortVal = "u";
-      }
-      if (tempArray1[j].psValue < 0) {
-        presortVal = "n";
-      }
+
       tempObject.presortVal = presortVal;
       sortArray.push(tempObject);
     }
@@ -62,16 +106,16 @@ const convertObjectToBaserowResults = (columnStatements) => {
   }
   // remove trailing bar
   if (presortTraceText.charAt(presortTraceText.length - 1) === "|") {
-    presortTraceText = presortTraceText.substring(0, presortTraceText.length - 1);
+    presortTraceText = presortTraceText.substring(
+      0,
+      presortTraceText.length - 1,
+    );
   }
 
-  //   if (traceSorts === true || traceSorts === "true") {
-  // return { sort: resultsText, presortTrace: presortTraceText };
-  return { r20: `sort: ${resultsText}`, r21: `presortTrace: ${presortTraceText}` };
-  //   } else {
-  //     return { r18: `sort: ${resultsText}` };
-  //   }
+  return {
+    r20: `sort: ${resultsText}`,
+    r21: `presortTrace: ${presortTraceText}`,
+  };
 };
 
 export default convertObjectToBaserowResults;
-// Compare this snippet from src/pages/sort/convertObjectToResults.js:

@@ -1,7 +1,11 @@
-import useStore from "../../globalState/useStore";
-
 // card and column styling
-const getListStyle = (isDraggingOver, props, forcedSorts, columnWidth, columnColor) => {
+const getListStyle = (
+  isDraggingOver,
+  props,
+  forcedSorts,
+  columnWidth,
+  columnColor,
+) => {
   // forcedSorts is "warnOverloadedColumn" in configObj
   let isUnderMaxCards;
   if (forcedSorts === true) {
@@ -10,13 +14,12 @@ const getListStyle = (isDraggingOver, props, forcedSorts, columnWidth, columnCol
     isUnderMaxCards = true;
   }
 
-  // to set highlighting for column headers
-  if (isDraggingOver) {
-    useStore.setState({ draggingOverColumnId: props.columnId });
-  }
-
   return {
-    background: isDraggingOver ? "lightblue" : isUnderMaxCards ? columnColor : "#F4BB44",
+    background: isDraggingOver
+      ? "lightblue"
+      : isUnderMaxCards
+        ? columnColor
+        : "#F4BB44",
     maxWidth: columnWidth,
     marginTop: 0,
     marginRight: 0,
@@ -32,5 +35,3 @@ const getListStyle = (isDraggingOver, props, forcedSorts, columnWidth, columnCol
 };
 
 export default getListStyle;
-
-// border: 'solid 1px #ededed',

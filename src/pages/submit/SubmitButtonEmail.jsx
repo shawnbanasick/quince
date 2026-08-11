@@ -18,15 +18,18 @@ const SubmitResultsButton = (props) => {
 
   const defaultEmailClientFailText =
     ReactHtmlParser(decodeHTML(langObj.defaultEmailClientFail)) || "";
-  const databaseFailText = ReactHtmlParser(decodeHTML(langObj.submitFailMessage)) || "";
+  const databaseFailText =
+    ReactHtmlParser(decodeHTML(langObj.submitFailMessage)) || "";
 
   // Local State for email button visibility
-  const [belowButtonMessage, setBelowButtonMessage] = useState(databaseFailText);
+  const [belowButtonMessage, setBelowButtonMessage] =
+    useState(databaseFailText);
   const [showCopyButtons, setShowCopyButtons] = useState(false);
 
   const rawData = props.results;
   const emailAddress = configObj.emailAddress;
-  const btnTransferText = ReactHtmlParser(decodeHTML(langObj.btnTransferEmail)) || "";
+  const btnTransferText =
+    ReactHtmlParser(decodeHTML(langObj.btnTransferEmail)) || "";
 
   const handleClickDownload = (e) => {
     e.preventDefault();
@@ -42,7 +45,6 @@ const SubmitResultsButton = (props) => {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    // setShowCopyButtons(false);
   };
 
   const handleClick = (e) => {
@@ -55,21 +57,12 @@ const SubmitResultsButton = (props) => {
     for (const [key, value] of Object.entries(props.results)) {
       formattedResultsTxt = formattedResultsTxt + `${key}:| ${value} | `;
     }
-    console.log("formattedResults: " + formattedResultsTxt);
-
-    // check for internet connection
-    // setTimeout(() => {
-    //   setTransmittingData(false);
-    //   setCheckInternetConnection(true);
-    // }, 200);
-
-    console.log(JSON.stringify(formattedResultsTxt, null, 2));
 
     // Pass to Email client
     if (navigator.userAgent.toLowerCase().indexOf("chrome") > -1) {
       // Do Chrome-related actions  -  %0D%0A is a line break
       window.open(
-        `mailto:${configObj.emailAddress}?subject=${langObj.emailSubjectText}&body=${langObj.emailBodyMessage} %0D%0A%0D%0AMy Results:%0D%0A${formattedResultsTxt}`
+        `mailto:${configObj.emailAddress}?subject=${langObj.emailSubjectText}&body=${langObj.emailBodyMessage} %0D%0A%0D%0AMy Results:%0D%0A${formattedResultsTxt}`,
       );
       // setShowEmailButtons(true);
       setShowCopyButtons(true);
@@ -85,8 +78,6 @@ const SubmitResultsButton = (props) => {
   useEffect(() => {
     setDisableRefreshCheck(true);
   }, [setDisableRefreshCheck]);
-
-  console.log("urlUsercode: ", props.results.urlUsercode);
 
   return (
     <PageContainer>
@@ -138,7 +129,8 @@ const StyledEmailButton = styled.button`
   align-items: center;
   justify-content: center;
   margin-top: 30px;
-  background-color: ${({ theme, active }) => (active ? theme.secondary : theme.primary)};
+  background-color: ${({ theme, active }) =>
+    active ? theme.secondary : theme.primary};
   &:hover {
     background-color: ${({ theme }) => theme.secondary};
   }

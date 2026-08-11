@@ -11,6 +11,7 @@ import Emoji1 from "../../assets/emoji1.svg?react";
 import Emoji2 from "../../assets/emoji2.svg?react";
 import Emoji3 from "../../assets/emoji3.svg?react";
 import Emoji5 from "../../assets/emoji5.svg?react";
+import getColumnDisplayInfo from "../../utilities/getColumnDisplayInfo";
 
 /* eslint react/prop-types: 0 */
 
@@ -98,18 +99,22 @@ const HighCards2Display = (props) => {
     minWordCountValue,
   ]);
 
-  // get header text
-  let columnLabel = "";
-  if (mapObj["colTextLabelsArray"]) {
-    let headersTextArray = [...mapObj["colTextLabelsArray"]];
-    columnLabel = headersTextArray[headersTextArray.length - 2];
-  }
+  useEffect(() => {
+    if (!props.highCards2) return;
+    const noResponseCheckArrayHC2 = props.highCards2.map(
+      (item, index) => `${columnDisplay}_${index}: ${item.id}`,
+    );
+    localStorage.setItem(
+      "noResponseCheckArrayHC2",
+      JSON.stringify(noResponseCheckArrayHC2),
+    );
+  }, [props.highCards2, columnDisplay]);
 
-  let columnNum = "";
-  if (mapObj["useColLabelNumsPostsort"]) {
-    let headersNumArray = [...mapObj["qSortHeaderNumbers"]];
-    columnNum = `${placedOn} +${headersNumArray[headersNumArray.length - 2]}`;
-  }
+  const { columnLabel, columnNum, backgroundColor } = getColumnDisplayInfo(
+    mapObj,
+    agreeObj.columnDisplay2,
+    placedOn,
+  );
 
   const getEmoji = (selector) => {
     if (selector[0] === "emoji5Array") {
@@ -126,14 +131,11 @@ const HighCards2Display = (props) => {
     }
   };
 
-  const backgroundColor1 = [...mapObj["columnHeadersColorsArray"]];
-  const backgroundColor = backgroundColor1[backgroundColor1.length - 2];
-
   let highlighting = true;
   let shouldDisplayNums;
   let displayNumbers = mapObj["useColLabelNumsPostsort"][0];
 
-  if (displayNumbers !== undefined || displayNumbers !== null) {
+  if (displayNumbers !== undefined && displayNumbers !== null) {
     if (displayNumbers === false || displayNumbers === "false") {
       shouldDisplayNums = false;
     } else {
@@ -144,7 +146,7 @@ const HighCards2Display = (props) => {
   let shouldDisplayText;
   let displayText = mapObj["useColLabelTextPostsort"][0];
 
-  if (displayText !== undefined || displayText !== null) {
+  if (displayText !== undefined && displayText !== null) {
     if (displayText === false || displayText === "false") {
       shouldDisplayText = false;
     } else {
@@ -154,7 +156,7 @@ const HighCards2Display = (props) => {
 
   let shouldDisplayEmojis;
   let displayEmoji = mapObj["useColLabelEmojiPostsort"][0];
-  if (displayEmoji !== undefined || displayEmoji !== null) {
+  if (displayEmoji !== undefined && displayEmoji !== null) {
     if (displayEmoji === false || displayEmoji === "false") {
       shouldDisplayEmojis = false;
     } else {
@@ -174,16 +176,6 @@ const HighCards2Display = (props) => {
         <EmojiDiv>{getEmoji(mapObj["emojiArrayType"])}</EmojiDiv>
       )}
     </RowDiv>
-  );
-
-  let noResponseCheckArrayHC2 = [];
-  props.highCards2.forEach((item, index) => {
-    let idString = `${columnDisplay}_${index}: ${item.id}`;
-    noResponseCheckArrayHC2.push(idString);
-  });
-  localStorage.setItem(
-    "noResponseCheckArrayHC2",
-    JSON.stringify(noResponseCheckArrayHC2),
   );
 
   // enlarge images on double click
@@ -271,6 +263,8 @@ const HighCards2Display = (props) => {
     asyncLocalStorage.setItem("allCommentsObj", JSON.stringify(allCommentsObj));
     asyncLocalStorage.setItem("resultsPostsort", JSON.stringify(results));
   }; // end onBlur
+
+  if (!highCards2) return null;
 
   // render elements
   return highCards2.map((item, index) => {

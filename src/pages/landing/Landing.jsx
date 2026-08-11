@@ -156,6 +156,13 @@ const LandingPage = () => {
     localStorage.removeItem("m_ThinScrollBottom");
     localStorage.removeItem("m_ViewedBottomSort");
     localStorage.removeItem("m_NeedsToScroll");
+    localStorage.removeItem("noResponseCheckArrayHC1");
+    localStorage.removeItem("noResponseCheckArrayHC2");
+    localStorage.removeItem("noResponseCheckArrayLC1");
+    localStorage.removeItem("noResponseCheckArrayLC2");
+    localStorage.removeItem("presortArray");
+    localStorage.removeItem("resultsSurvey");
+    localStorage.removeItem("finalSortColData");
 
     for (let i = 0; i < statementsObj.totalStatements; i++) {
       let key = `m_PostsortComment(s${i + 1})`;

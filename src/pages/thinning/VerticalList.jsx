@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import styled from "styled-components";
 
 const VerticalList = (props) => {
-  console.log(JSON.stringify(props.items[0], null, 2));
   const [list, setList] = useState(props.items);
 
   const handleDragEnd = (result) => {

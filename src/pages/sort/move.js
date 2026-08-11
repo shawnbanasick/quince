@@ -14,18 +14,13 @@ const move = (
   totalStatements,
   sortCharacteristics,
   allowUnforcedSorts,
-  qSortHeaderNumbers
+  qSortHeaderNumbers,
 ) => {
   const { qSortPattern, qSortHeaders, forcedSorts } = sortCharacteristics;
-
-  const destClone = [...destinationListArray];
 
   // to splice in and out
   const [removed] = sourceListArray.splice(droppableSource.index, 1);
   destinationListArray.splice(droppableDestination.index, 0, removed);
-
-  sourceListArray[droppableSource.droppableId] = [removed];
-  destinationListArray[droppableDestination.droppableId] = [...destClone];
 
   // to assign to object and register results to state
   const result = {};
@@ -38,7 +33,8 @@ const move = (
   // for sort complete checking
   const columnLengthCheckArray = [];
   for (let i = 0; i < qSortHeaders.length; i++) {
-    const currentColumnLength = columnStatements.vCols[`column${qSortHeaders[i]}`];
+    const currentColumnLength =
+      columnStatements.vCols[`column${qSortHeaders[i]}`];
     columnLengthCheckArray.push(currentColumnLength.length);
   }
   // sort mutates, so clone
@@ -51,7 +47,7 @@ const move = (
     forcedSorts,
     totalStatements,
     qSortPattern,
-    qSortHeaderNumbers
+    qSortHeaderNumbers,
   );
 
   // to disable checking if unforced Q sorts allowed
@@ -74,8 +70,10 @@ const move = (
       }
     }
   } else {
-    // for unforced sorts - is source array empty?
-    if (sourceListArray.length === 0) {
+    // for unforced sorts - completion is defined by the unplaced pool
+    // (statementList) being empty, NOT by whichever column the card
+    // happened to be dragged from.
+    if (columnStatements.statementList.length === 0) {
       useStore.setState({ hasOverloadedColumn: false });
       useStore.setState({ sortCompleted: true });
       console.log("sorting complete");

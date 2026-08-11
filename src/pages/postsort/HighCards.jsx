@@ -10,6 +10,7 @@ import { Modal } from "react-responsive-modal";
 import Emoji2 from "../../assets/emoji2.svg?react";
 import Emoji3 from "../../assets/emoji3.svg?react";
 import Emoji5 from "../../assets/emoji5.svg?react";
+import getColumnDisplayInfo from "../../utilities/getColumnDisplayInfo";
 
 /* eslint react/prop-types: 0 */
 
@@ -97,18 +98,22 @@ const HighCards = (props) => {
     minWordCountValue,
   ]);
 
-  // get header text
-  let columnLabel = "";
-  if (mapObj["colTextLabelsArray"]) {
-    let headersTextArray = [...mapObj["colTextLabelsArray"]];
-    columnLabel = headersTextArray[headersTextArray.length - 1];
-  }
+  useEffect(() => {
+    if (!props.highCards) return;
+    const noResponseCheckArrayHC1 = props.highCards.map(
+      (item, index) => `${columnDisplay}_${index}: ${item.id}`,
+    );
+    localStorage.setItem(
+      "noResponseCheckArrayHC1",
+      JSON.stringify(noResponseCheckArrayHC1),
+    );
+  }, [props.highCards, columnDisplay]);
 
-  let columnNum = "";
-  if (mapObj["useColLabelNumsPostsort"]) {
-    let headersNumArray = [...mapObj["qSortHeaderNumbers"]];
-    columnNum = `${placedOn} +${headersNumArray[headersNumArray.length - 1]}`;
-  }
+  const { columnLabel, columnNum, backgroundColor } = getColumnDisplayInfo(
+    mapObj,
+    agreeObj.columnDisplay,
+    placedOn,
+  );
 
   const getEmoji = (selector) => {
     if (selector[0] === "emoji5Array") {
@@ -125,14 +130,11 @@ const HighCards = (props) => {
     }
   };
 
-  const backgroundColor1 = [...mapObj["columnHeadersColorsArray"]];
-  const backgroundColor = backgroundColor1[backgroundColor1.length - 1];
-
   let highlighting = true;
   let shouldDisplayNums;
   let displayNumbers = mapObj["useColLabelNumsPostsort"][0];
 
-  if (displayNumbers !== undefined || displayNumbers !== null) {
+  if (displayNumbers !== undefined && displayNumbers !== null) {
     if (displayNumbers === false || displayNumbers === "false") {
       shouldDisplayNums = false;
     } else {
@@ -143,7 +145,7 @@ const HighCards = (props) => {
   let shouldDisplayText;
   let displayText = mapObj["useColLabelTextPostsort"][0];
 
-  if (displayText !== undefined || displayText !== null) {
+  if (displayText !== undefined && displayText !== null) {
     if (displayText === false || displayText === "false") {
       shouldDisplayText = false;
     } else {
@@ -153,7 +155,7 @@ const HighCards = (props) => {
 
   let shouldDisplayEmojis;
   let displayEmoji = mapObj["useColLabelEmojiPostsort"][0];
-  if (displayEmoji !== undefined || displayEmoji !== null) {
+  if (displayEmoji !== undefined && displayEmoji !== null) {
     if (displayEmoji === false || displayEmoji === "false") {
       shouldDisplayEmojis = false;
     } else {
@@ -175,19 +177,8 @@ const HighCards = (props) => {
     </RowDiv>
   );
 
-  let noResponseCheckArrayHC1 = [];
-  props.highCards.forEach((item, index) => {
-    let idString = `${columnDisplay}_${index}: ${item.id}`;
-    noResponseCheckArrayHC1.push(idString);
-  });
-  localStorage.setItem(
-    "noResponseCheckArrayHC1",
-    JSON.stringify(noResponseCheckArrayHC1),
-  );
-
   // on double click of card, enlarge image
   const handleOpenImageModal = (e) => {
-    console.log(e);
     if (!e.target) return;
     if (e.detail === 2) {
       if (e.shiftKey) {
@@ -274,6 +265,8 @@ const HighCards = (props) => {
     asyncLocalStorage.setItem("allCommentsObj", JSON.stringify(allCommentsObj));
     asyncLocalStorage.setItem("resultsPostsort", JSON.stringify(results));
   }; // END handleChange
+
+  if (!highCards) return null;
 
   // MAP cards to DOM
   return highCards.map((item, index) => {

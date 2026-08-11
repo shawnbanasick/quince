@@ -10,7 +10,8 @@ const CopyToClipboardButton = (props) => {
   // GLOBAL STATE
   const langObj = useSettingsStore(getLangObj);
   const copiedText = ReactHtmlParser(decodeHTML(langObj.copiedText)) || "";
-  const copyTextError = ReactHtmlParser(decodeHTML(langObj.copyTextError)) || "";
+  const copyTextError =
+    ReactHtmlParser(decodeHTML(langObj.copyTextError)) || "";
 
   // LOCAL STATE
   const [result, setResult] = useState("");
@@ -26,7 +27,6 @@ const CopyToClipboardButton = (props) => {
       } else {
         formattedResultsTxt = props.content;
       }
-      console.log("formattedResults: " + formattedResultsTxt);
 
       await navigator.clipboard.writeText(formattedResultsTxt);
       setResult("success");

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import SubmitSuccessModal from "./SubmitSuccessModal";
 import SubmitFailureModal from "./SubmitFailureModal";
@@ -14,7 +14,8 @@ const getLangObj = (state) => state.langObj;
 const getTransmittingData = (state) => state.transmittingData;
 const getSetTransmittingData = (state) => state.setTransmittingData;
 const getCheckInternetConnection = (state) => state.checkInternetConnection;
-const getSetCheckInternetConnection = (state) => state.setCheckInternetConnection;
+const getSetCheckInternetConnection = (state) =>
+  state.setCheckInternetConnection;
 const getConfigObj = (state) => state.configObj;
 const getSetTrigTransOKModal = (state) => state.setTriggerTransmissionOKModal;
 const getSetDisplayGoodbyeMessage = (state) => state.setDisplayGoodbyeMessage;
@@ -30,21 +31,23 @@ const SubmitResultsButton = (props) => {
   const configObj = useSettingsStore(getConfigObj);
   const setTriggerTransmissionOKModal = useStore(getSetTrigTransOKModal);
   const setDisplayGoodbyeMessage = useStore(getSetDisplayGoodbyeMessage);
-  const checkInternetMessage = ReactHtmlParser(decodeHTML(langObj.checkInternetMessage)) || "";
+  const checkInternetMessage =
+    ReactHtmlParser(decodeHTML(langObj.checkInternetMessage)) || "";
   const setDisplayBelowButtonText = useStore(getSetDisplayBelowButtonText);
 
-  const btnTransferText = ReactHtmlParser(decodeHTML(langObj.btnTransfer)) || "";
+  const btnTransferText =
+    ReactHtmlParser(decodeHTML(langObj.btnTransfer)) || "";
 
   const [failureCount, setFailureCount] = useState(0);
 
   const handleClick = (e) => {
     e.preventDefault();
-    e.target.disabled = true;
     setDisplayBelowButtonText(true);
     // setup for client-side internet connection fail case
     setTransmittingData(true);
     setCheckInternetConnection(false);
-    setTimeout(() => {
+
+    const timeoutId = setTimeout(() => {
       setTransmittingData(false);
       setCheckInternetConnection(true);
       setDisplayBelowButtonText(false);
@@ -71,28 +74,29 @@ const SubmitResultsButton = (props) => {
     })
       .then((response) => {
         console.log(response);
-        if (response.status === 200) {
-          setTransmittingData(false);
-          setCheckInternetConnection(false);
-          setDisplayGoodbyeMessage(true);
-          setTriggerTransmissionOKModal(true);
-        }
+        clearTimeout(timeoutId);
+        setTransmittingData(false);
+        setCheckInternetConnection(false);
+        setDisplayGoodbyeMessage(true);
+        setTriggerTransmissionOKModal(true);
       })
       .catch((error) => {
         console.log(error);
+        clearTimeout(timeoutId);
         setTimeout(() => {
-          setFailureCount(failureCount + 1);
+          setFailureCount((failureCount) => failureCount + 1);
         }, 10000);
       });
 
     console.log("submission processed");
   };
 
-  // on > 1 failure, display the download / email fallback
-  console.log("failureCount: ", failureCount);
-  if (failureCount > 1) {
-    setCheckInternetConnection(false);
-  }
+  // on >= 2 failures, display the download / email fallback
+  useEffect(() => {
+    if (failureCount >= 2) {
+      setCheckInternetConnection(false);
+    }
+  }, [failureCount, setCheckInternetConnection]);
 
   return (
     <React.Fragment>
@@ -102,12 +106,19 @@ const SubmitResultsButton = (props) => {
       {transmittingData ? (
         <TransmittingSpin />
       ) : (
-        <StyledButton tabindex="0" onClick={(e) => handleClick(e)}>
+        <StyledButton
+          type="button"
+          tabIndex={0}
+          onClick={(e) => handleClick(e)}
+          disabled={transmittingData}
+        >
           {btnTransferText}
         </StyledButton>
       )}
-      {checkInternetConnection && <WarningDiv>{checkInternetMessage}</WarningDiv>}
-      {failureCount > 1 && (
+      {checkInternetConnection && (
+        <WarningDiv>{checkInternetMessage}</WarningDiv>
+      )}
+      {failureCount >= 2 && (
         <DownloadEmailFallback>
           <SubmitButtonEmail results={props.results} />
         </DownloadEmailFallback>
@@ -133,7 +144,8 @@ const StyledButton = styled.button`
   justify-content: center;
   margin-top: 30px;
   margin-bottom: 20px;
-  background-color: ${({ theme, active }) => (active ? theme.secondary : theme.primary)};
+  background-color: ${({ theme, active }) =>
+    active ? theme.secondary : theme.primary};
 
   &:hover {
     background-color: ${({ theme }) => theme.secondary};

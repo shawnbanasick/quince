@@ -10,6 +10,7 @@ import { Modal } from "react-responsive-modal";
 import EmojiN1 from "../../assets/emojiN1.svg?react";
 import EmojiN2 from "../../assets/emojiN2.svg?react";
 import EmojiN3 from "../../assets/emojiN3.svg?react";
+import getColumnDisplayInfo from "../../utilities/getColumnDisplayInfo";
 
 /* eslint react/prop-types: 0 */
 
@@ -55,6 +56,7 @@ const LowCards2 = (props) => {
   const mapObj = useSettingsStore(getMapObject);
   const { height, width, cardFontSize, disagreeObj } = props;
   const lowCards2 = columnStatements.vCols[disagreeObj.columnDisplay2];
+
   let { placeholder, placedOn } = disagreeObj;
   const columnDisplay = disagreeObj.columnDisplay2;
 
@@ -70,7 +72,7 @@ const LowCards2 = (props) => {
   let minWordCountValue = configObj.minWordCountValuePostsort || 0;
   let minWordCountRequired = configObj.requireMinCommentLength || false;
 
-  const highCardsLength = lowCards2?.length ?? 0;
+  const lowCards2Length = lowCards2?.length ?? 0;
 
   useEffect(() => {
     if (!showPostsortCommentHighlighting) return;
@@ -78,7 +80,7 @@ const LowCards2 = (props) => {
     const allCommentsObj =
       JSON.parse(localStorage.getItem("allCommentsObj")) || {};
     const keys = Array.from(
-      { length: highCardsLength },
+      { length: lowCards2Length },
       (_, i) => `textArea-${columnDisplay}_${i + 1}`,
     );
 
@@ -92,24 +94,28 @@ const LowCards2 = (props) => {
     );
   }, [
     showPostsortCommentHighlighting,
-    highCardsLength,
+    lowCards2Length,
     columnDisplay,
     minWordCountRequired,
     minWordCountValue,
   ]);
 
-  // get header text
-  let columnLabel = "";
-  if (mapObj["colTextLabelsArray"]) {
-    let headersTextArray = [...mapObj["colTextLabelsArray"]];
-    columnLabel = headersTextArray[1];
-  }
+  useEffect(() => {
+    if (!props.lowCards2) return;
+    const noResponseCheckArrayLC2 = props.lowCards2.map(
+      (item, index) => `${columnDisplay}_${index}: ${item.id}`,
+    );
+    localStorage.setItem(
+      "noResponseCheckArrayLC2",
+      JSON.stringify(noResponseCheckArrayLC2),
+    );
+  }, [props.lowCards2, columnDisplay]);
 
-  let columnNum = "";
-  if (mapObj["useColLabelNumsPostsort"]) {
-    let headersNumArray = [...mapObj["qSortHeaderNumbers"]];
-    columnNum = `${placedOn} ${headersNumArray[1]}`;
-  }
+  const { columnLabel, columnNum, backgroundColor } = getColumnDisplayInfo(
+    mapObj,
+    disagreeObj.columnDisplay2,
+    placedOn,
+  );
 
   const getEmoji = (selector) => {
     if (selector[0] === "emoji5Array") {
@@ -126,13 +132,10 @@ const LowCards2 = (props) => {
     }
   };
 
-  const backgroundColor1 = [...mapObj["columnHeadersColorsArray"]];
-  const backgroundColor = backgroundColor1[1];
-
   let shouldDisplayNums;
   let displayNumbers = mapObj["useColLabelNumsPostsort"][0];
 
-  if (displayNumbers !== undefined || displayNumbers !== null) {
+  if (displayNumbers !== undefined && displayNumbers !== null) {
     if (displayNumbers === false || displayNumbers === "false") {
       shouldDisplayNums = false;
     } else {
@@ -143,7 +146,7 @@ const LowCards2 = (props) => {
   let shouldDisplayText;
   let displayText = mapObj["useColLabelTextPostsort"][0];
 
-  if (displayText !== undefined || displayText !== null) {
+  if (displayText !== undefined && displayText !== null) {
     if (displayText === false || displayText === "false") {
       shouldDisplayText = false;
     } else {
@@ -153,7 +156,7 @@ const LowCards2 = (props) => {
 
   let shouldDisplayEmojis;
   let displayEmoji = mapObj["useColLabelEmojiPostsort"][0];
-  if (displayEmoji !== undefined || displayEmoji !== null) {
+  if (displayEmoji !== undefined && displayEmoji !== null) {
     if (displayEmoji === false || displayEmoji === "false") {
       shouldDisplayEmojis = false;
     } else {
@@ -173,16 +176,6 @@ const LowCards2 = (props) => {
         <EmojiDiv>{getEmoji(mapObj["emojiArrayType"])}</EmojiDiv>
       )}
     </RowDiv>
-  );
-
-  let noResponseCheckArrayLC2 = [];
-  props.lowCards2.forEach((item, index) => {
-    let idString = `${columnDisplay}_${index}: ${item.id}`;
-    noResponseCheckArrayLC2.push(idString);
-  });
-  localStorage.setItem(
-    "noResponseCheckArrayLC2",
-    JSON.stringify(noResponseCheckArrayLC2),
   );
 
   // on double click of card, enlarge image
@@ -233,7 +226,7 @@ const LowCards2 = (props) => {
         el.comment = cleanedComment;
         // assign to main data object for confirmation / debugging
         // input word count default value to 0
-        let inputWordCount = 0;
+        // let inputWordCount = 0;
         // if there is comment text
         if (cleanedComment.length > 0) {
           // setup persistence for comments
@@ -271,6 +264,8 @@ const LowCards2 = (props) => {
     asyncLocalStorage.setItem("allCommentsObj", JSON.stringify(allCommentsObj));
     asyncLocalStorage.setItem("resultsPostsort", JSON.stringify(results));
   }; // end onBlur
+
+  if (!lowCards2) return null;
 
   // MAP cards to DOM
   return lowCards2.map((item, index) => {

@@ -19,8 +19,6 @@ const getSurveyQuestionObjArray = (state) => state.surveyQuestionObjArray;
 const getLangObj = (state) => state.langObj;
 
 const SubmitLocalResultsButton = (props) => {
-  console.log("props.results", props.results);
-
   // STATE
   const langObj = useSettingsStore(getLangObj);
 
@@ -28,10 +26,9 @@ const SubmitLocalResultsButton = (props) => {
   let localStoredQsorts = useLocalPersist(getLocalStoredQsorts);
   const setHasDownloadedQsorts = useLocalPersist(getSetHasDownloadedQsorts);
   const setTriggerLocalSubmitSuccessModal = useStore(
-    getSetTriggerLocalSubmitSuccessModal
+    getSetTriggerLocalSubmitSuccessModal,
   );
   const surveyQuestionObjArray = useSettingsStore(getSurveyQuestionObjArray);
-  console.log("surveyQuestionObjArray", surveyQuestionObjArray);
 
   const btnTransferText =
     ReactHtmlParser(decodeHTML(langObj.localSaveDataButton)) || "";

@@ -1,22 +1,40 @@
 const addNoResultToPostsortResults = (resultsPostsort, mapObj, configObj) => {
+  // FIX: work on a shallow copy instead of mutating the caller's object
+  // in place, so this function behaves as a pure transform (build newObject,
+  // return it) rather than mutating the argument as a side effect.
+  resultsPostsort = { ...resultsPostsort };
+
   const newObject = {};
 
-  // check for missing responses
+  // pull in settings
   const qSortPattern = mapObj.qSortPattern;
   const qSortHeaderNumbers = mapObj.qSortHeaders;
-  const highCardNum = +qSortPattern[qSortPattern.length - 1];
-  const highCardVal = +qSortHeaderNumbers[qSortHeaderNumbers.length - 1];
-  const highCard2Num = +qSortPattern[qSortPattern.length - 2];
-  const highCard2Val = +qSortHeaderNumbers[qSortHeaderNumbers.length - 2];
-  const lowCardNum = +qSortPattern[0];
-  const lowCardVal = qSortHeaderNumbers[0];
-  const lowCard2Num = +qSortPattern[1];
-  const lowCard2Val = qSortHeaderNumbers[1];
 
-  let noResponseCheckArrayHC1 = JSON.parse(localStorage.getItem("noResponseCheckArrayHC1")) || [];
-  let noResponseCheckArrayHC2 = JSON.parse(localStorage.getItem("noResponseCheckArrayHC2")) || [];
-  let noResponseCheckArrayLC1 = JSON.parse(localStorage.getItem("noResponseCheckArrayLC1")) || [];
-  let noResponseCheckArrayLC2 = JSON.parse(localStorage.getItem("noResponseCheckArrayLC2")) || [];
+  // check for missing responses
+  const highCardNum = +qSortPattern[qSortPattern.length - 1];
+  const highCardVal = +qSortHeaderNumbers[
+    qSortHeaderNumbers.length - 1
+  ].replace("N", "");
+
+  const highCard2Num = +qSortPattern[qSortPattern.length - 2];
+  const highCard2Val = +qSortHeaderNumbers[
+    qSortHeaderNumbers.length - 2
+  ].replace("N", "");
+
+  const lowCardNum = +qSortPattern[0];
+  const lowCardVal = Math.abs(+qSortHeaderNumbers[0].replace("N", ""));
+
+  const lowCard2Num = +qSortPattern[1];
+  const lowCard2Val = Math.abs(+qSortHeaderNumbers[1].replace("N", ""));
+
+  let noResponseCheckArrayHC1 =
+    JSON.parse(localStorage.getItem("noResponseCheckArrayHC1")) || [];
+  let noResponseCheckArrayHC2 =
+    JSON.parse(localStorage.getItem("noResponseCheckArrayHC2")) || [];
+  let noResponseCheckArrayLC1 =
+    JSON.parse(localStorage.getItem("noResponseCheckArrayLC1")) || [];
+  let noResponseCheckArrayLC2 =
+    JSON.parse(localStorage.getItem("noResponseCheckArrayLC2")) || [];
 
   let combinedArray2 = [
     ...noResponseCheckArrayLC2,
@@ -38,7 +56,8 @@ const addNoResultToPostsortResults = (resultsPostsort, mapObj, configObj) => {
   for (let i = 0; i < length; i++) {
     let identifier = `column${highCardVal}_${i}`;
     if (!Object.prototype.hasOwnProperty.call(resultsPostsort, identifier))
-      resultsPostsort[identifier] = `(${combinedObject[identifier]}): no response`;
+      resultsPostsort[identifier] =
+        `(${combinedObject[identifier]}): no response`;
   }
 
   // check for high card 2 answers
@@ -47,7 +66,8 @@ const addNoResultToPostsortResults = (resultsPostsort, mapObj, configObj) => {
     for (let ii = 0; ii < length2; ii++) {
       let identifier2 = `column${highCard2Val}_${ii}`;
       if (!Object.prototype.hasOwnProperty.call(resultsPostsort, identifier2))
-        resultsPostsort[identifier2] = `(${combinedObject[identifier2]}): no response`;
+        resultsPostsort[identifier2] =
+          `(${combinedObject[identifier2]}): no response`;
     }
   }
 
@@ -55,18 +75,20 @@ const addNoResultToPostsortResults = (resultsPostsort, mapObj, configObj) => {
   if (configObj.showSecondNegColumn === true) {
     const length4 = lowCard2Num;
     for (let jj = 0; jj < length4; jj++) {
-      let identifier3 = `column${lowCard2Val}_${jj}`;
+      let identifier3 = `columnN${lowCard2Val}_${jj}`;
       if (!Object.prototype.hasOwnProperty.call(resultsPostsort, identifier3))
-        resultsPostsort[identifier3] = `(${combinedObject[identifier3]}): no response`;
+        resultsPostsort[identifier3] =
+          `(${combinedObject[identifier3]}): no response`;
     }
   }
 
   // check for low card answers
   const length3 = lowCardNum;
   for (let j = 0; j < length3; j++) {
-    let identifier4 = `column${lowCardVal}_${j}`;
+    let identifier4 = `columnN${lowCardVal}_${j}`;
     if (!Object.prototype.hasOwnProperty.call(resultsPostsort, identifier4))
-      resultsPostsort[identifier4] = `(${combinedObject[identifier4]}): no response`;
+      resultsPostsort[identifier4] =
+        `(${combinedObject[identifier4]}): no response`;
   }
 
   // re-arrange object properties

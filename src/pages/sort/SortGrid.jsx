@@ -128,9 +128,6 @@ const SortGrid = (props) => {
         setColumnStatements(newCols);
       } else {
         // moving to another column
-        // source.droppableId give orgin id => "statements" or "columnN1"
-        // sourceList is cards in that origin
-        // gather data to send to move function
         let sourceListArray;
         let destinationListArray;
         if (source.droppableId === "statements") {
@@ -159,8 +156,11 @@ const SortGrid = (props) => {
           qSortHeaderNumbers,
         );
 
-        // global state updates
-        setColumnStatements(columnStatements);
+        // `move` mutates columnStatements in place, so we spread it into a
+        // new object reference here — otherwise useLocalStorage/useState
+        // may bail out of re-rendering since Object.is(old, new) is true.
+        setColumnStatements({ ...columnStatements });
+
         const hasShownSortFinModal = localStorage.getItem(
           "hasShownSortFinModal",
         );
@@ -185,7 +185,6 @@ const SortGrid = (props) => {
         const ratio = numerator / totalStatements2;
         const completedPercent = (ratio * 30).toFixed();
 
-        // update Progress Bar State
         setProgressScoreAdditionalSort(completedPercent);
       }
     } catch (error) {

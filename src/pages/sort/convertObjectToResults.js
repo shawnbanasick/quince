@@ -1,13 +1,9 @@
 const convertObjectToResults = (
   columnStatements,
   resultsPresort,
-  traceSorts
+  traceSorts,
 ) => {
-  // columnStatements is an object with a key of vCols = sort results
-  // resultsPresort is an object with keys posStateNums, neuStateNums, negStateNums
-  // traceSorts (get all presort column values) is an object with keys of sortResults, sortResultsPresort, sortResultsTrace
-
-  if (columnStatements.length === 0 || columnStatements === undefined) {
+  if (!columnStatements || Object.keys(columnStatements).length === 0) {
     return;
   }
 
@@ -15,26 +11,28 @@ const convertObjectToResults = (
 
   const sortArray = [];
 
-  let posStateNums;
-  let neuStateNums;
-  let negStateNums;
+  let posStateNums = [];
+  let neuStateNums = [];
+  let negStateNums = [];
 
-  if (resultsPresort !== undefined) {
-    let posStateNums2 = resultsPresort?.posStateNums;
-    let neuStateNums2 = resultsPresort?.neuStateNums;
-    let negStateNums2 = resultsPresort?.negStateNums;
-    posStateNums = posStateNums2.split(",");
-    neuStateNums = neuStateNums2.split(",");
-    negStateNums = negStateNums2.split(",");
-    posStateNums = posStateNums.filter((item) => item);
-    negStateNums = negStateNums.filter((item) => item);
-    neuStateNums = neuStateNums.filter((item) => item);
+  if (resultsPresort) {
+    posStateNums = (resultsPresort?.posStateNums ?? "")
+      .toString()
+      .split(",")
+      .filter(Boolean);
+    neuStateNums = (resultsPresort?.neuStateNums ?? "")
+      .toString()
+      .split(",")
+      .filter(Boolean);
+    negStateNums = (resultsPresort?.negStateNums ?? "")
+      .toString()
+      .split(",")
+      .filter(Boolean);
   }
   // old style loops for speed
   //
   for (let i = 0; i < columnSortValues.length; i++) {
     let tempArray1 = columnStatements?.vCols[columnSortValues[i]];
-    let presortVal;
     // convert column key to column sort value
     let sortValue1 = columnSortValues[i];
     const replaceColumn = /column/gi;
@@ -51,13 +49,13 @@ const convertObjectToResults = (
       let statementNum = parseInt(tempArray1[j].statementNum, 10);
       tempObject.statement = statementNum;
       tempObject.sortValue = sortValue;
+
+      let presortVal = "error";
       if (posStateNums.includes(statementNum2)) {
         presortVal = "p";
-      }
-      if (neuStateNums.includes(statementNum2)) {
+      } else if (neuStateNums.includes(statementNum2)) {
         presortVal = "u";
-      }
-      if (negStateNums.includes(statementNum2)) {
+      } else if (negStateNums.includes(statementNum2)) {
         presortVal = "n";
       }
       tempObject.presortVal = presortVal;
@@ -86,7 +84,7 @@ const convertObjectToResults = (
   if (presortTraceText.charAt(presortTraceText.length - 1) === "|") {
     presortTraceText = presortTraceText.substring(
       0,
-      presortTraceText.length - 1
+      presortTraceText.length - 1,
     );
   }
 

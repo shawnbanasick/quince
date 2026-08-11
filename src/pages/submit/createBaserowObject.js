@@ -28,7 +28,8 @@ const createBaserowObject = () => {
     return baserowObject;
   } catch (error) {
     console.log(error);
-    return;
+
+    return {};
   }
 };
 

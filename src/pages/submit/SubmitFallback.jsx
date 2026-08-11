@@ -6,17 +6,14 @@ import useSettingsStore from "../../globalState/useSettingsStore";
 
 /* eslint react/prop-types: 0 */
 
-/* const handleClick = () => {
-  console.log("clicked");
-}; */
-
 const getLangObj = (state) => state.langObj;
 
 const SubmitFallback = (props) => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
 
-  const fallbackMessage = ReactHtmlParser(decodeHTML(langObj.fallbackMessage)) || "";
+  const fallbackMessage =
+    ReactHtmlParser(decodeHTML(langObj.fallbackMessage)) || "";
 
   return (
     <div>

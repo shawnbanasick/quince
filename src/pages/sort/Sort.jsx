@@ -77,8 +77,10 @@ const Sort = () => {
   const headerBarColor = configObj.headerBarColor;
   const fontColor = configObj.defaultFontColor;
 
-  const sortDisagreement = ReactHtmlParser(decodeHTML(langObj.sortDisagreement)) || "";
-  const sortAgreement = ReactHtmlParser(decodeHTML(langObj.sortAgreement)) || "";
+  const sortDisagreement =
+    ReactHtmlParser(decodeHTML(langObj.sortDisagreement)) || "";
+  const sortAgreement =
+    ReactHtmlParser(decodeHTML(langObj.sortAgreement)) || "";
   const condOfInst = ReactHtmlParser(decodeHTML(langObj.condOfInst)) || "";
 
   const qlength = qSortPattern.length;
@@ -133,8 +135,11 @@ const Sort = () => {
      "conditions of instruction" section - so, I grab the height of titleBar 
      after render and reset the margin
     */
-    const sortGridMarginTop = +JSON.parse(localStorage.getItem("sortGridMarginTop"));
-    let height = document.getElementById("sortTitleBarContainer").clientHeight + 20;
+    const sortGridMarginTop = +JSON.parse(
+      localStorage.getItem("sortGridMarginTop"),
+    );
+    let height =
+      document.getElementById("sortTitleBarContainer").clientHeight + 20;
 
     height = +JSON.stringify(height);
 
@@ -146,7 +151,7 @@ const Sort = () => {
         setTopMargin(+sortGridMarginTop);
       }
     }, 50);
-  });
+  }, [condOfInst, configObj.condOfInstFontSize, setTopMargin]);
 
   const startTimeRef = useRef(null);
   useEffect(() => {
@@ -172,7 +177,9 @@ const Sort = () => {
       <SortTitleBarContainer id="sortTitleBarContainer">
         <SortTitleBar id="sortTitleBar" background={headerBarColor}>
           <Disagree>{sortDisagreement}</Disagree>
-          <CondOfInst fontSize={configObj.condOfInstFontSize}>{condOfInst}</CondOfInst>
+          <CondOfInst fontSize={configObj.condOfInstFontSize}>
+            {condOfInst}
+          </CondOfInst>
           <Agree>{sortAgreement}</Agree>
         </SortTitleBar>
         <SortColGuides columnWidth={columnWidth} />
@@ -197,7 +204,6 @@ const Sort = () => {
             cardHeight={cardHeight}
           />
         )}
-        ;
       </SortGridContainer>
     </React.Fragment>
   );

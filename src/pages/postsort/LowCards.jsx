@@ -10,6 +10,7 @@ import { Modal } from "react-responsive-modal";
 import EmojiN2 from "../../assets/emojiN2.svg?react";
 import EmojiN3 from "../../assets/emojiN3.svg?react";
 import EmojiN5 from "../../assets/emojiN5.svg?react";
+import getColumnDisplayInfo from "../../utilities/getColumnDisplayInfo";
 
 /* eslint react/prop-types: 0 */
 
@@ -69,7 +70,7 @@ const LowCards = (props) => {
   let minWordCountValue = configObj.minWordCountValuePostsort || 0;
   let minWordCountRequired = configObj.requireMinCommentLength || false;
 
-  const highCardsLength = lowCards?.length ?? 0;
+  const lowCardsLength = lowCards?.length ?? 0;
 
   useEffect(() => {
     if (!showPostsortCommentHighlighting) return;
@@ -77,7 +78,7 @@ const LowCards = (props) => {
     const allCommentsObj =
       JSON.parse(localStorage.getItem("allCommentsObj")) || {};
     const keys = Array.from(
-      { length: highCardsLength },
+      { length: lowCardsLength },
       (_, i) => `textArea-${columnDisplay}_${i + 1}`,
     );
 
@@ -91,24 +92,28 @@ const LowCards = (props) => {
     );
   }, [
     showPostsortCommentHighlighting,
-    highCardsLength,
+    lowCardsLength,
     columnDisplay,
     minWordCountRequired,
     minWordCountValue,
   ]);
 
-  // get header text
-  let columnLabel = "";
-  if (mapObj["colTextLabelsArray"]) {
-    let headersTextArray = [...mapObj["colTextLabelsArray"]];
-    columnLabel = headersTextArray[0];
-  }
+  useEffect(() => {
+    if (!props.lowCards) return;
+    const noResponseCheckArrayLC1 = props.lowCards.map(
+      (item, index) => `${columnDisplay}_${index}: ${item.id}`,
+    );
+    localStorage.setItem(
+      "noResponseCheckArrayLC1",
+      JSON.stringify(noResponseCheckArrayLC1),
+    );
+  }, [props.lowCards, columnDisplay]);
 
-  let columnNum = "";
-  if (mapObj["useColLabelNumsPostsort"]) {
-    let headersNumArray = [...mapObj["qSortHeaderNumbers"]];
-    columnNum = `${placedOn} ${headersNumArray[0]}`;
-  }
+  const { columnLabel, columnNum, backgroundColor } = getColumnDisplayInfo(
+    mapObj,
+    disagreeObj.columnDisplay,
+    placedOn,
+  );
 
   const getEmoji = (selector) => {
     if (selector[0] === "emoji5Array") {
@@ -125,14 +130,11 @@ const LowCards = (props) => {
     }
   };
 
-  const backgroundColor1 = [...mapObj["columnHeadersColorsArray"]];
-  const backgroundColor = backgroundColor1[0];
-
   let highlighting = true;
   let shouldDisplayNums;
   let displayNumbers = mapObj["useColLabelNumsPostsort"][0];
 
-  if (displayNumbers !== undefined || displayNumbers !== null) {
+  if (displayNumbers !== undefined && displayNumbers !== null) {
     if (displayNumbers === false || displayNumbers === "false") {
       shouldDisplayNums = false;
     } else {
@@ -143,7 +145,7 @@ const LowCards = (props) => {
   let shouldDisplayText;
   let displayText = mapObj["useColLabelTextPostsort"][0];
 
-  if (displayText !== undefined || displayText !== null) {
+  if (displayText !== undefined && displayText !== null) {
     if (displayText === false || displayText === "false") {
       shouldDisplayText = false;
     } else {
@@ -153,7 +155,7 @@ const LowCards = (props) => {
 
   let shouldDisplayEmojis;
   let displayEmoji = mapObj["useColLabelEmojiPostsort"][0];
-  if (displayEmoji !== undefined || displayEmoji !== null) {
+  if (displayEmoji !== undefined && displayEmoji !== null) {
     if (displayEmoji === false || displayEmoji === "false") {
       shouldDisplayEmojis = false;
     } else {
@@ -173,16 +175,6 @@ const LowCards = (props) => {
         <EmojiDiv>{getEmoji(mapObj["emojiArrayType"])}</EmojiDiv>
       )}
     </RowDiv>
-  );
-
-  let noResponseCheckArrayLC1 = [];
-  props.lowCards.forEach((item, index) => {
-    let idString = `${columnDisplay}_${index}: ${item.id}`;
-    noResponseCheckArrayLC1.push(idString);
-  });
-  localStorage.setItem(
-    "noResponseCheckArrayLC1",
-    JSON.stringify(noResponseCheckArrayLC1),
   );
 
   // on double click of card, enlarge image
@@ -271,6 +263,8 @@ const LowCards = (props) => {
     asyncLocalStorage.setItem("allCommentsObj", JSON.stringify(allCommentsObj));
     asyncLocalStorage.setItem("resultsPostsort", JSON.stringify(results));
   }; // end onBlur
+
+  if (!lowCards) return null;
 
   // MAP cards to DOM
   return lowCards.map((item, index) => {
