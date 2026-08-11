@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import styled from "styled-components";
 import LogInSubmitButton from "./LogInSubmitButton";
 import useSettingsStore from "../../globalState/useSettingsStore";
@@ -14,7 +14,10 @@ const getSetDisplayLandingContent = (state) => state.setDisplayLandingContent;
 const getSetDisplayNextButton = (state) => state.setDisplayNextButton;
 const getSetIsLoggedIn = (state) => state.setIsLoggedIn;
 const getSetUserInputAccessCode = (state) => state.setUserInputAccessCode;
-const getSetDisplayAccessCodeWarning = (state) => state.setDisplayAccessCodeWarning;
+const getSetDisplayAccessCodeWarning = (state) =>
+  state.setDisplayAccessCodeWarning;
+
+const WARNING_DURATION_MS = 3000;
 
 const AccessCodeScreen = () => {
   // STATE
@@ -28,13 +31,49 @@ const AccessCodeScreen = () => {
   const setUserInputAccessCode = useStore(getSetUserInputAccessCode);
   const setDisplayAccessCodeWarning = useStore(getSetDisplayAccessCodeWarning);
 
+  // Keep the latest input value available to the keyup handler without
+  // needing to re-subscribe the window listener on every keystroke.
+  const userInputAccessCodeRef = useRef(userInputAccessCode);
+  useEffect(() => {
+    userInputAccessCodeRef.current = userInputAccessCode;
+  }, [userInputAccessCode]);
+
+  // Track the pending "hide warning" timeout so it can be cancelled if the
+  // component unmounts or a new submit attempt comes in before it fires.
+  const warningTimeoutRef = useRef(null);
+
   // Language
-  const loginHeaderText = ReactHtmlParser(decodeHTML(langObj.loginHeaderText)) || "";
-  const accessInputText = ReactHtmlParser(decodeHTML(langObj.accessInputText)) || "";
-  const accessCodeWarning = ReactHtmlParser(decodeHTML(langObj.accessCodeWarning)) || "";
+  const loginHeaderText =
+    ReactHtmlParser(decodeHTML(langObj.loginHeaderText)) || "";
+  const accessInputText =
+    ReactHtmlParser(decodeHTML(langObj.accessInputText)) || "";
+  const accessCodeWarning =
+    ReactHtmlParser(decodeHTML(langObj.accessCodeWarning)) || "";
 
   const handleAccess = (e) => {
     setUserInputAccessCode(e.target.value);
+  };
+
+  const handleSubmit = () => {
+    const projectAccessCode = configObj.accessCode;
+    const userAccessOK = userInputAccessCodeRef.current === projectAccessCode;
+
+    if (userAccessOK) {
+      setDisplayLandingContent(true);
+      setDisplayNextButton(true);
+      setIsLoggedIn(true);
+      return;
+    }
+
+    // invalid input ==> display warning, clearing any warning already in flight
+    setDisplayAccessCodeWarning(true);
+    if (warningTimeoutRef.current) {
+      clearTimeout(warningTimeoutRef.current);
+    }
+    warningTimeoutRef.current = setTimeout(() => {
+      setDisplayAccessCodeWarning(false);
+      warningTimeoutRef.current = null;
+    }, WARNING_DURATION_MS);
   };
 
   useEffect(() => {
@@ -42,60 +81,26 @@ const AccessCodeScreen = () => {
 
     const handleKeyUpStart = (event) => {
       if (event.key === "Enter") {
-        let userAccessOK = false;
-        const projectAccessCode = configObj.accessCode;
-
-        // get user input
-
-        if (userInputAccessCode === projectAccessCode) {
-          userAccessOK = true;
-          setDisplayLandingContent(true);
-          setDisplayNextButton(true);
-          setIsLoggedIn(true);
-        }
-
-        // invalid input ==> display warnings
-        if (userAccessOK === false) {
-          setDisplayAccessCodeWarning(true);
-          setTimeout(() => {
-            setDisplayAccessCodeWarning(false);
-          }, 3000);
-        }
+        handleSubmit();
       }
-    }; // end keyup
+    };
     window.addEventListener("keyup", handleKeyUpStart);
 
     return () => window.removeEventListener("keyup", handleKeyUpStart);
-  }, [
-    setDisplayLandingContent,
-    setDisplayNextButton,
-    setIsLoggedIn,
-    configObj.accessCode,
-    setDisplayAccessCodeWarning,
-    userInputAccessCode,
-  ]);
+    // handleSubmit reads from refs/store setters, so it's intentionally
+    // omitted here to avoid re-attaching the listener on every render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setDisplayNextButton]);
 
-  const handleSubmit = () => {
-    let userAccessOK = false;
-    const projectAccessCode = configObj.accessCode;
-
-    // get user input
-
-    if (userInputAccessCode === projectAccessCode) {
-      userAccessOK = true;
-      setDisplayLandingContent(true);
-      setDisplayNextButton(true);
-      setIsLoggedIn(true);
-    }
-
-    // invalid input ==> display warnings
-    if (userAccessOK === false) {
-      setDisplayAccessCodeWarning(true);
-      setTimeout(() => {
-        setDisplayAccessCodeWarning(false);
-      }, 5000);
-    }
-  };
+  // Clear any pending warning timeout on unmount to avoid calling
+  // setState on an unmounted component.
+  useEffect(() => {
+    return () => {
+      if (warningTimeoutRef.current) {
+        clearTimeout(warningTimeoutRef.current);
+      }
+    };
+  }, []);
 
   return (
     <Container>
@@ -112,7 +117,9 @@ const AccessCodeScreen = () => {
             autoFocus
             data-testid="accessCodeInputDiv"
           />
-          {displayAccessCodeWarning && <WarningText>{accessCodeWarning}</WarningText>}
+          {displayAccessCodeWarning && (
+            <WarningText>{accessCodeWarning}</WarningText>
+          )}
         </StyledInputDiv>
       </div>
 
