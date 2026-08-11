@@ -236,6 +236,7 @@ const LandingPage = () => {
 
   // set newCols to local storage
   let columnStatements = statementsObj.columnStatements;
+  console.log("columnStatements", columnStatements);
   localStorage.setItem("newCols", JSON.stringify(columnStatements));
 
   // *** USE HOOKS *********************

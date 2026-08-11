@@ -10,6 +10,9 @@ const addNoResultToPostsortResults = (resultsPostsort, mapObj, configObj) => {
   const qSortPattern = mapObj.qSortPattern;
   const qSortHeaderNumbers = mapObj.qSortHeaders;
 
+  const minQSortHeaderNumber = Math.min(...qSortHeaderNumbers);
+  console.log("minQSortHeaderNumber", minQSortHeaderNumber);
+
   // check for missing responses
   const highCardNum = +qSortPattern[qSortPattern.length - 1];
   const highCardVal = +qSortHeaderNumbers[
@@ -71,24 +74,26 @@ const addNoResultToPostsortResults = (resultsPostsort, mapObj, configObj) => {
     }
   }
 
-  // check for low card 2 answers
-  if (configObj.showSecondNegColumn === true) {
-    const length4 = lowCard2Num;
-    for (let jj = 0; jj < length4; jj++) {
-      let identifier3 = `columnN${lowCard2Val}_${jj}`;
-      if (!Object.prototype.hasOwnProperty.call(resultsPostsort, identifier3))
-        resultsPostsort[identifier3] =
-          `(${combinedObject[identifier3]}): no response`;
+  if (minQSortHeaderNumber < 0) {
+    // check for low card 2 answers
+    if (configObj.showSecondNegColumn === true) {
+      const length4 = lowCard2Num;
+      for (let jj = 0; jj < length4; jj++) {
+        let identifier3 = `columnN${lowCard2Val}_${jj}`;
+        if (!Object.prototype.hasOwnProperty.call(resultsPostsort, identifier3))
+          resultsPostsort[identifier3] =
+            `(${combinedObject[identifier3]}): no response`;
+      }
     }
-  }
 
-  // check for low card answers
-  const length3 = lowCardNum;
-  for (let j = 0; j < length3; j++) {
-    let identifier4 = `columnN${lowCardVal}_${j}`;
-    if (!Object.prototype.hasOwnProperty.call(resultsPostsort, identifier4))
-      resultsPostsort[identifier4] =
-        `(${combinedObject[identifier4]}): no response`;
+    // check for low card answers
+    const length3 = lowCardNum;
+    for (let j = 0; j < length3; j++) {
+      let identifier4 = `columnN${lowCardVal}_${j}`;
+      if (!Object.prototype.hasOwnProperty.call(resultsPostsort, identifier4))
+        resultsPostsort[identifier4] =
+          `(${combinedObject[identifier4]}): no response`;
+    }
   }
 
   // re-arrange object properties
@@ -99,6 +104,8 @@ const addNoResultToPostsortResults = (resultsPostsort, mapObj, configObj) => {
   for (let i = 0; i < keys.length; i++) {
     newObject[keys[i]] = resultsPostsort[keys[i]];
   }
+
+  console.log("newObject", newObject);
   return newObject;
 };
 
