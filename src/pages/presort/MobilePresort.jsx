@@ -40,11 +40,19 @@ const getSetTriggerMobilePresortFinishedModal = (state) =>
   state.setTriggerMobilePresortFinishedModal;
 const getSetPresortFinished = (state) => state.setPresortFinished;
 const getMobilePresortFontSize = (state) => state.mobilePresortFontSize;
-const getSetTriggerMobilePresortRedoModal = (state) => state.setTriggerMobilePresortRedoModal;
-const getSetTriggerMobilePresortHelpModal = (state) => state.setTriggerMobilePresortHelpModal;
+const getSetTriggerMobilePresortRedoModal = (state) =>
+  state.setTriggerMobilePresortRedoModal;
+const getSetTriggerMobilePresortHelpModal = (state) =>
+  state.setTriggerMobilePresortHelpModal;
 const getTriggerHelpModal = (state) => state.triggerMobilePresortHelpModal;
-const getTriggerFinishedModal = (state) => state.triggerMobilePresortFinishedModal;
-const getSetTriggerFinishedModal = (state) => state.setTriggerMobilePresortFinishedModal;
+const getTriggerFinishedModal = (state) =>
+  state.triggerMobilePresortFinishedModal;
+const getSetTriggerFinishedModal = (state) =>
+  state.setTriggerMobilePresortFinishedModal;
+const getTriggerMobilePresortPreventNavModal = (state) =>
+  state.triggerMobilePresortPreventNavModal;
+const getSetTriggerMobilePresortPreventNavModal = (state) =>
+  state.setTriggerMobilePresortPreventNavModal;
 
 const MobilePresortPage = () => {
   // GLOBAL STATE
@@ -58,14 +66,14 @@ const MobilePresortPage = () => {
   const resetColumnStatements = useSettingsStore(getResetColumnStatements);
   const setPresortFinished = useStore(getSetPresortFinished);
   const mobilePresortFontSize = useStore(getMobilePresortFontSize);
-  const setTriggerMobilePresortRedoModal = useStore(getSetTriggerMobilePresortRedoModal);
-  const setTriggerPresortFinishedModal = useStore(getSetTriggerMobilePresortFinishedModal);
+  const setTriggerMobilePresortRedoModal = useStore(
+    getSetTriggerMobilePresortRedoModal,
+  );
+  const setTriggerPresortFinishedModal = useStore(
+    getSetTriggerMobilePresortFinishedModal,
+  );
   const triggerHelpModal = useStore(getTriggerHelpModal);
   const setTriggerHelpModal = useStore(getSetTriggerMobilePresortHelpModal);
-  const getTriggerMobilePresortPreventNavModal = (state) =>
-    state.triggerMobilePresortPreventNavModal;
-  const getSetTriggerMobilePresortPreventNavModal = (state) =>
-    state.setTriggerMobilePresortPreventNavModal;
   const triggerFinishedModal = useStore(getTriggerFinishedModal);
   const setTriggerFinishedModal = useStore(getSetTriggerFinishedModal);
 
@@ -89,21 +97,33 @@ const MobilePresortPage = () => {
   // ***********************
   // *** TEXT LOCALIZATION *****************
   // ***********************
-  const titleText = ReactHtmlParser(decodeHTML(langObj.mobilePresortConditionsOfInstruction)) || "";
-  const completedLabel = ReactHtmlParser(decodeHTML(langObj.mobilePresortCompletedLabel)) || "";
-  const assignLeft = ReactHtmlParser(decodeHTML(langObj.mobilePresortAssignLeft)) || "";
-  const assignRight = ReactHtmlParser(decodeHTML(langObj.mobilePresortAssignRight)) || "";
+  const titleText =
+    ReactHtmlParser(decodeHTML(langObj.mobilePresortConditionsOfInstruction)) ||
+    "";
+  const completedLabel =
+    ReactHtmlParser(decodeHTML(langObj.mobilePresortCompletedLabel)) || "";
+  const assignLeft =
+    ReactHtmlParser(decodeHTML(langObj.mobilePresortAssignLeft)) || "";
+  const assignRight =
+    ReactHtmlParser(decodeHTML(langObj.mobilePresortAssignRight)) || "";
   const mobilePresortProcessCompleteMessage =
-    ReactHtmlParser(decodeHTML(langObj.mobilePresortProcessCompleteMessage)) || "";
-  const screenOrientationText = ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
-  const expandViewMessage = ReactHtmlParser(decodeHTML(langObj.expandViewMessage)) || "";
+    ReactHtmlParser(decodeHTML(langObj.mobilePresortProcessCompleteMessage)) ||
+    "";
+  const screenOrientationText =
+    ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
+  const expandViewMessage =
+    ReactHtmlParser(decodeHTML(langObj.expandViewMessage)) || "";
   const presortHelpModalHead =
     ReactHtmlParser(decodeHTML(langObj.mobilePresortHelpModalHead)) || "";
   const presortHelpModalText =
     ReactHtmlParser(decodeHTML(langObj.mobilePresortHelpModalText)) || "";
 
-  const triggerPreventNavModal = useStore(getTriggerMobilePresortPreventNavModal);
-  const setTriggerPreventNavModal = useStore(getSetTriggerMobilePresortPreventNavModal);
+  const triggerPreventNavModal = useStore(
+    getTriggerMobilePresortPreventNavModal,
+  );
+  const setTriggerPreventNavModal = useStore(
+    getSetTriggerMobilePresortPreventNavModal,
+  );
   const preventNavModalHead =
     ReactHtmlParser(decodeHTML(langObj.mobilePresortPreventNavModalHead)) || "";
   const preventNavModalText =
@@ -116,11 +136,23 @@ const MobilePresortPage = () => {
   // ******************* //
   // *** LOCAL STATE **************************** //
   //******************** //
+  const storedPresortArray =
+    JSON.parse(localStorage.getItem("presortArray") ?? "[]") || [];
   let [presortArray2, setPresortArray2] = useLocalStorage("presortArray2", [
-    ...JSON.parse(localStorage.getItem("presortArray")),
+    ...storedPresortArray,
   ]);
-  let [statementCount, setStatementCount] = useLocalStorage("m_PresortStatementCount", 0);
-  let [m_PresortResults, setm_PresortResults] = useLocalStorage("m_PresortResults", []);
+
+  let [statementCount, setStatementCount] = useLocalStorage(
+    "m_PresortStatementCount",
+    0,
+  );
+
+  const storedPresortResults =
+    JSON.parse(localStorage.getItem("m_PresortResults") ?? "[]") || [];
+  let [m_PresortResults, setm_PresortResults] = useLocalStorage(
+    "m_PresortResults",
+    storedPresortResults,
+  );
 
   // ***********************
   // *** USE HOOKS ******************
@@ -186,42 +218,30 @@ const MobilePresortPage = () => {
 
   const handleRedoClick = (value) => {
     setTriggerMobilePresortRedoModal(false);
-    let selectedStatementObject = m_PresortResults.find(
-      (item) => item.id === redoCardId.current.id,
-    );
-    selectedStatementObject.psValue = value;
-    selectedStatementObject.color = mobileCardColor(value);
 
-    if (value > 0) {
-      selectedStatementObject.pinkChecked = false;
-      selectedStatementObject.yellowChecked = false;
-      selectedStatementObject.greenChecked = true;
-    } else if (value < 0) {
-      selectedStatementObject.pinkChecked = true;
-      selectedStatementObject.yellowChecked = false;
-      selectedStatementObject.greenChecked = false;
-    } else {
-      selectedStatementObject.pinkChecked = false;
-      selectedStatementObject.yellowChecked = true;
-      selectedStatementObject.greenChecked = false;
-    }
+    const updatedResults = m_PresortResults.map((item) => {
+      if (item.id !== redoCardId.current.id) return item;
+      return {
+        ...item,
+        psValue: value,
+        color: mobileCardColor(value),
+        pinkChecked: value < 0,
+        yellowChecked: value === 0,
+        greenChecked: value > 0,
+      };
+    });
 
-    m_PresortResults.sort((a, b) => {
+    updatedResults.sort((a, b) => {
       let aVal = +a.id.slice(1);
       let bVal = +b.id.slice(1);
-      if (a.psValue === b.psValue) {
-        return aVal - bVal;
-      }
+      if (a.psValue === b.psValue) return aVal - bVal;
       return b.psValue - a.psValue;
     });
-    setm_PresortResults([...m_PresortResults]);
 
-    let selectedPosItems = m_PresortResults.filter((item) => {
-      return +item.psValue > 0;
-    });
-    let selectedNegItems = m_PresortResults.filter((item) => {
-      return +item.psValue < 0;
-    });
+    setm_PresortResults(updatedResults);
+
+    let selectedPosItems = updatedResults.filter((item) => +item.psValue > 0);
+    let selectedNegItems = updatedResults.filter((item) => +item.psValue < 0);
 
     localStorage.setItem("selectedPosItems", JSON.stringify(selectedPosItems));
     localStorage.setItem("selectedNegItems", JSON.stringify(selectedNegItems));
@@ -239,85 +259,107 @@ const MobilePresortPage = () => {
     );
   };
 
-  const processClick = useCallback((value) => {
-    try {
-      if (presortArray2.length > 0) {
-        // remove first object from array
-        let currentObj = presortArray2.shift();
-        let newCount = statementCount + 1;
-        setPresortArray2(presortArray2);
-        setStatementCount(newCount);
+  const processClick = useCallback(
+    (value) => {
+      try {
+        if (presortArray2.length > 0) {
+          // remove first object from array
+          const newPresortArray2 = [...presortArray2];
+          const currentObj = { ...newPresortArray2.shift() };
+          const newCount = statementCount + 1;
+          setPresortArray2(newPresortArray2);
+          setStatementCount(newCount);
 
-        // create object
-        if (value > 0) {
-          currentObj.pinkChecked = false;
-          currentObj.yellowChecked = false;
-          currentObj.greenChecked = true;
-        } else if (value < 0) {
-          currentObj.pinkChecked = true;
-          currentObj.yellowChecked = false;
-          currentObj.greenChecked = false;
-        } else {
-          currentObj.pinkChecked = false;
-          currentObj.yellowChecked = true;
-          currentObj.greenChecked = false;
-        }
-
-        currentObj.psValue = value;
-        currentObj.color = mobileCardColor(value);
-        m_PresortResults.push({ ...currentObj });
-        m_PresortResults.sort((a, b) => {
-          let aVal = +a.id.slice(1);
-          let bVal = +b.id.slice(1);
-          if (a.psValue === b.psValue) {
-            return aVal - bVal;
+          // create object
+          if (value > 0) {
+            currentObj.pinkChecked = false;
+            currentObj.yellowChecked = false;
+            currentObj.greenChecked = true;
+          } else if (value < 0) {
+            currentObj.pinkChecked = true;
+            currentObj.yellowChecked = false;
+            currentObj.greenChecked = false;
+          } else {
+            currentObj.pinkChecked = false;
+            currentObj.yellowChecked = true;
+            currentObj.greenChecked = false;
           }
-          return b.psValue - a.psValue;
-        });
 
-        // send to local storage
-        setm_PresortResults(m_PresortResults);
-        let selectedPosItems = m_PresortResults.filter((item) => {
-          return +item.psValue > 0;
-        });
-        let selectedNegItems = m_PresortResults.filter((item) => {
-          return +item.psValue < 0;
-        });
+          currentObj.psValue = value;
+          currentObj.color = mobileCardColor(value);
 
-        localStorage.setItem("selectedPosItems", JSON.stringify(selectedPosItems));
-        localStorage.setItem("selectedNegItems", JSON.stringify(selectedNegItems));
+          const newResults = [...m_PresortResults, { ...currentObj }];
+          newResults.sort((a, b) => {
+            let aVal = +a.id.slice(1);
+            let bVal = +b.id.slice(1);
+            if (a.psValue === b.psValue) {
+              return aVal - bVal;
+            }
+            return b.psValue - a.psValue;
+          });
+          setm_PresortResults(newResults);
 
-        if (presortArray2.length === 0) {
-          let sortRightArrays = JSON.parse(localStorage.getItem("sortRightArrays"));
-          let sortLeftArrays = JSON.parse(localStorage.getItem("sortLeftArrays"));
-          let newCols = JSON.parse(localStorage.getItem("newCols"));
-          let remainingPosCount = selectedPosItems.length;
-          let remainingNegCount = selectedNegItems.length;
-
-          let thinDisplayControllerArray = calcThinDisplayControllerArray(
-            remainingPosCount,
-            remainingNegCount,
-            sortRightArrays,
-            sortLeftArrays,
-          );
+          let selectedPosItems = newResults.filter((item) => {
+            return +item.psValue > 0;
+          });
+          let selectedNegItems = newResults.filter((item) => {
+            return +item.psValue < 0;
+          });
 
           localStorage.setItem(
-            "thinDisplayControllerArray",
-            JSON.stringify(thinDisplayControllerArray),
+            "selectedPosItems",
+            JSON.stringify(selectedPosItems),
+          );
+          localStorage.setItem(
+            "selectedNegItems",
+            JSON.stringify(selectedNegItems),
           );
 
-          // *** update newCols ***
-          newCols.statementList = m_PresortResults;
-          localStorage.setItem("newCols", JSON.stringify(newCols));
+          if (newPresortArray2.length === 0) {
+            let sortRightArrays = JSON.parse(
+              localStorage.getItem("sortRightArrays"),
+            );
+            let sortLeftArrays = JSON.parse(
+              localStorage.getItem("sortLeftArrays"),
+            );
+            let newCols = JSON.parse(localStorage.getItem("newCols"));
+            let remainingPosCount = selectedPosItems.length;
+            let remainingNegCount = selectedNegItems.length;
 
-          setTriggerPresortFinishedModal(true);
-          localStorage.setItem("m_PresortFinished", "true");
+            let thinDisplayControllerArray = calcThinDisplayControllerArray(
+              remainingPosCount,
+              remainingNegCount,
+              sortRightArrays,
+              sortLeftArrays,
+            );
+
+            localStorage.setItem(
+              "thinDisplayControllerArray",
+              JSON.stringify(thinDisplayControllerArray),
+            );
+
+            // *** update newCols ***
+            newCols.statementList = newResults;
+            localStorage.setItem("newCols", JSON.stringify(newCols));
+
+            setTriggerPresortFinishedModal(true);
+            localStorage.setItem("m_PresortFinished", "true");
+          }
         }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
-    }
-  });
+    },
+    [
+      presortArray2,
+      statementCount,
+      m_PresortResults,
+      setPresortArray2,
+      setStatementCount,
+      setm_PresortResults,
+      setTriggerPresortFinishedModal,
+    ],
+  );
 
   // *******************************************
   // *** KEYBOARD SHORTCUTS (FOR DEV TESTING) ***************
@@ -339,15 +381,20 @@ const MobilePresortPage = () => {
   }, [processClick]);
 
   // **************************
+  // *** DELAYED UPDATE ***************
+  // **************************
+  const finishedRef = useRef(false);
+  useEffect(() => {
+    if (presortArray2.length === 0 && !finishedRef.current) {
+      finishedRef.current = true;
+      const timer = setTimeout(() => setPresortFinished(true), 100);
+      return () => clearTimeout(timer);
+    }
+  }, [presortArray2.length, setPresortFinished]);
+
+  // **************************
   // *** EARLY RETURNS ***************
   // **************************
-  if (presortArray2.length === 0) {
-    setTimeout(() => {
-      setPresortFinished(true);
-    }, 100);
-    // setDisplayMobileHelpButton(false);
-  }
-
   if (initialScreen !== "anonymous") {
     if (isLoggedIn === false) {
       return <PleaseLogInFirst />;
@@ -366,7 +413,10 @@ const MobilePresortPage = () => {
   // *** RENDER VARIABLES ******************
   // **************************
   let totalStatements = columnStatements.statementList.length;
-  let displayStatements = JSON.parse(localStorage.getItem("m_PresortDisplayStatements"));
+
+  let displayStatements =
+    JSON.parse(localStorage.getItem("m_PresortDisplayStatements") ?? "{}") ||
+    {};
 
   const MainButtonRow =
     useColLabelEmojiPresort[0] === "true" ? (
@@ -379,7 +429,9 @@ const MobilePresortPage = () => {
           data-testid="value-button-neg1"
           child={
             <EmojiDiv>
-              <EmojiDiv>{emojiArray[+mapObj.presortEmojiNegativeIndex]}</EmojiDiv>
+              <EmojiDiv>
+                {emojiArray[+mapObj.presortEmojiNegativeIndex]}
+              </EmojiDiv>
             </EmojiDiv>
           }
         />
@@ -391,7 +443,9 @@ const MobilePresortPage = () => {
           data-testid="value-button-neu1"
           child={
             <EmojiDiv>
-              <EmojiDiv>{emojiArray[+mapObj.presortEmojiNeutralIndex]}</EmojiDiv>
+              <EmojiDiv>
+                {emojiArray[+mapObj.presortEmojiNeutralIndex]}
+              </EmojiDiv>
             </EmojiDiv>
           }
         />
@@ -404,7 +458,9 @@ const MobilePresortPage = () => {
           data-testid="value-button-pos1"
           child={
             <EmojiDiv>
-              <EmojiDiv>{emojiArray[+mapObj.presortEmojiPositiveIndex]}</EmojiDiv>
+              <EmojiDiv>
+                {emojiArray[+mapObj.presortEmojiPositiveIndex]}
+              </EmojiDiv>
             </EmojiDiv>
           }
         />
@@ -456,7 +512,10 @@ const MobilePresortPage = () => {
           showArrow={true}
           height={"450px"}
         />
-        <MobilePresortRedoModal clickFunction={handleRedoClick} statement={redoCardId} />
+        <MobilePresortRedoModal
+          clickFunction={handleRedoClick}
+          statement={redoCardId}
+        />
         {/* <MobilePresortFinishedModal /> */}
         <MobileModal
           head={preventNavModalHead}
@@ -497,7 +556,10 @@ const MobilePresortPage = () => {
           </ButtonRowLabel>
           {MainButtonRow}
           <RowText>{completedLabel}</RowText>
-          <MobilePreviousAssignmentBox statements={m_PresortResults} onClick={handleRedo} />
+          <MobilePreviousAssignmentBox
+            statements={m_PresortResults}
+            onClick={handleRedo}
+          />
           <BoxSizeMessage>{expandViewMessage}</BoxSizeMessage>
         </>
       ) : (
