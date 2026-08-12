@@ -1,20 +1,29 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
-export default function useLongPress() {
+export default function useLongPress(threshold = 500) {
   const [action, setAction] = useState();
 
   const timerRef = useRef();
-  const isLongPress = useRef();
+  const isLongPress = useRef(false);
+
+  // Make sure a pending timer never fires setState after unmount.
+  useEffect(() => {
+    return () => clearTimeout(timerRef.current);
+  }, []);
 
   function startPressTimer() {
     isLongPress.current = false;
     timerRef.current = setTimeout(() => {
       isLongPress.current = true;
       setAction("longpress");
-    }, 500);
+    }, threshold);
   }
 
-  function handleOnClick(e) {
+  function clearPressTimer() {
+    clearTimeout(timerRef.current);
+  }
+
+  function handleOnClick() {
     console.log("handleOnClick");
     if (isLongPress.current) {
       console.log("Is long press - not continuing.");
@@ -30,7 +39,12 @@ export default function useLongPress() {
 
   function handleOnMouseUp() {
     console.log("handleOnMouseUp");
-    clearTimeout(timerRef.current);
+    clearPressTimer();
+  }
+
+  function handleOnMouseLeave() {
+    console.log("handleOnMouseLeave");
+    clearPressTimer();
   }
 
   function handleOnTouchStart() {
@@ -39,9 +53,22 @@ export default function useLongPress() {
   }
 
   function handleOnTouchEnd() {
-    if (action === "longpress") return;
     console.log("handleOnTouchEnd");
-    clearTimeout(timerRef.current);
+    clearPressTimer();
+
+    // Use the ref, not the (async) state, so this matches handleOnClick's
+    // logic exactly and isn't affected by a stale `action` from a prior press.
+    if (isLongPress.current) {
+      console.log("Is long press - not continuing.");
+      return;
+    }
+    setAction("click");
+  }
+
+  function handleOnTouchCancel() {
+    console.log("handleOnTouchCancel");
+    clearPressTimer();
+    isLongPress.current = false;
   }
 
   return {
@@ -50,8 +77,10 @@ export default function useLongPress() {
       onClick: handleOnClick,
       onMouseDown: handleOnMouseDown,
       onMouseUp: handleOnMouseUp,
+      onMouseLeave: handleOnMouseLeave,
       onTouchStart: handleOnTouchStart,
       onTouchEnd: handleOnTouchEnd,
+      onTouchCancel: handleOnTouchCancel,
     },
   };
 }
