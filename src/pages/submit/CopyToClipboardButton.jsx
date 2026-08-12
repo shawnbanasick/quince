@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
@@ -15,6 +15,19 @@ const CopyToClipboardButton = (props) => {
 
   // LOCAL STATE
   const [result, setResult] = useState("");
+
+  // ref to track the pending "clear message" timeout so we can cancel it
+  // on unmount or when a new click supersedes it
+  const timeoutRef = useRef(null);
+
+  // clear any pending timeout when the component unmounts
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
 
   // async generic function for copying to clipboard
   async function copyToClipboard() {
@@ -34,28 +47,34 @@ const CopyToClipboardButton = (props) => {
       setResult("error");
       console.error("Failed to copy: ", err);
     } finally {
-      setTimeout(() => setResult(""), 3000);
+      // cancel any previously scheduled clear so rapid clicks don't
+      // race each other and clear the message early
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+      timeoutRef.current = setTimeout(() => {
+        setResult("");
+        timeoutRef.current = null;
+      }, 3000);
     }
   }
 
   const handleClick = () => {
-    copyToClipboard(props.content).then(() => {
+    copyToClipboard().then(() => {
       console.log("copied to clipboard");
     });
   };
 
   return (
-    <React.Fragment>
-      <ContainerDiv>
-        <StyledButton tabindex="1" onClick={(e) => handleClick(e)}>
-          {props.text}
-        </StyledButton>
-        <MessageDiv>
-          {result === "success" && copiedText}
-          {result === "error" && copyTextError}
-        </MessageDiv>
-      </ContainerDiv>
-    </React.Fragment>
+    <ContainerDiv>
+      <StyledButton tabIndex={0} onClick={handleClick}>
+        {props.text}
+      </StyledButton>
+      <MessageDiv aria-live="polite">
+        {result === "success" && copiedText}
+        {result === "error" && copyTextError}
+      </MessageDiv>
+    </ContainerDiv>
   );
 };
 
