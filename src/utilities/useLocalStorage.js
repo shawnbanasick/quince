@@ -7,15 +7,17 @@ function useLocalStorage(key, initialValue) {
       // Get from local storage by key
       const item = window.localStorage.getItem(key);
       if (item === null) {
-        // If no item exists, initialize it with the initial value
-        window.localStorage.setItem(key, JSON.stringify(initialValue));
-        return initialValue;
+        // If no item exists, initialize it with the initial value.
+        const resolved =
+          initialValue instanceof Function ? initialValue() : initialValue;
+        window.localStorage.setItem(key, JSON.stringify(resolved));
+        return resolved;
       }
       // Parse stored JSON
       return JSON.parse(item);
     } catch (error) {
       console.log(error);
-      return initialValue;
+      return initialValue instanceof Function ? initialValue() : initialValue;
     }
   });
 

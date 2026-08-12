@@ -28,6 +28,16 @@ const getIsRightSideFinished = (state) => state.isRightSideFinished;
 const getCardFontSizeThin = (state) => state.cardFontSizeThin;
 const getCardHeightThin = (state) => state.cardHeightThin;
 
+function safeParse(key, fallback) {
+  try {
+    const raw = window.localStorage.getItem(key);
+    return raw === null ? fallback : JSON.parse(raw);
+  } catch (error) {
+    console.log(error);
+    return fallback;
+  }
+}
+
 const Thinning = () => {
   // GLOBAL STATE
   const langObj = useSettingsStore(getLangObj);
@@ -77,25 +87,23 @@ const Thinning = () => {
   // **** Local State Variables *******************************************
   // *******************************
 
-  let showMain = true;
-
-  // FIX: fall back to [] instead of null so [...selectedPosItems] never
-  // crashes on a first-ever visit when the localStorage key doesn't exist yet.
   let [selectedNegItems, setSelectedNegItems] = useLocalStorage(
     "selectedNegItems",
-    JSON.parse(localStorage.getItem("negSorted")) || [],
+    safeParse("negSorted", []),
   );
   let [selectedPosItems, setSelectedPosItems] = useLocalStorage(
     "selectedPosItems",
-    JSON.parse(localStorage.getItem("posSorted")) || [],
+    safeParse("posSorted", []),
   );
 
   let [displayControllerArray, setDisplayControllerArray] = useLocalStorage(
     "thinDisplayControllerArray",
-    JSON.parse(localStorage.getItem("thinDisplayControllerArray")),
+    safeParse("thinDisplayControllerArray", []),
   );
 
   let instructionsRef = useRef({ part1: "", part2: "", part3: "" });
+
+  let hasFinishedRef = useRef(false);
 
   // *******************************************************
   // *** Display ****************************************
@@ -140,29 +148,18 @@ const Thinning = () => {
   }
 
   // *** if display finished
-  if (displayControllerArray.length === 0) {
-    showMain = false;
-    setTimeout(() => {
-      setIsThinningFinished(true);
-    }, 50);
-    let finalSortColData = JSON.parse(localStorage.getItem("finalSortColData"));
-
-    let newCols = JSON.parse(localStorage.getItem("newCols"));
-    let completedCols = finishThinningSorts(newCols, finalSortColData);
-    localStorage.setItem("columnStatements", JSON.stringify(completedCols));
-  }
+  // showMain is now purely derived from state, no side effects here.
+  let showMain = displayControllerArray.length > 0;
 
   // ********************************************************
   // *** EVENT HANDLING *************************************
   // ********************************************************
 
   // todo *** HANDLE BOX CLICK ***
-  // FIX: avoid mutating items already sitting in state; build a new array
-  // of new objects instead so referential-equality checks (memo, etc.)
-  // keep working and the update is easier to reason about.
+  //
   const handleClick = (e) => {
-    let targetcol = e.target.getAttribute("data-targetcol");
-    let clickedId = e.target.dataset.id;
+    let targetcol = e.currentTarget.getAttribute("data-targetcol");
+    let clickedId = e.currentTarget.dataset.id;
 
     let updatedCards = cards.map((item) =>
       item.id === clickedId
@@ -204,9 +201,6 @@ const Thinning = () => {
       let nextSelectedNegItemsSet = selectedNegItems.filter(
         (item) => item.selected !== true,
       );
-      // FIX: this branch was missing the localStorage write its "right"
-      // counterpart has, so "negSorted" went stale on disk after every
-      // confirm. Keep both sides in sync.
       localStorage.setItem(
         "negSorted",
         JSON.stringify(nextSelectedNegItemsSet),
@@ -219,15 +213,8 @@ const Thinning = () => {
     }
   };
 
-  setDisplayNextButton(true);
-
   let selectedStatementsNum = 0;
 
-  // FIX: maxNum comes from the sort plan and can be larger than the number
-  // of cards actually left to assign at this step (e.g. asked for 4, but
-  // only 3 statements remain). Without clamping, selectedStatementsNum can
-  // never reach maxNum and the user gets permanently stuck. requiredNum is
-  // the real number they need to select right now: whichever is smaller.
   let requiredNum = Math.min(
     displayControllerArray[0]?.maxNum ?? 0,
     (cards || []).length,
@@ -248,14 +235,32 @@ const Thinning = () => {
     };
   }, [setCurrentPage, setProgressScore]);
 
+  useEffect(() => {
+    setDisplayNextButton(true);
+  }, [displayControllerArray, setDisplayNextButton]);
+
+  useEffect(() => {
+    if (displayControllerArray.length === 0 && !hasFinishedRef.current) {
+      hasFinishedRef.current = true;
+
+      let finalSortColData = safeParse("finalSortColData", null);
+      let newCols = safeParse("newCols", null);
+      let completedCols = finishThinningSorts(newCols, finalSortColData);
+      localStorage.setItem("columnStatements", JSON.stringify(completedCols));
+
+      const timer = setTimeout(() => {
+        setIsThinningFinished(true);
+      }, 50);
+
+      return () => clearTimeout(timer);
+    }
+  }, [displayControllerArray, setIsThinningFinished]);
+
   let assessedStatements = (cards || []).map((item) => {
     if (item.selected === true) {
       selectedStatementsNum = selectedStatementsNum + 1;
     }
     return (
-      // FIX: key was uuid() (a new random id every render), which forced
-      // React to unmount/remount every card on every render instead of
-      // reconciling them. Use the item's own stable id instead.
       <Card
         onClick={handleClick}
         id={item.id}
@@ -329,15 +334,6 @@ const Thinning = () => {
 };
 
 export default Thinning;
-
-// ============================================================
-// Styled Components
-//
-// Theme: a small `sideTheme` map replaces the repeated inline
-// ternaries for side/selected colors, so each visual state is
-// defined once instead of being re-derived in four different
-// CSS properties.
-// ============================================================
 
 const sideTheme = {
   right: {
