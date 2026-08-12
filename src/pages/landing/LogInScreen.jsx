@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import LogInSubmitButton from "./LogInSubmitButton";
 import ReactHtmlParser from "html-react-parser";
@@ -18,7 +18,8 @@ const getSetDisplayLandingContent = (state) => state.setDisplayLandingContent;
 const getSetPartId = (state) => state.setPartId;
 const getSetDisplayNextButton = (state) => state.setDisplayNextButton;
 const getSetIsLoggedIn = (state) => state.setIsLoggedIn;
-const getSetDisplayAccessCodeWarning = (state) => state.setDisplayAccessCodeWarning;
+const getSetDisplayAccessCodeWarning = (state) =>
+  state.setDisplayAccessCodeWarning;
 const getSetDisplayPartIdWarning = (state) => state.setDisplayPartIdWarning;
 
 const LogInScreen = () => {
@@ -38,12 +39,24 @@ const LogInScreen = () => {
   const setDisplayAccessCodeWarning = useStore(getSetDisplayAccessCodeWarning);
   const setDisplayPartIdWarning = useStore(getSetDisplayPartIdWarning);
 
-  const welcomeText = ReactHtmlParser(decodeHTML(langObj.loginWelcomeText)) || "";
-  const loginHeaderText = ReactHtmlParser(decodeHTML(langObj.loginHeaderText)) || "";
-  const loginPartIdText = ReactHtmlParser(decodeHTML(langObj.loginPartIdText)) || "";
-  const partIdWarning = ReactHtmlParser(decodeHTML(langObj.partIdWarning)) || "";
-  const accessCodeWarning = ReactHtmlParser(decodeHTML(langObj.accessCodeWarning)) || "";
-  const accessInputText = ReactHtmlParser(decodeHTML(langObj.accessInputText)) || "";
+  // refs to track pending warning timeouts so we can clear them on unmount (#6)
+  const accessTimeoutRef = useRef(null);
+  const partIdTimeoutRef = useRef(null);
+  // ref to track storage-failure warning timeout (#10)
+  const storageTimeoutRef = useRef(null);
+
+  const welcomeText =
+    ReactHtmlParser(decodeHTML(langObj.loginWelcomeText)) || "";
+  const loginHeaderText =
+    ReactHtmlParser(decodeHTML(langObj.loginHeaderText)) || "";
+  const loginPartIdText =
+    ReactHtmlParser(decodeHTML(langObj.loginPartIdText)) || "";
+  const partIdWarning =
+    ReactHtmlParser(decodeHTML(langObj.partIdWarning)) || "";
+  const accessCodeWarning =
+    ReactHtmlParser(decodeHTML(langObj.accessCodeWarning)) || "";
+  const accessInputText =
+    ReactHtmlParser(decodeHTML(langObj.accessInputText)) || "";
 
   const handleInput = (e) => {
     setUserInputPartId(e.target.value);
@@ -53,107 +66,70 @@ const LogInScreen = () => {
     setUserInputAccessCode(e.target.value);
   };
 
+  // Set initial next-button visibility once on mount (#3: no longer depends
+  // on the input values, so it doesn't re-run on every keystroke)
   useEffect(() => {
     setDisplayNextButton(false);
+  }, [setDisplayNextButton]);
 
-    const handleKeyUpStart = (event) => {
-      if (event.key === "Enter") {
-        try {
-          let userPartIdOK = false;
-          let userAccessOK = false;
-          const projectAccessCode = configObj.accessCode;
+  // Clean up any pending warning timeouts on unmount (#6)
+  useEffect(() => {
+    return () => {
+      clearTimeout(accessTimeoutRef.current);
+      clearTimeout(partIdTimeoutRef.current);
+      clearTimeout(storageTimeoutRef.current);
+    };
+  }, []);
 
-          // get user input
-          if (userInputPartId.length > 1) {
-            userPartIdOK = true;
-          } else {
-            userPartIdOK = false;
-          }
-          if (userInputAccessCode === projectAccessCode) {
-            userAccessOK = true;
-          }
-
-          // invalid input ==> display warnings
-          if (userAccessOK && userPartIdOK) {
-            setDisplayLandingContent(true);
-            setPartId(userInputPartId);
-            localStorage.setItem("partId", userInputPartId);
-
-            setDisplayNextButton(true);
-            setIsLoggedIn(true);
-          } else if (userAccessOK === false) {
-            console.log("no access code");
-            setDisplayAccessCodeWarning(true);
-            setDisplayNextButton(false);
-            setTimeout(() => {
-              setDisplayAccessCodeWarning(false);
-            }, 5000);
-          } else if (userPartIdOK === false) {
-            setDisplayPartIdWarning(true);
-            setDisplayNextButton(false);
-            console.log("no id");
-
-            setTimeout(() => {
-              setDisplayPartIdWarning(false);
-            }, 5000);
-          }
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    }; // end keyup
-    window.addEventListener("keyup", handleKeyUpStart);
-
-    return () => window.removeEventListener("keyup", handleKeyUpStart);
-  }, [
-    setDisplayLandingContent,
-    setDisplayNextButton,
-    setIsLoggedIn,
-    configObj.accessCode,
-    setDisplayAccessCodeWarning,
-    userInputAccessCode,
-    setPartId,
-    setDisplayPartIdWarning,
-    userInputPartId,
-  ]);
-
-  const handleSubmit = () => {
+  // Single shared validation/login handler used by both the Enter key and
+  // the submit button (#2: removes duplicated logic)
+  const validateAndLogin = () => {
     try {
-      let userPartIdOK = false;
-      let userAccessOK = false;
-      const projectAccessCode = configObj.accessCode;
+      const trimmedPartId = userInputPartId.trim();
+      const trimmedAccessCode = userInputAccessCode.trim();
 
-      // get user input
-      if (userInputPartId.length > 1) {
-        userPartIdOK = true;
-      } else {
-        userPartIdOK = false;
-      }
-      if (userInputAccessCode === projectAccessCode) {
-        userAccessOK = true;
-      }
+      // #8: single-character part IDs are now valid (length > 0 instead of > 1)
+      // #9: both inputs are trimmed before validation
+      const userPartIdOK = trimmedPartId.length > 0;
+      const userAccessOK = trimmedAccessCode === configObj.accessCode;
 
-      // invalid input ==> display warnings
+      // #5: both warnings are now independent, so both can display at once
+      setDisplayAccessCodeWarning(!userAccessOK);
+      setDisplayPartIdWarning(!userPartIdOK);
+
       if (userAccessOK && userPartIdOK) {
         setDisplayLandingContent(true);
-        setPartId(userInputPartId);
-        localStorage.setItem("partId", userInputPartId);
+        setPartId(trimmedPartId);
+
+        // #10: surface a warning instead of silently failing if localStorage
+        // is unavailable, and don't mark the user as logged in in that case
+        try {
+          localStorage.setItem("partId", trimmedPartId);
+        } catch (storageError) {
+          console.log(storageError);
+          setDisplayAccessCodeWarning(true);
+          storageTimeoutRef.current = setTimeout(() => {
+            setDisplayAccessCodeWarning(false);
+          }, 5000);
+          return;
+        }
 
         setDisplayNextButton(true);
         setIsLoggedIn(true);
-      } else if (userAccessOK === false) {
+        return;
+      }
+
+      setDisplayNextButton(false);
+
+      if (!userAccessOK) {
         console.log("no access code");
-        setDisplayAccessCodeWarning(true);
-        setDisplayNextButton(false);
-        setTimeout(() => {
+        accessTimeoutRef.current = setTimeout(() => {
           setDisplayAccessCodeWarning(false);
         }, 5000);
-      } else if (userPartIdOK === false) {
-        setDisplayPartIdWarning(true);
-        setDisplayNextButton(false);
+      }
+      if (!userPartIdOK) {
         console.log("no id");
-
-        setTimeout(() => {
+        partIdTimeoutRef.current = setTimeout(() => {
           setDisplayPartIdWarning(false);
         }, 5000);
       }
@@ -162,10 +138,18 @@ const LogInScreen = () => {
     }
   };
 
+  // #4: Enter-key handling is now scoped to the login container instead of
+  // a window-level listener, so it won't fire from unrelated elements
+  const handleContainerKeyUp = (e) => {
+    if (e.key === "Enter") {
+      validateAndLogin();
+    }
+  };
+
   return (
     <React.Fragment>
       <LogInWelcomeText>{welcomeText}</LogInWelcomeText>
-      <Container>
+      <Container onKeyUp={handleContainerKeyUp}>
         <div>
           <h2>{loginHeaderText}</h2>
           <StyledHr />
@@ -173,20 +157,36 @@ const LogInScreen = () => {
         <div>
           <h3>{loginPartIdText}</h3>
           <StyledInputDiv>
-            <StyledInput onChange={handleInput} type="text" autoFocus autoCapitalize="none" />
+            <StyledInput
+              onChange={handleInput}
+              type="text"
+              autoFocus
+              autoCapitalize="none"
+            />
             {displayPartIdWarning && <WarningText>{partIdWarning}</WarningText>}
           </StyledInputDiv>
         </div>
         <div>
           <h3>{accessInputText}</h3>
           <StyledInputDiv>
-            <StyledInput onChange={handleAccess} type="text" autoCapitalize="none" />
-            {displayAccessCodeWarning && <WarningText>{accessCodeWarning}</WarningText>}
+            <StyledInput
+              onChange={handleAccess}
+              type="text"
+              autoCapitalize="none"
+            />
+            {displayAccessCodeWarning && (
+              <WarningText>{accessCodeWarning}</WarningText>
+            )}
           </StyledInputDiv>
         </div>
-        <LogInSubmitButton onClick={handleSubmit} size={"1.5em"} width={"200px"} height={"50px"} />
+        <LogInSubmitButton
+          onClick={validateAndLogin}
+          size={"1.5em"}
+          width={"200px"}
+          height={"50px"}
+        />
       </Container>
-      <WarningText>{}</WarningText>
+      {/* #7: removed dead <WarningText>{}</WarningText> element */}
     </React.Fragment>
   );
 };

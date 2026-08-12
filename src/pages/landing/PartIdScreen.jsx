@@ -16,7 +16,7 @@ const getSetDisplayNextButton = (state) => state.setDisplayNextButton;
 const getSetIsLoggedIn = (state) => state.setIsLoggedIn;
 const getSetDisplayPartIdWarning = (state) => state.setDisplayPartIdWarning;
 
-const LogInScreen = () => {
+const PartIdScreen = () => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
   const displayPartIdWarning = useStore(getDisplayPartIdWarning);
@@ -28,9 +28,12 @@ const LogInScreen = () => {
   const setIsLoggedIn = useStore(getSetIsLoggedIn);
   const setDisplayPartIdWarning = useStore(getSetDisplayPartIdWarning);
 
-  const loginHeaderText = ReactHtmlParser(decodeHTML(langObj.loginHeaderText)) || "";
-  const loginPartIdText = ReactHtmlParser(decodeHTML(langObj.loginPartIdText)) || "";
-  const partIdWarning = ReactHtmlParser(decodeHTML(langObj.partIdWarning)) || "";
+  const loginHeaderText =
+    ReactHtmlParser(decodeHTML(langObj.loginHeaderText)) || "";
+  const loginPartIdText =
+    ReactHtmlParser(decodeHTML(langObj.loginPartIdText)) || "";
+  const partIdWarning =
+    ReactHtmlParser(decodeHTML(langObj.partIdWarning)) || "";
 
   const handleInput = (e) => {
     setUserInputPartId(e.target.value);
@@ -110,12 +113,17 @@ const LogInScreen = () => {
         </StyledInputDiv>
       </div>
 
-      <LogInSubmitButton onClick={handleSubmit} size={"1.5em"} width={"200px"} height={"50px"} />
+      <LogInSubmitButton
+        onClick={handleSubmit}
+        size={"1.5em"}
+        width={"200px"}
+        height={"50px"}
+      />
     </Container>
   );
 };
 
-export default LogInScreen;
+export default PartIdScreen;
 
 const Container = styled.div`
   display: grid;

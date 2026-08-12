@@ -53,7 +53,7 @@
    
    <!-- 7. PROJECT ACCESS OPTIONS -->
    <!-- options: anonymous, partId-access, partId, access -->
-   <item order="7-a" id="initialScreen">anonymous</item>
+   <item order="7-a" id="initialScreen">partId-access</item>
    <item order="7-b" id="accessCode">demo</item>
    
    <!-- 8. COLOR SETTINGS  -->

@@ -18,10 +18,11 @@ const getSetDisplayLandingContent = (state) => state.setDisplayLandingContent;
 const getSetPartId = (state) => state.setPartId;
 const getSetDisplayNextButton = (state) => state.setDisplayNextButton;
 const getSetIsLoggedIn = (state) => state.setIsLoggedIn;
-const getSetDisplayAccessCodeWarning = (state) => state.setDisplayAccessCodeWarning;
+const getSetDisplayAccessCodeWarning = (state) =>
+  state.setDisplayAccessCodeWarning;
 const getSetDisplayPartIdWarning = (state) => state.setDisplayPartIdWarning;
 
-const LogInScreen = () => {
+const MobileLogInScreen = () => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
   const configObj = useSettingsStore(getConfigObj);
@@ -38,12 +39,18 @@ const LogInScreen = () => {
   const setDisplayAccessCodeWarning = useStore(getSetDisplayAccessCodeWarning);
   const setDisplayPartIdWarning = useStore(getSetDisplayPartIdWarning);
 
-  const welcomeText = ReactHtmlParser(decodeHTML(langObj.loginWelcomeText)) || "";
-  const loginHeaderText = ReactHtmlParser(decodeHTML(langObj.loginHeaderText)) || "";
-  const loginPartIdText = ReactHtmlParser(decodeHTML(langObj.loginPartIdText)) || "";
-  const partIdWarning = ReactHtmlParser(decodeHTML(langObj.partIdWarning)) || "";
-  const accessCodeWarning = ReactHtmlParser(decodeHTML(langObj.accessCodeWarning)) || "";
-  const accessInputText = ReactHtmlParser(decodeHTML(langObj.accessInputText)) || "";
+  const welcomeText =
+    ReactHtmlParser(decodeHTML(langObj.loginWelcomeText)) || "";
+  const loginHeaderText =
+    ReactHtmlParser(decodeHTML(langObj.loginHeaderText)) || "";
+  const loginPartIdText =
+    ReactHtmlParser(decodeHTML(langObj.loginPartIdText)) || "";
+  const partIdWarning =
+    ReactHtmlParser(decodeHTML(langObj.partIdWarning)) || "";
+  const accessCodeWarning =
+    ReactHtmlParser(decodeHTML(langObj.accessCodeWarning)) || "";
+  const accessInputText =
+    ReactHtmlParser(decodeHTML(langObj.accessInputText)) || "";
 
   const handleInput = (e) => {
     setUserInputPartId(e.target.value);
@@ -171,25 +178,41 @@ const LogInScreen = () => {
         <TopContainer>
           <TextSpan1>{loginPartIdText}</TextSpan1>
           <StyledInputDiv>
-            <StyledInput onChange={handleInput} type="text" autoCapitalize="none" autoFocus />
+            <StyledInput
+              onChange={handleInput}
+              type="text"
+              autoCapitalize="none"
+              autoFocus
+            />
             {displayPartIdWarning && <WarningText>{partIdWarning}</WarningText>}
           </StyledInputDiv>
         </TopContainer>
         <BottomContainer>
           <TextSpan1>{accessInputText}</TextSpan1>
           <StyledInputDiv>
-            <StyledInput onChange={handleAccess} type="text" autoCapitalize="none" />
-            {displayAccessCodeWarning && <WarningText>{accessCodeWarning}</WarningText>}
+            <StyledInput
+              onChange={handleAccess}
+              type="text"
+              autoCapitalize="none"
+            />
+            {displayAccessCodeWarning && (
+              <WarningText>{accessCodeWarning}</WarningText>
+            )}
           </StyledInputDiv>
         </BottomContainer>
-        <LogInSubmitButton size={"1.0em"} width={"120px"} height={"30px"} onClick={handleSubmit} />
+        <LogInSubmitButton
+          size={"1.0em"}
+          width={"120px"}
+          height={"30px"}
+          onClick={handleSubmit}
+        />
       </Container>
       <WarningText>{}</WarningText>
     </React.Fragment>
   );
 };
 
-export default LogInScreen;
+export default MobileLogInScreen;
 
 const Container = styled.div`
   display: grid;

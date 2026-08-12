@@ -35,7 +35,7 @@
      <item id="useColLabelNums">true</item>
      <item id="useColLabelText">false</item>
      <item id="useColLabelEmoji">true</item>
-     <item id="useColLabelEmojiPostsort">true</item>
-     <item id="useColLabelTextPostsort">true</item>
-     <item id="useColLabelNumsPostsort">false</item>
+     <item id="useColLabelEmojiPostsort">false</item>
+     <item id="useColLabelTextPostsort">false</item>
+     <item id="useColLabelNumsPostsort">true</item>
    </map>
