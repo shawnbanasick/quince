@@ -1,5 +1,4 @@
-import { useState } from "react";
-import "react-responsive-modal/styles.css";
+import { useState, useRef, useEffect } from "react";
 import ReactModal from "react-modal";
 import styled from "styled-components";
 import ReactHtmlParser from "html-react-parser";
@@ -23,61 +22,64 @@ const MobileSortSwapModal = (props) => {
   const sortColHeaderNums = [...mapObj.qSortHeaderNumbers];
   const { displayArray } = useEmojiArrays(mapObj);
   const [showSuccess, setShowSuccess] = useState(false);
+  const closeTimerRef = useRef(null);
 
   // LANGUAGE
-  const swapModalHead = ReactHtmlParser(decodeHTML(langObj.mobileSortSwapModalHead)) || "";
-  const okButtonText = ReactHtmlParser(decodeHTML(langObj.mobileSortSwapModalConfirmButton)) || "";
-  const cancelButtonText = ReactHtmlParser(decodeHTML(langObj.mobileModalButtonCancel)) || "";
+  const swapModalHead =
+    ReactHtmlParser(decodeHTML(langObj.mobileSortSwapModalHead)) || "";
+  const okButtonText =
+    ReactHtmlParser(decodeHTML(langObj.mobileSortSwapModalConfirmButton)) || "";
+  const cancelButtonText =
+    ReactHtmlParser(decodeHTML(langObj.mobileModalButtonCancel)) || "";
   const swapSuccessMessage =
-    ReactHtmlParser(decodeHTML(langObj.mobileSortSwapModalSuccessMessage)) || "";
+    ReactHtmlParser(decodeHTML(langObj.mobileSortSwapModalSuccessMessage)) ||
+    "";
 
-  let targetArray = [...props.targetArray];
-  if (targetArray.length === 0 || targetArray === undefined) {
+  useEffect(() => {
+    return () => {
+      if (closeTimerRef.current) {
+        clearTimeout(closeTimerRef.current);
+      }
+    };
+  }, []);
+
+  if (!props.targetArray || props.targetArray.length === 0) {
     return;
   }
+  let targetArray = [...props.targetArray];
 
   // determine visibility from map.xml options
-  let shouldDisplayNums;
   let displayNumbers = mapObj["useColLabelNums"][0];
-  if (displayNumbers !== undefined || displayNumbers !== null) {
-    if (displayNumbers === false || displayNumbers === "false") {
-      shouldDisplayNums = false;
-    } else {
-      shouldDisplayNums = true;
-    }
-  }
-  let shouldDisplayText;
+  let shouldDisplayNums = !(
+    displayNumbers === false || displayNumbers === "false"
+  );
+
   let displayText = mapObj["useColLabelText"][0];
-  if (displayText !== undefined || displayText !== null) {
-    if (displayText === false || displayText === "false") {
-      shouldDisplayText = false;
-    } else {
-      shouldDisplayText = true;
-    }
-  }
-  let shouldDisplayEmojis;
+  let shouldDisplayText = !(displayText === false || displayText === "false");
+
   let displayEmoji = mapObj["useColLabelEmoji"][0];
-  if (displayEmoji !== undefined || displayEmoji !== null) {
-    if (displayEmoji === false || displayEmoji === "false") {
-      shouldDisplayEmojis = false;
-    } else {
-      shouldDisplayEmojis = true;
-    }
-  }
+  let shouldDisplayEmojis = !(
+    displayEmoji === false || displayEmoji === "false"
+  );
 
   // get appropriate emojis
   let topCardEmoji = null;
   let bottomCardEmoji = null;
   if (targetArray.length === 2) {
     // for order consistency
-    targetArray.sort((a, b) => b.groupNumber - a.groupNumber);
+    targetArray.sort(
+      (a, b) =>
+        parseFloat(String(b.groupNumber).replace("+", "")) -
+        parseFloat(String(a.groupNumber).replace("+", "")),
+    );
+
     let topCard = targetArray[0];
     let bottomCard = targetArray[1];
-    let topCardSortValue = topCard?.groupNumber;
-    let bottomCardSortValue = bottomCard?.groupNumber;
-    // strip "+" for conversions
+    let topCardSortValue = topCard?.groupNumber ?? "";
+    let bottomCardSortValue = bottomCard?.groupNumber ?? "";
     topCardSortValue = topCardSortValue.replace("+", "");
     bottomCardSortValue = bottomCardSortValue.replace("+", "");
+
     // get index
     let topCardIndex = sortColHeaderNums.indexOf(topCardSortValue);
     let bottomCardIndex = sortColHeaderNums.indexOf(bottomCardSortValue);
@@ -86,12 +88,18 @@ const MobileSortSwapModal = (props) => {
     bottomCardEmoji = displayArray[bottomCardIndex];
   }
 
-  if (targetArray?.length > 0 && +targetArray?.[0]?.index > +targetArray?.[1]?.index) {
+  if (
+    targetArray?.length > 0 &&
+    +targetArray?.[0]?.index > +targetArray?.[1]?.index
+  ) {
     targetArray = targetArray.reverse();
   }
 
-  // const onOpenModal = () => setOpen(true);
   const onCloseModal = () => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+      closeTimerRef.current = null;
+    }
     setTriggerModal(false);
     props.clearSelected();
     setShowSuccess(false);
@@ -100,7 +108,10 @@ const MobileSortSwapModal = (props) => {
   const handleSwap = () => {
     props.handleStatementSwap(targetArray[0].index, targetArray[1].index);
     setShowSuccess(true);
-    setTimeout(() => {
+    if (closeTimerRef.current) {
+      clearTimeout(closeTimerRef.current);
+    }
+    closeTimerRef.current = setTimeout(() => {
       onCloseModal();
     }, 2000);
   };
@@ -127,7 +138,9 @@ const MobileSortSwapModal = (props) => {
       <ReactModal
         id="sortSwapModal"
         isOpen={triggerModal}
-        onClose={onCloseModal}
+        onRequestClose={onCloseModal}
+        shouldCloseOnOverlayClick={true}
+        shouldCloseOnEsc={true}
         style={customStyles}
         overlayClassName="Overlay"
         // className="ModalContentFade"
@@ -146,22 +159,35 @@ const MobileSortSwapModal = (props) => {
                 {swapModalHead}
                 <hr />
               </ModalHeader>
-              <StatementBox color={targetArray[0]?.color} fontSize={targetArray[0]?.fontSize}>
+              <StatementBox
+                color={targetArray[0]?.color}
+                fontSize={targetArray[0]?.fontSize}
+              >
                 <NumberContainer>
                   <ContentWrapper>
                     {shouldDisplayEmojis && <EmojiDiv>{topCardEmoji}</EmojiDiv>}
                     {shouldDisplayNums && (
                       <HeaderNumber>{targetArray[0]?.groupNumber}</HeaderNumber>
                     )}
-                    {shouldDisplayText && <HeaderText>{targetArray[0]?.header}</HeaderText>}
+                    {shouldDisplayText && (
+                      <HeaderText>{targetArray[0]?.header}</HeaderText>
+                    )}
                     {shouldDisplayEmojis && <EmojiDiv>{topCardEmoji}</EmojiDiv>}
                     {/* {targetArray[0]?.header} */}
                   </ContentWrapper>
                 </NumberContainer>
-                <CardDiv color={targetArray[0]?.color}>{targetArray[0]?.statement}</CardDiv>
+                <CardDiv color={targetArray[0]?.color}>
+                  {targetArray[0]?.statement}
+                </CardDiv>
               </StatementBox>
 
-              <SwapArrows style={{ display: "flex", justifySelf: "center", height: "50px" }} />
+              <SwapArrows
+                style={{
+                  display: "flex",
+                  justifySelf: "center",
+                  height: "50px",
+                }}
+              />
               <StatementBox
                 id="StatementBox"
                 color={targetArray[1]?.color}
@@ -169,12 +195,18 @@ const MobileSortSwapModal = (props) => {
               >
                 <NumberContainer id="NumberContainer">
                   <ContentWrapper id="ContentWrapper">
-                    {shouldDisplayEmojis && <EmojiDiv>{bottomCardEmoji}</EmojiDiv>}
+                    {shouldDisplayEmojis && (
+                      <EmojiDiv>{bottomCardEmoji}</EmojiDiv>
+                    )}
                     {shouldDisplayNums && (
                       <HeaderNumber>{targetArray[1]?.groupNumber}</HeaderNumber>
                     )}
-                    {shouldDisplayText && <HeaderText>{targetArray[1]?.header}</HeaderText>}
-                    {shouldDisplayEmojis && <EmojiDiv>{bottomCardEmoji}</EmojiDiv>}
+                    {shouldDisplayText && (
+                      <HeaderText>{targetArray[1]?.header}</HeaderText>
+                    )}
+                    {shouldDisplayEmojis && (
+                      <EmojiDiv>{bottomCardEmoji}</EmojiDiv>
+                    )}
                   </ContentWrapper>
                 </NumberContainer>
                 <CardDiv id="CardDiv" color={targetArray[1]?.color}>
