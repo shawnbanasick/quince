@@ -14,15 +14,20 @@ import useSettingsStore from "../../globalState/useSettingsStore";
 import useStore from "../../globalState/useStore";
 import PromptUnload from "../../utilities/PromptUnload";
 
+// Debounce helper - returns a debounced function with a `.cancel()` method
+// so callers can clear any in-flight timer on unmount (prevents state
+// updates firing after the component has unmounted).
 function debounce(fn, ms) {
   let timer;
-  return () => {
+  const debounced = (...args) => {
     clearTimeout(timer);
     timer = setTimeout(() => {
       timer = null;
-      fn.apply(this, arguments);
+      fn.apply(this, args);
     }, ms);
   };
+  debounced.cancel = () => clearTimeout(timer);
+  return debounced;
 }
 
 const getLangObj = (state) => state.langObj;
@@ -34,7 +39,7 @@ const getSetPresortNoReturn = (state) => state.setPresortNoReturn;
 const getSetCurrentPage = (state) => state.setCurrentPage;
 const getSetTopMargin = (state) => state.setTopMargin;
 const getSetDisplayNextButton = (state) => state.setDisplayNextButton;
-let getCardHeightSort = (state) => state.cardHeightSort;
+const getCardHeightSort = (state) => state.cardHeightSort; // was `let`, never reassigned
 
 const Sort = () => {
   // GLOBAL STATE
@@ -107,12 +112,15 @@ const Sort = () => {
     if (qlength > 0) {
       return 70;
     }
+
+    return 0;
   }, [qlength]);
 
   // page resize
   useEffect(() => {
-    // const columnWidth = (dimensions.width - visibleWidthAdjust) / qSortPattern.length;
-    const columnWidth = dimensions.width / qSortPattern.length;
+    // Guard against division by zero when qSortPattern is empty.
+    const columnWidth =
+      qSortPattern.length > 0 ? dimensions.width / qSortPattern.length : 0;
     setColumnWidth(columnWidth);
 
     const debouncedHandleResize = debounce(function handleResize() {
@@ -126,6 +134,9 @@ const Sort = () => {
 
     return () => {
       window.removeEventListener("resize", debouncedHandleResize);
+      // Cancel any debounce timer that's still pending when we unmount,
+      // so setDimensions can't fire on an unmounted component.
+      debouncedHandleResize.cancel();
     };
   }, [dimensions, qSortPattern.length, visibleWidthAdjust]);
 
@@ -138,12 +149,17 @@ const Sort = () => {
     const sortGridMarginTop = +JSON.parse(
       localStorage.getItem("sortGridMarginTop"),
     );
-    let height =
-      document.getElementById("sortTitleBarContainer").clientHeight + 20;
 
+    const titleBarEl = document.getElementById("sortTitleBarContainer");
+    if (!titleBarEl) {
+      // Element not in the DOM (yet) - bail instead of throwing.
+      return;
+    }
+
+    let height = titleBarEl.clientHeight + 20;
     height = +JSON.stringify(height);
 
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       if (sortGridMarginTop !== height) {
         setTopMargin(height);
         localStorage.setItem("sortGridMarginTop", JSON.stringify(height));
@@ -151,6 +167,10 @@ const Sort = () => {
         setTopMargin(+sortGridMarginTop);
       }
     }, 50);
+
+    // Clear the pending timeout on cleanup so overlapping effect runs
+    // (or an unmount) can't fire a stale setTopMargin call.
+    return () => clearTimeout(timer);
   }, [condOfInst, configObj.condOfInstFontSize, setTopMargin]);
 
   const startTimeRef = useRef(null);
