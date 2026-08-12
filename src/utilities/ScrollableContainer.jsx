@@ -9,10 +9,18 @@ const ScrollableContainer = ({
   indicatorProps = {},
 }) => {
   const containerRef = useRef(null);
-  const { showIndicator: shouldShowIndicator } = useScrollIndicator(containerRef);
+  const { showIndicator: shouldShowIndicator } =
+    useScrollIndicator(containerRef);
 
   return (
-    <div style={{ position: "relative", height, border: "1px solid #ddd", borderRadius: "8px" }}>
+    <div
+      style={{
+        position: "relative",
+        height,
+        border: "1px solid #ddd",
+        borderRadius: "8px",
+      }}
+    >
       <div
         ref={containerRef}
         style={{
@@ -25,7 +33,9 @@ const ScrollableContainer = ({
         {children}
       </div>
 
-      {showIndicator && shouldShowIndicator && <ScrollIndicator {...indicatorProps} />}
+      {showIndicator && shouldShowIndicator && (
+        <ScrollIndicator {...indicatorProps} />
+      )}
     </div>
   );
 };
