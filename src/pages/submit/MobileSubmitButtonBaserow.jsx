@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import SubmitSuccessModal from "./SubmitSuccessModal";
 import SubmitFailureModal from "./SubmitFailureModal";
@@ -11,7 +11,6 @@ import axios from "axios";
 import MobileSubmitButtonEmail from "./MobileSubmitButtonEmail";
 
 const getLangObj = (state) => state.langObj;
-// const getDisplaySubmitFallback = (state) => state.displaySubmitFallback;
 const getTransmittingData = (state) => state.transmittingData;
 const getSetTransmittingData = (state) => state.setTransmittingData;
 const getCheckInternetConnection = (state) => state.checkInternetConnection;
@@ -21,9 +20,6 @@ const getConfigObj = (state) => state.configObj;
 const getSetTrigTransOKModal = (state) => state.setTriggerTransmissionOKModal;
 const getSetDisplayGoodbyeMessage = (state) => state.setDisplayGoodbyeMessage;
 const getSetDisplayBelowButtonText = (state) => state.setDisplayBelowButtonText;
-// const getSetDisplaySubmitFallback = (state) => state.setDisplaySubmitFallback;
-// const getSubmitFailNumber = (state) => state.submitFailNumber;
-// const getSetTrigTranFailMod = (state) => state.setTriggerTransmissionFailModal;
 
 const SubmitResultsButton = (props) => {
   // STATE
@@ -43,15 +39,40 @@ const SubmitResultsButton = (props) => {
     ReactHtmlParser(decodeHTML(langObj.btnTransfer)) || "";
 
   const [failureCount, setFailureCount] = useState(0);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+
+  // Track timers so we can clear them on unmount / re-trigger, instead of
+  // letting them fire against a component that's no longer on screen.
+  const connectionTimeoutRef = useRef(null);
+  const failureTimeoutRef = useRef(null);
+
+  // Clean up any in-flight timers if the component unmounts before they fire.
+  useEffect(() => {
+    return () => {
+      if (connectionTimeoutRef.current) {
+        clearTimeout(connectionTimeoutRef.current);
+      }
+      if (failureTimeoutRef.current) {
+        clearTimeout(failureTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (failureCount > 1) {
+      setCheckInternetConnection(false);
+    }
+  }, [failureCount, setCheckInternetConnection]);
 
   const handleClick = (e) => {
     e.preventDefault();
-    e.target.disabled = true;
+    setButtonDisabled(true);
     setDisplayBelowButtonText(true);
     // setup for client-side internet connection fail case
     setTransmittingData(true);
     setCheckInternetConnection(false);
-    const timeoutId = setTimeout(() => {
+
+    connectionTimeoutRef.current = setTimeout(() => {
       setTransmittingData(false);
       setCheckInternetConnection(true);
       setDisplayBelowButtonText(false);
@@ -62,6 +83,13 @@ const SubmitResultsButton = (props) => {
 
     if (token === undefined || token === null) {
       console.log("Baserow token is not set");
+      setButtonDisabled(false);
+      return;
+    }
+
+    if (databaseId === undefined || databaseId === null) {
+      console.log("Baserow database id is not set");
+      setButtonDisabled(false);
       return;
     }
 
@@ -74,9 +102,8 @@ const SubmitResultsButton = (props) => {
       },
       data: props.results,
     })
-      .then((response) => {
-        console.log(response);
-        clearTimeout(timeoutId);
+      .then(() => {
+        clearTimeout(connectionTimeoutRef.current);
         setTransmittingData(false);
         setCheckInternetConnection(false);
         setDisplayGoodbyeMessage(true);
@@ -84,19 +111,16 @@ const SubmitResultsButton = (props) => {
       })
       .catch((error) => {
         console.log(error);
-        setTimeout(() => {
-          setFailureCount(failureCount + 1);
+        // Clear the fallback timer too
+        clearTimeout(connectionTimeoutRef.current);
+        setTransmittingData(false);
+        setButtonDisabled(false);
+
+        failureTimeoutRef.current = setTimeout(() => {
+          setFailureCount((prev) => prev + 1);
         }, 10000);
       });
-
-    console.log("submission processed");
   };
-
-  // on > 1 failure, display the download / email fallback
-  console.log("failureCount: ", failureCount);
-  if (failureCount > 1) {
-    setCheckInternetConnection(false);
-  }
 
   return (
     <React.Fragment>
@@ -106,7 +130,11 @@ const SubmitResultsButton = (props) => {
       {transmittingData ? (
         <TransmittingSpin />
       ) : (
-        <StyledButton tabindex="0" onClick={(e) => handleClick(e)}>
+        <StyledButton
+          tabIndex="0"
+          disabled={buttonDisabled}
+          onClick={(e) => handleClick(e)}
+        >
           {btnTransferText}
         </StyledButton>
       )}
@@ -148,6 +176,11 @@ const StyledButton = styled.button`
 
   &:focus {
     background-color: ${({ theme }) => theme.focus};
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 `;
 
@@ -205,25 +238,3 @@ const DownloadEmailFallback = styled.div`
   border-radius: 10px;
   font-weight: bold;
 `;
-
-// const DisabledButton = styled.button`
-//   border-color: lightgray;
-//   color: white;
-//   font-size: 1.2em;
-//   font-weight: bold;
-//   padding: 0.25em 1em;
-//   border-radius: 3px;
-//   text-decoration: none;
-//   width: 200px;
-//   height: 50px;
-//   justify-self: right;
-//   margin-right: 35px;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   margin-top: 30px;
-//   margin-bottom: 20px;
-//   background-color: lightgray;
-// `;
-
-// Add this styled component to your existing styled components
