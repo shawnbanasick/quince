@@ -22,12 +22,17 @@ const getConfigObj = (state) => state.configObj;
 const getMapObj = (state) => state.mapObj;
 const getMobilePostsortFontSize = (state) => state.mobilePostsortFontSize;
 const getMobilePostsortViewSize = (state) => state.mobilePostsortViewSize;
-const getShowPostsortCommentHighlighting = (state) => state.showPostsortCommentHighlighting;
-const getSetTriggerMobilePostsortHelpModal = (state) => state.setTriggerMobilePostsortHelpModal;
+const getShowPostsortCommentHighlighting = (state) =>
+  state.showPostsortCommentHighlighting;
+const getSetTriggerMobilePostsortHelpModal = (state) =>
+  state.setTriggerMobilePostsortHelpModal;
 const getTriggerHelpModal = (state) => state.triggerMobilePostsortHelpModal;
-const getSetTriggerHelpModal = (state) => state.setTriggerMobilePostsortHelpModal;
-const getTriggerPreventNavModal = (state) => state.triggerMobilePostsortPreventNavModal;
-const getSetTriggerPreventNavModal = (state) => state.setTriggerMobilePostsortPreventNavModal;
+const getSetTriggerHelpModal = (state) =>
+  state.setTriggerMobilePostsortHelpModal;
+const getTriggerPreventNavModal = (state) =>
+  state.triggerMobilePostsortPreventNavModal;
+const getSetTriggerPreventNavModal = (state) =>
+  state.setTriggerMobilePostsortPreventNavModal;
 
 const MobilePostsort = () => {
   const setCurrentPage = useStore(getSetCurrentPage);
@@ -37,8 +42,12 @@ const MobilePostsort = () => {
   const configObj = useSettingsStore(getConfigObj);
   let mobilePostsortFontSize = useStore(getMobilePostsortFontSize);
   let required = configObj.postsortCommentsRequired;
-  const showPostsortCommentHighlighting = useStore(getShowPostsortCommentHighlighting);
-  const setTriggerMobilePostsortHelpModal = useStore(getSetTriggerMobilePostsortHelpModal);
+  const showPostsortCommentHighlighting = useStore(
+    getShowPostsortCommentHighlighting,
+  );
+  const setTriggerMobilePostsortHelpModal = useStore(
+    getSetTriggerMobilePostsortHelpModal,
+  );
   const triggerHelpModal = useStore(getTriggerHelpModal);
   const setTriggerHelpModal = useStore(getSetTriggerHelpModal);
   const triggerPreventNavModal = useStore(getTriggerPreventNavModal);
@@ -47,71 +56,90 @@ const MobilePostsort = () => {
   // ***************************
   // *** TEXT LOCALIZATION *******************
   // ***************************
-  const sortbarText = ReactHtmlParser(decodeHTML(langObj.mobilePostsortSortbarText)) || "";
+  const sortbarText =
+    ReactHtmlParser(decodeHTML(langObj.mobilePostsortSortbarText)) || "";
   const agree = ReactHtmlParser(decodeHTML(langObj.postsortAgreement)) || "";
-  const disagree = ReactHtmlParser(decodeHTML(langObj.postsortDisagreement)) || "";
+  const disagree =
+    ReactHtmlParser(decodeHTML(langObj.postsortDisagreement)) || "";
   const placeholder = langObj.placeholder;
-  const screenOrientationText = ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
-  const expandViewMessage = ReactHtmlParser(decodeHTML(langObj.expandViewMessage)) || "";
-  const helpHead = ReactHtmlParser(decodeHTML(langObj.mobilePostsortHelpModalHead)) || "";
-  const helpText = ReactHtmlParser(decodeHTML(langObj.mobilePostsortHelpModalText)) || "";
+  const screenOrientationText =
+    ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
+  const expandViewMessage =
+    ReactHtmlParser(decodeHTML(langObj.expandViewMessage)) || "";
+  const helpHead =
+    ReactHtmlParser(decodeHTML(langObj.mobilePostsortHelpModalHead)) || "";
+  const helpText =
+    ReactHtmlParser(decodeHTML(langObj.mobilePostsortHelpModalText)) || "";
   const preventNavHead =
-    ReactHtmlParser(decodeHTML(langObj.mobilePostsortPreventNavModalHead)) || "";
+    ReactHtmlParser(decodeHTML(langObj.mobilePostsortPreventNavModalHead)) ||
+    "";
   const preventNavText =
-    ReactHtmlParser(decodeHTML(langObj.mobilePostsortPreventNavModalText)) || "";
+    ReactHtmlParser(decodeHTML(langObj.mobilePostsortPreventNavModalText)) ||
+    "";
 
   const emojiArray = useEmojiArrays(mapObj);
-  const headerNumsArray = useMemo(() => [...mapObj["qSortHeaderNumbers"]], [mapObj]);
-  const emojiDisplayArray = useMemo(() => [...emojiArray.displayArray], [emojiArray]);
+  const headerNumsArray = useMemo(
+    () => [...mapObj["qSortHeaderNumbers"]],
+    [mapObj],
+  );
+  const emojiDisplayArray = useMemo(
+    () => [...emojiArray.displayArray],
+    [emojiArray],
+  );
 
-  const { posEmojiArray, negEmojiArray, posNumValues, negNumValues } = useMemo(() => {
-    const posEmojiArray = [];
-    const negEmojiArray = [];
-    const posNumValues = [];
-    const negNumValues = [];
+  const { posEmojiArray, negEmojiArray, posNumValues, negNumValues } =
+    useMemo(() => {
+      const posEmojiArray = [];
+      const negEmojiArray = [];
+      const posNumValues = [];
+      const negNumValues = [];
 
-    const qSortPattern = [...mapObj.qSortPattern];
-    const showSecondPosColumn = configObj.showSecondPosColumn;
-    const showSecondNegColumn = configObj.showSecondNegColumn;
+      const qSortPattern = [...mapObj.qSortPattern];
+      const showSecondPosColumn = configObj.showSecondPosColumn;
+      const showSecondNegColumn = configObj.showSecondNegColumn;
 
-    // most positive and negative values
-    let posStatementsNum = qSortPattern[0];
-    let negStatementsNum = qSortPattern[qSortPattern.length - 1];
+      // most positive and negative values
+      let posStatementsNum = qSortPattern[0];
+      let negStatementsNum = qSortPattern[qSortPattern.length - 1];
 
-    // 2nd most positive and negative values
-    const posStatementsNum2 = qSortPattern[1];
-    const negStatementsNum2 = qSortPattern[qSortPattern.length - 2];
+      // 2nd most positive and negative values
+      const posStatementsNum2 = qSortPattern[1];
+      const negStatementsNum2 = qSortPattern[qSortPattern.length - 2];
 
-    const mostPosEmoji = emojiDisplayArray[emojiDisplayArray.length - 1];
-    const nextMostPosEmoji = emojiDisplayArray[emojiDisplayArray.length - 2];
-    const mostNegEmoji = emojiDisplayArray[0];
-    const nextMostNegEmoji = emojiDisplayArray[1];
+      const mostPosEmoji = emojiDisplayArray[emojiDisplayArray.length - 1];
+      const nextMostPosEmoji = emojiDisplayArray[emojiDisplayArray.length - 2];
+      const mostNegEmoji = emojiDisplayArray[0];
+      const nextMostNegEmoji = emojiDisplayArray[1];
 
-    for (let i = 0; i < posStatementsNum; i++) {
-      posEmojiArray.push(mostPosEmoji);
-      posNumValues.push(headerNumsArray[headerNumsArray.length - 1].toString());
-    }
-    for (let j = 0; j < negStatementsNum; j++) {
-      negEmojiArray.push(mostNegEmoji);
-      negNumValues.push(headerNumsArray[0].toString());
-    }
-
-    // check setup
-    if (showSecondPosColumn === true || showSecondPosColumn === "true") {
-      for (let i = 0; i < posStatementsNum2; i++) {
-        posEmojiArray.push(nextMostPosEmoji);
-        posNumValues.push(headerNumsArray[headerNumsArray.length - 2].toString());
+      for (let i = 0; i < posStatementsNum; i++) {
+        posEmojiArray.push(mostPosEmoji);
+        posNumValues.push(
+          headerNumsArray[headerNumsArray.length - 1].toString(),
+        );
       }
-    }
-    if (showSecondNegColumn === true || showSecondNegColumn === "true") {
-      for (let j = 0; j < negStatementsNum2; j++) {
-        negEmojiArray.unshift(nextMostNegEmoji);
-        negNumValues.unshift(headerNumsArray[1].toString());
+      for (let j = 0; j < negStatementsNum; j++) {
+        negEmojiArray.push(mostNegEmoji);
+        negNumValues.push(headerNumsArray[0].toString());
       }
-    }
 
-    return { posEmojiArray, negEmojiArray, posNumValues, negNumValues };
-  }, [mapObj, configObj, emojiDisplayArray, headerNumsArray]);
+      // check setup
+      if (showSecondPosColumn === true || showSecondPosColumn === "true") {
+        for (let i = 0; i < posStatementsNum2; i++) {
+          posEmojiArray.push(nextMostPosEmoji);
+          posNumValues.push(
+            headerNumsArray[headerNumsArray.length - 2].toString(),
+          );
+        }
+      }
+      if (showSecondNegColumn === true || showSecondNegColumn === "true") {
+        for (let j = 0; j < negStatementsNum2; j++) {
+          negEmojiArray.unshift(nextMostNegEmoji);
+          negNumValues.unshift(headerNumsArray[1].toString());
+        }
+      }
+
+      return { posEmojiArray, negEmojiArray, posNumValues, negNumValues };
+    }, [mapObj, configObj, emojiDisplayArray, headerNumsArray]);
 
   let minWordCountValue = configObj.minWordCountValuePostsort || 0;
   let minWordCountRequired = configObj.requireMinCommentLength || false;
@@ -162,11 +190,16 @@ const MobilePostsort = () => {
     const cards2 = JSON.parse(localStorage.getItem("m_SortArray1")) || [];
     const cards = [...cards2];
     // array of objects with Q sort values for each position
-    const sortCharacteristicsArray = JSON.parse(localStorage.getItem("m_SortCharacteristicsArray"));
+    const sortCharacteristicsArray = JSON.parse(
+      localStorage.getItem("m_SortCharacteristicsArray"),
+    );
     const showSecondPosColumn = configObj.showSecondPosColumn;
     const showSecondNegColumn = configObj.showSecondNegColumn;
     const qSortPattern = [...mapObj.qSortPattern];
 
+    const headerNumsArray = [...mapObj.qSortHeaderNumbers];
+    const minQSortHeaderNumber = Math.min(...headerNumsArray.map(Number));
+    console.log("minQSortHeaderNumber", minQSortHeaderNumber);
     // most positive and negative values
     let posStatementsNum = qSortPattern[0];
     let negStatementsNum = qSortPattern[qSortPattern.length - 1];
@@ -185,7 +218,8 @@ const MobilePostsort = () => {
 
     const posStatements = cards.slice(0, posStatementsNum);
     const negStatements = cards.slice(-negStatementsNum);
-    const negStatementsCharacteristics = sortCharacteristicsArray.slice(-negStatementsNum);
+    const negStatementsCharacteristics =
+      sortCharacteristicsArray.slice(-negStatementsNum);
 
     const posResponsesObject = {};
     const negResponsesObject = {};
@@ -202,9 +236,17 @@ const MobilePostsort = () => {
       negResponsesObject[statement.id] = "";
     });
 
-    localStorage.setItem("m_PostSortResultsObj", JSON.stringify(postSortResultsObj));
+    localStorage.setItem(
+      "m_PostSortResultsObj",
+      JSON.stringify(postSortResultsObj),
+    );
 
-    return [posStatements, negStatements, posResponsesObject, negResponsesObject];
+    return [
+      posStatements,
+      negStatements,
+      posResponsesObject,
+      negResponsesObject,
+    ];
   }, [mapObj.qSortPattern, configObj]);
 
   // ***************************
@@ -227,10 +269,8 @@ const MobilePostsort = () => {
     cardsArray[3],
   );
 
-  const [minWordCountPostsortObject, setMinWordCountPostsortObject] = useLocalStorage(
-    "m_MinWordCountPostsortObject",
-    {},
-  );
+  const [minWordCountPostsortObject, setMinWordCountPostsortObject] =
+    useLocalStorage("m_MinWordCountPostsortObject", {});
 
   // ***************************
   // *** HOOKS *******************
@@ -261,8 +301,10 @@ const MobilePostsort = () => {
   };
 
   const handleTextareaChange = (event) => {
+    console.log("newValue2", event.target.sortValue);
     const resp = JSON.parse(localStorage.getItem("m_PostSortResultsObj"));
-    let resultsPostsort = JSON.parse(localStorage.getItem("resultsPostsort")) || {};
+    let resultsPostsort =
+      JSON.parse(localStorage.getItem("resultsPostsort")) || {};
 
     if (resultsPostsort === null || resultsPostsort === undefined) {
       resultsPostsort = {};
@@ -312,6 +354,7 @@ const MobilePostsort = () => {
       }
     }
 
+    console.log("logged", resp);
     localStorage.setItem("m_PostSortResultsObj", JSON.stringify(resp));
     localStorage.setItem("resultsPostsort", JSON.stringify(resp));
   };
@@ -337,6 +380,7 @@ const MobilePostsort = () => {
   // let shouldDisplayText = true;
 
   let posStatements = cardsArray[0].map((card, index) => {
+    console.log("card", card);
     return (
       <div key={uuid()}>
         <InternalDiv
@@ -352,7 +396,9 @@ const MobilePostsort = () => {
           <ContentWrapper>
             {shouldDisplayEmojis && <EmojiDiv>{posEmojiArray[index]}</EmojiDiv>}
             <TextDiv>
-              {shouldDisplayNums && <HeaderNumber>{"+" + posNumValues[index]}</HeaderNumber>}
+              {shouldDisplayNums && (
+                <HeaderNumber>{"+" + posNumValues[index]}</HeaderNumber>
+              )}
               {shouldDisplayText && <HeaderText>{card.header}</HeaderText>}
             </TextDiv>
             {shouldDisplayEmojis && <EmojiDiv>{posEmojiArray[index]}</EmojiDiv>}
@@ -395,7 +441,9 @@ const MobilePostsort = () => {
           <ContentWrapper>
             {shouldDisplayEmojis && <EmojiDiv>{negEmojiArray[index]}</EmojiDiv>}
             <TextDiv>
-              {shouldDisplayNums && <HeaderNumber>{negNumValues[index]}</HeaderNumber>}
+              {shouldDisplayNums && (
+                <HeaderNumber>{negNumValues[index]}</HeaderNumber>
+              )}
               {shouldDisplayText && <HeaderText>{card.header}</HeaderText>}
             </TextDiv>
             {shouldDisplayEmojis && <EmojiDiv>{negEmojiArray[index]}</EmojiDiv>}

@@ -162,7 +162,6 @@ const LandingPage = () => {
     localStorage.removeItem("noResponseCheckArrayLC2");
     localStorage.removeItem("presortArray");
     localStorage.removeItem("resultsSurvey");
-    localStorage.removeItem("finalSortColData");
 
     for (let i = 0; i < statementsObj.totalStatements; i++) {
       let key = `m_PostsortComment(s${i + 1})`;

@@ -15,7 +15,8 @@ const getLangObj = (state) => state.langObj;
 const getTransmittingData = (state) => state.transmittingData;
 const getSetTransmittingData = (state) => state.setTransmittingData;
 const getCheckInternetConnection = (state) => state.checkInternetConnection;
-const getSetCheckInternetConnection = (state) => state.setCheckInternetConnection;
+const getSetCheckInternetConnection = (state) =>
+  state.setCheckInternetConnection;
 const getConfigObj = (state) => state.configObj;
 const getSetTrigTransOKModal = (state) => state.setTriggerTransmissionOKModal;
 const getSetDisplayGoodbyeMessage = (state) => state.setDisplayGoodbyeMessage;
@@ -34,14 +35,12 @@ const SubmitResultsButton = (props) => {
   const configObj = useSettingsStore(getConfigObj);
   const setTriggerTransmissionOKModal = useStore(getSetTrigTransOKModal);
   const setDisplayGoodbyeMessage = useStore(getSetDisplayGoodbyeMessage);
-  const checkInternetMessage = ReactHtmlParser(decodeHTML(langObj.checkInternetMessage)) || "";
+  const checkInternetMessage =
+    ReactHtmlParser(decodeHTML(langObj.checkInternetMessage)) || "";
   const setDisplayBelowButtonText = useStore(getSetDisplayBelowButtonText);
-  // let displaySubmitFallback = useStore(getDisplaySubmitFallback);
-  // let submitFailNumber = useStore(getSubmitFailNumber);
-  // const setTriggerTransmissionFailModal = useStore(getSetTrigTranFailMod);
-  // const setDisplaySubmitFallback = useStore(getSetDisplaySubmitFallback);
 
-  const btnTransferText = ReactHtmlParser(decodeHTML(langObj.btnTransfer)) || "";
+  const btnTransferText =
+    ReactHtmlParser(decodeHTML(langObj.btnTransfer)) || "";
 
   const [failureCount, setFailureCount] = useState(0);
 
@@ -52,7 +51,7 @@ const SubmitResultsButton = (props) => {
     // setup for client-side internet connection fail case
     setTransmittingData(true);
     setCheckInternetConnection(false);
-    setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       setTransmittingData(false);
       setCheckInternetConnection(true);
       setDisplayBelowButtonText(false);
@@ -77,12 +76,11 @@ const SubmitResultsButton = (props) => {
     })
       .then((response) => {
         console.log(response);
-        if (response.status === 200) {
-          setTransmittingData(false);
-          setCheckInternetConnection(false);
-          setDisplayGoodbyeMessage(true);
-          setTriggerTransmissionOKModal(true);
-        }
+        clearTimeout(timeoutId);
+        setTransmittingData(false);
+        setCheckInternetConnection(false);
+        setDisplayGoodbyeMessage(true);
+        setTriggerTransmissionOKModal(true);
       })
       .catch((error) => {
         console.log(error);
@@ -112,7 +110,9 @@ const SubmitResultsButton = (props) => {
           {btnTransferText}
         </StyledButton>
       )}
-      {checkInternetConnection && <WarningDiv>{checkInternetMessage}</WarningDiv>}
+      {checkInternetConnection && (
+        <WarningDiv>{checkInternetMessage}</WarningDiv>
+      )}
       {failureCount > 1 && (
         <DownloadEmailFallback>
           <MobileSubmitButtonEmail results={props.results} />
@@ -139,7 +139,8 @@ const StyledButton = styled.button`
   justify-content: center;
   margin-top: 30px;
   margin-bottom: 20px;
-  background-color: ${({ theme, active }) => (active ? theme.secondary : theme.primary)};
+  background-color: ${({ theme, active }) =>
+    active ? theme.secondary : theme.primary};
 
   &:hover {
     background-color: ${({ theme }) => theme.secondary};

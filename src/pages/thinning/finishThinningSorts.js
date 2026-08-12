@@ -2,12 +2,19 @@ import shuffle from "lodash/shuffle";
 import remove from "lodash/remove";
 
 const finishThinningSorts = (newCols, finalSortColData) => {
+  console.log("finalSortColData", JSON.stringify(finalSortColData));
   // shuffle the statementList array so the randoms don't always end up in the same place across parts.
   newCols.statementList = shuffle(newCols.statementList);
 
-  let remainingPink = newCols.statementList.filter((item) => item.pinkChecked === true);
-  let remainingYellow = newCols.statementList.filter((item) => item.yellowChecked === true);
-  let remainingGreen = newCols.statementList.filter((item) => item.greenChecked === true);
+  let remainingPink = newCols.statementList.filter(
+    (item) => item.pinkChecked === true,
+  );
+  let remainingYellow = newCols.statementList.filter(
+    (item) => item.yellowChecked === true,
+  );
+  let remainingGreen = newCols.statementList.filter(
+    (item) => item.greenChecked === true,
+  );
 
   let counter1 = 0;
   let counter1b = 0;
