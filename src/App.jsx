@@ -42,8 +42,6 @@ const getSetResetColumnStatements = (state) => state.setResetColumnStatements;
 const getSetSurveyQuesObjArray = (state) => state.setSurveyQuestionObjArray;
 const getSetRequiredAnswersObj = (state) => state.setRequiredAnswersObj;
 const getSetDataLoaded = (state) => state.setDataLoaded;
-// const getDisplayGoodbyeMessage = (state) => state.displayGoodbyeMessage;
-// const getDisableRefreshCheck = (state) => state.disableRefreshCheck;
 const getConfigObj = (state) => state.configObj;
 const getLangObj = (state) => state.langObj;
 const getMapObj = (state) => state.mapObj;
@@ -197,7 +195,7 @@ function App() {
   ]);
 
   // CHECK VERSION NUMBERS
-  const baseTemplateVersion = "1.0.8";
+  const baseTemplateVersion = "1.0.9";
   const maxTemplateVersion = "1.0.10";
 
   const versionChecks = [
