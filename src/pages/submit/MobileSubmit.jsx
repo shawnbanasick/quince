@@ -28,6 +28,8 @@ const MobileSubmit = () => {
   let sortResults = JSON.parse(localStorage.getItem("m_SortArray1"));
   const displayGoodbyeMessage = useStore(getDisplayGoodbyeMessage);
 
+  const [showTextAbove, setShowTextAbove] = useState(true);
+
   const [timeData, setTimeData] = useState({
     consent: "00:00:00",
     landing: "00:00:00",
@@ -55,10 +57,16 @@ const MobileSubmit = () => {
     };
 
     // Apply conditional logic
-    if (configObj.showConsentPage === false || configObj.showConsentPage === "false") {
+    if (
+      configObj.showConsentPage === false ||
+      configObj.showConsentPage === "false"
+    ) {
       newTimeData.consent = "n/a";
     }
-    if (configObj.showPostsort === false || configObj.showPostsort === "false") {
+    if (
+      configObj.showPostsort === false ||
+      configObj.showPostsort === "false"
+    ) {
       newTimeData.postsort = "n/a";
     }
     if (configObj.showSurvey === false || configObj.showSurvey === "false") {
@@ -71,17 +79,27 @@ const MobileSubmit = () => {
   // ***************
   // *** TEXT LOCALIZATION ***
   // ***************
-  const mobileSortTitleBar = ReactHtmlParser(decodeHTML(langObj.mobileSortTitleBar));
-  const transferTextAbove = ReactHtmlParser(decodeHTML(langObj.transferTextAbove)) || "";
-  const transferTextBelow = ReactHtmlParser(decodeHTML(langObj.transferTextBelow)) || "";
-  const goodbyeMessage = ReactHtmlParser(decodeHTML(langObj.goodbyeMessage)) || "";
-  const screenOrientationText = ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
+  const mobileSortTitleBar = ReactHtmlParser(
+    decodeHTML(langObj.mobileSortTitleBar),
+  );
+  const transferTextAbove =
+    ReactHtmlParser(decodeHTML(langObj.transferTextAbove)) || "";
+  const transferTextBelow =
+    ReactHtmlParser(decodeHTML(langObj.transferTextBelow)) || "";
+  const goodbyeMessage =
+    ReactHtmlParser(decodeHTML(langObj.goodbyeMessage)) || "";
+  const screenOrientationText =
+    ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
 
   // PERSISTENT STATE - read in results if they exist in local storage
-  const resultsPresort = JSON.parse(localStorage.getItem("m_PresortResults")) || {};
-  const resultsSortObj = JSON.parse(localStorage.getItem("columnStatements")) || {};
+  const resultsPresort =
+    JSON.parse(localStorage.getItem("m_PresortResults")) || {};
+  const resultsSortObj =
+    JSON.parse(localStorage.getItem("columnStatements")) || {};
 
-  const m_SortCharacteristicsArray = JSON.parse(localStorage.getItem("m_SortCharacteristicsArray"));
+  const m_SortCharacteristicsArray = JSON.parse(
+    localStorage.getItem("m_SortCharacteristicsArray"),
+  );
 
   const presortResults = createMobilePresortResultsObject(resultsPresort);
   localStorage.setItem("resultsPresort", JSON.stringify(presortResults));
@@ -109,7 +127,9 @@ const MobileSubmit = () => {
   // *******************
 
   let baserowResults = {};
-  let resultsSurveyFromStorage = JSON.parse(localStorage.getItem("resultsSurvey"));
+  let resultsSurveyFromStorage = JSON.parse(
+    localStorage.getItem("resultsSurvey"),
+  );
   if (resultsSurveyFromStorage === undefined) {
     resultsSurveyFromStorage = {};
   }
@@ -153,10 +173,13 @@ const MobileSubmit = () => {
   try {
     // if project included POSTSORT, read in complete sorted results
     if (configObj.showPostsort) {
-      const resultsPostsort = JSON.parse(localStorage.getItem("resultsPostsort")) || {};
+      const resultsPostsort =
+        JSON.parse(localStorage.getItem("resultsPostsort")) || {};
 
       const sortedResultsPostsort = Object.fromEntries(
-        Object.entries(resultsPostsort).sort(([keyA], [keyB]) => keyA.localeCompare(keyB)),
+        Object.entries(resultsPostsort).sort(([keyA], [keyB]) =>
+          keyA.localeCompare(keyB),
+        ),
       );
 
       const keys = Object.keys(sortedResultsPostsort);
@@ -187,7 +210,8 @@ const MobileSubmit = () => {
       const keys = Object.keys(resultsSurveyFromStorage);
       for (let i = 0; i < keys.length; i++) {
         // skip unnecessary entries
-        baserowResults[`r${baserowCounter}`] = `${keys[i]}: ${resultsSurveyFromStorage[keys[i]]}`;
+        baserowResults[`r${baserowCounter}`] =
+          `${keys[i]}: ${resultsSurveyFromStorage[keys[i]]}`;
         baserowCounter++;
       }
     }
@@ -267,11 +291,18 @@ const MobileSubmit = () => {
 
   return (
     <ScrollableContainer>
-      <SortTitleBar background={configObj.headerBarColor}>{mobileSortTitleBar}</SortTitleBar>
+      <SortTitleBar background={configObj.headerBarColor}>
+        {mobileSortTitleBar}
+      </SortTitleBar>
       <MainContainer>
-        <ContentDiv>{transferTextAbove}</ContentDiv>
-        <MobileSubmitButtonBaserow results={baserowResults} />
-        <BelowContentDiv>{transferTextBelow}</BelowContentDiv>
+        {showTextAbove && <ContentDiv>{transferTextAbove}</ContentDiv>}
+        <MobileSubmitButtonBaserow
+          results={baserowResults}
+          setShowText={setShowTextAbove}
+        />
+        {showTextAbove && (
+          <BelowContentDiv>{transferTextBelow}</BelowContentDiv>
+        )}
       </MainContainer>
     </ScrollableContainer>
   );
@@ -411,7 +442,8 @@ const StyledButton = styled.button`
   justify-content: center;
   margin-top: 30px;
   margin-bottom: 20px;
-  background-color: ${({ theme, active }) => (active ? theme.secondary : theme.primary)};
+  background-color: ${({ theme, active }) =>
+    active ? theme.secondary : theme.primary};
 
   &:hover {
     background-color: ${({ theme }) => theme.secondary};

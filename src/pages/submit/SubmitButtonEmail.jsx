@@ -10,7 +10,7 @@ const getLangObj = (state) => state.langObj;
 const getConfigObj = (state) => state.configObj;
 const getSetDisableRefreshCheck = (state) => state.setDisableRefreshCheck;
 
-const SubmitResultsButton = (props) => {
+const SubmitResultsButtonEmail = (props) => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
   const configObj = useSettingsStore(getConfigObj);
@@ -82,10 +82,10 @@ const SubmitResultsButton = (props) => {
   return (
     <PageContainer>
       <ContainerDiv>
+        <ContentDiv>{belowButtonMessage}</ContentDiv>
         <StyledEmailButton tabindex="0" onClick={(e) => handleClick(e)}>
           {btnTransferText}
         </StyledEmailButton>
-        <ContentDiv>{belowButtonMessage}</ContentDiv>
       </ContainerDiv>
       {showCopyButtons ? (
         <EmailButtonDiv>
@@ -113,7 +113,7 @@ const SubmitResultsButton = (props) => {
     </PageContainer>
   );
 };
-export default SubmitResultsButton;
+export default SubmitResultsButtonEmail;
 
 const StyledEmailButton = styled.button`
   display: flex;
@@ -143,8 +143,12 @@ const ContainerDiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
   gap: 20px;
   align-items: center;
+  padding-top: 30px;
 `;
 
 const ContentDiv = styled.div`
@@ -206,6 +210,8 @@ const PageContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  height: 100%;
+  width: 100%;
   box-sizing: border-box;
 `;
 

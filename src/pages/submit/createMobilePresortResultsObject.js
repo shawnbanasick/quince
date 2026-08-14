@@ -9,13 +9,13 @@ const createMobilePresortResultsObject = (presortResults) => {
   presortResults.forEach((item) => {
     if (item.psValue > 0) {
       npos++;
-      posNums += item.id + ", ";
+      posNums += item.statementNum + ",";
     } else if (item.psValue < 0) {
       nneg++;
-      negNums += item.id + ", ";
+      negNums += item.statementNum + ",";
     } else {
       nneu++;
-      neuNums += item.id + ", ";
+      neuNums += item.statementNum + ",";
     }
   });
 
@@ -23,9 +23,9 @@ const createMobilePresortResultsObject = (presortResults) => {
     npos: npos,
     nneg: nneg,
     nneu: nneu,
-    posStateNums: posNums.slice(0, -2), // Remove trailing comma and space
-    negStateNums: negNums.slice(0, -2), // Remove trailing comma and space
-    neuStateNums: neuNums.slice(0, -2), // Remove trailing comma and space
+    posStateNums: posNums.slice(0, -1), // Remove trailing comma
+    negStateNums: negNums.slice(0, -1), // Remove trailing comma
+    neuStateNums: neuNums.slice(0, -1), // Remove trailing comma
   };
 };
 

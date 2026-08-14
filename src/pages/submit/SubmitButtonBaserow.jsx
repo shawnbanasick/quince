@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import SubmitSuccessModal from "./SubmitSuccessModal";
-import SubmitFailureModal from "./SubmitFailureModal";
+// import SubmitSuccessModal from "./SubmitSuccessModal";
+// import SubmitFailureModal from "./SubmitFailureModal";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
 import useSettingsStore from "../../globalState/useSettingsStore";
@@ -17,11 +17,11 @@ const getCheckInternetConnection = (state) => state.checkInternetConnection;
 const getSetCheckInternetConnection = (state) =>
   state.setCheckInternetConnection;
 const getConfigObj = (state) => state.configObj;
-const getSetTrigTransOKModal = (state) => state.setTriggerTransmissionOKModal;
+// const getSetTrigTransOKModal = (state) => state.setTriggerTransmissionOKModal;
 const getSetDisplayGoodbyeMessage = (state) => state.setDisplayGoodbyeMessage;
 const getSetDisplayBelowButtonText = (state) => state.setDisplayBelowButtonText;
 
-const SubmitResultsButton = (props) => {
+const SubmitResultsButtonBaserow = (props) => {
   // STATE
   const langObj = useSettingsStore(getLangObj);
   let transmittingData = useStore(getTransmittingData);
@@ -29,7 +29,7 @@ const SubmitResultsButton = (props) => {
   let checkInternetConnection = useStore(getCheckInternetConnection);
   const setCheckInternetConnection = useStore(getSetCheckInternetConnection);
   const configObj = useSettingsStore(getConfigObj);
-  const setTriggerTransmissionOKModal = useStore(getSetTrigTransOKModal);
+  // const setTriggerTransmissionOKModal = useStore(getSetTrigTransOKModal);
   const setDisplayGoodbyeMessage = useStore(getSetDisplayGoodbyeMessage);
   const checkInternetMessage =
     ReactHtmlParser(decodeHTML(langObj.checkInternetMessage)) || "";
@@ -78,14 +78,23 @@ const SubmitResultsButton = (props) => {
         setTransmittingData(false);
         setCheckInternetConnection(false);
         setDisplayGoodbyeMessage(true);
-        setTriggerTransmissionOKModal(true);
+        // setTriggerTransmissionOKModal(true);
       })
       .catch((error) => {
         console.log(error);
         clearTimeout(timeoutId);
-        setTimeout(() => {
-          setFailureCount((failureCount) => failureCount + 1);
-        }, 10000);
+
+        // reset UI immediately so the button/warning reappear
+        setTransmittingData(false);
+        setCheckInternetConnection(true);
+        setDisplayBelowButtonText(false);
+
+        // increment failure count right away (no need to delay this)
+        setFailureCount((failureCount) => failureCount + 1);
+        if (failureCount + 1 >= 2) {
+          console.log("Baserow submission failed twice, showing fallback");
+          props.setShowText(false);
+        }
       });
 
     console.log("submission processed");
@@ -101,20 +110,20 @@ const SubmitResultsButton = (props) => {
   return (
     <React.Fragment>
       <PromptUnload />
-      <SubmitSuccessModal />
-      <SubmitFailureModal />
+      {/* <SubmitSuccessModal /> */}
+      {/* <SubmitFailureModal /> */}
       {transmittingData ? (
         <TransmittingSpin />
-      ) : (
-        <StyledButton
+      ) : failureCount < 2 ? (
+        <StyledSubmitDataButton
           type="button"
           tabIndex={0}
           onClick={(e) => handleClick(e)}
           disabled={transmittingData}
         >
           {btnTransferText}
-        </StyledButton>
-      )}
+        </StyledSubmitDataButton>
+      ) : null}
       {checkInternetConnection && (
         <WarningDiv>{checkInternetMessage}</WarningDiv>
       )}
@@ -126,9 +135,9 @@ const SubmitResultsButton = (props) => {
     </React.Fragment>
   );
 };
-export default SubmitResultsButton;
+export default SubmitResultsButtonBaserow;
 
-const StyledButton = styled.button`
+const StyledSubmitDataButton = styled.button`
   border-color: #2e6da4;
   color: white;
   font-size: 1.2em;

@@ -45,6 +45,8 @@ const SubmitPage = () => {
   // PERSISTENT STATE
   let resultsSurveyFromStorage = getStoredJSON("resultsSurvey");
 
+  const [showTextAbove, setShowTextAbove] = useState(true);
+
   const [timeData, setTimeData] = useState({
     consent: "00:00:00",
     landing: "00:00:00",
@@ -326,8 +328,11 @@ const SubmitPage = () => {
       <React.Fragment>
         <SortTitleBar background={headerBarColor}>{pageHeader}</SortTitleBar>
         <ContainerDiv>
-          <ContentDiv>{transferTextAbove}</ContentDiv>
-          <SubmitButtonBaserow results={baserowResults} />
+          {showTextAbove && <ContentDiv>{transferTextAbove}</ContentDiv>}
+          <SubmitButtonBaserow
+            results={baserowResults}
+            setShowText={setShowTextAbove}
+          />
           {displayBelowButtonText && (
             <ContentDiv>{transferTextBelow}</ContentDiv>
           )}

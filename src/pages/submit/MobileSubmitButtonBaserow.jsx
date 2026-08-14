@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
-import SubmitSuccessModal from "./SubmitSuccessModal";
-import SubmitFailureModal from "./SubmitFailureModal";
+// import SubmitSuccessModal from "./SubmitSuccessModal";
+// import SubmitFailureModal from "./SubmitFailureModal";
 import ReactHtmlParser from "html-react-parser";
 import decodeHTML from "../../utilities/decodeHTML";
 import useSettingsStore from "../../globalState/useSettingsStore";
@@ -17,7 +17,7 @@ const getCheckInternetConnection = (state) => state.checkInternetConnection;
 const getSetCheckInternetConnection = (state) =>
   state.setCheckInternetConnection;
 const getConfigObj = (state) => state.configObj;
-const getSetTrigTransOKModal = (state) => state.setTriggerTransmissionOKModal;
+// const getSetTrigTransOKModal = (state) => state.setTriggerTransmissionOKModal;
 const getSetDisplayGoodbyeMessage = (state) => state.setDisplayGoodbyeMessage;
 const getSetDisplayBelowButtonText = (state) => state.setDisplayBelowButtonText;
 
@@ -29,7 +29,7 @@ const SubmitResultsButton = (props) => {
   let checkInternetConnection = useStore(getCheckInternetConnection);
   const setCheckInternetConnection = useStore(getSetCheckInternetConnection);
   const configObj = useSettingsStore(getConfigObj);
-  const setTriggerTransmissionOKModal = useStore(getSetTrigTransOKModal);
+  // const setTriggerTransmissionOKModal = useStore(getSetTrigTransOKModal);
   const setDisplayGoodbyeMessage = useStore(getSetDisplayGoodbyeMessage);
   const checkInternetMessage =
     ReactHtmlParser(decodeHTML(langObj.checkInternetMessage)) || "";
@@ -39,7 +39,7 @@ const SubmitResultsButton = (props) => {
     ReactHtmlParser(decodeHTML(langObj.btnTransfer)) || "";
 
   const [failureCount, setFailureCount] = useState(0);
-  const [buttonDisabled, setButtonDisabled] = useState(false);
+  // const [buttonDisabled, setButtonDisabled] = useState(false);
 
   // Track timers so we can clear them on unmount / re-trigger, instead of
   // letting them fire against a component that's no longer on screen.
@@ -66,13 +66,13 @@ const SubmitResultsButton = (props) => {
 
   const handleClick = (e) => {
     e.preventDefault();
-    setButtonDisabled(true);
+    // setButtonDisabled(true);
     setDisplayBelowButtonText(true);
     // setup for client-side internet connection fail case
     setTransmittingData(true);
     setCheckInternetConnection(false);
 
-    connectionTimeoutRef.current = setTimeout(() => {
+    const timeoutId = setTimeout(() => {
       setTransmittingData(false);
       setCheckInternetConnection(true);
       setDisplayBelowButtonText(false);
@@ -83,13 +83,13 @@ const SubmitResultsButton = (props) => {
 
     if (token === undefined || token === null) {
       console.log("Baserow token is not set");
-      setButtonDisabled(false);
+      // setButtonDisabled(false);
       return;
     }
 
     if (databaseId === undefined || databaseId === null) {
       console.log("Baserow database id is not set");
-      setButtonDisabled(false);
+      // setButtonDisabled(false);
       return;
     }
 
@@ -107,37 +107,42 @@ const SubmitResultsButton = (props) => {
         setTransmittingData(false);
         setCheckInternetConnection(false);
         setDisplayGoodbyeMessage(true);
-        setTriggerTransmissionOKModal(true);
+        // setTriggerTransmissionOKModal(true);
       })
       .catch((error) => {
         console.log(error);
-        // Clear the fallback timer too
-        clearTimeout(connectionTimeoutRef.current);
-        setTransmittingData(false);
-        setButtonDisabled(false);
+        clearTimeout(timeoutId);
 
-        failureTimeoutRef.current = setTimeout(() => {
-          setFailureCount((prev) => prev + 1);
-        }, 10000);
+        // reset UI immediately so the button/warning reappear
+        setTransmittingData(false);
+        setCheckInternetConnection(true);
+        setDisplayBelowButtonText(false);
+
+        // increment failure count right away (no need to delay this)
+        setFailureCount((failureCount) => failureCount + 1);
+        if (failureCount + 1 >= 2) {
+          console.log("Baserow submission failed twice, showing fallback");
+          props.setShowText(false);
+        }
       });
   };
 
   return (
     <React.Fragment>
       <PromptUnload />
-      <SubmitSuccessModal />
-      <SubmitFailureModal />
+      {/* <SubmitSuccessModal /> */}
+      {/* <SubmitFailureModal /> */}
       {transmittingData ? (
         <TransmittingSpin />
-      ) : (
+      ) : failureCount < 2 ? (
         <StyledButton
           tabIndex="0"
-          disabled={buttonDisabled}
+          disabled={transmittingData}
           onClick={(e) => handleClick(e)}
         >
           {btnTransferText}
         </StyledButton>
-      )}
+      ) : null}
       {checkInternetConnection && (
         <WarningDiv>{checkInternetMessage}</WarningDiv>
       )}

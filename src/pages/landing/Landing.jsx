@@ -61,6 +61,8 @@ const LandingPage = () => {
   const setCardHeightSort = useStore(getSetCardHeightSort);
   const setMinCardHeightPostsort = useStore(getSetMinCardHeightPostsort);
 
+  console.log("LandingPage: langObj", JSON.stringify(langObj, null, 2));
+
   // ******************************
   // *** TEXT LOCALIZATION  ****************
   // ******************************
