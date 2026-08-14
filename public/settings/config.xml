@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-   <config version="1.0.8" htmlParse="false">
+   <config version="1.0.9" htmlParse="false">
 
    <!-- HIDDEN OPTIONS - DO NOT DELETE OR CHANGE -->
    <item id="devMode">false</item> 
@@ -22,8 +22,8 @@
 
    <!-- 0. FILE INFORMATION -->
    <info order="0-a" id="configFileVersion">1.0.9</info>
-   <info order="0-b" id="iterationDate">2025-08-31</info>
-   <info order="1--" id="creationDate">2026-2-13@11:53</info> 
+   <info order="0-b" id="iterationDate">2026-08-18</info>
+   <info order="1--" id="creationDate">2026-8-14@18:24</info> 
 
    <!-- 1. STUDY TITLE -->
    <item order="1-a" id="studyTitle">Demo Project</item> 
@@ -53,7 +53,7 @@
    
    <!-- 7. PROJECT ACCESS OPTIONS -->
    <!-- options: anonymous, partId-access, partId, access -->
-   <item order="7-a" id="initialScreen">partId-access</item>
+   <item order="7-a" id="initialScreen">anonymous</item>
    <item order="7-b" id="accessCode">demo</item>
    
    <!-- 8. COLOR SETTINGS  -->

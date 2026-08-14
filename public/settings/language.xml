@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-   <language version="1.0.7" htmlParse="true">;
+   <language version="1.0.9" htmlParse="true">;
 
         <!-- 0. FILE INFORMATION -->
-        <info order="0-1" id="languageFileVersion">1.0.8</info>
-        <info order="0-2" id="iterationDate">2025-08-31</info>
+        <info order="0-1" id="languageFileVersion">1.0.9</info>
+        <info order="0-2" id="iterationDate">2026-08-18</info>
         <info order="0-3" id="studyTitle">Demo Project</info> 
-        <info order="0-4" id="creationDate">2026-2-13@11:55</info> 
+        <info order="0-4" id="creationDate">2026-8-14@18:23</info> 
 
         <!-- 1. MULTIPLE SCREENS AND FOOTER -->
         <item order= "1-1" id="btnHelp">Help</item>
@@ -57,11 +57,11 @@
         <item order= "7-1" id="logInFirst">Please complete the log-in process first.</item>
         <item order= "7-2" id="titleBarText">Preliminary Sorting</item>
         <item order= "7-3" id="presortAgreement">Agree</item>
-         <item order= "7-3b" id="press1">(press 1)</item>
+        <item order= "7-3b" id="press3">(press 3)</item>
         <item order= "7-4" id="presortNeutral">No Strong Feelings</item>
-         <item order= "7-4b" id="press2">(press 2)</item>
+        <item order= "7-4b" id="press2">(press 2)</item>
         <item order= "7-5" id="presortDisagreement">Disagree</item>
-         <item order= "7-5b" id="press3">(press 3)</item>
+        <item order= "7-5b" id="press1">(press 1)</item>
         <item order= "7-6" id="presortStatements">Statements</item>
         <item order= "7-7" id="presortOnPageInstructions">{{{div style=&quot;font-size: 24px&quot;}}}Click and drag on the cards or press the &quot;1&quot;, &quot;2&quot;, or &quot;3&quot; keys to sort the statements.{{{/div}}}</item>
         <item order= "7-8" id="presortModalHead">Step 1 of 4</item>
@@ -109,26 +109,25 @@
         <item order="10-1" id="mobileThinHelpModalHead">Step 2 of 5{{{br/}}}Refinement Process</item>
         <item order="10-2" id="mobileThinHelpModalText">During this stage you will be asked to refine the evaluations you made in the previous step. {{{br/}}}{{{br/}}}Please {{{b}}}review the statements{{{/b}}} carefully. {{{br/}}}{{{br/}}}First, you will be asked to select those that are {{{b}}}most similar{{{/b}}} to your perspective. {{{br/}}}{{{br/}}}Then, you will be asked to select those that {{{b}}}differ the most{{{/b}}} from your perspective.{{{br/}}}{{{br/}}}To {{{b}}}select a statement{{{/b}}}, tap on the statement container. The color of the statement will change to yellow.{{{br/}}}{{{br/}}}When you have selected the {{{b}}}correct number{{{/b}}} of statements, the color of the {{{b}}}&quot;Submit&quot;{{{/b}}} button will change to {{{b}}}blue{{{/b}}}. Click on the Submit button to move to the next step.{{{br/}}}{{{br/}}}You may need to {{{b}}}scroll down{{{/b}}} to view all of the statements before you tap the Submit button.{{{br/}}}{{{br/}}}To make it easier to compare the statements, you can {{{b}}}reorder{{{/b}}} them by tapping on the up and down arrows located on the right or left sides of the statement.{{{br/}}}{{{br/}}}{{{center}}}{{{br /}}}{{{img src=&quot;https://github.com/shawnbanasick/quince/blob/development/src/assets/upDownArrows.svg?raw=true&quot; width=&quot;250&quot;/}}}{{{/center}}}{{{br /}}}{{{br /}}} You can also {{{b}}}move a group of selected statements{{{/b}}} to the top of the list by {{{b}}}long pressing{{{/b}}} (about 1 second) on the arrows to the {{{b}}}right side{{{/b}}} of the statements.{{{br /}}}{{{br /}}}{{{center}}}{{{br /}}}{{{img src=&quot;https://github.com/shawnbanasick/quince/blob/development/src/assets/longPressArrow.svg?raw=true&quot; width=&quot;250&quot;/}}}{{{/center}}}{{{br /}}}{{{br /}}} If you want to see these instructions again, tap the &quot;?&quot; button at the top of the main page.{{{br /}}}{{{br /}}}{{{center}}}{{{img src=&quot;https://github.com/shawnbanasick/quince/blob/development/src/assets/helpSymbol.png?raw=true&quot; width=&quot;30&quot;/}}}</item>
         <item order="10-3" id="mobileThinConditionsOfInstruction">Refine Your Evaluations</item>
-          <item order="10-4" id="mobileThinSelectedText">Selected</item>
+        <item order="10-4" id="mobileThinSelectedText">Selected</item>
         <item order="10-5" id="mobileThinSubmitButtonText">Submit</item>
-        <item order="10-6" id="mobileGuidanceModalLeft1Header">Stage 2 of 5{{{br/}}} Refinement Process</item>
-        <item order="10-7" id="mobileGuidanceModalLeft1Text">Step 2. Next, please look at all of the statements that you evaluated negatively and {{{b}}}select{{{/b}}} those that {{{b}}}differ the most{{{/b}}} from your perspective.{{{br/}}}{{{br/}}}You may need to {{{b}}}scroll down{{{/b}}} to see all of the statements.</item>
-        <item order="10-8" id="mobileGuidanceModalRight2Header">Stage 2 of 5{{{br/}}} Refinement Process</item>
-        <item order="10-9" id="mobileGuidanceModalRight2Text">Next, once again look at the remaining statements that you evaluated {{{b}}}positively{{{/b}}} and select the {{{b}}}next set{{{/b}}} of statements that are {{{b}}}closest to your perspective{{{/b}}}.</item>
-        <item order="10-10" id="mobileGuidanceModalLeft2Header">Stage 2 of 5{{{br/}}} Refinement Process</item>
-        <item order="10-11" id="mobileGuidanceModalLeft2Text">Next, once again look at the remaining statements that you evaluated {{{b}}}negatively{{{/b}}} and {{{b}}}select{{{/b}}} the {{{b}}}next set{{{/b}}} of statements that are {{{b}}}most different from to your perspective{{{/b}}}.</item>
-        <item order="10-12" id="mobileThinScrollBottomModalHead">Confirmation Disabled</item>
-        <item order="10-13" id="mobileThinScrollBottomModalText">Please scroll to the bottom and review all the statements before submitting your selections.</item>
-        <item order="10-14" id="moveTopMobileHead">Confirm Move</item>
-        <item order="10-15" id="moveTopMobileText">Move this statement to the top of the list?</item>
-        <item order="10-16" id="moveTopMobileButtonOK">Yes</item>
-        <item order="10-17" id="mobileThinPreventNavModalHead">Navigation Disabled</item>
-        <item order="10-18" id="mobileThinPreventNavModalText">Please complete the refining process before navigating to the next page.</item>
-        <item order="10-19" id="mobileThinProcessCompleteMessage">The refinement process is complete. {{{br/}}}{{{br/}}} Please click on the &quot;Continue&quot; button on the bottom right side to go to the next stage.</item>
-        <item order="10-20" id="moveAllTopMobileText">Move all selected statements to the top of the list?</item>
-        <item order="10-21" id="mobileGuidanceModalRight1Header">Stage 2 of 5{{{br/}}} Refinement Process</item>
-        <item order="10-22" id="mobileGuidanceModalRight1Text">There are several steps in this Stage. {{{br/}}}{{{br/}}}Step 1. Please look at all of the statements that you evaluated {{{b}}}positively{{{/b}}} and select those that are {{{b}}}closest to your perspective{{{/b}}}.{{{br/}}}{{{br/}}}You may need to {{{b}}}scroll{{{/b}}} down to see all of the statements.</item>
-
+        <item order="10-6" id="mobileGuidanceModalRight1Header">Stage 2 of 5{{{br/}}} Refinement Process</item>
+        <item order="10-7" id="mobileGuidanceModalRight1Text">There are several steps in this Stage. {{{br/}}}{{{br/}}}Step 1. Please look at all of the statements that you evaluated {{{b}}}positively{{{/b}}} and select those that are {{{b}}}closest to your perspective{{{/b}}}.{{{br/}}}{{{br/}}}You may need to {{{b}}}scroll{{{/b}}} down to see all of the statements.</item>
+        <item order="10-8" id="mobileGuidanceModalLeft1Header">Stage 2 of 5{{{br/}}} Refinement Process</item>
+        <item order="10-9" id="mobileGuidanceModalLeft1Text">Step 2. Next, please look at all of the statements that you evaluated negatively and {{{b}}}select{{{/b}}} those that {{{b}}}differ the most{{{/b}}} from your perspective.{{{br/}}}{{{br/}}}You may need to {{{b}}}scroll down{{{/b}}} to see all of the statements.</item>
+        <item order="10-10" id="mobileGuidanceModalRight2Header">Stage 2 of 5{{{br/}}} Refinement Process</item>
+        <item order="10-11" id="mobileGuidanceModalRight2Text">Next, once again look at the remaining statements that you evaluated {{{b}}}positively{{{/b}}} and select the {{{b}}}next set{{{/b}}} of statements that are {{{b}}}closest to your perspective{{{/b}}}.</item>
+        <item order="10-12" id="mobileGuidanceModalLeft2Header">Stage 2 of 5{{{br/}}} Refinement Process</item>
+        <item order="10-13" id="mobileGuidanceModalLeft2Text">Next, once again look at the remaining statements that you evaluated {{{b}}}negatively{{{/b}}} and {{{b}}}select{{{/b}}} the {{{b}}}next set{{{/b}}} of statements that are {{{b}}}most different from to your perspective{{{/b}}}.</item>
+        <item order="10-14" id="mobileThinScrollBottomModalHead">Confirmation Disabled</item>
+        <item order="10-15" id="mobileThinScrollBottomModalText">Please scroll to the bottom and review all the statements before submitting your selections.</item>
+        <item order="10-16" id="moveTopMobileHead">Confirm Move</item>
+        <item order="10-17" id="moveAllTopMobileText">Move all selected statements to the top of the list?</item>
+        <item order="10-18" id="moveTopMobileButtonOK">Yes</item>
+        <item order="10-19" id="mobileThinPreventNavModalHead">Navigation Disabled</item>
+        <item order="10-20" id="mobileThinPreventNavModalText">Please complete the refining process before navigating to the next page.</item>
+        <item order="10-21" id="mobileThinProcessCompleteMessage">The refinement process is complete. {{{br/}}}{{{br/}}} Please click on the &quot;Continue&quot; button on the bottom right side to go to the next stage.</item>
+ 
         <!-- 11. SORT -->
         <item order="11-1" id="sortHelpModalHead">Step 3 of 5</item>
         <item order="11-2" id="sortHelpModalText">In this step, please click and drag the statement cards to the appropriate column based on your perspective and the researcher&apos;s instructions at the top of the page. {{{br/}}}{{{br/}}}To change the position of a statement, click and drag it to the preferred column.{{{br/}}}{{{br/}}}The number of statements for each column is limited. If a column background color changes to orange, too many statements are in that column. Please move statements to one of the neighboring columns until the column color returns to normal. {{{br/}}}{{{br/}}}You can adjust the statements&apos; text size and the size of the statement boxes by clicking on the &quot;+&quot; and &quot;-&quot; buttons on the bottom of the page.</item>
@@ -154,7 +153,7 @@
        <item order="13-3" id="postsortHeader">Post-Sort Comments</item>
        <item order="13-4" id="postsortInstructions">{{{h3}}}Please describe your thoughts about these statements in more detail.{{{/h3}}}</item>
         <item order="13-5" id="placeholder">Click here to add comment</item>
-        <item order="13-6" id="placedOn">Placed on </item>
+        <item order="13-6" id="postsortPlacedOn">Placed on </item>
         <item order="13-7" id="postsortAgreement">Placed on Agree</item>
         <item order="13-8" id="postsortDisagreement">Placed on Disagree</item>
         <item order="13-9" id="postsortBackButtonText">Go Back</item>
