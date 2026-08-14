@@ -82,8 +82,6 @@ const SubmitResultsButton = (props) => {
     setDisableRefreshCheck(true);
   }, [setDisableRefreshCheck]);
 
-  console.log("urlUsercode: ", props.results.urlUsercode);
-
   return (
     <PageContainer>
       <ContainerDiv>

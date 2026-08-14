@@ -197,9 +197,6 @@ const MobilePostsort = () => {
     const showSecondNegColumn = configObj.showSecondNegColumn;
     const qSortPattern = [...mapObj.qSortPattern];
 
-    const headerNumsArray = [...mapObj.qSortHeaderNumbers];
-    const minQSortHeaderNumber = Math.min(...headerNumsArray.map(Number));
-    console.log("minQSortHeaderNumber", minQSortHeaderNumber);
     // most positive and negative values
     let posStatementsNum = qSortPattern[0];
     let negStatementsNum = qSortPattern[qSortPattern.length - 1];
@@ -301,7 +298,6 @@ const MobilePostsort = () => {
   };
 
   const handleTextareaChange = (event) => {
-    console.log("newValue2", event.target.sortValue);
     const resp = JSON.parse(localStorage.getItem("m_PostSortResultsObj"));
     let resultsPostsort =
       JSON.parse(localStorage.getItem("resultsPostsort")) || {};
@@ -354,7 +350,6 @@ const MobilePostsort = () => {
       }
     }
 
-    console.log("logged", resp);
     localStorage.setItem("m_PostSortResultsObj", JSON.stringify(resp));
     localStorage.setItem("resultsPostsort", JSON.stringify(resp));
   };
@@ -380,7 +375,6 @@ const MobilePostsort = () => {
   // let shouldDisplayText = true;
 
   let posStatements = cardsArray[0].map((card, index) => {
-    console.log("card", card);
     return (
       <div key={uuid()}>
         <InternalDiv

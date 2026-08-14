@@ -28,9 +28,12 @@ const MobilePartIdScreen = () => {
   const setIsLoggedIn = useStore(getSetIsLoggedIn);
   const setDisplayPartIdWarning = useStore(getSetDisplayPartIdWarning);
 
-  const loginHeaderText = ReactHtmlParser(decodeHTML(langObj.loginHeaderText)) || "";
-  const loginPartIdText = ReactHtmlParser(decodeHTML(langObj.loginPartIdText)) || "";
-  const partIdWarning = ReactHtmlParser(decodeHTML(langObj.partIdWarning)) || "";
+  const loginHeaderText =
+    ReactHtmlParser(decodeHTML(langObj.loginHeaderText)) || "";
+  const loginPartIdText =
+    ReactHtmlParser(decodeHTML(langObj.loginPartIdText)) || "";
+  const partIdWarning =
+    ReactHtmlParser(decodeHTML(langObj.partIdWarning)) || "";
 
   const handleInput = (e) => {
     setUserInputPartId(e.target.value);
@@ -41,7 +44,6 @@ const MobilePartIdScreen = () => {
 
     const handleKeyUpStart = (event) => {
       if (event.key === "Enter") {
-        console.log("Enter");
         let userPartIdOK = false;
 
         // get user input
@@ -107,12 +109,22 @@ const MobilePartIdScreen = () => {
       <div>
         <TextSpan1>{loginPartIdText}</TextSpan1>
         <StyledInputDiv>
-          <StyledInput onChange={handleInput} type="text" autoFocus autoCapitalize="none" />
+          <StyledInput
+            onChange={handleInput}
+            type="text"
+            autoFocus
+            autoCapitalize="none"
+          />
           {displayPartIdWarning && <WarningText>{partIdWarning}</WarningText>}
         </StyledInputDiv>
       </div>
 
-      <LogInSubmitButton onClick={handleSubmit} size={"1.0em"} width={"100px"} height={"30px"} />
+      <LogInSubmitButton
+        onClick={handleSubmit}
+        size={"1.0em"}
+        width={"100px"}
+        height={"30px"}
+      />
     </Container>
   );
 };

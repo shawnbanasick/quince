@@ -11,7 +11,6 @@ const addNoResultToPostsortResults = (resultsPostsort, mapObj, configObj) => {
   const qSortHeaderNumbers = mapObj.qSortHeaders;
 
   const minQSortHeaderNumber = Math.min(...qSortHeaderNumbers);
-  console.log("minQSortHeaderNumber", minQSortHeaderNumber);
 
   // check for missing responses
   const highCardNum = +qSortPattern[qSortPattern.length - 1];
@@ -105,7 +104,6 @@ const addNoResultToPostsortResults = (resultsPostsort, mapObj, configObj) => {
     newObject[keys[i]] = resultsPostsort[keys[i]];
   }
 
-  console.log("newObject", newObject);
   return newObject;
 };
 

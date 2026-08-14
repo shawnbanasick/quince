@@ -12,7 +12,6 @@ import useLocalPersist from "../../globalState/useLocalPersist";
 import LocalSaveBeforeDeleteModal from "./LocalSaveBeforeDeleteModal";
 
 function downloadObjectAsJson(exportObj, exportName) {
-  console.log("download called");
   var dataStr =
     "data:text/json;charset=utf-8," +
     encodeURIComponent(JSON.stringify(exportObj));
@@ -54,7 +53,7 @@ const LogInScreen = () => {
   const hasDownloadedQsorts = useLocalPersist(getHasDownloadedQsorts);
   const setHasDownloadedQsorts = useLocalPersist(getSetHasDownloadedQsorts);
   const setTriggerSaveBeforeDeleteModal = useStore(
-    getSetTriggerSaveBeforeDeleteModal
+    getSetTriggerSaveBeforeDeleteModal,
   );
 
   const loginHeaderText =

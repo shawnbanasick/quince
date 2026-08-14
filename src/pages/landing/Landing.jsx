@@ -61,8 +61,6 @@ const LandingPage = () => {
   const setCardHeightSort = useStore(getSetCardHeightSort);
   const setMinCardHeightPostsort = useStore(getSetMinCardHeightPostsort);
 
-  console.log("LandingPage: langObj", JSON.stringify(langObj, null, 2));
-
   // ******************************
   // *** TEXT LOCALIZATION  ****************
   // ******************************
@@ -237,7 +235,6 @@ const LandingPage = () => {
 
   // set newCols to local storage
   let columnStatements = statementsObj.columnStatements;
-  console.log("columnStatements", columnStatements);
   localStorage.setItem("newCols", JSON.stringify(columnStatements));
 
   // *** USE HOOKS *********************
