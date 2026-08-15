@@ -190,15 +190,11 @@ const SubmitPage = () => {
     if (configObj.showPostsort) {
       const resultsPostsort = getStoredJSON("resultsPostsort");
 
-      console.log("resultsPostsort", resultsPostsort);
-
       const newPostsortObject = addNoResultToPostsortResults(
         resultsPostsort,
         mapObj,
         configObj,
       );
-
-      console.log("newPostsortObject", newPostsortObject);
 
       const parseColumnKey = (key) => {
         const match = key.match(/^column(N)?(\d+)_(\d+)$/);
@@ -218,8 +214,6 @@ const SubmitPage = () => {
           return a.idx - b.idx; // ascending within same column
         }),
       );
-
-      console.log("sortedResultsPostsort", sortedResultsPostsort);
 
       const keys = Object.keys(sortedResultsPostsort);
       for (let i = 0; i < keys.length; i++) {

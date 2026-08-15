@@ -2,7 +2,6 @@ import shuffle from "lodash/shuffle";
 import remove from "lodash/remove";
 
 const finishThinningSorts = (newCols, finalSortColData) => {
-  console.log("finalSortColData", JSON.stringify(finalSortColData));
   // shuffle the statementList array so the randoms don't always end up in the same place across parts.
   newCols.statementList = shuffle(newCols.statementList);
 
