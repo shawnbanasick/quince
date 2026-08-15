@@ -190,17 +190,36 @@ const SubmitPage = () => {
     if (configObj.showPostsort) {
       const resultsPostsort = getStoredJSON("resultsPostsort");
 
+      console.log("resultsPostsort", resultsPostsort);
+
       const newPostsortObject = addNoResultToPostsortResults(
         resultsPostsort,
         mapObj,
         configObj,
       );
 
+      console.log("newPostsortObject", newPostsortObject);
+
+      const parseColumnKey = (key) => {
+        const match = key.match(/^column(N)?(\d+)_(\d+)$/);
+        if (!match) return { colNum: 0, idx: 0 };
+        const [, isNegative, num, idx] = match;
+        return {
+          colNum: isNegative ? -Number(num) : Number(num),
+          idx: Number(idx),
+        };
+      };
+
       const sortedResultsPostsort = Object.fromEntries(
-        Object.entries(newPostsortObject).sort(([keyA], [keyB]) =>
-          keyA.localeCompare(keyB),
-        ),
+        Object.entries(newPostsortObject).sort(([keyA], [keyB]) => {
+          const a = parseColumnKey(keyA);
+          const b = parseColumnKey(keyB);
+          if (b.colNum !== a.colNum) return b.colNum - a.colNum; // highest → lowest
+          return a.idx - b.idx; // ascending within same column
+        }),
       );
+
+      console.log("sortedResultsPostsort", sortedResultsPostsort);
 
       const keys = Object.keys(sortedResultsPostsort);
       for (let i = 0; i < keys.length; i++) {

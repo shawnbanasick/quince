@@ -419,6 +419,7 @@ const InstructionsSection = styled.section`
   border: 1px solid rgba(226, 232, 240, 0.8);
   display: flex;
   flex-direction: column;
+  height: 400px;
   align-items: center;
   gap: 1.5rem;
   text-align: center;

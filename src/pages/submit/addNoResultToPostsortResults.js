@@ -1,7 +1,4 @@
 const addNoResultToPostsortResults = (resultsPostsort, mapObj, configObj) => {
-  // FIX: work on a shallow copy instead of mutating the caller's object
-  // in place, so this function behaves as a pure transform (build newObject,
-  // return it) rather than mutating the argument as a side effect.
   resultsPostsort = { ...resultsPostsort };
 
   const newObject = {};
@@ -10,7 +7,10 @@ const addNoResultToPostsortResults = (resultsPostsort, mapObj, configObj) => {
   const qSortPattern = mapObj.qSortPattern;
   const qSortHeaderNumbers = mapObj.qSortHeaders;
 
-  const minQSortHeaderNumber = Math.min(...qSortHeaderNumbers);
+  const minQSortArray = qSortHeaderNumbers.map((num) => {
+    return parseInt(num.replace("N", "-"));
+  });
+  const minQSortHeaderNumber = Math.min(...minQSortArray);
 
   // check for missing responses
   const highCardNum = +qSortPattern[qSortPattern.length - 1];

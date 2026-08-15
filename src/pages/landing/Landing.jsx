@@ -226,6 +226,9 @@ const LandingPage = () => {
     "m_ThinDisplayStatements",
     JSON.stringify({ display: true }),
   );
+
+  localStorage.setItem("m_PresortResults", JSON.stringify([]));
+
   localStorage.setItem(
     "m_PresortDisplayStatements",
     JSON.stringify({ display: true }),
@@ -261,7 +264,6 @@ const LandingPage = () => {
     localStorage.setItem("currentRightIteration", 0);
     localStorage.setItem("isNotReload", "true");
     localStorage.setItem("thinningSide", "rightSide");
-    localStorage.setItem("m_PresortResults", "");
 
     const maxIterations = setMaxIterations(qSortPattern);
 

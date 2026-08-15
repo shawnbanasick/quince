@@ -176,10 +176,23 @@ const MobileSubmit = () => {
       const resultsPostsort =
         JSON.parse(localStorage.getItem("resultsPostsort")) || {};
 
+      const parseColumnKey = (key) => {
+        const match = key.match(/^column(N)?(\d+)_(\d+)$/);
+        if (!match) return { colNum: 0, idx: 0 };
+        const [, isNegative, num, idx] = match;
+        return {
+          colNum: isNegative ? -Number(num) : Number(num),
+          idx: Number(idx),
+        };
+      };
+
       const sortedResultsPostsort = Object.fromEntries(
-        Object.entries(resultsPostsort).sort(([keyA], [keyB]) =>
-          keyA.localeCompare(keyB),
-        ),
+        Object.entries(resultsPostsort).sort(([keyA], [keyB]) => {
+          const a = parseColumnKey(keyA);
+          const b = parseColumnKey(keyB);
+          if (b.colNum !== a.colNum) return b.colNum - a.colNum; // highest → lowest
+          return a.idx - b.idx; // ascending within same column
+        }),
       );
 
       const keys = Object.keys(sortedResultsPostsort);
