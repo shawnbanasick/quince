@@ -5,7 +5,7 @@ const createLandingSlice = (set) => ({
   triggerConsentModal: false,
   usercode: "",
   urlUsercode: "not set",
-  partId: "not required",
+  partId: "",
   localUsercode: "",
   displayAccessCodeWarning: false,
   userInputAccessCode: "",

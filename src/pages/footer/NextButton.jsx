@@ -33,6 +33,7 @@ const getSetTriggerPostsortPreventNavModal = (state) =>
 const getIsThinningFinished = (state) => state.isThinningFinished;
 const getSetTriggerThinningPreventNavModal = (state) =>
   state.setTriggerThinningPreventNavModal;
+const getPartId = (state) => state.partId;
 
 const NextButton = (props) => {
   let goToNextPage;
@@ -64,6 +65,7 @@ const NextButton = (props) => {
 
   const allowUnforcedSorts = configObj.allowUnforcedSorts;
   const postsortCommentsRequired = configObj.postsortCommentsRequired;
+  const partId = useStore(getPartId);
 
   // PERSISTENT STATE
   let sortColumns = [];
@@ -95,6 +97,15 @@ const NextButton = (props) => {
     if (currentPage === "presort") {
       if (isPresortFinished === false) {
         setTriggerPresortPreventNavModal(true);
+        return false;
+      } else {
+        return true;
+      }
+    }
+
+    if (currentPage === "landing" && configObj.initialScreen === "partId") {
+      console.log(partId);
+      if (partId === null || partId === undefined || partId === "") {
         return false;
       } else {
         return true;

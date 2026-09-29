@@ -256,7 +256,7 @@ function App() {
 
       if (
         configObj.preventMobileAccess === true ||
-        configObj.preventMobileAcess === "true"
+        configObj.preventMobileAccess === "true"
       ) {
         return (
           <div className="App">
