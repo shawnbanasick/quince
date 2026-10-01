@@ -22,6 +22,7 @@ const getSetTriggerMobileThinPreventNavModal = (state) =>
 const getHasScrolledToBottomSort = (state) => state.hasScrolledToBottomSort;
 const getSetTriggerMobileSortScrollBottomModal = (state) =>
   state.setTriggerMobileSortScrollBottomModal;
+const getPartId = (state) => state.partId;
 
 const MobileNextButton = (props) => {
   let goToNextPage;
@@ -48,7 +49,7 @@ const MobileNextButton = (props) => {
   const setTriggerMobileSortScrollBottomModal = useStore(
     getSetTriggerMobileSortScrollBottomModal,
   );
-
+  const partId = useStore(getPartId);
   const allowUnforcedSorts = configObj.allowUnforcedSorts;
   const postsortCommentsRequired = configObj.postsortCommentsRequired;
 
@@ -78,6 +79,27 @@ const MobileNextButton = (props) => {
       } else {
         setTriggerPresortPreventNavModal(true);
         return false;
+      }
+    }
+
+    if (currentPage === "landing" && configObj.initialScreen === "partId") {
+      console.log(partId);
+      if (partId === null || partId === undefined || partId === "") {
+        return false;
+      } else {
+        return true;
+      }
+    }
+
+    if (
+      currentPage === "landing" &&
+      configObj.initialScreen === "partId-access"
+    ) {
+      console.log(partId);
+      if (partId === null || partId === undefined || partId === "") {
+        return false;
+      } else {
+        return true;
       }
     }
 
