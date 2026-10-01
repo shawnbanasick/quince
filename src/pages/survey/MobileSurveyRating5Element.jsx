@@ -297,6 +297,7 @@ const RatingTitle = styled.div`
   display: inline-grid;
   grid-template-columns: minmax(30%, 1000px) 30px 30px 30px 30px 30px 1fr;
   margin-bottom: 7px;
+  margin-right: 4px;
   align-items: end;
 `;
 

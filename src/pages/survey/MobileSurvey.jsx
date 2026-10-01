@@ -13,6 +13,7 @@ import SurveyDropdownElement from "./MobileSurveyDropdownElement";
 import SurveyCheckboxElement from "./MobileSurveyCheckboxElement";
 import SurveyRating2Element from "./MobileSurveyRating2Element";
 import SurveyRating5Element from "./MobileSurveyRating5Element";
+import SurveyRating7Element from "./MobileSurveyRating7Element";
 import SurveyRating10Element from "./MobileSurveyRating10Element";
 import SurveyLikertElement from "./MobileSurveyLikertElement";
 import SurveyInformationElement from "./MobileSurveyInformationElement";
@@ -29,12 +30,14 @@ const getRequiredAnswersObj = (state) => state.requiredAnswersObj;
 const getSetRequiredAnswersObj = (state) => state.setRequiredAnswersObj;
 // const getSetDisplayNextButton = (state) => state.setDisplayNextButton;
 const getCheckReqQuesComplete = (state) => state.checkRequiredQuestionsComplete;
-const getSetTriggerMobileSurveyHelpModal = (state) => state.setTriggerMobileSurveyHelpModal;
+const getSetTriggerMobileSurveyHelpModal = (state) =>
+  state.setTriggerMobileSurveyHelpModal;
 const getMobileSurveyViewSize = (state) => state.mobileSurveyViewSize;
 const getTriggerHelpModal = (state) => state.triggerMobileSurveyHelpModal;
 const getSetTriggerHelpModal = (state) => state.setTriggerMobileSurveyHelpModal;
 const getTriggerPreventNavModal = (state) => state.triggerSurveyPreventNavModal;
-const getSetTrigerPreventNavModal = (state) => state.setTriggerSurveyPreventNavModal;
+const getSetTrigerPreventNavModal = (state) =>
+  state.setTriggerSurveyPreventNavModal;
 
 const MobileSurvey = () => {
   const setCurrentPage = useStore(getSetCurrentPage);
@@ -45,7 +48,9 @@ const MobileSurvey = () => {
   const surveyQuestionObjArray = useSettingsStore(getSurveyQuestionObjArray);
   const setRequiredAnswersObj = useSettingsStore(getSetRequiredAnswersObj);
   const checkRequiredQuestionsComplete = useStore(getCheckReqQuesComplete);
-  const setTriggerMobileSurveyHelpModal = useStore(getSetTriggerMobileSurveyHelpModal);
+  const setTriggerMobileSurveyHelpModal = useStore(
+    getSetTriggerMobileSurveyHelpModal,
+  );
   const mobileSurveyViewSize = useStore(getMobileSurveyViewSize);
   const triggerHelpModal = useStore(getTriggerHelpModal);
   const setTriggerHelpModal = useStore(getSetTriggerHelpModal);
@@ -58,17 +63,25 @@ const MobileSurvey = () => {
   // *** TEXT LOCALIZATION *******
   // ******************
   const surveyHeader = ReactHtmlParser(decodeHTML(langObj.surveyHeader)) || "";
-  const screenOrientationText = ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
-  const expandViewMessage = ReactHtmlParser(decodeHTML(langObj.expandViewMessage)) || "";
-  const helpModalHead = ReactHtmlParser(decodeHTML(langObj.mobileSurveyHelpModalHead)) || "";
-  const helpModalText = ReactHtmlParser(decodeHTML(langObj.mobileSurveyHelpModalText)) || "";
-  const preventNavHead = ReactHtmlParser(decodeHTML(langObj.surveyPreventNavModalHead)) || "";
-  const preventNavText = ReactHtmlParser(decodeHTML(langObj.surveyPreventNavModalText)) || "";
+  const screenOrientationText =
+    ReactHtmlParser(decodeHTML(langObj.screenOrientationText)) || "";
+  const expandViewMessage =
+    ReactHtmlParser(decodeHTML(langObj.expandViewMessage)) || "";
+  const helpModalHead =
+    ReactHtmlParser(decodeHTML(langObj.mobileSurveyHelpModalHead)) || "";
+  const helpModalText =
+    ReactHtmlParser(decodeHTML(langObj.mobileSurveyHelpModalText)) || "";
+  const preventNavHead =
+    ReactHtmlParser(decodeHTML(langObj.surveyPreventNavModalHead)) || "";
+  const preventNavText =
+    ReactHtmlParser(decodeHTML(langObj.surveyPreventNavModalText)) || "";
 
   // ***************************
   // *** STATE *******************
   // ***************************
-  const persistedMobileSurveyViewSize = JSON.parse(localStorage.getItem("m_ViewSizeObject")).survey;
+  const persistedMobileSurveyViewSize = JSON.parse(
+    localStorage.getItem("m_ViewSizeObject"),
+  ).survey;
 
   // ***********************
   // *** USE HOOKS ***************
@@ -117,7 +130,11 @@ const MobileSurvey = () => {
       const QuestionList = (surveyQuestionObjects || []).map((object) => {
         if (object.type === "text") {
           return (
-            <SurveyTextElement key={uuid()} check={checkRequiredQuestionsComplete} opts={object} />
+            <SurveyTextElement
+              key={uuid()}
+              check={checkRequiredQuestionsComplete}
+              opts={object}
+            />
           );
         }
         if (object.type === "textarea") {
@@ -131,7 +148,11 @@ const MobileSurvey = () => {
         }
         if (object.type === "radio") {
           return (
-            <SurveyRadioElement key={uuid()} check={checkRequiredQuestionsComplete} opts={object} />
+            <SurveyRadioElement
+              key={uuid()}
+              check={checkRequiredQuestionsComplete}
+              opts={object}
+            />
           );
         }
         if (object.type === "checkbox") {
@@ -174,6 +195,15 @@ const MobileSurvey = () => {
         if (object.type === "rating5") {
           return (
             <SurveyRating5Element
+              key={uuid()}
+              check={checkRequiredQuestionsComplete}
+              opts={object}
+            />
+          );
+        }
+        if (object.type === "rating7") {
+          return (
+            <SurveyRating7Element
               key={uuid()}
               check={checkRequiredQuestionsComplete}
               opts={object}

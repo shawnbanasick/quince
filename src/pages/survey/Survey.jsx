@@ -7,6 +7,7 @@ import SurveyDropdownElement from "./SurveyDropdownElement";
 import SurveyCheckboxElement from "./SurveyCheckboxElement";
 import SurveyRating2Element from "./SurveyRating2Element";
 import SurveyRating5Element from "./SurveyRating5Element";
+import SurveyRating7Element from "./SurveyRating7Element";
 import SurveyRating10Element from "./SurveyRating10Element";
 import SurveyLikertElement from "./SurveyLikertElement";
 import SurveyInformationElement from "./SurveyInformationElement";
@@ -78,7 +79,11 @@ const SurveyPage = () => {
       const QuestionList = surveyQuestionObjects.map((object) => {
         if (object.type === "text") {
           return (
-            <SurveyTextElement key={uuid()} check={checkRequiredQuestionsComplete} opts={object} />
+            <SurveyTextElement
+              key={uuid()}
+              check={checkRequiredQuestionsComplete}
+              opts={object}
+            />
           );
         }
         if (object.type === "textarea") {
@@ -92,7 +97,11 @@ const SurveyPage = () => {
         }
         if (object.type === "radio") {
           return (
-            <SurveyRadioElement key={uuid()} check={checkRequiredQuestionsComplete} opts={object} />
+            <SurveyRadioElement
+              key={uuid()}
+              check={checkRequiredQuestionsComplete}
+              opts={object}
+            />
           );
         }
         if (object.type === "select") {
@@ -134,6 +143,15 @@ const SurveyPage = () => {
         if (object.type === "rating5") {
           return (
             <SurveyRating5Element
+              key={uuid()}
+              check={checkRequiredQuestionsComplete}
+              opts={object}
+            />
+          );
+        }
+        if (object.type === "rating7") {
+          return (
+            <SurveyRating7Element
               key={uuid()}
               check={checkRequiredQuestionsComplete}
               opts={object}

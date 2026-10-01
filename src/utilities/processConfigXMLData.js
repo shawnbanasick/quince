@@ -163,6 +163,7 @@ const processConfigXMLData = (dataObject) => {
           };
 
         case "rating5":
+        case "rating7":
         case "rating10":
           return {
             ...base,

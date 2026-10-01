@@ -7,9 +7,8 @@ import useLocalStorage from "../../utilities/useLocalStorage";
 import flatten from "lodash/flatten";
 import countBy from "lodash/countBy";
 
-const MobileSurveyRatings10Element = (props) => {
+const SurveyRatings7Element = (props) => {
   // HELPER FUNCTIONS
-  // filter to remove empty strings if present
   const getOptionsArray = (options) => {
     let array = options.split(";;;");
     array = array.filter(function (e) {
@@ -23,17 +22,17 @@ const MobileSurveyRatings10Element = (props) => {
   const rows = optsArray.length;
   const questionId = `itemNum${props.opts.itemNum}`;
   const checkRequiredQuestionsComplete = props.check;
-  const labelText = ReactHtmlParser(decodeHTML(props.opts.label)) || "";
   const noteText = ReactHtmlParser(decodeHTML(props.opts.note)) || "";
   let displayNoteText = true;
   if (noteText.length < 1 || noteText === "") {
     displayNoteText = false;
   }
+  const labelText = ReactHtmlParser(decodeHTML(props.opts.label)) || "";
 
   // PERSISTENT STATE
-  const [checkedState, setCheckedState] = useLocalStorage(
+  let [checked7State, setChecked7State] = useLocalStorage(
     questionId,
-    Array.from({ length: rows }, () => Array.from({ length: 10 }, () => false)),
+    Array.from({ length: rows }, () => Array.from({ length: 7 }, () => false)),
   );
 
   // LOCAL STATE
@@ -42,11 +41,12 @@ const MobileSurveyRatings10Element = (props) => {
     border: "none",
   });
 
-  // *** HANDLE CHANGE ***
+  // HANDLE CHANGE
   const handleChange = (selectedRow, column) => {
     const resultsSurvey = JSON.parse(localStorage.getItem("resultsSurvey"));
+    // update local state with radio selected
     const newArray = [];
-    const newCheckedState = checkedState.map(function (row, index) {
+    const newChecked7State = checked7State.map(function (row, index) {
       if (selectedRow === index) {
         row.map(function (item, index) {
           if (column === index) {
@@ -62,15 +62,16 @@ const MobileSurveyRatings10Element = (props) => {
         return row;
       }
     });
-    setCheckedState(newCheckedState);
-    let arrayLen2 = checkedState.length;
-    let flattenedCheckedState2 = flatten([...newCheckedState]);
+    setChecked7State(newChecked7State);
+    // record if answered or not
+    let arrayLen2 = checked7State.length;
+    let flattenedCheckedState2 = flatten([...newChecked7State]);
     let count2 = countBy(flattenedCheckedState2);
     let objTestValue2 = count2[true] || 0;
 
     let textString = "";
-    newCheckedState.forEach((item, index) => {
-      let value = newCheckedState[index].indexOf(true) + 1;
+    newChecked7State.forEach((item, index) => {
+      let value = newChecked7State[index].indexOf(true) + 1;
       let hasAnswered = item.includes(true);
       if (!hasAnswered) {
         value = "nr";
@@ -96,8 +97,8 @@ const MobileSurveyRatings10Element = (props) => {
 
   // ****** CHECK IF ALL PARTS ANSWERED *******
   let setYellow = false;
-  let arrayLen = checkedState.length;
-  let flattenedCheckedState = flatten([...checkedState]);
+  let arrayLen = checked7State.length;
+  let flattenedCheckedState = flatten([...checked7State]);
   let count = countBy(flattenedCheckedState);
   let objTestValue = count[true] || 0;
   if (objTestValue < arrayLen) {
@@ -136,7 +137,7 @@ const MobileSurveyRatings10Element = (props) => {
             value={1}
             name={`itemNum${props.opts.itemNum}-${index + 1}`}
             onChange={(e) => handleChange(index, 0, e)}
-            checked={checkedState[index][0]}
+            checked={checked7State[index][0]}
           />
           <RadioInput
             key={uuid()}
@@ -145,7 +146,7 @@ const MobileSurveyRatings10Element = (props) => {
             value={2}
             name={`itemNum${props.opts.itemNum}-${index + 1}`}
             onChange={(e) => handleChange(index, 1, e)}
-            checked={checkedState[index][1]}
+            checked={checked7State[index][1]}
           />
           <RadioInput
             key={uuid()}
@@ -154,7 +155,7 @@ const MobileSurveyRatings10Element = (props) => {
             value={3}
             name={`itemNum${props.opts.itemNum}-${index + 1}`}
             onChange={(e) => handleChange(index, 2, e)}
-            checked={checkedState[index][2]}
+            checked={checked7State[index][2]}
           />
           <RadioInput
             key={uuid()}
@@ -163,7 +164,7 @@ const MobileSurveyRatings10Element = (props) => {
             value={4}
             name={`itemNum${props.opts.itemNum}-${index + 1}`}
             onChange={(e) => handleChange(index, 3, e)}
-            checked={checkedState[index][3]}
+            checked={checked7State[index][3]}
           />
           <RadioInput
             key={uuid()}
@@ -172,7 +173,7 @@ const MobileSurveyRatings10Element = (props) => {
             value={5}
             name={`itemNum${props.opts.itemNum}-${index + 1}`}
             onChange={(e) => handleChange(index, 4, e)}
-            checked={checkedState[index][4]}
+            checked={checked7State[index][4]}
           />
           <RadioInput
             key={uuid()}
@@ -181,7 +182,7 @@ const MobileSurveyRatings10Element = (props) => {
             value={6}
             name={`itemNum${props.opts.itemNum}-${index + 1}`}
             onChange={(e) => handleChange(index, 5, e)}
-            checked={checkedState[index][5]}
+            checked={checked7State[index][5]}
           />
           <RadioInput
             key={uuid()}
@@ -190,34 +191,7 @@ const MobileSurveyRatings10Element = (props) => {
             value={7}
             name={`itemNum${props.opts.itemNum}-${index + 1}`}
             onChange={(e) => handleChange(index, 6, e)}
-            checked={checkedState[index][6]}
-          />
-          <RadioInput
-            key={uuid()}
-            id={`Q8-${index}`}
-            type="radio"
-            value={8}
-            name={`itemNum${props.opts.itemNum}-${index + 1}`}
-            onChange={(e) => handleChange(index, 7, e)}
-            checked={checkedState[index][7]}
-          />
-          <RadioInput
-            key={uuid()}
-            id={`Q9-${index}`}
-            type="radio"
-            value={9}
-            name={`itemNum${props.opts.itemNum}-${index + 1}`}
-            onChange={(e) => handleChange(index, 8, e)}
-            checked={checkedState[index][8]}
-          />
-          <RadioInput
-            key={uuid()}
-            id={`Q10-${index}`}
-            type="radio"
-            value={10}
-            name={`itemNum${props.opts.itemNum}-${index + 1}`}
-            onChange={(e) => handleChange(index, 9, e)}
-            checked={checkedState[index][9]}
+            checked={checked7State[index][6]}
           />
         </ItemContainer>
       );
@@ -244,9 +218,6 @@ const MobileSurveyRatings10Element = (props) => {
             <CircleDiv>5</CircleDiv>
             <CircleDiv>6</CircleDiv>
             <CircleDiv>7</CircleDiv>
-            <CircleDiv>8</CircleDiv>
-            <CircleDiv>9</CircleDiv>
-            <CircleDiv>10</CircleDiv>
           </RatingTitle>
           <RadioItems />
         </RadioContainer>
@@ -268,9 +239,6 @@ const MobileSurveyRatings10Element = (props) => {
             <CircleDiv>5</CircleDiv>
             <CircleDiv>6</CircleDiv>
             <CircleDiv>7</CircleDiv>
-            <CircleDiv>8</CircleDiv>
-            <CircleDiv>9</CircleDiv>
-            <CircleDiv>10</CircleDiv>
           </RatingTitle>
           <RadioItems />
         </RadioContainer>
@@ -279,7 +247,7 @@ const MobileSurveyRatings10Element = (props) => {
   }
 };
 
-export default MobileSurveyRatings10Element;
+export default SurveyRatings7Element;
 
 const Container = styled.div`
   width: 90%;
@@ -297,7 +265,7 @@ const TitleBar = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 30px;
+  min-height: 50px;
   padding: 5px;
   font-size: 12px;
   text-align: center;
@@ -316,7 +284,7 @@ const RadioContainer = styled.div`
   margin-top: 0px;
   height: auto;
   min-height: 50px;
-  font-size: 18px;
+  font-size: 12px;
   background-color: white;
   width: 100%;
   border-radius: 3px;
@@ -335,20 +303,17 @@ const ItemContainer = styled.div`
   display: inline-grid;
   grid-template-columns:
     minmax(30%, 1000px)
-    14px 14px 14px 14px 14px 14px 14px 14px 14px 14px 1fr;
+    24px 24px 24px 24px 24px 24px 24px 1fr;
   margin-bottom: 17px;
-  font-size: 9.5px;
-  align-items: end;
   padding-bottom: 8px;
   padding-top: 8px;
-  height: auto;
+  height: 40px;
   background-color: ${(props) => (props.indexVal % 2 ? "white" : "#ececec")};
-  border-radius: 3px;
+  font-size: 12px;
+  height: auto;
+  align-items: end;
   &:hover {
     background-color: rgba(131, 202, 254, 0.4);
-  }
-  span {
-    font-size: 12px;
   }
 `;
 
@@ -356,19 +321,10 @@ const RatingTitle = styled.div`
   display: inline-grid;
   grid-template-columns:
     minmax(30%, 1000px)
-    14px 14px 14px 14px 14px 14px 14px 14px 14px 14px 1fr;
+    24px 24px 24px 24px 24px 24px 24px 1fr;
   margin-bottom: 7px;
-  margin-right: 6px;
+  margin-right: 4px;
   align-items: end;
-  font-size: 11px;
-`;
-
-const CircleDiv = styled.div`
-  display: flex;
-  justify-self: center;
-  align-items: center;
-  text-align: center;
-  font-size: 8px;
 `;
 
 const RadioInput = styled.input`
@@ -377,9 +333,15 @@ const RadioInput = styled.input`
   align-self: center;
   text-align: center;
   border: 0px;
-  width: 28px;
+  width: 25px;
   height: 1.4em;
-  padding-left: 3px;
+`;
+
+const CircleDiv = styled.div`
+  display: flex;
+  justify-self: center;
+  align-self: center;
+  text-align: center;
 `;
 
 const OptionsText = styled.span`
@@ -394,7 +356,7 @@ const NoteText = styled.div`
   vertical-align: center;
   margin-top: 5px;
   margin-bottom: 5px;
-  height: 30px;
+  height: 50px;
   font-size: 12px;
   text-align: center;
   background-color: whitesmoke;
