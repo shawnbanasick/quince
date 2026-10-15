@@ -198,15 +198,18 @@
 
         <!-- 19. EMAIL -->
         <item order="19-1" id="checkInternetMessage">*** Error - Transmission Failure *** {{{br/}}} Please check your internet connection and click the &quot;Submit Data&quot; button again.</item>
-        <item order="19-2" id="btnTransferEmail">Open Email Client and Send Results</item>
-        <item order="19-3" id="submitFailMessage">Unable to connect with the database. {{{br/}}}{{{br/}}}Please click the button above to send an email with your data.</item>  
-        <item order="19-4" id="defaultEmailClientFail">Your default email client should have automatically opened with the results in the email body. If it didn&apos;t, please use the buttons below to copy and paste your information into an email.{{{br/}}}{{{br/}}}There is also a button to download your results to your computer as a backup.</item>   
-        <item order="19-5" id="clipboardEmail">Copy Email Address to Clipboard</item>  
-        <item order="19-6" id="clipboardResults">Copy Results to Clipboard</item>  
-        <item order="19-7" id="copiedText">Copied!</item>  
-        <item order="19-8" id="downloadResultsButtonText">Download Results</item>  
-        <item order="19-9" id="emailSubjectText">Quince Q-sort results</item>
-        <item order="19-10" id="emailBodyMessage">You don&apos;t have to add anything to this email. Please just click the SEND button.</item>
+        <item order="19-2" id="btnTransferEmail">Open Email Client</item>
+        <item order="19-3" id="submitFailMessage">Please click the button below to send your results by email.</item>  
+        <item order="19-4" id="submitFailMessage2">Next, use the buttons below to copy and paste your information into the body of the email.</item>  
+        <item order="19-5" id="submitFailMessage3">As a backup, please also download your results to your computer as a text file.</item>  
+        <item order="19-6" id="unableToConnect">Unable to connect to the database.</item>  
+        <item order="19-7" id="defaultEmailClientFail">Your default email client should have automatically opened with the results in the email body. If it didn&apos;t, please use the buttons below to copy and paste your information into an email.{{{br/}}}{{{br/}}}There is also a button to download your results to your computer as a backup.</item>   
+        <item order="19-8" id="clipboardEmail">Copy Email Address to Clipboard</item>  
+        <item order="19-9" id="clipboardResults">Copy Results to Clipboard</item>  
+        <item order="19-10" id="copiedText">Copied!</item>  
+        <item order="19-11" id="downloadResultsButtonText">Download Results</item>  
+        <item order="19-12" id="emailSubjectText">Quince Q-sort results</item>
+        <item order="19-13" id="emailBodyMessage">You don&apos;t have to add anything to this email. Please just click the SEND button.</item>
 
         <!-- 20. LINKING -->
         <item order="20-1" id="linkedProjectMessage">Please click the button to begin the next Q sort</item>   

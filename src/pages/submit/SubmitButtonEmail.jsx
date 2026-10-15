@@ -16,21 +16,29 @@ const SubmitResultsButtonEmail = (props) => {
   const configObj = useSettingsStore(getConfigObj);
   const setDisableRefreshCheck = useStore(getSetDisableRefreshCheck);
 
+  // LANGUAGE STRINGS
   const defaultEmailClientFailText =
     ReactHtmlParser(decodeHTML(langObj.defaultEmailClientFail)) || "";
   const databaseFailText =
     ReactHtmlParser(decodeHTML(langObj.submitFailMessage)) || "";
+  const databaseFailText2 =
+    ReactHtmlParser(decodeHTML(langObj.submitFailMessage2)) || "";
+  const databaseFailText3 =
+    ReactHtmlParser(decodeHTML(langObj.submitFailMessage3)) || "";
+  const unableToConnectText =
+    ReactHtmlParser(decodeHTML(langObj.unableToConnect)) || "";
 
   // Local State for email button visibility
   const [belowButtonMessage, setBelowButtonMessage] =
     useState(databaseFailText);
-  const [showCopyButtons, setShowCopyButtons] = useState(false);
 
+  // PROPS
   const rawData = props.results;
   const emailAddress = configObj.emailAddress;
   const btnTransferText =
     ReactHtmlParser(decodeHTML(langObj.btnTransferEmail)) || "";
 
+  // HANDLE DOWNLOAD
   const handleClickDownload = (e) => {
     e.preventDefault();
     const formattedResultsTxt = Object.entries(props.results)
@@ -49,8 +57,6 @@ const SubmitResultsButtonEmail = (props) => {
 
   const handleClick = (e) => {
     e.preventDefault();
-    // setTransmittingData(true);
-    // setCheckInternetConnection(false);
     setBelowButtonMessage(defaultEmailClientFailText);
     // create results object for transmission - * is a delimiter
     let formattedResultsTxt = "";
@@ -62,15 +68,13 @@ const SubmitResultsButtonEmail = (props) => {
     if (navigator.userAgent.toLowerCase().indexOf("chrome") > -1) {
       // Do Chrome-related actions  -  %0D%0A is a line break
       window.open(
-        `mailto:${configObj.emailAddress}?subject=${langObj.emailSubjectText}&body=${langObj.emailBodyMessage} %0D%0A%0D%0AMy Results:%0D%0A${formattedResultsTxt}`,
+        `mailto:${configObj.emailAddress}?subject=${langObj.emailSubjectText}`,
       );
       // setShowEmailButtons(true);
-      setShowCopyButtons(true);
     } else {
       // Do non-Chrome-related actions   -  %0D%0A is a line break
-      window.location.href = `mailto:${configObj.emailAddress}?subject=${langObj.emailSubjectText}&body=${langObj.emailBodyMessage} %0D%0A%0D%0AMy Results:%0D%0A${formattedResultsTxt}`;
+      window.location.href = `mailto:${configObj.emailAddress}?subject=${langObj.emailSubjectText}`;
       // setShowEmailButtons(true);
-      setShowCopyButtons(true);
     }
   };
 
@@ -81,35 +85,21 @@ const SubmitResultsButtonEmail = (props) => {
 
   return (
     <PageContainer>
-      <ContainerDiv>
-        <ContentDiv>{belowButtonMessage}</ContentDiv>
-        <StyledEmailButton tabindex="0" onClick={(e) => handleClick(e)}>
-          {btnTransferText}
-        </StyledEmailButton>
-      </ContainerDiv>
-      {showCopyButtons ? (
-        <EmailButtonDiv>
-          <ButtonContainer>
-            <CopyToClipboardButton
-              type={"email"}
-              content={emailAddress}
-              text={langObj.clipboardEmail}
-            />
-            <CopyToClipboardButton
-              type={"results"}
-              content={rawData}
-              text={langObj.clipboardResults}
-            />
-            <DownloadContainer>
-              <DownloadResultsButton onClick={(e) => handleClickDownload(e)}>
-                {langObj.downloadResultsButtonText}
-              </DownloadResultsButton>
-            </DownloadContainer>
-          </ButtonContainer>
-        </EmailButtonDiv>
-      ) : (
-        <SpacerDiv />
-      )}
+      <UnableText>{unableToConnectText}</UnableText>
+      {belowButtonMessage} ({emailAddress})
+      <StyledEmailButton tabindex="0" onClick={(e) => handleClick(e)}>
+        {btnTransferText}
+      </StyledEmailButton>
+      <FailText2Div>{databaseFailText2}</FailText2Div>
+      <CopyToClipboardButton
+        type={"results"}
+        content={rawData}
+        text={langObj.clipboardResults}
+      />
+      <FailText2Div>{databaseFailText3}</FailText2Div>
+      <DownloadResultsButton onClick={(e) => handleClickDownload(e)}>
+        {langObj.downloadResultsButtonText}
+      </DownloadResultsButton>
     </PageContainer>
   );
 };
@@ -128,7 +118,6 @@ const StyledEmailButton = styled.button`
   height: 50px;
   align-items: center;
   justify-content: center;
-  margin-top: 30px;
   background-color: ${({ theme, active }) =>
     active ? theme.secondary : theme.primary};
   &:hover {
@@ -139,88 +128,47 @@ const StyledEmailButton = styled.button`
   }
 `;
 
-const ContainerDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  gap: 20px;
-  align-items: center;
-  padding-top: 30px;
-`;
-
-const ContentDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  line-height: 1.2em;
-  width: 65vw;
-  font-size: 1.35em;
-  align-self: center;
-`;
-
-const SpacerDiv = styled.div`
-  height: 300px;
-`;
-
-const EmailButtonDiv = styled.div`
-  height: 300px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-const ButtonContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  /* flex-wrap: wrap; */
-  height: 180px;
-  gap: 30px;
-  justify-content: center;
-  align-items: center;
+const UnableText = styled.div`
+  text-align: center;
+  width: 70%;
+  font-weight: bold;
+  font-size: 2.2em;
+  margin-bottom: 0.5em;
+  margin-top: 0.5em;
 `;
 
 const DownloadResultsButton = styled.button`
   border-color: #2e6da4;
   color: white;
-  font-size: 1.2em;
   font-weight: bold;
   padding: 0.25em 1em;
   border-radius: 3px;
   text-decoration: none;
-  width: 220px;
+  width: auto;
   height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 30px;
-  margin-bottom: 50px;
   background-color: ${({ theme }) => theme.primary};
   &:hover {
     background-color: ${({ theme }) => theme.secondary};
   }
 `;
 
+const FailText2Div = styled.div`
+  text-align: center;
+  width: 70%;
+`;
+
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  font-size: 1.4em;
   align-items: center;
   justify-content: center;
   height: 100%;
   width: 100%;
   box-sizing: border-box;
-`;
-
-const DownloadContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-  /* border: 1px solid #2e6da4; */
 `;

@@ -88,13 +88,13 @@ const StyledButton = styled.button`
   padding: 0.25em 1em;
   border-radius: 3px;
   text-decoration: none;
-  width: 220px;
-  height: 50px;
+  width: auto;
+  height: 70px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 30px;
-  margin-bottom: 0px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   background-color: ${({ theme }) => theme.primary};
   &:hover {
     background-color: ${({ theme }) => theme.secondary};
@@ -112,11 +112,9 @@ const ContainerDiv = styled.div`
 `;
 
 const MessageDiv = styled.div`
-  grid-area: c;
   font-size: 1.5em;
   font-weight: bold;
   height: 50px;
   min-width: 200px;
-  margin-top: 0.2em;
   /* border: 1px solid #2e6da4; */
 `;
